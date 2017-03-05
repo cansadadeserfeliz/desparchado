@@ -1,0 +1,32 @@
+
+# File types
+*.pyc
+*.swo
+*.swp
+*.swn
+*.log
+*.mo
+*.sqlite3
+
+# Configuration files
+desparchado/local_settings.py
+environment.json
+.requirements_timestamp
+.idea
+.tags
+.tags_sorted_by_file
+.env
+
+# Folders
+/app/static/.sass-cache
+/app/static/.bundle-gems
+/app/static/bower_components
+
+/static
+/staticfiles
+/reports
+/doc/build
+/uploads
+/media
+/app/media/uploads
+/node_modules
