@@ -45,18 +45,14 @@
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
               <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#"><h1><img src="#" alt="logo"></h1></a>
+            <a class="navbar-brand" href="#"><h1>DESPARCHADO</h1></a>
           </div>
           <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav navbar-right">
-              <li class="scroll active"><a href="#navigation">{% trans "Home" %}</a></li>
-              <li class="scroll"><a href="#about-us">About Us</a></li>
-              <li class="scroll"><a href="#services">Services</a></li>
-              <li class="scroll"><a href="#our-team">Our Team</a></li>
-              <li class="scroll"><a href="#portfolio">Portfolio</a></li>
-              <li class="scroll"><a href="#clients">Clients</a></li>
-              <li class="scroll"><a href="#blog">Blog</a></li>
-              <li class="scroll"><a href="#contact">Contact</a></li>
+              <li class="scroll active"><a href="/">{% trans 'Home' %}</a></li>
+              <li class="scroll"><a href="#events">{% trans 'Events' %}</a></li>
+              <li class="scroll"><a href="#about">{% trans 'Blog' %}</a></li>
+              <li class="scroll"><a href="#contact">{% trans 'About' %}</a></li>
             </ul>
           </div>
         </div>
@@ -65,6 +61,41 @@
 
 
     <div class="container">
+
+      <section id="events">
+        <div class="container">
+          <div class="row text-center clearfix">
+            <div class="col-sm-8 col-sm-offset-2">
+              <h2 class="title-one">{% trans 'Events for you' %}</h2>
+              <p class="event-heading">{% trans 'Bogota' %}</p>
+            </div>
+          </div>
+          <div class="row">
+          {% for event in events %}
+            <div class="col-sm-4">
+              <div class="single-event">
+              {% if event.image %}
+                <img class="img-responsive" src="{{ MEDIA_URL }}{{ event.image.url }}" alt="" />
+              {% endif %}
+                <h2>{{ event.title }}</h2>
+                <ul class="post-meta">
+                  <li><i class="fa fa-pencil-square-o"></i><strong> Posted By:</strong> John</li>
+                  <li><i class="fa fa-clock-o"></i><strong> Posted On:</strong> {{ event.event_date }}</li>
+                </ul>
+                <a href="" class="btn btn-primary">{% trans 'Read More' %}</a>
+              </div>
+
+            {% if forloop.counter|divisibleby:3 %}
+            </div>
+            <div class="col-sm-4">
+            {% endif %}
+          {% endfor %}
+          </div>
+        </div>
+      </section> <!--/#events-->
+
+
+
     </div><!-- /.container -->
 
   {% endblock body %}

@@ -1,0 +1,141 @@
+@import url(http://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic)
+
+$orange: #fc7700
+
+/* Typography */
+
+body
+  font-family: 'Roboto', sans-serif
+  position: relative
+  font-weight: 400
+  background: #fff
+  color: #43484E
+
+body section
+  padding: 75px 0
+
+a
+  -webkit-transition: 300ms
+  -moz-transition: 300ms
+  -o-transition: 300ms
+  transition: 300ms
+  color: $orange
+  &:hover
+    outline: none
+    text-decoration: none
+  &:focus
+    outline: none
+    outline-offset: 0
+
+h1, h2, h3, h4, h5, h6
+  font-family: 'Roboto', sans-serif
+
+/* Header */
+
+#navigation
+  .navbar
+    background: rgba(255, 255, 255, 0.95294)
+    border-radius: 0
+    border-bottom: 0
+    box-shadow: rgba(0, 0, 0, 0.29804) 0px 0px 3px
+    padding-bottom: 8px
+  .navbar-toggle
+    margin-top: 20px
+    background-color: #333
+  .navbar-brand h1
+    padding: 0
+    margin: 0
+    color: $orange
+    font-weight: 800
+    font-size: 28px
+  .navbar-nav.navbar-right
+    li
+      padding: 0 1px
+      a
+        color: #43484E
+        font-family: 'Roboto',sans-serif
+        font-size: 14px
+        padding: 0
+        text-transform: uppercase
+        -webkit-transition: all .9s ease 0s
+        -moz-transition: all .9s ease 0s
+        -o-transition: all .9s ease 0s
+        transition: all .9s ease 0s
+        padding: 6px 15px
+    margin-top: 28px
+  .navbar-inverse .navbar-nav .active a
+    color: #fff
+    background-color: $orange
+    &:focus
+      color: #fff
+      background-color: $orange
+  .navbar-nav.navbar-right li a:hover
+    color: #fff
+    background-color: $orange
+
+/* Events Grid */
+
+#events
+  padding-bottom: 75px
+  padding-top: 75px
+
+.event-heading
+  margin-bottom: 35px
+  margin-top: 15px
+
+.single-event
+  margin-bottom: 30px
+  background-color: #F7F7F7
+  padding: 25px
+  transition: all 1s ease 0s
+  -moz-transition: all 1s ease 0s
+  -webkit-transition: all 1s ease 0s
+  -o-transition: all 1s ease 0s
+  -webkit-box-shadow: 0 2px 0 0 #ddd
+  box-shadow: 0 2px 0 0 #ddd
+  &:hover
+    background-color: #43484E
+    color: #fff
+    h2
+      color: #fff
+    .btn-primary
+      background-color: $orange
+      color: #fff
+      border-color: #fff
+      transition: all 0.9s ease 0s
+      -moz-transition: all 0.9s ease 0s
+      -webkit-transition: all 0.9s ease 0s
+      -o-transition: all 0.9s ease 0s
+  img
+    width: 100%
+    margin-bottom: 20px
+  h2
+    color: #43484E
+    font-size: 24px
+    margin: 0
+    margin-bottom: 15px
+  ul
+    padding: 0
+    overflow: hidden
+    li
+      border-right: 2px solid #999999
+      float: left
+      line-height: 10px
+      list-style: none
+      margin-right: 10px
+      padding-right: 10px
+      font-size: 12px
+      color: #999
+      &:last-child
+        border: none
+
+.single-blog
+  .btn-primary
+    text-transform: uppercase
+    border: 1px solid $orange
+    color: #686868
+    background-color: rgba(255, 255, 255, 0)
+    border-color: $orange
+  &:hover.single-event .btn-primary:hover
+    background-color: $orange
+    color: #fff

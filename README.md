@@ -1,6 +1,6 @@
 # Desparchado
 
-[![Join the chat at https://gitter.im/vero4karu/desparchado](https://badges.gitter.im/vero4karu/desparchado.svg)](https://gitter.im/vero4karu/desparchado?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Join the chat at https://gitter.im/vero4karu/desparchado](https://badges.gitter.im/vero4karu/desparchado.svg)](https://gitter.im/desparchado)
 
 [![Coverage Status](https://coveralls.io/repos/vero4karu/desparchado/badge.svg?branch=master&service=github)](https://coveralls.io/github/vero4karu/desparchado?branch=master)
 [![Build Status](https://travis-ci.org/vero4karu/desparchado.svg?branch=master)](https://travis-ci.org/vero4karu/desparchado)

@@ -57,7 +57,7 @@ class Event(TimeStampedModel):
     event_date = models.DateTimeField()
     event_end_date = models.DateTimeField(null=True, blank=True)
     price = models.DecimalField(default=0, decimal_places=2, max_digits=9)
-    image = models.ImageField(blank=True, null=True)
+    image = models.ImageField(blank=True, null=True, upload_to='events')
     organizer = models.ForeignKey('events.Organizer')
     place = models.ForeignKey('places.Place')
     is_published = models.BooleanField(default=False)
@@ -66,6 +66,9 @@ class Event(TimeStampedModel):
 
     def __str__(self):
         return self.title
+
+    class Meta:
+        ordering = ('-event_date',)
 
 
 class Organizer(TimeStampedModel):
