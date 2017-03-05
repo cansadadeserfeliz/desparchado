@@ -12,5 +12,9 @@
     desparchado=# CREATE EXTENSION postgis;
 
     $ mkvirtualenv desparchado -p python3
+
+    $ pip install uwsgi
+
     $ pip install -r requirements.txt
-    $ python manage.py migrate
+    $ ./manage.py migrate
+    $ ./manage.py collectstatic --no-input

@@ -54,11 +54,14 @@ class Event(TimeStampedModel):
     event_type = models.PositiveSmallIntegerField(choices=EVENT_TYPES)
     topic = models.PositiveSmallIntegerField(choices=EVENT_TOPICS)
     event_date = models.DateTimeField()
-    event_end_date = models.DateTimeField(null=True)
+    event_end_date = models.DateTimeField(null=True, blank=True)
     price = models.DecimalField(default=0, decimal_places=2, max_digits=9)
-    image = models.ImageField(null=True)
+    image = models.ImageField(blank=True, null=True)
     organizer = models.CharField(max_length=255)
     place = models.ForeignKey('places.Place')
     is_published = models.BooleanField(default=False)
 
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL)
+
+    def __str__(self):
+        return self.title
