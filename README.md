@@ -5,7 +5,9 @@
 [![Coverage Status](https://coveralls.io/repos/vero4karu/desparchado/badge.svg?branch=master&service=github)](https://coveralls.io/github/vero4karu/desparchado?branch=master)
 [![Build Status](https://travis-ci.org/vero4karu/desparchado.svg?branch=master)](https://travis-ci.org/vero4karu/desparchado)
 
-# Installation
+## Installation
+
+    $ sudo apt-get install gettext
 
     $ createdb desparchado
     $ psql desparchado
@@ -15,8 +17,8 @@
 
     $ pip install uwsgi
 
-    $ pip install -r requirements.txt
-    $ ./manage.py migrate
-    $ ./manage.py collectstatic --no-input
-    $ django-admin compilemessages
+## Deployment
+
+    $ cd projectdir
+    $ source scripts/deploy.sh
 
