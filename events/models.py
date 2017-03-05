@@ -68,7 +68,7 @@ class Event(TimeStampedModel):
         return self.title
 
     class Meta:
-        ordering = ('-event_date',)
+        ordering = ('event_date',)
 
 
 class Organizer(TimeStampedModel):

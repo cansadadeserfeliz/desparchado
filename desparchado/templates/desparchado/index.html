@@ -1,1 +1,37 @@
 {% extends 'layout/base.html' %}
+{% load i18n %}
+
+{% block content %}
+<section id="events">
+  <div class="container">
+    <div class="row text-center clearfix">
+      <div class="col-sm-8 col-sm-offset-2">
+        <h2 class="title-one">{% trans 'Events for you' %}</h2>
+        <p class="event-heading">{% trans 'Bogota' %}</p>
+      </div>
+    </div>
+    <div class="row">
+  {% for event in events %}
+      <div class="col-sm-4">
+        <div class="single-event">
+        {% if event.image %}
+          <img class="img-responsive" src="{{ MEDIA_URL }}{{ event.image.url }}" alt="" />
+        {% endif %}
+          <h2>{{ event.title }}</h2>
+          <ul class="post-meta">
+            <li><i class="fa fa-pencil-square-o"></i><strong> Posted By:</strong> John</li>
+            <li><i class="fa fa-clock-o"></i><strong> Posted On:</strong> {{ event.event_date }}</li>
+          </ul>
+          <a href="" class="btn btn-primary">{% trans 'Read More' %}</a>
+        </div>
+      </div>
+    {% if forloop.counter|divisibleby:3 %}
+    </div>
+    <div class="row">
+    {% endif %}
+  {% endfor %}
+  </div>
+</section> <!--/#events-->
+
+
+{% endblock content %}
