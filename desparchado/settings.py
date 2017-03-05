@@ -32,6 +32,7 @@ INSTALLED_APPS = [
 
     'axes',
     'pipeline',
+    'raven.contrib.django.raven_compat',
 
     'desparchado',
     'events',
