@@ -20,6 +20,8 @@ from django.contrib import admin
 urlpatterns = [
     url(r'^$', TemplateView.as_view(template_name='desparchado/index.html'), name='home'),
 
+    url(r'^i18n/', include('django.conf.urls.i18n')),
+
     url(r'^grappelli/', include('grappelli.urls')),  # grappelli URLS
     url(r'^admin/', include(admin.site.urls)),  # admin site
 ]

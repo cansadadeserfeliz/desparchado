@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from django.utils.translation import ugettext_lazy as _
 
 from model_utils.models import TimeStampedModel
 
@@ -14,14 +15,14 @@ class Event(TimeStampedModel):
     EVENT_TYPE_MEETING = 7
     EVENT_TYPE_DEBATE = 8
     EVENT_TYPES = (
-        (EVENT_TYPE_LECTURE, 'Lecture'),
-        (EVENT_TYPE_MASTER_CLASS, 'Master class'),
-        (EVENT_TYPE_EXCURSION, 'Excursion'),
-        (EVENT_TYPE_SHOW, 'Show'),
-        (EVENT_TYPE_ROUND_TABLE, 'Round table'),
-        (EVENT_TYPE_CONFERENCE, 'Conference'),
-        (EVENT_TYPE_MEETING, 'Meeting'),
-        (EVENT_TYPE_DEBATE, 'Debate'),
+        (EVENT_TYPE_LECTURE, _('Lecture')),
+        (EVENT_TYPE_MASTER_CLASS, _('Master class')),
+        (EVENT_TYPE_EXCURSION, _('Excursion')),
+        (EVENT_TYPE_SHOW, _('Show')),
+        (EVENT_TYPE_ROUND_TABLE, _('Round table')),
+        (EVENT_TYPE_CONFERENCE, _('Conference')),
+        (EVENT_TYPE_MEETING, _('Meeting')),
+        (EVENT_TYPE_DEBATE, _('Debate')),
     )
 
     EVENT_TOPIC_DESIGN = 1
