@@ -50,14 +50,14 @@ class Event(TimeStampedModel):
     )
 
     title = models.CharField(max_length=255)
-    description = models.TextField()
+    description = models.TextField(default='')
     event_type = models.PositiveSmallIntegerField(choices=EVENT_TYPES)
     topic = models.PositiveSmallIntegerField(choices=EVENT_TOPICS)
     event_date = models.DateTimeField()
     event_end_date = models.DateTimeField(null=True, blank=True)
     price = models.DecimalField(default=0, decimal_places=2, max_digits=9)
     image = models.ImageField(blank=True, null=True)
-    organizer = models.CharField(max_length=255)
+    organizer = models.ForeignKey('events.Organizer')
     place = models.ForeignKey('places.Place')
     is_published = models.BooleanField(default=False)
 
@@ -65,3 +65,13 @@ class Event(TimeStampedModel):
 
     def __str__(self):
         return self.title
+
+
+class Organizer(TimeStampedModel):
+    name = models.CharField(max_length=255)
+    description = models.TextField(default='')
+
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL)
+
+    def __str__(self):
+        return self.name

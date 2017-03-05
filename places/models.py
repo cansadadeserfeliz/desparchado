@@ -8,7 +8,7 @@ from model_utils.models import TimeStampedModel
 class Place(TimeStampedModel):
     name = models.CharField(max_length=255)
     image = models.ImageField(null=True, blank=True)
-    description = models.TextField()
+    description = models.TextField(default='')
     location = geo_models.PointField(null=False)
     city = models.ForeignKey('places.City')
 
