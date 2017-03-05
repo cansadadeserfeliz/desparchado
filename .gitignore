@@ -18,9 +18,9 @@ environment.json
 .env
 
 # Folders
-/app/static/.sass-cache
-/app/static/.bundle-gems
-/app/static/bower_components
+desparchado/static/.sass-cache
+desparchado/static/.bundle-gems
+desparchado/static/bower_components
 
 /static
 /staticfiles

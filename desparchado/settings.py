@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     'django.contrib.gis',
 
     'axes',
+    'pipeline',
 
     'desparchado',
     'events',
@@ -110,7 +111,7 @@ LOGOUT_REDIRECT_URL = 'home'
 LANGUAGE_CODE = 'es'
 LANGUAGES = [
     ('es', 'Español'),
-#    ('en', 'English'),
+    ('en', 'English'),
 ]
 
 TIME_ZONE = 'America/Bogota'
@@ -126,9 +127,53 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
+MEDIA_URL = '/media/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_MEDIA = os.path.join(BASE_DIR, 'media')
 
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'desparchado', 'static'),
+]
+
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+
+    'pipeline.finders.FileSystemFinder',
+    'pipeline.finders.AppDirectoriesFinder',
+    'pipeline.finders.CachedFileFinder',
+    'pipeline.finders.PipelineFinder',
+)
+
+# django-pipeline
+STATICFILES_STORAGE = 'pipeline.storage.PipelineCachedStorage'
+PIPELINE = {
+    'COMPILERS': (
+        'pipeline.compilers.sass.SASSCompiler',
+    ),
+    'JS_COMPRESSOR': None,
+    'STYLESHEETS': {
+        'main': {
+            'source_filenames': (
+              'bower_components/bootstrap/dist/css/bootstrap.min.css',
+              'bower_components/font-awesome/css/font-awesome.min.css',
+              'sass/main.sass',
+            ),
+            'output_filename': 'css/main.css',
+        },
+    },
+    'JAVASCRIPT': {
+        'main': {
+            'source_filenames': (
+              'bower_components/jquery/dist/jquery.min.js',
+              'bower_components/bootstrap/dist/js/bootstrap.min.js',
+              'js/main.js',
+            ),
+            'output_filename': 'js/main.min.js',
+        },
+    },
+}
 
 RAVEN_CONFIG = {
     'dsn': 'https://secretuser:secretpassword@sentry.io/secretid',
@@ -188,3 +233,6 @@ try:
         from .local_settings import *
 except:
     pass
+
+
+PIPELINE['PIPELINE_ENABLED'] = not DEBUG

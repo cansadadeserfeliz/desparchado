@@ -1,0 +1,23 @@
+{
+  "name": "desparchado",
+  "homepage": "desparchado.co",
+  "directory": "desparchado/static/bower_components",
+  "authors": [
+    "vero4ka"
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "desparchado/static/bower_components",
+    "test",
+    "tests"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "dependencies": {
+    "jquery": "^3.1.1",
+    "bootstrap": "^3.3.7",
+    "font-awesome": "^4.7.0"
+  }
+}
