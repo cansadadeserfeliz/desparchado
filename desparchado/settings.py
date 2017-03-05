@@ -160,7 +160,7 @@ PIPELINE = {
               'bower_components/font-awesome/css/font-awesome.min.css',
               'sass/main.sass',
             ),
-            'output_filename': 'css/main.css',
+            'output_filename': 'css/main.min.css',
         },
     },
     'JAVASCRIPT': {
@@ -168,7 +168,6 @@ PIPELINE = {
             'source_filenames': (
               'bower_components/jquery/dist/jquery.min.js',
               'bower_components/bootstrap/dist/js/bootstrap.min.js',
-              'js/main.js',
             ),
             'output_filename': 'js/main.min.js',
         },

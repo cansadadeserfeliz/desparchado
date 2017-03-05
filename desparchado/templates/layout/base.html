@@ -1,4 +1,4 @@
-{% load i18n staticfiles %}
+{% load i18n staticfiles pipeline %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -13,8 +13,7 @@
     <title>Desparchado</title>
 
     <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="{% static 'bower_components/bootstrap/dist/css/bootstrap.min.css' %}">
-    <link rel="stylesheet" href="{% static 'bower_components/font-awesome/css/font-awesome.min.css' %}">
+    {% stylesheet 'main' %}
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -70,11 +69,6 @@
 
   {% endblock body %}
 
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="{% static 'bower_components/jquery/dist/jquery.min.js' %}"></script>
-    <script src="{% static 'bower_components/bootstrap/dist/js/bootstrap.min.js' %}" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-
+    {% javascript 'main' %}
   </body>
 </html>
