@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-05 00:59-0500\n"
+"POT-Creation-Date: 2017-03-05 17:34-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,49 +17,113 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+#: desparchado/templates/desparchado/index.html:9
+msgid "Events for you"
+msgstr "Eventos para ti"
+
+#: desparchado/templates/desparchado/index.html:10
+msgid "Bogota"
+msgstr "Bogotá"
+
+#: desparchado/templates/desparchado/index.html:25
+msgid "Read More"
+msgstr "Leer más"
+
 #: desparchado/templates/layout/base.html:52
 msgid "Home"
 msgstr "Inicio"
 
-#: events/models.py:18
-msgid "Lecture"
-msgstr "Conferencia"
+#: desparchado/templates/layout/base.html:53
+msgid "Events"
+msgstr "Eventos"
+
+#: desparchado/templates/layout/base.html:54
+msgid "Blog"
+msgstr "Blog"
+
+#: desparchado/templates/layout/base.html:55
+msgid "About"
+msgstr "Acerca de"
+
+#: events/admin.py:26
+msgid "Information"
+msgstr "Información"
 
 #: events/models.py:19
-msgid "Master class"
-msgstr ""
+msgid "Public lecture"
+msgstr "Conferencia pública"
 
 #: events/models.py:20
-msgid "Excursion"
-msgstr "Recorrido"
-
-#: events/models.py:21
-msgid "Show"
-msgstr ""
-
-#: events/models.py:22
-msgid "Round table"
-msgstr ""
-
-#: events/models.py:23
-msgid "Conference"
-msgstr "Conferencia"
-
-#: events/models.py:24
-msgid "Meeting"
-msgstr ""
-
-#: events/models.py:25
 msgid "Debate"
 msgstr "Debate"
+
+#: events/models.py:21
+msgid "Master class"
+msgstr "Taller"
+
+#: events/models.py:22
+msgid "Tour"
+msgstr "Recorrido"
+
+#: events/models.py:23
+msgid "Meeting"
+msgstr "Encuentro"
+
+#: events/models.py:24
+msgid "Theatrical play"
+msgstr "Obra de teatro"
+
+#: events/models.py:25
+msgid "Concert"
+msgstr "Concierto"
+
+#: events/models.py:26
+msgid "Seminar"
+msgstr "Seminario"
+
+#: events/models.py:40 places/models.py:15 places/models.py:31
+msgid "City"
+msgstr "Urbanismo"
+
+#: events/models.py:41
+msgid "Science"
+msgstr "Ciencias exactas"
+
+#: events/models.py:42
+msgid "Art"
+msgstr "Arte"
+
+#: events/models.py:43
+msgid "Business"
+msgstr "Emprendimiento"
+
+#: events/models.py:44
+msgid "Society"
+msgstr "Democracia"
+
+#: events/models.py:45
+msgid "Human Science"
+msgstr "Ciencias humanas"
+
+#: events/models.py:46
+msgid "Languages"
+msgstr "Idiomas"
+
+#: events/models.py:47
+msgid "Literature"
+msgstr "Literatura"
+
+#: events/models.py:48
+msgid "Environment"
+msgstr "Medioambiente"
+
+#: events/models.py:49
+msgid "Medicine"
+msgstr "Medicina"
 
 #: places/models.py:11 places/models.py:24
 msgid "Name"
 msgstr "Nombre"
-
-#: places/models.py:15 places/models.py:31
-msgid "City"
-msgstr "Ciudad"
 
 #: places/models.py:32
 msgid "Cities"

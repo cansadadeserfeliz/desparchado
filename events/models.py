@@ -6,48 +6,47 @@ from model_utils.models import TimeStampedModel
 
 
 class Event(TimeStampedModel):
-    EVENT_TYPE_LECTURE = 1
-    EVENT_TYPE_MASTER_CLASS = 2
-    EVENT_TYPE_EXCURSION = 3
-    EVENT_TYPE_SHOW = 4
-    EVENT_TYPE_ROUND_TABLE = 5
-    EVENT_TYPE_CONFERENCE = 6
-    EVENT_TYPE_MEETING = 7
-    EVENT_TYPE_DEBATE = 8
+    EVENT_TYPE_PUBLIC_LECTURE = 1
+    EVENT_TYPE_DEBATE = 2
+    EVENT_TYPE_MASTER_CLASS = 3
+    EVENT_TYPE_TOUR = 4
+    EVENT_TYPE_MEETING = 5
+    EVENT_TYPE_THEATRICAL_PLAY = 6
+    EVENT_TYPE_CONCERT = 7
+    EVENT_TYPE_SEMINAR = 8
+
     EVENT_TYPES = (
-        (EVENT_TYPE_LECTURE, _('Lecture')),
-        (EVENT_TYPE_MASTER_CLASS, _('Master class')),
-        (EVENT_TYPE_EXCURSION, _('Excursion')),
-        (EVENT_TYPE_SHOW, _('Show')),
-        (EVENT_TYPE_ROUND_TABLE, _('Round table')),
-        (EVENT_TYPE_CONFERENCE, _('Conference')),
-        (EVENT_TYPE_MEETING, _('Meeting')),
+        (EVENT_TYPE_PUBLIC_LECTURE, _('Public lecture')),
         (EVENT_TYPE_DEBATE, _('Debate')),
+        (EVENT_TYPE_MASTER_CLASS, _('Master class')),
+        (EVENT_TYPE_TOUR, _('Tour')),
+        (EVENT_TYPE_MEETING, _('Meeting')),
+        (EVENT_TYPE_THEATRICAL_PLAY, _('Theatrical play')),
+        (EVENT_TYPE_CONCERT, _('Concert')),
+        (EVENT_TYPE_SEMINAR, _('Seminar')),
     )
 
-    EVENT_TOPIC_DESIGN = 1
-    EVENT_TOPIC_CITY = 2
-    EVENT_TOPIC_SCIENCE = 3
-    EVENT_TOPIC_ART = 4
-    EVENT_TOPIC_BUSINESS = 5
-    EVENT_TOPIC_SOCIETY = 6
-    EVENT_TOPIC_TECHNOLOGY = 7
-    EVENT_TOPIC_MEDIA = 8
-    EVENT_TOPIC_CULTURE = 9
-    EVENT_TOPIC_PHOTOGRAPHY = 10
-    EVENT_TOPIC_CINEMA = 11
+    EVENT_TOPIC_CITY = 1
+    EVENT_TOPIC_SCIENCE = 2
+    EVENT_TOPIC_ART = 3
+    EVENT_TOPIC_BUSINESS = 4
+    EVENT_TOPIC_SOCIETY = 5
+    EVENT_TOPIC_HUMAN_SCIENCE = 6
+    EVENT_TOPIC_LANGUAGES = 7
+    EVENT_TOPIC_LITERATURE = 8
+    EVENT_TOPIC_ENVIRONMENT = 9
+    EVENT_TOPIC_MEDICINE = 10
     EVENT_TOPICS = (
-        (EVENT_TOPIC_DESIGN, 'Design'),
-        (EVENT_TOPIC_CITY, 'City'),
-        (EVENT_TOPIC_SCIENCE, 'Science'),
-        (EVENT_TOPIC_ART, 'Art'),
-        (EVENT_TOPIC_BUSINESS, 'Business'),
-        (EVENT_TOPIC_SOCIETY, 'Society'),
-        (EVENT_TOPIC_TECHNOLOGY, 'Technology'),
-        (EVENT_TOPIC_MEDIA, 'Media'),
-        (EVENT_TOPIC_CULTURE, 'Culture'),
-        (EVENT_TOPIC_PHOTOGRAPHY, 'Photography'),
-        (EVENT_TOPIC_CINEMA, 'Cinema'),
+        (EVENT_TOPIC_CITY, _('City')),
+        (EVENT_TOPIC_SCIENCE, _('Science')),
+        (EVENT_TOPIC_ART, _('Art')),
+        (EVENT_TOPIC_BUSINESS, _('Business')),
+        (EVENT_TOPIC_SOCIETY, _('Society')),
+        (EVENT_TOPIC_HUMAN_SCIENCE, _('Human Science')),
+        (EVENT_TOPIC_LANGUAGES, _('Languages')),
+        (EVENT_TOPIC_LITERATURE, _('Literature')),
+        (EVENT_TOPIC_ENVIRONMENT, _('Environment')),
+        (EVENT_TOPIC_MEDICINE, _('Medicine')),
     )
 
     title = models.CharField(max_length=255)

@@ -6,7 +6,27 @@ from .models import Place, City
 
 @admin.register(Place)
 class PlaceAdmin(gis_admin.OSMGeoAdmin):
-    list_display = ('name', 'location', 'city')
+    list_display = (
+        'name', 'location', 'city', 'created_by',
+        'created', 'modified',
+    )
+
+    search_fields = ('name',)
+
+    fieldsets = (
+        (None, {
+            'fields': (
+                'name',
+                'description',
+                'city',
+                'location',
+            ),
+        }),
+    )
+
+    def save_model(self, request, obj, form, change):
+        obj.created_by = request.user
+        super().save_model(request, obj, form, change)
 
 
 @admin.register(City)
