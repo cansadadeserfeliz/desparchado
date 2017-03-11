@@ -1,6 +1,6 @@
 {% load i18n %}
 <div class="event">
-  <a class="link" href="#">
+  <a class="link" href="{% url 'events:event_detail' event.id %}">
     <div class="event-img-wrap">
       <img class="image img-responsive"
            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQ4AAACHAQMAAADdtyVCAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAANQTFRF////p8QbyAAAAAF0Uk5TAEDm2GYAAAAbSURBVBgZ7cExAQAAAMIg+6deCU9gAAAAAPAWEnUAAUFphIwAAAAASUVORK5CYII="
@@ -10,7 +10,7 @@
   </a>
   <div class="event-inner">
     <div class="event-type">{{ event.get_event_type_display }}</div>
-    <a href="#"><h2 class="event-name">{{ event.title }}</h2></a>
+    <a href="{% url 'events:event_detail' event.id %}"><h2 class="event-name">{{ event.title }}</h2></a>
     <div class="event-date">{{ event.event_date|date:'F j, H:i' }}</div>
     <div class="event-place">
       <a href="#">{{ event.place }}</a>

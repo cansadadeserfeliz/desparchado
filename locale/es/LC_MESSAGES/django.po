@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-05 17:34-0500\n"
+"POT-Creation-Date: 2017-03-11 16:03-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -24,10 +24,6 @@ msgstr "Eventos para ti"
 #: desparchado/templates/desparchado/index.html:10
 msgid "Bogota"
 msgstr "Bogotá"
-
-#: desparchado/templates/desparchado/index.html:25
-msgid "Read More"
-msgstr "Leer más"
 
 #: desparchado/templates/layout/base.html:52
 msgid "Home"
@@ -120,6 +116,18 @@ msgstr "Medioambiente"
 #: events/models.py:49
 msgid "Medicine"
 msgstr "Medicina"
+
+#: events/models.py:80
+msgid "Free"
+msgstr "Gratuito"
+
+#: events/templates/events/event_detail.html:39
+msgid "Source"
+msgstr "Fuente"
+
+#: events/templates/events/event_detail.html:45
+msgid "Image"
+msgstr "Imágen"
 
 #: places/models.py:11 places/models.py:24
 msgid "Name"

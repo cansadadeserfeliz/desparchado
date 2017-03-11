@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     'django.contrib.gis',
 
     'axes',
+    'django_markdown',
     'pipeline',
     'raven.contrib.django.raven_compat',
 

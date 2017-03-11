@@ -152,6 +152,93 @@ h1, h2, h3, h4, h5, h6
       line-height: 21px
       color: #666
 
+/* Event detail */
+
+#event-detail
+  .event-heading
+    .event-tags
+      padding: 0
+      list-style: none
+      letter-spacing: 1px
+      text-transform: uppercase
+      display: inline-block
+      margin: 0 35px 13px 0
+      vertical-align: top
+      font-size: 11px
+      font-weight: 400
+      .tags-item
+        margin-left: 1em
+        display: inline
+
+    .event-title
+      margin: 0
+      font-size: 36px
+      font-weight: 700
+      line-height: 42px
+
+    .event-city
+      margin-top: 20px
+      font-size: 18px
+      line-height: 21px
+      margin-right: 20px
+
+    .event-date
+      margin-top: 10px
+      font-size: 18px
+      line-height: 21px
+      margin-right: 20px
+      font-weight: 700
+
+    .event-place
+      font-size: 18px
+      line-height: 21px
+
+  .event-image
+    position: relative
+    display: block
+    background: #ededed
+    .event-img-wrap
+      overflow: hidden
+      .image
+        position: relative
+        z-index: 2
+        display: block
+        width: 100%
+        min-height: 135px
+        max-height: 200px
+        background-size: contain
+        background: 50% 50% no-repeat
+      .ticket-price-label
+        height: 26px
+        padding: 0 11px
+        white-space: nowrap
+        font-size: 13px
+        line-height: 28px
+        color: #222
+        background: #fc0
+        position: absolute
+        display: block
+        z-index: 4
+        right: 0
+        bottom: 0
+
+  .event-description
+    white-space: pre-wrap
+    font-size: 15px
+    line-height: 21px
+    position: relative
+    overflow: hidden
+
+  .event-source
+    font-size: 12px
+    line-height: 14px
+    color: #7f7f7f
+
+  .event-map
+    margin-top: 20px
+    margin-bottom: 20px
+    width: 100%
+
 /* Footer */
 
 #footer

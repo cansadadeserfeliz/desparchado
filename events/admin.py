@@ -26,7 +26,9 @@ class EventAdmin(admin.ModelAdmin):
         (_('Information'), {
             'fields': (
                 'description',
+                'event_source_url',
                 'image',
+                'image_source_url',
                 ('event_type', 'topic'),
                 ('event_date', 'event_end_date'),
                 'price',

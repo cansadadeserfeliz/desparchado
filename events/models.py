@@ -55,8 +55,10 @@ class Event(TimeStampedModel):
     topic = models.PositiveSmallIntegerField(choices=EVENT_TOPICS)
     event_date = models.DateTimeField()
     event_end_date = models.DateTimeField(null=True, blank=True)
+    event_source_url = models.URLField(null=True, blank=True)
     price = models.DecimalField(default=0, decimal_places=2, max_digits=9)
     image = models.ImageField(blank=True, null=True, upload_to='events')
+    image_source_url = models.URLField(null=True, blank=True)
     organizer = models.ForeignKey('events.Organizer')
     place = models.ForeignKey('places.Place')
     is_published = models.BooleanField(default=False)
@@ -65,6 +67,12 @@ class Event(TimeStampedModel):
 
     def __str__(self):
         return self.title
+
+    def get_event_longitude_str(self):
+        return str(self.place.location.x)
+
+    def get_event_latitude_str(self):
+        return str(self.place.location.y)
 
     def get_price_display(self):
         if self.price:

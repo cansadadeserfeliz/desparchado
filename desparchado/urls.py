@@ -24,6 +24,8 @@ from .views import HomeView
 urlpatterns = [
     url(r'^$', HomeView.as_view(), name='home'),
 
+    url(r'^events/', include('events.urls', namespace='events')),
+
     url(r'^i18n/', include('django.conf.urls.i18n')),
 
     url(r'^grappelli/', include('grappelli.urls')),  # grappelli URLS
