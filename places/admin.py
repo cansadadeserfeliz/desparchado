@@ -22,11 +22,20 @@ class PlaceAdmin(gis_admin.OSMGeoAdmin):
                 'location',
             ),
         }),
+        ('Image', {
+            'fields': (
+                'image',
+                'image_source_url',
+            ),
+        }),
     )
 
     def save_model(self, request, obj, form, change):
         obj.created_by = request.user
         super().save_model(request, obj, form, change)
+
+    def has_delete_permission(self, request, obj=None):
+        return False
 
 
 @admin.register(City)

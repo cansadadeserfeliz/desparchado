@@ -59,6 +59,12 @@ class OrganizerAdmin(admin.ModelAdmin):
                 'description',
             ),
         }),
+        ('Image', {
+            'fields': (
+                'image',
+                'image_source_url',
+            ),
+        }),
     )
 
     def save_model(self, request, obj, form, change):

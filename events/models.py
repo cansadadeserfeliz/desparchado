@@ -91,9 +91,11 @@ class Event(TimeStampedModel):
 
 
 class Organizer(TimeStampedModel):
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, unique=True)
     description = models.TextField(default='')
     website_url = models.URLField(null=True, blank=True)
+    image = models.ImageField(blank=True, null=True, upload_to='organizers')
+    image_source_url = models.URLField(null=True, blank=True)
 
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL)
 

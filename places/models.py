@@ -8,8 +8,9 @@ from model_utils.models import TimeStampedModel
 
 
 class Place(TimeStampedModel):
-    name = models.CharField(verbose_name=_('Name'), max_length=255)
+    name = models.CharField(verbose_name=_('Name'), max_length=255, unique=True)
     image = models.ImageField(null=True, blank=True, upload_to='places')
+    image_source_url = models.URLField(null=True, blank=True)
     description = models.TextField(default='')
     website_url = models.URLField(null=True, blank=True)
     location = geo_models.PointField(null=False)
@@ -22,7 +23,7 @@ class Place(TimeStampedModel):
 
 
 class City(TimeStampedModel):
-    name = models.CharField(verbose_name=_('Name'), max_length=255)
+    name = models.CharField(verbose_name=_('Name'), max_length=255, unique=True)
     center_location = geo_models.PointField(null=False)
 
     def __str__(self):
