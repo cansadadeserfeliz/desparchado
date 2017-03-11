@@ -12,5 +12,5 @@ class HomeView(TemplateView):
         context['events'] = Event.objects.filter(
             is_published=True,
             event_date__gte=timezone.now(),
-        ).all()
+        ).all()[:12]
         return context

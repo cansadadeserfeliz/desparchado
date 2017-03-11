@@ -1,6 +1,9 @@
 @import url(http://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic)
 
 $primary-color: #111
+$secondary-color: #8B1714
+$dark-gray: #666
+$bg-color: #ededed
 
 /* Typography */
 
@@ -29,6 +32,17 @@ a
 
 h1, h2, h3, h4, h5, h6
   font-family: 'Roboto', sans-serif
+
+.row-eq-height
+  display: -webkit-box
+  display: -webkit-flex
+  display: -ms-flexbox
+  display:         flex
+  flex-wrap: wrap
+.row-eq-height > [class*='col-']
+  display: flex
+  flex-direction: column
+
 
 /* Header */
 
@@ -79,78 +93,67 @@ h1, h2, h3, h4, h5, h6
   padding-bottom: 75px
   padding-top: 75px
 
-.event-heading
-  margin-bottom: 35px
-  margin-top: 15px
+  .event-heading
+    margin-bottom: 35px
+    margin-top: 15px
 
-.event
-  vertical-align: top
-  margin-bottom: 30px
-  .link
-    position: relative
-    display: block
-    background: #ededed
-  .event-img-wrap
-    overflow: hidden
-    .image
+  .event
+    vertical-align: top
+    margin-bottom: 30px
+    .link
       position: relative
-      z-index: 2
       display: block
-      width: 100%
-      height: 135px
-      background-size: contain
-      background: 50% 50% no-repeat
-    .ticket-price-label
-      height: 26px
-      padding: 0 11px
-      white-space: nowrap
-      font-size: 13px
-      line-height: 28px
-      color: #222
-      background: #fc0
-      position: absolute
-      display: block
-      z-index: 4
-      right: 0
-      bottom: 0
-  .event-inner
-    border: 1px solid #ededed
-    border-top: none
-    background: #fff
-    padding: 13px
-
-    .event-type
-      margin: -1px -1px 11px
-      letter-spacing: 1px
-      text-transform: uppercase
-      font-size: 11px
-      line-height: 1
-      color: #666
-
-    .event-name
+      background: $bg-color
+    .event-img-wrap
       overflow: hidden
-      margin: -2px -1px
-      font-size: 16px
-      font-weight: 700
-      line-height: 19px
+      .image
+        position: relative
+        z-index: 2
+        display: block
+        width: 100%
+        height: 135px
+        background-size: contain
+        background: 50% 50% no-repeat
+    .event-inner
+      border: 1px solid $bg-color
+      border-top: none
+      background: #fff
+      padding: 13px
+      display: inline-block
+      height: 100%
 
-    .event-date
-      overflow: hidden
-      margin: 12px -1px -6px
-      white-space: nowrap
-      text-overflow: ellipsis
-      font-size: 13px
-      line-height: 21px
-      color: #666
-    .event-place
-      margin-top: 5px
-      overflow: hidden
-      margin: 12px -1px -6px
-      white-space: nowrap
-      text-overflow: ellipsis
-      font-size: 13px
-      line-height: 21px
-      color: #666
+      .event-type
+        margin: -1px -1px 11px
+        letter-spacing: 1px
+        text-transform: uppercase
+        font-size: 11px
+        line-height: 1
+        color: $dark-gray
+
+      .event-name
+        overflow: hidden
+        margin: -2px -1px
+        font-size: 16px
+        font-weight: 700
+        line-height: 19px
+
+      .event-date
+        overflow: hidden
+        margin: 12px -1px -6px
+        white-space: nowrap
+        text-overflow: ellipsis
+        font-size: 13px
+        line-height: 21px
+        color: $dark-gray
+      .event-place
+        margin-top: 5px
+        overflow: hidden
+        margin: 12px -1px -6px
+        white-space: nowrap
+        text-overflow: ellipsis
+        font-size: 13px
+        line-height: 21px
+        color: $dark-gray
 
 /* Event detail */
 
@@ -196,7 +199,7 @@ h1, h2, h3, h4, h5, h6
   .event-image
     position: relative
     display: block
-    background: #ededed
+    background: $bg-color
     .event-img-wrap
       overflow: hidden
       .image
@@ -208,19 +211,6 @@ h1, h2, h3, h4, h5, h6
         max-height: 250px
         background-size: contain
         background: 50% 50% no-repeat
-      .ticket-price-label
-        height: 26px
-        padding: 0 11px
-        white-space: nowrap
-        font-size: 13px
-        line-height: 28px
-        color: #222
-        background: #fc0
-        position: absolute
-        display: block
-        z-index: 4
-        right: 0
-        bottom: 0
 
   .event-description
     white-space: pre-wrap
@@ -242,7 +232,7 @@ h1, h2, h3, h4, h5, h6
 /* Footer */
 
 #footer
-  background-color: #f6f6f6
+  background-color: $bg-color
   padding: 25px 0
   color: #43484E
   font-size: 16px
@@ -252,3 +242,19 @@ h1, h2, h3, h4, h5, h6
     margin: 0
   a
     color: $primary-color
+
+/* Tickets price */
+
+.ticket-price-label
+  height: 26px
+  padding: 0 11px
+  white-space: nowrap
+  font-size: 13px
+  line-height: 28px
+  color: $bg-color
+  background: $secondary-color
+  position: absolute
+  display: block
+  z-index: 4
+  right: 0
+  bottom: 0

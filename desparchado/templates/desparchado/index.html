@@ -10,14 +10,12 @@
         <p class="event-heading">{% trans 'Bogota' %}</p>
       </div>
     </div>
-    <div class="row">
+    <div class="row row-eq-height">
   {% for event in events %}
-      <div class="col-sm-4">
-        {% include 'events/_single_event.html' %}
-      </div>
+      {% include 'events/_single_event.html' %}
     {% if forloop.counter|divisibleby:3 %}
     </div>
-    <div class="row">
+    <div class="row row-eq-height">
     {% endif %}
   {% endfor %}
   </div>
