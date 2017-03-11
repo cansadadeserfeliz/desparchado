@@ -7,7 +7,7 @@ from .models import Place, City
 @admin.register(Place)
 class PlaceAdmin(gis_admin.OSMGeoAdmin):
     list_display = (
-        'name', 'location', 'city', 'created_by',
+        'name', 'location', 'description', 'city', 'created_by',
         'created', 'modified',
     )
 

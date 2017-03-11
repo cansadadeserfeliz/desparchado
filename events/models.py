@@ -66,6 +66,16 @@ class Event(TimeStampedModel):
     def __str__(self):
         return self.title
 
+    def get_price_display(self):
+        if self.price:
+            return self.price
+        return _('Free')
+
+    def get_image_url(self):
+        if self.image:
+            return self.image.url
+        return 'https://images.unsplash.com/photo-1485834532228-4fcb1456f84f?dpr=1&auto=compress,format&fit=crop&w=400&h=250&q=80&cs=tinysrgb&crop='
+
     class Meta:
         ordering = ('event_date',)
 

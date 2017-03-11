@@ -43,7 +43,7 @@ class EventAdmin(admin.ModelAdmin):
 
 @admin.register(Organizer)
 class OrganizerAdmin(admin.ModelAdmin):
-    list_display = ('name', 'created_by', 'created', 'modified')
+    list_display = ('name', 'description', 'created_by', 'created', 'modified')
 
     search_fields = ('name',)
 

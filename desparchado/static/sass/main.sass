@@ -1,6 +1,6 @@
 @import url(http://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic)
 
-$orange: #fc7700
+$primary-color: #111
 
 /* Typography */
 
@@ -19,7 +19,7 @@ a
   -moz-transition: 300ms
   -o-transition: 300ms
   transition: 300ms
-  color: $orange
+  color: $primary-color
   &:hover
     outline: none
     text-decoration: none
@@ -45,7 +45,7 @@ h1, h2, h3, h4, h5, h6
   .navbar-brand h1
     padding: 0
     margin: 0
-    color: $orange
+    color: $primary-color
     font-weight: 800
     font-size: 28px
   .navbar-nav.navbar-right
@@ -65,13 +65,13 @@ h1, h2, h3, h4, h5, h6
     margin-top: 28px
   .navbar-inverse .navbar-nav .active a
     color: #fff
-    background-color: $orange
+    background-color: $primary-color
     &:focus
       color: #fff
-      background-color: $orange
+      background-color: $primary-color
   .navbar-nav.navbar-right li a:hover
     color: #fff
-    background-color: $orange
+    background-color: $primary-color
 
 /* Events Grid */
 
@@ -83,62 +83,74 @@ h1, h2, h3, h4, h5, h6
   margin-bottom: 35px
   margin-top: 15px
 
-.single-event
+.event
+  vertical-align: top
   margin-bottom: 30px
-  background-color: #F7F7F7
-  padding: 25px
-  transition: all 1s ease 0s
-  -moz-transition: all 1s ease 0s
-  -webkit-transition: all 1s ease 0s
-  -o-transition: all 1s ease 0s
-  -webkit-box-shadow: 0 2px 0 0 #ddd
-  box-shadow: 0 2px 0 0 #ddd
-  &:hover
-    background-color: #43484E
-    color: #fff
-    h2
-      color: #fff
-    .btn-primary
-      background-color: $orange
-      color: #fff
-      border-color: #fff
-      transition: all 0.9s ease 0s
-      -moz-transition: all 0.9s ease 0s
-      -webkit-transition: all 0.9s ease 0s
-      -o-transition: all 0.9s ease 0s
-  img
-    width: 100%
-    margin-bottom: 20px
-  h2
-    color: #43484E
-    font-size: 24px
-    margin: 0
-    margin-bottom: 15px
-  ul
-    padding: 0
+  .link
+    position: relative
+    display: block
+    background: #ededed
+  .event-img-wrap
     overflow: hidden
-    li
-      border-right: 2px solid #999999
-      float: left
-      line-height: 10px
-      list-style: none
-      margin-right: 10px
-      padding-right: 10px
-      font-size: 12px
-      color: #999
-      &:last-child
-        border: none
+    .image
+      position: relative
+      z-index: 2
+      display: block
+      width: 100%
+      height: 135px
+      background-size: contain
+      background: 50% 50% no-repeat
+    .ticket-price-label
+      height: 26px
+      padding: 0 11px
+      white-space: nowrap
+      font-size: 13px
+      line-height: 28px
+      color: #222
+      background: #fc0
+      position: absolute
+      display: block
+      z-index: 4
+      right: 0
+      bottom: 0
+  .event-inner
+    border: 1px solid #ededed
+    border-top: none
+    background: #fff
+    padding: 13px
 
-.single-blog
-  .btn-primary
-    text-transform: uppercase
-    border: 1px solid $orange
-    color: #686868
-    background-color: rgba(255, 255, 255, 0)
-    border-color: $orange
-  &:hover.single-event .btn-primary:hover
-    background-color: $orange
-    color: #fff
+    .event-type
+      margin: -1px -1px 11px
+      letter-spacing: 1px
+      text-transform: uppercase
+      font-size: 11px
+      line-height: 1
+      color: #666
+
+    .event-name
+      overflow: hidden
+      margin: -2px -1px
+      font-size: 16px
+      font-weight: 700
+      line-height: 19px
+
+    .event-date
+      overflow: hidden
+      margin: 12px -1px -6px
+      white-space: nowrap
+      text-overflow: ellipsis
+      font-size: 13px
+      line-height: 21px
+      color: #666
+    .event-place
+      margin-top: 5px
+      overflow: hidden
+      margin: 12px -1px -6px
+      white-space: nowrap
+      text-overflow: ellipsis
+      font-size: 13px
+      line-height: 21px
+      color: #666
 
 /* Footer */
 
@@ -152,4 +164,4 @@ h1, h2, h3, h4, h5, h6
   p
     margin: 0
   a
-    color: #fc7700
+    color: $primary-color
