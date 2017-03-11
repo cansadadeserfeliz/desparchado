@@ -258,3 +258,37 @@ h1, h2, h3, h4, h5, h6
   z-index: 4
   right: 0
   bottom: 0
+
+/* Pager */
+
+//
+// Pager pagination
+// --------------------------------------------------
+
+
+.pager
+  padding-left: 0
+  list-style: none
+  text-align: center
+  li
+    > a,
+    > span
+      display: inline-block
+      padding: 5px 14px
+      color: $primary-color
+      background-color: #fff
+      border: 1px solid $dark-gray
+      border-radius: 0
+
+    > a:hover,
+    > a:focus
+      color: #fff
+      background-color: $primary-color
+
+  .disabled
+    > a,
+    > a:hover,
+    > a:focus,
+    > span
+      color: #fff
+      background-color: $primary-color

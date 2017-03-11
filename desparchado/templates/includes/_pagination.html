@@ -1,0 +1,30 @@
+{% if is_paginated %}
+<div class="row">
+  <div class="col-md-6">
+    Resultados {{ page_obj.start_index }} a {{ page_obj.end_index }} de {{ paginator.count }} registros
+  </div>
+  <div class="col-md-6">
+    <nav>
+      <ul class="pagination">
+      {% if page_obj.has_previous %}
+        <li><a href="?page={{ page_obj.previous_page_number }}&{{ search_query }}">&laquo;</a></li>
+      {% endif %}
+      {% for page in page_numbers %}
+        {% if page %}
+          {% ifequal page page_obj.number %}
+            <li class="active"><a href="#">{{ page }}</a></li>
+          {% else %}
+            <li><a href="?page={{ page }}&{{ search_query }}">{{ page }}</a></li>
+          {% endifequal %}
+        {% else %}
+          <li class="disabled"><a href="#">...</a></li>
+        {% endif %}
+      {% endfor %}
+      {% if page_obj.has_next %}
+        <li><a href="?page={{ page_obj.next_page_number }}&{{ search_query }}">&arre</a></li>
+      {% endif %}
+      </ul>
+    </nav>
+  </div>
+</div>
+{% endif %}

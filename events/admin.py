@@ -42,6 +42,9 @@ class EventAdmin(admin.ModelAdmin):
         obj.created_by = request.user
         super().save_model(request, obj, form, change)
 
+    def has_delete_permission(self, request, obj=None):
+        return False
+
 
 @admin.register(Organizer)
 class OrganizerAdmin(admin.ModelAdmin):
@@ -61,3 +64,6 @@ class OrganizerAdmin(admin.ModelAdmin):
     def save_model(self, request, obj, form, change):
         obj.created_by = request.user
         super().save_model(request, obj, form, change)
+
+    def has_delete_permission(self, request, obj=None):
+        return False

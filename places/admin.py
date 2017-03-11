@@ -28,7 +28,13 @@ class PlaceAdmin(gis_admin.OSMGeoAdmin):
         obj.created_by = request.user
         super().save_model(request, obj, form, change)
 
+    def has_delete_permission(self, request, obj=None):
+        return False
+
 
 @admin.register(City)
 class CityAdmin(gis_admin.OSMGeoAdmin):
     pass
+
+    def has_delete_permission(self, request, obj=None):
+        return False
