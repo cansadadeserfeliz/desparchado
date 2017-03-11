@@ -93,6 +93,7 @@ class Event(TimeStampedModel):
 class Organizer(TimeStampedModel):
     name = models.CharField(max_length=255)
     description = models.TextField(default='')
+    website_url = models.URLField(null=True, blank=True)
 
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL)
 

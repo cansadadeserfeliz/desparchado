@@ -11,6 +11,7 @@ class Place(TimeStampedModel):
     name = models.CharField(verbose_name=_('Name'), max_length=255)
     image = models.ImageField(null=True, blank=True, upload_to='places')
     description = models.TextField(default='')
+    website_url = models.URLField(null=True, blank=True)
     location = geo_models.PointField(null=False)
     city = models.ForeignKey('places.City', verbose_name=_('City'))
 
