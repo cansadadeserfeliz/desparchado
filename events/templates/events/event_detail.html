@@ -2,7 +2,7 @@
 {% load i18n django_markdown %}
 
 {% block content %}
-<section id="event-detail">
+<section id="event-detail" class="container">
 
   <div class="event-heading">
     <ul class="event-tags">
@@ -22,31 +22,29 @@
     </div>
   </div>
 
-  <div class="container">
-    <div class="event-image">
-      <div class="event-img-wrap">
-        <img class="image img-responsive"
-             src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQ4AAACHAQMAAADdtyVCAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAANQTFRF////p8QbyAAAAAF0Uk5TAEDm2GYAAAAbSURBVBgZ7cExAQAAAMIg+6deCU9gAAAAAPAWEnUAAUFphIwAAAAASUVORK5CYII="
-             alt="{{ event.title }}" style="background-image: url({{ event.get_image_url }});">
-        <div class="ticket-price-label">{{ event.get_price_display }}</div>
-      </div>
+  <div class="event-image">
+    <div class="event-img-wrap">
+      <img class="image img-responsive"
+           src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQ4AAACHAQMAAADdtyVCAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAANQTFRF////p8QbyAAAAAF0Uk5TAEDm2GYAAAAbSURBVBgZ7cExAQAAAMIg+6deCU9gAAAAAPAWEnUAAUFphIwAAAAASUVORK5CYII="
+           alt="{{ event.title }}" style="background-image: url({{ event.get_image_url }});">
+      <div class="ticket-price-label">{{ event.get_price_display }}</div>
     </div>
-    <div class="event-description">
-      {{ event.description|markdown }}
-    </div>
-  {% if event.event_source_url %}
-    <div class="event-source">
-      {% trans 'Source' %}:
-      <a href="{{ event.event_source_url }}" target="_blank">{{ event.event_source_url }}</a>
-    </div>
-  {% endif %}
-  {% if event.image_source_url %}
-    <div class="event-source">
-      {% trans 'Image' %}:
-      <a href="{{ event.image_source_url }}" target="_blank">{{ event.image_source_url }}</a>
-    </div>
-  {% endif %}
-  </div><!--/.container-->
+  </div>
+  <div class="event-description">
+    {{ event.description|markdown }}
+  </div>
+{% if event.event_source_url %}
+  <div class="event-source">
+    {% trans 'Source' %}:
+    <a href="{{ event.event_source_url }}" target="_blank">{{ event.event_source_url }}</a>
+  </div>
+{% endif %}
+{% if event.image_source_url %}
+  <div class="event-source">
+    {% trans 'Image' %}:
+    <a href="{{ event.image_source_url }}" target="_blank">{{ event.image_source_url }}</a>
+  </div>
+{% endif %}
 
   <div class="event-map">
     <script src='https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyC3iZqRXqLY7BLd6fwKjYrqKhoh4qRP8m4'></script>

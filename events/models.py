@@ -4,6 +4,8 @@ from django.utils.translation import ugettext_lazy as _
 
 from model_utils.models import TimeStampedModel
 
+from desparchado.templatetags.desparchado_tags import format_currency
+
 
 class Event(TimeStampedModel):
     EVENT_TYPE_PUBLIC_LECTURE = 1
@@ -76,7 +78,7 @@ class Event(TimeStampedModel):
 
     def get_price_display(self):
         if self.price:
-            return self.price
+            return format_currency(self.price)
         return _('Free')
 
     def get_image_url(self):
