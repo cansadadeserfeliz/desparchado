@@ -2,8 +2,17 @@
 {% load i18n paginator_tags %}
 
 {% block content %}
+<section class="container">
+  <div class="row text-center clearfix">
+    <div class="col-sm-8 col-sm-offset-2">
+      <h2 class="title-one">{% trans 'Upcoming events' %}</h2>
+      <p class="event-heading">{% trans 'Bogota' %}</p>
+    </div>
+  </div>
+</section>
+
   {% include 'events/_events_grid.html' %}
-<div class="container">
+<section class="container">
   {% get_simple_pagination %}
-</div>
+</section>
 {% endblock content %}
