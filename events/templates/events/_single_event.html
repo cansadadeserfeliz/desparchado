@@ -13,7 +13,7 @@
     <a href="{% url 'events:event_detail' event.id %}"><h2 class="event-name">{{ event.title }}</h2></a>
     <div class="event-date">{{ event.event_date|date:'F j, H:i' }}</div>
     <div class="event-place">
-      <a href="#">{{ event.place }}</a>
+      <a href="{% url 'places:place_detail' event.place_id %}">{{ event.place }}</a>
     </div>
   </div>
 </div>

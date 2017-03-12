@@ -1,0 +1,15 @@
+{% extends 'layout/base.html' %}
+{% load i18n django_markdown %}
+
+{% block content %}
+<section id="place-detail" class="container">
+
+  <div class="place-heading">
+    <h1 class="place-title">{{ place.name }}</h1>
+    <div class="place-description">{{ place.description|markdown }}</div>
+  </div>
+
+  {% include 'includes/_map.html' with title=place subtitle='' latitude=place.get_latitude_str longitude=place.get_longitude_str css_class='place-map' %}
+
+</section><!--/#place-detail-->
+{% endblock content %}

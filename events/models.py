@@ -70,11 +70,11 @@ class Event(TimeStampedModel):
     def __str__(self):
         return self.title
 
-    def get_event_longitude_str(self):
-        return str(self.place.location.x)
+    def get_longitude_str(self):
+        return self.place.get_longitude_str()
 
-    def get_event_latitude_str(self):
-        return str(self.place.location.y)
+    def get_latitude_str(self):
+        return self.place.get_latitude_str()
 
     def get_price_display(self):
         if self.price:

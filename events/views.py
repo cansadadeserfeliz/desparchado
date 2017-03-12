@@ -1,7 +1,7 @@
 from django.views.generic import ListView, DetailView
 from django.utils import timezone
 
-from .models import Event
+from .models import Event, Organizer
 
 
 class EventListView(ListView):
@@ -22,3 +22,11 @@ class EventDetailView(DetailView):
     model = Event
 
 
+class OrganizerListView(ListView):
+    model = Organizer
+    context_object_name = 'organizers'
+    paginate_by = 9
+
+
+class OrganizerDetailView(DetailView):
+    model = Organizer

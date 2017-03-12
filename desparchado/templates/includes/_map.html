@@ -1,0 +1,33 @@
+<div class="{{ css_class }}">
+  <script src='https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyC3iZqRXqLY7BLd6fwKjYrqKhoh4qRP8m4'></script>
+  <div style='overflow:hidden;height:240px;width:auto;'>
+    <div id='map_canvas' style='height:240px;'></div>
+    <style>
+      #map_canvas img {
+        width: auto;
+        max-width:none !important;
+        background:none !important
+      }
+    </style>
+  </div>
+  <script type='text/javascript'>
+    function init_map(){
+      var myOptions = {
+        zoom: 15,
+        center: new google.maps.LatLng({{ latitude }},{{ longitude }}),
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+      };
+      map = new google.maps.Map(document.getElementById('map_canvas'), myOptions);
+      marker = new google.maps.Marker({
+        map: map,position: new google.maps.LatLng({{ latitude }},{{ longitude }})
+      });
+      infowindow = new google.maps.InfoWindow({
+        content:'<strong>{{ title }}</strong><br>{{ subtitle }}<br>'
+      });
+      google.maps.event.addListener(marker, 'click', function(){
+        infowindow.open(map,marker);
+      });
+      infowindow.open(map,marker);}
+    google.maps.event.addDomListener(window, 'load', init_map);
+  </script>
+</div>

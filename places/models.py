@@ -21,6 +21,12 @@ class Place(TimeStampedModel):
     def __str__(self):
         return self.name
 
+    def get_longitude_str(self):
+        return str(self.location.x)
+
+    def get_latitude_str(self):
+        return str(self.location.y)
+
 
 class City(TimeStampedModel):
     name = models.CharField(verbose_name=_('Name'), max_length=255, unique=True)

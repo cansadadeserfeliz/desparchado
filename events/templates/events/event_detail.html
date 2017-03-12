@@ -14,7 +14,7 @@
     <div class="event-info">
       <span class="event-date">{{ event.event_date }}</span>
       <span class="event-place">
-        <a class="link" href="#">
+        <a class="link" href="{% url 'places:place_detail' event.place_id %}">
           <i class="fa fa-map-marker"></i>
           {{ event.place }}
         </a>
@@ -46,39 +46,7 @@
   </div>
 {% endif %}
 
-  <div class="event-map">
-    <script src='https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyC3iZqRXqLY7BLd6fwKjYrqKhoh4qRP8m4'></script>
-    <div style='overflow:hidden;height:240px;width:auto;'>
-      <div id='map_canvas' style='height:240px;'></div>
-      <style>
-        #map_canvas img {
-          width: auto;
-          max-width:none !important;
-          background:none !important
-        }
-      </style>
-    </div>
-    <script type='text/javascript'>
-      function init_map(){
-        var myOptions = {
-          zoom: 15,
-          center: new google.maps.LatLng({{ event.get_event_latitude_str }},{{ event.get_event_longitude_str }}),
-          mapTypeId: google.maps.MapTypeId.ROADMAP
-        };
-        map = new google.maps.Map(document.getElementById('map_canvas'), myOptions);
-        marker = new google.maps.Marker({
-          map: map,position: new google.maps.LatLng({{ event.get_event_latitude_str }},{{ event.get_event_longitude_str }})
-        });
-        infowindow = new google.maps.InfoWindow({
-          content:'<strong>{{ event.place }}</strong><br>{{ event.event_date }}<br>'
-        });
-        google.maps.event.addListener(marker, 'click', function(){
-          infowindow.open(map,marker);
-        });
-        infowindow.open(map,marker);}
-      google.maps.event.addDomListener(window, 'load', init_map);
-    </script>
-  </div>
+{% include 'includes/_map.html' with title=event.place subtitle=event.event_date latitude=event.get_latitude_str longitude=event.get_longitude_str css_class='event-map' %}
 
 </section><!--/#event-detail-->
 {% endblock content %}
