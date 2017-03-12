@@ -27,6 +27,11 @@ class Place(TimeStampedModel):
     def get_latitude_str(self):
         return str(self.location.y)
 
+    def get_image_url(self):
+        if self.image:
+            return self.image.url
+        return 'https://images.unsplash.com/photo-1485834532228-4fcb1456f84f?dpr=1&auto=compress,format&fit=crop&w=400&h=250&q=80&cs=tinysrgb&crop='
+
 
 class City(TimeStampedModel):
     name = models.CharField(verbose_name=_('Name'), max_length=255, unique=True)

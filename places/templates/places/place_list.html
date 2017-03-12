@@ -1,0 +1,34 @@
+{% extends 'layout/base.html' %}
+{% load i18n paginator_tags %}
+
+{% block content %}
+<section id="place-list" class="container">
+  <div class="row text-center clearfix">
+    <div class="col-sm-8 col-sm-offset-2">
+      <h2 class="title-one">{% trans 'Places' %}</h2>
+      <p class="event-heading">{% trans 'Bogota' %}</p>
+    </div>
+  </div>
+
+{% for place in places %}
+  <div class="row place-card">
+    <div class="place-card-inner">
+      <div class="place-card-title-wrap">
+        <h2 class="place-card-title">
+          <a class="link" href="{% url 'places:place_detail' place.id %}">{{ place.name }}</a>
+        </h2>
+      </div>
+    </div>
+    <div class="place-card-logo">
+      <a class="link" tabindex="0" href="{% url 'places:place_detail' place.id %}">
+        <img class="image" src="{{ place.get_image_url }}"
+             alt="{{ place.name }}" width="70" height="70">
+      </a>
+    </div>
+  </div>
+{% endfor %}
+
+  {% get_pagination 2 1 %}
+</section><!--/#place-list-->
+
+{% endblock content %}
