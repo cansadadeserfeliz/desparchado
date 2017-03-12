@@ -12,4 +12,7 @@
   {% include 'includes/_map.html' with title=place subtitle='' latitude=place.get_latitude_str longitude=place.get_longitude_str css_class='place-map' %}
 
 </section><!--/#place-detail-->
+
+{% include 'events/_events_grid.html' %}
+
 {% endblock content %}

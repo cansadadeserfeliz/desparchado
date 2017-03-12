@@ -2,24 +2,8 @@
 {% load i18n paginator_tags %}
 
 {% block content %}
-<section id="events">
-  <div class="container">
-    <div class="row text-center clearfix">
-      <div class="col-sm-8 col-sm-offset-2">
-        <h2 class="title-one">{% trans 'Upcoming events' %}</h2>
-        <p class="event-heading">{% trans 'Bogota' %}</p>
-      </div>
-    </div>
-    <div class="row row-eq-height">
-  {% for event in events %}
-      {% include 'events/_single_event.html' %}
-    {% if forloop.counter|divisibleby:3 %}
-    </div>
-    <div class="row row-eq-height">
-    {% endif %}
-  {% endfor %}
-  </div>
-
+  {% include 'events/_events_grid.html' %}
+<div class="container">
   {% get_simple_pagination %}
-</section> <!--/#events-->
+</div>
 {% endblock content %}

@@ -2,22 +2,14 @@
 {% load i18n %}
 
 {% block content %}
-<section id="events">
-  <div class="container">
-    <div class="row text-center clearfix">
-      <div class="col-sm-8 col-sm-offset-2">
-        <h2 class="title-one">{% trans 'Events for you' %}</h2>
-        <p class="event-heading">{% trans 'Bogota' %}</p>
-      </div>
+<section class="container">
+  <div class="row text-center clearfix">
+    <div class="col-sm-8 col-sm-offset-2">
+      <h2 class="title-one">{% trans 'Events for you' %}</h2>
+      <p class="event-heading">{% trans 'Bogota' %}</p>
     </div>
-    <div class="row row-eq-height">
-  {% for event in events %}
-      {% include 'events/_single_event.html' %}
-    {% if forloop.counter|divisibleby:3 %}
-    </div>
-    <div class="row row-eq-height">
-    {% endif %}
-  {% endfor %}
   </div>
-</section> <!--/#events-->
+</section>
+
+{% include 'events/_events_grid.html' %}
 {% endblock content %}

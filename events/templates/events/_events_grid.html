@@ -1,0 +1,10 @@
+<section id="events" class="container">
+  <div class="row row-eq-height">
+{% for event in events %}
+    {% include 'events/_single_event.html' %}
+  {% if forloop.counter|divisibleby:3 %}
+  </div>
+  <div class="row row-eq-height">
+  {% endif %}
+{% endfor %}
+</section> <!--/#events-->
