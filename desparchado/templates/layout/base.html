@@ -1,4 +1,4 @@
-{% load i18n staticfiles pipeline %}
+{% load i18n staticfiles pipeline desparchado_tags %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -79,6 +79,9 @@
 
   {% endblock body %}
 
-    {% javascript 'main' %}
+  {% javascript 'main' %}
+
+  {% google_analytics_code %}
+
   </body>
 </html>

@@ -226,6 +226,8 @@ LOGGING = {
 # django-axes
 AXES_LOGIN_FAILURE_LIMIT = 5
 
+GOOGLE_ANALYTICS_CODE = 'UA-43471959-4'
+
 
 try:
     if 'test' in sys.argv:
