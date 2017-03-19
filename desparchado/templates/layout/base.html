@@ -10,7 +10,12 @@
     <meta name="author" content="">
     <!--link rel="icon" href="favicon.ico" -->
 
-    <title>Desparchado</title>
+    {% block meta %}
+    {% endblock %}
+    <meta name="twitter:site" content="@DesparchadoCo">
+
+
+    <title>{% block title %}Desparchado{% endblock %}</title>
 
     <!-- Bootstrap core CSS -->
     {% stylesheet 'main' %}
@@ -82,6 +87,9 @@
   {% javascript 'main' %}
 
   {% google_analytics_code %}
+
+  <!-- Go to www.addthis.com/dashboard to customize your tools -->
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-58ced1089d6b2a96"></script>
 
   </body>
 </html>

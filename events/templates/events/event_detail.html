@@ -1,6 +1,15 @@
 {% extends 'layout/base.html' %}
 {% load i18n django_markdown %}
 
+{% block meta %}
+  <meta property="og:title" content="{{ event.title }}">
+  <meta property="og:description" content="">
+  <meta property="og:image" content="{{ event.get_image_url }}">
+
+  <meta name="twitter:title" content="{{ event.title }}">
+  <meta name="twitter:description" content="">
+{% endblock %}
+
 {% block content %}
 <section id="event-detail" class="container">
 
@@ -33,6 +42,9 @@
   <div class="event-description">
     {{ event.description|markdown }}
   </div>
+
+  <div class="addthis_inline_share_toolbox"></div>
+
 {% if event.event_source_url %}
   <div class="event-source">
     {% trans 'Source' %}:
@@ -45,6 +57,7 @@
     <a href="{{ event.image_source_url }}" target="_blank">{{ event.image_source_url }}</a>
   </div>
 {% endif %}
+
 
 {% include 'includes/_map.html' with title=event.place subtitle=event.event_date latitude=event.get_latitude_str longitude=event.get_longitude_str css_class='event-map' %}
 
