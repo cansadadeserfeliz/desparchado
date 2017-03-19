@@ -1,5 +1,6 @@
 from django import template
 from django.conf import settings
+from django.utils.safestring import mark_safe
 
 register = template.Library()
 
@@ -21,9 +22,9 @@ def google_analytics_code():
     """Render the code needed for google analytics only when DEBUG is false
     """
     if settings.DEBUG:
-        return """<script>function ga() {}</script>"""
+        return mark_safe("""<script>function ga() {}</script>""")
 
-    return """
+    return mark_safe("""
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -34,4 +35,4 @@ def google_analytics_code():
   ga('send', 'pageview');
 
 </script>
-    """ % settings.GOOGLE_ANALYTICS_CODE
+    """ % settings.GOOGLE_ANALYTICS_CODE)
