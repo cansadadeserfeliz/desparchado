@@ -30,8 +30,8 @@ def google_analytics_code():
   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
   })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
-  ga('create', '{}', 'auto');
+  ga('create', '%s', 'auto');
   ga('send', 'pageview');
 
 </script>
-    """.format(settings.GOOGLE_ANALYTICS_CODE)
+    """ % settings.GOOGLE_ANALYTICS_CODE
