@@ -13,6 +13,20 @@
 
 </section><!--/#place-detail-->
 
-{% include 'events/_events_grid.html' %}
+{% if events %}
+
+  <h4>{% trans 'Upcoming events' %}</h4>
+
+  {% include 'events/_events_grid.html' %}
+
+{% endif %}
+
+{% if past_events %}
+
+  <h4>{% trans 'Past events' %}</h4>
+
+  {% include 'events/_events_grid.html' with events=past_events %}
+
+{% endif %}
 
 {% endblock content %}
