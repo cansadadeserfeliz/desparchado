@@ -1,3 +1,4 @@
+@import url(http://fonts.googleapis.com/css?family=Grand+Hotel:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic)
 @import url(http://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic)
 
 $primary-color: #111
@@ -60,9 +61,12 @@ h1, h2, h3, h4, h5, h6
   .navbar-brand h1
     padding: 0
     margin: 0
+    font-family: 'Grand Hotel'
     color: $primary-color
-    font-weight: 800
-    font-size: 28px
+    font-weight: 600
+    font-size: 34px
+    text-transform: capitalize
+    letter-spacing: 2px
   .navbar-nav.navbar-right
     li
       padding: 0 1px
@@ -274,17 +278,109 @@ h1, h2, h3, h4, h5, h6
 
 /* Footer */
 
-#footer
-  background-color: $bg-color
-  padding: 25px 0
-  color: #43484E
-  font-size: 16px
-  position: relative
-  margin-top: 1px
-  p
+.footer-distributed
+  background-color: #292c2f
+  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.12)
+  box-sizing: border-box
+  width: 100%
+  text-align: left
+  font: bold 16px sans-serif
+  padding: 55px 50px
+  margin-top: 80px
+  .footer-left, .footer-center, .footer-right
+    display: inline-block
+    vertical-align: top
+  .footer-left
+    width: 40%
+  h3
+    color: #ffffff
+    font: normal 36px 'Grand Hotel'
     margin: 0
-  a
-    color: $primary-color
+    span
+      color: #5383d3
+  .footer-links
+    color: #ffffff
+    margin: 20px 0 12px
+    padding: 0
+    a
+      display: inline-block
+      line-height: 1.8
+      text-decoration: none
+      color: inherit
+  .footer-company-name
+    color: #8f9296
+    font-size: 14px
+    font-weight: normal
+    margin: 0
+  .footer-center
+    width: 35%
+    i
+      background-color: #33383b
+      color: #ffffff
+      font-size: 25px
+      width: 38px
+      height: 38px
+      border-radius: 50%
+      text-align: center
+      line-height: 42px
+      margin: 10px 15px
+      vertical-align: middle
+      &.fa-envelope
+        font-size: 17px
+        line-height: 38px
+    p
+      display: inline-block
+      color: #ffffff
+      vertical-align: middle
+      margin: 0
+      span
+        display: block
+        font-weight: normal
+        font-size: 14px
+        line-height: 2
+      a
+        color: #5383d3
+        text-decoration: none
+  .footer-right
+    width: 20%
+  .footer-company-about
+    line-height: 20px
+    color: #92999f
+    font-size: 13px
+    font-weight: normal
+    margin: 0
+    span
+      display: block
+      color: #ffffff
+      font-size: 14px
+      font-weight: bold
+      margin-bottom: 20px
+  .footer-icons
+    margin-top: 25px
+    a
+      display: inline-block
+      width: 35px
+      height: 35px
+      cursor: pointer
+      background-color: #33383b
+      border-radius: 2px
+      font-size: 20px
+      color: #ffffff
+      text-align: center
+      line-height: 35px
+      margin-right: 3px
+      margin-bottom: 5px
+
+@media (max-width: 880px)
+  .footer-distributed
+    font: bold 14px sans-serif
+    .footer-left, .footer-center, .footer-right
+      display: block
+      width: 100%
+      margin-bottom: 40px
+      text-align: center
+    .footer-center i
+      margin-left: 0
 
 /* Tickets price */
 

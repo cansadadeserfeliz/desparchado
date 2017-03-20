@@ -52,7 +52,7 @@
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
               <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/"><h1>DESPARCHADO</h1></a>
+            <a class="navbar-brand" href="/"><h1>Desparchado</h1></a>
           </div>
           <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav navbar-right">
@@ -73,16 +73,46 @@
 
     {% block content %}{% endblock content %}
 
-    <footer id="footer">
-      <div class="container">
-        <div class="text-center">
-          <p>Copyright &copy; {{ now|date:'Y' }} - <a href="/">Desparchado</a> | All Rights Reserved</p>
-        </div>
-      </div>
-    </footer> <!--/#footer-->
+
 
 
     </div><!-- /.container -->
+
+  <footer class="footer-distributed">
+    <div class="footer-left">
+      <h3>Desparchado</h3>
+      <p class="footer-links">
+        <a href="/">{% trans 'Home' %}</a>
+        ·
+        <a href="{% url 'events:event_list' %}">{% trans 'Events' %}</a>
+        ·
+        <a href="{% url 'places:place_list' %}">{% trans 'Places' %}</a>
+        ·
+        <a href="{% url 'about' %}">{% trans 'About' %}</a>
+      </p>
+      <p class="footer-company-name">Copyright &copy; {{ now|date:'Y' }} - <a href="/">Desparchado</a> | All Rights Reserved</p>
+    </div>
+
+    <div class="footer-center">
+      <div>
+        <p>{% trans 'Made with' %}</p>
+        <i class="fa fa-heart"></i>
+      </div>
+    </div>
+
+    <div class="footer-right">
+      <p class="footer-company-about">
+        <span>{% trans 'About' %}</span>
+        Lorem ipsum dolor sit amet, consectateur adispicing elit. Fusce euismod convallis velit, eu auctor lacus vehicula sit amet.
+      </p>
+      <div class="footer-icons">
+        <a href="https://www.facebook.com/Desparchado-1874759086135757/"><i class="fa fa-facebook"></i></a>
+        <a href="https://twitter.com/DesparchadoCo"><i class="fa fa-twitter"></i></a>
+      </div>
+
+    </div>
+  </footer>
+
 
   {% endblock body %}
 
