@@ -1,9 +1,6 @@
 {% if is_paginated %}
 <div class="row">
   <div class="col-md-6">
-    Resultados {{ page_obj.start_index }} a {{ page_obj.end_index }} de {{ paginator.count }} registros
-  </div>
-  <div class="col-md-6">
     <nav>
       <ul class="pagination">
       {% if page_obj.has_previous %}
