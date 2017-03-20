@@ -12,4 +12,15 @@
 </section>
 
 {% include 'events/_events_grid.html' %}
+
+<section class="container">
+  <div class="row text-center clearfix">
+    <div class="col-sm-8 col-sm-offset-2">
+      <h2 class="title-one">{% trans 'Past events' %}</h2>
+    </div>
+  </div>
+</section>
+
+{% include 'events/_events_grid.html' with events=past_events %}
+
 {% endblock content %}

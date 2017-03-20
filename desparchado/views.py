@@ -13,4 +13,9 @@ class HomeView(TemplateView):
             is_published=True,
             event_date__gte=timezone.now(),
         ).all()[:12]
+
+        context['past_events'] = Event.objects.filter(
+            event_date__lt=timezone.now(),
+            is_published=True,
+        ).order_by('-event_date').all()[:9]
         return context
