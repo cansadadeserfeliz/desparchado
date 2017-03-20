@@ -18,6 +18,7 @@ from django.views.generic import TemplateView
 from django.conf.urls.static import static
 from django.conf.urls import url, include
 from django.contrib import admin
+from django.contrib.auth import views as auth_views
 
 from .views import HomeView
 
@@ -28,8 +29,13 @@ urlpatterns = [
 
     url(r'^events/', include('events.urls', namespace='events')),
     url(r'^places/', include('places.urls', namespace='places')),
+    url(r'^users/', include('users.urls', namespace='users')),
 
     url(r'^i18n/', include('django.conf.urls.i18n')),
+
+    url(r'^logout/$', auth_views.logout, name='logout'),
+
+    url('', include('social_django.urls', namespace='social')),
 
     url(r'^grappelli/', include('grappelli.urls')),  # grappelli URLS
     url(r'^admin/', include(admin.site.urls)),  # admin site

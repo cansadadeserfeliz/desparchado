@@ -60,67 +60,52 @@
               <li><a href="{% url 'events:event_list' %}">{% trans 'Events' %}</a></li>
               <li><a href="{% url 'places:place_list' %}">{% trans 'Places' %}</a></li>
               <li><a href="{% url 'about' %}">{% trans 'About' %}</a></li>
+            {% if user.is_authenticated %}
+              <li><a href="{% url 'users:user_detail' user.id %}">{% trans 'Perfil' %}</a></li>
+            {% else %}
+              <li><a href="{% url "social:begin" "facebook" %}?next={{ request.path }}">{% trans 'Login' %}</a></li>
+            {% endif %}
             </ul>
           </div>
         </div>
       </div><!--/navbar-->
     </header> <!--/#navigation-->
 
-
     <div class="container">
-
-    <section class="section-clear"></section>
-
-    {% block content %}{% endblock content %}
-
-
-
-
+      <section class="section-clear"></section>
+      {% block content %}{% endblock content %}
     </div><!-- /.container -->
 
-  <footer class="footer-distributed">
-    <div class="footer-left">
-      <h3>Desparchado</h3>
-      <p class="footer-links">
-        <a href="/">{% trans 'Home' %}</a>
-        ·
-        <a href="{% url 'events:event_list' %}">{% trans 'Events' %}</a>
-        ·
-        <a href="{% url 'places:place_list' %}">{% trans 'Places' %}</a>
-        ·
-        <a href="{% url 'about' %}">{% trans 'About' %}</a>
-      </p>
-      <p class="footer-company-name">Copyright &copy; {{ now|date:'Y' }} - <a href="/">Desparchado</a> | All Rights Reserved</p>
-    </div>
-
-    <div class="footer-center">
-      <div>
-        <p>{% trans 'Made with' %}</p>
-        <i class="fa fa-heart"></i>
-      </div>
-    </div>
-
-    <div class="footer-right">
-      <p class="footer-company-about">
-        <span>{% trans 'About' %}</span>
-        Lorem ipsum dolor sit amet, consectateur adispicing elit. Fusce euismod convallis velit, eu auctor lacus vehicula sit amet.
-      </p>
-      <div class="footer-icons">
-        <a href="https://www.facebook.com/Desparchado-1874759086135757/"><i class="fa fa-facebook"></i></a>
-        <a href="https://twitter.com/DesparchadoCo"><i class="fa fa-twitter"></i></a>
+    <footer class="footer row">
+      <div class="col-md-8">
+        <h3>Desparchado</h3>
+        <p class="footer-links">
+          <a href="/">{% trans 'Home' %}</a>
+          ·
+          <a href="{% url 'events:event_list' %}">{% trans 'Events' %}</a>
+          ·
+          <a href="{% url 'places:place_list' %}">{% trans 'Places' %}</a>
+          ·
+          <a href="{% url 'about' %}">{% trans 'About' %}</a>
+        </p>
+        <p class="footer-company-name">Copyright &copy; {% now 'Y' %} - Desparchado | All Rights Reserved</p>
       </div>
 
-    </div>
-  </footer>
-
+      <div class="col-md-4">
+        <p class="footer-company-about">
+          Lorem ipsum dolor sit amet, consectateur adispicing elit. Fusce euismod convallis velit, eu auctor lacus vehicula sit amet.
+        </p>
+        <div class="footer-icons">
+          <a href="https://www.facebook.com/Desparchado-1874759086135757/"><i class="fa fa-facebook"></i></a>
+          <a href="https://twitter.com/DesparchadoCo"><i class="fa fa-twitter"></i></a>
+        </div>
+      </div>
+    </footer>
 
   {% endblock body %}
 
   {% javascript 'main' %}
-
   {% google_analytics_code %}
-
-  <!-- Go to www.addthis.com/dashboard to customize your tools -->
   <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-58ced1089d6b2a96"></script>
 
   </body>

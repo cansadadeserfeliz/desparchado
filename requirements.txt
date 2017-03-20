@@ -5,6 +5,7 @@ Django==1.10.6
 Pillow==4.0.0
 psycopg2==2.7  # apt-get install postgis
 raven==6.0.0
+social-auth-core==1.2.0
 
 # Django Libs
 django-axes==2.3.2
@@ -12,3 +13,4 @@ django-grappelli==2.9.1
 django-markdown==0.8.4
 django-model-utils==2.6.1
 django-pipeline==1.6.11
+social-auth-app-django==1.1.0

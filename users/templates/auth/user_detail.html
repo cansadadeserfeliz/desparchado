@@ -1,0 +1,18 @@
+{% extends 'layout/base.html' %}
+{% load i18n %}
+
+{% block content %}
+<section class="container">
+  <div class="row text-center clearfix">
+    <div class="col-sm-8 col-sm-offset-2">
+      <h2 class="title-one">{% trans 'Profile' %} de {{ user_object.username }}</h2>
+    </div>
+  </div>
+</section>
+
+  {% if user.is_authenticated and user == user_object %}
+  <p>
+    <a href="{% url 'logout' %}">{% trans 'Logout' %}</a>
+  </p>
+  {% endif %}
+{% endblock content %}
