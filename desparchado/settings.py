@@ -180,6 +180,7 @@ PIPELINE = {
             'source_filenames': (
               'bower_components/jquery/dist/jquery.min.js',
               'bower_components/bootstrap/dist/js/bootstrap.min.js',
+              'js/letter-avatars.js',
             ),
             'output_filename': 'js/main.min.js',
         },
