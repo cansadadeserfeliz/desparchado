@@ -6,8 +6,8 @@ from model_utils.models import TimeStampedModel
 
 
 class UserEventRelation(TimeStampedModel):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL)
-    event = models.ForeignKey('events.Event')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='events')
+    event = models.ForeignKey('events.Event', related_name='user_relation')
     is_bookmarked = models.BooleanField(default=False)
     is_visited = models.BooleanField(default=False)
 
