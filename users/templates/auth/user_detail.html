@@ -18,12 +18,13 @@
 {% endif %}
 
 {% if bookmarked_events %}
-
   <h4>{% trans 'Bookmarked events' %}</h4>
-
   {% include 'events/_events_grid.html' with events=bookmarked_events %}
-
 {% endif %}
 
+{% if visited_events %}
+  <h4>{% trans 'Visited events' %}</h4>
+  {% include 'events/_events_grid.html' with events=visited_events %}
+{% endif %}
 
 {% endblock content %}
