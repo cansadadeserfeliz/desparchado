@@ -5,14 +5,24 @@
 <section class="container">
   <div class="row text-center clearfix">
     <div class="col-sm-8 col-sm-offset-2">
-      <h2 class="title-one">{% trans 'Profile' %} de {{ user_object.username }}</h2>
+      <h2 class="title-one">{{ user_object.first_name }}</h2>
     </div>
   </div>
 </section>
 
-  {% if user.is_authenticated and user == user_object %}
-  <p>
-    <a href="{% url 'logout' %}">{% trans 'Logout' %}</a>
-  </p>
-  {% endif %}
+{% if user.is_authenticated and user == user_object %}
+<div class="pull-right">
+  <a class="btn btn-default" href="{% url 'logout' %}">{% trans 'Logout' %}</a>
+</div>
+{% endif %}
+
+{% if bookmarked_events %}
+
+  <h4>{% trans 'Bookmarked events' %}</h4>
+
+  {% include 'events/_events_grid.html' with events=bookmarked_events %}
+
+{% endif %}
+
+
 {% endblock content %}
