@@ -1,5 +1,5 @@
 {% extends 'layout/base.html' %}
-{% load i18n django_markdown %}
+{% load django_markdown %}
 
 {% block content %}
 <section id="place-detail" class="container">
@@ -15,7 +15,7 @@
 
 {% if events %}
 
-  <h4>{% trans 'Upcoming events' %}</h4>
+  <h4>Próximos eventos</h4>
 
   {% include 'events/_events_grid.html' %}
 
@@ -23,7 +23,7 @@
 
 {% if past_events %}
 
-  <h4>{% trans 'Past events' %}</h4>
+  <h4>Eventos pasados</h4>
 
   {% include 'events/_events_grid.html' with events=past_events %}
 

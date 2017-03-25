@@ -1,5 +1,5 @@
 {% extends 'layout/base.html' %}
-{% load i18n django_markdown %}
+{% load django_markdown %}
 
 {% block meta %}
   <meta property="og:title" content="{{ event.title }}">
@@ -49,13 +49,13 @@
 
     {% if event.event_source_url %}
       <div class="event-source">
-        {% trans 'Source' %}:
+        Página del evento:
         <a href="{{ event.event_source_url }}" target="_blank">{{ event.event_source_url }}</a>
       </div>
     {% endif %}
     {% if event.image_source_url %}
       <div class="event-source">
-        {% trans 'Image' %}:
+        Imagen:
         <a href="{{ event.image_source_url }}" target="_blank">{{ event.image_source_url }}</a>
       </div>
     {% endif %}
@@ -68,7 +68,7 @@
 
   {% if event.speakers.exists %}
 
-    <h3>{% trans 'Speakers' %}</h3>
+    <h3>Presentadores</h3>
 
     {% for speaker in event.speakers.all %}
       <div class="event-speaker">
@@ -88,7 +88,7 @@
 
   {% if event.organizer %}
 
-    <h3>{% trans 'Organizer' %}</h3>
+    <h3>Organizador</h3>
 
     <div class="event-organizer">
       {% if event.organizer.image %}

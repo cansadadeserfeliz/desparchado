@@ -1,17 +1,16 @@
-{% load i18n %}
 {% if is_paginated %}
 <nav aria-label="...">
   <ul class="pager">
   {% if page_obj.has_previous %}
     <li class="previous">
       <a href="?page={{ page_obj.previous_page_number }}&{{ search_query }}">
-        <span aria-hidden="true">&larr;</span> {% trans 'Previous' %}
+        <span aria-hidden="true">&larr;</span> Anterior
       </a>
     </li>
   {% endif %}
   {% if page_obj.has_next %}
     <li class="next">
-      <a href="?page={{ page_obj.next_page_number }}&{{ search_query }}">{% trans 'Next' %}
+      <a href="?page={{ page_obj.next_page_number }}&{{ search_query }}">Siguiente
         <span aria-hidden="true">&rarr;</span>
       </a>
     </li>

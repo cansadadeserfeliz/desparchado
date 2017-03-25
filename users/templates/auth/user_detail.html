@@ -1,5 +1,4 @@
 {% extends 'layout/base.html' %}
-{% load i18n %}
 
 {% block content %}
 <section class="container">
@@ -13,17 +12,17 @@
 
 {% if user.is_authenticated and user == user_object %}
 <div class="pull-right">
-  <a class="btn btn-default" href="{% url 'logout' %}">{% trans 'Logout' %}</a>
+  <a class="btn btn-default" href="{% url 'logout' %}">Salir</a>
 </div>
 {% endif %}
 
 {% if bookmarked_events %}
-  <h4>{% trans 'Bookmarked events' %}</h4>
+  <h4>Eventos guardados</h4>
   {% include 'events/_events_grid.html' with events=bookmarked_events %}
 {% endif %}
 
 {% if visited_events %}
-  <h4>{% trans 'Visited events' %}</h4>
+  <h4>Eventos visitados</h4>
   {% include 'events/_events_grid.html' with events=visited_events %}
 {% endif %}
 

@@ -1,6 +1,5 @@
 from django.db import models
 from django.conf import settings
-from django.utils.translation import ugettext_lazy as _
 from django.templatetags.static import static
 
 from model_utils.models import TimeStampedModel
@@ -20,14 +19,14 @@ class Event(TimeStampedModel):
     EVENT_TYPE_SEMINAR = 8
 
     EVENT_TYPES = (
-        (EVENT_TYPE_PUBLIC_LECTURE, _('Public lecture')),
-        (EVENT_TYPE_DEBATE, _('Debate')),
-        (EVENT_TYPE_MASTER_CLASS, _('Master class')),
-        (EVENT_TYPE_TOUR, _('Tour')),
-        (EVENT_TYPE_MEETING, _('Meeting')),
-        (EVENT_TYPE_THEATRICAL_PLAY, _('Theatrical play')),
-        (EVENT_TYPE_CONCERT, _('Concert')),
-        (EVENT_TYPE_SEMINAR, _('Seminar')),
+        (EVENT_TYPE_PUBLIC_LECTURE, 'Conferencia pública'),
+        (EVENT_TYPE_DEBATE, 'Debate'),
+        (EVENT_TYPE_MASTER_CLASS, 'Taller'),
+        (EVENT_TYPE_TOUR, 'Recorrido'),
+        (EVENT_TYPE_MEETING, 'Encuentro'),
+        (EVENT_TYPE_THEATRICAL_PLAY, 'Obra de teatro'),
+        (EVENT_TYPE_CONCERT, 'Concierto'),
+        (EVENT_TYPE_SEMINAR, 'Seminario'),
     )
 
     EVENT_TOPIC_CITY = 1
@@ -41,16 +40,16 @@ class Event(TimeStampedModel):
     EVENT_TOPIC_ENVIRONMENT = 9
     EVENT_TOPIC_MEDICINE = 10
     EVENT_TOPICS = (
-        (EVENT_TOPIC_CITY, _('City')),
-        (EVENT_TOPIC_SCIENCE, _('Science')),
-        (EVENT_TOPIC_ART, _('Art')),
-        (EVENT_TOPIC_BUSINESS, _('Business')),
-        (EVENT_TOPIC_SOCIETY, _('Society')),
-        (EVENT_TOPIC_HUMAN_SCIENCE, _('Human Science')),
-        (EVENT_TOPIC_LANGUAGES, _('Languages')),
-        (EVENT_TOPIC_LITERATURE, _('Literature')),
-        (EVENT_TOPIC_ENVIRONMENT, _('Environment')),
-        (EVENT_TOPIC_MEDICINE, _('Medicine')),
+        (EVENT_TOPIC_CITY, 'Urbanismo'),
+        (EVENT_TOPIC_SCIENCE, 'Ciencias exactas'),
+        (EVENT_TOPIC_ART, 'Arte'),
+        (EVENT_TOPIC_BUSINESS, 'Emprendimiento'),
+        (EVENT_TOPIC_SOCIETY, 'Democracia'),
+        (EVENT_TOPIC_HUMAN_SCIENCE, 'Ciencias humanas'),
+        (EVENT_TOPIC_LANGUAGES, 'Idiomas'),
+        (EVENT_TOPIC_LITERATURE, 'Literatura'),
+        (EVENT_TOPIC_ENVIRONMENT, 'Medioambiente'),
+        (EVENT_TOPIC_MEDICINE, 'Medicina'),
     )
 
     title = models.CharField(max_length=255)
@@ -85,7 +84,7 @@ class Event(TimeStampedModel):
     def get_price_display(self):
         if self.price:
             return format_currency(self.price)
-        return _('Free')
+        return 'Gratuito'
 
     def get_image_url(self):
         if self.image:

@@ -1,6 +1,4 @@
 {% load i18n staticfiles pipeline desparchado_tags %}
-{% get_current_language as LANGUAGE_CODE %}
-{% get_available_languages as LANGUAGES %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -61,29 +59,15 @@
           </div>
           <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav navbar-right">
-              <li><a href="/">{% trans 'Home' %}</a></li>
-              <li><a href="{% url 'events:event_list' %}">{% trans 'Events' %}</a></li>
-              <li><a href="{% url 'places:place_list' %}">{% trans 'Places' %}</a></li>
-              <li><a href="{% url 'about' %}">{% trans 'About' %}</a></li>
+              <li><a href="/">Inicio</a></li>
+              <li><a href="{% url 'events:event_list' %}">Eventos</a></li>
+              <li><a href="{% url 'places:place_list' %}">Lugares</a></li>
+              <li><a href="{% url 'about' %}">Acerca de</a></li>
             {% if user.is_authenticated %}
-              <li><a href="{% url 'users:user_detail' user.id %}">{% trans 'Perfil' %}</a></li>
+              <li><a href="{% url 'users:user_detail' user.id %}">Perfil</a></li>
             {% else %}
-              <li><a href="{% url "social:begin" "facebook" %}?next={{ request.path }}">{% trans 'Login' %}</a></li>
-
+              <li><a href="{% url "social:begin" "facebook" %}?next={{ request.path }}">Ingresar</a></li>
             {% endif %}
-
-            {% for language in LANGUAGES %}
-              {% ifnotequal language.0 LANGUAGE_CODE %}
-              <li>
-                <form action="{% url "set_language" %}" method="post">
-                {% csrf_token %}
-                  <button type="Submit" class="btn btn-link btn-language"
-                    value="{{ language.0 }}" name="language">{{ language.0 }}
-                  </button>
-                </form>
-              </li>
-              {% endifnotequal %}
-            {% endfor %}
             </ul>
           </div>
         </div>
@@ -99,13 +83,13 @@
       <div class="col-md-8">
         <h3>Desparchado</h3>
         <p class="footer-links">
-          <a href="/">{% trans 'Home' %}</a>
+          <a href="/">Inicio</a>
           ·
-          <a href="{% url 'events:event_list' %}">{% trans 'Events' %}</a>
+          <a href="{% url 'events:event_list' %}">Eventos</a>
           ·
-          <a href="{% url 'places:place_list' %}">{% trans 'Places' %}</a>
+          <a href="{% url 'places:place_list' %}">Lugares</a>
           ·
-          <a href="{% url 'about' %}">{% trans 'About' %}</a>
+          <a href="{% url 'about' %}">Acerca de</a>
         </p>
         <p class="footer-company-name">Copyright &copy; {% now 'Y' %} - Desparchado | All Rights Reserved</p>
       </div>

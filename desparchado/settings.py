@@ -123,12 +123,12 @@ LOGOUT_REDIRECT_URL = 'home'
 LANGUAGE_CODE = 'es'
 LANGUAGES = [
     ('es', 'Español'),
-    ('en', 'English'),
+#    ('en', 'English'),
 ]
 
 TIME_ZONE = 'America/Bogota'
 
-USE_I18N = True
+USE_I18N = False
 
 USE_L10N = True
 
