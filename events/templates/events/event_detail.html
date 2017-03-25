@@ -3,7 +3,7 @@
 
 {% block meta %}
   <meta property="og:title" content="{{ event.title }}">
-  <meta property="og:description" content="">
+  <meta property="og:description" content="{{ event.place }}">
   <meta property="og:image" content="http://{{ request.get_host }}{{ event.get_image_url }}">
 
   <meta name="twitter:title" content="{{ event.title }}">
