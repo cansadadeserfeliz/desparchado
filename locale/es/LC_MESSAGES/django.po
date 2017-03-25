@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-20 18:33-0500\n"
+"POT-Creation-Date: 2017-03-25 12:09-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,8 +18,8 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: desparchado/templates/desparchado/about.html:8
-#: desparchado/templates/layout/base.html:62
-#: desparchado/templates/layout/base.html:89
+#: desparchado/templates/layout/base.html:67
+#: desparchado/templates/layout/base.html:108
 msgid "About"
 msgstr "Acerca de"
 
@@ -46,135 +46,155 @@ msgstr "Anterior"
 msgid "Next"
 msgstr "Siguiente"
 
-#: desparchado/templates/layout/base.html:59
-#: desparchado/templates/layout/base.html:83
+#: desparchado/templates/layout/base.html:64
+#: desparchado/templates/layout/base.html:102
 msgid "Home"
 msgstr "Inicio"
 
-#: desparchado/templates/layout/base.html:60
-#: desparchado/templates/layout/base.html:85
+#: desparchado/templates/layout/base.html:65
+#: desparchado/templates/layout/base.html:104
 msgid "Events"
 msgstr "Eventos"
 
-#: desparchado/templates/layout/base.html:61
-#: desparchado/templates/layout/base.html:87
+#: desparchado/templates/layout/base.html:66
+#: desparchado/templates/layout/base.html:106
 #: places/templates/places/place_list.html:8
 msgid "Places"
 msgstr "Lugares"
 
-#: desparchado/templates/layout/base.html:64
+#: desparchado/templates/layout/base.html:69
 msgid "Perfil"
 msgstr "Perfil"
 
-#: desparchado/templates/layout/base.html:66
+#: desparchado/templates/layout/base.html:71
 msgid "Login"
 msgstr "Ingresar"
 
-#: events/admin.py:26
+#: events/admin.py:32
 msgid "Information"
 msgstr "Información"
 
-#: events/models.py:22
+#: events/models.py:23
 msgid "Public lecture"
 msgstr "Conferencia pública"
 
-#: events/models.py:23
+#: events/models.py:24
 msgid "Debate"
 msgstr "Debate"
 
-#: events/models.py:24
+#: events/models.py:25
 msgid "Master class"
 msgstr "Taller"
 
-#: events/models.py:25
+#: events/models.py:26
 msgid "Tour"
 msgstr "Recorrido"
 
-#: events/models.py:26
+#: events/models.py:27
 msgid "Meeting"
 msgstr "Encuentro"
 
-#: events/models.py:27
+#: events/models.py:28
 msgid "Theatrical play"
 msgstr "Obra de teatro"
 
-#: events/models.py:28
+#: events/models.py:29
 msgid "Concert"
 msgstr "Concierto"
 
-#: events/models.py:29
+#: events/models.py:30
 msgid "Seminar"
 msgstr "Seminario"
 
-#: events/models.py:43 places/models.py:18 places/models.py:45
+#: events/models.py:44 places/models.py:18 places/models.py:49
 msgid "City"
 msgstr "Urbanismo"
 
-#: events/models.py:44
+#: events/models.py:45
 msgid "Science"
 msgstr "Ciencias exactas"
 
-#: events/models.py:45
+#: events/models.py:46
 msgid "Art"
 msgstr "Arte"
 
-#: events/models.py:46
+#: events/models.py:47
 msgid "Business"
 msgstr "Emprendimiento"
 
-#: events/models.py:47
+#: events/models.py:48
 msgid "Society"
 msgstr "Democracia"
 
-#: events/models.py:48
+#: events/models.py:49
 msgid "Human Science"
 msgstr "Ciencias humanas"
 
-#: events/models.py:49
+#: events/models.py:50
 msgid "Languages"
 msgstr "Idiomas"
 
-#: events/models.py:50
+#: events/models.py:51
 msgid "Literature"
 msgstr "Literatura"
 
-#: events/models.py:51
+#: events/models.py:52
 msgid "Environment"
 msgstr "Medioambiente"
 
-#: events/models.py:52
+#: events/models.py:53
 msgid "Medicine"
 msgstr "Medicina"
 
-#: events/models.py:83
+#: events/models.py:88
 msgid "Free"
 msgstr "Gratuito"
 
-#: events/templates/events/event_detail.html:50
+#: events/templates/events/event_detail.html:52
 msgid "Source"
 msgstr "Fuente"
 
-#: events/templates/events/event_detail.html:56
+#: events/templates/events/event_detail.html:58
 msgid "Image"
 msgstr "Imágen"
+
+#: events/templates/events/event_detail.html:71
+msgid "Speakers"
+msgstr "Presentadores"
+
+#: events/templates/events/event_detail.html:91
+msgid "Organizer"
+msgstr "Organizador"
 
 #: events/templates/events/event_list.html:8
 #: places/templates/places/place_detail.html:18
 msgid "Upcoming events"
 msgstr "Eventos futuros"
 
-#: places/models.py:12 places/models.py:38
+#: places/models.py:12 places/models.py:42
 msgid "Name"
 msgstr "Nombre"
 
-#: places/models.py:46
+#: places/models.py:50
 msgid "Cities"
 msgstr "Ciudades"
 
-#: users/templates/auth/user_detail.html:8
-msgid "Profile"
-msgstr "Perfil"
+#: users/models.py:15
+msgid "User-Event Relation"
+msgstr "Relación Usiario-Evento"
 
-#: users/templates/auth/user_detail.html:15
+#: users/models.py:16
+msgid "User-Event Relations"
+msgstr "Relaciónes Usiario-Evento"
+
+#: users/templates/auth/user_detail.html:16
 msgid "Logout"
 msgstr "Salir"
+
+#: users/templates/auth/user_detail.html:21
+msgid "Bookmarked events"
+msgstr "Eventos destatados"
+
+#: users/templates/auth/user_detail.html:26
+msgid "Visited events"
+msgstr "Eventos visitados"
