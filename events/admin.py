@@ -18,6 +18,8 @@ class EventAdmin(admin.ModelAdmin):
         'created_by',
     )
 
+    search_fields = ('title',)
+
     readonly_fields = ('slug',)
 
     fieldsets = (

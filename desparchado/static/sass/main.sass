@@ -69,7 +69,7 @@ h1, h2, h3, h4, h5, h6
   .navbar-nav.navbar-right
     li
       padding: 0 1px
-      a
+      a, .btn-link
         color: #43484E
         font-family: 'Roboto', sans-serif
         font-size: 14px
@@ -81,13 +81,15 @@ h1, h2, h3, h4, h5, h6
         transition: all .9s ease 0s
         padding: 6px 15px
     margin-top: 28px
-  .navbar-inverse .navbar-nav .active a
+  .navbar-inverse .navbar-nav .active a,
+  .navbar-inverse .navbar-nav .active .btn-link
     color: #fff
     background-color: $primary-color
     &:focus
       color: #fff
       background-color: $primary-color
-  .navbar-nav.navbar-right li a:hover
+  .navbar-nav.navbar-right li a:hover,
+  .navbar-nav.navbar-right li .btn-link:hover
     color: #fff
     background-color: $primary-color
 

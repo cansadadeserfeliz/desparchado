@@ -1,4 +1,6 @@
 {% load i18n staticfiles pipeline desparchado_tags %}
+{% get_current_language as LANGUAGE_CODE %}
+{% get_available_languages as LANGUAGES %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -67,7 +69,21 @@
               <li><a href="{% url 'users:user_detail' user.id %}">{% trans 'Perfil' %}</a></li>
             {% else %}
               <li><a href="{% url "social:begin" "facebook" %}?next={{ request.path }}">{% trans 'Login' %}</a></li>
+
             {% endif %}
+
+            {% for language in LANGUAGES %}
+              {% ifnotequal language.0 LANGUAGE_CODE %}
+              <li>
+                <form action="{% url "set_language" %}" method="post">
+                {% csrf_token %}
+                  <button type="Submit" class="btn btn-link btn-language"
+                    value="{{ language.0 }}" name="language">{{ language.0 }}
+                  </button>
+                </form>
+              </li>
+              {% endifnotequal %}
+            {% endfor %}
             </ul>
           </div>
         </div>
