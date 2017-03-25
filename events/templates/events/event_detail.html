@@ -1,5 +1,5 @@
 {% extends 'layout/base.html' %}
-{% load django_markdown %}
+{% load django_markdown desparchado_tags %}
 
 {% block meta %}
   <meta property="og:title" content="{{ event.title }}">
@@ -43,18 +43,20 @@
         {{ event.description|markdown }}
       </div>
 
-      <div class="addthis_inline_share_toolbox"></div>
-
     {% if event.event_source_url %}
       <div class="event-source">
+        <i class="fa fa-globe"></i>
         Página del evento:
-        <a href="{{ event.event_source_url }}" target="_blank">{{ event.event_source_url }}</a>
+        <a href="{{ event.event_source_url }}" target="_blank">{{ event.event_source_url|truncatechars:50 }}</a>
       </div>
     {% endif %}
+
+      <div class="addthis_inline_share_toolbox"></div>
+
     {% if event.image_source_url %}
-      <div class="event-source">
+      <div class="image-source">
         Imagen:
-        <a href="{{ event.image_source_url }}" target="_blank">{{ event.image_source_url }}</a>
+        <a href="{{ event.image_source_url }}" target="_blank">{{ event.image_source_url|shorten_url }}</a>
       </div>
     {% endif %}
 

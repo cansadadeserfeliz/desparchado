@@ -1,3 +1,5 @@
+from urllib.parse import urlparse
+
 from django import template
 from django.conf import settings
 from django.utils.safestring import mark_safe
@@ -36,3 +38,13 @@ def google_analytics_code():
 
 </script>
     """ % settings.GOOGLE_ANALYTICS_CODE)
+
+
+@register.filter()
+def shorten_url(value):
+    """
+    E.g. 543921.9354 becomes $543,921.94
+    """
+    parsed_uri = urlparse(value)
+    domain = '{uri.scheme}://{uri.netloc}/'.format(uri=parsed_uri)
+    return domain
