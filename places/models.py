@@ -33,6 +33,10 @@ class Place(TimeStampedModel):
             return self.image.url
         return static('images/default_event_image.jpg')
 
+    @staticmethod
+    def autocomplete_search_fields():
+        return ('name__icontains',)
+
 
 class City(TimeStampedModel):
     name = models.CharField(verbose_name=_('Name'), max_length=255, unique=True)

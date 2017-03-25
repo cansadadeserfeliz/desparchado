@@ -12,54 +12,100 @@
 
 {% block content %}
 <section id="event-detail" class="container">
+<div class="row">
+  <div class="col-md-8">
 
-  <div class="event-heading">
-    <ul class="event-tags">
-      <li class="tags-item">{{ event.get_event_type_display }}</li>
-      <li class="tags-item">{{ event.get_topic_display }}</li>
-    </ul>
-    <h1 class="event-title">{{ event.title }}</h1>
-    <div class="event-city">{{ event.place.city }}</div>
-    <div class="event-info">
-      <span class="event-date">{{ event.event_date }}</span>
-      <span class="event-place">
-        <a class="link" href="{% url 'places:place_detail' event.place_id %}">
-          <i class="fa fa-map-marker"></i>
-          {{ event.place }}
-        </a>
-      </span>
+      <div class="event-heading">
+        <ul class="event-tags">
+          <li class="tags-item">{{ event.get_event_type_display }}</li>
+          <li class="tags-item">{{ event.get_topic_display }}</li>
+        </ul>
+        <h1 class="event-title">{{ event.title }}</h1>
+        <div class="event-city">{{ event.place.city }}</div>
+        <div class="event-info">
+          <span class="event-date">{{ event.event_date }}</span>
+          <span class="event-place">
+            <a class="link" href="{% url 'places:place_detail' event.place_id %}">
+              <i class="fa fa-map-marker"></i>
+              {{ event.place }}
+            </a>
+          </span>
+        </div>
+      </div>
+
+      <div class="event-image">
+        <div class="event-img-wrap">
+          <img class="image img-responsive"
+               src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQ4AAACHAQMAAADdtyVCAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAANQTFRF////p8QbyAAAAAF0Uk5TAEDm2GYAAAAbSURBVBgZ7cExAQAAAMIg+6deCU9gAAAAAPAWEnUAAUFphIwAAAAASUVORK5CYII="
+               alt="{{ event.title }}" style="background-image: url({{ event.get_image_url }});">
+          {% if event.price %}<div class="ticket-price-label">{{ event.get_price_display }}</div>{% endif %}
+        </div>
+      </div>
+      <div class="event-description">
+        {{ event.description|markdown }}
+      </div>
+
+      <div class="addthis_inline_share_toolbox"></div>
+
+    {% if event.event_source_url %}
+      <div class="event-source">
+        {% trans 'Source' %}:
+        <a href="{{ event.event_source_url }}" target="_blank">{{ event.event_source_url }}</a>
+      </div>
+    {% endif %}
+    {% if event.image_source_url %}
+      <div class="event-source">
+        {% trans 'Image' %}:
+        <a href="{{ event.image_source_url }}" target="_blank">{{ event.image_source_url }}</a>
+      </div>
+    {% endif %}
+
+    {% include 'includes/_map.html' with title=event.place subtitle=event.event_date latitude=event.get_latitude_str longitude=event.get_longitude_str css_class='event-map' %}
+
+
+  </div>
+  <div class="col-md-4">
+
+  {% if event.speakers.exists %}
+
+    <h3>{% trans 'Speakers' %}</h3>
+
+    {% for speaker in event.speakers.all %}
+      <div class="event-speaker">
+        {% if speaker.image %}
+        <div class="text-center">
+          <img class="img-circle" width="100" height="100" src="{{ speaker.get_image_url }}">
+        </div>
+        {% endif %}
+        <h4>{{ speaker.name }}</h4>
+        <div>
+          {{ speaker.description|markdown|truncatewords_html:50 }}
+        </div>
+      </div>
+    {% endfor %}
+
+  {% endif %}
+
+  {% if event.organizer %}
+
+    <h3>{% trans 'Organizer' %}</h3>
+
+    <div class="event-organizer">
+      {% if event.organizer.image %}
+      <div class="text-center">
+        <img class="img-circle" width="100" height="100" src="{{ event.organizer.get_image_url }}">
+      </div>
+      {% endif %}
+      <h4>{{ event.organizer.name }}</h4>
+      <div>
+        {{ event.organizer.description|markdown|truncatewords_html:50 }}
+      </div>
     </div>
-  </div>
 
-  <div class="event-image">
-    <div class="event-img-wrap">
-      <img class="image img-responsive"
-           src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQ4AAACHAQMAAADdtyVCAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAANQTFRF////p8QbyAAAAAF0Uk5TAEDm2GYAAAAbSURBVBgZ7cExAQAAAMIg+6deCU9gAAAAAPAWEnUAAUFphIwAAAAASUVORK5CYII="
-           alt="{{ event.title }}" style="background-image: url({{ event.get_image_url }});">
-      {% if event.price %}<div class="ticket-price-label">{{ event.get_price_display }}</div>{% endif %}
-    </div>
-  </div>
-  <div class="event-description">
-    {{ event.description|markdown }}
-  </div>
+  {% endif %}
 
-  <div class="addthis_inline_share_toolbox"></div>
-
-{% if event.event_source_url %}
-  <div class="event-source">
-    {% trans 'Source' %}:
-    <a href="{{ event.event_source_url }}" target="_blank">{{ event.event_source_url }}</a>
   </div>
-{% endif %}
-{% if event.image_source_url %}
-  <div class="event-source">
-    {% trans 'Image' %}:
-    <a href="{{ event.image_source_url }}" target="_blank">{{ event.image_source_url }}</a>
-  </div>
-{% endif %}
-
-
-{% include 'includes/_map.html' with title=event.place subtitle=event.event_date latitude=event.get_latitude_str longitude=event.get_longitude_str css_class='event-map' %}
+</div>
 
 </section><!--/#event-detail-->
 {% endblock content %}

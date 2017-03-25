@@ -8,6 +8,7 @@ raven==6.0.0
 social-auth-core==1.2.0
 
 # Django Libs
+django-autoslug==1.9.3
 django-axes==2.3.2
 django-grappelli==2.9.1
 django-markdown==0.8.4

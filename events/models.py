@@ -4,6 +4,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.templatetags.static import static
 
 from model_utils.models import TimeStampedModel
+from autoslug import AutoSlugField
 
 from desparchado.templatetags.desparchado_tags import format_currency
 
@@ -53,6 +54,9 @@ class Event(TimeStampedModel):
     )
 
     title = models.CharField(max_length=255)
+    slug = AutoSlugField(
+        null=True, default=None, unique=True, populate_from='title')
+
     description = models.TextField(default='')
     event_type = models.PositiveSmallIntegerField(choices=EVENT_TYPES)
     topic = models.PositiveSmallIntegerField(choices=EVENT_TOPICS)
@@ -64,6 +68,7 @@ class Event(TimeStampedModel):
     image_source_url = models.URLField(null=True, blank=True)
     organizer = models.ForeignKey('events.Organizer')
     place = models.ForeignKey('places.Place')
+    speakers = models.ManyToManyField('events.Speaker', blank=True, null=True)
     is_published = models.BooleanField(default=False)
 
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL)
@@ -87,6 +92,10 @@ class Event(TimeStampedModel):
             return self.image.url
         return static('images/default_event_image.jpg')
 
+    @staticmethod
+    def autocomplete_search_fields():
+        return ('title__icontains',)
+
     class Meta:
         ordering = ('event_date',)
 
@@ -102,3 +111,33 @@ class Organizer(TimeStampedModel):
 
     def __str__(self):
         return self.name
+
+    def get_image_url(self):
+        if self.image:
+            return self.image.url
+        return None
+
+    @staticmethod
+    def autocomplete_search_fields():
+        return ('name__icontains',)
+
+
+class Speaker(TimeStampedModel):
+    name = models.CharField(max_length=255, unique=True)
+    description = models.TextField(default='')
+    image = models.ImageField(blank=True, null=True, upload_to='speakers')
+    image_source_url = models.URLField(null=True, blank=True)
+
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL)
+
+    def __str__(self):
+        return self.name
+
+    def get_image_url(self):
+        if self.image:
+            return self.image.url
+        return None
+
+    @staticmethod
+    def autocomplete_search_fields():
+        return ('name__icontains',)
