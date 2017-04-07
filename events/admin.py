@@ -65,6 +65,8 @@ class OrganizerAdmin(admin.ModelAdmin):
 
     search_fields = ('name',)
 
+    readonly_fields = ('slug',)
+
     fieldsets = (
         (None, {
             'fields': (
@@ -95,6 +97,8 @@ class SpeakerAdmin(admin.ModelAdmin):
     list_display = ('name', 'slug', 'description', 'created_by', 'created', 'modified')
 
     search_fields = ('name',)
+
+    readonly_fields = ('slug',)
 
     fieldsets = (
         (None, {

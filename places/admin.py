@@ -11,6 +11,8 @@ class PlaceAdmin(gis_admin.OSMGeoAdmin):
         'created', 'modified',
     )
 
+    readonly_fields = ('slug',)
+
     search_fields = ('name',)
 
     fieldsets = (
