@@ -91,6 +91,10 @@ class Event(TimeStampedModel):
             return self.image.url
         return static('images/default_event_image.jpg')
 
+    def get_absolute_url(self):
+        from django.urls import reverse
+        return reverse('events:event_detail_by_slug', args=[self.slug])
+
     @staticmethod
     def autocomplete_search_fields():
         return ('title__icontains',)
