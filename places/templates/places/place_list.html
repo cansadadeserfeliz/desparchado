@@ -15,7 +15,7 @@
     <div class="place-card-inner">
       <div class="place-card-title-wrap">
         <h2 class="place-card-title">
-          <a class="link" href="{% url 'places:place_detail' place.id %}">{{ place.name }}</a>
+          <a class="link" href="{{ place.get_absolute_url }}">{{ place.name }}</a>
         </h2>
       </div>
     </div>
