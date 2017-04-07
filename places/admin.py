@@ -7,7 +7,7 @@ from .models import Place, City
 @admin.register(Place)
 class PlaceAdmin(gis_admin.OSMGeoAdmin):
     list_display = (
-        'name', 'location', 'description', 'city', 'created_by',
+        'name', 'slug', 'location', 'description', 'city', 'created_by',
         'created', 'modified',
     )
 
@@ -17,6 +17,7 @@ class PlaceAdmin(gis_admin.OSMGeoAdmin):
         (None, {
             'fields': (
                 'name',
+                'slug',
                 'description',
                 'city',
                 'location',

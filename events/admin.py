@@ -61,7 +61,7 @@ class EventAdmin(admin.ModelAdmin):
 
 @admin.register(Organizer)
 class OrganizerAdmin(admin.ModelAdmin):
-    list_display = ('name', 'description', 'created_by', 'created', 'modified')
+    list_display = ('name', 'slug', 'description', 'created_by', 'created', 'modified')
 
     search_fields = ('name',)
 
@@ -69,6 +69,7 @@ class OrganizerAdmin(admin.ModelAdmin):
         (None, {
             'fields': (
                 'name',
+                'slug',
                 'description',
                 'website_url',
             ),
@@ -91,7 +92,7 @@ class OrganizerAdmin(admin.ModelAdmin):
 
 @admin.register(Speaker)
 class SpeakerAdmin(admin.ModelAdmin):
-    list_display = ('name', 'description', 'created_by', 'created', 'modified')
+    list_display = ('name', 'slug', 'description', 'created_by', 'created', 'modified')
 
     search_fields = ('name',)
 
@@ -99,6 +100,7 @@ class SpeakerAdmin(admin.ModelAdmin):
         (None, {
             'fields': (
                 'name',
+                'slug',
                 'description',
             ),
         }),
