@@ -1,14 +1,17 @@
 from django.db import models
 from django.conf import settings
+from django.urls import reverse
 from django.contrib.gis.db import models as geo_models
 from django.templatetags.static import static
 
-
+from autoslug import AutoSlugField
 from model_utils.models import TimeStampedModel
 
 
 class Place(TimeStampedModel):
     name = models.CharField(verbose_name='Nombre', max_length=255, unique=True)
+    slug = AutoSlugField(
+        null=True, default=None, unique=True, populate_from='name')
     image = models.ImageField(null=True, blank=True, upload_to='places')
     image_source_url = models.URLField(null=True, blank=True)
     description = models.TextField(default='')
@@ -31,6 +34,9 @@ class Place(TimeStampedModel):
         if self.image:
             return self.image.url
         return static('images/default_event_image.jpg')
+
+    def get_absolute_url(self):
+        return reverse('places:place_detail', args=[self.slug])
 
     @staticmethod
     def autocomplete_search_fields():

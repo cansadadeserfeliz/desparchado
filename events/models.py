@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 from django.conf import settings
 from django.templatetags.static import static
 
@@ -54,7 +55,7 @@ class Event(TimeStampedModel):
 
     title = models.CharField(max_length=255)
     slug = AutoSlugField(
-        null=True, default=None, unique=True, populate_from='title')
+        null=False, unique=True, populate_from='title')
 
     description = models.TextField(default='')
     event_type = models.PositiveSmallIntegerField(choices=EVENT_TYPES)
@@ -92,8 +93,7 @@ class Event(TimeStampedModel):
         return static('images/default_event_image.jpg')
 
     def get_absolute_url(self):
-        from django.urls import reverse
-        return reverse('events:event_detail_by_slug', args=[self.slug])
+        return reverse('events:event_detail', args=[self.slug])
 
     @staticmethod
     def autocomplete_search_fields():
@@ -105,6 +105,8 @@ class Event(TimeStampedModel):
 
 class Organizer(TimeStampedModel):
     name = models.CharField(max_length=255, unique=True)
+    slug = AutoSlugField(
+        null=False, unique=True, populate_from='name')
     description = models.TextField(default='')
     website_url = models.URLField(null=True, blank=True)
     image = models.ImageField(blank=True, null=True, upload_to='organizers')
@@ -127,6 +129,8 @@ class Organizer(TimeStampedModel):
 
 class Speaker(TimeStampedModel):
     name = models.CharField(max_length=255, unique=True)
+    slug = AutoSlugField(
+        null=True, default=None, unique=True, populate_from='name')
     description = models.TextField(default='')
     image = models.ImageField(blank=True, null=True, upload_to='speakers')
     image_source_url = models.URLField(null=True, blank=True)
