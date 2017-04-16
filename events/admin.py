@@ -66,7 +66,7 @@ class EventAdmin(admin.ModelAdmin):
 
     def get_readonly_fields(self, request, obj=None):
         readonly_fields = ['slug']
-        if request.user.is_staff:
+        if not request.user.is_superuser:
             readonly_fields.append('is_published')
         return readonly_fields
 
