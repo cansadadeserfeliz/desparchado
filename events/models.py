@@ -73,15 +73,18 @@ class Event(TimeStampedModel):
     image = models.ImageField(
         'Imagen', blank=True, null=True, upload_to='events')
     image_source_url = models.URLField(
-        'Enlace a la fuente de la imagen', null=True, blank=True)
+        'Créditos/atribución de la imagen', null=True, blank=True)
     organizer = models.ForeignKey(
         'events.Organizer', verbose_name='Organizador')
     place = models.ForeignKey(
         'places.Place', verbose_name='Lugar')
     speakers = models.ManyToManyField(
         'events.Speaker', verbose_name='Presentadores', blank=True, null=True)
-    is_published = models.BooleanField('Está bublicado', default=False)
-    is_approved = models.BooleanField('Está aprobado', default=True)
+    is_published = models.BooleanField('Está publicado', default=False)
+    is_approved = models.BooleanField(
+        'Está aprobado', default=True,
+        help_text='Campo de uso exclusivo para el administrador del sitio',
+    )
 
     created_by = models.ForeignKey(
         settings.AUTH_USER_MODEL, verbose_name='Creado por')
