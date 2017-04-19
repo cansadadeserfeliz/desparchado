@@ -73,7 +73,8 @@ class EventAdmin(admin.ModelAdmin):
 
     def get_queryset(self, request):
         queryset = super().get_queryset(request)
-        queryset = queryset.filter(created_by=request.user)
+        if not request.user.is_superuser:
+            queryset = queryset.filter(created_by=request.user)
         return queryset
 
     def has_change_permission(self, request, obj=None):
