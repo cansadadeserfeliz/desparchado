@@ -80,10 +80,11 @@ class Event(TimeStampedModel):
         'places.Place', verbose_name='Lugar')
     speakers = models.ManyToManyField(
         'events.Speaker', verbose_name='Presentadores', blank=True, null=True)
-    is_published = models.BooleanField(default=False)
-    is_approved = models.BooleanField(default=True)
+    is_published = models.BooleanField('Está bublicado', default=False)
+    is_approved = models.BooleanField('Está aprobado', default=True)
 
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL)
+    created_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL, verbose_name='Creado por')
 
     def __str__(self):
         return self.title
@@ -118,13 +119,15 @@ class Event(TimeStampedModel):
 
 
 class Organizer(TimeStampedModel):
-    name = models.CharField(max_length=255, unique=True)
+    name = models.CharField('Nombre', max_length=255, unique=True)
     slug = AutoSlugField(
         null=False, unique=True, populate_from='name')
-    description = models.TextField(default='')
-    website_url = models.URLField(null=True, blank=True)
-    image = models.ImageField(blank=True, null=True, upload_to='organizers')
-    image_source_url = models.URLField(null=True, blank=True)
+    description = models.TextField('Descripción', default='')
+    website_url = models.URLField('Página web', null=True, blank=True)
+    image = models.ImageField(
+        'Imagen', blank=True, null=True, upload_to='organizers')
+    image_source_url = models.URLField(
+        'Enlace a la fuente de la imagen', null=True, blank=True)
 
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL)
 
@@ -146,12 +149,14 @@ class Organizer(TimeStampedModel):
 
 
 class Speaker(TimeStampedModel):
-    name = models.CharField(max_length=255, unique=True)
+    name = models.CharField('Nombre', max_length=255, unique=True)
     slug = AutoSlugField(
         null=True, default=None, unique=True, populate_from='name')
-    description = models.TextField(default='')
-    image = models.ImageField(blank=True, null=True, upload_to='speakers')
-    image_source_url = models.URLField(null=True, blank=True)
+    description = models.TextField('Descripción', default='')
+    image = models.ImageField(
+        'Imagen', blank=True, null=True, upload_to='speakers')
+    image_source_url = models.URLField(
+        'Enlace a la fuente de la imagen', null=True, blank=True)
 
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL)
 

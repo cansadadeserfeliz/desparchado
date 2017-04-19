@@ -9,17 +9,19 @@ from model_utils.models import TimeStampedModel
 
 
 class Place(TimeStampedModel):
-    name = models.CharField(verbose_name='Nombre', max_length=255, unique=True)
+    name = models.CharField('Nombre', max_length=255, unique=True)
     slug = AutoSlugField(
         null=True, default=None, unique=True, populate_from='name')
-    image = models.ImageField(null=True, blank=True, upload_to='places')
-    image_source_url = models.URLField(null=True, blank=True)
-    description = models.TextField(default='')
-    website_url = models.URLField(null=True, blank=True)
-    location = geo_models.PointField(null=False)
+    image = models.ImageField(
+        'Imagen', null=True, blank=True, upload_to='places')
+    image_source_url = models.URLField(
+        'Enlace a la fuente de la imagen', null=True, blank=True)
+    description = models.TextField('Descripción', default='')
+    website_url = models.URLField('Página web', null=True, blank=True)
+    location = geo_models.PointField('Ubicación', null=False)
     city = models.ForeignKey('places.City', verbose_name='Ciudad')
 
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL)
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name='Creado por')
 
     class Meta:
         verbose_name = 'Lugar'

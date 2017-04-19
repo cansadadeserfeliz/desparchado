@@ -119,6 +119,12 @@ class OrganizerAdmin(admin.ModelAdmin):
         obj.created_by = request.user
         super().save_model(request, obj, form, change)
 
+    def get_list_display(self, request):
+        list_display = list(self.list_display)
+        if not request.user.is_superuser:
+            list_display.remove('created_by')
+        return list_display
+
     def get_actions(self, request):
         return []
 
@@ -162,6 +168,13 @@ class SpeakerAdmin(admin.ModelAdmin):
     def save_model(self, request, obj, form, change):
         obj.created_by = request.user
         super().save_model(request, obj, form, change)
+
+    def get_list_display(self, request):
+        list_display = list(self.list_display)
+        if not request.user.is_superuser:
+            list_display.remove('created_by')
+        return list_display
+
 
     def get_actions(self, request):
         return []
