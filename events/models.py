@@ -53,23 +53,35 @@ class Event(TimeStampedModel):
         (EVENT_TOPIC_MEDICINE, 'Medicina'),
     )
 
-    title = models.CharField(max_length=255)
+    title = models.CharField(
+        'Título', max_length=255,
+        help_text='No hace falta usar mayúsculas: ya tenemos una fuente grande',
+    )
     slug = AutoSlugField(
         null=False, unique=True, populate_from='title')
 
-    description = models.TextField(default='')
-    event_type = models.PositiveSmallIntegerField(choices=EVENT_TYPES)
-    topic = models.PositiveSmallIntegerField(choices=EVENT_TOPICS)
-    event_date = models.DateTimeField()
-    event_end_date = models.DateTimeField(null=True, blank=True)
-    event_source_url = models.URLField(null=True, blank=True)
-    price = models.DecimalField(default=0, decimal_places=2, max_digits=9)
-    image = models.ImageField(blank=True, null=True, upload_to='events')
-    image_source_url = models.URLField(null=True, blank=True)
-    organizer = models.ForeignKey('events.Organizer')
-    place = models.ForeignKey('places.Place')
-    speakers = models.ManyToManyField('events.Speaker', blank=True, null=True)
+    description = models.TextField('Descripción', default='')
+    event_type = models.PositiveSmallIntegerField(
+        'Tipo del evento', choices=EVENT_TYPES)
+    topic = models.PositiveSmallIntegerField('Tema', choices=EVENT_TOPICS)
+    event_date = models.DateTimeField('Fecha del evento')
+    event_end_date = models.DateTimeField('Fecha final', null=True, blank=True)
+    event_source_url = models.URLField(
+        'Enlace a la página del evento', null=True, blank=True)
+    price = models.DecimalField(
+        'Precio', default=0, decimal_places=2, max_digits=9)
+    image = models.ImageField(
+        'Imagen', blank=True, null=True, upload_to='events')
+    image_source_url = models.URLField(
+        'Enlace a la fuente de la imagen', null=True, blank=True)
+    organizer = models.ForeignKey(
+        'events.Organizer', verbose_name='Organizador')
+    place = models.ForeignKey(
+        'places.Place', verbose_name='Lugar')
+    speakers = models.ManyToManyField(
+        'events.Speaker', verbose_name='Presentadores', blank=True, null=True)
     is_published = models.BooleanField(default=False)
+    is_approved = models.BooleanField(default=True)
 
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL)
 
@@ -100,6 +112,8 @@ class Event(TimeStampedModel):
         return ('title__icontains',)
 
     class Meta:
+        verbose_name = 'Evento'
+        verbose_name_plural = 'Eventos'
         ordering = ('event_date',)
 
 
@@ -113,6 +127,10 @@ class Organizer(TimeStampedModel):
     image_source_url = models.URLField(null=True, blank=True)
 
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL)
+
+    class Meta:
+        verbose_name = 'Organizador'
+        verbose_name_plural = 'Organizadores'
 
     def __str__(self):
         return self.name
@@ -136,6 +154,10 @@ class Speaker(TimeStampedModel):
     image_source_url = models.URLField(null=True, blank=True)
 
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL)
+
+    class Meta:
+        verbose_name = 'Presentador'
+        verbose_name_plural = 'Presentadores'
 
     def __str__(self):
         return self.name

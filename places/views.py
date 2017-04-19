@@ -18,9 +18,11 @@ class PlaceDetailView(DetailView):
         context['events'] = self.get_object().event_set.filter(
             event_date__gte=timezone.now(),
             is_published=True,
+            is_approved=True,
         ).all()[:9]
         context['past_events'] = self.get_object().event_set.filter(
             event_date__lt=timezone.now(),
             is_published=True,
+            is_approved=True,
         ).order_by('-event_date').all()[:9]
         return context

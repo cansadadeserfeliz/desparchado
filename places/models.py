@@ -21,6 +21,10 @@ class Place(TimeStampedModel):
 
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL)
 
+    class Meta:
+        verbose_name = 'Lugar'
+        verbose_name_plural = 'Lugares'
+
     def __str__(self):
         return self.name
 

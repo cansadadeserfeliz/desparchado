@@ -120,15 +120,14 @@ LOGOUT_REDIRECT_URL = 'home'
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
 
-LANGUAGE_CODE = 'es'
+LANGUAGE_CODE = 'es-CO'
 LANGUAGES = [
-    ('es', 'Español'),
-#    ('en', 'English'),
+    ('es-CO', 'Español'),
 ]
 
 TIME_ZONE = 'America/Bogota'
 
-USE_I18N = False
+USE_I18N = True
 
 USE_L10N = True
 

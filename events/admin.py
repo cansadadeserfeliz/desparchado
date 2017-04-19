@@ -12,8 +12,8 @@ class EventAdmin(admin.ModelAdmin):
     fieldsets = (
         (None, {
             'fields': (
-                ('title', 'is_published'),
-                'slug',
+                ('title', 'is_published',),
+                ('slug', 'is_approved',)
             ),
         }),
         (_('Information'), {
@@ -51,6 +51,7 @@ class EventAdmin(admin.ModelAdmin):
         list_display = [
             'title',
             'is_published',
+            'is_approved',
             'event_type',
             'topic',
             'event_date',
@@ -67,7 +68,7 @@ class EventAdmin(admin.ModelAdmin):
     def get_readonly_fields(self, request, obj=None):
         readonly_fields = ['slug']
         if not request.user.is_superuser:
-            readonly_fields.append('is_published')
+            readonly_fields.append('is_approved')
         return readonly_fields
 
     def get_queryset(self, request):
