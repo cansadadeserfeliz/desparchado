@@ -1,5 +1,6 @@
 from django.views.generic import ListView, DetailView
 from django.utils import timezone
+from django.http import Http404
 
 from .models import Event, Organizer
 
@@ -10,9 +11,7 @@ class EventListView(ListView):
     paginate_by = 9
 
     def get_queryset(self):
-        queryset = super().get_queryset()
-        queryset = queryset.filter(
-            is_published=True,
+        queryset = Event.published.filter(
             event_date__gte=timezone.now(),
         )
         return queryset.select_related('place')
@@ -20,6 +19,9 @@ class EventListView(ListView):
 
 class EventDetailView(DetailView):
     model = Event
+
+    def get_queryset(self):
+        return Event.published.all()
 
 
 class OrganizerListView(ListView):

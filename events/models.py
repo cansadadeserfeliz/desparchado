@@ -9,6 +9,14 @@ from autoslug import AutoSlugField
 from desparchado.templatetags.desparchado_tags import format_currency
 
 
+class EventPublishedManager(models.Manager):
+    def get_queryset(self):
+        return super(EventPublishedManager, self).get_queryset().filter(
+            is_published=True,
+            is_approved=True,
+        )
+
+
 class Event(TimeStampedModel):
     EVENT_TYPE_PUBLIC_LECTURE = 1
     EVENT_TYPE_DEBATE = 2
@@ -75,9 +83,11 @@ class Event(TimeStampedModel):
     image_source_url = models.URLField(
         'Créditos/atribución de la imagen', null=True, blank=True)
     organizer = models.ForeignKey(
-        'events.Organizer', verbose_name='Organizador')
+        'events.Organizer', verbose_name='Organizador',
+        related_name='events')
     place = models.ForeignKey(
-        'places.Place', verbose_name='Lugar')
+        'places.Place', verbose_name='Lugar',
+        related_name='events')
     speakers = models.ManyToManyField(
         'events.Speaker', verbose_name='Presentadores', blank=True, null=True)
     is_published = models.BooleanField('Está publicado', default=False)
@@ -88,6 +98,8 @@ class Event(TimeStampedModel):
 
     created_by = models.ForeignKey(
         settings.AUTH_USER_MODEL, verbose_name='Creado por')
+
+    published = EventPublishedManager()
 
     def __str__(self):
         return self.title

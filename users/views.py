@@ -13,15 +13,11 @@ class UserDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['bookmarked_events'] = Event.objects.filter(
-            is_published=True,
-            is_approved=True,
+        context['bookmarked_events'] = Event.published.filter(
             user_relation__user=self.get_object(),
             user_relation__is_bookmarked=True,
         ).distinct().all()
-        context['visited_events'] = Event.objects.filter(
-            is_published=True,
-            is_approved=True,
+        context['visited_events'] = Event.published.filter(
             user_relation__user=self.get_object(),
             user_relation__is_visited=True,
         ).distinct().all()
