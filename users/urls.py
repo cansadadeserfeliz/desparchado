@@ -4,5 +4,5 @@ from .views import UserDetailView
 
 
 urlpatterns = [
-    url(r'^(?P<pk>\d+)/$', UserDetailView.as_view(), name='user_detail'),
+    url(r'^(?P<slug>[\w-]+)/$', UserDetailView.as_view(), name='user_detail'),
 ]

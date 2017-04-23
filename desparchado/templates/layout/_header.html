@@ -1,0 +1,38 @@
+<div class="preloader">
+  <div class="preloder-wrap">
+    <div class="preloder-inner">
+      <div class="ball"></div>
+      <div class="ball"></div>
+      <div class="ball"></div>
+      <div class="ball"></div>
+      <div class="ball"></div>
+      <div class="ball"></div>
+      <div class="ball"></div>
+    </div>
+  </div>
+</div><!--/.preloader-->
+<header id="navigation">
+  <div class="navbar navbar-inverse navbar-fixed-top" role="banner">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/"><h1><span class="brand-icon">D</span>esparchado</h1></a>
+      </div>
+      <div class="collapse navbar-collapse">
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="/">Inicio</a></li>
+          <li><a href="{% url 'events:event_list' %}">Eventos</a></li>
+          <li><a href="{% url 'places:place_list' %}">Lugares</a></li>
+          <li><a href="{% url 'about' %}">Acerca de</a></li>
+        {% if user.is_authenticated %}
+          <li><a href="{{ user.get_absolute_url }}">Perfil</a></li>
+        {% else %}
+          <li><a href="{% url "social:begin" "facebook" %}?next={{ request.path }}">Ingresar</a></li>
+        {% endif %}
+        </ul>
+      </div>
+    </div>
+  </div><!--/navbar-->
+</header> <!--/#navigation-->

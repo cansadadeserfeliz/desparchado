@@ -60,6 +60,10 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
 ]
 
+ABSOLUTE_URL_OVERRIDES = {
+    'users.user_detail': lambda o: "/users/%s/" % o.username,
+}
+
 ROOT_URLCONF = 'desparchado.urls'
 
 TEMPLATES = [

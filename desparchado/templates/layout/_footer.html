@@ -1,0 +1,26 @@
+<footer class="footer row">
+  <div class="col-md-8">
+    <h3>Desparchado</h3>
+    <p class="footer-links">
+      <a href="/">Inicio</a>
+      ·
+      <a href="{% url 'events:event_list' %}">Eventos</a>
+      ·
+      <a href="{% url 'places:place_list' %}">Lugares</a>
+      ·
+      <a href="{% url 'about' %}">Acerca de</a>
+    </p>
+    <p class="footer-company-name">Copyright &copy; {% now 'Y' %} - Desparchado | All Rights Reserved</p>
+  </div>
+
+  <div class="col-md-4">
+    <p class="footer-company-about">
+      Desparchado es una plataforma de intercambio de conocimiento.
+      Publicamos anuncios de los eventos culturales y educativos.
+    </p>
+    <div class="footer-icons">
+      <a href="https://www.facebook.com/Desparchado-1874759086135757/"><i class="fa fa-facebook"></i></a>
+      <a href="https://twitter.com/DesparchadoCo"><i class="fa fa-twitter"></i></a>
+    </div>
+  </div>
+</footer>

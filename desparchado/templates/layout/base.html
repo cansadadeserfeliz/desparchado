@@ -37,76 +37,14 @@
   <body>
   {% block body %}
 
-    <div class="preloader">
-      <div class="preloder-wrap">
-        <div class="preloder-inner">
-          <div class="ball"></div>
-          <div class="ball"></div>
-          <div class="ball"></div>
-          <div class="ball"></div>
-          <div class="ball"></div>
-          <div class="ball"></div>
-          <div class="ball"></div>
-        </div>
-      </div>
-    </div><!--/.preloader-->
-    <header id="navigation">
-      <div class="navbar navbar-inverse navbar-fixed-top" role="banner">
-        <div class="container">
-          <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-              <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="/"><img height="48" src="{% static 'images/logo.png' %}" alt="Desparchado"></a>
-          </div>
-          <div class="collapse navbar-collapse">
-            <ul class="nav navbar-nav navbar-right">
-              <li><a href="/">Inicio</a></li>
-              <li><a href="{% url 'events:event_list' %}">Eventos</a></li>
-              <li><a href="{% url 'places:place_list' %}">Lugares</a></li>
-              <li><a href="{% url 'about' %}">Acerca de</a></li>
-            {% if user.is_authenticated %}
-              <li><a href="{% url 'users:user_detail' user.id %}">Perfil</a></li>
-            {% else %}
-              <li><a href="{% url "social:begin" "facebook" %}?next={{ request.path }}">Ingresar</a></li>
-            {% endif %}
-            </ul>
-          </div>
-        </div>
-      </div><!--/navbar-->
-    </header> <!--/#navigation-->
+    {% include 'layout/_header.html' %}
 
     <div class="container">
       <section class="section-clear"></section>
       {% block content %}{% endblock content %}
     </div><!-- /.container -->
 
-    <footer class="footer row">
-      <div class="col-md-8">
-        <h3>Desparchado</h3>
-        <p class="footer-links">
-          <a href="/">Inicio</a>
-          ·
-          <a href="{% url 'events:event_list' %}">Eventos</a>
-          ·
-          <a href="{% url 'places:place_list' %}">Lugares</a>
-          ·
-          <a href="{% url 'about' %}">Acerca de</a>
-        </p>
-        <p class="footer-company-name">Copyright &copy; {% now 'Y' %} - Desparchado | All Rights Reserved</p>
-      </div>
-
-      <div class="col-md-4">
-        <p class="footer-company-about">
-          Desparchado es una plataforma de intercambio de conocimiento.
-          Publicamos anuncios de los eventos culturales y educativos.
-        </p>
-        <div class="footer-icons">
-          <a href="https://www.facebook.com/Desparchado-1874759086135757/"><i class="fa fa-facebook"></i></a>
-          <a href="https://twitter.com/DesparchadoCo"><i class="fa fa-twitter"></i></a>
-        </div>
-      </div>
-    </footer>
+    {% include 'layout/_footer.html' %}
 
   {% endblock body %}
 
