@@ -2,6 +2,7 @@ from django.contrib import sitemaps
 from django.urls import reverse
 
 from events.models import Event
+from places.models import Place
 
 
 class StaticViewSitemap(sitemaps.Sitemap):
@@ -20,13 +21,25 @@ class EventSitemap(sitemaps.Sitemap):
     priority = 1
 
     def items(self):
-       return Event.published.all()
+        return Event.published.all()
 
     def lastmod(self, item):
-       return item.event_date
+        return item.event_date
+
+
+class PlaceSitemap(sitemaps.Sitemap):
+    changefreq = 'daily'
+    priority = 0.7
+
+    def items(self):
+        return Place.objects.all()
+
+    def lastmod(self, item):
+        return item.created
 
 
 sitemaps = {
     'static': StaticViewSitemap,
     'events': EventSitemap,
+    'places': PlaceSitemap,
 }

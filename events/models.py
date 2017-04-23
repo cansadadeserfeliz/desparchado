@@ -99,6 +99,7 @@ class Event(TimeStampedModel):
     created_by = models.ForeignKey(
         settings.AUTH_USER_MODEL, verbose_name='Creado por')
 
+    objects = models.Manager()
     published = EventPublishedManager()
 
     def __str__(self):
