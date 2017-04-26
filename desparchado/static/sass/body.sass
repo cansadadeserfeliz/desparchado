@@ -1,0 +1,184 @@
+/* Typography */
+
+body
+  font-family: 'Roboto', sans-serif
+  position: relative
+  font-weight: 400
+  background: #fff
+  color: #43484E
+
+body .section-clear
+  padding: 50px 0
+  margin: 0
+
+a
+  -webkit-transition: 300ms
+  -moz-transition: 300ms
+  -o-transition: 300ms
+  transition: 300ms
+  color: $primary-color
+  &:hover
+    outline: none
+    text-decoration: none
+  &:focus
+    outline: none
+    outline-offset: 0
+
+h1, h2, h3, h4, h5, h6
+  font-family: 'Roboto', sans-serif
+
+.row-eq-height
+  display: -webkit-box
+  display: -webkit-flex
+  display: -ms-flexbox
+  display:         flex
+  flex-wrap: wrap
+.row-eq-height > [class*='col-']
+  display: flex
+  flex-direction: column
+
+.round
+  border-radius: 50%
+
+/* Header */
+
+#navigation
+  .navbar
+    background: rgba(255, 255, 255, 0.95294)
+    border-radius: 0
+    border-bottom: 0
+    box-shadow: rgba(0, 0, 0, 0.29804) 0px 0px 3px
+    padding-bottom: 8px
+  .navbar-toggle
+    margin-top: 20px
+    background-color: #333
+  .navbar-brand h1
+    padding: 0
+    margin: 0
+    font-family: 'Grand Hotel', cursive
+    color: $primary-color
+    font-size: 36px
+    text-transform: capitalize
+    letter-spacing: 2px
+    .brand-icon
+      background-color: $primary-color
+      color: #ffffff
+      border-radius: 50%
+      padding: 1px 14px
+  .navbar-nav.navbar-right
+    li
+      padding: 0 1px
+      a, .btn-link
+        color: #43484E
+        font-family: 'Roboto', sans-serif
+        font-size: 14px
+        padding: 0
+        text-transform: uppercase
+        -webkit-transition: all .9s ease 0s
+        -moz-transition: all .9s ease 0s
+        -o-transition: all .9s ease 0s
+        transition: all .9s ease 0s
+        padding: 6px 15px
+    margin-top: 28px
+  .navbar-inverse .navbar-nav .active a,
+  .navbar-inverse .navbar-nav .active .btn-link
+    color: #fff
+    background-color: $primary-color
+    &:focus
+      color: #fff
+      background-color: $primary-color
+  .navbar-nav.navbar-right li a:hover,
+  .navbar-nav.navbar-right li .btn-link:hover
+    color: #fff
+    background-color: $primary-color
+
+/* Pager */
+
+.pager
+  padding-left: 0
+  list-style: none
+  text-align: center
+  li
+    > a,
+    > span
+      display: inline-block
+      padding: 5px 14px
+      color: $primary-color
+      background-color: #fff
+      border: 1px solid $dark-gray
+      border-radius: 0
+
+    > a:hover,
+    > a:focus
+      color: #fff
+      background-color: $primary-color
+
+  .disabled
+    > a,
+    > a:hover,
+    > a:focus,
+    > span
+      color: #fff
+      background-color: $primary-color
+
+/* Footer */
+
+.footer
+  background-color: #171a1d
+  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.12)
+  box-sizing: border-box
+  width: 100%
+  text-align: left
+  padding: 55px 50px
+  margin: 0
+  margin-top: 60px
+  h3
+    color: #ffffff
+    font-family: 'Grand Hotel', cursive
+    font-size: 36px
+    margin: 0
+    span
+      color: #5383d3
+  .footer-links
+    color: #ffffff
+    margin: 20px 0 12px
+    padding: 0
+    a
+      display: inline-block
+      line-height: 1.8
+      text-decoration: none
+      color: inherit
+  .footer-company-name
+    color: #8f9296
+    font-size: 14px
+    font-weight: normal
+    margin: 0
+  .footer-company-about
+    margin-top: 25px
+    line-height: 20px
+    color: #92999f
+    font-size: 13px
+    font-weight: normal
+    margin: 0
+    span
+      display: block
+      color: #ffffff
+      font-size: 14px
+      font-weight: bold
+      margin-bottom: 20px
+  .footer-icons
+    margin-top: 25px
+    a
+      display: inline-block
+      width: 35px
+      height: 35px
+      cursor: pointer
+      background-color: #33383b
+      border-radius: 2px
+      font-size: 20px
+      color: #ffffff
+      text-align: center
+      line-height: 35px
+      margin-right: 3px
+      margin-bottom: 5px
+

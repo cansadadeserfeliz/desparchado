@@ -30,3 +30,7 @@ desparchado/static/bower_components
 /media
 /app/media/uploads
 /node_modules
+
+uwsgi.ini
+uwsgi_params
+robots.txt
