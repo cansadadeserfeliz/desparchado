@@ -59,7 +59,7 @@ def get_pagination(context, first_last_amount=2, before_after_amount=4):
         'page_obj': page_obj,
         'page_numbers': page_numbers,
         'is_paginated': is_paginated,
-        'search_query': context['request'],
+        'search_query': search_query,
     }
 
 @register.inclusion_tag('includes/_simple_pagination.html', takes_context=True)
