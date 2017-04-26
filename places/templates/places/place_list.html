@@ -21,8 +21,8 @@
     </div>
     <div class="place-card-logo">
       <a class="link" tabindex="0" href="{% url 'places:place_detail' place.id %}">
-        <img class="image" src="{{ place.get_image_url }}"
-             alt="{{ place.name }}" width="70" height="70">
+        <div class="image" style="background-image: url('{{ place.get_image_url }}');"
+             title="{{ place.name }}"></div>
       </a>
     </div>
   </div>
