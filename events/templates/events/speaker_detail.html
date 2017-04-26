@@ -1,0 +1,30 @@
+{% extends 'layout/base.html' %}
+{% load django_markdown %}
+
+{% block content %}
+<section id="speaker-detail" class="container">
+
+  <div class="speaker-heading">
+    <h1 class="speaker-title">{{ speaker.name }}</h1>
+    <div class="speaker-description">{{ speaker.description|markdown }}</div>
+  </div>
+
+</section><!--/#speaker-detail-->
+
+{% if events %}
+
+  <h4>Próximos eventos</h4>
+
+  {% include 'events/_events_grid.html' %}
+
+{% endif %}
+
+{% if past_events %}
+
+  <h4>Eventos pasados</h4>
+
+  {% include 'events/_events_grid.html' with events=past_events %}
+
+{% endif %}
+
+{% endblock content %}

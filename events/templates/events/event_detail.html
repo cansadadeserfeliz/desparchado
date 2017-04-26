@@ -7,7 +7,7 @@
   <meta property="og:image" content="http://{{ request.get_host }}{{ event.get_image_url }}">
 
   <meta name="twitter:title" content="{{ event.title }}">
-  <meta name="twitter:description" content="">
+  <meta name="twitter:description" content="{{ event.place.name }}">
 {% endblock %}
 
 {% block content %}
@@ -71,11 +71,14 @@
     <h3>Presentadores</h3>
 
     {% for speaker in event.speakers.all %}
+
       <div class="event-speaker">
         {% if speaker.image %}
         <div class="text-center">
-          <div class="image" style="background-image: url('{{ speaker.get_image_url }}');"
-             title="{{ speaker.name }}"></div>
+          <a href="{{ speaker.get_absolute_url }}">
+            <div class="image" style="background-image: url('{{ speaker.get_image_url }}');"
+               title="{{ speaker.name }}"></div>
+          </a>
         </div>
         {% endif %}
         <h4>{{ speaker.name }}</h4>

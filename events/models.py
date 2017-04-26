@@ -89,7 +89,9 @@ class Event(TimeStampedModel):
         'places.Place', verbose_name='Lugar',
         related_name='events')
     speakers = models.ManyToManyField(
-        'events.Speaker', verbose_name='Presentadores', blank=True, null=True)
+        'events.Speaker', verbose_name='Presentadores',
+        related_name='events',
+        blank=True, null=True)
     is_published = models.BooleanField('Está publicado', default=False)
     is_approved = models.BooleanField(
         'Está aprobado', default=True,
@@ -187,6 +189,10 @@ class Speaker(TimeStampedModel):
         if self.image:
             return self.image.url
         return None
+
+    def get_absolute_url(self):
+        return reverse('events:speaker_detail', args=[self.slug])
+
 
     @staticmethod
     def autocomplete_search_fields():
