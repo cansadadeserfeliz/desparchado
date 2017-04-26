@@ -74,7 +74,8 @@
       <div class="event-speaker">
         {% if speaker.image %}
         <div class="text-center">
-          <img class="image img-circle" src="{{ speaker.get_image_url }}">
+          <div class="image" style="background-image: url('{{ speaker.get_image_url }}');"
+             title="{{ speaker.name }}"></div>
         </div>
         {% endif %}
         <h4>{{ speaker.name }}</h4>
