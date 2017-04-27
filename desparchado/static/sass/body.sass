@@ -42,12 +42,125 @@ h1, h2, h3, h4, h5, h6
 
 /* Header */
 
+.top-bar
+  background-color: #f5f5f5
+  position: relative
+
+.top-bar
+  background-color: #f5f5f5
+  position: relative
+  .info
+    margin: 0px
+    li
+      font-size: 14px
+      color: #555
+      font-weight: 500
+      font-size: 13px
+      a
+        color: #555
+        padding: 4px 10px
+        text-decoration: none
+        display: block
+        &:hover
+          color: #4c779e
+  .cart-dropdown
+    right: 0
+    left: auto
+    min-width: 290px
+    padding: 0px
+    -webkit-border-radius: 0px
+    -moz-border-radius: 0px
+    -ms-border-radius: 0px
+    border-radius: 0px
+    -webkit-box-shadow: none
+    -moz-box-shadow: none
+    -ms-box-shadow: none
+    box-shadow: none
+    li
+      display: block
+      padding: 10px 15px
+      border-bottom: 1px solid #eee
+      height: auto
+      &:first-child
+        border-bottom: 0px
+      &:last-child
+        padding-bottom: 0px
+        border-bottom: 0px
+      img
+        margin-right: 10px
+        display: block
+        float: left
+        width: 60px
+      a
+        padding: 0px
+        font-weight: 400 !important
+      .cart-desc
+        overflow: hidden
+        h5
+          font-size: 16px
+          margin-bottom: 3px
+          line-height: 16px
+      &.cart-footer
+        padding: 10px 15px
+        text-align: center
+        a
+          width: 100%
+          height: 35px
+          line-height: 35px
+          padding: 0px 10px
+          color: #fff !important
+          display: block
+          &.btn-first
+            background-color: #444
+            &:hover
+              background-color: #4c779e
+          &.btn-last
+            background-color: #4c779e
+            &:hover
+              background-color: #444
+          &:hover
+            color: #fff !important
+
+.right-search
+  padding-right: 15px
+  i
+    font-size: 15px
+  .icon-search
+    cursor: pointer
+
+.search-form-nav
+  position: absolute
+  display: none
+  width: 100%
+  height: 100%
+  left: 0
+  top: 0
+  background-color: rgba(255, 255, 255, 0.8)
+  z-index: 9999
+  .form-control
+    height: 34px
+    -webkit-box-shadow: none
+    -moz-box-shadow: none
+    -ms-box-shadow: none
+    box-shadow: none
+    border: 0px
+    font-size: 14px
+    background-color: rgba(255, 255, 255, 0.8)
+    &:focus
+      border: 0px
+  .search-close
+    position: absolute
+    padding: 5px
+    right: 26px
+    top: 0px
+    font-size: 24px
+    cursor: pointer
+
 #navigation
   .navbar
-    background: rgba(255, 255, 255, 0.95294)
+    background-color: #171a1d
     border-radius: 0
     border-bottom: 0
-    box-shadow: rgba(0, 0, 0, 0.29804) 0px 0px 3px
     padding-bottom: 8px
   .navbar-toggle
     margin-top: 20px
@@ -56,34 +169,25 @@ h1, h2, h3, h4, h5, h6
     padding: 0
     margin: 0
     font-family: 'Grand Hotel', cursive
-    color: $primary-color
+    color: #fff
     font-size: 36px
     text-transform: capitalize
     letter-spacing: 2px
-    .brand-icon
-      background-color: $primary-color
-      color: #ffffff
-      border-radius: 50%
-      padding: 1px 14px
   .navbar-nav.navbar-right
+    padding-top: 16px
+    padding-bottom: 12px
     li
-      padding: 0 1px
       a, .btn-link
-        color: #43484E
-        font-family: 'Roboto', sans-serif
-        font-size: 14px
-        padding: 0
+        font-size: 15px
+        font-weight: 600
         text-transform: uppercase
-        -webkit-transition: all .9s ease 0s
-        -moz-transition: all .9s ease 0s
-        -o-transition: all .9s ease 0s
-        transition: all .9s ease 0s
-        padding: 6px 15px
-    margin-top: 28px
+        color: #fff
+        letter-spacing: 2px
+        padding: 12px 15px 6px
   .navbar-inverse .navbar-nav .active a,
   .navbar-inverse .navbar-nav .active .btn-link
     color: #fff
-    background-color: $primary-color
+    background-color: #33383b
     &:focus
       color: #fff
       background-color: $primary-color
