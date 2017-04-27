@@ -1,26 +1,48 @@
-<footer class="footer row">
-  <div class="col-md-8">
-    <h3>Desparchado</h3>
-    <p class="footer-links">
-      <a href="/">Inicio</a>
-      ·
-      <a href="{% url 'events:event_list' %}">Eventos</a>
-      ·
-      <a href="{% url 'places:place_list' %}">Lugares</a>
-      ·
-      <a href="{% url 'about' %}">Acerca de</a>
-    </p>
-    <p class="footer-company-name">Copyright &copy; {% now 'Y' %} - Desparchado | All Rights Reserved</p>
-  </div>
-
-  <div class="col-md-4">
-    <p class="footer-company-about">
-      Desparchado es una plataforma de intercambio de conocimiento.
-      Publicamos anuncios de los eventos culturales y educativos.
-    </p>
-    <div class="footer-icons">
-      <a href="https://www.facebook.com/Desparchado-1874759086135757/"><i class="fa fa-facebook"></i></a>
-      <a href="https://twitter.com/DesparchadoCo"><i class="fa fa-twitter"></i></a>
-    </div>
-  </div>
+<footer class="footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4 margin-btm-20">
+        <div class="footer-col">
+          <h3>Acerca de</h3>
+          <p>
+            Desparchado es una plataforma de intercambio de conocimiento.
+            Publicamos anuncios de los eventos culturales y educativos.
+          </p>
+        </div>
+        <div class="space-20"></div>
+        <div class="footer-col">
+          <h3>Contáctenos</h3>
+          <p><a href="mailto:desparchado.co@gmail.com">desparchado.co@gmail.com</a></p>
+        </div>
+      </div><!--col-4 end-->
+      <div class="col-md-3 margin-btm-20">
+        <div class="footer-col">
+          <h3>Conenido</h3>
+          <ul class="footer-links list-unstyled">
+            <li><a href="/">Inicio</a></li>
+            <li><a href="{% url 'events:event_list' %}">Eventos</a></li>
+            <li><a href="{% url 'places:place_list' %}">Lugares</a></li>
+            <li><a href="{% url 'about' %}">Acerca de</a></li>
+          </ul>
+        </div>
+      </div><!--latest post col end-->
+      <div class="col-md-5">
+        <div class="footer-col">
+          <h3>Síguanos</h3>
+          <div class="footer-icons">
+            <a href="https://www.facebook.com/Desparchado-1874759086135757/"><i class="fa fa-facebook"></i></a>
+            <a href="https://twitter.com/DesparchadoCo"><i class="fa fa-twitter"></i></a>
+          </div>
+        </div>
+      </div><!--get in touch col end-->
+    </div><!--footer main row end-->
+    <div class="space-70"></div>
+    <div class="row">
+      <div class="col-md-12 text-center footer-bottom">
+        <span class="logo">Desparchado</span>
+        <div class="space-20"></div>
+        <span>Copyright &copy; {% now 'Y' %} - Desparchado | All Rights Reserved</span>
+      </div>
+    </div><!--footer copyright row end-->
+  </div><!--container-->
 </footer>
