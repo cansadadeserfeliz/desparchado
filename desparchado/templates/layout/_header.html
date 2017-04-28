@@ -26,7 +26,7 @@
             </li>
             <li class="list-inline-item">
             {% if user.is_authenticated %}
-              <a href="{{ user.get_absolute_url }}" class="hover-color list-inline-item">
+              <a href="{% url 'users:user_detail' user.username %}" class="hover-color list-inline-item">
                 <i class="fa fa-user"></i>
                 Perfil
               </a>
