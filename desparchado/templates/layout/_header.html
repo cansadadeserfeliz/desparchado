@@ -10,52 +10,48 @@
     </div>
   </div><!--search form-->
   <div class="container">
-    <div class="row">
-      <div class="col-lg-8">
-        <div class="text-right">
-          <ul class="info list-inline">
-            <li class="hidden-xs-down list-inline-item">
-              <a href="https://www.facebook.com/Desparchado-1874759086135757/" class="hover-color">
-                <i class="fa fa-facebook"></i>
-              </a>
-            </li>
-            <li class="hidden-xs-down list-inline-item">
-              <a href="https://twitter.com/DesparchadoCo" class="hover-color">
-                <i class="fa fa-twitter"></i>
-              </a>
-            </li>
-            <li class="list-inline-item">
-            {% if user.is_authenticated %}
-              <a href="{% url 'users:user_detail' user.username %}" class="hover-color list-inline-item">
-                <i class="fa fa-user"></i>
-                Perfil
-              </a>
-            {% else %}
-              <a href="{% url "social:begin" "facebook" %}?next={{ request.path }}" class="hover-color list-inline-item">
-                <i class="fa fa-lock"></i>
-                Ingresar
-              </a>
-            {% endif %}
-            </li>
-          {% comment %}
-            <li class="dropdown list-inline-item"><a href="#" data-toggle="dropdown" class="dropdown-toggle hover-color" aria-expanded="false"> BOGOTÁ</a>
-              <ul class="dropdown-menu dropdown-menu-right lang-dropdown">
-                <li><a href="#">MEDELLÍN</a></li>
-                <li><a href="#">BUCARAMANGA</a></li>
-                <li><a href="#">CARTAGENA</a></li>
-              </ul>
-            </li>
-            <li class="list-inline-item">
-              <div class="right-search">
-                <span class="icon-search">
-                  <i class="ion-ios-search-strong"></i>
-                </span>
-              </div>
-            </li>
-          {% endcomment %}
+    <div class="text-right">
+      <ul class="info list-inline">
+        <li class="hidden-xs-down list-inline-item">
+          <a href="https://www.facebook.com/Desparchado-1874759086135757/" class="hover-color">
+            <i class="fa fa-facebook"></i>
+          </a>
+        </li>
+        <li class="hidden-xs-down list-inline-item">
+          <a href="https://twitter.com/DesparchadoCo" class="hover-color">
+            <i class="fa fa-twitter"></i>
+          </a>
+        </li>
+        <li class="list-inline-item">
+        {% if user.is_authenticated %}
+          <a href="{% url 'users:user_detail' user.username %}" class="hover-color list-inline-item">
+            <i class="fa fa-user"></i>
+            Perfil
+          </a>
+        {% else %}
+          <a href="{% url "social:begin" "facebook" %}?next={{ request.path }}" class="hover-color list-inline-item">
+            <i class="fa fa-lock"></i>
+            Ingresar
+          </a>
+        {% endif %}
+        </li>
+      {% comment %}
+        <li class="dropdown list-inline-item"><a href="#" data-toggle="dropdown" class="dropdown-toggle hover-color" aria-expanded="false"> BOGOTÁ</a>
+          <ul class="dropdown-menu dropdown-menu-right lang-dropdown">
+            <li><a href="#">MEDELLÍN</a></li>
+            <li><a href="#">BUCARAMANGA</a></li>
+            <li><a href="#">CARTAGENA</a></li>
           </ul>
-        </div>
-      </div>
+        </li>
+        <li class="list-inline-item">
+          <div class="right-search">
+            <span class="icon-search">
+              <i class="ion-ios-search-strong"></i>
+            </span>
+          </div>
+        </li>
+      {% endcomment %}
+      </ul>
     </div>
   </div><!--container end-->
 </div>
