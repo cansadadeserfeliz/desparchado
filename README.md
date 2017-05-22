@@ -34,4 +34,3 @@
 
     $ cd projectdir
     $ source scripts/deploy.sh
-
