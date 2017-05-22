@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="Desparchado es una plataforma de intercambio de conocimiento. Publicamos anuncios de los eventos culturales y educativos.">
     <meta name="keywords" content="Eventos, events, Bogotá, Colombia, encuentros, talleres, cursos, libros, musica, tiempo libre, ocio">
@@ -12,13 +13,11 @@
 
     <link href="https://fonts.googleapis.com/css?family=Grand+Hotel" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+  {% block meta %}
+  {% endblock meta %}
 
-    <meta name="yandex-verification" content="23be5300a3865e55" />
-
-    {% block meta %}
-    {% endblock %}
     <meta name="twitter:site" content="@DesparchadoCo">
-
+    <meta name="yandex-verification" content="23be5300a3865e55" />
 
     <title>{% block title %}Desparchado{% endblock %}</title>
 

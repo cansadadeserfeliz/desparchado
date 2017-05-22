@@ -3,6 +3,21 @@
 @import "body"
 @import "events"
 
+
+.secondary-title
+  position: relative
+  z-index: 1
+  padding-bottom: 5px
+
+  &:before
+    content: ""
+    position: absolute
+    width: 30%
+    height: 1px
+    bottom: 0
+    left: 0
+    border-bottom: 3px solid $secondary-color
+
 /* Place list */
 
 .place-card

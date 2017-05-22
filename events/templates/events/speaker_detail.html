@@ -1,6 +1,15 @@
 {% extends 'layout/base.html' %}
 {% load django_markdown %}
 
+{% block meta %}
+  <meta property="og:title" content="{{ speaker.name }}">
+  <meta property="og:description" content="{{ speaker.description|truncatewords:200 }}">
+  <meta property="og:image" content="http://{{ request.get_host }}{{ event.get_image_url }}">
+
+  <meta name="twitter:title" content="{{ speaker.name }}">
+  <meta name="twitter:description" content="{{ speaker.description|truncatewords:200 }}">
+{% endblock %}
+
 {% block content %}
 <section id="speaker-detail" class="container">
 
