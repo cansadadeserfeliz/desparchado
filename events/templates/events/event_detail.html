@@ -79,7 +79,7 @@
           </a>
         </div>
         {% endif %}
-        <h4>{{ speaker.name }}</h4>
+        <h4><a href="{{ speaker.get_absolute_url }}">{{ speaker.name }}</a></h4>
         <div>
           {{ speaker.description|markdown|truncatewords_html:50 }}
         </div>

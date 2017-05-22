@@ -153,6 +153,19 @@
   .event-speaker
     margin-top: 20px
     margin-bottom: 20px
+    position: relative
+    z-index: 1
+    padding-bottom: 5px
+
+    &:not(:last-child):before
+      content: ""
+      position: absolute
+      width: 100px
+      height: 1px
+      bottom: 0
+      left: 50%
+      margin-left: -50px
+      border-bottom: 1px solid #b3b3b3
 
     .image
       width: 120px
