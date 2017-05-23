@@ -17,7 +17,7 @@ class LoginForm(AuthenticationForm):
             'username',
             'password',
             Div(
-                Submit('submit', 'Ingresar', css_class='btn-default'),
+                Submit('submit', 'INGRESAR', css_class='btn-primary'),
                 css_class='form-group',
             ),
         )
