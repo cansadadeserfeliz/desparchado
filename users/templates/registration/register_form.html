@@ -1,0 +1,10 @@
+{% extends 'layout/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+  <div class="login-form">
+    <h3 class="secondary-title">Registro</h3>
+    {% crispy form %}
+
+{% endblock content %}
