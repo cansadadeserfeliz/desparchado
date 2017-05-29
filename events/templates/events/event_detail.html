@@ -13,7 +13,7 @@
 {% endblock %}
 
 {% block content %}
-<section id="event-detail" class="container">
+<section id="event-detail" class="container" itemscope itemtype="http://schema.org/Event">
 <div class="row">
   <div class="col-md-8">
     <div class="event-heading">
@@ -21,11 +21,11 @@
         <li class="tags-item">{{ event.get_event_type_display }}</li>
         <li class="tags-item">{{ event.get_topic_display }}</li>
       </ul>
-      <h1 class="event-title">{{ event.title }}</h1>
+      <h1 class="event-title" itemprop="name">{{ event.title }}</h1>
       <div class="event-city">{{ event.place.city }}</div>
       <div class="event-info">
-        <span class="event-date">{{ event.event_date }}</span>
-        <span class="event-place">
+        <span class="event-date" itemprop="startDate" content="{{ event.event_date|date:'c' }}">{{ event.event_date }}</span>
+        <span class="event-place" itemprop="location">
           <a class="link" href="{% url 'places:place_detail' event.place_id %}">
             <i class="fa fa-map-marker"></i>
             {{ event.place }}
