@@ -25,8 +25,8 @@
       <div class="event-city">{{ event.place.city }}</div>
       <div class="event-info">
         <span class="event-date" itemprop="startDate" content="{{ event.event_date|date:'c' }}">{{ event.event_date }}</span>
-        <span class="event-place" itemprop="location">
-          <a class="link" href="{% url 'places:place_detail' event.place_id %}">
+        <span class="event-place" itemprop="location" itemscope itemtype="http://schema.org/Place">
+          <a itemprop="address" class="link" href="{% url 'places:place_detail' event.place_id %}">
             <i class="fa fa-map-marker"></i>
             {{ event.place }}
           </a>
