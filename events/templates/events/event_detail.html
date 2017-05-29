@@ -13,7 +13,7 @@
 {% endblock %}
 
 {% block content %}
-<section id="event-detail" class="container">
+<section id="event-detail" class="container" itemscope itemtype="http://schema.org/Event">
 <div class="row">
   <div class="col-md-8">
     <div class="event-heading">
@@ -21,10 +21,10 @@
         <li class="tags-item">{{ event.get_event_type_display }}</li>
         <li class="tags-item">{{ event.get_topic_display }}</li>
       </ul>
-      <h1 class="event-title">{{ event.title }}</h1>
+      <h1 class="event-title" itemprop="name">{{ event.title }}</h1>
       <div class="event-city">{{ event.place.city }}</div>
       <div class="event-info">
-        <span class="event-date">{{ event.event_date }}</span>
+        <span class="event-date" itemprop="startDate" datetime="{{ event.event_date|date:'c' }}">{{ event.event_date }}</span>
         <span class="event-place">
           <a class="link" href="{% url 'places:place_detail' event.place_id %}">
             <i class="fa fa-map-marker"></i>
@@ -40,7 +40,7 @@
         {% if event.price %}<div class="ticket-price-label">{{ event.get_price_display }}</div>{% endif %}
       </div>
     </div>
-    <div class="event-description">
+    <div class="event-description" itemprop="description">
       {{ event.description|markdown }}
     </div>
 
@@ -113,24 +113,3 @@
 
 </section><!--/#event-detail-->
 {% endblock content %}
-
-
-{% block javascript %}
-<script type="application/ld+json">
-{
-  "@context": "http://schema.org",
-  "@type": "Event",
-  "name": "{{ event.name }}",
-  "startDate": "{{ event.event_date|date:'c' }}",
-  "location": {
-    "@type": "Place",
-    "name": "{{ event.place.name }}",
-    "address": {
-      "@type": "Text",
-      "name": "{{ event.place.description }}"
-    }
-  },
-  "image": "{{ event.organizer.get_image_url }}"
-}
-</script>
-{% endblock javascript %}
