@@ -25,8 +25,8 @@
       <div class="event-city">{{ event.place.city }}</div>
       <div class="event-info">
         <span class="event-date" itemprop="startDate" datetime="{{ event.event_date|date:'c' }}">{{ event.event_date }}</span>
-        <span class="event-place">
-          <a class="link" href="{% url 'places:place_detail' event.place_id %}">
+        <span class="event-place" itemprop="location" itemscope itmetype="http://schema.org/Place">
+          <a class="link" href="{% url 'places:place_detail' event.place_id %}" itemprop="address">
             <i class="fa fa-map-marker"></i>
             {{ event.place }}
           </a>
@@ -34,9 +34,9 @@
       </div>
     </div>
 
-    <div class="event-image">
+    <div class="event-image" itemprop="image" itemscope itemtype="http://schema.org/ImageObject">
       <div class="event-img-wrap">
-        <img class="image img-responsive" alt="{{ event.title }}" src="{{ event.get_image_url }}">
+        <img class="image img-responsive" alt="{{ event.title }}" src="{{ event.get_image_url }}" itemprop="contentUrl">
         {% if event.price %}<div class="ticket-price-label">{{ event.get_price_display }}</div>{% endif %}
       </div>
     </div>
