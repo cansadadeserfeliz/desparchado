@@ -22,6 +22,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    #'grappelli.dashboard',
+    'desparchado',
     'grappelli',
 
     'django.contrib.admin',
@@ -40,7 +42,6 @@ INSTALLED_APPS = [
     'social_django',
     'crispy_forms',
 
-    'desparchado',
     'events',
     'places',
     'users',
@@ -182,6 +183,12 @@ PIPELINE = {
             ),
             'output_filename': 'css/main.min.css',
         },
+        'admin': {
+            'source_filenames': (
+              'sass/dashboard.sass',
+            ),
+            'output_filename': 'css/admin.min.css',
+        },
     },
     'JAVASCRIPT': {
         'main': {
@@ -270,6 +277,9 @@ SOCIAL_AUTH_FACEBOOK_IGNORE_DEFAULT_SCOPE = True
 SOCIAL_AUTH_FACEBOOK_SCOPE = [
     'email'
 ]
+
+GRAPPELLI_ADMIN_TITLE = 'Desparchado. Administrador de eventos'
+GRAPPELLI_INDEX_DASHBOARD = 'dashboard.CustomIndexDashboard'
 
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
