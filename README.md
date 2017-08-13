@@ -34,3 +34,7 @@
 
     $ cd projectdir
     $ source scripts/deploy.sh
+
+## Issues
+
+https://tree.taiga.io/project/vero4ka-desparchado/kanban
