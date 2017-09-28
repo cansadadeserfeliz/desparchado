@@ -25,7 +25,7 @@ class PastEventListView(ListView):
     def get_queryset(self):
         queryset = Event.published.filter(
             event_date__lt=timezone.now(),
-        )
+        ).order_by('-event_date')
         return queryset.select_related('place')
 
 
