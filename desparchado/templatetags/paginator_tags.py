@@ -77,5 +77,5 @@ def get_simple_pagination(context):
         'paginator': paginator,
         'page_obj': page_obj,
         'is_paginated': is_paginated,
-        'search_query': context['request'],
+        'search_query': search_query,
     }
