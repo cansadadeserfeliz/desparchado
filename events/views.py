@@ -16,6 +16,19 @@ class EventListView(ListView):
         return queryset.select_related('place')
 
 
+class PastEventListView(ListView):
+    model = Event
+    context_object_name = 'events'
+    template_name = 'events/past_event_list.html'
+    paginate_by = 9
+
+    def get_queryset(self):
+        queryset = Event.published.filter(
+            event_date__lt=timezone.now(),
+        )
+        return queryset.select_related('place')
+
+
 class EventDetailView(DetailView):
     model = Event
 

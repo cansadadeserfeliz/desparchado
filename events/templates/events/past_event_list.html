@@ -5,24 +5,14 @@
 <section class="container" itemscope itemtype="http://schema.org/CollectionPage">
   <div class="row text-center clearfix">
     <div class="col-sm-8 col-sm-offset-2">
-      <h2 class="title-one">Próximos eventos</h2>
+      <h2 class="title-one">Eventos pasados</h2>
       <p class="event-heading">Bogotá</p>
     </div>
   </div>
 </section>
 
   {% include 'events/_events_grid.html' %}
-
 <section class="container">
   {% get_simple_pagination %}
 </section>
-
-<section class="container">
-  <div class="text-center">
-    <a href="{% url 'events:past_event_list' %}" class="btn btn-sm btn-primary">VER EVENTOS PASADOS</a>
-  </div>
-
-  <hr>
-</section>
-
 {% endblock content %}

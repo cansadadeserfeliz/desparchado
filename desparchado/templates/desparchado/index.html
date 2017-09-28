@@ -30,4 +30,10 @@
 
 {% include 'events/_events_grid.html' with events=past_events %}
 
+<section class="container">
+  <div class="text-center">
+    <a href="{% url 'events:past_event_list' %}" class="btn btn-sm btn-primary">VER EVENTOS PASADOS</a>
+  </div>
+</section>
+
 {% endblock content %}

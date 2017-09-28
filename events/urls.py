@@ -1,10 +1,14 @@
 from django.conf.urls import url
 
-from .views import EventListView, EventDetailView, OrganizerListView, SpeakerDetailView
+from .views import (
+    EventListView, PastEventListView, EventDetailView,
+    OrganizerListView, SpeakerDetailView,
+)
 
 
 urlpatterns = [
     url(r'^$', EventListView.as_view(), name='event_list'),
+    url(r'^past/$', PastEventListView.as_view(), name='past_event_list'),
     url(r'^(?P<pk>\d+)/$', EventDetailView.as_view(), name='event_detail'),
     url(r'^(?P<slug>[\w-]+)/$', EventDetailView.as_view(), name='event_detail'),
 
