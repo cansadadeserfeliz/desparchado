@@ -17,6 +17,10 @@
 
   <div class="speaker-heading">
     <h1 class="speaker-title">{{ speaker.name }}</h1>
+    {% if speaker.image %}
+      <div class="image" style="background-image: url('{{ speaker.get_image_url }}');"
+         title="{{ speaker.name }}"></div>
+    {% endif %}
     <div class="speaker-description">{{ speaker.description|markdown }}</div>
   </div>
 
