@@ -10,7 +10,12 @@
   <div class="event-inner">
     <div class="event-type">{{ event.get_event_type_display }}</div>
     <a href="{{ event.get_absolute_url }}"><h2 class="event-name">{{ event.title }}</h2></a>
-    <div class="event-date">{{ event.event_date|date:'F j, H:i' }}</div>
+    <div class="event-date">
+      {{ event.event_date|date:'F j, H:i' }}
+      {% if event.event_end_date %}
+        hasta {{ event.event_end_date|date:'F j' }}
+      {% endif %}
+    </div>
     <div class="event-place">
       <a href="{{ event.place.get_absolute_url }}">{{ event.place }}</a>
     </div>
