@@ -48,6 +48,7 @@ class Event(TimeStampedModel):
     EVENT_TYPE_THEATRICAL_PLAY = 6
     EVENT_TYPE_CONCERT = 7
     EVENT_TYPE_SEMINAR = 8
+    EVENT_TYPE_EXHIBITION = 9
 
     EVENT_TYPES = (
         (EVENT_TYPE_PUBLIC_LECTURE, 'Conferencia pública'),
@@ -58,6 +59,7 @@ class Event(TimeStampedModel):
         (EVENT_TYPE_THEATRICAL_PLAY, 'Obra de teatro'),
         (EVENT_TYPE_CONCERT, 'Concierto'),
         (EVENT_TYPE_SEMINAR, 'Seminario'),
+        (EVENT_TYPE_EXHIBITION, 'Exposición'),
     )
 
     EVENT_TOPIC_CITY = 1
