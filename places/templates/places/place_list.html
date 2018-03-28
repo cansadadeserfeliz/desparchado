@@ -20,7 +20,7 @@
       </div>
     </div>
     <div class="place-card-logo">
-      <a class="link" tabindex="0" href="{% url 'places:place_detail' place.id %}">
+      <a class="link" tabindex="0" href="{{ place.get_absolute_url }}">
         <div class="image" style="background-image: url('{{ place.get_image_url }}');"
              title="{{ place.name }}"></div>
       </a>
