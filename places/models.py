@@ -16,7 +16,7 @@ class Place(TimeStampedModel):
         'Imagen', null=True, blank=True, upload_to='places')
     image_source_url = models.URLField(
         'Enlace a la fuente de la imagen', null=True, blank=True)
-    description = models.TextField('Descripción', default='')
+    description = models.TextField('Dirección', default='')
     website_url = models.URLField('Página web', null=True, blank=True)
     location = geo_models.PointField('Ubicación', null=False)
     city = models.ForeignKey('places.City', verbose_name='Ciudad')
