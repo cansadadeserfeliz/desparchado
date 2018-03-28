@@ -1,0 +1,33 @@
+{% extends 'layout/base.html' %}
+{% load paginator_tags %}
+
+{% block content %}
+<section id="speaker-list" class="container">
+  <div class="row text-center clearfix">
+    <div class="col-sm-8 col-sm-offset-2">
+      <h2 class="title-one">Presentadores</h2>
+    </div>
+  </div>
+
+{% for speaker in speakers %}
+  <div class="row speaker-card">
+    <div class="speaker-card-inner">
+      <div class="speaker-card-title-wrap">
+        <h2 class="speaker-card-title">
+          <a class="link" href="{{ speaker.get_absolute_url }}">{{ speaker.name }}</a>
+        </h2>
+      </div>
+    </div>
+    <div class="speaker-card-logo">
+      <a class="link" tabindex="0" href="{{ speaker.get_absolute_url }}">
+        <div class="image" style="background-image: url('{{ speaker.get_image_url }}');"
+             title="{{ speaker.name }}"></div>
+      </a>
+    </div>
+  </div>
+{% endfor %}
+
+  {% get_pagination 2 1 %}
+</section><!--/#speaker-list-->
+
+{% endblock content %}
