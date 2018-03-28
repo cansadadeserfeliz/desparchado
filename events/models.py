@@ -15,13 +15,19 @@ class EventQuerySet(models.QuerySet):
     def future(self):
         return self.filter(
             Q(event_date__gte=timezone.now()) |
-            Q(event_end_date__lte=timezone.now()),
+            (
+                Q(event_end_date__isnull=False) &
+                Q(event_end_date__lte=timezone.now())
+            ),
         )
 
     def past(self):
         return self.exclude(
             Q(event_date__gte=timezone.now()) |
-            Q(event_end_date__lte=timezone.now()),
+            (
+                Q(event_end_date__isnull=False) &
+                Q(event_end_date__lte=timezone.now())
+            ),
         )
 
     def published(self):
