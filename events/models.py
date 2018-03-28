@@ -2,6 +2,8 @@ from django.db import models
 from django.urls import reverse
 from django.conf import settings
 from django.templatetags.static import static
+from django.db.models import Q
+from django.utils import timezone
 
 from model_utils.models import TimeStampedModel
 from autoslug import AutoSlugField
@@ -9,9 +11,21 @@ from autoslug import AutoSlugField
 from desparchado.templatetags.desparchado_tags import format_currency
 
 
-class EventPublishedManager(models.Manager):
-    def get_queryset(self):
-        return super(EventPublishedManager, self).get_queryset().filter(
+class EventQuerySet(models.QuerySet):
+    def future(self):
+        return self.filter(
+            Q(event_date__gte=timezone.now()) |
+            Q(event_end_date__lte=timezone.now()),
+        )
+
+    def past(self):
+        return self.exclude(
+            Q(event_date__gte=timezone.now()) |
+            Q(event_end_date__lte=timezone.now()),
+        )
+
+    def published(self):
+        return self.filter(
             is_published=True,
             is_approved=True,
         )
@@ -101,8 +115,7 @@ class Event(TimeStampedModel):
     created_by = models.ForeignKey(
         settings.AUTH_USER_MODEL, verbose_name='Creado por')
 
-    objects = models.Manager()
-    published = EventPublishedManager()
+    objects = EventQuerySet().as_manager()
 
     def __str__(self):
         return self.title

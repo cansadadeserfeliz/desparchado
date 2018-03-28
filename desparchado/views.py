@@ -9,11 +9,7 @@ class HomeView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['events'] = Event.published.filter(
-            event_date__gte=timezone.now(),
-        ).all()[:12]
+        context['events'] = Event.objects.published().future().all()[:12]
 
-        context['past_events'] = Event.published.filter(
-            event_date__lt=timezone.now(),
-        ).order_by('-event_date').all()[:9]
+        context['past_events'] = Event.objects.published().past().order_by('-event_date').all()[:9]
         return context

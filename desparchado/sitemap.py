@@ -21,7 +21,7 @@ class EventSitemap(sitemaps.Sitemap):
     priority = 1
 
     def items(self):
-        return Event.published.all()
+        return Event.objects.published().all()
 
     def lastmod(self, item):
         return item.event_date

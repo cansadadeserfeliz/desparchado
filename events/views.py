@@ -10,9 +10,7 @@ class EventListView(ListView):
     paginate_by = 9
 
     def get_queryset(self):
-        queryset = Event.published.filter(
-            event_date__gte=timezone.now(),
-        )
+        queryset = Event.objects.published().future()
         return queryset.select_related('place')
 
 
@@ -23,9 +21,7 @@ class PastEventListView(ListView):
     paginate_by = 9
 
     def get_queryset(self):
-        queryset = Event.published.filter(
-            event_date__lt=timezone.now(),
-        ).order_by('-event_date')
+        queryset = Event.objects.published().past().order_by('-event_date')
         return queryset.select_related('place')
 
 
@@ -33,7 +29,7 @@ class EventDetailView(DetailView):
     model = Event
 
     def get_queryset(self):
-        return Event.published.all()
+        return Event.objects.published().all()
 
 
 class OrganizerListView(ListView):
