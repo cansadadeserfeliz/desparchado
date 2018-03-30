@@ -1,5 +1,5 @@
 {% extends 'layout/base.html' %}
-{% load i18n %}
+{% load i18n staticfiles %}
 
 {% block content %}
 <section class="container">
@@ -26,5 +26,34 @@
     los editores o por los usuarios registrados.
   </p>
 </div>
+
+<section class="container">
+  <div class="row text-center clearfix">
+    <div class="col-sm-8 col-sm-offset-2">
+      <h2 class="title-one">Nosotros</h2>
+    </div>
+  </div>
+</section>
+
+<div id="about" class="row">
+  <div class="col-md-6 member-profile">
+    <div class="image" style="background-image: url('{% static 'images/nataly.jpg' %}');"
+         title="Nataliya Ershova"></div>
+    <b>Editora</b> <br>
+    Nataliya Ershova es una periodista en televisión y
+    maestra que ha trabajado en el campo educativo durante 5 años.
+    Durante 3 años trabajó como presentadora de noticias locales y
+    también como presentadora de noticias en campo.
+  </div>
+  <div class="col-md-6 member-profile">
+    <div class="image" style="background-image: url('{% static 'images/vera.jpg' %}');"
+         title="Vera Mazhuga"></div>
+    <b>Programadora</b> <br>
+    Vera Mazhuga es una MSc en Matemática Aplicada y
+    desarrolladora Web desde 2010.
+    Le gusta leer, cultivar plantas, montar bicicleta y caminar por Bogotá.
+  </div>
+</div>
+
 
 {% endblock content %}
