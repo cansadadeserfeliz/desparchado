@@ -175,7 +175,6 @@ class SpeakerAdmin(admin.ModelAdmin):
             list_display.remove('created_by')
         return list_display
 
-
     def get_actions(self, request):
         return []
 
