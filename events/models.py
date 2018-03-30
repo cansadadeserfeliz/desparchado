@@ -146,7 +146,7 @@ class Event(TimeStampedModel):
     def get_image_url(self):
         if self.image:
             return self.image.url
-        return static('images/default_event_image.jpg')
+        return static('images/default_event_image.png')
 
     def get_absolute_url(self):
         return reverse('events:event_detail', args=[self.slug])
