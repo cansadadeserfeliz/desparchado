@@ -153,7 +153,10 @@ class Event(TimeStampedModel):
         'events.Speaker', verbose_name='Presentadores',
         related_name='events',
         blank=True, null=True)
-    is_published = models.BooleanField('Está publicado', default=False)
+    is_published = models.BooleanField(
+        'Está publicado',
+        default=True,
+    )
     is_approved = models.BooleanField(
         'Está aprobado', default=True,
         help_text='Campo de uso exclusivo para el administrador del sitio',
