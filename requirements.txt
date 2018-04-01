@@ -8,6 +8,7 @@ raven==6.0.0
 social-auth-core==1.2.0
 
 # Django Libs
+django-autocomplete-light==3.2.10
 django-autoslug==1.9.3
 django-axes==2.3.2
 django-crispy-forms==1.6.1

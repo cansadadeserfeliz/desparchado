@@ -22,7 +22,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    #'grappelli.dashboard',
+    'dal',
+    'dal_select2',
     'desparchado',
     'grappelli',
 
@@ -179,6 +180,7 @@ PIPELINE = {
             'source_filenames': (
               'bower_components/bootstrap/dist/css/bootstrap.min.css',
               'bower_components/font-awesome/css/font-awesome.min.css',
+              'bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css',
               'sass/main.sass',
             ),
             'output_filename': 'css/main.min.css',
@@ -195,6 +197,9 @@ PIPELINE = {
             'source_filenames': (
               'bower_components/jquery/dist/jquery.min.js',
               'bower_components/bootstrap/dist/js/bootstrap.min.js',
+              'bower_components/moment/min/moment-with-locales.min.js',
+              'bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js',
+              'js/main.js',
               'js/letter-avatars.js',
             ),
             'output_filename': 'js/main.min.js',

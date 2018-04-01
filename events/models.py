@@ -89,28 +89,58 @@ class Event(TimeStampedModel):
 
     title = models.CharField(
         'Título', max_length=255,
-        help_text='No hace falta usar mayúsculas: ya tenemos una fuente grande',
     )
     slug = AutoSlugField(
-        null=False, unique=True, populate_from='title')
+        null=False, unique=True,
+        populate_from='title',
+    )
 
-    description = models.TextField('Descripción', default='')
+    description = models.TextField(
+        verbose_name='Descripción',
+        default='',
+        help_text='Puedes usar Markdown para dar formato al texto.'
+    )
     event_type = models.PositiveSmallIntegerField(
-        'Tipo del evento', choices=EVENT_TYPES)
-    topic = models.PositiveSmallIntegerField('Tema', choices=EVENT_TOPICS)
+        'Tipo del evento',
+        choices=EVENT_TYPES,
+    )
+    topic = models.PositiveSmallIntegerField(
+        'Tema',
+        choices=EVENT_TOPICS,
+    )
     event_date = models.DateTimeField('Fecha del evento')
-    event_end_date = models.DateTimeField('Fecha final', null=True, blank=True)
+    event_end_date = models.DateTimeField(
+        'Fecha final',
+        null=True,
+        blank=True
+    )
     event_source_url = models.URLField(
-        'Enlace a la página del evento', null=True, blank=True)
+        'Enlace a la página del evento',
+        null=True,
+        blank=True
+    )
     price = models.DecimalField(
-        'Precio', default=0, decimal_places=2, max_digits=9)
+        'Precio',
+        default=0,
+        decimal_places=2,
+        max_digits=9
+    )
     image = models.ImageField(
-        'Imagen', blank=True, null=True, upload_to='events')
+        'Imagen',
+        blank=True,
+        null=True,
+        upload_to='events'
+    )
     image_source_url = models.URLField(
-        'Créditos/atribución de la imagen', null=True, blank=True)
+        'Créditos/atribución de la imagen',
+        null=True,
+        blank=True
+    )
     organizer = models.ForeignKey(
-        'events.Organizer', verbose_name='Organizador',
-        related_name='events')
+        'events.Organizer',
+        verbose_name='Organizador',
+        related_name='events'
+    )
     place = models.ForeignKey(
         'places.Place', verbose_name='Lugar',
         related_name='events')

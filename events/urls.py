@@ -18,6 +18,13 @@ urlpatterns = [
         name='past_event_list'
     ),
 
+    # Add event
+    url(
+        r'^add/$',
+        event_views.EventCreateView.as_view(),
+        name='add_event'
+    ),
+
     # Speakers
     url(
         r'^speakers/$',
@@ -35,6 +42,11 @@ urlpatterns = [
         r'organizations/^$',
         event_views.OrganizerListView.as_view(),
         name='organizer_list'
+    ),
+    url(
+        r'^organizations-autocomplete/$',
+        event_views.OrganizerAutocomplete.as_view(),
+        name='organizer_autocomplete',
     ),
 
     # Event detail views
