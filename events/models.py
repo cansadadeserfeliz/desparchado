@@ -224,6 +224,9 @@ class Organizer(TimeStampedModel):
             return self.image.url
         return None
 
+    def get_absolute_url(self):
+        return '/'
+
     @staticmethod
     def autocomplete_search_fields():
         return ('name__icontains',)

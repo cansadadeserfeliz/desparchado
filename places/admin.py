@@ -1,6 +1,7 @@
 from django.contrib.gis import admin as gis_admin
 from django.contrib import admin
 
+from desparchado.utils import send_admin_notification
 from .models import Place, City
 
 BOGOTA_LAT = 4.5930632
@@ -62,6 +63,8 @@ class PlaceAdmin(gis_admin.OSMGeoAdmin):
         if not obj.id:
             obj.created_by = request.user
         super().save_model(request, obj, form, change)
+
+        send_admin_notification(request, obj, form, change)
 
     def has_delete_permission(self, request, obj=None):
         return False

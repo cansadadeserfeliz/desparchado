@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.utils.translation import ugettext_lazy as _
 
+from desparchado.utils import send_admin_notification
 from .models import Event, Organizer, Speaker
 
 
@@ -47,6 +48,8 @@ class EventAdmin(admin.ModelAdmin):
         if not obj.id:
             obj.created_by = request.user
         super().save_model(request, obj, form, change)
+
+        send_admin_notification(request, obj, form, change)
 
     def get_list_display(self, request):
         list_display = [
@@ -121,6 +124,8 @@ class OrganizerAdmin(admin.ModelAdmin):
             obj.created_by = request.user
         super().save_model(request, obj, form, change)
 
+        send_admin_notification(request, obj, form, change)
+
     def get_list_display(self, request):
         list_display = list(self.list_display)
         if not request.user.is_superuser:
@@ -171,6 +176,8 @@ class SpeakerAdmin(admin.ModelAdmin):
         if not obj.id:
             obj.created_by = request.user
         super().save_model(request, obj, form, change)
+
+        send_admin_notification(request, obj, form, change)
 
     def get_list_display(self, request):
         list_display = list(self.list_display)
