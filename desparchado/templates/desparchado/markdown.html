@@ -1,0 +1,87 @@
+{% extends 'layout/base.html' %}
+{% load i18n staticfiles %}
+
+{% block content %}
+<section class="container">
+  <div class="row text-center clearfix">
+    <div class="col-sm-8 col-sm-offset-2">
+      <h2 class="title-one">Markdown</h2>
+    </div>
+  </div>
+</section>
+
+<div id="markdown">
+  <p>
+    Markdown es un lenguaje de marcado sencillo que sirve
+    para agregar formato, vínculos e imágenes con facilidad al texto simple.
+  </p>
+  <p>
+    En la tabla siguiente se muestran ejemplos de cómo se puede usar
+    Markdown para agregar formatos comunes.
+  </p>
+  <p>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Texto ingresado</th>
+          <th>Texto publicado</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+           <td>**cursiva**</td>
+           <td><i>cursiva</i></td>
+        </tr>
+        <tr>
+           <td>**negrita**</td>
+           <td><b>negrita</b></td>
+        </tr>
+        <tr>
+           <td>
+             * Un elemento en una lista no ordenada <br>
+             * Otro elemento en una lista
+           </td>
+           <td>
+             <ul>
+               <li>Un elemento en una lista no ordenada</li>
+               <li>Otro elemento en una lista</li>
+             </ul>
+           </td>
+        </tr>
+        <tr>
+           <td>[Texto del enlace aquí](http:/desparchado.co)</td>
+           <td><a href="http:/desparchado.co">Texto del enlace aquí</a></td>
+        </tr>
+        <tr>
+           <td>![Texto alternativo de la imagen](https://es.wikipedia.org/static/images/project-logos/eswiki.png)</td>
+           <td><img alt="Texto alternativo de la imagen" src="https://es.wikipedia.org/static/images/project-logos/eswiki.png"></td>
+        </tr>
+        <tr>
+           <td># Encabezado h1
+           <td><h1>Encabezado h1</h1></td>
+        </tr>
+        <tr>
+           <td>## Encabezado h2
+           <td><h2>Encabezado h2</h2></td>
+        </tr>
+        <tr>
+           <td>### Encabezado h3
+           <td><h3>Encabezado h3</h3></td>
+        </tr>
+        <tr>
+           <td>#### Encabezado h4
+           <td><h4>Encabezado h4</h4></td>
+        </tr>
+        <tr>
+           <td>##### Encabezado h5
+           <td><h5>Encabezado h5</h5></td>
+        </tr>
+        <tr>
+           <td>## Encabezado h6
+           <td><h6>Encabezado h6</h6></td>
+        </tr>
+      </tbody>
+    </table>
+  </p>
+</div>
+{% endblock content %}

@@ -28,7 +28,7 @@ class PlaceDetailView(DetailView):
 class PlaceAutocomplete(autocomplete.Select2QuerySetView):
     def get_result_label(self, item):
         return format_html(
-            '<img src="{}" width="20", height="20"> {}',
+            '<img src="{}" height="20"> {}',
             item.get_image_url(),
             item.name
         )

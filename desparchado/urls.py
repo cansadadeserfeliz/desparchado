@@ -30,6 +30,12 @@ urlpatterns = [
     url(r'^$', HomeView.as_view(), name='home'),
     url(r'^about/$', TemplateView.as_view(template_name='desparchado/about.html'), name='about'),
 
+    url(
+        r'^markdown/$',
+        TemplateView.as_view(template_name='desparchado/markdown.html'),
+        name='markdown',
+    ),
+
     url(r'^events/', include('events.urls', namespace='events')),
     url(r'^places/', include('places.urls', namespace='places')),
     url(r'^users/', include('users.urls', namespace='users')),

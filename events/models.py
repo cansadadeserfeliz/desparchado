@@ -4,6 +4,7 @@ from django.conf import settings
 from django.templatetags.static import static
 from django.db.models import Q
 from django.utils import timezone
+from django.utils.html import format_html
 
 from model_utils.models import TimeStampedModel
 from autoslug import AutoSlugField
@@ -98,7 +99,11 @@ class Event(TimeStampedModel):
     description = models.TextField(
         verbose_name='Descripción',
         default='',
-        help_text='Puedes usar Markdown para dar formato al texto.'
+        help_text=format_html(
+            'Puedes usar <a href="{}" target="_blank">Markdown</a> '
+            'para dar formato al texto.',
+            '/markdown',
+        ),
     )
     event_type = models.PositiveSmallIntegerField(
         'Tipo del evento',

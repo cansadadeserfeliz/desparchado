@@ -90,7 +90,7 @@ class EventCreateView(LoginRequiredMixin, CreateView):
 class OrganizerAutocomplete(autocomplete.Select2QuerySetView):
     def get_result_label(self, item):
         return format_html(
-            '<img src="{}" width="20", height="20"> {}',
+            '<img src="{}" width="20" height="20"> {}',
             item.get_image_url(),
             item.name
         )
@@ -114,7 +114,7 @@ class OrganizerAutocomplete(autocomplete.Select2QuerySetView):
 class SpeakerAutocomplete(autocomplete.Select2QuerySetView):
     def get_result_label(self, item):
         return format_html(
-            '<img src="{}" width="30", height="30"> {}',
+            '<img src="{}" width="30" height="30"> {}',
             item.get_image_url(),
             item.name
         )
