@@ -74,14 +74,23 @@ class EventCreateForm(forms.ModelForm):
             'organizer':
             autocomplete.ModelSelect2(
                 url='events:organizer_autocomplete',
+                attrs={
+                    'data-html': True,
+                },
             ),
             'place':
             autocomplete.ModelSelect2(
                 url='places:place_autocomplete',
+                attrs={
+                    'data-html': True,
+                },
             ),
             'speakers':
             autocomplete.ModelSelect2Multiple(
                 url='events:speaker_autocomplete',
+                attrs={
+                    'data-html': True,
+                },
             )
         }
 

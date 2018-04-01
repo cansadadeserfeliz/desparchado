@@ -1,4 +1,6 @@
 from django.views.generic import ListView, DetailView
+from django.utils.html import format_html
+
 
 from dal import autocomplete
 
@@ -25,6 +27,13 @@ class PlaceDetailView(DetailView):
 
 class PlaceAutocomplete(autocomplete.Select2QuerySetView):
     def get_result_label(self, item):
+        return format_html(
+            '<img src="{}" width="20", height="20"> {}',
+            item.get_image_url(),
+            item.name
+        )
+
+    def get_selected_result_label(self, item):
         return item.name
 
     def get_queryset(self):

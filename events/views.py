@@ -1,6 +1,7 @@
 from django.views.generic import ListView, DetailView, CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.urlresolvers import reverse
+from django.utils.html import format_html
 
 from dal import autocomplete
 
@@ -88,6 +89,13 @@ class EventCreateView(LoginRequiredMixin, CreateView):
 
 class OrganizerAutocomplete(autocomplete.Select2QuerySetView):
     def get_result_label(self, item):
+        return format_html(
+            '<img src="{}" width="20", height="20"> {}',
+            item.get_image_url(),
+            item.name
+        )
+
+    def get_selected_result_label(self, item):
         return item.name
 
     def get_queryset(self):
@@ -105,6 +113,13 @@ class OrganizerAutocomplete(autocomplete.Select2QuerySetView):
 
 class SpeakerAutocomplete(autocomplete.Select2QuerySetView):
     def get_result_label(self, item):
+        return format_html(
+            '<img src="{}" width="30", height="30"> {}',
+            item.get_image_url(),
+            item.name
+        )
+
+    def get_selected_result_label(self, item):
         return item.name
 
     def get_queryset(self):
