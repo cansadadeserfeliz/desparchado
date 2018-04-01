@@ -1,5 +1,6 @@
 from django.views.generic import ListView, DetailView
-from django.utils import timezone
+
+from dal import autocomplete
 
 from .models import Place
 
@@ -20,3 +21,20 @@ class PlaceDetailView(DetailView):
         context['past_events'] = \
             self.get_object().events.published().past().order_by('-event_date').all()[:9]
         return context
+
+
+class PlaceAutocomplete(autocomplete.Select2QuerySetView):
+    def get_result_label(self, item):
+        return item.name
+
+    def get_queryset(self):
+        # Don't forget to filter out results depending on the visitor!
+        if not self.request.user.is_authenticated():
+            return Place.objects.none()
+
+        qs = Place.objects.order_by('name').all()
+
+        if self.q:
+            qs = qs.filter(name__icontains=self.q)
+
+        return qs

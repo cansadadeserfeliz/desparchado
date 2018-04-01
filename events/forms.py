@@ -72,7 +72,17 @@ class EventCreateForm(forms.ModelForm):
         ]
         widgets = {
             'organizer':
-            autocomplete.ModelSelect2(url='events:organizer_autocomplete'),
+            autocomplete.ModelSelect2(
+                url='events:organizer_autocomplete',
+            ),
+            'place':
+            autocomplete.ModelSelect2(
+                url='places:place_autocomplete',
+            ),
+            'speakers':
+            autocomplete.ModelSelect2Multiple(
+                url='events:speaker_autocomplete',
+            )
         }
 
 

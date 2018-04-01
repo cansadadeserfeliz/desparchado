@@ -87,12 +87,32 @@ class EventCreateView(LoginRequiredMixin, CreateView):
 
 
 class OrganizerAutocomplete(autocomplete.Select2QuerySetView):
+    def get_result_label(self, item):
+        return item.name
+
     def get_queryset(self):
         # Don't forget to filter out results depending on the visitor!
         if not self.request.user.is_authenticated():
             return Organizer.objects.none()
 
-        qs = Organizer.objects.all()
+        qs = Organizer.objects.order_by('name').all()
+
+        if self.q:
+            qs = qs.filter(name__icontains=self.q)
+
+        return qs
+
+
+class SpeakerAutocomplete(autocomplete.Select2QuerySetView):
+    def get_result_label(self, item):
+        return item.name
+
+    def get_queryset(self):
+        # Don't forget to filter out results depending on the visitor!
+        if not self.request.user.is_authenticated():
+            return Speaker.objects.none()
+
+        qs = Speaker.objects.order_by('name').all()
 
         if self.q:
             qs = qs.filter(name__icontains=self.q)

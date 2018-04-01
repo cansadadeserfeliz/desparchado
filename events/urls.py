@@ -32,6 +32,11 @@ urlpatterns = [
         name='speaker_list'
     ),
     url(
+        r'^speaker-autocomplete/$',
+        event_views.SpeakerAutocomplete.as_view(),
+        name='speaker_autocomplete',
+    ),
+    url(
         r'^speaker/(?P<slug>[\w-]+)/$',
         event_views.SpeakerDetailView.as_view(),
         name='speaker_detail'
