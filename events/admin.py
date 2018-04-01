@@ -44,7 +44,8 @@ class EventAdmin(admin.ModelAdmin):
         return []
 
     def save_model(self, request, obj, form, change):
-        obj.created_by = request.user
+        if not obj.id:
+            obj.created_by = request.user
         super().save_model(request, obj, form, change)
 
     def get_list_display(self, request):
@@ -116,7 +117,8 @@ class OrganizerAdmin(admin.ModelAdmin):
     )
 
     def save_model(self, request, obj, form, change):
-        obj.created_by = request.user
+        if not obj.id:
+            obj.created_by = request.user
         super().save_model(request, obj, form, change)
 
     def get_list_display(self, request):
@@ -166,7 +168,8 @@ class SpeakerAdmin(admin.ModelAdmin):
     )
 
     def save_model(self, request, obj, form, change):
-        obj.created_by = request.user
+        if not obj.id:
+            obj.created_by = request.user
         super().save_model(request, obj, form, change)
 
     def get_list_display(self, request):

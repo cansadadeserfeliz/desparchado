@@ -22,6 +22,7 @@ class UserEventRelationAdmin(admin.ModelAdmin):
 
 admin.site.unregister(User)
 
+
 @admin.register(User)
 class MyUserAdmin(UserAdmin):
 
