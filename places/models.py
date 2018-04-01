@@ -39,7 +39,7 @@ class Place(TimeStampedModel):
     def get_image_url(self):
         if self.image:
             return self.image.url
-        return static('images/default_event_image.jpg')
+        return static('images/default_place_image.png')
 
     def get_absolute_url(self):
         return reverse('places:place_detail', args=[self.slug])
