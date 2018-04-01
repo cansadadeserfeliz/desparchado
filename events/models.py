@@ -248,7 +248,7 @@ class Speaker(TimeStampedModel):
     def get_image_url(self):
         if self.image:
             return self.image.url
-        return None
+        return static('images/default_speaker_image.png')
 
     def get_absolute_url(self):
         return reverse('events:speaker_detail', args=[self.slug])
