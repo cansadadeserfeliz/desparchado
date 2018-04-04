@@ -44,13 +44,26 @@
       {{ event.description|markdown }}
     </div>
 
-  {% if event.event_source_url %}
+    <p>
+      <small>
+      En Desparchado.co sólo brindamos un espacio en Internet para hacer difusión
+      de eventos culturales, generalmente publicados en nuestro sitio por voluntarios.
+      El registro de asistentes, tiquetes, boletería, inscripciones son manejados
+      por los organizadores de cada evento, con quienes, por lo general,
+      no tenemos contacto directo.<br>
+      Le recomendamos contactar al organizador del evento
+      o al sitio donde el evento tendrá lugar
+      para solicitar información sobre la inscripción.
+      </small>
+    </p>
+
+    {% if event.event_source_url %}
     <div class="event-source">
       <i class="fa fa-globe"></i>
       <span>Página del evento:</span>
       <a href="{{ event.event_source_url }}" target="_blank">{{ event.event_source_url|truncatechars:50 }}</a>
     </div>
-  {% endif %}
+    {% endif %}
 
     <div class="addthis_inline_share_toolbox"></div>
 

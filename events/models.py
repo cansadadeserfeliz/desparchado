@@ -122,7 +122,7 @@ class Event(TimeStampedModel):
     event_source_url = models.URLField(
         'Enlace a la página del evento',
         null=True,
-        blank=True
+        blank=False,
     )
     price = models.DecimalField(
         'Precio',
