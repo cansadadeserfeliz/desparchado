@@ -1,6 +1,6 @@
 from django.views.generic import ListView, DetailView, CreateView
 from django.utils.html import format_html
-from django.core.urlresolvers import reverse
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from dal import autocomplete
 
@@ -50,7 +50,7 @@ class PlaceAutocomplete(autocomplete.Select2QuerySetView):
         return qs
 
 
-class PlaceCreateView(CreateView):
+class PlaceCreateView(LoginRequiredMixin, CreateView):
     model = Place
     form_class = PlaceForm
 
