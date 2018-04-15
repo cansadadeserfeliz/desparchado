@@ -1,4 +1,5 @@
 {% extends 'dashboard/layout/base.html' %}
+{% load i18n dashboard_tags %}
 
 {% block content %}
 <div class="row">
@@ -32,7 +33,7 @@
       </div>
       <!-- /.box-body -->
       <div class="box-footer clearfix">
-        {% include 'dashboard/includes/_pagination.html' %}
+        {% get_dashboard_pagination %}
       </div>
     </div>
     <!-- /.box -->
