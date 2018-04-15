@@ -38,6 +38,7 @@ INSTALLED_APPS = [
 
     'axes',
     'django_markdown',
+    'mapwidgets',
     'pipeline',
     'raven.contrib.django.raven_compat',
     'social_django',
@@ -285,6 +286,18 @@ SOCIAL_AUTH_FACEBOOK_SCOPE = [
 
 GRAPPELLI_ADMIN_TITLE = 'Desparchado. Administrador de eventos'
 GRAPPELLI_INDEX_DASHBOARD = 'dashboard.CustomIndexDashboard'
+
+
+MAP_WIDGETS = {
+    "GooglePointFieldWidget": (
+        ("zoom", 12),
+        ("mapCenterLocation", [4.5930632, -74.0757637]),
+        ("mapCenterLocationName", "bogota"),
+        ("language", 'es'),
+    ),
+    "GOOGLE_MAP_API_KEY": 'AIzaSyAFbA9J0IcGyy20cl7xd6Le16U_Bx_TSeI',
+    "LANGUAGE": 'es',
+}
 
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'

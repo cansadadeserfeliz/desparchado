@@ -84,7 +84,7 @@ class EventCreateView(LoginRequiredMixin, CreateView):
         self.object.is_approved = True
         self.object.created_by = self.request.user
         self.object.save()
-        return super(EventCreateView, self).form_valid(form)
+        return super().form_valid(form)
 
 
 class OrganizerAutocomplete(autocomplete.Select2QuerySetView):

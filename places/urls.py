@@ -1,6 +1,6 @@
 from django.conf.urls import url
 
-from .views import PlaceListView, PlaceDetailView, PlaceAutocomplete
+from .views import PlaceListView, PlaceDetailView, PlaceAutocomplete, PlaceCreateView
 
 
 urlpatterns = [
@@ -13,6 +13,11 @@ urlpatterns = [
         r'^places-autocomplete/$',
         PlaceAutocomplete.as_view(),
         name='place_autocomplete',
+    ),
+    url(
+        r'^add/$',
+        PlaceCreateView.as_view(),
+        name='place_add',
     ),
     url(
         r'^(?P<pk>\d+)/$',

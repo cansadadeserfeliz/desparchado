@@ -32,6 +32,12 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 
+    {% javascript 'main' %}
+
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-58ced1089d6b2a96"></script>
+
+    {% block javascript %}{% endblock javascript %}
+
     {% google_analytics_code %}
   </head>
 
@@ -47,12 +53,6 @@
     {% include 'layout/_footer.html' %}
 
   {% endblock body %}
-
-  {% javascript 'main' %}
-  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-58ced1089d6b2a96"></script>
-
-  {% block javascript %}{% endblock javascript %}
-
   </body>
 
 </html>

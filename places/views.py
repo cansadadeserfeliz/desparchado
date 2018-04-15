@@ -1,10 +1,11 @@
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, CreateView
 from django.utils.html import format_html
-
+from django.core.urlresolvers import reverse
 
 from dal import autocomplete
 
 from .models import Place
+from .forms import PlaceForm
 
 
 class PlaceListView(ListView):
@@ -47,3 +48,20 @@ class PlaceAutocomplete(autocomplete.Select2QuerySetView):
             qs = qs.filter(name__icontains=self.q)
 
         return qs
+
+
+class PlaceCreateView(CreateView):
+    model = Place
+    form_class = PlaceForm
+
+    def get_success_url(self):
+        """
+        Returns the supplied URL.
+        """
+        return self.object.get_absolute_url()
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.created_by = self.request.user
+        self.object.save()
+        return super().form_valid(form)
