@@ -14,8 +14,10 @@
           <thead>
             <tr>
               <th>Username</th>
+              <th>Email</th>
               <th>First Name</th>
               <th>Last name</th>
+              <th>Active</th>
               <th>Superuser</th>
               <th>Added events count</th>
             </tr>
@@ -24,8 +26,14 @@
           {% for user in users %}
             <tr>
               <td>{{ user.username }}</td>
+              <td>{{ user.email }}</td>
               <td>{{ user.first_name }}</td>
               <td>{{ user.last_name }}</td>
+              <td>
+                <span class="label {% if user.is_active %}label-success{% else %}label-danger{% endif %}">
+                  {{ user.is_active|yesno }}
+                </span>
+              </td>
               <td>
                 <span class="label {% if user.is_superuser %}label-success{% else %}label-danger{% endif %}">
                   {{ user.is_superuser|yesno }}
