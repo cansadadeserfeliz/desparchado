@@ -164,7 +164,10 @@ class Event(TimeStampedModel):
     )
 
     created_by = models.ForeignKey(
-        settings.AUTH_USER_MODEL, verbose_name='Creado por')
+        settings.AUTH_USER_MODEL,
+        verbose_name='Creado por',
+        related_name='created_events',
+    )
 
     objects = EventQuerySet().as_manager()
 

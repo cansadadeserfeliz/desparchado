@@ -6,28 +6,28 @@
   <div class="col-md-12">
     <div class="box">
       <div class="box-header with-border">
-        <h3 class="box-title">Places</h3>
+        <h3 class="box-title">Users</h3>
       </div>
       <!-- /.box-header -->
       <div class="box-body">
         <table class="table table-hover table-condensed">
           <thead>
             <tr>
-              <th>ID</th>
-              <th>Nombre</th>
-              <th>Ubicación</th>
+              <th>Username</th>
+              <th>First Name</th>
+              <th>Last name</th>
               <th>Created by</th>
+              <th>Added events count</th>
             </tr>
           </thead>
           <tbody>
-          {% for place in places %}
+          {% for user in users %}
             <tr>
-              <td>{{ place.id }}</td>
-              <td>{{ place.name }}</td>
-              <td>{{ place.city }}</td>
-              <td class="{% if not place.created_by.is_superuser %}bg-yellow disabled color-palette{% endif %}">
-                {{ place.created_by }}
-              </td>
+              <td>{{ user.username }}</td>
+              <td>{{ user.first_name }}</td>
+              <td>{{ user.last_name }}</td>
+              <td>{{ user.is_superuser }}</td>
+              <td>{{ user.events_count }}</td>
             </tr>
           {% endfor %}
           </tbody>
