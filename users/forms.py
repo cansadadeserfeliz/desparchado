@@ -1,5 +1,7 @@
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import PasswordResetForm as AuthPasswordResetForm
+from django.contrib.auth.forms import SetPasswordForm as AuthSetPasswordForm
 from django.contrib.auth import get_user_model
 from django import forms
 
@@ -61,3 +63,39 @@ class RegisterForm(UserCreationForm):
                 'email',
                 'Ya existe un usuario con este correo electrónico.',
             )
+
+
+class PasswordResetForm(AuthPasswordResetForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.helper = FormHelper()
+        self.helper.form_id = 'password_reset_form'
+        self.helper.form_method = 'post'
+
+        self.helper.layout = Layout(
+            'email',
+            Div(
+                Submit('submit', 'RESTABLECER CONTRASEÑA', css_class='btn-primary'),
+                css_class='form-group',
+            ),
+        )
+
+
+class SetPasswordForm(AuthSetPasswordForm):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.helper = FormHelper()
+        self.helper.form_id = 'password_reset_form'
+        self.helper.form_method = 'post'
+
+        self.helper.layout = Layout(
+            'new_password1',
+            'new_password2',
+            Div(
+                Submit('submit', 'CAMBIAR MI CONTRASEÑA', css_class='btn-primary'),
+                css_class='form-group',
+            ),
+        )
