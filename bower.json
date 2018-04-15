@@ -19,6 +19,7 @@
     "jquery": "^3.1.1",
     "bootstrap": "^3.3.7",
     "font-awesome": "^4.7.0",
-    "eonasdan-bootstrap-datetimepicker": "^4.17.47"
+    "eonasdan-bootstrap-datetimepicker": "^4.17.47",
+    "admin-lte": "^2.4.3"
   }
 }

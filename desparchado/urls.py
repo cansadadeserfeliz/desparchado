@@ -39,6 +39,7 @@ urlpatterns = [
     url(r'^events/', include('events.urls', namespace='events')),
     url(r'^places/', include('places.urls', namespace='places')),
     url(r'^users/', include('users.urls', namespace='users')),
+    url(r'^dashboard/', include('dashboard.urls', namespace='dashboard')),
 
     url(r'^i18n/', include('django.conf.urls.i18n')),
 

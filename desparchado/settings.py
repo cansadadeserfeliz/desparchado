@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'social_django',
     'crispy_forms',
 
+    'dashboard',
     'events',
     'places',
     'users',
@@ -192,6 +193,16 @@ PIPELINE = {
             ),
             'output_filename': 'css/admin.min.css',
         },
+        'dashboard': {
+            'source_filenames': (
+              'bower_components/bootstrap/dist/css/bootstrap.min.css',
+              'bower_components/font-awesome/css/font-awesome.min.css',
+              'bower_components/Ionicons/css/ionicons.min.css',
+              'bower_components/admin-lte/dist/css/AdminLTE.min.css',
+              'bower_components/admin-lte/dist/css/skins/_all-skins.min.css',
+            ),
+            'output_filename': 'css/dashboard.min.css',
+        },
     },
     'JAVASCRIPT': {
         'main': {
@@ -204,6 +215,18 @@ PIPELINE = {
               'js/letter-avatars.js',
             ),
             'output_filename': 'js/main.min.js',
+        },
+        'dashboard': {
+            'source_filenames': (
+              'bower_components/jquery/dist/jquery.min.js',
+              'bower_components/bootstrap/dist/js/bootstrap.min.js',
+              'bower_components/moment/min/moment-with-locales.min.js',
+              'bower_components/jquery-slimscroll/jquery.slimscroll.min.js',
+              'bower_components/fastclick/lib/fastclick.js',
+              'bower_components/admin-lte/dist/js/adminlte.min.js',
+              'bower_components/admin-lte/dist/js/demo.js',
+            ),
+            'output_filename': 'js/dashboard.min.js',
         },
     },
 }
