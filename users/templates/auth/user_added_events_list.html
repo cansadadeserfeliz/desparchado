@@ -47,6 +47,10 @@
           </a>
         </td>
       </tr>
+    {% empty %}
+      <tr>
+        <td colspan="100">Aún no ha agregado ningún evento.</td>
+      </tr>
     {% endfor %}
     </tbody>
   </table>
