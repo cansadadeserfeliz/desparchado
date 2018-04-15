@@ -16,7 +16,7 @@
               <th>Username</th>
               <th>First Name</th>
               <th>Last name</th>
-              <th>Created by</th>
+              <th>Superuser</th>
               <th>Added events count</th>
             </tr>
           </thead>
@@ -26,7 +26,11 @@
               <td>{{ user.username }}</td>
               <td>{{ user.first_name }}</td>
               <td>{{ user.last_name }}</td>
-              <td>{{ user.is_superuser }}</td>
+              <td>
+                <span class="label {% if user.is_superuser %}label-success{% else %}label-danger{% endif %}">
+                  {{ user.is_superuser|yesno }}
+                </span>
+              </td>
               <td>{{ user.events_count }}</td>
             </tr>
           {% endfor %}
