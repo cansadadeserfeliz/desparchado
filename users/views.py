@@ -2,7 +2,6 @@ from django.views.generic import DetailView, FormView
 from django.views.generic import ListView
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth import authenticate

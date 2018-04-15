@@ -1,4 +1,5 @@
 {% extends 'dashboard/layout/base.html' %}
+{% load humanize %}
 
 {% block content %}
 <div class="row">
@@ -8,7 +9,7 @@
 
       <div class="info-box-content">
         <span class="info-box-text">Published Events</span>
-        <span class="info-box-number">{{ total_events_count }}</span>
+        <span class="info-box-number">{{ total_events_count|intcomma }}</span>
       </div>
       <!-- /.info-box-content -->
     </div>
@@ -21,7 +22,7 @@
 
       <div class="info-box-content">
         <span class="info-box-text">Future Events</span>
-        <span class="info-box-number">{{ future_events_count }}</span>
+        <span class="info-box-number">{{ future_events_count|intcomma }}</span>
       </div>
       <!-- /.info-box-content -->
     </div>
@@ -30,11 +31,11 @@
   <!-- /.col -->
   <div class="col-md-4 col-sm-6 col-xs-12">
     <div class="info-box">
-      <span class="info-box-icon bg-yellow"><i class="fa fa-files-o"></i></span>
+      <span class="info-box-icon bg-yellow"><i class="fa fa-user"></i></span>
 
       <div class="info-box-content">
-        <span class="info-box-text">Uploads</span>
-        <span class="info-box-number">13,648</span>
+        <span class="info-box-text">Active users</span>
+        <span class="info-box-number">{{ active_users_count|intcomma }}</span>
       </div>
       <!-- /.info-box-content -->
     </div>
