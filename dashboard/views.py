@@ -25,6 +25,7 @@ class HomeView(SuperuserRequiredMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['total_events_count'] = Event.objects.published().count()
+        context['future_events'] = Event.objects.published().all()
         context['future_events_count'] = Event.objects.published().future().count()
         context['places_count'] = Place.objects.count()
         context['organizers_count'] = Organizer.objects.count()

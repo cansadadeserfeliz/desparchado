@@ -87,4 +87,74 @@
   <!-- /.col -->
 </div>
 <!-- /.row -->
+
+  <script src='https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyAFbA9J0IcGyy20cl7xd6Le16U_Bx_TSeI'></script>
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="box">
+      <div class="box-header with-border">
+        <h3 class="box-title">Future events map</h3>
+      </div>
+      <!-- /.box-header -->
+      <div class="box-body">
+        <div style='overflow:hidden;height:300px;width:auto;'>
+          <div id='map_canvas' style='height:300px;'></div>
+          <style>
+            #map_canvas img {
+              width: auto;
+              max-width:none !important;
+              background:none !important
+            }
+          </style>
+        </div>
+      </div>
+    </div><!-- /.box -->
+  </div>
+</div><!-- /.row -->
+
+<script type='text/javascript'>
+    const bounds = new google.maps.LatLngBounds();
+    var locations = [
+    {% for event in future_events %}
+      [
+        '{{ event.title }}',
+        {{ event.get_latitude_str }},
+        {{ event.get_longitude_str }},
+        {{ forloop.counter }}]{% if not forloop.last %},{% endif %}
+    {% endfor %}
+    ];
+
+    var map = new google.maps.Map(document.getElementById('map_canvas'), {
+      zoom: 10,
+      center: new google.maps.LatLng(4.5930632, -74.0757637),
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    });
+
+    var infowindow = new google.maps.InfoWindow();
+
+    var marker, i;
+
+    for (i = 0; i < locations.length; i++) {
+      var position = new google.maps.LatLng(locations[i][1], locations[i][2])
+
+      marker = new google.maps.Marker({
+        position: position,
+        map: map
+      });
+
+      // Stretch our bounds to the newly found marker position
+      bounds.extend(position);
+
+      google.maps.event.addListener(marker, 'click', (function(marker, i) {
+        return function() {
+          infowindow.setContent(locations[i][0]);
+          infowindow.open(map, marker);
+        }
+      })(marker, i));
+    }
+
+    // Automatically center the map fitting all markers on the screen
+    map.fitBounds(bounds);
+</script>
 {% endblock content %}
