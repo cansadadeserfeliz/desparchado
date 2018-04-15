@@ -20,7 +20,6 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.contrib.sitemaps.views import sitemap
-from django.views.generic import RedirectView
 
 from .views import HomeView
 from .sitemap import sitemaps
@@ -48,7 +47,6 @@ urlpatterns = [
     url('', include('social_django.urls', namespace='social')),
 
     url(r'^grappelli/', include('grappelli.urls')),  # grappelli URLS
-    url(r'^admin/login/$', RedirectView.as_view(pattern_name='users:login', permanent=False)),
     url(r'^admin/', include(admin.site.urls)),  # admin site
 
     url(r'^sitemap\.xml$', sitemap, {'sitemaps': sitemaps},

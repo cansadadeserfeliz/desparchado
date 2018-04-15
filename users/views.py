@@ -46,21 +46,13 @@ class UserCreationFormView(FormView):
         user = User.objects.create_user(
             form.cleaned_data['username'],
             password=form.cleaned_data['password1'],
-            is_staff=True,
             is_active=True,
             first_name=form.cleaned_data['first_name'],
             email=form.cleaned_data['email'],
         )
-        editor_group = Group.objects.filter(name='Editores').first()
-        if editor_group:
-            user.groups.add(editor_group)
         authenticate(
             self.request,
             username=user.username,
             password=form.cleaned_data['password1'],
         )
-        #return HttpResponseRedirect(reverse(
-        #    'users:user_detail',
-        #    kwargs={'slug': user.username}
-        #))
         return HttpResponseRedirect(reverse('users:login'))

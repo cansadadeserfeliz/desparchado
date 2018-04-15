@@ -10,6 +10,18 @@ class EventAdmin(admin.ModelAdmin):
 
     search_fields = ('title',)
 
+    list_display = [
+        'title',
+        'is_published',
+        'is_approved',
+        'event_type',
+        'topic',
+        'event_date',
+        'event_end_date',
+        'created_by',
+        'created',
+    ]
+
     fieldsets = (
         (None, {
             'fields': (
@@ -51,44 +63,9 @@ class EventAdmin(admin.ModelAdmin):
 
         send_admin_notification(request, obj, form, change)
 
-    def get_list_display(self, request):
-        list_display = [
-            'title',
-            'is_published',
-            'is_approved',
-            'event_type',
-            'topic',
-            'event_date',
-            'event_end_date',
-            'price',
-            'created',
-        ]
-        if request.user.is_superuser:
-            list_display.append('slug',)
-            list_display.append('created_by')
-            list_display.append('modified')
-        return list_display
-
     def get_readonly_fields(self, request, obj=None):
         readonly_fields = ['slug']
-        if not request.user.is_superuser:
-            readonly_fields.append('is_approved')
         return readonly_fields
-
-    def get_queryset(self, request):
-        queryset = super().get_queryset(request)
-        if not request.user.is_superuser:
-            queryset = queryset.filter(created_by=request.user)
-        return queryset
-
-    def has_change_permission(self, request, obj=None):
-        if request.user.is_superuser:
-            return True
-        if obj and request.user == obj.created_by:
-            return True
-        if not obj:
-            return True
-        return False
 
     def has_delete_permission(self, request, obj=None):
         return False
@@ -126,23 +103,8 @@ class OrganizerAdmin(admin.ModelAdmin):
 
         send_admin_notification(request, obj, form, change)
 
-    def get_list_display(self, request):
-        list_display = list(self.list_display)
-        if not request.user.is_superuser:
-            list_display.remove('created_by')
-        return list_display
-
     def get_actions(self, request):
         return []
-
-    def has_change_permission(self, request, obj=None):
-        if request.user.is_superuser:
-            return True
-        if obj and request.user == obj.created_by:
-            return True
-        if not obj:
-            return True
-        return False
 
     def has_delete_permission(self, request, obj=None):
         return False
@@ -179,26 +141,11 @@ class SpeakerAdmin(admin.ModelAdmin):
 
         send_admin_notification(request, obj, form, change)
 
-    def get_list_display(self, request):
-        list_display = list(self.list_display)
-        if not request.user.is_superuser:
-            list_display.remove('created_by')
-        return list_display
-
     def get_actions(self, request):
         return []
 
     def has_add_permission(self, request):
         return True
-
-    def has_change_permission(self, request, obj=None):
-        if request.user.is_superuser:
-            return True
-        if obj and request.user == obj.created_by:
-            return True
-        if not obj:
-            return True
-        return False
 
     def has_delete_permission(self, request, obj=None):
         return False

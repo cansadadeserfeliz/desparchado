@@ -41,21 +41,6 @@ class PlaceAdmin(gis_admin.OSMGeoAdmin):
         }),
     )
 
-    def has_change_permission(self, request, obj=None):
-        if request.user.is_superuser:
-            return True
-        if obj and request.user == obj.created_by:
-            return True
-        if not obj:
-            return True
-        return False
-
-    def get_list_display(self, request):
-        list_display = list(self.list_display)
-        if not request.user.is_superuser:
-            list_display.remove('created_by')
-        return list_display
-
     def get_actions(self, request):
         return []
 
