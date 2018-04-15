@@ -6,7 +6,18 @@
       <li><a href="{% url 'home' %}"><i class="fa fa-home text-green"></i> <span>desparchado.co</span></a></li>
       <li><a href="{% url 'admin:index' %}"><i class="fa fa-dashboard text-red"></i> <span>Django Admin</span></a></li>
       <li class="header">MAIN NAVIGATION</li>
-      <li><a href="{% url 'dashboard:events' %}"><i class="fa fa-calendar"></i> <span>Events</span></a></li>
+      <li>
+        <a href="{% url 'dashboard:events' %}">
+          <i class="fa fa-calendar"></i>
+          <span>Events</span>
+        </a>
+      </li>
+      <li>
+        <a href="{% url 'dashboard:places' %}">
+          <i class="fa fa-map-marker"></i>
+          <span>Places</span>
+        </a>
+      </li>
     </ul>
   </section>
   <!-- /.sidebar -->

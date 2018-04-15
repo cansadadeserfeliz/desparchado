@@ -1,0 +1,43 @@
+{% extends 'dashboard/layout/base.html' %}
+{% load i18n dashboard_tags %}
+
+{% block content %}
+<div class="row">
+  <div class="col-md-12">
+    <div class="box">
+      <div class="box-header with-border">
+        <h3 class="box-title">Places</h3>
+      </div>
+      <!-- /.box-header -->
+      <div class="box-body">
+        <table class="table table-hover table-condensed">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nombre</th>
+              <th>Ubicación</th>
+              <th>Created by</th>
+            </tr>
+          </thead>
+          <tbody>
+          {% for place in places %}
+            <tr  class="{% if not place.created_by.is_superuser %}bg-yellow disabled color-palette{% endif %}">
+              <td>{{ place.id }}</td>
+              <td>{{ place.name }}</td>
+              <td>{{ place.city }}</td>
+              <td>{{ place.created_by }}</td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <!-- /.box-body -->
+      <div class="box-footer clearfix">
+        {% get_dashboard_pagination %}
+      </div>
+    </div>
+    <!-- /.box -->
+  </div>
+</div>
+<!-- /.row -->
+{% endblock content %}

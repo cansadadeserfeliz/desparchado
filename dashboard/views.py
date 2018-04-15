@@ -13,6 +13,7 @@ class SuperuserRequiredMixin(UserPassesTestMixin):
 
 
 from events.models import Event
+from places.models import Place
 
 
 class HomeView(SuperuserRequiredMixin, TemplateView):
@@ -28,6 +29,13 @@ class HomeView(SuperuserRequiredMixin, TemplateView):
 
 class EventsListView(SuperuserRequiredMixin, ListView):
     model = Event
-    paginate_by = 30
+    paginate_by = 50
     context_object_name = 'events'
     template_name = 'dashboard/events.html'
+
+
+class PlacesListView(SuperuserRequiredMixin, ListView):
+    model = Place
+    paginate_by = 50
+    context_object_name = 'places'
+    template_name = 'dashboard/places.html'
