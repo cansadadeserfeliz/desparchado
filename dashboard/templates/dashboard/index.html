@@ -31,11 +31,54 @@
   <!-- /.col -->
   <div class="col-md-4 col-sm-6 col-xs-12">
     <div class="info-box">
-      <span class="info-box-icon bg-yellow"><i class="fa fa-user"></i></span>
+      <span class="info-box-icon bg-yellow"><i class="fa fa-users"></i></span>
 
       <div class="info-box-content">
         <span class="info-box-text">Active users</span>
         <span class="info-box-number">{{ active_users_count|intcomma }}</span>
+      </div>
+      <!-- /.info-box-content -->
+    </div>
+    <!-- /.info-box -->
+  </div>
+  <!-- /.col -->
+</div>
+<!-- /.row -->
+
+<div class="row">
+  <div class="col-md-4 col-sm-6 col-xs-12">
+    <div class="info-box">
+      <span class="info-box-icon bg-aqua"><i class="fa fa-map-marker"></i></span>
+
+      <div class="info-box-content">
+        <span class="info-box-text">Places</span>
+        <span class="info-box-number">{{ places_count|intcomma }}</span>
+      </div>
+      <!-- /.info-box-content -->
+    </div>
+    <!-- /.info-box -->
+  </div>
+  <!-- /.col -->
+  <div class="col-md-4 col-sm-6 col-xs-12">
+    <div class="info-box">
+      <span class="info-box-icon bg-aqua"><i class="fa fa-building-o"></i></span>
+
+      <div class="info-box-content">
+        <span class="info-box-text">Organizers</span>
+        <span class="info-box-number">{{ organizers_count|intcomma }}</span>
+      </div>
+      <!-- /.info-box-content -->
+    </div>
+    <!-- /.info-box -->
+  </div>
+  <!-- /.col -->
+  <div class="col-md-4 col-sm-6 col-xs-12">
+    <div class="info-box">
+      <span class="info-box-icon bg-aqua"><i class="fa fa-black-tie"></i></span>
+
+      <div class="info-box-content">
+        <span class="info-box-text">Speakers</span>
+        <span class="info-box-number">{{ speakers_count|intcomma }}</span>
       </div>
       <!-- /.info-box-content -->
     </div>

@@ -5,6 +5,8 @@ from django.contrib.auth import get_user_model
 from django.db.models import Count
 
 from events.models import Event
+from events.models import Organizer
+from events.models import Speaker
 from places.models import Place
 
 
@@ -24,6 +26,9 @@ class HomeView(SuperuserRequiredMixin, TemplateView):
         context = super().get_context_data(**kwargs)
         context['total_events_count'] = Event.objects.published().count()
         context['future_events_count'] = Event.objects.published().future().count()
+        context['places_count'] = Place.objects.count()
+        context['organizers_count'] = Organizer.objects.count()
+        context['speakers_count'] = Speaker.objects.count()
         context['active_users_count'] = User.objects.filter(is_active=True).count()
         return context
 
