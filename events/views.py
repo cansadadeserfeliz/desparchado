@@ -1,4 +1,4 @@
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.urlresolvers import reverse
 from django.utils.html import format_html
@@ -71,23 +71,31 @@ class EventCreateView(LoginRequiredMixin, CreateView):
     model = Event
 
     def get_success_url(self):
-        """
-        Returns the supplied URL.
-        """
         if self.object.is_published and self.object.is_approved:
             return self.object.get_absolute_url()
         else:
-            return reverse('events:event_list')
+            return reverse('users:user_added_events_list')
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
-        self.object.is_published = True
         self.object.is_approved = True
         self.object.created_by = self.request.user
         self.object.save()
 
         send_notification(self.request, self.object, 'event', True)
         return super().form_valid(form)
+
+
+class EventUpdateView(LoginRequiredMixin, UpdateView):
+    form_class = EventCreateForm
+    model = Event
+    context_object_name = 'event'
+
+    def get_success_url(self):
+        if self.object.is_published and self.object.is_approved:
+            return self.object.get_absolute_url()
+        else:
+            return reverse('users:user_added_events_list')
 
 
 class OrganizerAutocomplete(autocomplete.Select2QuerySetView):

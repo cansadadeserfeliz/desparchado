@@ -156,6 +156,7 @@ class Event(TimeStampedModel):
     is_published = models.BooleanField(
         'Está publicado',
         default=True,
+        help_text='Indica si el evento va a aparecer en la página',
     )
     is_approved = models.BooleanField(
         'Está aprobado', default=True,

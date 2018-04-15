@@ -1,6 +1,8 @@
 from django.views.generic import DetailView, FormView
+from django.views.generic import ListView
 from django.contrib.auth import get_user_model
-
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth import authenticate
@@ -55,3 +57,18 @@ class UserCreationFormView(FormView):
             password=form.cleaned_data['password1'],
         )
         return HttpResponseRedirect(reverse('users:login'))
+
+
+class UserAddedEventsListView(LoginRequiredMixin, ListView):
+    model = Event
+    paginate_by = 30
+    template_name = 'auth/user_added_events_list.html'
+    context_object_name = 'events'
+
+    def get_queryset(self):
+        return Event.objects.filter(created_by=self.request.user)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['user_object'] = self.request.user
+        return context

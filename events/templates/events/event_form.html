@@ -1,10 +1,10 @@
 {% extends 'layout/base.html' %}
 {% load crispy_forms_tags %}
 
-{% block title %}Añadir evento | Desparchado.co{% endblock %}
+{% block title %}{% if event %}Editar evento{% else %}Añadir evento{% endif %} | Desparchado.co{% endblock %}
 
 {% block content %}
-<h1>Añadir nuevo evento:</h1>
+<h1>{% if event %}Editar evento{% else %}Añadir nuevo evento{% endif %}:</h1>
 
 <section id="event_form_container" class="container">
   {% crispy form %}

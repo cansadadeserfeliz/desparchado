@@ -1,0 +1,59 @@
+{% extends 'auth/layout/base.html' %}
+{% load i18n paginator_tags %}
+
+{% block content %}
+<section class="container">
+  <div class="row text-center clearfix">
+    <div class="col-sm-8 col-sm-offset-2">
+      <h2 class="title-one">{{ user_object.first_name }}</h2>
+    </div>
+  </div>
+</section>
+
+<div class="table-responsive">
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Título</th>
+        <th>Fecha del evento</th>
+        <th>Está publicado</th>
+        <th>Está aprobado por un moderador</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for event in events %}
+      <tr>
+        <td>{{ event.title }}</td>
+        <td>{{ event.event_date }}</td>
+        <td>
+          <span class="label {% if event.is_published %}label-success{% else %}label-danger{% endif %}">
+            {{ event.is_published|yesno }}
+          </span>
+        </td>
+        <td>
+          <span class="label {% if event.is_approved %}label-success{% else %}label-danger{% endif %}">
+            {{ event.is_approved|yesno }}
+          </span>
+        </td>
+        <td>
+        {% if event.is_published and event.is_approved %}
+          <a href="{{ event.get_absolute_url }}" class="btn btn-default btn-sm" title="Ver evento">
+            <i class="fa fa-eye"></i>
+          </a>
+        {% endif %}
+          <a href="{% url 'events:event_update' event.pk %}" class="btn btn-default btn-sm" title="Ver evento">
+            <i class="fa fa-edit"></i>
+          </a>
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<section class="container">
+  {% get_simple_pagination %}
+</section>
+
+{% endblock content %}

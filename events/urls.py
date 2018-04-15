@@ -25,6 +25,13 @@ urlpatterns = [
         name='add_event'
     ),
 
+    # Update event
+    url(
+        r'^(?P<pk>\d+)/edit/$',
+        event_views.EventUpdateView.as_view(),
+        name='event_update'
+    ),
+
     # Speakers
     url(
         r'^speakers/$',

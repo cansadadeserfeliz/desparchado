@@ -1,0 +1,12 @@
+{% extends 'layout/base.html' %}
+
+{% block subheader %}
+{% if user.is_authenticated and user == user_object %}
+  <div class="sub-header">
+    <ul class="nav nav-pills ">
+      <li role="presentation"><a href="{% url 'users:user_detail' user.username %}">Perfil</a></li>
+      <li role="presentation"><a href="{% url 'users:user_added_events_list' %}">Eventos agregados</a></li>
+    </ul>
+  </div>
+{% endif %}
+{% endblock subheader %}

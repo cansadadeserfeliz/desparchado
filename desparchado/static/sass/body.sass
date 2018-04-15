@@ -61,6 +61,25 @@ h1, h2, h3, h4, h5, h6
         &:hover
           color: #4c779e
 
+/* Sub-header */
+.sub-header
+  text-align: center
+  background-color: #efefef
+  margin: 0
+  padding: 0
+  ul.nav-pills
+    display: inline-block
+    text-transform: uppercase
+  .nav-pills
+    >li
+      >a
+        border-radius: 0
+        padding: 7px 12px
+      &.active
+        >a, >a:focus, >a:hover
+          color: #fff
+          background-color: $dark-gray
+
 .right-search
   padding-right: 15px
   i
@@ -98,6 +117,7 @@ h1, h2, h3, h4, h5, h6
 
 #navigation
   .navbar
+    margin-bottom: 0
     background-color: $primary-color
     border-radius: 0
     border-bottom: 0

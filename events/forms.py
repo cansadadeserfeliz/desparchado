@@ -23,6 +23,7 @@ class EventCreateForm(forms.ModelForm):
 
         self.helper.layout = Layout(
             'title',
+            'is_published',
             Fieldset(
                 'Información básica',
                 'description',
@@ -48,7 +49,7 @@ class EventCreateForm(forms.ModelForm):
             'place',
             'speakers',
             Div(
-                Submit('submit', 'AÑADIR EVENTO', css_class='btn-primary'),
+                Submit('submit', 'GUARDAR EVENTO', css_class='btn-primary'),
                 css_class='form-group',
             ),
         )
@@ -57,6 +58,7 @@ class EventCreateForm(forms.ModelForm):
         model = Event
         fields = [
             'title',
+            'is_published',
             'description',
             'event_source_url',
             'image',
