@@ -26,6 +26,13 @@ admin.site.unregister(User)
 @admin.register(User)
 class MyUserAdmin(UserAdmin):
 
-    def get_queryset(self, request):
-        queryset = super().get_queryset(request)
-        return queryset
+    list_display = [
+        'username',
+        'email',
+        'first_name',
+        'last_name',
+        'is_active',
+        'is_staff',
+        'is_superuser',
+        'last_login',
+    ]
