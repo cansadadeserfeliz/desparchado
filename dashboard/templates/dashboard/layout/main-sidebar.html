@@ -3,39 +3,9 @@
   <section class="sidebar">
     <!-- sidebar menu: : style can be found in sidebar.less -->
     <ul class="sidebar-menu" data-widget="tree">
-      <li class="header">MAIN NAVIGATION</li>
       <li><a href="{% url 'home' %}"><i class="fa fa-home text-green"></i> <span>desparchado.co</span></a></li>
-      <li class="treeview">
-        <a href="#">
-          <i class="fa fa-calendar"></i> <span>Events</span>
-          <span class="pull-right-container">
-            <i class="fa fa-angle-left pull-right"></i>
-          </span>
-        </a>
-        <ul class="treeview-menu">
-          <li><a href="../index.html"><i class="fa fa-circle-o"></i> Dashboard v1</a></li>
-          <li><a href="../index2.html"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>
-        </ul>
-      </li>
-      <li class="treeview">
-        <a href="#">
-          <i class="fa fa-files-o"></i>
-          <span>Layout Options</span>
-          <span class="pull-right-container">
-            <span class="label label-primary pull-right">4</span>
-          </span>
-        </a>
-        <ul class="treeview-menu">
-          <li><a href="layout/top-nav.html"><i class="fa fa-circle-o"></i> Top Navigation</a></li>
-          <li><a href="layout/boxed.html"><i class="fa fa-circle-o"></i> Boxed</a></li>
-          <li><a href="layout/fixed.html"><i class="fa fa-circle-o"></i> Fixed</a></li>
-          <li><a href="layout/collapsed-sidebar.html"><i class="fa fa-circle-o"></i> Collapsed Sidebar</a></li>
-        </ul>
-      </li>
-      <li class="header">LABELS</li>
-      <li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Important</span></a></li>
-      <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> <span>Warning</span></a></li>
-      <li><a href="#"><i class="fa fa-circle-o text-aqua"></i> <span>Information</span></a></li>
+      <li class="header">MAIN NAVIGATION</li>
+      <li><a href="{% url 'dashboard:events' %}"><i class="fa fa-calendar"></i> <span>Events</span></a></li>
     </ul>
   </section>
   <!-- /.sidebar -->

@@ -1,4 +1,5 @@
 from django.views.generic import TemplateView
+from django.views.generic import ListView
 from django.contrib.auth.mixins import UserPassesTestMixin
 
 
@@ -19,3 +20,10 @@ class HomeView(SuperuserRequiredMixin, TemplateView):
         context['total_events_count'] = Event.objects.published().count()
         context['future_events_count'] = Event.objects.published().future().count()
         return context
+
+
+class EventsListView(SuperuserRequiredMixin, ListView):
+    model = Event
+    paginate_by = 30
+    context_object_name = 'events'
+    template_name = 'dashboard/events.html'

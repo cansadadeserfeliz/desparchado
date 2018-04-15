@@ -1,0 +1,42 @@
+{% extends 'dashboard/layout/base.html' %}
+
+{% block content %}
+<div class="row">
+  <div class="col-md-12">
+    <div class="box">
+      <div class="box-header with-border">
+        <h3 class="box-title">Events</h3>
+      </div>
+      <!-- /.box-header -->
+      <div class="box-body">
+        <table class="table table-hover table-condensed">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Title</th>
+              <th>Type</th>
+              <th>Start date</th>
+            </tr>
+          </thead>
+          <tbody>
+          {% for event in events %}
+            <tr>
+              <td>{{ event.id }}</td>
+              <td>{{ event.title }}</td>
+              <td>{{ event.get_event_type_display }}</td>
+              <td>{{ event.event_date }}</td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <!-- /.box-body -->
+      <div class="box-footer clearfix">
+        {% include 'dashboard/includes/_pagination.html' %}
+      </div>
+    </div>
+    <!-- /.box -->
+  </div>
+</div>
+<!-- /.row -->
+{% endblock content %}
