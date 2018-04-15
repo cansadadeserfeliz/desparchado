@@ -7,6 +7,7 @@ from dal import autocomplete
 
 from .models import Event, Organizer, Speaker
 from .forms import EventCreateForm
+from desparchado.utils import send_notification
 
 
 class EventListView(ListView):
@@ -84,6 +85,8 @@ class EventCreateView(LoginRequiredMixin, CreateView):
         self.object.is_approved = True
         self.object.created_by = self.request.user
         self.object.save()
+
+        send_notification(self.request, self.object, 'event', True)
         return super().form_valid(form)
 
 
