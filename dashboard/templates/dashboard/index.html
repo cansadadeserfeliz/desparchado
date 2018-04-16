@@ -114,7 +114,7 @@
       <div class="box-body">
         <ul class="nav nav-stacked">
         {% for item in future_events_by_date %}
-          <li><a href="#">{{ item.day }} <span class="pull-right badge bg-blue">{{ item.count }}</span></a></li>
+          <li><a href="#">{{ item.day|date:'d-m-Y, l' }} <span class="pull-right badge bg-blue">{{ item.count }}</span></a></li>
         {% endfor %}
         </ul>
       </div>
