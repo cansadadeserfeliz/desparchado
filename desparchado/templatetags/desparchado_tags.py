@@ -1,4 +1,5 @@
 from urllib.parse import urlparse
+import calendar
 
 from django import template
 from django.conf import settings
@@ -17,6 +18,11 @@ def format_currency(value):
         return '${:,.0f}'.format(value)
     except (ValueError, TypeError):
         return value
+
+
+@register.filter()
+def weekday_to_str(weekday_number):
+    return calendar.day_name[int(weekday_number) - 1]
 
 
 @register.simple_tag

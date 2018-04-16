@@ -1,5 +1,5 @@
 {% extends 'dashboard/layout/base.html' %}
-{% load humanize %}
+{% load humanize desparchado_tags %}
 
 {% block content %}
 <div class="row">
@@ -79,27 +79,57 @@
       <div class="info-box-content">
         <span class="info-box-text">Speakers</span>
         <span class="info-box-number">{{ speakers_count|intcomma }}</span>
-      </div>
-      <!-- /.info-box-content -->
-    </div>
-    <!-- /.info-box -->
-  </div>
-  <!-- /.col -->
-</div>
-<!-- /.row -->
+      </div><!-- /.info-box-content -->
+    </div><!-- /.info-box -->
+  </div><!-- /.col -->
+</div><!-- /.row -->
 
   <script src='https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyAFbA9J0IcGyy20cl7xd6Le16U_Bx_TSeI'></script>
 
 <div class="row">
-  <div class="col-md-12">
+  <div class="col-md-6">
+    <div class="box box-success">
+      <div class="box-header with-border">
+        <h3 class="box-title">Future events per weekday</h3>
+        <div class="box-tools pull-right">
+          <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+        </div>
+      </div><!-- /.box-header -->
+      <div class="box-body">
+        <ul class="nav nav-stacked">
+        {% for item in future_events_by_weekday.values %}
+          <li><a href="#">{{ item.weekday|weekday_to_str }} <span class="pull-right badge bg-blue">{{ item.count }}</span></a></li>
+        {% endfor %}
+        </ul>
+      </div>
+    </div><!-- /.box -->
+
+    <div class="box box-success">
+      <div class="box-header with-border">
+        <h3 class="box-title">Future events per date</h3>
+        <div class="box-tools pull-right">
+          <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+        </div>
+      </div><!-- /.box-header -->
+      <div class="box-body">
+        <ul class="nav nav-stacked">
+        {% for item in future_events_by_date.values %}
+          <li><a href="#">{{ item.day }} <span class="pull-right badge bg-blue">{{ item.count }}</span></a></li>
+        {% endfor %}
+        </ul>
+      </div>
+    </div><!-- /.box -->
+  </div>
+
+  <div class="col-md-6">
     <div class="box">
       <div class="box-header with-border">
         <h3 class="box-title">Future events map</h3>
       </div>
       <!-- /.box-header -->
       <div class="box-body">
-        <div style='overflow:hidden;height:300px;width:auto;'>
-          <div id='map_canvas' style='height:300px;'></div>
+        <div style='overflow:hidden;height:400px;width:auto;'>
+          <div id='map_canvas' style='height:400px;'></div>
           <style>
             #map_canvas img {
               width: auto;

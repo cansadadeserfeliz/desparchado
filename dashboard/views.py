@@ -3,6 +3,7 @@ from django.views.generic import ListView
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.contrib.auth import get_user_model
 from django.db.models import Count
+from django.db.models.functions import ExtractWeekDay
 
 from events.models import Event
 from events.models import Organizer
@@ -27,6 +28,12 @@ class HomeView(SuperuserRequiredMixin, TemplateView):
         context['total_events_count'] = Event.objects.published().count()
         context['future_events'] = Event.objects.published().future().all()
         context['future_events_count'] = Event.objects.published().future().count()
+        context['future_events_by_date'] = Event.objects.published().future()\
+            .extra(select={'day': 'date( event_date )'}).values('day') \
+            .annotate(count=Count('event_date'))
+        context['future_events_by_weekday'] = Event.objects.published().future()\
+            .annotate(weekday=ExtractWeekDay('event_date')).values('weekday')\
+            .annotate(count=Count('weekday'))
         context['places_count'] = Place.objects.count()
         context['organizers_count'] = Organizer.objects.count()
         context['speakers_count'] = Speaker.objects.count()
@@ -54,6 +61,7 @@ class UsersListView(SuperuserRequiredMixin, ListView):
     paginate_by = 50
     context_object_name = 'users'
     template_name = 'dashboard/users.html'
+    ordering = 'events_count'
 
     def get_queryset(self):
         queryset = User.objects.annotate(events_count=Count('created_events'))
