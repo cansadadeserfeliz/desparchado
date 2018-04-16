@@ -97,7 +97,7 @@
       </div><!-- /.box-header -->
       <div class="box-body">
         <ul class="nav nav-stacked">
-        {% for item in future_events_by_weekday.values %}
+        {% for item in future_events_by_weekday %}
           <li><a href="#">{{ item.weekday|weekday_to_str }} <span class="pull-right badge bg-blue">{{ item.count }}</span></a></li>
         {% endfor %}
         </ul>
@@ -113,7 +113,7 @@
       </div><!-- /.box-header -->
       <div class="box-body">
         <ul class="nav nav-stacked">
-        {% for item in future_events_by_date.values %}
+        {% for item in future_events_by_date %}
           <li><a href="#">{{ item.day }} <span class="pull-right badge bg-blue">{{ item.count }}</span></a></li>
         {% endfor %}
         </ul>
