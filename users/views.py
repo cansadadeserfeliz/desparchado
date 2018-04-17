@@ -63,7 +63,7 @@ class UserAddedEventsListView(LoginRequiredMixin, ListView):
     paginate_by = 30
     template_name = 'auth/user_added_events_list.html'
     context_object_name = 'events'
-    ordering = '-modified'
+    ordering = 'modified'
 
     def get_queryset(self):
         return Event.objects.filter(created_by=self.request.user)
