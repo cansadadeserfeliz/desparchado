@@ -39,6 +39,11 @@ urlpatterns = [
         name='speaker_list'
     ),
     url(
+        r'^speakers/add/$',
+        event_views.SpeakerCreateView.as_view(),
+        name='speaker_add'
+    ),
+    url(
         r'^speaker-autocomplete/$',
         event_views.SpeakerAutocomplete.as_view(),
         name='speaker_autocomplete',
@@ -51,9 +56,14 @@ urlpatterns = [
 
     # Organizations
     url(
-        r'organizations/^$',
+        r'^organizations/$',
         event_views.OrganizerListView.as_view(),
         name='organizer_list'
+    ),
+    url(
+        r'^organizations/add/$',
+        event_views.OrganizerCreateView.as_view(),
+        name='organizer_add'
     ),
     url(
         r'^organizations-autocomplete/$',

@@ -5,15 +5,17 @@ from django.utils.html import format_html
 
 from dal import autocomplete
 
+from desparchado.utils import send_notification
 from .models import Event, Organizer, Speaker
 from .forms import EventCreateForm
-from desparchado.utils import send_notification
+from .forms import OrganizerForm
+from .forms import SpeakerForm
 
 
 class EventListView(ListView):
     model = Event
     context_object_name = 'events'
-    paginate_by = 9
+    paginate_by = 18
 
     def get_queryset(self):
         queryset = Event.objects.published().future()
@@ -24,7 +26,7 @@ class PastEventListView(ListView):
     model = Event
     context_object_name = 'events'
     template_name = 'events/past_event_list.html'
-    paginate_by = 9
+    paginate_by = 18
 
     def get_queryset(self):
         queryset = Event.objects.published().past().order_by('-event_date')
@@ -41,10 +43,11 @@ class EventDetailView(DetailView):
 class OrganizerListView(ListView):
     model = Organizer
     context_object_name = 'organizers'
-    paginate_by = 9
+    paginate_by = 20
 
 
 class OrganizerDetailView(DetailView):
+    form_class = OrganizerForm
     model = Organizer
 
 
@@ -63,7 +66,10 @@ class SpeakerDetailView(DetailView):
 class SpeakerListView(ListView):
     model = Speaker
     context_object_name = 'speakers'
-    paginate_by = 9
+    paginate_by = 20
+
+
+
 
 
 class EventCreateView(LoginRequiredMixin, CreateView):
@@ -96,6 +102,36 @@ class EventUpdateView(LoginRequiredMixin, UpdateView):
             return self.object.get_absolute_url()
         else:
             return reverse('users:user_added_events_list')
+
+    def form_valid(self, form):
+        send_notification(self.request, self.object, 'event', False)
+        return super().form_valid(form)
+
+
+class OrganizerCreateView(CreateView):
+    model = Organizer
+    form_class = OrganizerForm
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.created_by = self.request.user
+        self.object.save()
+
+        send_notification(self.request, self.object, 'organizer', True)
+        return super().form_valid(form)
+
+
+class SpeakerCreateView(CreateView):
+    model = Speaker
+    form_class = SpeakerForm
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.created_by = self.request.user
+        self.object.save()
+
+        send_notification(self.request, self.object, 'speaker', True)
+        return super().form_valid(form)
 
 
 class OrganizerAutocomplete(autocomplete.Select2QuerySetView):

@@ -1,0 +1,17 @@
+{% extends 'layout/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}{% if event %}Editar organizador{% else %}Añadir organizador{% endif %} | Desparchado.co{% endblock %}
+
+{% block content %}
+<h1>{% if event %}Editar organizador{% else %}Añadir nuevo organizador{% endif %}:</h1>
+
+<section id="organizer_form_container" class="container">
+  {% crispy form %}
+</section>
+{% endblock content %}
+
+{% block javascript %}
+  {{ form.media }}
+{% endblock javascript %}
+
