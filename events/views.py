@@ -67,9 +67,7 @@ class SpeakerListView(ListView):
     model = Speaker
     context_object_name = 'speakers'
     paginate_by = 20
-
-
-
+    ordering = 'name'
 
 
 class EventCreateView(LoginRequiredMixin, CreateView):
