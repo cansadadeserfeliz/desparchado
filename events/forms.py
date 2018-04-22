@@ -73,7 +73,7 @@ class EventCreateForm(forms.ModelForm):
                         'title="Añadir nuevo presentador" target="_blank">'
                         '<i class="fa fa-plus"></i>'
                         '</a>'.format(
-                            reverse_lazy('events:speaker_add'),
+                            reverse_lazy('places:place_add'),
                         )
                     ),
                     css_class='col-xs-2'
