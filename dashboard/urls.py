@@ -1,29 +1,31 @@
 from django.conf.urls import url
 
-from .views import HomeView
-from .views import EventsListView
-from .views import PlacesListView
-from .views import UsersListView
+from dashboard import views as dashboard_views
 
 urlpatterns = [
     url(
         r'^$',
-        HomeView.as_view(),
+        dashboard_views.HomeView.as_view(),
         name='home'
     ),
     url(
         r'^events/$',
-        EventsListView.as_view(),
+        dashboard_views.EventsListView.as_view(),
         name='events'
     ),
     url(
         r'^places/$',
-        PlacesListView.as_view(),
+        dashboard_views.PlacesListView.as_view(),
         name='places'
     ),
     url(
         r'^users/$',
-        UsersListView.as_view(),
+        dashboard_views.UsersListView.as_view(),
         name='users'
+    ),
+    url(
+        r'^events-sources/$',
+        dashboard_views.EventSourceListView.as_view(),
+        name='event_sources'
     ),
 ]

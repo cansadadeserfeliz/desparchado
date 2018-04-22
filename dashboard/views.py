@@ -11,6 +11,7 @@ from events.models import Event
 from events.models import Organizer
 from events.models import Speaker
 from places.models import Place
+from dashboard.models import EventSource
 
 
 User = get_user_model()
@@ -72,3 +73,9 @@ class UsersListView(SuperuserRequiredMixin, ListView):
         return queryset
 
 
+class EventSourceListView(SuperuserRequiredMixin, ListView):
+    model = EventSource
+    paginate_by = 50
+    template_name = 'dashboard/event_sources.html'
+    context_object_name = 'event_sources'
+    ordering = '-modified'

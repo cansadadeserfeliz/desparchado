@@ -18,7 +18,7 @@ class EventQuerySet(models.QuerySet):
     def future(self):
         now = timezone.now()
         # Show multi-day events during only 3 days
-        # after beginnig
+        # after beginning
         return self.filter(
             (
                 Q(event_date__gte=now) &
