@@ -12,6 +12,7 @@ class PlaceListView(ListView):
     model = Place
     context_object_name = 'places'
     paginate_by = 20
+    ordering = 'name'
 
 
 class PlaceDetailView(DetailView):
