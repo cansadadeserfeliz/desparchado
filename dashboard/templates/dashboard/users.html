@@ -15,11 +15,12 @@
             <tr>
               <th>Username</th>
               <th>Email</th>
-              <th>First Name</th>
-              <th>Last name</th>
+              <th>Name</th>
               <th>Active</th>
               <th>Superuser</th>
               <th>Added events count</th>
+              <th>Date joined</th>
+              <th>Last login</th>
             </tr>
           </thead>
           <tbody>
@@ -27,8 +28,7 @@
             <tr>
               <td>{{ user.username }}</td>
               <td>{{ user.email }}</td>
-              <td>{{ user.first_name }}</td>
-              <td>{{ user.last_name }}</td>
+              <td>{{ user.first_name }} {{ user.last_name }}</td>
               <td>
                 <span class="label {% if user.is_active %}label-success{% else %}label-danger{% endif %}">
                   {{ user.is_active|yesno }}
@@ -40,6 +40,8 @@
                 </span>
               </td>
               <td>{{ user.events_count }}</td>
+              <td>{{ user.date_joined|date:"SHORT_DATETIME_FORMAT" }}</td>
+              <td>{{ user.last_login|date:"SHORT_DATETIME_FORMAT" }}</td>
             </tr>
           {% endfor %}
           </tbody>
