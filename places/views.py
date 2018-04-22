@@ -11,7 +11,7 @@ from .forms import PlaceForm
 class PlaceListView(ListView):
     model = Place
     context_object_name = 'places'
-    paginate_by = 9
+    paginate_by = 20
 
 
 class PlaceDetailView(DetailView):
