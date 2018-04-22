@@ -1,3 +1,5 @@
+import datetime
+
 from django.db import models
 from django.urls import reverse
 from django.conf import settings
@@ -14,12 +16,16 @@ from desparchado.templatetags.desparchado_tags import format_currency
 
 class EventQuerySet(models.QuerySet):
     def future(self):
+        now = timezone.now()
+        # Show multi-day events during only 3 days
+        # after beginnig
         return self.filter(
             (
-                Q(event_date__gte=timezone.now()) &
+                Q(event_date__gte=now) &
                 Q(event_end_date__isnull=True)
             ) | (
-                Q(event_end_date__gte=timezone.now())
+                Q(event_end_date__gte=now) &
+                Q(event_date__gte=now - datetime.timedelta(days=3))
             ),
         )
 
