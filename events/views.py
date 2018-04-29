@@ -15,7 +15,7 @@ from .forms import SpeakerForm
 class EventListView(ListView):
     model = Event
     context_object_name = 'events'
-    paginate_by = 18
+    paginate_by = 20
 
     def get_queryset(self):
         queryset = Event.objects.published().future()
