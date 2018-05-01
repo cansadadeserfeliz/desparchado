@@ -1,0 +1,35 @@
+{% extends 'layout/base.html' %}
+{% load paginator_tags %}
+
+{% block title %}Organizadores | Desparchado.co{% endblock %}
+
+{% block content %}
+<section id="organizer-list" class="container">
+  <div class="row text-center clearfix">
+    <div class="col-sm-8 col-sm-offset-2">
+      <h2 class="title-one">Organizadores</h2>
+    </div>
+  </div>
+
+{% for organizer in organizers %}
+  <div class="row organizer-card">
+    <div class="organizer-card-inner">
+      <div class="organizer-card-title-wrap">
+        <h2 class="organizer-card-title">
+          <a class="link" href="{{ organizer.get_absolute_url }}">{{ organizer.name }}</a>
+        </h2>
+      </div>
+    </div>
+    <div class="organizer-card-logo">
+      <a class="link" tabindex="0" href="{{ organizer.get_absolute_url }}">
+        <div class="image" style="background-image: url('{{ organizer.get_image_url }}');"
+             title="{{ organizer.name }}"></div>
+      </a>
+    </div>
+  </div>
+{% endfor %}
+
+  {% get_pagination 2 1 %}
+</section><!--/#organizer-list-->
+
+{% endblock content %}

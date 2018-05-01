@@ -1,0 +1,44 @@
+{% extends 'layout/base.html' %}
+{% load django_markdown %}
+
+{% block title %}{{ organizer.name }} | Desparchado.co{% endblock %}
+
+{% block meta %}
+  <meta property="og:title" content="{{ organizer.name }}">
+  <meta property="og:description" content="{{ organizer.description|truncatewords:200 }}">
+  <meta property="og:image" content="http://{{ request.get_host }}{{ organizer.get_image_url }}">
+
+  <meta name="twitter:title" content="{{ organizer.name }}">
+  <meta name="twitter:description" content="{{ organizer.description|truncatewords:200 }}">
+{% endblock %}
+
+{% block content %}
+<section id="organizer-detail" class="container">
+
+  <div class="organizer-heading">
+    <h1 class="organizer-title">{{ organizer.name }}</h1>
+    {% if organizer.image %}
+      <img src="{{ organizer.get_image_url }}" alt="{{ organizer.name }}" />
+    {% endif %}
+    <div class="organizer-description">{{ organizer.description|markdown }}</div>
+  </div>
+
+</section><!--/#organizer-detail-->
+
+{% if events %}
+
+  <h4>Próximos eventos</h4>
+
+  {% include 'events/_events_grid.html' %}
+
+{% endif %}
+
+{% if past_events %}
+
+  <h4>Eventos pasados</h4>
+
+  {% include 'events/_events_grid.html' with events=past_events %}
+
+{% endif %}
+
+{% endblock content %}

@@ -56,19 +56,24 @@ urlpatterns = [
 
     # Organizations
     url(
-        r'^organizations/$',
+        r'^organizers/$',
         event_views.OrganizerListView.as_view(),
         name='organizer_list'
     ),
     url(
-        r'^organizations/add/$',
+        r'^organizers/add/$',
         event_views.OrganizerCreateView.as_view(),
         name='organizer_add'
     ),
     url(
-        r'^organizations-autocomplete/$',
+        r'^organizers-autocomplete/$',
         event_views.OrganizerAutocomplete.as_view(),
         name='organizer_autocomplete',
+    ),
+    url(
+        r'^organizers/(?P<slug>[\w-]+)/$',
+        event_views.OrganizerDetailView.as_view(),
+        name='organizer_detail'
     ),
 
     # Event detail views

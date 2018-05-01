@@ -235,7 +235,7 @@ class Organizer(TimeStampedModel):
         return None
 
     def get_absolute_url(self):
-        return '/'
+        return reverse('events:organizer_detail', args=[self.slug])
 
     @staticmethod
     def autocomplete_search_fields():

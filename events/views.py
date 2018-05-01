@@ -47,8 +47,15 @@ class OrganizerListView(ListView):
 
 
 class OrganizerDetailView(DetailView):
-    form_class = OrganizerForm
     model = Organizer
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['events'] = \
+            self.get_object().events.published().future().all()[:9]
+        context['past_events'] = \
+            self.get_object().events.published().past().order_by('-event_date').all()[:9]
+        return context
 
 
 class SpeakerDetailView(DetailView):
