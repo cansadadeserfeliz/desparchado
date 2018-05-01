@@ -40,6 +40,13 @@
         {% if event.price %}<div class="ticket-price-label">{{ event.get_price_display }}</div>{% endif %}
       </div>
     </div>
+
+  {% if user.is_authenticated and user.is_superuser %}
+    <div class="event-edit text-center">
+      <a href="{% url 'events:event_update' event.pk %}" class="btn btn-sm btn-default">EDITAR EVENTO</a>
+    </div>
+  {% endif %}
+
     <div class="event-description" itemprop="description">
       {{ event.description|markdown }}
     </div>
@@ -109,7 +116,6 @@
     <h3 class="secondary-title">Organizador</h3>
 
     <div class="event-organizer">
-
 
       {% if event.organizer.image %}
       <div class="text-center">
