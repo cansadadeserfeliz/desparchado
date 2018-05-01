@@ -54,3 +54,11 @@ def shorten_url(value):
     parsed_uri = urlparse(value)
     domain = '{uri.scheme}://{uri.netloc}/'.format(uri=parsed_uri)
     return domain
+
+
+@register.filter()
+def user_can_edit_event(user, event):
+    if user.is_authenticated():
+        if user.is_superuser or user == event.created_by:
+            return True
+    return False

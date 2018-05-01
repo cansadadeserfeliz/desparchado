@@ -41,7 +41,7 @@
       </div>
     </div>
 
-  {% if user.is_authenticated and user.is_superuser %}
+  {% if user|user_can_edit_event:event %}
     <div class="event-edit text-center">
       <a href="{% url 'events:event_update' event.pk %}" class="btn btn-sm btn-default">EDITAR EVENTO</a>
     </div>
