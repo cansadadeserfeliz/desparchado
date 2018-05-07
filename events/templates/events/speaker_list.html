@@ -11,23 +11,34 @@
     </div>
   </div>
 
-{% for speaker in speakers %}
-  <div class="row speaker-card">
-    <div class="speaker-card-inner">
-      <div class="speaker-card-title-wrap">
-        <h2 class="speaker-card-title">
-          <a class="link" href="{{ speaker.get_absolute_url }}">{{ speaker.name }}</a>
-        </h2>
+  <div class="row row-eq-height">
+  {% for speaker in speakers %}
+    <div class="col-sm-3 speaker-card">
+      <a class="link" href="{{ speaker.get_absolute_url }}">
+        <div class="speaker-card-logo">
+          <a class="link" tabindex="0" href="{{ speaker.get_absolute_url }}">
+            <div class="image" style="background-image: url('{{ speaker.get_image_url }}');"
+                 title="{{ speaker.name }}"></div>
+          </a>
+        </div>
+      </a>
+
+      <div class="speaker-card-inner">
+        <div class="speaker-card-title-wrap">
+          <h2 class="speaker-card-title">
+            <a class="link" href="{{ speaker.get_absolute_url }}">{{ speaker.name }}</a>
+          </h2>
+        </div>
       </div>
     </div>
-    <div class="speaker-card-logo">
-      <a class="link" tabindex="0" href="{{ speaker.get_absolute_url }}">
-        <div class="image" style="background-image: url('{{ speaker.get_image_url }}');"
-             title="{{ speaker.name }}"></div>
-      </a>
-    </div>
-  </div>
-{% endfor %}
+    {% if forloop.counter|divisibleby:4 and not forloop.last %}
+      </div>
+      <div class="row row-eq-height">
+    {% elif forloop.last %}
+      </div>
+    {% endif %}
+  {% endfor %}
+
 
   {% get_pagination 2 1 %}
 </section><!--/#speaker-list-->
