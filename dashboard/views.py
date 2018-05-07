@@ -66,10 +66,11 @@ class UsersListView(SuperuserRequiredMixin, ListView):
     paginate_by = 50
     context_object_name = 'users'
     template_name = 'dashboard/users.html'
-    ordering = '-date_joined'
 
     def get_queryset(self):
-        queryset = User.objects.annotate(events_count=Count('created_events'))
+        queryset = User.objects.annotate(
+            events_count=Count('created_events'),
+        ).order_by('-last_login')
         return queryset
 
 
