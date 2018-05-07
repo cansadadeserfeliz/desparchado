@@ -35,6 +35,8 @@ urlpatterns = [
         name='markdown',
     ),
 
+    url(r'^404/$', TemplateView.as_view(template_name='404.html'), name='page_404'),
+
     url(r'^events/', include('events.urls', namespace='events')),
     url(r'^places/', include('places.urls', namespace='places')),
     url(r'^users/', include('users.urls', namespace='users')),
