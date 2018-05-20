@@ -1,4 +1,6 @@
 from django.views.generic import TemplateView
+from django.contrib.syndication.views import Feed
+from django.utils.feedgenerator import Atom1Feed
 
 from events.models import Event
 
@@ -13,3 +15,17 @@ class HomeView(TemplateView):
         context['past_events'] = \
             Event.objects.published().past().order_by('-event_date').all()[:9]
         return context
+
+
+class RssSiteEventsFeed(Feed):
+    title = 'Futuros eventos en desparchado.co'
+    link = '/events/'
+    description = 'Futuros eventos en desparchado.co'
+
+    def items(self):
+        return Event.objects.published().order_by('-event_date')[:10]
+
+
+class AtomSiteEventsFeed(RssSiteEventsFeed):
+    feed_type = Atom1Feed
+    subtitle = RssSiteEventsFeed.description

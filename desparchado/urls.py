@@ -21,7 +21,7 @@ from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.contrib.sitemaps.views import sitemap
 
-from .views import HomeView
+from .views import HomeView, RssSiteEventsFeed, AtomSiteEventsFeed
 from .sitemap import sitemaps
 
 
@@ -36,6 +36,8 @@ urlpatterns = [
     ),
 
     url(r'^404/$', TemplateView.as_view(template_name='404.html'), name='page_404'),
+    url(r'^rss/$', RssSiteEventsFeed(), name='rss'),
+    url(r'^atom/$', AtomSiteEventsFeed(), name='atom'),
 
     url(r'^events/', include('events.urls', namespace='events')),
     url(r'^places/', include('places.urls', namespace='places')),
