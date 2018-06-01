@@ -23,7 +23,7 @@ class RssSiteEventsFeed(Feed):
     description = 'Futuros eventos en desparchado.co'
 
     def items(self):
-        return Event.objects.published().order_by('-event_date')[:10]
+        return Event.objects.published().order_by('event_date')[:10]
 
 
 class AtomSiteEventsFeed(RssSiteEventsFeed):

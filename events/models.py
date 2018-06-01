@@ -57,6 +57,7 @@ class Event(TimeStampedModel):
     EVENT_TYPE_SEMINAR = 8
     EVENT_TYPE_EXHIBITION = 9
     EVENT_TYPE_FESTIVAL = 10
+    EVENT_TYPE_MOVIES = 11
 
     EVENT_TYPES = (
         (EVENT_TYPE_PUBLIC_LECTURE, 'Conferencia pública'),
@@ -69,6 +70,7 @@ class Event(TimeStampedModel):
         (EVENT_TYPE_SEMINAR, 'Seminario'),
         (EVENT_TYPE_EXHIBITION, 'Exposición'),
         (EVENT_TYPE_FESTIVAL, 'Festival'),
+        (EVENT_TYPE_MOVIES, 'Cine'),
     )
 
     EVENT_TOPIC_CITY = 1
