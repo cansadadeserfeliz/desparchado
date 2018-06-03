@@ -19,5 +19,11 @@ class EventSource(TimeStampedModel):
         choices=SOURCE_TYPES,
     )
 
+    def get_fb_page_url(self):
+        if self.source_type != self.SOURCE_TYPE_FACEBOOK_EVENTS:
+            return ''
+        return self.website_url.replace('events/', '')
+
+
 
 
