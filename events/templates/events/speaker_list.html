@@ -52,9 +52,9 @@
     {% endif %}
   {% empty %}
     <div class="text-center" style="width: 100%; margin-top: 20px;">
-      <p>No hay presentadores encontrados para "{{ search_string }}".</p>
+      <p>No encontramos resultados para su búsqueda: "{{ search_string }}".</p>
       <p>
-        <a href="{% url 'events:speaker_list' %}" class="btn btn-sm btn-primary">VER TODOS PRESENTADORES</a>
+        <a href="{% url 'events:speaker_list' %}" class="btn btn-sm btn-primary">TODOS PRESENTADORES</a>
       </p>
     </div>
   {% endfor %}
