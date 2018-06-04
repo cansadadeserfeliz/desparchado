@@ -76,6 +76,21 @@ class SpeakerListView(ListView):
     paginate_by = 20
     ordering = 'name'
 
+    def dispatch(self, request, *args, **kwargs):
+        self.q = request.GET.get('q', '')
+        return super(SpeakerListView, self).dispatch(request, *args, **kwargs)
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        if self.q:
+            queryset = queryset.filter(name__icontains=self.q)
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['search_string'] = self.q
+        return context
+
 
 class EventCreateView(LoginRequiredMixin, CreateView):
     form_class = EventCreateForm

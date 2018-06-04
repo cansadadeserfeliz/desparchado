@@ -11,6 +11,19 @@
     </div>
   </div>
 
+  <div class="row">
+    <div class="col-sm-8 col-sm-offset-2">
+      <form method="get">
+        <div class="input-group">
+          <input type="text" class="form-control" name="q" placeholder="Buscar presentadores..." value="{{ search_string }}">
+          <span class="input-group-btn">
+            <button class="btn btn-default" type="button"><i class="glyphicon glyphicon-search"></i></button>
+          </span>
+        </div><!-- /input-group -->
+      </form>
+    </div><!-- /.col-lg-6 -->
+  </div><!-- /.row -->
+
   <div class="row row-eq-height">
   {% for speaker in speakers %}
     <div class="col-xs-3 speaker-card">
@@ -37,8 +50,14 @@
     {% elif forloop.last %}
       </div>
     {% endif %}
+  {% empty %}
+    <div class="text-center" style="width: 100%; margin-top: 20px;">
+      <p>No hay presentadores encontrados para "{{ search_string }}".</p>
+      <p>
+        <a href="{% url 'events:speaker_list' %}" class="btn btn-sm btn-primary">VER TODOS PRESENTADORES</a>
+      </p>
+    </div>
   {% endfor %}
-
 
   {% get_pagination 2 1 %}
 </section><!--/#speaker-list-->
