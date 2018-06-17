@@ -1,0 +1,10 @@
+{% for key, value in blaa_event_json.items %}
+  <p>
+    <b>{{ key }}:</b>
+  {% ifequal key 'imagen' %}
+    <img class="img-responsive" src="{{ value.src }}">
+  {% else %}
+    {{ value|safe }}
+  {% endifequal %}
+  </p>
+{% endfor %}
