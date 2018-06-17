@@ -1,4 +1,5 @@
 from django.views.generic import TemplateView
+from django.views.generic import CreateView
 from django.views.generic import ListView
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.contrib.auth import get_user_model
@@ -6,12 +7,17 @@ from django.db.models import Count
 from django.db.models.functions import ExtractWeekDay
 from django.db.models.functions import Cast
 from django.db.models.fields import DateField
+from django.shortcuts import redirect
+from django.contrib import messages
 
 from events.models import Event
 from events.models import Organizer
 from events.models import Speaker
+from events.forms import EventCreateForm
 from places.models import Place
 from dashboard.models import EventSource
+from dashboard.services import get_blaa_events_list
+from dashboard.services import get_blaa_event
 
 
 User = get_user_model()
@@ -80,3 +86,57 @@ class EventSourceListView(SuperuserRequiredMixin, ListView):
     template_name = 'dashboard/event_sources.html'
     context_object_name = 'event_sources'
     ordering = '-modified'
+
+
+class BlaaEventsListView(TemplateView):
+    template_name = 'dashboard/blaa/events_list.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['events'] = get_blaa_events_list()
+        return context
+
+
+class EventCreateView(CreateView):
+    form_class = EventCreateForm
+    template_name = 'dashboard/event_form.html'
+
+    def dispatch(self, request, *args, **kwargs):
+
+        blaa_slug = self.request.GET.get('blaa-slug', '')
+        if blaa_slug:
+            self.blaa_event_json = get_blaa_event(blaa_slug)
+        else:
+            self.blaa_event_json = None
+
+        return super(EventCreateView, self).dispatch(request, *args, **kwargs)
+
+    def get_initial(self):
+        initial = super(EventCreateView, self).get_initial()
+
+        if self.blaa_event_json:
+            event_url = 'http://www.banrepcultural.org{}'.format(
+                self.blaa_event_json['path']
+            )
+            if Event.objects.filter(event_source_url=event_url).exists():
+                messages.add_message(self.request, messages.INFO, 'Event exists.')
+                return redirect('blaa_events_list')
+
+            event_type = Event.EVENT_TYPE_PUBLIC_LECTURE
+            if self.blaa_event_json['tipo'] == 'Taller':
+                event_type = Event.EVENT_TYPE_MASTER_CLASS
+
+            organizer = Organizer.objects.filter(name='Banco de la República').first()
+
+            initial.update(dict(
+                title=self.blaa_event_json['titulo'],
+                event_type=event_type,
+                event_source_url=event_url,
+                organizer=organizer,
+            ))
+        return initial
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['blaa_event_json'] = self.blaa_event_json
+        return context

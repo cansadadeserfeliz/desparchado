@@ -28,4 +28,16 @@ urlpatterns = [
         dashboard_views.EventSourceListView.as_view(),
         name='event_sources'
     ),
+
+    # BLAA
+    url(
+        r'^blaa/events-list/$',
+        dashboard_views.BlaaEventsListView.as_view(),
+        name='blaa_events_list'
+    ),
+    url(
+        r'^events/add/$',
+        dashboard_views.EventCreateView.as_view(),
+        name='event_add'
+    ),
 ]
