@@ -14,12 +14,11 @@ def get_blaa_events_list():
             for node in nodes:
                 events.append(node)
         else:
-            pass
-            #response = requests.get(url.format(page=page))
-            #data = response.json()
-           # nodes = data['nodes']
-            #for node in nodes:
-            #    events.append(node)
+            response = requests.get(url.format(page=page))
+            data = response.json()
+            nodes = data['nodes']
+            for node in nodes:
+                events.append(node)
     return events
 
 

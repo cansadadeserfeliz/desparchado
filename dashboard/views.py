@@ -125,12 +125,23 @@ class EventCreateView(CreateView):
             event_type = Event.EVENT_TYPE_PUBLIC_LECTURE
             if self.blaa_event_json['tipo'] == 'Taller':
                 event_type = Event.EVENT_TYPE_MASTER_CLASS
+            elif self.blaa_event_json['tipo'] == 'Visita guiada':
+                event_type = Event.EVENT_TYPE_TOUR
+            elif self.blaa_event_json['tipo'] == 'Club de Lectura':
+                event_type = Event.EVENT_TYPE_MEETING
+            elif self.blaa_event_json['tipo'] == 'Exposición':
+                event_type = Event.EVENT_TYPE_EXHIBITION
+            elif self.blaa_event_json['tipo'] == 'Concierto':
+                event_type = Event.EVENT_TYPE_CONCERT
+            elif self.blaa_event_json['tipo'] == 'Charla previa':
+                event_type = Event.EVENT_TYPE_MEETING
 
             organizer = Organizer.objects.filter(name='Banco de la República').first()
 
             initial.update(dict(
                 title=self.blaa_event_json['titulo'],
                 event_type=event_type,
+                topic=Event.EVENT_TOPIC_ART,
                 event_source_url=event_url,
                 organizer=organizer,
             ))
