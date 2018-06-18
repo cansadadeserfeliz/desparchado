@@ -9,6 +9,7 @@ from django.db.models.functions import Cast
 from django.db.models.fields import DateField
 from django.shortcuts import redirect
 from django.contrib import messages
+from django.core.urlresolvers import reverse
 
 from events.models import Event
 from events.models import Organizer
@@ -102,10 +103,18 @@ class EventCreateView(CreateView):
     template_name = 'dashboard/event_form.html'
 
     def dispatch(self, request, *args, **kwargs):
+        self.event = None
 
         blaa_slug = self.request.GET.get('blaa-slug', '')
         if blaa_slug:
             self.blaa_event_json = get_blaa_event(blaa_slug)
+
+            self.event_source_url = 'http://www.banrepcultural.org{}'.format(
+                self.blaa_event_json['path']
+            )
+            self.event = Event.objects.filter(
+                event_source_url=self.event_source_url,
+            ).first()
         else:
             self.blaa_event_json = None
 
@@ -115,13 +124,6 @@ class EventCreateView(CreateView):
         initial = super(EventCreateView, self).get_initial()
 
         if self.blaa_event_json:
-            event_url = 'http://www.banrepcultural.org{}'.format(
-                self.blaa_event_json['path']
-            )
-            if Event.objects.filter(event_source_url=event_url).exists():
-                messages.add_message(self.request, messages.INFO, 'Event exists.')
-                return redirect('blaa_events_list')
-
             event_type = Event.EVENT_TYPE_PUBLIC_LECTURE
             if self.blaa_event_json['tipo'] == 'Taller':
                 event_type = Event.EVENT_TYPE_MASTER_CLASS
@@ -142,7 +144,7 @@ class EventCreateView(CreateView):
                 title=self.blaa_event_json['titulo'],
                 event_type=event_type,
                 topic=Event.EVENT_TOPIC_ART,
-                event_source_url=event_url,
+                event_source_url=self.event_source_url,
                 organizer=organizer,
             ))
         return initial
@@ -150,4 +152,19 @@ class EventCreateView(CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['blaa_event_json'] = self.blaa_event_json
+        context['event'] = self.event
         return context
+
+    def get_success_url(self):
+        if self.object.is_published and self.object.is_approved:
+            return self.object.get_absolute_url()
+        else:
+            return reverse('users:user_added_events_list')
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.is_approved = True
+        self.object.created_by = self.request.user
+        self.object.save()
+
+        return super().form_valid(form)

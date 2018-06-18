@@ -10,6 +10,13 @@
       </div>
       <!-- /.box-header -->
       <div class="box-body">
+        {% if event %}
+          <div class="alert alert-warning" role="alert">
+            <b>Event already exists:</b>
+            <a href="{{ event.get_absolute_url }}">{{ event.title }}</a>
+          </div>
+        {% endif %}
+
         {% crispy form %}
       </div>
       <!-- /.box-body -->
