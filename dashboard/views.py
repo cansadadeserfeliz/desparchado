@@ -139,6 +139,7 @@ class EventCreateView(CreateView):
                 event_type = Event.EVENT_TYPE_MEETING
 
             organizer = Organizer.objects.filter(name='Banco de la República').first()
+            place = Place.objects.filter(name=self.blaa_event_json['place']).first()
 
             initial.update(dict(
                 title=self.blaa_event_json['titulo'],
@@ -146,6 +147,7 @@ class EventCreateView(CreateView):
                 topic=Event.EVENT_TOPIC_ART,
                 event_source_url=self.event_source_url,
                 organizer=organizer,
+                place=place,
             ))
         return initial
 
