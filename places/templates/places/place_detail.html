@@ -1,5 +1,5 @@
 {% extends 'layout/base.html' %}
-{% load django_markdown %}
+{% load django_markdown desparchado_tags %}
 
 {% block title %}Eventos en {{ place.name }} | Desparchado.co{% endblock %}
 
@@ -9,6 +9,12 @@
   <div class="place-heading">
     <h1 class="place-title">{{ place.name }}</h1>
     <div class="place-description">{{ place.description|markdown }}</div>
+
+  {% if user|user_can_edit_place:place %}
+    <div class="event-edit text-center">
+      <a href="{% url 'places:place_update' place.pk %}" class="btn btn-sm btn-default">EDITAR LUGAR</a>
+    </div>
+  {% endif %}
   </div>
 
   {% include 'includes/_map.html' with title=place subtitle='' latitude=place.get_latitude_str longitude=place.get_longitude_str css_class='place-map' %}

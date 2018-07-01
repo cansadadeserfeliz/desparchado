@@ -1,9 +1,10 @@
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from django.utils.html import format_html
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from dal import autocomplete
 
+from desparchado.utils import send_notification
 from .models import Place
 from .forms import PlaceForm
 
@@ -65,4 +66,20 @@ class PlaceCreateView(LoginRequiredMixin, CreateView):
         self.object = form.save(commit=False)
         self.object.created_by = self.request.user
         self.object.save()
+        send_notification(self.request, self.object, 'place', True)
+        return super().form_valid(form)
+
+
+class PlaceUpdateView(LoginRequiredMixin, UpdateView):
+    model = Place
+    form_class = PlaceForm
+
+    def get_success_url(self):
+        """
+        Returns the supplied URL.
+        """
+        return self.object.get_absolute_url()
+
+    def form_valid(self, form):
+        send_notification(self.request, self.object, 'place', False)
         return super().form_valid(form)
