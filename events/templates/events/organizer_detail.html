@@ -1,5 +1,5 @@
 {% extends 'layout/base.html' %}
-{% load django_markdown %}
+{% load django_markdown desparchado_tags %}
 
 {% block title %}{{ organizer.name }} | Desparchado.co{% endblock %}
 
@@ -21,6 +21,12 @@
       <img src="{{ organizer.get_image_url }}" alt="{{ organizer.name }}" />
     {% endif %}
     <div class="organizer-description">{{ organizer.description|markdown }}</div>
+
+    {% if user|user_can_edit_organizer:organizer %}
+    <div class="event-edit text-center">
+      <a href="{% url 'events:organizer_update' organizer.pk %}" class="btn btn-sm btn-default">EDITAR ORGANIZADOR</a>
+    </div>
+   {% endif %}
   </div>
 
 </section><!--/#organizer-detail-->

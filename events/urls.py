@@ -75,6 +75,11 @@ urlpatterns = [
         event_views.OrganizerDetailView.as_view(),
         name='organizer_detail'
     ),
+    url(
+        r'^organizers/(?P<pk>\d+)/edit/$',
+        event_views.OrganizerUpdateView.as_view(),
+        name='organizer_update'
+    ),
 
     # Event detail views
     url(

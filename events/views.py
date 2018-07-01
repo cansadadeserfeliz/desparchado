@@ -141,6 +141,15 @@ class OrganizerCreateView(CreateView):
         return super().form_valid(form)
 
 
+class OrganizerUpdateView(UpdateView):
+    model = Organizer
+    form_class = OrganizerForm
+
+    def form_valid(self, form):
+        send_notification(self.request, self.object, 'organizer', False)
+        return super().form_valid(form)
+
+
 class SpeakerCreateView(CreateView):
     model = Speaker
     form_class = SpeakerForm
