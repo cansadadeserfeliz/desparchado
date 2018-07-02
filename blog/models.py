@@ -21,6 +21,11 @@ class Post(TimeStampedModel):
         'Título',
         max_length=255,
     )
+    subtitle = models.CharField(
+        'Título secundario',
+        default='',
+        max_length=255,
+    )
     slug = AutoSlugField(
         null=False,
         unique=True,
