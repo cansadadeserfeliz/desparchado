@@ -68,27 +68,27 @@
 .post-preview
   font-family: Lora, 'Times New Roman', serif
 
-  a
-    color: #212529
+  > a
+    color: $primary-color
+    text-decoration: none
+    &:hover
+      color: $secondary-color
 
     .post-title
       font-size: 30px
       margin-top: 30px
       margin-bottom: 10px
-
-  .post-preview
-    .post-meta
-      font-size: 18px
-      font-style: italic
-      margin-top: 0
-      color: #868e96
-      font-family: Lora, 'Times New Roman', serif
-
-    .post-title
       font-weight: 800
 
     .post-subtitle
       font-weight: 800
+
+  .post-meta
+    font-size: 18px
+    font-style: italic
+    margin-top: 0
+    color: #868e96
+    font-family: Lora, 'Times New Roman', serif
 
 .post-content
   line-height: 1.5
