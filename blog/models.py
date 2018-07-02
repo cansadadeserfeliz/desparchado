@@ -63,6 +63,12 @@ class Post(TimeStampedModel):
         related_name='created_posts',
     )
 
+    related_events = models.ManyToManyField(
+        'events.Event',
+        related_name='posts',
+        blank=True,
+    )
+
     objects = PostQuerySet().as_manager()
 
     def __str__(self):

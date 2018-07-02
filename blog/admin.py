@@ -19,6 +19,11 @@ class PostAdmin(admin.ModelAdmin):
 
     ordering = ('-created', '-is_published')
 
+    raw_id_fields = ('related_events',)
+    autocomplete_lookup_fields = {
+        'm2m': ['related_events'],
+    }
+
     def save_model(self, request, obj, form, change):
         if not obj.id:
             obj.created_by = request.user
