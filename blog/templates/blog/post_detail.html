@@ -1,6 +1,8 @@
 {% extends 'layout/base.html' %}
 {% load i18n staticfiles django_markdown %}
 
+{% block title %}{{ post.title }} | Desparchado.co{% endblock %}
+
 {% block meta %}
   <meta property="og:title" content="{{ post.title }}">
   <meta property="og:description" content="{{ post.subtitle }}">
