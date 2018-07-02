@@ -160,7 +160,8 @@ class Event(TimeStampedModel):
     speakers = models.ManyToManyField(
         'events.Speaker', verbose_name='Presentadores',
         related_name='events',
-        blank=True, null=True)
+        blank=True,
+    )
     is_published = models.BooleanField(
         'Está publicado',
         default=True,

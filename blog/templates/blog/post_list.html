@@ -1,0 +1,36 @@
+{% extends 'layout/base.html' %}
+{% load i18n staticfiles %}
+
+
+{% block subheader %}
+<section class="blog-header" style="background-image: url('{% static 'images/blog-header.jpeg' %}')">
+  <div class="overlay"></div>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-md-10 mx-auto">
+        <div class="blog-heading">
+          <h1>Blog</h1>
+          <span class="subheading">Reseñas de eventos, entrevistas</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock subheader %}
+
+{% block content %}
+  {% for post in posts %}
+    <div class="post-preview">
+      <a href="{{ post.get_absolute_url }}">
+        <h2 class="post-title">{{ post.title }}</h2>
+        <h3 class="post-subtitle">
+          Problems look mighty small from 150 miles up
+        </h3>
+      </a>
+      <p class="post-meta">Posted by
+        <a href="#">{{ post.created_by.username }}</a>
+        on September 24, 2018</p>
+    </div>
+  {% endfor %}
+{% endblock content %}
