@@ -6,7 +6,7 @@
 {% block meta %}
   <meta property="og:title" content="{{ post.title }}">
   <meta property="og:description" content="{{ post.subtitle }}">
-  <meta property="og:image" content="http://{{ request.get_host }}{{ post.get_image_url }}">
+  <meta property="og:image" content="https://{{ request.get_host }}{{ post.get_image_url }}">
 
   <meta name="twitter:title" content="{{ post.title }}">
   <meta name="twitter:description" content="{{ post.subtitle.name }}">
@@ -51,4 +51,8 @@
     {% include 'events/_events_grid.html' with events=post.related_events.all %}
 
   {% endif %}
+
+  {% include 'includes/_disqus_comments.html' with page_id="blog-"|add:post.id %}
+
+
 {% endblock content %}
