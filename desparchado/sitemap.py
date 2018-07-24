@@ -8,7 +8,7 @@ from blog.models import Post
 
 
 class StaticViewSitemap(sitemaps.Sitemap):
-    priority = 0.7
+    priority = 1
     changefreq = 'daily'
 
     def items(self):
