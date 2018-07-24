@@ -22,7 +22,8 @@
   "startDate" : "{{ event.event_date|date:'c' }}",
   "location" : {
     "@type" : "Place",
-    "name" : "{{ event.place }}"
+    "name" : "{{ event.place.name }}",
+    "address" : "{{ event.place.description }}"
   },
   "image" : "https://desparchado.co/{{ event.get_image_url }}"
 }
