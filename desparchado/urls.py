@@ -35,6 +35,13 @@ urlpatterns = [
         name='markdown',
     ),
 
+    url(
+        r'^terms-and-conditions/$',
+        TemplateView.as_view(
+            template_name='desparchado/terms_and_conditions.html',
+        ),
+        name='terms_and_conditions'
+    ),
     url(r'^404/$', TemplateView.as_view(template_name='404.html'), name='page_404'),
     url(r'^500/$', TemplateView.as_view(template_name='500.html'), name='page_500'),
     url(r'^rss/$', RssSiteEventsFeed(), name='rss'),
