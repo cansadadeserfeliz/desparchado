@@ -25,7 +25,7 @@
     "name" : "{{ event.place.name }}",
     "address" : "{{ event.place.description }}"
   },
-  "image" : "https://desparchado.co/{{ event.get_image_url }}"
+  "image" : "https://desparchado.co{{ event.get_image_url }}"
 }
 </script>
 {% endblock %}
