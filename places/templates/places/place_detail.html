@@ -40,7 +40,7 @@
 
 {% if events %}
 
-  <h4>Próximos eventos {{ request.get_host }}</h4>
+  <h4>Próximos eventos en {{ place.name }}</h4>
 
   {% include 'events/_events_grid.html' %}
 
@@ -48,7 +48,7 @@
 
 {% if past_events %}
 
-  <h4>Eventos pasados</h4>
+  <h4>Eventos pasados en {{ place.name }}</h4>
 
   {% include 'events/_events_grid.html' with events=past_events %}
 
