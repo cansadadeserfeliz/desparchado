@@ -143,6 +143,16 @@ class EventCreateForm(forms.ModelForm):
             )
         }
 
+    def clean(self):
+        cleaned_data = super().clean()
+        event_date = cleaned_data.get('event_date')
+        event_end_date = cleaned_data.get('event_end_date')
+
+        if event_date and event_end_date and event_date >= event_end_date:
+            msg = 'Especifique una fecha de finalización igual ' \
+                  'o posterior a la fecha de inicio.'
+            self.add_error('event_end_date', msg)
+
 
 class OrganizerForm(forms.ModelForm):
 
