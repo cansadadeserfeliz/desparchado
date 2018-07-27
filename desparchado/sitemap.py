@@ -3,6 +3,7 @@ from django.urls import reverse
 
 from events.models import Event
 from events.models import Speaker
+from events.models import Organizer
 from places.models import Place
 from blog.models import Post
 
@@ -34,7 +35,18 @@ class EventSitemap(sitemaps.Sitemap):
         return Event.objects.published().all()
 
     def lastmod(self, item):
-        return item.event_date
+        return item.modified
+
+
+class OrganizerSitemap(sitemaps.Sitemap):
+    changefreq = 'daily'
+    priority = 1
+
+    def items(self):
+        return Organizer.objects.all()
+
+    def lastmod(self, item):
+        return item.modified
 
 
 class PlaceSitemap(sitemaps.Sitemap):
@@ -45,7 +57,7 @@ class PlaceSitemap(sitemaps.Sitemap):
         return Place.objects.all()
 
     def lastmod(self, item):
-        return item.created
+        return item.modified
 
 
 class PostSitemap(sitemaps.Sitemap):
@@ -56,7 +68,7 @@ class PostSitemap(sitemaps.Sitemap):
         return Post.objects.all()
 
     def lastmod(self, item):
-        return item.created
+        return item.modified
 
 
 class SpeakerSitemap(sitemaps.Sitemap):
@@ -67,7 +79,7 @@ class SpeakerSitemap(sitemaps.Sitemap):
         return Speaker.objects.all()
 
     def lastmod(self, item):
-        return item.created
+        return item.modified
 
 sitemaps = {
     'static': StaticViewSitemap,
