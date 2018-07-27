@@ -40,15 +40,27 @@
         <li class="tags-item">{{ event.get_topic_display }}</li>
       </ul>
       <h1 class="event-title">{{ event.title }}</h1>
-      <div class="event-city">{{ event.place.city }}</div>
       <div class="event-info">
-        <span class="event-date">{{ event.event_date }}</span>
-        <span class="event-place">
+        <div class="event-date">
+          {{ event.event_date|date:'l, j M Y' }},
+          {{ event.event_date|date:'h:i a' }}
+        {% if event.event_end_date %}
+          {% ifequal event.event_date|date:"j-M-Y" event.event_end_date|date:"j-M-Y" %}
+            -
+            {{ event.event_end_date|date:'h:i a' }}
+          {% else %}
+            -
+            {{ event.event_end_date|date:'l, j M Y' }},
+            {{ event.event_end_date|date:'h:i a' }}
+          {% endifequal %}
+        {% endif %}
+        </div>
+        <div class="event-place">
           <a class="link" href="{% url 'places:place_detail' event.place_id %}">
             <i class="fa fa-map-marker"></i>
             {{ event.place }}
           </a>
-        </span>
+        </div>
       </div>
     </div>
 
@@ -105,6 +117,8 @@
     <h4><a href="{{ event.place.get_absolute_url }}">{{ event.place.name }}</a></h4>
 
     <div><b>Dirección:</b> {{ event.place.description }}</div>
+
+    <div><a href="{{ event.place.get_absolute_url }}">Ver otros eventos en este sitio</a></div>
 
     {% include 'includes/_map.html' with title=event.place subtitle=event.event_date latitude=event.get_latitude_str longitude=event.get_longitude_str css_class='event-map' %}
   </div>
