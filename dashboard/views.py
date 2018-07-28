@@ -61,7 +61,7 @@ class EventsListView(SuperuserRequiredMixin, ListView):
 
 class PlacesListView(SuperuserRequiredMixin, ListView):
     model = Place
-    paginate_by = 50
+    paginate_by = 300
     context_object_name = 'places'
     template_name = 'dashboard/places.html'
 
