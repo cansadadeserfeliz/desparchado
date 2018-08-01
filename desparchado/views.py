@@ -1,6 +1,9 @@
+import datetime
+
 from django.views.generic import TemplateView
 from django.contrib.syndication.views import Feed
 from django.utils.feedgenerator import Atom1Feed
+from django.utils import timezone
 
 from events.models import Event
 
@@ -18,12 +21,26 @@ class HomeView(TemplateView):
 
 
 class RssSiteEventsFeed(Feed):
-    title = 'Futuros eventos en desparchado.co'
+    title = 'Eventos en Desparchado.co'
     link = '/events/'
-    description = 'Futuros eventos en desparchado.co'
+    description = 'Futuros eventos en Desparchado.co'
 
     def items(self):
-        return Event.objects.published().order_by('event_date')[:10]
+        return Event.objects.published().filter(
+            event_date__gte=timezone.now(),
+        ).order_by('event_date')[:10]
+
+
+class SocialNetworksRssSiteEventsFeed(Feed):
+    title = 'Eventos en Desparchado.co'
+    link = '/events/'
+    description = 'Futuros eventos en Desparchado.co'
+
+    def items(self):
+        return Event.objects.published().filter(
+            event_date__date__gte=timezone.now(),
+            event_date__date__lte=timezone.now() + datetime.timedelta(days=3),
+        ).order_by('event_date')
 
 
 class AtomSiteEventsFeed(RssSiteEventsFeed):
