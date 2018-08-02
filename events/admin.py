@@ -75,6 +75,22 @@ class EventAdmin(admin.ModelAdmin):
         return False
 
 
+@admin.register(SocialNetworkPost)
+class SocialNetworkPostAdmin(admin.ModelAdmin):
+    list_display = (
+        'description',
+        'published_at',
+        'event',
+    )
+
+    raw_id_fields = ('event',)
+    autocomplete_lookup_fields = {
+        'fk': ['event'],
+    }
+
+    ordering = ('-published_at',)
+
+
 @admin.register(Organizer)
 class OrganizerAdmin(admin.ModelAdmin):
     list_display = ('name', 'slug', 'description', 'created_by', 'created', 'modified')
