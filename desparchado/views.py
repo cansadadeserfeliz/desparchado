@@ -37,6 +37,9 @@ class SocialNetworksRssSiteEventsFeed(Feed):
     link = '/events/'
     description = 'Futuros eventos en Desparchado.co'
 
+    def item_title(self, item):
+        return item.event.title
+
     def item_link(self, item):
         return reverse('events:event_detail', args=[item.event.slug])
 
