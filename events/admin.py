@@ -2,7 +2,11 @@ from django.contrib import admin
 from django.utils.translation import ugettext_lazy as _
 
 from desparchado.utils import send_admin_notification
-from .models import Event, Organizer, Speaker
+from .models import Event, Organizer, Speaker, SocialNetworkPost
+
+
+class SocialNetworkPostInline(admin.TabularInline):
+    model = SocialNetworkPost
 
 
 @admin.register(Event)
@@ -21,6 +25,8 @@ class EventAdmin(admin.ModelAdmin):
         'created_by',
         'created',
     ]
+
+    inlines = [SocialNetworkPostInline]
 
     fieldsets = (
         (None, {
@@ -60,8 +66,6 @@ class EventAdmin(admin.ModelAdmin):
         if not obj.id:
             obj.created_by = request.user
         super().save_model(request, obj, form, change)
-
-        send_admin_notification(request, obj, form, change)
 
     def get_readonly_fields(self, request, obj=None):
         readonly_fields = ['slug']

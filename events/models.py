@@ -272,7 +272,21 @@ class Speaker(TimeStampedModel):
     def get_absolute_url(self):
         return reverse('events:speaker_detail', args=[self.slug])
 
-
     @staticmethod
     def autocomplete_search_fields():
         return ('name__icontains',)
+
+
+class SocialNetworkPost(TimeStampedModel):
+    event = models.ForeignKey(
+        'events.Event',
+    )
+    description = models.TextField(
+        verbose_name='Descripción',
+        help_text='Texto de publicación',
+    )
+    published_at = models.DateTimeField('Fecha de publicación')
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL)
+
+    def __str__(self):
+        return self.description
