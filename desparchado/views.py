@@ -32,7 +32,6 @@ class RssSiteEventsFeed(Feed):
 
 
 class SocialNetworksRssSiteEventsFeed(Feed):
-    feed_type = Atom1Feed
     title = 'Eventos en Desparchado.co'
     link = '/events/'
     description = 'Futuros eventos en Desparchado.co'
@@ -40,8 +39,23 @@ class SocialNetworksRssSiteEventsFeed(Feed):
     def item_title(self, item):
         return item.event.title
 
+    def item_guid(self, item):
+        return reverse('events:event_detail', args=[item.event.slug])
+
     def item_link(self, item):
         return reverse('events:event_detail', args=[item.event.slug])
+
+    def item_description(self, item):
+        return item.description
+
+    def item_author_name(self, item):
+        return 'Desparchado.co'
+
+    def item_pubdate(self, item):
+        return item.published_at
+
+    def item_updateddate(self, item):
+        return item.published_at
 
     def items(self):
         return SocialNetworkPost.objects.filter(
