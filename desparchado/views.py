@@ -45,6 +45,9 @@ class SocialNetworksRssSiteEventsFeed(Feed):
     def item_link(self, item):
         return reverse('events:event_detail', args=[item.event.slug])
 
+    def item_guid_is_permalink(self, item):
+        return False
+
     def item_description(self, item):
         return item.description
 
