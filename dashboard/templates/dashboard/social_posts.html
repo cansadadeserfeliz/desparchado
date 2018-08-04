@@ -37,7 +37,7 @@
           {% for event in events %}
             <tr>
               <td>
-                <span class="text-primary"><b>{{ event.id }}</b></span>
+                <span class="text-success"><b>{{ event.id }}</b></span>
                 <span class="text-muted"><b>{{ event.title }}</b></span>
                 <div>
                   <img src="{{ event.get_image_url }}" width="100" class="img-thumbnail">
@@ -119,7 +119,7 @@
           {% for social_post in future_social_posts %}
             <tr>
               <td>
-                <span class="text-primary"><b>{{ social_post.event.id }}</b></span>
+                <span class="text-success"><b>{{ social_post.event.id }}</b></span>
                 <span class="text-muted"><b>{{ social_post.event.title }}</b></span>
                 <div>
                   <img src="{{ social_post.event.get_image_url }}" width="100" class="img-thumbnail">
@@ -137,6 +137,10 @@
                 <b>{{ social_post.published_at|date:'j b y H:i' }}</b>
                 <br>
                 <i>{{ social_post.created_by }}</i>
+                <br>
+                <a class="btn btn-sm btn-default" target="_blank" href="{% url 'admin:events_event_change' social_post.event.id %}" >
+                  <i class="fa fa-edit"></i>
+                </a>
               </td>
             </tr>
           {% endfor %}
@@ -166,7 +170,7 @@
           {% for social_post in published_social_posts %}
             <tr>
               <td>
-                <span class="text-danger"><b>{{ social_post.event.id }}</b></span>
+                <span class="text-success"><b>{{ social_post.event.id }}</b></span>
                 <span class="text-muted"><b>{{ social_post.event.title }}</b></span>
                 <div>
                   <img src="{{ social_post.event.get_image_url }}" width="100" class="img-thumbnail">
