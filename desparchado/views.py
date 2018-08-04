@@ -67,7 +67,7 @@ class SocialNetworksRssSiteEventsFeed(Feed):
         return SocialNetworkPost.objects.filter(
             event__is_published=True,
             event__is_approved=True,
-            published_at__date__lte=timezone.now(),
+            published_at__lte=timezone.now(),
         ).select_related('event').order_by('published_at')
 
 

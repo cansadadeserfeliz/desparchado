@@ -66,12 +66,11 @@ class SocialPostsListView(SuperuserRequiredMixin, ListView):
     paginate_by = 100
     context_object_name = 'events'
     template_name = 'dashboard/social_posts.html'
-    ordering = 'event_date'
 
     def get_queryset(self):
         queryset = super().get_queryset()
         queryset = queryset.future()
-        return queryset
+        return queryset.order_by('event_date')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
