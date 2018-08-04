@@ -97,7 +97,11 @@
                 data-original-title="{{ posts_count }} future posts">
             {{ posts_count }}
           </span>
-          <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+          <a href="{% url 'rss_social_networks' %}" target="_blank" class="btn btn-box-tool">
+            <i class="fa fa-rss"></i>
+          </a>
+          <button type="button" class="btn btn-box-tool" data-widget="collapse">
+            <i class="fa fa-minus"></i>
           </button>
         {% endwith %}
         </div>
