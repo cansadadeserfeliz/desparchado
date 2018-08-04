@@ -7,6 +7,10 @@ from .models import Event, Organizer, Speaker, SocialNetworkPost
 
 class SocialNetworkPostInline(admin.TabularInline):
     model = SocialNetworkPost
+    fields = (
+        'description',
+        'published_at',
+    )
 
 
 @admin.register(Event)
@@ -62,6 +66,13 @@ class EventAdmin(admin.ModelAdmin):
     def get_actions(self, request):
         return []
 
+    def save_formset(self, request, form, formset, change):
+        instances = formset.save(commit=False)
+        for instance in instances:
+            instance.created_by = request.user
+            instance.save()
+        formset.save_m2m()
+
     def save_model(self, request, obj, form, change):
         if not obj.id:
             obj.created_by = request.user
@@ -73,22 +84,6 @@ class EventAdmin(admin.ModelAdmin):
 
     def has_delete_permission(self, request, obj=None):
         return False
-
-
-@admin.register(SocialNetworkPost)
-class SocialNetworkPostAdmin(admin.ModelAdmin):
-    list_display = (
-        'description',
-        'published_at',
-        'event',
-    )
-
-    raw_id_fields = ('event',)
-    autocomplete_lookup_fields = {
-        'fk': ['event'],
-    }
-
-    ordering = ('-published_at',)
 
 
 @admin.register(Organizer)

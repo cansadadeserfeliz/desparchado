@@ -7,9 +7,21 @@
 {% block content %}
 <div class="row">
   <div class="col-md-6">
-    <div class="box">
+    <div class="box box-warning">
       <div class="box-header with-border">
         <h3 class="box-title">Future events</h3>
+        <div class="box-tools pull-right">
+        {% with events_count=events.count %}
+          <span data-toggle="tooltip"
+                title=""
+                class="badge bg-yellow"
+                data-original-title="{{ events_count }} future events">
+            {{ events_count }}
+          </span>
+          <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+          </button>
+        {% endwith %}
+        </div>
       </div><!-- /.box-header -->
       <div class="box-body">
         <table class="table table-hover table-condensed">
@@ -27,6 +39,9 @@
               <td>
                 <span class="text-primary"><b>{{ event.id }}</b></span>
                 <span class="text-muted"><b>{{ event.title }}</b></span>
+                <div>
+                  <img src="{{ event.get_image_url }}" width="100" class="img-thumbnail">
+                </div>
               </td>
               <td style="min-width: 120px">
                 {{ event.event_date|date:'j b y H:i' }}
@@ -35,7 +50,7 @@
               {% endif %}
               </td>
               <td class="{% if not event.created_by.is_superuser %}bg-yellow disabled color-palette{% endif %}">
-                {{ event.created_by }}
+                <i>{{ event.created_by }}</i>
                 <br>
                 <span class="label {% if event.is_published %}label-success{% else %}label-danger{% endif %}">
                   {{ event.is_published|yesno }}
@@ -71,9 +86,21 @@
   </div>
   <div class="col-md-6">
 
-    <div class="box">
+    <div class="box box-danger">
       <div class="box-header with-border">
         <h3 class="box-title">Future facebook posts</h3>
+        <div class="box-tools pull-right">
+        {% with posts_count=future_social_posts.count %}
+          <span data-toggle="tooltip"
+                title=""
+                class="badge bg-red"
+                data-original-title="{{ posts_count }} future posts">
+            {{ posts_count }}
+          </span>
+          <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+          </button>
+        {% endwith %}
+        </div>
       </div><!-- /.box-header -->
       <div class="box-body">
         <table class="table table-hover table-condensed">
@@ -90,6 +117,9 @@
               <td>
                 <span class="text-primary"><b>{{ social_post.event.id }}</b></span>
                 <span class="text-muted"><b>{{ social_post.event.title }}</b></span>
+                <div>
+                  <img src="{{ social_post.event.get_image_url }}" width="100" class="img-thumbnail">
+                </div>
                 <br><b>Description:</b>
                 {{ social_post.description }}
               </td>
@@ -99,7 +129,11 @@
                 - {{ social_post.event.event_end_date|date:'j b y H:i' }}
               {% endif %}
               </td>
-              <td style="min-width: 120px"><b>{{ social_post.published_at|date:'j b y H:i' }}</b></td>
+              <td style="min-width: 120px">
+                <b>{{ social_post.published_at|date:'j b y H:i' }}</b>
+                <br>
+                <i>{{ social_post.created_by }}</i>
+              </td>
             </tr>
           {% endfor %}
           </tbody>
@@ -107,9 +141,13 @@
       </div><!-- /.box-body -->
     </div><!-- /.box -->
 
-    <div class="box">
+    <div class="box box-success">
       <div class="box-header with-border">
         <h3 class="box-title">Published facebook posts</h3>
+        <div class="box-tools pull-right">
+          <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+          </button>
+        </div>
       </div><!-- /.box-header -->
       <div class="box-body">
         <table class="table table-hover table-condensed">
@@ -126,6 +164,9 @@
               <td>
                 <span class="text-danger"><b>{{ social_post.event.id }}</b></span>
                 <span class="text-muted"><b>{{ social_post.event.title }}</b></span>
+                <div>
+                  <img src="{{ social_post.event.get_image_url }}" width="100" class="img-thumbnail">
+                </div>
                 <br><b>Description:</b>
                 {{ social_post.description }}
               </td>
@@ -135,7 +176,11 @@
                 - {{ social_post.event.event_end_date|date:'j b y H:i' }}
               {% endif %}
               </td>
-              <td style="min-width: 120px"><b>{{ social_post.published_at|date:'j b y H:i' }}</b></td>
+              <td style="min-width: 120px">
+                <b>{{ social_post.published_at|date:'j b y H:i' }}</b>
+                <br>
+                <i>{{ social_post.created_by }}</i>
+              </td>
             </tr>
           {% endfor %}
           </tbody>

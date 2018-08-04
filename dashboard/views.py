@@ -76,10 +76,10 @@ class SocialPostsListView(SuperuserRequiredMixin, ListView):
         context = super().get_context_data(**kwargs)
         context['published_social_posts'] = SocialNetworkPost.objects.filter(
             published_at__lte=timezone.now(),
-        ).select_related('event').order_by('-published_at')[:25]
+        ).select_related('event', 'created_by').order_by('-published_at')[:25]
         context['future_social_posts'] = SocialNetworkPost.objects.filter(
             published_at__gt=timezone.now(),
-        ).select_related('event').order_by('published_at')
+        ).select_related('event', 'created_by').order_by('published_at')
         return context
 
 
