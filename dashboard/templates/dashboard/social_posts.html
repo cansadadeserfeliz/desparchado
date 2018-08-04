@@ -1,6 +1,9 @@
 {% extends 'dashboard/layout/base.html' %}
 {% load i18n dashboard_tags %}
 
+{% block page_title %}Social posts{% endblock %}
+{% block page_subtitle %}today {% now 'j b y H:i' %}{% endblock %}
+
 {% block content %}
 <div class="row">
   <div class="col-md-6">
