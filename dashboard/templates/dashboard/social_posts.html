@@ -28,7 +28,6 @@
           <thead>
             <tr>
               <th>Title</th>
-              <th>Event date</th>
               <th>Published</th>
               <th></th>
             </tr>
@@ -37,28 +36,29 @@
           {% for event in events %}
             <tr>
               <td>
-                <span class="text-success"><b>{{ event.id }}</b></span>
-                <span class="text-muted"><b>{{ event.title }}</b></span>
+                <span><b>[id{{ event.id }}] {{ event.title }}</b></span>
+                <div>
+                  {{ event.event_date|date:'j b y H:i' }}
+                {% if event.event_end_date %}
+                  - {{ event.event_end_date|date:'j b y H:i' }}
+                {% endif %}
+                </div>
                 <div>
                   <img src="{{ event.get_image_url }}" width="100" class="img-thumbnail">
                 </div>
               </td>
-              <td style="min-width: 120px">
-                {{ event.event_date|date:'j b y H:i' }}
-              {% if event.event_end_date %}
-                - {{ event.event_end_date|date:'j b y H:i' }}
-              {% endif %}
-              </td>
-              <td class="{% if not event.created_by.is_superuser %}bg-yellow disabled color-palette{% endif %}">
-                <i>{{ event.created_by }}</i>
-                <br>
-                <span class="label {% if event.is_published %}label-success{% else %}label-danger{% endif %}">
-                  {{ event.is_published|yesno }}
-                </span>
-                &nbsp;
-                <span class="label {% if event.is_approved %}label-success{% else %}label-danger{% endif %}">
-                  {{ event.is_approved|yesno }}
-                </span>
+              <td>
+                <div class="{% if not event.created_by.is_superuser %}bg-yellow disabled color-palette{% endif %}">
+                  <i>{{ event.created_by }}</i>
+                  <br>
+                  <span title="Publicado" class="label {% if event.is_published %}label-success{% else %}label-danger{% endif %}">
+                    {{ event.is_published|yesno }}
+                  </span>
+                  &nbsp;
+                  <span title="Aprobado" class="label {% if event.is_approved %}label-success{% else %}label-danger{% endif %}">
+                    {{ event.is_approved|yesno }}
+                  </span>
+                </div>
               </td>
               <td>
                 <a class="btn btn-sm btn-default" target="_blank" href="{% url 'admin:events_event_change' event.id %}" >
@@ -111,7 +111,6 @@
           <thead>
             <tr>
               <th>Title</th>
-              <th>Event date</th>
               <th>Post date</th>
             </tr>
           </thead>
@@ -119,19 +118,18 @@
           {% for social_post in future_social_posts %}
             <tr>
               <td>
-                <span class="text-success"><b>{{ social_post.event.id }}</b></span>
-                <span class="text-muted"><b>{{ social_post.event.title }}</b></span>
+                <span class="text-muted"><b>[id{{ social_post.event.id }}] {{ social_post.event.title }}</b></span>
+                <div>
+                   {{ social_post.event.event_date|date:'j b y H:i' }}
+              {% if social_post.event.event_end_date %}
+                - {{ social_post.event.event_end_date|date:'j b y H:i' }}
+              {% endif %}
+                </div>
                 <div>
                   <img src="{{ social_post.event.get_image_url }}" width="100" class="img-thumbnail">
                 </div>
                 <br><b>Description:</b>
                 {{ social_post.description }}
-              </td>
-              <td style="min-width: 120px">
-                {{ social_post.event.event_date|date:'j b y H:i' }}
-              {% if social_post.event.event_end_date %}
-                - {{ social_post.event.event_end_date|date:'j b y H:i' }}
-              {% endif %}
               </td>
               <td style="min-width: 120px">
                 <b>{{ social_post.published_at|date:'j b y H:i' }}</b>
@@ -162,7 +160,6 @@
           <thead>
             <tr>
               <th>Title</th>
-              <th>Event date</th>
               <th>Post date</th>
             </tr>
           </thead>
@@ -170,19 +167,18 @@
           {% for social_post in published_social_posts %}
             <tr>
               <td>
-                <span class="text-success"><b>{{ social_post.event.id }}</b></span>
-                <span class="text-muted"><b>{{ social_post.event.title }}</b></span>
+                <span class="text-muted"><b>[id{{ social_post.event.id }}] {{ social_post.event.title }}</b></span>
+                <div>
+                   {{ social_post.event.event_date|date:'j b y H:i' }}
+              {% if social_post.event.event_end_date %}
+                - {{ social_post.event.event_end_date|date:'j b y H:i' }}
+              {% endif %}
+                </div>
                 <div>
                   <img src="{{ social_post.event.get_image_url }}" width="100" class="img-thumbnail">
                 </div>
                 <br><b>Description:</b>
                 {{ social_post.description }}
-              </td>
-              <td style="min-width: 120px">
-                {{ social_post.event.event_date|date:'j b y H:i' }}
-              {% if social_post.event.event_end_date %}
-                - {{ social_post.event.event_end_date|date:'j b y H:i' }}
-              {% endif %}
               </td>
               <td style="min-width: 120px">
                 <b>{{ social_post.published_at|date:'j b y H:i' }}</b>
