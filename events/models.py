@@ -280,6 +280,7 @@ class Speaker(TimeStampedModel):
 class SocialNetworkPost(TimeStampedModel):
     event = models.ForeignKey(
         'events.Event',
+        related_name='social_posts',
     )
     description = models.TextField(
         verbose_name='Descripción',
@@ -290,3 +291,6 @@ class SocialNetworkPost(TimeStampedModel):
 
     def __str__(self):
         return self.description
+
+    class Meta:
+        ordering = ('-published_at',)

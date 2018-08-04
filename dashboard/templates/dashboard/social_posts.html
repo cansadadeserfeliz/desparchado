@@ -14,7 +14,6 @@
             <tr>
               <th>Title</th>
               <th>Event date</th>
-              <th>Created by</th>
               <th>Published</th>
               <th></th>
             </tr>
@@ -24,9 +23,9 @@
             <tr>
               <td>
                 <span class="text-primary"><b>{{ event.id }}</b></span>
-                {{ event.title }}
+                <span class="text-muted"><b>{{ event.title }}</b></span>
               </td>
-              <td style="min-width: 100px">
+              <td style="min-width: 120px">
                 {{ event.event_date|date:'j b y h:i' }}
               {% if event.event_end_date %}
                 - {{ event.event_end_date|date:'j b y h:i' }}
@@ -34,8 +33,7 @@
               </td>
               <td class="{% if not event.created_by.is_superuser %}bg-yellow disabled color-palette{% endif %}">
                 {{ event.created_by }}
-              </td>
-              <td>
+                <br>
                 <span class="label {% if event.is_published %}label-success{% else %}label-danger{% endif %}">
                   {{ event.is_published|yesno }}
                 </span>
@@ -48,6 +46,15 @@
                 <a class="btn btn-sm btn-default" target="_blank" href="{% url 'admin:events_event_change' event.id %}" >
                   <i class="fa fa-edit"></i>
                 </a>
+              </td>
+            </tr>
+            <tr>
+              <td><i class="fa fa-facebook"></i>:</td>
+              <td colspan="100">
+                {% for social_post in event.social_posts.all %}
+                  <b>{{ social_post.published_at|date:'j b y h:i' }}</b>
+                  {% if not forloop.last %}<br>{% endif %}
+                {% endfor %}
               </td>
             </tr>
           {% endfor %}
@@ -79,17 +86,17 @@
             <tr>
               <td>
                 <span class="text-primary"><b>{{ social_post.event.id }}</b></span>
-                {{ social_post.event.title }}
+                <span class="text-muted"><b>{{ social_post.event.title }}</b></span>
                 <br><b>Description:</b>
                 {{ social_post.description }}
               </td>
-              <td style="min-width: 100px">
+              <td style="min-width: 120px">
                 {{ social_post.event.event_date|date:'j b y h:i' }}
               {% if social_post.event.event_end_date %}
                 - {{ social_post.event.event_end_date|date:'j b y h:i' }}
               {% endif %}
               </td>
-              <td style="min-width: 100px"><b>{{ social_post.published_at|date:'j b y h:i' }}</b></td>
+              <td style="min-width: 120px"><b>{{ social_post.published_at|date:'j b y h:i' }}</b></td>
             </tr>
           {% endfor %}
           </tbody>
@@ -115,17 +122,17 @@
             <tr>
               <td>
                 <span class="text-danger"><b>{{ social_post.event.id }}</b></span>
-                {{ social_post.event.title }}
+                <span class="text-muted"><b>{{ social_post.event.title }}</b></span>
                 <br><b>Description:</b>
                 {{ social_post.description }}
               </td>
-              <td style="min-width: 100px">
+              <td style="min-width: 120px">
                 {{ social_post.event.event_date|date:'j b y h:i' }}
               {% if social_post.event.event_end_date %}
                 - {{ social_post.event.event_end_date|date:'j b y h:i' }}
               {% endif %}
               </td>
-              <td style="min-width: 100px"><b>{{ social_post.published_at|date:'j b y h:i' }}</b></td>
+              <td style="min-width: 120px"><b>{{ social_post.published_at|date:'j b y h:i' }}</b></td>
             </tr>
           {% endfor %}
           </tbody>
