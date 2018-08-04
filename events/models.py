@@ -297,8 +297,9 @@ class SocialNetworkPost(TimeStampedModel):
         ordering = ('-published_at',)
 
     def clean(self):
-        if self.published_at:
+        if self.published_at and not self.id:
             if self.published_at < timezone.now() - datetime.timedelta(minutes=30):
                 raise ValidationError('You cannot set publish date in the past.')
+        if self.published_at:
             if self.published_at > self.event.event_date:
                 raise ValidationError('You cannot publish after event is started.')
