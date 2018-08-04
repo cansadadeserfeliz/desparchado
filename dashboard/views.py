@@ -8,10 +8,12 @@ from django.db.models.functions import ExtractWeekDay
 from django.db.models.functions import Cast
 from django.db.models.fields import DateField
 from django.core.urlresolvers import reverse
+from django.utils import timezone
 
 from events.models import Event
 from events.models import Organizer
 from events.models import Speaker
+from events.models import SocialNetworkPost
 from events.forms import EventCreateForm
 from places.models import Place
 from dashboard.models import EventSource
@@ -57,6 +59,29 @@ class EventsListView(SuperuserRequiredMixin, ListView):
     context_object_name = 'events'
     template_name = 'dashboard/events.html'
     ordering = '-modified'
+
+
+class SocialPostsListView(SuperuserRequiredMixin, ListView):
+    model = Event
+    paginate_by = 100
+    context_object_name = 'events'
+    template_name = 'dashboard/social_posts.html'
+    ordering = 'event_date'
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        queryset = queryset.future()
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['published_social_posts'] = SocialNetworkPost.objects.filter(
+            published_at__date__lte=timezone.now(),
+        ).select_related('event').order_by('published_at')
+        context['future_social_posts'] = SocialNetworkPost.objects.filter(
+            published_at__date__gt=timezone.now(),
+        ).select_related('event').order_by('-published_at')
+        return context
 
 
 class PlacesListView(SuperuserRequiredMixin, ListView):

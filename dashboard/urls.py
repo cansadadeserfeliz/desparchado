@@ -14,6 +14,11 @@ urlpatterns = [
         name='events'
     ),
     url(
+        r'^social-posts/$',
+        dashboard_views.SocialPostsListView.as_view(),
+        name='social_posts'
+    ),
+    url(
         r'^places/$',
         dashboard_views.PlacesListView.as_view(),
         name='places'

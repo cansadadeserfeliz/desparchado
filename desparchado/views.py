@@ -40,7 +40,10 @@ class SocialNetworksRssSiteEventsFeed(Feed):
         return item.event.title
 
     def item_guid(self, item):
-        return reverse('events:event_detail', args=[item.event.slug])
+        return '{}-{}'.format(
+            item.event.slug,
+            item.id,
+        )
 
     def item_link(self, item):
         return reverse('events:event_detail', args=[item.event.slug])

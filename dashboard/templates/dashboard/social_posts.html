@@ -1,0 +1,139 @@
+{% extends 'dashboard/layout/base.html' %}
+{% load i18n dashboard_tags %}
+
+{% block content %}
+<div class="row">
+  <div class="col-md-6">
+    <div class="box">
+      <div class="box-header with-border">
+        <h3 class="box-title">Future events</h3>
+      </div><!-- /.box-header -->
+      <div class="box-body">
+        <table class="table table-hover table-condensed">
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Event date</th>
+              <th>Created by</th>
+              <th>Published</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+          {% for event in events %}
+            <tr>
+              <td>
+                <span class="text-primary"><b>{{ event.id }}</b></span>
+                {{ event.title }}
+              </td>
+              <td style="min-width: 100px">
+                {{ event.event_date|date:'j b y h:i' }}
+              {% if event.event_end_date %}
+                - {{ event.event_end_date|date:'j b y h:i' }}
+              {% endif %}
+              </td>
+              <td class="{% if not event.created_by.is_superuser %}bg-yellow disabled color-palette{% endif %}">
+                {{ event.created_by }}
+              </td>
+              <td>
+                <span class="label {% if event.is_published %}label-success{% else %}label-danger{% endif %}">
+                  {{ event.is_published|yesno }}
+                </span>
+                &nbsp;
+                <span class="label {% if event.is_approved %}label-success{% else %}label-danger{% endif %}">
+                  {{ event.is_approved|yesno }}
+                </span>
+              </td>
+              <td>
+                <a class="btn btn-sm btn-default" target="_blank" href="{% url 'admin:events_event_change' event.id %}" >
+                  <i class="fa fa-edit"></i>
+                </a>
+              </td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div><!-- /.box-body -->
+      <div class="box-footer clearfix">
+        {% get_dashboard_pagination %}
+      </div>
+    </div><!-- /.box -->
+  </div>
+  <div class="col-md-6">
+
+    <div class="box">
+      <div class="box-header with-border">
+        <h3 class="box-title">Future facebook posts</h3>
+      </div><!-- /.box-header -->
+      <div class="box-body">
+        <table class="table table-hover table-condensed">
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Event date</th>
+              <th>Post date</th>
+            </tr>
+          </thead>
+          <tbody>
+          {% for social_post in future_social_posts %}
+            <tr>
+              <td>
+                <span class="text-primary"><b>{{ social_post.event.id }}</b></span>
+                {{ social_post.event.title }}
+                <br><b>Description:</b>
+                {{ social_post.description }}
+              </td>
+              <td style="min-width: 100px">
+                {{ social_post.event.event_date|date:'j b y h:i' }}
+              {% if social_post.event.event_end_date %}
+                - {{ social_post.event.event_end_date|date:'j b y h:i' }}
+              {% endif %}
+              </td>
+              <td style="min-width: 100px"><b>{{ social_post.published_at|date:'j b y h:i' }}</b></td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div><!-- /.box-body -->
+    </div><!-- /.box -->
+
+    <div class="box">
+      <div class="box-header with-border">
+        <h3 class="box-title">Published facebook posts</h3>
+      </div><!-- /.box-header -->
+      <div class="box-body">
+        <table class="table table-hover table-condensed">
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Event date</th>
+              <th>Post date</th>
+            </tr>
+          </thead>
+          <tbody>
+          {% for social_post in published_social_posts %}
+            <tr>
+              <td>
+                <span class="text-danger"><b>{{ social_post.event.id }}</b></span>
+                {{ social_post.event.title }}
+                <br><b>Description:</b>
+                {{ social_post.description }}
+              </td>
+              <td style="min-width: 100px">
+                {{ social_post.event.event_date|date:'j b y h:i' }}
+              {% if social_post.event.event_end_date %}
+                - {{ social_post.event.event_end_date|date:'j b y h:i' }}
+              {% endif %}
+              </td>
+              <td style="min-width: 100px"><b>{{ social_post.published_at|date:'j b y h:i' }}</b></td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div><!-- /.box-body -->
+    </div><!-- /.box -->
+
+  </div>
+</div>
+<!-- /.row -->
+{% endblock content %}
