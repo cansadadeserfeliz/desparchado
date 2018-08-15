@@ -5,6 +5,21 @@ from desparchado.utils import send_admin_notification
 from .models import Event, Organizer, Speaker, SocialNetworkPost
 
 
+@admin.register(SocialNetworkPost)
+class SocialNetworkPostAdmin(admin.ModelAdmin):
+
+    list_display = [
+        'event',
+        'description',
+        'published_at',
+    ]
+
+    def save_model(self, request, obj, form, change):
+        if not obj.id:
+            obj.created_by = request.user
+        super().save_model(request, obj, form, change)
+
+
 class SocialNetworkPostInline(admin.TabularInline):
     model = SocialNetworkPost
     fields = (
