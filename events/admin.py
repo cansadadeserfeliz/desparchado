@@ -14,6 +14,8 @@ class SocialNetworkPostAdmin(admin.ModelAdmin):
         'published_at',
     ]
 
+    date_hierarchy = 'published_at'
+
     def save_model(self, request, obj, form, change):
         if not obj.id:
             obj.created_by = request.user
