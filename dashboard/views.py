@@ -1,6 +1,3 @@
-import datetime
-from collections import OrderedDict
-
 from django.views.generic import TemplateView
 from django.views.generic import CreateView
 from django.views.generic import ListView
@@ -12,7 +9,6 @@ from django.db.models.functions import ExtractWeekDay
 from django.db.models.functions import Cast
 from django.db.models.fields import DateField
 from django.core.urlresolvers import reverse
-from django.utils import timezone
 
 from events.models import Event
 from events.models import Organizer
@@ -95,6 +91,7 @@ def social_events_source(request):
             start=event.event_date.isoformat(),
             backgroundColor=color,
             borderColor=color,
+            url=reverse('admin:events_event_change', args=(event.id,)),
         ))
 
     social_posts = SocialNetworkPost.objects.filter(
@@ -107,6 +104,7 @@ def social_events_source(request):
             start=social_post.published_at.isoformat(),
             backgroundColor=blue,
             borderColor=blue,
+            url=reverse('admin:events_event_change', args=(social_post.event.id,)),
         ))
 
     return JsonResponse(event_list, safe=False)
