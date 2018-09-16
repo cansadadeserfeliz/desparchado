@@ -94,7 +94,7 @@ class SocialPostsListView(SuperuserRequiredMixin, TemplateView):
                 'events': [],
                 'social_posts': [],
             }
-            for x in range(-1, (max_date - min_date).days + 1)
+            for x in range(-1, (max_date - min_date).days + 2)
         }
         for event in events:
             future_posts[event.event_date.date()]['events'].append(event)
