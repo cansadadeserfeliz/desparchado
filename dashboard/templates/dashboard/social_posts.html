@@ -5,194 +5,86 @@
 {% block page_subtitle %}today {% now 'j b y H:i' %}{% endblock %}
 
 {% block content %}
-<div class="row">
-  <div class="col-md-6">
-    <div class="box box-warning">
-      <div class="box-header with-border">
-        <h3 class="box-title">Future events</h3>
-        <div class="box-tools pull-right">
-        {% with events_count=events.count %}
-          <span data-toggle="tooltip"
-                title=""
-                class="badge bg-yellow"
-                data-original-title="{{ events_count }} future events">
-            {{ events_count }}
-          </span>
-          <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-          </button>
-        {% endwith %}
-        </div>
-      </div><!-- /.box-header -->
-      <div class="box-body">
-        <table class="table table-condensed table-striped">
-          <thead>
-            <tr>
-              <th>Title</th>
-              <th>Published</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-          {% for event in events %}
-            <tr>
-              <td>
-                <span><b>[id{{ event.id }}] {{ event.title }}</b></span>
-                <div>
-                  {{ event.event_date|date:'j b y H:i' }}
-                {% if event.event_end_date %}
-                  - {{ event.event_end_date|date:'j b y H:i' }}
-                {% endif %}
-                </div>
-                <div>
-                  <img src="{{ event.get_image_url }}" width="100" class="img-thumbnail">
-                </div>
-              </td>
-              <td>
-                <div class="{% if not event.created_by.is_superuser %}bg-yellow disabled color-palette{% endif %}">
-                  <i>{{ event.created_by }}</i>
-                  <br>
-                  <span title="Publicado" class="label {% if event.is_published %}label-success{% else %}label-danger{% endif %}">
-                    {{ event.is_published|yesno }}
-                  </span>
-                  &nbsp;
-                  <span title="Aprobado" class="label {% if event.is_approved %}label-success{% else %}label-danger{% endif %}">
-                    {{ event.is_approved|yesno }}
-                  </span>
-                </div>
-              </td>
-              <td>
-                <a class="btn btn-sm btn-default" target="_blank" href="{% url 'admin:events_event_change' event.id %}" >
-                  <i class="fa fa-edit"></i>
-                </a>
-              </td>
-            </tr>
-            <tr>
-              <td><i class="fa fa-facebook"></i>:</td>
-              <td colspan="100">
-                {% for social_post in event.social_posts.all %}
-                  <b>{{ social_post.published_at|date:'j b y H:i' }}</b>
-                  {% if not forloop.last %}<br>{% endif %}
-                {% endfor %}
-              </td>
-            </tr>
-          {% endfor %}
-          </tbody>
-        </table>
-      </div><!-- /.box-body -->
-      <div class="box-footer clearfix">
-        {% get_dashboard_pagination %}
-      </div>
-    </div><!-- /.box -->
-  </div>
-  <div class="col-md-6">
+<div class="table-responsive">
+  <table class="table table-condensed table-bordered" style="background-color: white">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Publications</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for date, item in future_posts.items %}
+      <tr>
+        <td style="min-width: 150px; font-size: 18px;"><b>{{ date|date:'j b y' }}</b></td>
+        <td>
+        {% for event in item.events %}
+          <div class="media">
+            <div class="media-left">
+              <a href="#">
+                <img class="media-object" src="{{ event.get_image_url }}" width="100" class="img-thumbnail">
+              </a>
+            </div>
+            <div class="media-body">
+              <h4 class="media-heading">
+                <b class="text-red">EVENT:</b> {{ event.title }}
+              </h4>
 
-    <div class="box box-danger">
-      <div class="box-header with-border">
-        <h3 class="box-title">Future facebook posts</h3>
-        <div class="box-tools pull-right">
-        {% with posts_count=future_social_posts.count %}
-          <span data-toggle="tooltip"
-                title=""
-                class="badge bg-red"
-                data-original-title="{{ posts_count }} future posts">
-            {{ posts_count }}
-          </span>
-          <a href="{% url 'rss_social_networks' %}" target="_blank" class="btn btn-box-tool">
-            <i class="fa fa-rss"></i>
-          </a>
-          <button type="button" class="btn btn-box-tool" data-widget="collapse">
-            <i class="fa fa-minus"></i>
-          </button>
-        {% endwith %}
-        </div>
-      </div><!-- /.box-header -->
-      <div class="box-body">
-        <table class="table table-hover table-condensed">
-          <thead>
-            <tr>
-              <th>Title</th>
-              <th>Post date</th>
-            </tr>
-          </thead>
-          <tbody>
-          {% for social_post in future_social_posts %}
-            <tr>
-              <td>
-                <span class="text-muted"><b>[id{{ social_post.event.id }}] {{ social_post.event.title }}</b></span>
-                <div>
-                   {{ social_post.event.event_date|date:'j b y H:i' }}
-              {% if social_post.event.event_end_date %}
-                - {{ social_post.event.event_end_date|date:'j b y H:i' }}
-              {% endif %}
-                </div>
-                <div>
-                  <img src="{{ social_post.event.get_image_url }}" width="100" class="img-thumbnail">
-                </div>
-                <br><b>Description:</b>
-                {{ social_post.description }}
-              </td>
-              <td style="min-width: 120px">
-                <b>{{ social_post.published_at|date:'j b y H:i' }}</b>
-                <br>
-                <i>{{ social_post.created_by }}</i>
-                <br>
-                <a class="btn btn-sm btn-default" target="_blank" href="{% url 'admin:events_event_change' social_post.event.id %}" >
-                  <i class="fa fa-edit"></i>
-                </a>
-              </td>
-            </tr>
-          {% endfor %}
-          </tbody>
-        </table>
-      </div><!-- /.box-body -->
-    </div><!-- /.box -->
+              {{ event.event_date|date:'j b y H:i' }}
+            {% if event.event_end_date %}
+              - {{ event.event_end_date|date:'j b y H:i' }}
+            {% endif %}
 
-    <div class="box box-success">
-      <div class="box-header with-border">
-        <h3 class="box-title">Published facebook posts</h3>
-        <div class="box-tools pull-right">
-          <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-          </button>
-        </div>
-      </div><!-- /.box-header -->
-      <div class="box-body">
-        <table class="table table-hover table-condensed">
-          <thead>
-            <tr>
-              <th>Title</th>
-              <th>Post date</th>
-            </tr>
-          </thead>
-          <tbody>
-          {% for social_post in published_social_posts %}
-            <tr>
-              <td>
-                <span class="text-muted"><b>[id{{ social_post.event.id }}] {{ social_post.event.title }}</b></span>
-                <div>
-                   {{ social_post.event.event_date|date:'j b y H:i' }}
-              {% if social_post.event.event_end_date %}
-                - {{ social_post.event.event_end_date|date:'j b y H:i' }}
-              {% endif %}
-                </div>
-                <div>
-                  <img src="{{ social_post.event.get_image_url }}" width="100" class="img-thumbnail">
-                </div>
-                <br><b>Description:</b>
-                {{ social_post.description }}
-              </td>
-              <td style="min-width: 120px">
-                <b>{{ social_post.published_at|date:'j b y H:i' }}</b>
-                <br>
-                <i>{{ social_post.created_by }}</i>
-              </td>
-            </tr>
-          {% endfor %}
-          </tbody>
-        </table>
-      </div><!-- /.box-body -->
-    </div><!-- /.box -->
+              <a class="btn btn-xs btn-default" target="_blank"
+                 href="{% url 'admin:events_event_change' event.id %}" >
+                <i class="fa fa-edit"></i>
+              </a>
 
-  </div>
+            </div>
+          </div>
+
+          <hr>
+        {% endfor %}
+
+        {% for social_post in item.social_posts %}
+          <div class="media">
+            <div class="media-left">
+              <a href="#">
+                <img class="media-object" src="{{ social_post.event.get_image_url }}" width="100" class="img-thumbnail">
+              </a>
+            </div>
+            <div class="media-body">
+              <h4 class="media-heading">
+                <b class="text-blue">POST:</b> {{ social_post.event.title }}
+              </h4>
+
+             {{ social_post.event.event_date|date:'j b y H:i' }}
+          {% if social_post.event.event_end_date %}
+            - {{ social_post.event.event_end_date|date:'j b y H:i' }}
+          {% endif %}
+
+              <br>
+              <b>Description:</b>
+              {{ social_post.description }}
+
+              <br>
+              <b>{{ social_post.published_at|date:'j b y H:i' }}</b>
+
+              <br>
+              <i>{{ social_post.created_by }}</i>
+
+              <a class="btn btn-xs btn-default" target="_blank"
+                 href="{% url 'admin:events_event_change' social_post.event.id %}" >
+                <i class="fa fa-edit"></i>
+              </a>
+
+            </div>
+          </div>
+        {% endfor %}
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
 </div>
-<!-- /.row -->
 {% endblock content %}

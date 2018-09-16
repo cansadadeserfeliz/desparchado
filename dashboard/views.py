@@ -1,3 +1,6 @@
+import datetime
+from collections import OrderedDict
+
 from django.views.generic import TemplateView
 from django.views.generic import CreateView
 from django.views.generic import ListView
@@ -61,25 +64,48 @@ class EventsListView(SuperuserRequiredMixin, ListView):
     ordering = '-modified'
 
 
-class SocialPostsListView(SuperuserRequiredMixin, ListView):
-    model = Event
-    paginate_by = 100
-    context_object_name = 'events'
+class SocialPostsListView(SuperuserRequiredMixin, TemplateView):
     template_name = 'dashboard/social_posts.html'
-
-    def get_queryset(self):
-        queryset = super().get_queryset()
-        queryset = queryset.future()
-        return queryset.order_by('event_date')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['published_social_posts'] = SocialNetworkPost.objects.filter(
-            published_at__lte=timezone.now(),
-        ).select_related('event', 'created_by').order_by('-published_at')[:25]
-        context['future_social_posts'] = SocialNetworkPost.objects.filter(
+        social_posts = SocialNetworkPost.objects.filter(
             published_at__gt=timezone.now(),
-        ).select_related('event', 'created_by').order_by('published_at')
+        ).select_related('event', 'created_by').order_by('published_at').all()
+        events = Event.objects.future().order_by('event_date').all()
+
+        min_date = None
+        max_date = None
+        if events.exists():
+            min_date = events.first().event_date
+            max_date = events.last().event_date
+        if social_posts.exists():
+            social_posts_min_date = social_posts.first().published_at
+            if social_posts_min_date < min_date:
+                min_date = social_posts_min_date
+
+            social_posts_max_date = social_posts.last().published_at
+            if social_posts_max_date > max_date:
+                max_date = social_posts_max_date
+
+        future_posts = {
+            (min_date + datetime.timedelta(days=x)).date():
+            {
+                'events': [],
+                'social_posts': [],
+            }
+            for x in range(-1, (max_date - min_date).days + 1)
+        }
+        for event in events:
+            future_posts[event.event_date.date()]['events'].append(event)
+        for social_post in social_posts:
+            future_posts[social_post.published_at.date()]['social_posts'].append(social_post)
+
+        context['future_social_posts'] = social_posts
+        context['events'] = events
+        context['future_posts'] = OrderedDict(
+            sorted(future_posts.items(), key=lambda t: t[0])
+        )
         return context
 
 
