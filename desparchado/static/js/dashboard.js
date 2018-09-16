@@ -14,9 +14,14 @@ $(function() {
       week : 'week',
       day  : 'day'
     },
-    defaultView: 'month',
+    defaultView: 'agendaWeek',
     firstDay: 1,
     timeFormat: 'hh:mm',
+    eventRender: function(event, eventElement) {
+      if (event.imageUrl) {
+        eventElement.find("div.fc-content").append("<br><img src='" + event.imageUrl +"' width='70'>");
+      }
+    },
     eventSources: [
       '/dashboard/social-posts/source'
     ]
