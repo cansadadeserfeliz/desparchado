@@ -19,6 +19,11 @@ urlpatterns = [
         name='social_posts'
     ),
     url(
+        r'^social-posts/source/$$',
+        dashboard_views.social_events_source,
+        name='social_posts_source'
+    ),
+    url(
         r'^places/$',
         dashboard_views.PlacesListView.as_view(),
         name='places'

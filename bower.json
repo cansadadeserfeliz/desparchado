@@ -20,6 +20,7 @@
     "bootstrap": "^3.3.7",
     "font-awesome": "^4.7.0",
     "eonasdan-bootstrap-datetimepicker": "^4.17.47",
-    "admin-lte": "^2.4.3"
+    "admin-lte": "^2.4.3",
+    "fullcalendar": "^3.9.0"
   }
 }

@@ -4,6 +4,7 @@ from collections import OrderedDict
 from django.views.generic import TemplateView
 from django.views.generic import CreateView
 from django.views.generic import ListView
+from django.http import JsonResponse
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.contrib.auth import get_user_model
 from django.db.models import Count
@@ -67,46 +68,48 @@ class EventsListView(SuperuserRequiredMixin, ListView):
 class SocialPostsListView(SuperuserRequiredMixin, TemplateView):
     template_name = 'dashboard/social_posts.html'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        social_posts = SocialNetworkPost.objects.filter(
-            published_at__gt=timezone.now(),
-        ).select_related('event', 'created_by').order_by('published_at').all()
-        events = Event.objects.future().order_by('event_date').all()
 
-        min_date = None
-        max_date = None
-        if events.exists():
-            min_date = events.first().event_date
-            max_date = events.last().event_date
-        if social_posts.exists():
-            social_posts_min_date = social_posts.first().published_at
-            if social_posts_min_date < min_date:
-                min_date = social_posts_min_date
+def social_events_source(request):
+    start_date = request.GET.get('start')
+    end_date = request.GET.get('end')
+    event_list = []
 
-            social_posts_max_date = social_posts.last().published_at
-            if social_posts_max_date > max_date:
-                max_date = social_posts_max_date
+    red = '#f56954'
+    yellow = '#f39c12'
+    blue = '#0073b7'
+    aqua = '#00c0ef'
+    green = '#00a65a'
+    light_blue = '#3c8dbc'
+    muted = '#777777'
 
-        future_posts = {
-            (min_date + datetime.timedelta(days=x)).date():
-            {
-                'events': [],
-                'social_posts': [],
-            }
-            for x in range(-1, (max_date - min_date).days + 2)
-        }
-        for event in events:
-            future_posts[event.event_date.date()]['events'].append(event)
-        for social_post in social_posts:
-            future_posts[social_post.published_at.date()]['social_posts'].append(social_post)
+    events = Event.objects.published().filter(
+        event_date__range=(start_date, end_date),
+    ).prefetch_related('social_posts').order_by('event_date').all()
+    for event in events:
+        if event.social_posts.exists():
+            color = green
+        else:
+            color = muted
+        event_list.append(dict(
+            title=event.title,
+            start=event.event_date.isoformat(),
+            backgroundColor=color,
+            borderColor=color,
+        ))
 
-        context['future_social_posts'] = social_posts
-        context['events'] = events
-        context['future_posts'] = OrderedDict(
-            sorted(future_posts.items(), key=lambda t: t[0])
-        )
-        return context
+    social_posts = SocialNetworkPost.objects.filter(
+        published_at__range=(start_date, end_date),
+    ).select_related('event', 'created_by').all()
+
+    for social_post in social_posts:
+        event_list.append(dict(
+            title=social_post.event.title,
+            start=social_post.published_at.isoformat(),
+            backgroundColor=blue,
+            borderColor=blue,
+        ))
+
+    return JsonResponse(event_list, safe=False)
 
 
 class PlacesListView(SuperuserRequiredMixin, ListView):
