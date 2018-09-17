@@ -3,8 +3,16 @@ $(function() {
   // page is now ready, initialize the calendar...
 
   $('#social_posts_calendar').fullCalendar({
+    customButtons: {
+      refreshButton: {
+        text: 'refresh',
+        click: function() {
+          $('#social_posts_calendar').fullCalendar('refetchEvents')
+        }
+      }
+    },
     header: {
-      left  : 'prev,next today',
+      left  : 'prev,next today refreshButton',
       center: 'title',
       right : 'month,agendaWeek,agendaDay'
     },
