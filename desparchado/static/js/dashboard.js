@@ -1,8 +1,7 @@
 $(function() {
 
-  // page is now ready, initialize the calendar...
-
   $('#social_posts_calendar').fullCalendar({
+    timezone: 'America/Bogota',
     customButtons: {
       refreshButton: {
         text: 'refresh',
