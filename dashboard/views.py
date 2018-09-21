@@ -1,3 +1,6 @@
+import datetime
+
+from django.utils import timezone
 from django.views.generic import TemplateView
 from django.views.generic import CreateView
 from django.views.generic import ListView
@@ -70,6 +73,9 @@ def social_events_source(request):
     end_date = request.GET.get('end')
     event_list = []
 
+    start_date = datetime.datetime.strptime(start_date, "%Y-%m-%dT%H:%M:%S")
+    end_date = datetime.datetime.strptime(end_date, "%Y-%m-%dT%H:%M:%S")
+
     red = '#f56954'
     yellow = '#f39c12'
     blue = '#0073b7'
@@ -79,16 +85,17 @@ def social_events_source(request):
     muted = '#777777'
 
     events = Event.objects.published().filter(
-        event_date__range=(start_date, end_date),
+        event_date__date__range=(start_date, end_date),
     ).prefetch_related('social_posts').order_by('event_date').all()
     for event in events:
         if event.social_posts.exists():
             color = green
         else:
             color = muted
+        local_date = timezone.localtime(event.event_date)
         event_list.append(dict(
             title=event.title,
-            start=event.event_date.isoformat(),
+            start=local_date.isoformat(),
             backgroundColor=color,
             borderColor=color,
             url=reverse('admin:events_event_change', args=(event.id,)),
@@ -100,9 +107,10 @@ def social_events_source(request):
     ).select_related('event', 'created_by').all()
 
     for social_post in social_posts:
+        local_date = timezone.localtime(social_post.published_at)
         event_list.append(dict(
             title=social_post.event.title,
-            start=social_post.published_at.isoformat(),
+            start=local_date.isoformat(),
             backgroundColor=blue,
             borderColor=blue,
             url=reverse('admin:events_event_change', args=(social_post.event.id,)),
