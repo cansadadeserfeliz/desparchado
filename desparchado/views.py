@@ -13,10 +13,13 @@ class HomeView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['events'] = Event.objects.published().future().all()[:18]
-
-        context['past_events'] = \
-            Event.objects.published().past().order_by('-event_date').all()[:9]
+        events = Event.objects.published().future().all()[:18]
+        context['events'] = events
+        if events.count() <= 9:
+            context['past_events'] = \
+                Event.objects.published().past().order_by('-event_date').all()[:9]
+        else:
+            context['past_events'] = []
         return context
 
 

@@ -39,6 +39,7 @@
   <hr>
 </section>
 
+{% if past_events %}
 <section class="container">
   <div class="row text-center clearfix">
     <div class="col-sm-8 col-sm-offset-2">
@@ -54,5 +55,7 @@
     <a href="{% url 'events:past_event_list' %}" class="btn btn-sm btn-primary">VER MÁS EVENTOS PASADOS</a>
   </div>
 </section>
+
+{% endif %}
 
 {% endblock content %}
