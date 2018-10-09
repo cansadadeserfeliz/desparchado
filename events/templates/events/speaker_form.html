@@ -1,7 +1,7 @@
 {% extends 'layout/base.html' %}
 {% load crispy_forms_tags %}
 
-{% block title %}{% if event %}Editar presentador{% else %}Añadir presentador{% endif %} | Desparchado.co{% endblock %}
+{% block title %}{% if event %}Editar presentador{% else %}Añadir presentador{% endif %}{% endblock %}
 
 {% block content %}
 <h1>{% if event %}Editar presentador{% else %}Añadir nuevo presentador{% endif %}:</h1>

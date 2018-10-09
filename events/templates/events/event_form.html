@@ -1,7 +1,7 @@
 {% extends 'layout/base.html' %}
 {% load crispy_forms_tags %}
 
-{% block title %}{% if event %}Editar evento{% else %}Añadir evento{% endif %} | Desparchado.co{% endblock %}
+{% block title %}{% if event %}Editar evento{% else %}Añadir evento{% endif %}{% endblock %}
 
 {% block content %}
 <h1>{% if event %}Editar evento{% else %}Añadir nuevo evento{% endif %}:</h1>
