@@ -158,7 +158,7 @@
       {% if event.organizer.image %}
       <div class="text-center">
         <a href="{{ event.organizer.get_absolute_url }}">
-          <img class="image img-responsive" src="{{ event.organizer.get_image_url }}">
+          <img class="image img-responsive" src="{{ event.organizer.get_image_url }}" alt="{{ event.organizer.name }}">
         </a>
       </div>
       {% endif %}
