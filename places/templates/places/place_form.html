@@ -1,10 +1,10 @@
 {% extends 'layout/base.html' %}
 {% load crispy_forms_tags %}
 
-{% block title %}Añadir lugar{% endblock %}
+{% block title %}{% if place %}Editar lugar{% else %}Añadir lugar{% endif %}{% endblock %}
 
 {% block content %}
-<h1>Añadir nuevo lugar:</h1>
+<h1>{% if place %}Editar lugar{% else %}Añadir nuevo lugar{% endif %}:</h1>
 
 <section id="event_form_container" class="container">
   {% crispy form %}

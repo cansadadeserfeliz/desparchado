@@ -1,5 +1,5 @@
 {% extends 'layout/base.html' %}
-{% load django_markdown %}
+{% load django_markdown desparchado_tags %}
 
 {% block title %}{{ speaker.name }}{% endblock %}
 
@@ -37,6 +37,12 @@
   </div>
 
 </section><!--/#speaker-detail-->
+
+{% if user|user_can_edit_speaker:speaker %}
+<div class="event-edit text-center">
+  <a href="{% url 'events:speaker_update' speaker.slug %}" class="btn btn-sm btn-default">EDITAR</a>
+</div>
+{% endif %}
 
 {% if events %}
 

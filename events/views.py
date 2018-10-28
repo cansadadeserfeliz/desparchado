@@ -150,7 +150,7 @@ class OrganizerUpdateView(UpdateView):
         return super().form_valid(form)
 
 
-class SpeakerCreateView(CreateView):
+class SpeakerCreateView(LoginRequiredMixin, CreateView):
     model = Speaker
     form_class = SpeakerForm
 
@@ -160,6 +160,15 @@ class SpeakerCreateView(CreateView):
         self.object.save()
 
         send_notification(self.request, self.object, 'speaker', True)
+        return super().form_valid(form)
+
+
+class SpeakerUpdateView(LoginRequiredMixin, UpdateView):
+    model = Speaker
+    form_class = SpeakerForm
+
+    def form_valid(self, form):
+        send_notification(self.request, self.object, 'speaker', False)
         return super().form_valid(form)
 
 

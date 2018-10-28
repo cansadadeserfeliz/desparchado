@@ -53,6 +53,11 @@ urlpatterns = [
         event_views.SpeakerDetailView.as_view(),
         name='speaker_detail'
     ),
+    url(
+        r'^speaker/(?P<slug>[\w-]+)/edit/$',
+        event_views.SpeakerUpdateView.as_view(),
+        name='speaker_update'
+    ),
 
     # Organizations
     url(
