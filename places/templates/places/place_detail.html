@@ -25,6 +25,11 @@
 
   <div class="place-heading">
     <h1 class="place-title">{{ place.name }}</h1>
+
+    {% if place.image %}
+      <img class="place-image" src="{{ place.get_image_url }}" alt="{{ place.name }}" />
+    {% endif %}
+
     <div class="place-description">{{ place.description|markdown }}</div>
 
   {% if user|user_can_edit_place:place %}
