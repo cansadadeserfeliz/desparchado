@@ -112,15 +112,23 @@
     </div>
   {% endif %}
 
-    <h3 class="secondary-title">Lugar del evento</h3>
+    <div class="event-place">
+      <h3 class="secondary-title">Lugar del evento</h3>
 
-    <h4><a href="{{ event.place.get_absolute_url }}">{{ event.place.name }}</a></h4>
+      {% if event.place.image %}
+        <img class="place-image" src="{{ event.place.get_image_url }}" alt="{{ event.place.name }}" />
+      {% endif %}
 
-    <div><b>Dirección:</b> {{ event.place.description }}</div>
+      <h4><a href="{{ event.place.get_absolute_url }}">{{ event.place.name }}</a></h4>
 
-    <div><a href="{{ event.place.get_absolute_url }}">Ver otros eventos en este sitio</a></div>
+      <div><b>Dirección:</b> {{ event.place.description }}</div>
 
-    {% include 'includes/_map.html' with title=event.place subtitle=event.event_date latitude=event.get_latitude_str longitude=event.get_longitude_str css_class='event-map' %}
+      <div><a href="{{ event.place.get_absolute_url }}">Ver otros eventos en este sitio</a></div>
+
+      <div class="clearfix"></div>
+
+      {% include 'includes/_map.html' with title=event.place subtitle=event.event_date latitude=event.get_latitude_str longitude=event.get_longitude_str css_class='event-map' %}
+    </div>
   </div>
 
   <div class="col-md-4">
