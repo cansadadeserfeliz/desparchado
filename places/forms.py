@@ -27,7 +27,7 @@ class PlaceForm(forms.ModelForm):
             'city',
             'location',
             Div(
-                Submit('submit', 'AÑADIR LUGAR', css_class='btn-primary'),
+                Submit('submit', 'GUARDAR', css_class='btn-primary'),
                 css_class='form-group',
             ),
         )
