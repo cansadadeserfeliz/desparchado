@@ -131,6 +131,9 @@
 
       {% include 'includes/_map.html' with title=event.place subtitle=event.event_date latitude=event.get_latitude_str longitude=event.get_longitude_str css_class='event-map' %}
     </div>
+
+    {% include 'includes/_disqus_comments.html' with page_id="event-"|add:event.id %}
+
   </div>
 
   <div class="col-md-4">
