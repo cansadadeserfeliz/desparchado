@@ -35,6 +35,13 @@
     {% endif %}
     <div class="organizer-description">{{ organizer.description|markdown }}</div>
 
+    {% if organizer.website_url %}
+    <div class="organizer-website-url">
+      <i class="fa fa-globe"></i>
+      <a href="{{ organizer.website_url }}" target="_blank">{{ organizer.website_url|truncatechars:50 }}</a>
+    </div>
+    {% endif %}
+
     {% if user|user_can_edit_organizer:organizer %}
     <div class="event-edit text-center">
       <a href="{% url 'events:organizer_update' organizer.pk %}" class="btn btn-sm btn-default">EDITAR ORGANIZADOR</a>
