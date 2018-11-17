@@ -1,5 +1,5 @@
 # Framework
-Django==1.11.1
+Django==1.11.15
 
 # Python Libs
 Pillow==4.0.0
@@ -18,3 +18,4 @@ django-markdown==0.8.4
 django-model-utils==2.6.1
 django-pipeline==1.6.11
 social-auth-app-django==1.1.0
+django-webtest==1.9.4
