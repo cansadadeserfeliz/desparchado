@@ -9,7 +9,7 @@ addons:
     - postgresql-9.6-postgis-2.3
 before_script:
   - psql -c "CREATE USER vero4ka WITH PASSWORD 'secret';" -U postgres
-  - psql -c 'CREATE DATABASE desparchado_test;' -U postgres
+  - psql -c 'CREATE DATABASE desparchado_test;' -U vero4ka
   - psql -U postgres -c "create extension postgis"
 
 install:
