@@ -153,15 +153,28 @@ class Event(TimeStampedModel):
     organizer = models.ForeignKey(
         'events.Organizer',
         verbose_name='Organizador',
-        related_name='events'
+        related_name='events',
+        help_text=
+        'Por favor, asegúrese de que el organizador que '
+        'quiere asignar al evento '
+        'no existe en nuestro sistema antes de crealo.',
     )
     place = models.ForeignKey(
         'places.Place', verbose_name='Lugar',
-        related_name='events')
+        related_name='events',
+        help_text=
+        'Por favor, asegúrese de que el lugar que '
+        'quiere asignar al evento no existe en '
+        'nuestro sistema antes de crealo.',
+    )
     speakers = models.ManyToManyField(
         'events.Speaker', verbose_name='Presentadores',
         related_name='events',
         blank=True,
+        help_text=
+        'Por favor, asegúrese de que el presentador/la presentadora que '
+        'quiere asignar al evento no existe en '
+        'nuestro sistema antes de crealo/crearla.',
     )
     is_published = models.BooleanField(
         'Está publicado',
