@@ -18,3 +18,4 @@ django-markdown==0.8.4
 django-model-utils==2.6.1
 django-pipeline==1.6.11
 social-auth-app-django==1.1.0
+django-webtest==1.9.4
