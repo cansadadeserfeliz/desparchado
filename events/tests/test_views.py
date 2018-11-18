@@ -11,6 +11,8 @@ from .factories import EventFactory
 from .factories import OrganizerFactory
 from .factories import SpeakerFactory
 from ..models import Event
+from ..models import Organizer
+from ..models import Speaker
 
 
 class EventListViewTest(WebTest):
@@ -168,3 +170,136 @@ class EventCreateViewTest(WebTest):
         response = form.submit().follow()
 
         self.assertEqual(Event.objects.count(), 1)
+        event = Event.objects.first()
+        self.assertEqual(event.created_by, self.user)
+
+
+class OrganizerCreateViewTest(WebTest):
+
+    def setUp(self):
+        self.user = UserFactory()
+
+    def test_redirects_for_non_authenticated_user(self):
+        response = self.app.get(reverse('events:organizer_add'), status=302)
+        self.assertIn(reverse('users:login'), response.location)
+
+    def test_successfully_creates_organizer(self):
+        self.assertEqual(Organizer.objects.count(), 0)
+
+        response = self.app.get(
+            reverse('events:organizer_add'),
+            user=self.user,
+            status=200,
+        )
+
+        form = response.forms['organizer_form']
+        form['name'] = 'Librería LERNER'
+        form['description'] = 'Librería LERNER'
+        form['website_url'] = 'https://www.librerialerner.com.co/'
+
+        response = form.submit().follow()
+
+        self.assertEqual(Organizer.objects.count(), 1)
+
+        organizer = Organizer.objects.first()
+        self.assertEqual(organizer.created_by, self.user)
+
+
+class OrganizerUpdateViewTest(WebTest):
+
+    def setUp(self):
+        self.user = UserFactory()
+        self.organizer = OrganizerFactory(
+            name='Librería LERNER',
+            created_by=self.user,
+        )
+
+    def test_redirects_for_non_authenticated_user(self):
+        response = self.app.get(
+            reverse('events:organizer_update', args=[self.organizer.id]),
+            status=302
+        )
+        self.assertIn(reverse('users:login'), response.location)
+
+    def test_successfully_updates_organizer(self):
+        response = self.app.get(
+            reverse('events:organizer_update', args=[self.organizer.id]),
+            user=self.user,
+            status=200,
+        )
+
+        form = response.forms['organizer_form']
+        form['name'] = 'Librería Nacional'
+
+        response = form.submit().follow()
+
+        self.organizer.refresh_from_db()
+
+        self.assertEqual(self.organizer.created_by, self.user)
+        self.assertEqual(self.organizer.name, 'Librería Nacional')
+
+
+class SpeakerCreateViewTest(WebTest):
+
+    def setUp(self):
+        self.user = UserFactory()
+
+    def test_redirects_for_non_authenticated_user(self):
+        response = self.app.get(reverse('events:speaker_add'), status=302)
+        self.assertIn(reverse('users:login'), response.location)
+
+    def test_successfully_creates_speaker(self):
+        self.assertEqual(Speaker.objects.count(), 0)
+
+        response = self.app.get(
+            reverse('events:speaker_add'),
+            user=self.user,
+            status=200,
+        )
+
+        form = response.forms['speaker_form']
+        form['name'] = 'Julian Barnes'
+        form['description'] = 'English writer'
+
+        response = form.submit().follow()
+
+        self.assertEqual(Speaker.objects.count(), 1)
+
+        speaker = Speaker.objects.first()
+        self.assertEqual(speaker.created_by, self.user)
+
+        self.assertContains(response, speaker.name)
+
+
+class SpeakerUpdateViewTest(WebTest):
+
+    def setUp(self):
+        self.user = UserFactory()
+        self.speaker = SpeakerFactory(
+            name='Julian Barnes',
+            created_by=self.user,
+        )
+
+    def test_redirects_for_non_authenticated_user(self):
+        response = self.app.get(
+            reverse('events:speaker_update', args=[self.speaker.id]),
+            status=302
+        )
+        self.assertIn(reverse('users:login'), response.location)
+
+    def test_successfully_updates_speaker(self):
+        response = self.app.get(
+            reverse('events:speaker_update', args=[self.speaker.slug]),
+            user=self.user,
+            status=200,
+        )
+
+        form = response.forms['speaker_form']
+        form['name'] = 'Chimamanda Ngozi Adichie'
+
+        response = form.submit().follow()
+
+        self.speaker.refresh_from_db()
+
+        self.assertEqual(self.speaker.created_by, self.user)
+        self.assertEqual(self.speaker.name, 'Chimamanda Ngozi Adichie')
