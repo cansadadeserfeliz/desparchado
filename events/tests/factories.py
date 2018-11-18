@@ -26,7 +26,7 @@ class SpeakerFactory(factory.django.DjangoModelFactory):
 
 
 class OrganizerFactory(factory.django.DjangoModelFactory):
-    name = factory.fuzzy.FuzzyText(length=100)
+    name = factory.Faker('company')
     created_by = factory.SubFactory(UserFactory)
 
     class Meta:

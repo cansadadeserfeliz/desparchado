@@ -47,7 +47,7 @@ class PlaceAutocomplete(autocomplete.Select2QuerySetView):
         qs = Place.objects.order_by('name').all()
 
         if self.q:
-            qs = qs.filter(name__icontains=self.q)
+            qs = qs.filter(name__unaccent__icontains=self.q)
 
         return qs
 

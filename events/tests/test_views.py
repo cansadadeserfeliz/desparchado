@@ -6,6 +6,7 @@ from django.utils import timezone
 from django_webtest import WebTest
 
 from users.tests.factories import UserFactory
+from places.tests.factories import PlaceFactory
 from .factories import EventFactory
 from .factories import OrganizerFactory
 from .factories import SpeakerFactory
@@ -84,16 +85,59 @@ class SpeakerDetailViewTest(WebTest):
         self.assertEqual(response.context['speaker'], self.speaker)
 
 
+class SpeakerListViewTest(WebTest):
+
+    def setUp(self):
+        self.first_speaker = SpeakerFactory(name='Pepito Perez')
+        self.second_speaker = SpeakerFactory(name='Django Pony')
+
+    def test_successfully_shows_speakers_list(self):
+        response = self.app.get(reverse('events:speaker_list'), status=200)
+        self.assertEqual(len(response.context['speakers']), 2)
+        self.assertIn(self.first_speaker, response.context['speakers'])
+        self.assertIn(self.second_speaker, response.context['speakers'])
+
+    def test_successfully_finds_speaker_by_name(self):
+        search_term = 'Pony'
+        response = self.app.get(
+            reverse('events:speaker_list'),
+            {'q': search_term},
+            status=200
+        )
+        self.assertEqual(len(response.context['speakers']), 1)
+        self.assertNotIn(self.first_speaker, response.context['speakers'])
+        self.assertIn(self.second_speaker, response.context['speakers'])
+        self.assertEqual(response.context['search_string'], search_term)
+        self.assertContains(response, search_term)
+
+    def test_successfully_finds_speaker_by_name_via_search_form(self):
+        search_term = 'Pony'
+        response = self.app.get(reverse('events:speaker_list'), status=200)
+
+        form = response.forms['speaker_search_form']
+        form['q'] = search_term
+        response = form.submit()
+
+        self.assertEqual(len(response.context['speakers']), 1)
+        self.assertNotIn(self.first_speaker, response.context['speakers'])
+        self.assertIn(self.second_speaker, response.context['speakers'])
+        self.assertEqual(response.context['search_string'], search_term)
+        self.assertContains(response, search_term)
+
+
 class EventCreateViewTest(WebTest):
 
     def setUp(self):
         self.user = UserFactory()
+        self.organizer = OrganizerFactory()
+        self.place = PlaceFactory()
 
     def test_redirects_for_non_authenticated_user(self):
         response = self.app.get(reverse('events:add_event'), status=302)
         self.assertIn(reverse('users:login'), response.location)
 
     def test_successfully_creates_event(self):
+        self.assertEqual(Event.objects.count(), 0)
         response = self.app.get(
             reverse('events:add_event'),
             user=self.user,
@@ -112,11 +156,15 @@ class EventCreateViewTest(WebTest):
         form['topic'].select(Event.EVENT_TOPIC_LITERATURE)
         form['event_date'] = (
             timezone.now() + timedelta(days=1)
-        ).strftime('%-%m-%Y %H:%i')
+        ).strftime('%d/%m/%Y %H:%M')
         form['event_end_date'] = (
             timezone.now() + timedelta(days=2)
-        ).strftime('%-%m-%Y %H:%i')
+        ).strftime('%d/%m/%Y %H:%M')
         form['event_source_url'] = 'http://example.com'
         form['price'] = 12000
+        form['organizer'].force_value(self.organizer.id)
+        form['place'].force_value(self.place.id)
 
-        form.submit()
+        response = form.submit().follow()
+
+        self.assertEqual(Event.objects.count(), 1)

@@ -76,6 +76,11 @@ urlpatterns = [
         name='organizer_autocomplete',
     ),
     url(
+        r'^organizers-suggestions/$',
+        event_views.OrganizerSuggestionsView.as_view(),
+        name='organizer_suggestions'
+    ),
+    url(
         r'^organizers/(?P<slug>[\w-]+)/$',
         event_views.OrganizerDetailView.as_view(),
         name='organizer_detail'
@@ -85,6 +90,8 @@ urlpatterns = [
         event_views.OrganizerUpdateView.as_view(),
         name='organizer_update'
     ),
+
+
 
     # Event detail views
     url(
@@ -97,6 +104,4 @@ urlpatterns = [
         event_views.EventDetailView.as_view(),
         name='event_detail'
     ),
-
-
 ]

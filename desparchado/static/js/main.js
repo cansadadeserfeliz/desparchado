@@ -11,4 +11,33 @@ $(function () {
       $(this).parents('li').addClass('active');
     }
   });
+
+  function show_suggestion(suggestion_message) {
+    $('.show-suggestions').after(
+      '<span class="suggestions-feedback text-warning">' +
+      suggestion_message + '</span>'
+    );
+  }
+
+  function hide_suggestions(elem) {
+    $('.suggestions-feedback').remove();
+  }
+
+  $('.show-suggestions').on('keydown', function() {
+    var suggestion_elem = $(this);
+    console.log(suggestion_elem);
+    console.log(suggestion_elem.data('suggestions-url'));
+    console.log(suggestion_elem.val());
+    $.get(suggestion_elem.data('suggestions-url'), {'query': suggestion_elem.val()}, function(data) {
+      console.log(data.suggestion);
+      hide_suggestions();
+      if (data.suggestion) {
+        show_suggestion(data.suggestion);
+      } else {
+        hide_suggestions();
+      }
+
+    });
+  });
+
 });
