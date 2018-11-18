@@ -204,7 +204,7 @@ class OrganizerCreateViewTest(WebTest):
         self.assertEqual(organizer.created_by, self.user)
 
 
-class OrganizerCreateViewTest(WebTest):
+class OrganizerUpdateViewTest(WebTest):
 
     def setUp(self):
         self.user = UserFactory()
