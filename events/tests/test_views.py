@@ -267,3 +267,39 @@ class SpeakerCreateViewTest(WebTest):
 
         speaker = Speaker.objects.first()
         self.assertEqual(speaker.created_by, self.user)
+
+        self.assertContains(response, speaker.name)
+
+
+class SpeakerUpdateViewTest(WebTest):
+
+    def setUp(self):
+        self.user = UserFactory()
+        self.speaker = SpeakerFactory(
+            name='Julian Barnes',
+            created_by=self.user,
+        )
+
+    def test_redirects_for_non_authenticated_user(self):
+        response = self.app.get(
+            reverse('events:speaker_update', args=[self.speaker.id]),
+            status=302
+        )
+        self.assertIn(reverse('users:login'), response.location)
+
+    def test_successfully_updates_speaker(self):
+        response = self.app.get(
+            reverse('events:speaker_update', args=[self.speaker.slug]),
+            user=self.user,
+            status=200,
+        )
+
+        form = response.forms['speaker_form']
+        form['name'] = 'Chimamanda Ngozi Adichie'
+
+        response = form.submit().follow()
+
+        self.speaker.refresh_from_db()
+
+        self.assertEqual(self.speaker.created_by, self.user)
+        self.assertEqual(self.speaker.name, 'Chimamanda Ngozi Adichie')
