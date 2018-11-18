@@ -1,15 +1,15 @@
-import datetime
 from datetime import timedelta
 
 from django.core.urlresolvers import reverse
+from django.utils import timezone
 
 from django_webtest import WebTest
 
 from .factories import EventFactory
-from ..models import Event
+from .factories import OrganizerFactory
 
 
-class EventListView(WebTest):
+class EventListViewTest(WebTest):
 
     def setUp(self):
         self.first_event = EventFactory()
@@ -17,7 +17,7 @@ class EventListView(WebTest):
         self.not_published_event = EventFactory(is_published=False)
         self.not_approved_event = EventFactory(is_approved=False)
         self.past_event = EventFactory(
-            event_date=datetime.datetime.now() - timedelta(days=1)
+            event_date=timezone.now() - timedelta(days=1)
         )
 
     def test_events_appear_in_list(self):
@@ -30,7 +30,7 @@ class EventListView(WebTest):
         self.assertNotIn(self.past_event, response.context['events'])
 
 
-class EventDetailView(WebTest):
+class EventDetailViewTest(WebTest):
 
     def test_successfully_shows_event(self):
         event = EventFactory()
@@ -53,3 +53,17 @@ class EventDetailView(WebTest):
             reverse('events:event_detail', args=[not_approved_event.slug]),
             status=404
         )
+
+
+class OrganizerDetailViewTest(WebTest):
+
+    def setUp(self):
+        self.organizer = OrganizerFactory()
+
+    def test_successfully_shows_organizer(self):
+        event = EventFactory()
+        response = self.app.get(
+            reverse('events:organizer_detail', args=[self.organizer.slug]),
+            status=200
+        )
+        self.assertEqual(response.context['organizer'], self.organizer)

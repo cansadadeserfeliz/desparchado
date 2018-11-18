@@ -1,9 +1,10 @@
-import datetime
 from datetime import timedelta
 from random import randint
 
 import factory
 import factory.fuzzy
+
+from django.utils import timezone
 
 from users.tests.factories import UserFactory
 from places.tests.factories import PlaceFactory
@@ -12,7 +13,7 @@ from ..models import Organizer
 
 
 def random_future_date():
-    return datetime.datetime.now() + timedelta(days=randint(1, 400))
+    return timezone.now() + timedelta(days=randint(1, 400))
 
 
 class OrganizerFactory(factory.django.DjangoModelFactory):
