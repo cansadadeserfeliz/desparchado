@@ -7,6 +7,7 @@ from django_webtest import WebTest
 
 from .factories import EventFactory
 from .factories import OrganizerFactory
+from .factories import SpeakerFactory
 
 
 class EventListViewTest(WebTest):
@@ -66,3 +67,16 @@ class OrganizerDetailViewTest(WebTest):
             status=200
         )
         self.assertEqual(response.context['organizer'], self.organizer)
+
+
+class SpeakerDetailViewTest(WebTest):
+
+    def setUp(self):
+        self.speaker = SpeakerFactory()
+
+    def test_successfully_shows_speaker(self):
+        response = self.app.get(
+            reverse('events:speaker_detail', args=[self.speaker.slug]),
+            status=200
+        )
+        self.assertEqual(response.context['speaker'], self.speaker)
