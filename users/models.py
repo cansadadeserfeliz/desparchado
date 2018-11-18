@@ -19,6 +19,17 @@ class UserEventRelation(TimeStampedModel):
         unique_together = ('user', 'event')
 
 
+class UserBadge(TimeStampedModel):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='badges')
+    badge = models.ForeignKey('users.Badge', related_name='user_relation')
+    description = models.TextField('Descripción', default='')
+
+    class Meta:
+        verbose_name = _('User-Badge Relation')
+        verbose_name_plural = _('User-Badge Relations')
+        unique_together = ('user', 'badge')
+
+
 class Badge(TimeStampedModel):
     name = models.CharField('Nombre', max_length=255, unique=True)
     slug = AutoSlugField(null=False, unique=True, populate_from='name')
@@ -26,4 +37,3 @@ class Badge(TimeStampedModel):
         'Imagen',
         upload_to='badges'
     )
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='badges')

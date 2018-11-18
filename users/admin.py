@@ -3,8 +3,16 @@ from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth import get_user_model
 
 from .models import UserEventRelation
+from .models import Badge
 
 User = get_user_model()
+
+
+@admin.register(Badge)
+class BadgeAdmin(admin.ModelAdmin):
+
+    def has_delete_permission(self, request, obj=None):
+        return False
 
 
 @admin.register(UserEventRelation)
