@@ -8,7 +8,15 @@
       <h2 class="title-one">{{ user_object.first_name }}</h2>
     </div>
   </div>
+
+  {% for user_badge in user_object.badges.all %}
+  <ul class="badges-list">
+    <li data-toggle="tooltip" title="{{ user_badge.badge.description }}">
+      <img class="user-badge" src="{{ user_badge.badge.get_image_url }}">
+    </li>
+  </ul>
+
+  {% endfor %}
+
 </section>
-
-
 {% endblock content %}

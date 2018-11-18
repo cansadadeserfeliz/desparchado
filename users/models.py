@@ -38,3 +38,8 @@ class Badge(TimeStampedModel):
         'Imagen',
         upload_to='badges'
     )
+
+    def get_image_url(self):
+        if self.image:
+            return self.image.url
+        return None
