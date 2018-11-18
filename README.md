@@ -2,7 +2,7 @@
 
 [![Join the chat at https://gitter.im/vero4karu/desparchado](https://badges.gitter.im/vero4karu/desparchado.svg)](https://gitter.im/desparchado)
 
-[![Coverage Status](https://coveralls.io/repos/vero4karu/desparchado/badge.svg?branch=master&service=github)](https://coveralls.io/github/vero4karu/desparchado?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/vero4karu/desparchado/badge.svg?branch=master)](https://coveralls.io/github/vero4karu/desparchado?branch=master)
 [![Build Status](https://travis-ci.org/vero4karu/desparchado.svg?branch=master)](https://travis-ci.org/vero4karu/desparchado)
 
 ## Installation
