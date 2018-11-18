@@ -216,6 +216,10 @@ class Event(TimeStampedModel):
     def get_absolute_url(self):
         return reverse('events:event_detail', args=[self.slug])
 
+    @property
+    def is_visible(self):
+        return self.is_published and self.is_approved
+
     @staticmethod
     def autocomplete_search_fields():
         return ('title__icontains',)

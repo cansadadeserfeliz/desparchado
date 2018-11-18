@@ -61,7 +61,6 @@ class OrganizerDetailViewTest(WebTest):
         self.organizer = OrganizerFactory()
 
     def test_successfully_shows_organizer(self):
-        event = EventFactory()
         response = self.app.get(
             reverse('events:organizer_detail', args=[self.organizer.slug]),
             status=200
