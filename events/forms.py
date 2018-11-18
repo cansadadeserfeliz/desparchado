@@ -7,6 +7,7 @@ from crispy_forms.layout import Layout
 from crispy_forms.layout import Div
 from crispy_forms.layout import HTML
 from crispy_forms.layout import Fieldset
+from crispy_forms.layout import Field
 from crispy_forms.bootstrap import PrependedText
 from dal import autocomplete
 
@@ -164,7 +165,12 @@ class OrganizerForm(forms.ModelForm):
         self.helper.form_method = 'post'
 
         self.helper.layout = Layout(
-            'name',
+            Field(
+                'name',
+                css_class='show-suggestions',
+                data_suggestions_url=
+                reverse_lazy('events:organizer_suggestions'),
+            ),
             'description',
             'website_url',
             'image',

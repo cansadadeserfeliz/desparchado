@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'django.contrib.sitemaps',
     'django.contrib.gis',
     'django.contrib.humanize',
+    'django.contrib.postgres',
 
     'axes',
     'django_markdown',

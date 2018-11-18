@@ -1,10 +1,10 @@
 {% extends 'layout/base.html' %}
 {% load crispy_forms_tags %}
 
-{% block title %}{% if event %}Editar organizador{% else %}Añadir organizador{% endif %}{% endblock %}
+{% block title %}{% if organizer %}Editar organizador{% else %}Añadir organizador{% endif %}{% endblock %}
 
 {% block content %}
-<h1>{% if event %}Editar organizador{% else %}Añadir nuevo organizador{% endif %}:</h1>
+<h1>{% if organizer %}Editar organizador{% else %}Añadir nuevo organizador{% endif %}:</h1>
 
 <section id="organizer_form_container" class="container">
   {% crispy form %}

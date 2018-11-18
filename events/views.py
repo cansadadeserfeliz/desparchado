@@ -1,7 +1,10 @@
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
+from django.views import View
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.urlresolvers import reverse
 from django.utils.html import format_html
+from django.utils.safestring import mark_safe
+from django.http import JsonResponse
 
 from dal import autocomplete
 
@@ -191,7 +194,7 @@ class OrganizerAutocomplete(autocomplete.Select2QuerySetView):
         qs = Organizer.objects.order_by('name').all()
 
         if self.q:
-            qs = qs.filter(name__icontains=self.q)
+            qs = qs.filter(name__unaccent__icontains=self.q)
 
         return qs
 
@@ -215,6 +218,30 @@ class SpeakerAutocomplete(autocomplete.Select2QuerySetView):
         qs = Speaker.objects.order_by('name').all()
 
         if self.q:
-            qs = qs.filter(name__icontains=self.q)
+            qs = qs.filter(name__unaccent__icontains=self.q)
 
         return qs
+
+
+class OrganizerSuggestionsView(View):
+    def get(self, request):
+        query = request.GET.get('query', '')
+        suggestion = None
+        if len(query) >= 5:
+            organizers = Organizer.objects.filter(
+                name__unaccent__icontains=query,
+            )[:3]
+            if organizers:
+                suggestion = mark_safe(
+                    'Advertenia para evitar adregar organizadores duplicados: '
+                    'ya exite(n) organizador(es) {}.'.format(
+                        ', '.join([
+                            '<a href="{}">{}</a>'.format(
+                                organizer.get_absolute_url(),
+                                organizer.name,
+                            ) for organizer in organizers
+                        ])
+                    ),
+                )
+
+        return JsonResponse({'suggestion': suggestion})
