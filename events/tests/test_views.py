@@ -12,6 +12,7 @@ from .factories import OrganizerFactory
 from .factories import SpeakerFactory
 from ..models import Event
 from ..models import Organizer
+from ..models import Speaker
 
 
 class EventListViewTest(WebTest):
@@ -236,3 +237,33 @@ class OrganizerUpdateViewTest(WebTest):
 
         self.assertEqual(self.organizer.created_by, self.user)
         self.assertEqual(self.organizer.name, 'Librería Nacional')
+
+
+class SpeakerCreateViewTest(WebTest):
+
+    def setUp(self):
+        self.user = UserFactory()
+
+    def test_redirects_for_non_authenticated_user(self):
+        response = self.app.get(reverse('events:speaker_add'), status=302)
+        self.assertIn(reverse('users:login'), response.location)
+
+    def test_successfully_creates_speaker(self):
+        self.assertEqual(Speaker.objects.count(), 0)
+
+        response = self.app.get(
+            reverse('events:speaker_add'),
+            user=self.user,
+            status=200,
+        )
+
+        form = response.forms['speaker_form']
+        form['name'] = 'Julian Barnes'
+        form['description'] = 'English writer'
+
+        response = form.submit().follow()
+
+        self.assertEqual(Speaker.objects.count(), 1)
+
+        speaker = Speaker.objects.first()
+        self.assertEqual(speaker.created_by, self.user)

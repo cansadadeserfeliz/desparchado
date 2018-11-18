@@ -19,6 +19,7 @@ def random_future_date():
 
 class SpeakerFactory(factory.django.DjangoModelFactory):
     name = factory.Faker('name')
+    description = factory.fuzzy.FuzzyText(length=255)
     created_by = factory.SubFactory(UserFactory)
 
     class Meta:
@@ -29,7 +30,6 @@ class OrganizerFactory(factory.django.DjangoModelFactory):
     name = factory.Faker('company')
     description = factory.fuzzy.FuzzyText(length=255)
     website_url = 'https://example.com'
-    image_source_url = 'https://example.com'
     created_by = factory.SubFactory(UserFactory)
 
     class Meta:
