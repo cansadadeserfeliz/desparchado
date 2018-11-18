@@ -20,7 +20,7 @@ class EventListView(WebTest):
             event_date=datetime.datetime.now() - timedelta(days=1)
         )
 
-    def testBlog(self):
+    def test_events_appear_in_list(self):
         response = self.app.get(reverse('events:event_list'), status=200)
         self.assertEqual(len(response.context['events']), 2)
         self.assertIn(self.first_event, response.context['events'])
@@ -28,3 +28,18 @@ class EventListView(WebTest):
         self.assertNotIn(self.not_published_event, response.context['events'])
         self.assertNotIn(self.not_approved_event, response.context['events'])
         self.assertNotIn(self.past_event, response.context['events'])
+
+
+class EventDetailView(WebTest):
+
+    def setUp(self):
+        self.event = EventFactory()
+
+    def test_successfully_shows_event(self):
+        response = self.app.get(
+            reverse('events:event_detail', args=[self.event.slug]),
+            status=200
+        )
+        self.assertEqual(response.context['event'], self.event)
+
+
