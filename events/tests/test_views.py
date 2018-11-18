@@ -84,6 +84,46 @@ class SpeakerDetailViewTest(WebTest):
         self.assertEqual(response.context['speaker'], self.speaker)
 
 
+class SpeakerListViewTest(WebTest):
+
+    def setUp(self):
+        self.first_speaker = SpeakerFactory(name='Pepito Perez')
+        self.second_speaker = SpeakerFactory(name='Django Pony')
+
+    def test_successfully_shows_speakers_list(self):
+        response = self.app.get(reverse('events:speaker_list'), status=200)
+        self.assertEqual(len(response.context['speakers']), 2)
+        self.assertIn(self.first_speaker, response.context['speakers'])
+        self.assertIn(self.second_speaker, response.context['speakers'])
+
+    def test_successfully_finds_speaker_by_name(self):
+        search_term = 'Pony'
+        response = self.app.get(
+            reverse('events:speaker_list'),
+            {'q': search_term},
+            status=200
+        )
+        self.assertEqual(len(response.context['speakers']), 1)
+        self.assertNotIn(self.first_speaker, response.context['speakers'])
+        self.assertIn(self.second_speaker, response.context['speakers'])
+        self.assertEqual(response.context['search_string'], search_term)
+        self.assertContains(response, search_term)
+
+    def test_successfully_finds_speaker_by_name_via_search_form(self):
+        search_term = 'Pony'
+        response = self.app.get(reverse('events:speaker_list'), status=200)
+
+        form = response.forms['speaker_search_form']
+        form['q'] = search_term
+        response = form.submit()
+
+        self.assertEqual(len(response.context['speakers']), 1)
+        self.assertNotIn(self.first_speaker, response.context['speakers'])
+        self.assertIn(self.second_speaker, response.context['speakers'])
+        self.assertEqual(response.context['search_string'], search_term)
+        self.assertContains(response, search_term)
+
+
 class EventCreateViewTest(WebTest):
 
     def setUp(self):
