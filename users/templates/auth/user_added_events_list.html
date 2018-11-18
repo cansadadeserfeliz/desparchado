@@ -37,7 +37,7 @@
           </span>
         </td>
         <td>
-        {% if event.is_published and event.is_approved %}
+        {% if event.is_visible %}
           <a href="{{ event.get_absolute_url }}" class="btn btn-default btn-sm" title="Ver evento">
             <i class="fa fa-eye"></i>
           </a>

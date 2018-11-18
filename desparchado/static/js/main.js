@@ -5,7 +5,7 @@ $(function () {
   });
 
   // Mark sub-header menu element as active
-  $( ".sub-header a" ).each(function(index) {
+  $( ".users-sub-header a" ).each(function(index) {
     var current_path = $(this).attr('href');
     if (current_path == window.location.pathname || window.location.pathname.lastIndexOf(current_path, 0) === 0) {
       $(this).parents('li').addClass('active');

@@ -8,16 +8,15 @@
       <h2 class="title-one">{{ user_object.first_name }}</h2>
     </div>
   </div>
+
+  {% for user_badge in user_object.badges.all %}
+  <ul class="badges-list">
+    <li data-toggle="tooltip" title="{{ user_badge.badge.description }}">
+      <img class="user-badge" src="{{ user_badge.badge.get_image_url }}">
+    </li>
+  </ul>
+
+  {% endfor %}
+
 </section>
-
-{% if bookmarked_events %}
-  <h4>Eventos guardados</h4>
-  {% include 'events/_events_grid.html' with events=bookmarked_events %}
-{% endif %}
-
-{% if visited_events %}
-  <h4>Eventos visitados</h4>
-  {% include 'events/_events_grid.html' with events=visited_events %}
-{% endif %}
-
 {% endblock content %}
