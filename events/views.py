@@ -131,7 +131,7 @@ class EventUpdateView(LoginRequiredMixin, UpdateView):
         return super().form_valid(form)
 
 
-class OrganizerCreateView(CreateView):
+class OrganizerCreateView(LoginRequiredMixin, CreateView):
     model = Organizer
     form_class = OrganizerForm
 
@@ -144,7 +144,7 @@ class OrganizerCreateView(CreateView):
         return super().form_valid(form)
 
 
-class OrganizerUpdateView(UpdateView):
+class OrganizerUpdateView(LoginRequiredMixin, UpdateView):
     model = Organizer
     form_class = OrganizerForm
 

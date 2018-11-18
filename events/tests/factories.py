@@ -27,6 +27,9 @@ class SpeakerFactory(factory.django.DjangoModelFactory):
 
 class OrganizerFactory(factory.django.DjangoModelFactory):
     name = factory.Faker('company')
+    description = factory.fuzzy.FuzzyText(length=255)
+    website_url = 'https://example.com'
+    image_source_url = 'https://example.com'
     created_by = factory.SubFactory(UserFactory)
 
     class Meta:
