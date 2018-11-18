@@ -1,5 +1,7 @@
 STATICFILES_STORAGE = 'pipeline.storage.NonPackagingPipelineStorage'
 
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
