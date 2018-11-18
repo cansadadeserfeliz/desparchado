@@ -32,14 +32,24 @@ class EventListView(WebTest):
 
 class EventDetailView(WebTest):
 
-    def setUp(self):
-        self.event = EventFactory()
-
     def test_successfully_shows_event(self):
+        event = EventFactory()
         response = self.app.get(
-            reverse('events:event_detail', args=[self.event.slug]),
+            reverse('events:event_detail', args=[event.slug]),
             status=200
         )
-        self.assertEqual(response.context['event'], self.event)
+        self.assertEqual(response.context['event'], event)
 
+    def test_does_not_show_not_published_event(self):
+        not_published_event = EventFactory(is_published=False)
+        self.app.get(
+            reverse('events:event_detail', args=[not_published_event.slug]),
+            status=404
+        )
 
+    def test_does_not_show_not_approved_event(self):
+        not_approved_event = EventFactory(is_approved=False)
+        self.app.get(
+            reverse('events:event_detail', args=[not_approved_event.slug]),
+            status=404
+        )
