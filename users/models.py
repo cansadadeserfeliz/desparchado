@@ -33,6 +33,7 @@ class UserBadge(TimeStampedModel):
 class Badge(TimeStampedModel):
     name = models.CharField('Nombre', max_length=255, unique=True)
     slug = AutoSlugField(null=False, unique=True, populate_from='name')
+    description = models.TextField('Descripción', default='')
     image = models.ImageField(
         'Imagen',
         upload_to='badges'
