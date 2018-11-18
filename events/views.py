@@ -233,7 +233,7 @@ class OrganizerSuggestionsView(View):
             )[:3]
             if organizers:
                 suggestion = mark_safe(
-                    'Advertenia para evitar adregar organizadores duplicados: '
+                    'Advertencia para evitar agregar organizadores duplicados: '
                     'ya exite(n) organizador(es) {}.'.format(
                         ', '.join([
                             '<a href="{}">{}</a>'.format(
