@@ -6,6 +6,7 @@ User = get_user_model()
 
 
 class UserFactory(factory.django.DjangoModelFactory):
+    first_name = factory.Faker('name')
     username = factory.Faker('user_name')
 
     class Meta:
