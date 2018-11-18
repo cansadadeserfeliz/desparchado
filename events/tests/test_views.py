@@ -6,6 +6,7 @@ from django.utils import timezone
 from django_webtest import WebTest
 
 from users.tests.factories import UserFactory
+from places.tests.factories import PlaceFactory
 from .factories import EventFactory
 from .factories import OrganizerFactory
 from .factories import SpeakerFactory
@@ -128,12 +129,15 @@ class EventCreateViewTest(WebTest):
 
     def setUp(self):
         self.user = UserFactory()
+        self.organizer = OrganizerFactory()
+        self.place = PlaceFactory()
 
     def test_redirects_for_non_authenticated_user(self):
         response = self.app.get(reverse('events:add_event'), status=302)
         self.assertIn(reverse('users:login'), response.location)
 
     def test_successfully_creates_event(self):
+        self.assertEqual(Event.objects.count(), 0)
         response = self.app.get(
             reverse('events:add_event'),
             user=self.user,
@@ -152,11 +156,15 @@ class EventCreateViewTest(WebTest):
         form['topic'].select(Event.EVENT_TOPIC_LITERATURE)
         form['event_date'] = (
             timezone.now() + timedelta(days=1)
-        ).strftime('%-%m-%Y %H:%i')
+        ).strftime('%d/%m/%Y %H:%M')
         form['event_end_date'] = (
             timezone.now() + timedelta(days=2)
-        ).strftime('%-%m-%Y %H:%i')
+        ).strftime('%d/%m/%Y %H:%M')
         form['event_source_url'] = 'http://example.com'
         form['price'] = 12000
+        form['organizer'].force_value(self.organizer.id)
+        form['place'].force_value(self.place.id)
 
-        form.submit()
+        response = form.submit().follow()
+
+        self.assertEqual(Event.objects.count(), 1)
