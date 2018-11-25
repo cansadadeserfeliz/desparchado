@@ -42,6 +42,13 @@ class EventDetailView(DetailView):
     def get_queryset(self):
         return Event.objects.published().all()
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['related_events'] = Event.objects.exclude(
+            id=self.object.id
+        ).published().future().order_by('?')[:3]
+        return context
+
 
 class OrganizerListView(ListView):
     model = Organizer

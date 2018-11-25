@@ -132,8 +132,6 @@
       {% include 'includes/_map.html' with title=event.place subtitle=event.event_date latitude=event.get_latitude_str longitude=event.get_longitude_str css_class='event-map' %}
     </div>
 
-    {% include 'includes/_disqus_comments.html' with page_id="event-"|add:event.id %}
-
   </div>
 
   <div class="col-md-4">
@@ -185,6 +183,18 @@
   {% endif %}
 
   </div>
+</div>
+
+<div>
+  {% if related_events.exists %}
+
+    <h4>Eventos relacionados</h4>
+
+    {% include 'events/_events_grid.html' with events=related_events.all %}
+
+  {% endif %}
+
+  {% include 'includes/_disqus_comments.html' with page_id="event-"|add:event.id %}
 </div>
 
 </section><!--/#event-detail-->
