@@ -35,9 +35,19 @@
 
     <h1>La caza del Snark para {{ game.player_name|default:'ti' }}</h1>
 
-    {% for criteria in game.criteria.all %}
-      {{ criteria.public_id }}). {{ criteria.name }}<br>
-    {% endfor %}
+    <p>
+      {% for criteria in game.criteria.all %}
+        {{ criteria.public_id }}). {{ criteria.name }}<br>
+      {% endfor %}
+    </p>
+
+    <p>Compártelo con sus amigos:</p>
+
+    <div class="addthis_inline_share_toolbox"></div>
+
+    <div>
+      <a href="{% url 'games:hunting_of_snark_create' %}" class="btn btn-sm btn-primary">VER LAS REGLAS DEL JUEGO</a>
+    </div>
 
   </section>
 
