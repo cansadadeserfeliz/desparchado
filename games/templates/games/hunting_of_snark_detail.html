@@ -4,16 +4,16 @@
 {% block title %}La caza del Snark{% endblock %}
 
 {% block meta %}
-  <meta property="og:title" content="La caza del Snark en Desparchado.co">
+  <meta property="og:title" content="La caza del Snark para {{ game.player_name|default:'ti' }} en Desparchado.co">
   <meta property="og:description" content="Juego literario">
-  <meta property="og:image" content="https://{{ request.get_host }}">
+  <meta property="og:image" content="https://{{ request.get_host }}{% static 'images/hunting_of_snark_game_bg.jpeg' %}">
 
-  <meta name="twitter:title" content="La caza del Snark en Desparchado.co">
+  <meta name="twitter:title" content="La caza del Snark {{ game.player_name|default:'ti' }} en Desparchado.co">
   <meta name="twitter:description" content="Juego literario">
 {% endblock %}
 
 {% block subheader %}
-<section class="game-header" style="background-image: url('{% static 'images/hunting_of_snark_bg.jpeg' %}')">
+<section class="game-header" style="background-image: url('{% static 'images/hunting_of_snark_game_bg.jpeg' %}')">
   <div class="overlay"></div>
 
   <div class="container">
