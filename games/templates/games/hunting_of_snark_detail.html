@@ -20,7 +20,7 @@
     <div class="row">
       <div class="col-lg-8 col-md-10 mx-auto">
         <div class="game-heading">
-          <h1>La caza del Snar para {{ game.player_name|default:'ti' }}</h1>
+          <h1>La caza del Snark para {{ game.player_name|default:'ti' }}</h1>
           <span class="subheading">Juego literario</span>
         </div>
       </div>
@@ -35,20 +35,22 @@
 
     <h1>La caza del Snark para {{ game.player_name|default:'ti' }}</h1>
 
-    <p>
-      {% for criteria in game.criteria.all %}
-        {{ criteria.public_id }}). {{ criteria.name }}<br>
-      {% endfor %}
-    </p>
+    <div class="text">
+      <p>
+        {% for criteria in game.criteria.all %}
+          {{ criteria.public_id }}). {{ criteria.name }}<br>
+        {% endfor %}
+      </p>
 
-    <p>Compártelo con sus amigos:</p>
+      <p>
+        <a href="{% url 'games:hunting_of_snark_create' %}" class="btn btn-sm btn-primary">VER LAS REGLAS DEL JUEGO</a>
+      </p>
 
-    <div class="addthis_inline_share_toolbox"></div>
-
-    <div>
-      <a href="{% url 'games:hunting_of_snark_create' %}" class="btn btn-sm btn-primary">VER LAS REGLAS DEL JUEGO</a>
+      <p>Compártelo con sus amigos:</p>
+      <p>
+        <div class="addthis_inline_share_toolbox"></div>
+      </p>
     </div>
-
   </section>
 
 {% endblock content %}
