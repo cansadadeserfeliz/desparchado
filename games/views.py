@@ -17,7 +17,6 @@ class HuntingOfSnarkGameCreateView(CreateView):
     def form_valid(self, form):
         self.object = form.save()
         random_criteria = get_random_hunting_of_snark_criteria(self.object.total_points)
-        print(random_criteria)
         self.object.criteria.add(*random_criteria)
 
         return super().form_valid(form)
