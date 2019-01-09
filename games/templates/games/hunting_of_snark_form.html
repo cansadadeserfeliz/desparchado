@@ -1,0 +1,57 @@
+{% extends 'layout/base.html' %}
+{% load i18n staticfiles crispy_forms_tags %}
+
+{% block title %}La caza del Snark{% endblock %}
+
+{% block meta %}
+  <meta property="og:title" content="La caza del Snark en Desparchado.co">
+  <meta property="og:description" content="Juego literario">
+  <meta property="og:image" content="https://{{ request.get_host }}">
+
+  <meta name="twitter:title" content="La caza del Snark en Desparchado.co">
+  <meta name="twitter:description" content="Juego literario">
+{% endblock %}
+
+{% block subheader %}
+<section class="game-header" style="background-image: url('{% static 'images/hunting_of_snark_bg.jpeg' %}')">
+  <div class="overlay"></div>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-md-10 mx-auto">
+        <div class="game-heading">
+          <h1>La caza del Snark</h1>
+          <span class="subheading">Juego literario</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock subheader %}
+
+{% block content %}
+
+  <section id="hunting_of_snark_form">
+
+    <h1>La caza del Snark. Juego literario</h1>
+
+    <p>
+      El tiempo para terminar el juego es un año.
+      Entre los participantes se sortea un conjunto de características de libros,
+      que pueden ser imagen en la portada, país, lugar de acción, género, etc.
+    </p>
+
+    <p>Las reglas del juego son las siguientes:</p>
+
+    <ul>
+      <li>El participante declara cuántas características de libros quiere recibir. El máximo es 50.</li>
+      <li>Luego el sisteme saca aleatoriamente el número de características requerido.</li>
+      <li>El participante debe encontrar y leer durante el año los libros que corresponden a cada una de las características. No se puede contar el mismo libro para dos o más caractrísticas.</li>
+      <li>Al final del año el participante hace un reporte de su experiencia (es opcional).</li>
+    </ul>
+
+    {% crispy form %}
+
+  </section>
+
+{% endblock content %}
