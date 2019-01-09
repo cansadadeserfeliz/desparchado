@@ -13,6 +13,11 @@ class HuntingOfSnarkGameAdmin(admin.ModelAdmin):
         'total_points',
     ]
 
+    raw_id_fields = ('criteria',)
+    autocomplete_lookup_fields = {
+        'm2m': ['criteria'],
+    }
+
 
 @admin.register(HuntingOfSnarkCriteria)
 class HuntingOfSnarkCriteriaAdmin(admin.ModelAdmin):

@@ -36,7 +36,13 @@ class HuntingOfSnarkCriteria(TimeStampedModel):
         max_length=500,
         unique=True,
     )
-    category = models.ForeignKey('games.HuntingOfSnarkCategory')
+    category = models.ForeignKey(
+        'games.HuntingOfSnarkCategory',
+        related_name='criteria',
+    )
+
+    def __str__(self):
+        return self.name
 
     class Meta:
         ordering = ('public_id',)
