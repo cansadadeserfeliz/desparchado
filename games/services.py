@@ -1,30 +1,30 @@
 from random import shuffle
 
 from .models import HuntingOfSnarkCategory
+from .models import HuntingOfSnarkCriteria
 
 
 def get_random_hunting_of_snark_criteria(total_points):
-    criteria_list = []
-
-    original_categories = list(
-        HuntingOfSnarkCategory.objects.all()
-        .prefetch_related('criteria')
-    )
-    categories = []
+    categories_hash = {
+        category.id: list(category.criteria.values_list('public_id', flat=True))
+        for category in
+        HuntingOfSnarkCategory.objects.all().prefetch_related('criteria')
+    }
+    criteria_ids = []
     points_counter = 0
     while points_counter < total_points:
-        if not len(categories):
-            shuffle(original_categories)
-            categories = original_categories.copy()
+        category_keys = list(categories_hash.keys())
+        shuffle(category_keys)
+        for category_key in category_keys:
+            if points_counter >= total_points:
+                break
 
-        category = categories.pop(0)
-        possible_criteria = list(category.criteria.all())
-        shuffle(possible_criteria)
-        criteria = possible_criteria[0]
-
-        if criteria in criteria_list:
-            continue
-        else:
-            criteria_list.append(criteria)
+            shuffle(categories_hash[category_key])
+            criteria_id = categories_hash[category_key].pop(0)
+            criteria_ids.append(criteria_id)
             points_counter += 1
-    return criteria_list
+
+            if len(categories_hash[category_key]) == 0:
+                del categories_hash[category_key]
+
+    return HuntingOfSnarkCriteria.objects.filter(public_id__in=criteria_ids).all()
