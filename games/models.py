@@ -20,7 +20,7 @@ class HuntingOfSnarkGame(TimeStampedModel):
         verbose_name='Juego para',
         max_length=255,
         blank=True,
-        help_text='Su nombre o el nombre de su amigo con el quien quiere jugar'
+        help_text='Su nombre o el nombre de su amigo con el que quiere jugar'
     )
     total_points = models.IntegerField(
         verbose_name='Cantidad de puntos',
