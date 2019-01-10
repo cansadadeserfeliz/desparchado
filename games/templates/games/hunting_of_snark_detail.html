@@ -1,0 +1,77 @@
+{% extends 'layout/base.html' %}
+{% load i18n staticfiles %}
+
+{% block title %}La caza del Snark{% endblock %}
+
+{% block meta %}
+  <meta property="og:title" content="La caza del Snark para {{ game.player_name|default:'usted' }} en Desparchado.co">
+  <meta property="og:description" content="Juego literario">
+  <meta property="og:image" content="https://{{ request.get_host }}{% static 'images/hunting_of_snark_game_bg.jpeg' %}">
+
+  <meta name="twitter:title" content="La caza del Snark para {{ game.player_name|default:'usted' }} en Desparchado.co">
+  <meta name="twitter:description" content="Juego literario">
+{% endblock %}
+
+{% block subheader %}
+<section class="game-header" style="background-image: url('{% static 'images/hunting_of_snark_game_bg.jpeg' %}')">
+  <div class="overlay"></div>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-md-10 mx-auto">
+        <div class="game-heading">
+          <h1>La caza del Snark para {{ game.player_name|default:'ti' }}</h1>
+          <span class="subheading">Juego literario</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock subheader %}
+
+{% block content %}
+
+  <section id="hunting_of_snark_detail">
+
+    <h1>La caza del Snark para {{ game.player_name|default:'usted' }}</h1>
+
+    <div class="text">
+      <p>
+        {% for criteria in game.criteria.all %}
+          {{ criteria.public_id }}). {{ criteria.name }}<br>
+        {% endfor %}
+      </p>
+
+      <script type="text/javascript">
+          function select_url() {
+            var $temp = $("<input>");
+            $("body").append($temp);
+            $temp.val($('#game_url_input').val()).select();
+            document.execCommand("copy");
+            $temp.remove();
+          }
+      </script>
+
+      <form id="game_url_input" class="form-inline form-horizontal">
+        <div class="form-group">
+          <div class="input-group">
+            <input id="game_url_input" type="text" class="form-control" value="https://{{ request.get_host }}{{ request.get_full_path }}" readonly>
+            <div class="input-group-addon btn" onclick="select_url()">COPIAR</div>
+          </div>
+        </div>
+      </form>
+
+      <br>
+
+      <p>
+        <a href="{% url 'games:hunting_of_snark_create' %}" class="btn btn-sm btn-primary">VER LAS REGLAS DEL JUEGO</a>
+      </p>
+
+      <p>Compártalo con sus amigos:</p>
+      <p>
+        <div class="addthis_inline_share_toolbox"></div>
+      </p>
+    </div>
+  </section>
+
+{% endblock content %}

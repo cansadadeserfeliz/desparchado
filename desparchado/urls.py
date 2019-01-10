@@ -57,6 +57,7 @@ urlpatterns = [
     url(r'^places/', include('places.urls', namespace='places')),
     url(r'^users/', include('users.urls', namespace='users')),
     url(r'^blog/', include('blog.urls', namespace='blog')),
+    url(r'^games/', include('games.urls', namespace='games')),
     url(r'^dashboard/', include('dashboard.urls', namespace='dashboard')),
 
     url(r'^i18n/', include('django.conf.urls.i18n')),
