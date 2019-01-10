@@ -31,7 +31,7 @@
 
 {% block content %}
 
-  <section id="hunting_of_snark_form">
+  <section id="hunting_of_snark_detail">
 
     <h1>La caza del Snark para {{ game.player_name|default:'ti' }}</h1>
 
@@ -41,6 +41,27 @@
           {{ criteria.public_id }}). {{ criteria.name }}<br>
         {% endfor %}
       </p>
+
+      <script type="text/javascript">
+          function select_url() {
+            var $temp = $("<input>");
+            $("body").append($temp);
+            $temp.val($('#game_url_input').val()).select();
+            document.execCommand("copy");
+            $temp.remove();
+          }
+      </script>
+
+      <form id="game_url_input" class="form-inline form-horizontal">
+        <div class="form-group">
+          <div class="input-group">
+            <input id="game_url_input" type="text" class="form-control" value="https://{{ request.get_host }}{{ request.get_full_path }}" readonly>
+            <div class="input-group-addon btn" onclick="select_url()">COPIAR</div>
+          </div>
+        </div>
+      </form>
+
+      <br>
 
       <p>
         <a href="{% url 'games:hunting_of_snark_create' %}" class="btn btn-sm btn-primary">VER LAS REGLAS DEL JUEGO</a>
