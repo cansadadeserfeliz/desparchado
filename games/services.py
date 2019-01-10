@@ -19,6 +19,9 @@ def get_random_hunting_of_snark_criteria(total_points):
             if points_counter >= total_points:
                 break
 
+            if category_key not in categories_hash:
+                continue
+
             shuffle(categories_hash[category_key])
             criteria_id = categories_hash[category_key].pop(0)
             selected_criteria_ids.append(criteria_id)
