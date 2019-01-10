@@ -4,11 +4,11 @@
 {% block title %}La caza del Snark{% endblock %}
 
 {% block meta %}
-  <meta property="og:title" content="La caza del Snark para {{ game.player_name|default:'ti' }} en Desparchado.co">
+  <meta property="og:title" content="La caza del Snark para {{ game.player_name|default:'usted' }} en Desparchado.co">
   <meta property="og:description" content="Juego literario">
   <meta property="og:image" content="https://{{ request.get_host }}{% static 'images/hunting_of_snark_game_bg.jpeg' %}">
 
-  <meta name="twitter:title" content="La caza del Snark para {{ game.player_name|default:'ti' }} en Desparchado.co">
+  <meta name="twitter:title" content="La caza del Snark para {{ game.player_name|default:'usted' }} en Desparchado.co">
   <meta name="twitter:description" content="Juego literario">
 {% endblock %}
 
@@ -33,7 +33,7 @@
 
   <section id="hunting_of_snark_detail">
 
-    <h1>La caza del Snark para {{ game.player_name|default:'ti' }}</h1>
+    <h1>La caza del Snark para {{ game.player_name|default:'usted' }}</h1>
 
     <div class="text">
       <p>
@@ -67,7 +67,7 @@
         <a href="{% url 'games:hunting_of_snark_create' %}" class="btn btn-sm btn-primary">VER LAS REGLAS DEL JUEGO</a>
       </p>
 
-      <p>Compártelo con sus amigos:</p>
+      <p>Compártalo con sus amigos:</p>
       <p>
         <div class="addthis_inline_share_toolbox"></div>
       </p>
