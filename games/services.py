@@ -10,7 +10,7 @@ def get_random_hunting_of_snark_criteria(total_points):
         for category in
         HuntingOfSnarkCategory.objects.all().prefetch_related('criteria')
     }
-    criteria_ids = []
+    selected_criteria_ids = []
     points_counter = 0
     while points_counter < total_points:
         category_keys = list(categories_hash.keys())
@@ -21,10 +21,12 @@ def get_random_hunting_of_snark_criteria(total_points):
 
             shuffle(categories_hash[category_key])
             criteria_id = categories_hash[category_key].pop(0)
-            criteria_ids.append(criteria_id)
+            selected_criteria_ids.append(criteria_id)
             points_counter += 1
 
             if len(categories_hash[category_key]) == 0:
                 del categories_hash[category_key]
 
-    return HuntingOfSnarkCriteria.objects.filter(public_id__in=criteria_ids).all()
+    return HuntingOfSnarkCriteria.objects.filter(
+        public_id__in=selected_criteria_ids
+    ).all()
