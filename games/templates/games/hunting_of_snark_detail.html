@@ -1,5 +1,5 @@
 {% extends 'layout/base.html' %}
-{% load i18n staticfiles %}
+{% load i18n staticfiles django_markdown %}
 
 {% block title %}La caza del Snark{% endblock %}
 
@@ -36,11 +36,11 @@
     <h1>La caza del Snark para {{ game.player_name|default:'usted' }}</h1>
 
     <div class="text">
-      <p>
+      <div>
         {% for criteria in game.criteria.all %}
-          {{ criteria.public_id }}). {{ criteria.name }}<br>
+          {{ criteria.public_id }}). <div class="hunting-of-snark-criteria-name">{{ criteria.name|markdown }}</div><br>
         {% endfor %}
-      </p>
+      </div>
 
       <script type="text/javascript">
           function select_url() {

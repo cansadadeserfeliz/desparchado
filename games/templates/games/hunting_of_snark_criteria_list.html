@@ -1,0 +1,66 @@
+{% extends 'layout/base.html' %}
+{% load i18n staticfiles django_markdown %}
+
+{% block title %}La caza del Snark{% endblock %}
+
+{% block meta %}
+  <meta property="og:title" content="La caza del Snark. Posibles caracteristicas | Desparchado.co">
+  <meta property="og:description" content="Juego literario">
+  <meta property="og:image" content="https://{{ request.get_host }}{% static 'images/hunting_of_snark_game_bg.jpeg' %}">
+
+  <meta name="twitter:title" content="La caza del Snark. Posibles caracteristicas | Desparchado.co">
+  <meta name="twitter:description" content="Juego literario">
+{% endblock %}
+
+{% block subheader %}
+<section class="game-header" style="background-image: url('{% static 'images/hunting_of_snark_bg.jpeg' %}')">
+  <div class="overlay"></div>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-md-10 mx-auto">
+        <div class="game-heading">
+          <h1>La caza del Snark. Posibles caracteristicas</h1>
+          <span class="subheading">Juego literario</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock subheader %}
+
+{% block content %}
+
+  <section id="hunting_of_snark_detail">
+
+    <h1>La caza del Snark. Posibles caracteristicas</h1>
+
+    <div class="text">
+
+      {% for category in categories %}
+
+        <h3>{{ category.name }}</h3>
+
+        <div>
+          {% for criteria in category.criteria.all %}
+            {{ criteria.public_id }}). <div class="hunting-of-snark-criteria-name">{{ criteria.name|markdown }}</div><br>
+          {% endfor %}
+        </div>
+      {% endfor %}
+
+      <br>
+
+      <p>
+        <a href="{% url 'games:hunting_of_snark_create' %}" class="btn btn-sm btn-primary">VER LAS REGLAS DEL JUEGO</a>
+      </p>
+
+      <br>
+
+      <p>Compártalo con sus amigos:</p>
+      <p>
+        <div class="addthis_inline_share_toolbox"></div>
+      </p>
+    </div>
+  </section>
+
+{% endblock content %}

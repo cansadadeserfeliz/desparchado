@@ -1,9 +1,11 @@
 from django.views.generic import DetailView
 from django.views.generic import CreateView
+from django.views.generic import ListView
 from django.core.urlresolvers import reverse
 
 from .forms import HuntingOfSnarkGameCreateForm
 from .models import HuntingOfSnarkGame
+from .models import HuntingOfSnarkCategory
 from .services import get_random_hunting_of_snark_criteria
 
 
@@ -27,3 +29,12 @@ class HuntingOfSnarkGameDetailView(DetailView):
     slug_field = 'token'
     template_name = 'games/hunting_of_snark_detail.html'
     context_object_name = 'game'
+
+
+class HuntingOfSnarkCriteriaListView(ListView):
+    model = HuntingOfSnarkCategory
+    template_name = 'games/hunting_of_snark_criteria_list.html'
+    context_object_name = 'categories'
+
+    def get_queryset(self):
+        return super().get_queryset().prefetch_related('criteria')
