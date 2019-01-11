@@ -54,6 +54,9 @@ class HuntingOfSnarkCategory(TimeStampedModel):
         max_length=500,
         unique=True,
     )
+    order = models.FloatField(
+        null=True,
+    )
 
     def __str__(self):
         return self.name
@@ -61,3 +64,4 @@ class HuntingOfSnarkCategory(TimeStampedModel):
     class Meta:
         verbose_name = 'Hunting Of Snark Category'
         verbose_name_plural = 'Hunting Of Snark Categories'
+        ordering = ('order',)

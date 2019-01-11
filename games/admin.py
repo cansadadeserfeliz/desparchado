@@ -33,4 +33,5 @@ class HuntingOfSnarkCriteriaAdmin(admin.ModelAdmin):
 class HuntingOfSnarkCategoryAdmin(admin.ModelAdmin):
     list_display = [
         'name',
+        'order',
     ]
