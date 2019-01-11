@@ -24,7 +24,9 @@ class HuntingOfSnarkCriteriaAdmin(admin.ModelAdmin):
     list_display = [
         'public_id',
         'name',
+        'category',
     ]
+    list_select_related = ['category']
 
 
 @admin.register(HuntingOfSnarkCategory)
