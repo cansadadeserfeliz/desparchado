@@ -1,0 +1,126 @@
+{% extends 'games/hunting_of_snark_base.html' %}
+{% load i18n staticfiles django_markdown %}
+
+{% block title %}La caza del Snark{% endblock %}
+
+{% block subheader_title %}La caza del Snark para. BBC Top 100{% endblock subheader_title %}
+{% block subheader_subtitle %}Juego literario{% endblock subheader_subtitle %}
+
+
+{% block content %}
+
+  <section class="hunting-of-snark">
+
+    <h1>La caza del Snark. Listado BBC Top 100</h1>
+
+    <div class="text">
+
+      <ol>
+        <li>The Lord of the Rings, JRR Tolkien<li>Pride and Prejudice, Jane Austen<li>His Dark Materials, Philip Pullman<li>The Hitchhiker's Guide to the Galaxy, Douglas Adams<li>Harry Potter and the Goblet of Fire, JK Rowling<li>To Kill a Mockingbird, Harper Lee<li>Winnie the Pooh, AA Milne<li>Nineteen Eighty-Four, George Orwell<li>The Lion, the Witch and the Wardrobe, CS Lewis</li>
+        <li>Jane Eyre, Charlotte Brontë</li>
+        <li>Catch-22, Joseph Heller</li>
+        <li>Wuthering Heights, Emily Brontë</li>
+        <li>Birdsong, Sebastian Faulks</li>
+        <li>Rebecca, Daphne du Maurier</li>
+        <li>The Catcher in the Rye, JD Salinger</li>
+        <li>The Wind in the Willows, Kenneth Grahame</li>
+        <li>Great Expectations, Charles Dickens</li>
+        <li>Little Women, Louisa May Alcott</li>
+        <li>Captain Corelli's Mandolin, Louis de Bernieres</li>
+        <li>War and Peace, Leo Tolstoy</li>
+        <li>Gone with the Wind, Margaret Mitchell</li>
+        <li>Harry Potter And The Philosopher's Stone, JK Rowling</li>
+        <li>Harry Potter And The Chamber Of Secrets, JK Rowling</li>
+        <li>Harry Potter And The Prisoner Of Azkaban, JK Rowling</li>
+        <li>The Hobbit, JRR Tolkien</li>
+        <li>Tess Of The D'Urbervilles, Thomas Hardy</li>
+        <li>Middlemarch, George Eliot</li>
+        <li>A Prayer For Owen Meany, John Irving</li>
+        <li>The Grapes Of Wrath, John Steinbeck</li>
+        <li>Alice's Adventures In Wonderland, Lewis Carroll</li>
+        <li>The Story Of Tracy Beaker, Jacqueline Wilson</li>
+        <li>One Hundred Years Of Solitude, Gabriel García Márquez</li>
+        <li>The Pillars Of The Earth, Ken Follett</li>
+        <li>David Copperfield, Charles Dickens</li>
+        <li>Charlie And The Chocolate Factory, Roald Dahl</li>
+        <li>Treasure Island, Robert Louis Stevenson</li>
+        <li>A Town Like Alice, Nevil Shute</li>
+        <li>Persuasion, Jane Austen</li>
+        <li>Dune, Frank Herbert</li>
+        <li>Emma, Jane Austen</li>
+        <li>Anne Of Green Gables, LM Montgomery</li>
+        <li>Watership Down, Richard Adams</li>
+        <li>The Great Gatsby, F Scott Fitzgerald</li>
+        <li>The Count Of Monte Cristo, Alexandre Dumas</li>
+        <li>Brideshead Revisited, Evelyn Waugh</li>
+        <li>Animal Farm, George Orwell</li>
+        <li>A Christmas Carol, Charles Dickens</li>
+        <li>Far From The Madding Crowd, Thomas Hardy</li>
+        <li>Goodnight Mister Tom, Michelle Magorian</li>
+        <li>The Shell Seekers, Rosamunde Pilcher</li>
+        <li>The Secret Garden, Frances Hodgson Burnett</li>
+        <li>Of Mice And Men, John Steinbeck</li>
+        <li>The Stand, Stephen King</li>
+        <li>Anna Karenina, Leo Tolstoy</li>
+        <li>A Suitable Boy, Vikram Seth</li>
+        <li>The BFG, Roald Dahl</li>
+        <li>Swallows And Amazons, Arthur Ransome</li>
+        <li>Black Beauty, Anna Sewell</li>
+        <li>Artemis Fowl, Eoin Colfer</li>
+        <li>Crime And Punishment, Fyodor Dostoyevsky</li>
+        <li>Noughts And Crosses, Malorie Blackman</li>
+        <li>Memoirs Of A Geisha, Arthur Golden</li>
+        <li>A Tale Of Two Cities, Charles Dickens</li>
+        <li>The Thorn Birds, Colleen McCollough</li>
+        <li>Mort, Terry Pratchett</li>
+        <li>The Magic Faraway Tree, Enid Blyton</li>
+        <li>The Magus, John Fowles</li>
+        <li>Good Omens, Terry Pratchett and Neil Gaiman</li>
+        <li>Guards! Guards!, Terry Pratchett</li>
+        <li>Lord Of The Flies, William Golding</li>
+        <li>Perfume, Patrick Süskind</li>
+        <li>The Ragged Trousered Philanthropists, Robert Tressell</li>
+        <li>Night Watch, Terry Pratchett</li>
+        <li>Matilda, Roald Dahl</li>
+        <li>Bridget Jones's Diary, Helen Fielding</li>
+        <li>The Secret History, Donna Tartt</li>
+        <li>The Woman In White, Wilkie Collins</li>
+        <li>Ulysses, James Joyce</li>
+        <li>Bleak House, Charles Dickens</li>
+        <li>Double Act, Jacqueline Wilson</li>
+        <li>The Twits, Roald Dahl</li>
+        <li>I Capture The Castle, Dodie Smith</li>
+        <li>Holes, Louis Sachar</li>
+        <li>Gormenghast, Mervyn Peake</li>
+        <li>The God Of Small Things, Arundhati Roy</li>
+        <li>Vicky Angel, Jacqueline Wilson</li>
+        <li>Brave New World, Aldous Huxley</li>
+        <li>Cold Comfort Farm, Stella Gibbons</li>
+        <li>Magician, Raymond E Feist</li>
+        <li>On The Road, Jack Kerouac</li>
+        <li>The Godfather, Mario Puzo</li>
+        <li>The Clan Of The Cave Bear, Jean M Auel</li>
+        <li>The Colour Of Magic, Terry Pratchett</li>
+        <li>The Alchemist, Paulo Coelho</li>
+        <li>Katherine, Anya Seton</li>
+        <li>Kane And Abel, Jeffrey Archer</li>
+        <li>Love In The Time Of Cholera, Gabriel García Márquez</li>
+        <li>Girls In Love, Jacqueline Wilson</li>
+        <li>The Princess Diaries, Meg Cabot</li>
+        <li>Midnight's Children, Salman Rushdie</li>
+      </ol>
+
+      <p>
+        Fuente:
+        <a href="http://www.bbc.co.uk/arts/bigread/top100.shtml" target="_blank">
+           BBC's Big Read Top 100
+        </a>
+      </p>
+
+      <p>
+        <a href="{% url 'games:hunting_of_snark_criteria_list' %}" class="btn btn-sm btn-primary">IR AL HUEGO</a>
+      </p>
+    </div>
+  </section>
+
+{% endblock content %}
