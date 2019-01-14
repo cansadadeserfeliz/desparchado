@@ -24,7 +24,10 @@
     <div class="text">
       <div>
         {% for criteria in game.criteria.all %}
-          {{ criteria.public_id }}). <div class="hunting-of-snark-criteria-name">{{ criteria.name|markdown }}</div><br>
+          {{ criteria.public_id }}).
+          <div class="hunting-of-snark-criteria-name">{{ criteria.name|markdown }}</div>
+          <small class="text-muted">({{ criteria.category.name }})</small>
+          <br>
         {% endfor %}
       </div>
 
