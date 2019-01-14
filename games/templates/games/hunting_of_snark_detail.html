@@ -52,16 +52,20 @@
       <br>
 
       <p>
-        <a href="{% url 'games:hunting_of_snark_create' %}" class="btn btn-sm btn-primary">VER LAS REGLAS DEL JUEGO</a>
+        <a href="{% url 'games:hunting_of_snark_create' %}">
+          Ver las reglas del juego.
+        </a>
+      </p>
+
+      <p>
+        <a href="{% url 'games:hunting_of_snark_criteria_list' %}">
+          Ver todas las caracteristicas.
+        </a>
       </p>
 
       <p>Compártalo con sus amigos:</p>
       <p>
         <div class="addthis_inline_share_toolbox"></div>
-      </p>
-
-      <p>
-        <a href="{% url 'games:hunting_of_snark_criteria_list' %}" class="btn btn-sm btn-primary">VER TODAS LAS CARACTERISTICAS</a>
       </p>
     </div>
   </section>
