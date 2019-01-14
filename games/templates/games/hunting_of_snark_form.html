@@ -1,37 +1,8 @@
-{% extends 'layout/base.html' %}
+{% extends 'games/hunting_of_snark_base.html' %}
 {% load i18n staticfiles crispy_forms_tags %}
 
-{% block title %}La caza del Snark{% endblock %}
-
-{% block meta %}
-  <meta property="og:title" content="La caza del Snark en Desparchado.co">
-  <meta property="og:description" content="Juego literario">
-  <meta property="og:image" content="https://{{ request.get_host }}{% static 'images/hunting_of_snark_bg.jpeg' %}">
-
-  <meta name="twitter:title" content="La caza del Snark en Desparchado.co">
-  <meta name="twitter:description" content="Juego literario">
-{% endblock %}
-
-{% block subheader %}
-<section class="game-header" style="background-image: url('{% static 'images/hunting_of_snark_bg.jpeg' %}')">
-  <div class="overlay"></div>
-
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-8 col-md-10 mx-auto">
-        <div class="game-heading">
-          <h1>La caza del Snark</h1>
-          <span class="subheading">Juego literario</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-{% endblock subheader %}
-
 {% block content %}
-
-  <section id="hunting_of_snark_form">
+  <section class="hunting-of-snark" id="hunting_of_snark_form">
 
     <h1>La caza del Snark. Reglas del juego:</h1>
 
@@ -55,9 +26,8 @@
     {% crispy form %}
 
     <p>
-      <a href="{% url 'games:hunting_of_snark_criteria_list' %}" class="btn btn-sm btn-primary">VER TODAS LAS CARACTERISTICAS</a>
+      <a href="{% url 'games:hunting_of_snark_create' %}" class="btn btn-sm btn-primary">VER TODAS LAS CARACTERISTICAS</a>
     </p>
 
   </section>
-
 {% endblock content %}
