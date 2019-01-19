@@ -2,6 +2,7 @@ import uuid
 
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
+from django.contrib.postgres.fields import JSONField
 
 from model_utils.models import TimeStampedModel
 
@@ -27,9 +28,12 @@ class HuntingOfSnarkGame(TimeStampedModel):
         validators=[MinValueValidator(1), MaxValueValidator(50)],
     )
     criteria = models.ManyToManyField('games.HuntingOfSnarkCriteria')
+    extra = JSONField(default=dict())
 
 
 class HuntingOfSnarkCriteria(TimeStampedModel):
+    RANDOM_LETTER_CRITERIA_ID = 240
+
     public_id = models.PositiveIntegerField(
         unique=True,
     )
