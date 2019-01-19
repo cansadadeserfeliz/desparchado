@@ -25,7 +25,12 @@
       <div>
         {% for criteria in game.criteria.all %}
           {{ criteria.public_id }}).
-          <div class="hunting-of-snark-criteria-name">{{ criteria.name|markdown }}</div>
+          <div class="hunting-of-snark-criteria-name">
+            {{ criteria.name|markdown }}
+          {% if criteria.public_id == criteria.RANDOM_LETTER_CRITERIA_ID %}
+            - <b>{{ game.extra.random_letter }}</b>
+          {% endif %}
+          </div>
           <small class="text-muted">({{ criteria.category.name }})</small>
           <br>
         {% endfor %}
