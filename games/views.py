@@ -48,3 +48,10 @@ class HuntingOfSnarkCriteriaListView(ListView):
 
     def get_queryset(self):
         return super().get_queryset().prefetch_related('criteria')
+
+
+class HuntingOfSnarkGameListView(ListView):
+    model = HuntingOfSnarkGame
+    template_name = 'games/hunting_of_snark_game_list.html'
+    context_object_name = 'games'
+    paginate_by = 100
