@@ -34,6 +34,12 @@ class HuntingOfSnarkGame(TimeStampedModel):
     class Meta:
         ordering = ('-created',)
 
+    @property
+    def name(self):
+        if self.player_name:
+            return 'La caza del Snark para {}'.format(self.player_name)
+        return 'La caza del Snark'
+
     def get_absolute_url(self):
         return reverse('games:hunting_of_snark_detail', args=[self.token])
 
