@@ -22,6 +22,7 @@
     <h1>La caza del Snark para {{ game.player_name|default:'usted' }}</h1>
 
     <div class="text">
+
       <div>
         {% for criteria in game.criteria.all %}
           {{ criteria.public_id }}).
@@ -38,26 +39,9 @@
 
       <br>
 
-      <script type="text/javascript">
-          function select_url() {
-            var $temp = $("<input>");
-            $("body").append($temp);
-            $temp.val($('#game_url_input').val()).select();
-            document.execCommand("copy");
-            $temp.remove();
-          }
-      </script>
-
-      <form id="game_url_input" class="form-inline form-horizontal">
-        <div class="form-group">
-          <div class="input-group">
-            <input id="game_url_input" type="text" class="form-control" value="https://{{ request.get_host }}{{ request.get_full_path }}" readonly>
-            <div class="input-group-addon btn" onclick="select_url()">COPIAR</div>
-          </div>
-        </div>
-      </form>
-
-      <br>
+      <p>
+        Creado el {{ game.created|date:'j' }} de {{ game.created|date:'F Y' }}
+      </p>
 
       <p>
         <a href="{% url 'games:hunting_of_snark_create' %}">

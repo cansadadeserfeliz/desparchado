@@ -31,6 +31,9 @@ class HuntingOfSnarkGame(TimeStampedModel):
     criteria = models.ManyToManyField('games.HuntingOfSnarkCriteria')
     extra = JSONField(default=dict())
 
+    class Meta:
+        ordering = ('-created',)
+
     def get_absolute_url(self):
         return reverse('games:hunting_of_snark_detail', args=[self.token])
 
