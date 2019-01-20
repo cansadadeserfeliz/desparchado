@@ -1,0 +1,42 @@
+{% extends 'games/hunting_of_snark_base.html' %}
+{% load i18n staticfiles paginator_tags %}
+
+{% block title %}La caza del Snark. Juegos creados{% endblock %}
+
+{% block subheader_title %}La caza del Snark para. Juegos creados{% endblock subheader_title %}
+{% block subheader_subtitle %}Juego literario{% endblock subheader_subtitle %}
+
+
+{% block content %}
+
+  <section class="hunting-of-snark">
+
+    <h1>La caza del Snark. Juegos creados</h1>
+
+    <div class="text">
+      {% for game in games %}
+        <p>
+          Juego
+          {% if game.player_name %}
+            para {{ game.player_name }}
+          {% endif %}
+          de {{ game.total_points }} libro{{ game.total_points|pluralize }}
+          <small class="text-muted">({{ game.token }})</small>
+          <a href="{{ game.get_absolute_url }}">
+            Ir al juego
+          </a>
+        </p>
+      {% endfor %}
+
+      <p>
+        <a href="{% url 'games:hunting_of_snark_create' %}">Volver al juego</a>
+      </p>
+    </div>
+  </section>
+
+  <section class="container">
+    {% get_simple_pagination %}
+  </section>
+
+
+{% endblock content %}

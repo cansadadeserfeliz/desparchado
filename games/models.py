@@ -3,6 +3,7 @@ import uuid
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.contrib.postgres.fields import JSONField
+from django.urls import reverse
 
 from model_utils.models import TimeStampedModel
 
@@ -29,6 +30,9 @@ class HuntingOfSnarkGame(TimeStampedModel):
     )
     criteria = models.ManyToManyField('games.HuntingOfSnarkCriteria')
     extra = JSONField(default=dict())
+
+    def get_absolute_url(self):
+        return reverse('games:hunting_of_snark_detail', args=[self.token])
 
 
 class HuntingOfSnarkCriteria(TimeStampedModel):
