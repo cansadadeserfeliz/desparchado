@@ -43,13 +43,13 @@
         <div class="text-center" style="width: 100%; margin-top: 20px;">
           <p>No encontramos resultados para su búsqueda: "{{ search_string }}".</p>
           <p>
-            <a href="{% url 'events:speaker_list' %}">Ver todos los juegos</a>
+            <a href="{% url 'games:hunting_of_snark_games_list' %}">Ver todos los juegos</a>
           </p>
         </div>
       {% endfor %}
 
       <p>
-        <a href="{% url 'games:hunting_of_snark_games_list' %}">Volver al juego</a>
+        <a href="{% url 'games:hunting_of_snark_create' %}">Volver al juego</a>
       </p>
     </div>
   </section>
