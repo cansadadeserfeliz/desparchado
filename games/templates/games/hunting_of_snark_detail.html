@@ -4,7 +4,7 @@
 {% block title %}La caza del Snark{% endblock %}
 
 {% block meta %}
-  <meta property="og:title" content="La caza del Snark para {{ game.player_name|default:'usted' }} en Desparchado.co">
+  <meta property="og:title" content="{{ game.game }} en Desparchado.co">
   <meta property="og:description" content="Juego literario">
   <meta property="og:image" content="https://{{ request.get_host }}{% static 'images/hunting_of_snark_game_bg.jpeg' %}">
 
@@ -13,7 +13,7 @@
 {% endblock %}
 
 {% block subheader_bg_url %}{% static 'images/hunting_of_snark_game_bg.jpeg' %}{% endblock subheader_bg_url %}
-{% block subheader_title %}La caza del Snark para {{ game.player_name|default:'ti' }}{% endblock subheader_title %}
+{% block subheader_title %}La caza del Snark para {{ game.player_name|default:'usted' }}{% endblock subheader_title %}
 
 {% block content %}
 
