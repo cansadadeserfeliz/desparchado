@@ -34,7 +34,9 @@
             para {{ game.player_name }}
           {% endif %}
           de {{ game.total_points }} libro{{ game.total_points|pluralize }}
-          <small class="text-muted">({{ game.token }})</small>
+          <small class="text-muted">
+            ({{ game.created|date:'j M Y' }})
+          </small>
           <a href="{{ game.get_absolute_url }}">
             Ir al juego
           </a>
