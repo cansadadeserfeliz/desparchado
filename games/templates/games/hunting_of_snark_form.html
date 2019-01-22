@@ -30,5 +30,20 @@
 
     {% crispy form %}
 
+    <div class="text">
+      <p>
+        ¿Ya generó el juego y olvidó el enlace? No se preocupe,
+        <a href="{% url 'games:hunting_of_snark_games_list' %}">aquí</a>
+        lo puede encontrar.
+      </p>
+
+      <br>
+
+      <p>Compártalo con sus amigos:</p>
+      <p>
+        <div class="addthis_inline_share_toolbox"></div>
+      </p>
+    </div>
+
   </section>
 {% endblock content %}

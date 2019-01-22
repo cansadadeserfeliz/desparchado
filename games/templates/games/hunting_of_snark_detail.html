@@ -25,6 +25,7 @@
 
       <div>
         {% for criteria in game.criteria.all %}
+          <b>Libro #{{ forloop.counter }}:</b>
           {{ criteria.public_id }}).
           <div class="hunting-of-snark-criteria-name">
             {{ criteria.name|markdown }}
@@ -51,7 +52,7 @@
 
       <p>
         <a href="{% url 'games:hunting_of_snark_criteria_list' %}">
-          Ver todas las caracteristicas.
+          Ver todos los criterios.
         </a>
       </p>
 
