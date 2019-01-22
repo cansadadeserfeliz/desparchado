@@ -25,7 +25,7 @@ class HuntingOfSnarkGame(TimeStampedModel):
         help_text='Su nombre o el nombre de su amigo con el que quiere jugar'
     )
     total_points = models.IntegerField(
-        verbose_name='Cantidad de puntos',
+        verbose_name='Cantidad de criterios',
         validators=[MinValueValidator(1), MaxValueValidator(50)],
     )
     criteria = models.ManyToManyField('games.HuntingOfSnarkCriteria')
