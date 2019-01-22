@@ -185,7 +185,7 @@ PIPELINE = {
         'main': {
             'source_filenames': (
               'bower_components/bootstrap/dist/css/bootstrap.min.css',
-              'bower_components/font-awesome/css/font-awesome.min.css',
+              'libs/fontawesome-free-5.6.3-web/css/all.min.css',
               'bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css',
               'sass/main.sass',
             ),
