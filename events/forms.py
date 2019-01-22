@@ -57,7 +57,7 @@ class EventCreateForm(forms.ModelForm):
                     HTML(
                         '<a href="{}" class="btn btn-default add-related" '
                         'title="Añadir nuevo organizador" target="_blank">'
-                        '<i class="fa fa-plus"></i>'
+                        '<i class="fas fa-plus"></i>'
                         '</a>'.format(
                             reverse_lazy('events:organizer_add'),
                         )
@@ -72,7 +72,7 @@ class EventCreateForm(forms.ModelForm):
                     HTML(
                         '<a href="{}" class="btn btn-default add-related" '
                         'title="Añadir nuevo presentador" target="_blank">'
-                        '<i class="fa fa-plus"></i>'
+                        '<i class="fas fa-plus"></i>'
                         '</a>'.format(
                             reverse_lazy('places:place_add'),
                         )
@@ -87,7 +87,7 @@ class EventCreateForm(forms.ModelForm):
                     HTML(
                         '<a href="{}" class="btn btn-default add-related" '
                         'title="Añadir nuevo presentador" target="_blank">'
-                        '<i class="fa fa-plus"></i>'
+                        '<i class="fas fa-plus"></i>'
                         '</a>'.format(
                             reverse_lazy('events:speaker_add'),
                         )

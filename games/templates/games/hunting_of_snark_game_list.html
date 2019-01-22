@@ -27,6 +27,7 @@
     <div class="text">
       {% for game in games %}
         <p>
+          <i class="fas fa-book-reader"></i>
           Juego
           {% if game.player_name %}
             para {{ game.player_name }}
@@ -36,7 +37,7 @@
             ({{ game.created|date:'j M Y' }})
           </small>
           <a href="{{ game.get_absolute_url }}">
-            Ir al juego
+            Ver
           </a>
         </p>
       {% empty %}
