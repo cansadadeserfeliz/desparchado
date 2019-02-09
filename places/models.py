@@ -51,6 +51,13 @@ class Place(TimeStampedModel):
 
 class City(TimeStampedModel):
     name = models.CharField(verbose_name='Nombre', max_length=255, unique=True)
+    slug = AutoSlugField(
+        null=True, default=None, unique=True, populate_from='name')
+    image = models.ImageField(
+        'Imagen', null=True, blank=True, upload_to='places')
+    image_source_url = models.URLField(
+        'Enlace a la fuente de la imagen', null=True, blank=True)
+    description = models.TextField('Dirección', blank=True, default='')
     center_location = geo_models.PointField(null=False)
 
     def __str__(self):
