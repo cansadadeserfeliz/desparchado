@@ -9,7 +9,7 @@
     </div>
   </a>
   <div class="box-inner">
-    <div class="event-type">{{ event.get_event_type_display }}</div>
+    <div class="box-subtitle">{{ event.get_event_type_display }}</div>
     <a href="{{ event.get_absolute_url }}"><h2 class="box-title">{{ event.title }}</h2></a>
     <div class="event-date">
       {{ event.event_date|date:'j M Y' }},
