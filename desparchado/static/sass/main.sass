@@ -6,6 +6,8 @@
 @import "blog"
 @import "games"
 @import "places"
+@import "speakers"
+@import "organizers"
 
 /* Fix Bootstrap columns on Safari */
 .row:before, row:after
@@ -68,107 +70,46 @@
   h3
     margin-bottom: 20px
 
-/* Organizer list */
+/* Box */
 
-.organizer-card
-  padding: 36px 0 32px
-  border-top: 1px solid #e5e5e5
-  display: table
-  width: 100%
+.desparchado-box
+  vertical-align: top
+  margin-bottom: 30px
 
-  .organizer-card-inner
-    display: table-cell
-    padding-top: 1px
-    vertical-align: top
-    .organizer-title
-      font-size: 18px
-      font-weight: 400
-      line-height: 25px
-      display: inline
-      margin: 0
-  .organizer-card-logo
-    display: table-cell
-    width: 72px
-    padding-left: 50px
-    vertical-align: top
+  .link
+    position: relative
+    display: block
+    background: $bg-color
+
+  .box-img-wrap
+    overflow: hidden
     .image
-      width: 70px
-      height: 70px
-      border: 1px solid #eee
-      background-repeat: no-repeat
-      background-position: center
+      position: relative
+      z-index: 2
+      display: block
+      width: 100%
+      height: 160px
       background-size: cover
-      -webkit-background-size: cover
-      -moz-background-size: cover
-      -o-background-size: cover
+      background-position: center
 
-/* Organizer detail */
+  .box-inner
+    border: 1px solid $bg-color
+    border-top: none
+    background: #fff
+    padding: 13px
+    display: inline-block
+    height: 100%
 
-#organizer-detail
-
-  img
-    height: 100px
-    border: 1px solid #eee
-    float: left
-    margin-right: 20px
-    margin-bottom: 20px
-
-
-/* Speaker list */
-
-.speaker-card
-  padding: 36px 0px 32px
-
-  .speaker-card-inner
-    padding: 1px 5px 0px
-    vertical-align: top
-    margin: 0 auto
-    .speaker-card-title
-      text-align: center
-      font-weight: 400
-      line-height: 25px
+    .box-title
+      overflow: hidden
+      margin: -2px -1px
       font-size: 16px
-      word-wrap: break-word
-  .speaker-card-logo
-    width: 72px
-    vertical-align: top
-    margin: 0 auto
-    .image
-      width: 70px
-      height: 70px
-      border: 1px solid #eee
-      border-radius: 50%
-      background-repeat: no-repeat
-      background-position: center
-      background-size: cover
-      -webkit-background-size: cover
-      -moz-background-size: cover
-      -o-background-size: cover
+      font-weight: 700
+      line-height: 19px
 
 @media (max-width: 768px)
-  .speaker-card
-    .speaker-card-inner
-      .speaker-card-title
-        font-size: 11px
-
-/* Speaker detail */
-
-#speaker-detail
-
-  .image
-    width: 100px
-    height: 100px
-    border: 1px solid #eee
-    border-radius: 50%
-    background-repeat: no-repeat
-    background-position: center
-    background-size: cover
-    -webkit-background-size: cover
-    -moz-background-size: cover
-    -o-background-size: cover
-    float: left
-    margin-right: 20px
-    margin-bottom: 20px
+  .desparchado-box
+    width: 100%
 
 /* About */
 
