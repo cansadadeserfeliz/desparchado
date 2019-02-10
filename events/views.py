@@ -10,6 +10,7 @@ from dal import autocomplete
 
 from desparchado.utils import send_notification
 from .models import Event, Organizer, Speaker
+from places.models import City
 from .forms import EventCreateForm
 from .forms import OrganizerForm
 from .forms import SpeakerForm
@@ -19,9 +20,27 @@ class EventListView(ListView):
     model = Event
     context_object_name = 'events'
     paginate_by = 27
+    city = None
+
+    def dispatch(self, request, *args, **kwargs):
+
+        self.city_slug_filter = request.GET.get('city')
+        if self.city_slug_filter:
+            self.city = City.objects.filter(slug=self.city_slug_filter).first()
+
+        return super(EventListView, self).dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['city_filter'] = self.city
+        return context
 
     def get_queryset(self):
         queryset = Event.objects.published().future()
+
+        if self.city:
+            queryset = queryset.filter(place__city=self.city)
+
         return queryset.select_related('place')
 
 

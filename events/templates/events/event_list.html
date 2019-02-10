@@ -7,12 +7,37 @@
 <section class="container" itemscope itemtype="http://schema.org/CollectionPage">
   <div class="row text-center clearfix">
     <div class="col-sm-8 col-sm-offset-2">
-      <h2 class="title-one">Próximos eventos</h2>
+      <h2 class="title-one">
+        Próximos eventos
+        {% if city_filter %}
+          en <a href="{{ city_filter.get_absolute_url }}">{{ city_filter.name }}</a>
+        {% endif %}
+      </h2>
     </div>
   </div>
 </section>
 
   {% include 'events/_events_grid.html' %}
+
+  {% if city_filter and not events %}
+
+  <div class="row text-center clearfix well promo">
+     <div class="col-sm-8 col-sm-offset-2">
+        <h4>
+         No se encontraron eventos en <a href="{{ city_filter.get_absolute_url }}">{{ city_filter.name }}</a>.
+          <br>
+          <a href="{% url 'events:event_list' %}">Ver eventos en otras ciudades.</a>
+        </h4>
+     </div>
+  </div>
+
+  <section class="container">
+    <div class="text-center">
+      <a href="{% url 'events:add_event' %}" class="btn btn-sm btn-primary"><i class="fas fa-plus"></i>&nbsp;AÑADIR EVENTO</a>
+    </div>
+  </section>
+
+  {% endif %}
 
 <section class="container">
   {% get_simple_pagination %}
