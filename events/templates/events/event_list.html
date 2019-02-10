@@ -3,6 +3,16 @@
 
 {% block title %}Próximos eventos{% endblock %}
 
+{% block subheader %}
+<div class="games-header-menu">
+  <ul class="nav nav-pills ">
+    <li role="presentation"><a href="{% url 'events:event_list' %}?city=bogota">Bogotá</a></li>
+    <li role="presentation"><a href="{% url 'events:event_list' %}?city=cartagena">Cartagena</a></li>
+    <li role="presentation"><a href="{% url 'events:event_list' %}?city=cali">Cali</a></li>
+  </ul>
+</div>
+{% endblock subheader %}
+
 {% block content %}
 <section class="container" itemscope itemtype="http://schema.org/CollectionPage">
   <div class="row text-center clearfix">
