@@ -91,8 +91,6 @@ urlpatterns = [
         name='organizer_update'
     ),
 
-
-
     # Event detail views
     url(
         r'^(?P<pk>\d+)/$',
