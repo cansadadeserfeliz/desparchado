@@ -15,39 +15,59 @@
 
 {% block content %}
 
-<section class="container">
-  <div class="text-center">
-    <a href="{% url 'events:add_event' %}" class="btn btn-sm btn-primary"><i class="fas fa-plus"></i>&nbsp;AÑADIR EVENTO</a>
-  </div>
-</section>
-
-{% include 'events/_events_grid.html' %}
-
-<section class="container">
-  <div class="text-center">
-    <a href="{% url 'events:event_list' %}" class="btn btn-sm btn-primary">VER TODOS LOS EVENTOS</a>
-  </div>
-
-  <hr>
-</section>
-
-{% if past_events %}
-<section class="container">
-  <div class="row text-center clearfix">
-    <div class="col-sm-8 col-sm-offset-2">
-      <h2 class="title-one">Eventos pasados</h2>
+  <section class="container">
+    <div class="text-center">
+      <a href="{% url 'events:add_event' %}" class="btn btn-sm btn-primary"><i class="fas fa-plus"></i>&nbsp;AÑADIR EVENTO</a>
     </div>
-  </div>
-</section>
+  </section>
 
-{% include 'events/_events_grid.html' with events=past_events %}
+  {% include 'events/_events_grid.html' %}
 
-<section class="container">
-  <div class="text-center">
-    <a href="{% url 'events:past_event_list' %}" class="btn btn-sm btn-primary">VER MÁS EVENTOS PASADOS</a>
-  </div>
-</section>
+  <section class="container">
+    <div class="text-center">
+      <a href="{% url 'events:event_list' %}" class="btn btn-sm btn-primary">VER TODOS LOS EVENTOS</a>
+    </div>
 
-{% endif %}
+    <hr>
+  </section>
+
+  {% if past_events %}
+    <section class="container">
+      <div class="row text-center clearfix">
+        <div class="col-sm-8 col-sm-offset-2">
+          <h2 class="title-one">Eventos pasados</h2>
+        </div>
+      </div>
+    </section>
+
+    {% include 'events/_events_grid.html' with events=past_events %}
+
+    <section class="container">
+      <div class="text-center">
+        <a href="{% url 'events:past_event_list' %}" class="btn btn-sm btn-primary">VER MÁS EVENTOS PASADOS</a>
+      </div>
+    </section>
+
+  {% endif %}
+
+  <section class="container">
+    <div class="row text-center clearfix">
+      <div class="col-sm-8 col-sm-offset-2">
+        <h2 class="title-one">Ciudades</h2>
+      </div>
+    </div>
+  </section>
+
+  {% include 'places/_cities_grid.html' %}
+
+  <section class="container">
+    <div class="row text-center clearfix">
+      <div class="col-sm-8 col-sm-offset-2">
+        <h2 class="title-one">Blog de Desparchado</h2>
+      </div>
+    </div>
+  </section>
+
+  {% include 'blog/_posts_grid.html' %}
 
 {% endblock content %}

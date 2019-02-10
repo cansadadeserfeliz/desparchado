@@ -6,6 +6,8 @@ from django.utils import timezone
 
 from events.models import Event
 from events.models import SocialNetworkPost
+from places.models import City
+from blog.models import Post
 
 
 class HomeView(TemplateView):
@@ -13,13 +15,19 @@ class HomeView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        events = Event.objects.published().future().all()[:18]
+        events = Event.objects.published().future().order_by('?').all()[:6]
         context['events'] = events
-        if events.count() <= 9:
+        if events.count() <= 3:
             context['past_events'] = \
-                Event.objects.published().past().order_by('-event_date').all()[:9]
+                Event.objects.published().past().order_by('-event_date').all()[:6]
         else:
             context['past_events'] = []
+
+        context['cities'] = City.objects.filter(
+            slug__in=['bogota', 'cali', 'cartagena']
+        ).order_by('?').all()
+
+        context['blog_posts'] = Post.objects.published().order_by('?').all()[:6]
         return context
 
 
