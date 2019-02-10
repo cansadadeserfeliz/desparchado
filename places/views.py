@@ -5,7 +5,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from dal import autocomplete
 
 from desparchado.utils import send_notification
+from events.models import Event
 from .models import Place
+from .models import City
 from .forms import PlaceForm
 
 
@@ -83,3 +85,17 @@ class PlaceUpdateView(LoginRequiredMixin, UpdateView):
     def form_valid(self, form):
         send_notification(self.request, self.object, 'place', False)
         return super().form_valid(form)
+
+
+class CityDetailView(DetailView):
+    model = City
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['events'] = Event.objects.published().filter(
+            place__city=self.object,
+        ).future().all()[:9]
+        context['past_events'] = Event.objects.published().filter(
+            place__city=self.object,
+        ).past().order_by('-event_date').all()[:9]
+        return context
