@@ -1,0 +1,12 @@
+<section class="container boxes-grid">
+  <div class="row row-eq-height">
+  {% for blog_post in blog_posts %}
+      {% include 'blog/_post_box.html' %}
+    {% if forloop.counter|divisibleby:3 and not forloop.last %}
+      </div>
+      <div class="row row-eq-height">
+    {% elif forloop.last %}
+      </div>
+    {% endif %}
+  {% endfor %}
+</section> <!--/.boxes-grid-->

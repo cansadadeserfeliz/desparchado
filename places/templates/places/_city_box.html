@@ -1,0 +1,13 @@
+<div class="desparchado-box col-sm-4">
+  <a class="link" href="{{ city.get_absolute_url }}">
+    <div class="box-img-wrap">
+      <img class="image img-responsive"
+           src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQ4AAACHAQMAAADdtyVCAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAANQTFRF////p8QbyAAAAAF0Uk5TAEDm2GYAAAAbSURBVBgZ7cExAQAAAMIg+6deCU9gAAAAAPAWEnUAAUFphIwAAAAASUVORK5CYII="
+           alt="{{ city.name }}" style="background-image: url({{ city.get_image_url }});">
+    </div>
+  </a>
+  <div class="box-inner">
+    <div class="box-subtitle">Ciudad</div>
+    <a href="{{ city.get_absolute_url }}"><h2 class="box-title">{{ city.name }}</h2></a>
+  </div>
+</div>

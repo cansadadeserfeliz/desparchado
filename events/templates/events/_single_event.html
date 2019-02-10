@@ -1,6 +1,6 @@
-<div class="event col-sm-4">
+<div class="event desparchado-box col-sm-4">
   <a class="link" href="{{ event.get_absolute_url }}">
-    <div class="event-img-wrap">
+    <div class="box-img-wrap">
       <img class="image img-responsive"
            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQ4AAACHAQMAAADdtyVCAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAANQTFRF////p8QbyAAAAAF0Uk5TAEDm2GYAAAAbSURBVBgZ7cExAQAAAMIg+6deCU9gAAAAAPAWEnUAAUFphIwAAAAASUVORK5CYII="
            alt="{{ event.title }}" style="background-image: url({{ event.get_image_url }});">
@@ -8,9 +8,9 @@
       {% if event.price %}<div class="ticket-price-label">{{ event.get_price_display }}</div>{% endif %}
     </div>
   </a>
-  <div class="event-inner">
-    <div class="event-type">{{ event.get_event_type_display }}</div>
-    <a href="{{ event.get_absolute_url }}"><h2 class="event-name">{{ event.title }}</h2></a>
+  <div class="box-inner">
+    <div class="box-subtitle">{{ event.get_event_type_display }}</div>
+    <a href="{{ event.get_absolute_url }}"><h2 class="box-title">{{ event.title }}</h2></a>
     <div class="event-date">
       {{ event.event_date|date:'j M Y' }},
       {{ event.event_date|date:'h:i a' }}

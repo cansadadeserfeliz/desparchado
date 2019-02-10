@@ -92,10 +92,19 @@ class CityDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['events'] = Event.objects.published().filter(
+
+        events = Event.objects.published().filter(
             place__city=self.object,
         ).future().all()[:9]
+        context['events'] = events
+
+        if events.count() <= 3:
+            past_events_limit = 9
+        else:
+            past_events_limit = 3
+
         context['past_events'] = Event.objects.published().filter(
             place__city=self.object,
-        ).past().order_by('-event_date').all()[:9]
+        ).past().order_by('-event_date').all()[:past_events_limit]
+
         return context

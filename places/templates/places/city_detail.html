@@ -1,7 +1,7 @@
 {% extends 'layout/base.html' %}
 {% load paginator_tags %}
 
-{% block title %}Eventos en {{ city.name }}{% endblock %}
+{% block title %}Eventos culturales y educativos en {{ city.name }}{% endblock %}
 
 {% block meta %}
   <meta property="og:title" content="Eventos en {{ city.name }} | Desparchado.co">
@@ -45,6 +45,14 @@
       <h4>Próximos eventos en {{ city.name }}</h4>
 
       {% include 'events/_events_grid.html' %}
+
+      <section classd="container">
+        <div class="text-center">
+          <a href="{% url 'events:event_list' %}?city={{ city.slug }}" class="btn btn-sm btn-primary">VER TODOS LOS EVENTOS</a>
+        </div>
+
+        <hr>
+      </section>
 
     {% endif %}
 
