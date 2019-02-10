@@ -67,6 +67,9 @@
     <div class="event-image">
       <div class="event-img-wrap">
         <img class="image img-responsive" alt="{{ event.title }}" src="{{ event.get_image_url }}">
+        <div class="city-name-label">
+          <a href="{{ event.place.city.get_absolute_url }}">{{ event.place.city.name }}</a>
+        </div>
         {% if event.price %}<div class="ticket-price-label">{{ event.get_price_display }}</div>{% endif %}
       </div>
     </div>

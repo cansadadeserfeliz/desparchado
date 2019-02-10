@@ -2,6 +2,7 @@
   <div class="container">
     <div class="row">
       <div class="col-md-4 margin-btm-20">
+
         <div class="footer-col">
           <h3>Acerca de</h3>
           <p>
@@ -13,11 +14,25 @@
             por editores o usuarios registrados.
           </p>
         </div>
+
         <div class="space-20"></div>
+
+        <div class="footer-col">
+          <h3>Ciudades</h3>
+          <ul class="footer-links list-unstyled">
+            <li><a href="{% url 'places:city_detail' 'bogota' %}">Bogotá</a></li>
+            <li><a href="{% url 'places:city_detail' 'cartagena' %}">Cartagena</a></li>
+            <li><a href="{% url 'places:city_detail' 'cali' %}">Cali</a></li>
+          </ul>
+        </div>
+
+        <div class="space-20"></div>
+
         <div class="footer-col">
           <h3>Contáctenos</h3>
           <p><a href="mailto:desparchado.co@gmail.com">desparchado.co@gmail.com</a></p>
         </div>
+
       </div><!--col-4 end-->
       <div class="col-md-4 margin-btm-20">
         <div class="footer-col">
