@@ -57,6 +57,11 @@ class PlaceAdmin(gis_admin.OSMGeoAdmin):
 
 @admin.register(City)
 class CityAdmin(gis_admin.OSMGeoAdmin):
+    list_display = [
+        'name',
+        'slug',
+        'description',
+    ]
 
     def get_actions(self, request):
         return []

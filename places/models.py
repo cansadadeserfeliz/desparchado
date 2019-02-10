@@ -66,3 +66,11 @@ class City(TimeStampedModel):
     class Meta:
         verbose_name = 'Ciudad'
         verbose_name_plural = 'Ciudades'
+
+    def get_absolute_url(self):
+        return reverse('places:city_detail', args=[self.slug])
+
+    def get_image_url(self):
+        if self.image:
+            return self.image.url
+        return static('images/default_place_image.png')
