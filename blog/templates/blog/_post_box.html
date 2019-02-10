@@ -1,0 +1,12 @@
+<div class="desparchado-box col-sm-4">
+  <a class="link" href="{{ blog_post.get_absolute_url }}">
+    <div class="box-img-wrap">
+      <img class="image img-responsive"
+           src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQ4AAACHAQMAAADdtyVCAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAANQTFRF////p8QbyAAAAAF0Uk5TAEDm2GYAAAAbSURBVBgZ7cExAQAAAMIg+6deCU9gAAAAAPAWEnUAAUFphIwAAAAASUVORK5CYII="
+           alt="{{ blog_post.title }}" style="background-image: url({{ blog_post.get_image_url }});">
+    </div>
+  </a>
+  <div class="box-inner">
+    <a href="{{ blog_post.get_absolute_url }}"><h2 class="box-title">{{ blog_post.title }}</h2></a>
+  </div>
+</div>
