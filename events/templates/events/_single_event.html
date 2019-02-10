@@ -4,6 +4,7 @@
       <img class="image img-responsive"
            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQ4AAACHAQMAAADdtyVCAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAANQTFRF////p8QbyAAAAAF0Uk5TAEDm2GYAAAAbSURBVBgZ7cExAQAAAMIg+6deCU9gAAAAAPAWEnUAAUFphIwAAAAASUVORK5CYII="
            alt="{{ event.title }}" style="background-image: url({{ event.get_image_url }});">
+      <div class="city-name-label">{{ event.place.city.name }}</div>
       {% if event.price %}<div class="ticket-price-label">{{ event.get_price_display }}</div>{% endif %}
     </div>
   </a>

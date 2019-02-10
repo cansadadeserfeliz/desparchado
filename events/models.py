@@ -44,7 +44,7 @@ class EventQuerySet(models.QuerySet):
         return self.filter(
             is_published=True,
             is_approved=True,
-        )
+        ).select_related('place', 'place__city')
 
 
 class Event(TimeStampedModel):
