@@ -46,6 +46,14 @@
 
       {% include 'events/_events_grid.html' %}
 
+      <section classd="container">
+        <div class="text-center">
+          <a href="{% url 'events:event_list' %}?city={{ city.slug }}" class="btn btn-sm btn-primary">VER TODOS LOS EVENTOS</a>
+        </div>
+
+        <hr>
+      </section>
+
     {% endif %}
 
     {% if past_events %}
