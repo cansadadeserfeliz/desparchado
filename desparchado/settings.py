@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'raven.contrib.django.raven_compat',
     'social_django',
     'crispy_forms',
+    'debug_toolbar',
 
     'dashboard',
     'events',
@@ -63,6 +64,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 AUTHENTICATION_BACKENDS = [
@@ -336,6 +339,12 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = ''
 EMAIL_HOST_PASSWORD = ''
 EMAIL_PORT = 587
+
+# django-debug-toolbar
+INTERNAL_IPS = [
+    '127.0.0.1',
+    'localhost',
+]
 
 try:
     if 'test' in sys.argv:
