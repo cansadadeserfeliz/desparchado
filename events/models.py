@@ -26,7 +26,7 @@ class EventQuerySet(models.QuerySet):
                 Q(event_end_date__isnull=True)
             ) | (
                 Q(event_end_date__gte=now) &
-                Q(event_date__gte=now - datetime.timedelta(days=7))
+                Q(event_date__gte=now - datetime.timedelta(days=14))
             ),
         )
 
