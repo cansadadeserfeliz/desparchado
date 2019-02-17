@@ -1,4 +1,4 @@
-from django.conf.urls import url
+from django.urls import path
 
 from .views import (
     PlaceListView,
@@ -10,43 +10,44 @@ from .views import (
 )
 
 
+app_name = 'places'
 urlpatterns = [
-    url(
-        r'^$',
+    path(
+        '',
         PlaceListView.as_view(),
         name='place_list'
     ),
-    url(
-        r'^places-autocomplete/$',
+    path(
+       'places-autocomplete/',
         PlaceAutocomplete.as_view(),
         name='place_autocomplete',
     ),
 
-    url(
-        r'^cities/(?P<slug>[\w-]+)/$',
+    path(
+        'cities/<slug:slug>/',
         CityDetailView.as_view(),
         name='city_detail'
     ),
 
-    url(
-        r'^add/$',
+    path(
+        'add/',
         PlaceCreateView.as_view(),
         name='place_add',
     ),
 
-    url(
-        r'^(?P<pk>\d+)/$',
+    path(
+        '<int:pk>/',
         PlaceDetailView.as_view(),
         name='place_detail'
     ),
-    url(
-        r'^(?P<slug>[\w-]+)/$',
+    path(
+        '<slug:slug>/',
         PlaceDetailView.as_view(),
         name='place_detail'
     ),
 
-    url(
-        r'^(?P<pk>\d+)/edit/$',
+    path(
+        '<int:pk>/edit/',
         PlaceUpdateView.as_view(),
         name='place_update'
     ),

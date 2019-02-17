@@ -1,6 +1,6 @@
 from datetime import timedelta
 
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.utils import timezone
 
 from django_webtest import WebTest
@@ -216,14 +216,14 @@ class OrganizerUpdateViewTest(WebTest):
 
     def test_redirects_for_non_authenticated_user(self):
         response = self.app.get(
-            reverse('events:organizer_update', args=[self.organizer.id]),
+            reverse('events:organizer_update', args=[self.organizer.slug]),
             status=302
         )
         self.assertIn(reverse('users:login'), response.location)
 
     def test_successfully_updates_organizer(self):
         response = self.app.get(
-            reverse('events:organizer_update', args=[self.organizer.id]),
+            reverse('events:organizer_update', args=[self.organizer.slug]),
             user=self.user,
             status=200,
         )

@@ -61,6 +61,7 @@ class Post(TimeStampedModel):
         settings.AUTH_USER_MODEL,
         verbose_name='Creado por',
         related_name='created_posts',
+        on_delete=models.DO_NOTHING,
     )
 
     related_events = models.ManyToManyField(

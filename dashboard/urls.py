@@ -1,52 +1,53 @@
-from django.conf.urls import url
+from django.urls import path
 
 from dashboard import views as dashboard_views
 
+app_name = 'dashboard'
 urlpatterns = [
-    url(
-        r'^$',
+    path(
+        '',
         dashboard_views.HomeView.as_view(),
         name='home'
     ),
-    url(
-        r'^events/$',
+    path(
+        'events/',
         dashboard_views.EventsListView.as_view(),
         name='events'
     ),
-    url(
-        r'^social-posts/$',
+    path(
+        'social-posts/',
         dashboard_views.SocialPostsListView.as_view(),
         name='social_posts'
     ),
-    url(
-        r'^social-posts/source/$$',
+    path(
+        'social-posts/source/',
         dashboard_views.social_events_source,
         name='social_posts_source'
     ),
-    url(
-        r'^places/$',
+    path(
+        'places/',
         dashboard_views.PlacesListView.as_view(),
         name='places'
     ),
-    url(
-        r'^users/$',
+    path(
+        'users/',
         dashboard_views.UsersListView.as_view(),
         name='users'
     ),
-    url(
-        r'^events-sources/$',
+    path(
+        'events-sources/',
         dashboard_views.EventSourceListView.as_view(),
         name='event_sources'
     ),
 
     # BLAA
-    url(
-        r'^blaa/events-list/$',
+    path(
+        'blaa/events-list/',
         dashboard_views.BlaaEventsListView.as_view(),
         name='blaa_events_list'
     ),
-    url(
-        r'^events/add/$',
+    path(
+        'events/add/',
         dashboard_views.EventCreateView.as_view(),
         name='event_add'
     ),

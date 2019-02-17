@@ -1,16 +1,17 @@
-from django.conf.urls import url
+from django.urls import path
 
 from .views import PostListView
 from .views import PostDetailView
 
+app_name = 'blog'
 urlpatterns = [
-    url(
-        r'^$',
+    path(
+        '',
         PostListView.as_view(),
         name='post_list'
     ),
-    url(
-        r'^(?P<slug>[\w-]+)/$',
+    path(
+        '<slug:slug>/',
         PostDetailView.as_view(),
         name='post_detail'
     ),

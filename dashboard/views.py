@@ -11,7 +11,7 @@ from django.db.models import Count
 from django.db.models.functions import ExtractWeekDay
 from django.db.models.functions import Cast
 from django.db.models.fields import DateField
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 from events.models import Event
 from events.models import Organizer

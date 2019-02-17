@@ -19,9 +19,17 @@ class Place(TimeStampedModel):
     description = models.TextField('Dirección', default='')
     website_url = models.URLField('Página web', null=True, blank=True)
     location = geo_models.PointField('Ubicación', null=False)
-    city = models.ForeignKey('places.City', verbose_name='Ciudad')
+    city = models.ForeignKey(
+        'places.City',
+        verbose_name='Ciudad',
+        on_delete=models.DO_NOTHING,
+    )
 
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name='Creado por')
+    created_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        verbose_name='Creado por',
+        on_delete=models.DO_NOTHING,
+    )
 
     class Meta:
         verbose_name = 'Lugar'

@@ -1,7 +1,7 @@
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from django.views import View
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.utils.html import format_html
 from django.utils.safestring import mark_safe
 from django.http import JsonResponse
@@ -214,7 +214,7 @@ class OrganizerAutocomplete(autocomplete.Select2QuerySetView):
 
     def get_queryset(self):
         # Don't forget to filter out results depending on the visitor!
-        if not self.request.user.is_authenticated():
+        if not self.request.user.is_authenticated:
             return Organizer.objects.none()
 
         qs = Organizer.objects.order_by('name').all()
@@ -238,7 +238,7 @@ class SpeakerAutocomplete(autocomplete.Select2QuerySetView):
 
     def get_queryset(self):
         # Don't forget to filter out results depending on the visitor!
-        if not self.request.user.is_authenticated():
+        if not self.request.user.is_authenticated:
             return Speaker.objects.none()
 
         qs = Speaker.objects.order_by('name').all()

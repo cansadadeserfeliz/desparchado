@@ -3,7 +3,7 @@ import random
 from django.views.generic import DetailView
 from django.views.generic import CreateView
 from django.views.generic import ListView
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 from .forms import HuntingOfSnarkGameCreateForm
 from .models import HuntingOfSnarkGame
