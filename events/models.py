@@ -18,7 +18,7 @@ from desparchado.templatetags.desparchado_tags import format_currency
 class EventQuerySet(models.QuerySet):
     def future(self):
         now = timezone.now()
-        # Show multi-day events during only 3 days
+        # Show multi-day events during only 5 days
         # after beginning
         return self.filter(
             (
@@ -26,7 +26,7 @@ class EventQuerySet(models.QuerySet):
                 Q(event_end_date__isnull=True)
             ) | (
                 Q(event_end_date__gte=now) &
-                Q(event_date__gte=now - datetime.timedelta(days=3))
+                Q(event_date__gte=now - datetime.timedelta(days=7))
             ),
         )
 
