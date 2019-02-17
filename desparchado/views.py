@@ -24,8 +24,8 @@ class HomeView(TemplateView):
             context['past_events'] = []
 
         context['cities'] = City.objects.filter(
-            slug__in=['bogota', 'cali', 'cartagena']
-        ).order_by('?').all()
+            slug__in=['bogota', 'cali', 'cartagena', 'medellin']
+        ).order_by('?').all()[:3]
 
         context['blog_posts'] = Post.objects.published().order_by('?').all()[:6]
         return context
