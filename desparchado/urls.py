@@ -16,69 +16,83 @@ Including another URLconf
 from django.conf import settings
 from django.views.generic import TemplateView
 from django.conf.urls.static import static
-from django.conf.urls import url, include
+from django.conf.urls import include
+from django.urls import path
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.contrib.sitemaps.views import sitemap
 
-from .views import HomeView, RssSiteEventsFeed, AtomSiteEventsFeed, \
+from .views import HomeView, AtomSiteEventsFeed, \
     SocialNetworksRssSiteEventsFeed
 from .sitemap import sitemaps
 
 
 urlpatterns = [
-    url(r'^$', HomeView.as_view(), name='home'),
-    url(r'^about/$', TemplateView.as_view(template_name='desparchado/about.html'), name='about'),
+    path('', HomeView.as_view(), name='home'),
+    path(
+        'about/',
+        TemplateView.as_view(template_name='desparchado/about.html'),
+        name='about'
+    ),
 
-    url(
-        r'^markdown/$',
+    path(
+        'about-markdown/',
         TemplateView.as_view(template_name='desparchado/markdown.html'),
         name='markdown',
     ),
 
-    url(
-        r'^terms-and-conditions/$',
+    path(
+        'terms-and-conditions/',
         TemplateView.as_view(
             template_name='desparchado/terms_and_conditions.html',
         ),
         name='terms_and_conditions'
     ),
-    url(r'^404/$', TemplateView.as_view(template_name='404.html'), name='page_404'),
-    url(r'^500/$', TemplateView.as_view(template_name='500.html'), name='page_500'),
-    url(r'^rss/$', SocialNetworksRssSiteEventsFeed(), name='rss'),
-    url(
-        r'^rss/social-networks/$',
+    path(
+        '404/',
+        TemplateView.as_view(template_name='404.html'),
+        name='page_404'
+    ),
+    path(
+        '500/',
+        TemplateView.as_view(template_name='500.html'),
+        name='page_500'
+    ),
+    path('rss/', SocialNetworksRssSiteEventsFeed(), name='rss'),
+    path(
+        'rss/social-networks/',
         SocialNetworksRssSiteEventsFeed(),
         name='rss_social_networks',
     ),
-    url(r'^atom/$', AtomSiteEventsFeed(), name='atom'),
+    path('atom/', AtomSiteEventsFeed(), name='atom'),
 
-    url(r'^events/', include('events.urls', namespace='events')),
-    url(r'^places/', include('places.urls', namespace='places')),
-    url(r'^users/', include('users.urls', namespace='users')),
-    url(r'^blog/', include('blog.urls', namespace='blog')),
-    url(r'^games/', include('games.urls', namespace='games')),
-    url(r'^dashboard/', include('dashboard.urls', namespace='dashboard')),
+    path('events/', include('events.urls', namespace='events')),
+    path('places/', include('places.urls', namespace='places')),
+    path('users/', include('users.urls', namespace='users')),
+    path('blog/', include('blog.urls', namespace='blog')),
+    path('games/', include('games.urls', namespace='games')),
+    path('dashboard/', include('dashboard.urls', namespace='dashboard')),
 
-    url(r'^i18n/', include('django.conf.urls.i18n')),
+    path('i18n/', include('django.conf.urls.i18n')),
 
-    url(r'^logout/$', auth_views.logout, name='logout'),
+    path('logout/', auth_views.logout, name='logout'),
 
-    url('', include('social_django.urls', namespace='social')),
+    path('', include('social_django.urls', namespace='social')),
 
-    url(r'^grappelli/', include('grappelli.urls')),  # grappelli URLS
-    url(r'^admin/', include(admin.site.urls)),  # admin site
+    path('grappelli/', include('grappelli.urls')),  # grappelli URLS
+    path('admin/', admin.site.urls),
+    path('markdownx/', include('markdownx.urls')),
 
-    url(r'^sitemap\.xml$', sitemap, {'sitemaps': sitemaps},
+    path('sitemap\.xml', sitemap, {'sitemaps': sitemaps},
         name='django.contrib.sitemaps.views.sitemap')
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:
     import debug_toolbar
     urlpatterns = [
-        # path('__debug__/', include(debug_toolbar.urls)),
+        path('__debug__/', include(debug_toolbar.urls)),
 
         # For django versions before 2.0:
-        url(r'^__debug__/', include(debug_toolbar.urls)),
+        # url(r'^__debug__/', include(debug_toolbar.urls)),
 
     ] + urlpatterns

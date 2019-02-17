@@ -154,6 +154,7 @@ class Event(TimeStampedModel):
         'events.Organizer',
         verbose_name='Organizador',
         related_name='events',
+        on_delete=models.DO_NOTHING,
         help_text=
         'Por favor, asegúrese de que el organizador que '
         'quiere asignar al evento '
@@ -162,6 +163,7 @@ class Event(TimeStampedModel):
     place = models.ForeignKey(
         'places.Place', verbose_name='Lugar',
         related_name='events',
+        on_delete=models.DO_NOTHING,
         help_text=
         'Por favor, asegúrese de que el lugar que '
         'quiere asignar al evento no existe en '
@@ -188,6 +190,7 @@ class Event(TimeStampedModel):
 
     created_by = models.ForeignKey(
         settings.AUTH_USER_MODEL,
+        on_delete=models.DO_NOTHING,
         verbose_name='Creado por',
         related_name='created_events',
     )
@@ -241,7 +244,10 @@ class Organizer(TimeStampedModel):
     image_source_url = models.URLField(
         'Enlace a la fuente de la imagen', null=True, blank=True)
 
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL)
+    created_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.DO_NOTHING,
+    )
 
     class Meta:
         verbose_name = 'Organizador'
@@ -273,7 +279,10 @@ class Speaker(TimeStampedModel):
     image_source_url = models.URLField(
         'Enlace a la fuente de la imagen', null=True, blank=True)
 
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL)
+    created_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.DO_NOTHING,
+    )
 
     class Meta:
         verbose_name = 'Presentador'
@@ -299,13 +308,17 @@ class SocialNetworkPost(TimeStampedModel):
     event = models.ForeignKey(
         'events.Event',
         related_name='social_posts',
+        on_delete=models.DO_NOTHING,
     )
     description = models.TextField(
         verbose_name='Descripción',
         help_text='Texto de publicación',
     )
     published_at = models.DateTimeField('Fecha de publicación')
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL)
+    created_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.DO_NOTHING,
+    )
 
     def __str__(self):
         return self.description

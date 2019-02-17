@@ -1,7 +1,7 @@
 import os
 import sys
 
-from django.core.urlresolvers import reverse_lazy
+from django.urls import reverse_lazy
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.postgres',
 
     'axes',
-    'django_markdown',
+    'markdownx',
     'mapwidgets',
     'pipeline',
     'raven.contrib.django.raven_compat',
@@ -344,6 +344,10 @@ EMAIL_PORT = 587
 INTERNAL_IPS = [
     '127.0.0.1',
     'localhost',
+]
+
+MARKDOWNX_MARKDOWN_EXTENSIONS = [
+    'markdown.extensions.extra'
 ]
 
 try:

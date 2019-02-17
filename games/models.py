@@ -58,6 +58,7 @@ class HuntingOfSnarkCriteria(TimeStampedModel):
     category = models.ForeignKey(
         'games.HuntingOfSnarkCategory',
         related_name='criteria',
+        on_delete=models.DO_NOTHING,
     )
 
     def __str__(self):

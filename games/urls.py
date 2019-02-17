@@ -1,4 +1,4 @@
-from django.conf.urls import url
+from django.urls import path
 
 from django.views.generic import TemplateView
 from .views import HuntingOfSnarkGameCreateView
@@ -6,31 +6,32 @@ from .views import HuntingOfSnarkGameDetailView
 from .views import HuntingOfSnarkCriteriaListView
 from .views import HuntingOfSnarkGameListView
 
+app_name = 'games'
 urlpatterns = [
-    url(
-        r'^snark/$',
+    path(
+        'snark/',
         HuntingOfSnarkGameCreateView.as_view(),
         name='hunting_of_snark_create'
     ),
-    url(
-        r'^snark/criteria/$',
+    path(
+        'snark/criteria/',
         HuntingOfSnarkCriteriaListView.as_view(),
         name='hunting_of_snark_criteria_list'
     ),
-    url(
-        r'^snark/all/$',
+    path(
+        'snark/all/',
         HuntingOfSnarkGameListView.as_view(),
         name='hunting_of_snark_games_list'
     ),
-    url(
-        r'^snark/lists/bbc-top-100/$',
+    path(
+        'snark/lists/bbc-top-100/',
         TemplateView.as_view(
             template_name='games/hunting_of_snark_bbc_top_100.html'
         ),
         name='hunting_of_snark_bbc_top_100'
     ),
-    url(
-        r'^snark/(?P<slug>[\w-]+)/$',
+    path(
+        'snark/<slug:slug>/',
         HuntingOfSnarkGameDetailView.as_view(),
         name='hunting_of_snark_detail'
     ),
