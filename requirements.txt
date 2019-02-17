@@ -1,5 +1,5 @@
 # Framework
-Django==1.11.18
+Django==1.11.20
 
 # Python Libs
 Pillow==4.0.0
