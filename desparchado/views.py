@@ -79,6 +79,7 @@ class SocialNetworksRssSiteEventsFeed(Feed):
             event__is_published=True,
             event__is_approved=True,
             published_at__lte=timezone.now(),
+            published_at__gte=timezone.datetime(2019, 2, 27),
         ).select_related('event').order_by('published_at')
 
 
