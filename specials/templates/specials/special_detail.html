@@ -33,21 +33,16 @@
 
   <section class="special-detail" id="special_detail">
 
-    <h1>{{ special.title }}</h1>
+    <h4>Eventos</h4>
 
-    <div class="text">
+    {% include 'events/_events_grid.html' with events=special.related_events.all %}
 
-      <div>
-        {{ special.description|markdown }}
-      </div>
+    <br>
 
-      <br>
-
-      <p>Compártalo con sus amigos:</p>
-      <p>
-        <div class="addthis_inline_share_toolbox"></div>
-      </p>
-    </div>
+    <p>Compártalo con sus amigos:</p>
+    <p>
+      <div class="addthis_inline_share_toolbox"></div>
+    </p>
 
     {% include 'includes/_disqus_comments.html' with page_id="special-"|add:special.slug %}
   </section>
