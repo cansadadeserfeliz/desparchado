@@ -13,27 +13,15 @@
 {% endblock %}
 
 {% block subheader %}
-<div class="games-header-menu">
-  <ul class="nav nav-pills ">
-    <li role="presentation"><a href="{% url 'games:hunting_of_snark_create' %}">Jugar</a></li>
-    <li role="presentation"><a href="{% url 'games:hunting_of_snark_criteria_list' %}">Criterios</a></li>
-    <li role="presentation"><a href="{% url 'games:hunting_of_snark_games_list' %}">Juegos</a></li>
-  </ul>
-</div>
-<section class="game-header"
-         style="background-image: url('{{ special.image }}')">
+<section class="blog-header" style="background-image: url('{{ special.get_image_url }}')">
   <div class="overlay"></div>
 
   <div class="container">
     <div class="row">
       <div class="col-lg-8 col-md-10 mx-auto">
-        <div class="game-heading">
-          <h1>
-            {{ special.title }}
-          </h1>
-          <span class="subheading">
-            {{ special.title }}
-          </span>
+        <div class="post-heading">
+          <h1>{{ special.title }}</h1>
+          <h2 class="subheading">{{ special.description|markdown }}</h2>
         </div>
       </div>
     </div>
@@ -43,7 +31,7 @@
 
 {% block content %}
 
-  <section class="hunting-of-snark" id="hunting_of_snark_detail">
+  <section class="special-detail" id="special_detail">
 
     <h1>{{ special.title }}</h1>
 

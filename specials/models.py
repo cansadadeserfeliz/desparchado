@@ -33,3 +33,7 @@ class Special(TimeStampedModel):
 
     def get_absolute_url(self):
         return reverse('specials:special_detail', args=[self.slug])
+
+    def get_image_url(self):
+        return self.image.url
+
