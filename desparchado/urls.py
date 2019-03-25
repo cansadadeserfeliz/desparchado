@@ -71,6 +71,7 @@ urlpatterns = [
     path('users/', include('users.urls', namespace='users')),
     path('blog/', include('blog.urls', namespace='blog')),
     path('games/', include('games.urls', namespace='games')),
+    path('specials/', include('specials.urls', namespace='specials')),
     path('dashboard/', include('dashboard.urls', namespace='dashboard')),
 
     path('i18n/', include('django.conf.urls.i18n')),

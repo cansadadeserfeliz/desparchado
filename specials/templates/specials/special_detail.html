@@ -1,0 +1,50 @@
+{% extends 'layout/base.html' %}
+{% load i18n staticfiles desparchado_tags %}
+
+{% block title %}{{ special.title }}{% endblock %}
+
+{% block meta %}
+  <meta property="og:title" content="La caza del Snark en Desparchado.co">
+  <meta property="og:description" content="Juego literario">
+  <meta property="og:image" content="https://{{ request.get_host }}{% static 'images/hunting_of_snark_bg.jpeg' %}">
+
+  <meta name="twitter:title" content="La caza del Snark en Desparchado.co">
+  <meta name="twitter:description" content="Juego literario">
+{% endblock %}
+
+{% block subheader %}
+<section class="blog-header" style="background-image: url('{{ special.get_image_url }}')">
+  <div class="overlay"></div>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-md-10 mx-auto">
+        <div class="post-heading">
+          <h1>{{ special.title }}</h1>
+          <h2 class="subheading">{{ special.description|markdown }}</h2>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock subheader %}
+
+{% block content %}
+
+  <section class="special-detail" id="special_detail">
+
+    <h4>Eventos</h4>
+
+    {% include 'events/_events_grid.html' with events=special.related_events.all %}
+
+    <br>
+
+    <p>Compártalo con sus amigos:</p>
+    <p>
+      <div class="addthis_inline_share_toolbox"></div>
+    </p>
+
+    {% include 'includes/_disqus_comments.html' with page_id="special-"|add:special.slug %}
+  </section>
+
+{% endblock content %}
