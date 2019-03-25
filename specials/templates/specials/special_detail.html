@@ -1,0 +1,67 @@
+{% extends 'layout/base.html' %}
+{% load i18n staticfiles desparchado_tags %}
+
+{% block title %}{{ special.title }}{% endblock %}
+
+{% block meta %}
+  <meta property="og:title" content="La caza del Snark en Desparchado.co">
+  <meta property="og:description" content="Juego literario">
+  <meta property="og:image" content="https://{{ request.get_host }}{% static 'images/hunting_of_snark_bg.jpeg' %}">
+
+  <meta name="twitter:title" content="La caza del Snark en Desparchado.co">
+  <meta name="twitter:description" content="Juego literario">
+{% endblock %}
+
+{% block subheader %}
+<div class="games-header-menu">
+  <ul class="nav nav-pills ">
+    <li role="presentation"><a href="{% url 'games:hunting_of_snark_create' %}">Jugar</a></li>
+    <li role="presentation"><a href="{% url 'games:hunting_of_snark_criteria_list' %}">Criterios</a></li>
+    <li role="presentation"><a href="{% url 'games:hunting_of_snark_games_list' %}">Juegos</a></li>
+  </ul>
+</div>
+<section class="game-header"
+         style="background-image: url('{{ special.image }}')">
+  <div class="overlay"></div>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-md-10 mx-auto">
+        <div class="game-heading">
+          <h1>
+            {{ special.title }}
+          </h1>
+          <span class="subheading">
+            {{ special.title }}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock subheader %}
+
+{% block content %}
+
+  <section class="hunting-of-snark" id="hunting_of_snark_detail">
+
+    <h1>{{ special.title }}</h1>
+
+    <div class="text">
+
+      <div>
+        {{ special.description|markdown }}
+      </div>
+
+      <br>
+
+      <p>Compártalo con sus amigos:</p>
+      <p>
+        <div class="addthis_inline_share_toolbox"></div>
+      </p>
+    </div>
+
+    {% include 'includes/_disqus_comments.html' with page_id="special-"|add:special.slug %}
+  </section>
+
+{% endblock content %}
