@@ -36,6 +36,10 @@ class Special(TimeStampedModel):
     )
     description = models.TextField('Descripción', default='')
 
+    @property
+    def events(self):
+        return self.related_events.published().all()
+
     def get_absolute_url(self):
         return reverse('specials:special_detail', args=[self.slug])
 
