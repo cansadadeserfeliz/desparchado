@@ -10,6 +10,11 @@ class Special(TimeStampedModel):
         'Título',
         max_length=255,
     )
+    subtitle = models.CharField(
+        'Título',
+        default='',
+        max_length=500,
+    )
     slug = AutoSlugField(
         null=False, unique=True,
         populate_from='title',
