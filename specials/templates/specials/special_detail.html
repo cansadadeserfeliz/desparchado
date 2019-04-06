@@ -4,9 +4,9 @@
 {% block title %}{{ special.title }}{% endblock %}
 
 {% block meta %}
-  <meta property="og:title" content="La caza del Snark en Desparchado.co">
-  <meta property="og:description" content="Juego literario">
-  <meta property="og:image" content="https://{{ request.get_host }}{% static 'images/hunting_of_snark_bg.jpeg' %}">
+  <meta property="og:title" content="{{ special.title }} en Desparchado.co">
+  <meta property="og:description" content="{{ special.subtitle }}">
+  <meta property="og:image" content="https://{{ request.get_host }}{{ special.get_image_url }}">
 
   <meta name="twitter:title" content="La caza del Snark en Desparchado.co">
   <meta name="twitter:description" content="Juego literario">
