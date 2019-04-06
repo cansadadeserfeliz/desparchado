@@ -42,7 +42,7 @@
       <div class="addthis_inline_share_toolbox"></div>
     </p>
 
-  {% regroup special.events.all by event_date|date:"Y-m-d" as related_events_list %}
+  {% regroup special.events.all by event_date|date:"l, j M Y" as related_events_list %}
   <div>
   {% for related_events_group in related_events_list %}
       <h3>{{ related_events_group.grouper }}</h3>
