@@ -21,7 +21,7 @@
       <div class="col-lg-8 col-md-10 mx-auto">
         <div class="post-heading">
           <h1>{{ special.title }}</h1>
-          <h2 class="subheading">{{ special.description|markdown }}</h2>
+          <h2 class="subheading">{{ special.subtitle }}</h2>
         </div>
       </div>
     </div>
@@ -33,16 +33,28 @@
 
   <section class="special-detail" id="special_detail">
 
-    <h4>Eventos</h4>
-
-    {% include 'events/_events_grid.html' with events=special.related_events.all %}
-
-    <br>
+    <div class="text">
+      {{ special.description|markdown }}
+    </div>
 
     <p>Compártalo con sus amigos:</p>
     <p>
       <div class="addthis_inline_share_toolbox"></div>
     </p>
+
+  {% regroup special.related_events.all by event_date|date:"Y-m-d" as related_events_list %}
+  <div>
+  {% for related_events_group in related_events_list %}
+      <h3>{{ related_events_group.grouper }}</h3>
+      {% include 'events/_events_grid.html' with events=related_events_group.list %}
+  {% endfor %}
+  </div>
+
+    {% regroup special.related_events.all by created_at|date:"Y-m-d" as events_by_day %}
+    {% for d in events_by_day %}
+      {{ d.grouper }}
+
+    {% endfor %}
 
     {% include 'includes/_disqus_comments.html' with page_id="special-"|add:special.slug %}
   </section>
