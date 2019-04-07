@@ -1,15 +1,15 @@
 {% extends 'layout/base.html' %}
 {% load i18n staticfiles desparchado_tags %}
 
-{% block title %}{{ special.title }}{% endblock %}
+{% block title %}{{ special.title }} en Desparchado.co{% endblock %}
 
 {% block meta %}
   <meta property="og:title" content="{{ special.title }} en Desparchado.co">
   <meta property="og:description" content="{{ special.subtitle }}">
   <meta property="og:image" content="https://{{ request.get_host }}{{ special.get_image_url }}">
 
-  <meta name="twitter:title" content="La caza del Snark en Desparchado.co">
-  <meta name="twitter:description" content="Juego literario">
+  <meta name="twitter:title" content="{{ special.subtitle }} en Desparchado.co">
+  <meta name="twitter:description" content="{{ special.subtitle }}">
 {% endblock %}
 
 {% block subheader %}
@@ -42,7 +42,7 @@
       <div class="addthis_inline_share_toolbox"></div>
     </p>
 
-  {% regroup special.events.all by event_date|date:"l, j M Y" as related_events_list %}
+  {% regroup special.events.all by event_date|date:"l, j N Y" as related_events_list %}
   <div>
   {% for related_events_group in related_events_list %}
       <h3>{{ related_events_group.grouper }}</h3>
