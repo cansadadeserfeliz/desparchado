@@ -37,23 +37,44 @@
       {{ special.description|markdown }}
     </div>
 
+    <h3>Presentadores</h3>
+
+    <div>
+      <div class="image-gallery-container">
+      {% for speaker in speakers %}
+        <article class="image-gallery-listing">
+          <a class="image-gallery-title" href="{{ speaker.get_absolute_url }}">{{ speaker.name }}</a>
+          <div class="image-gallery-image-wrapper">
+            <a href="{{ speaker.get_absolute_url }}">
+              <div class="image"
+                   style="background-image: url('{{ speaker.get_image_url }}');"
+                   title="{{ speaker.name }}">
+              </div>
+            </a>
+          </div>
+        </article>
+      {% endfor %}
+      </div>
+    </div>
+
+    <br>
+
     <p>Compártalo con sus amigos:</p>
     <p>
       <div class="addthis_inline_share_toolbox"></div>
     </p>
 
-  {% regroup special.events.all by event_date|date:"l, j N Y" as related_events_list %}
-  <div>
-  {% for related_events_group in related_events_list %}
-      <h3>{{ related_events_group.grouper }}</h3>
-      {% include 'events/_events_grid.html' with events=related_events_group.list %}
-  {% endfor %}
-  </div>
+    {% regroup related_events by event_date|date:"l, j N Y" as related_events_list %}
+    <div>
+    {% for related_events_group in related_events_list %}
+        <h3>{{ related_events_group.grouper }}</h3>
+        {% include 'events/_events_grid.html' with events=related_events_group.list %}
+    {% endfor %}
+    </div>
 
     {% regroup special.related_events.all by created_at|date:"Y-m-d" as events_by_day %}
     {% for d in events_by_day %}
       {{ d.grouper }}
-
     {% endfor %}
 
     {% include 'includes/_disqus_comments.html' with page_id="special-"|add:special.slug %}
