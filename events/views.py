@@ -102,7 +102,7 @@ class SpeakerDetailView(DetailView):
 class SpeakerListView(ListView):
     model = Speaker
     context_object_name = 'speakers'
-    paginate_by = 20
+    paginate_by = 56
     ordering = 'name'
 
     def dispatch(self, request, *args, **kwargs):

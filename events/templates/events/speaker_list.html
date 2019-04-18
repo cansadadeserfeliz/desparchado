@@ -24,40 +24,34 @@
     </div><!-- /.col-lg-6 -->
   </div><!-- /.row -->
 
-  <div class="row row-eq-height">
-  {% for speaker in speakers %}
-    <div class="col-xs-3 speaker-card">
-      <a class="link" href="{{ speaker.get_absolute_url }}">
-        <div class="speaker-card-logo">
-          <a class="link" tabindex="0" href="{{ speaker.get_absolute_url }}">
-            <div class="image" style="background-image: url('{{ speaker.get_image_url }}');"
-                 title="{{ speaker.name }}"></div>
-          </a>
-        </div>
-      </a>
-
-      <div class="speaker-card-inner">
-        <div class="speaker-card-title-wrap">
-          <h2 class="speaker-card-title">
-            <a class="link" href="{{ speaker.get_absolute_url }}">{{ speaker.name }}</a>
-          </h2>
-        </div>
+  <div class="row">
+    {% if speakers.exists %}
+    <div>
+      <div class="image-gallery-container">
+      {% for speaker in speakers %}
+        <article class="image-gallery-listing">
+          <a class="image-gallery-title image-gallery-title-show" href="{{ speaker.get_absolute_url }}">{{ speaker.name }}</a>
+          <div class="image-gallery-image-wrapper">
+            <a href="{{ speaker.get_absolute_url }}">
+              <div class="image"
+                   style="background-image: url('{{ speaker.get_image_url }}');"
+                   title="{{ speaker.name }}">
+              </div>
+            </a>
+          </div>
+        </article>
+      {% endfor %}
       </div>
     </div>
-    {% if forloop.counter|divisibleby:4 and not forloop.last %}
-      </div>
-      <div class="row row-eq-height">
-    {% elif forloop.last %}
+    {% else %}
+      <div class="text-center" style="width: 100%; margin-top: 20px;">
+        <p>No encontramos resultados para su búsqueda: "{{ search_string }}".</p>
+        <p>
+          <a href="{% url 'events:speaker_list' %}" class="btn btn-sm btn-primary">TODOS PRESENTADORES</a>
+        </p>
       </div>
     {% endif %}
-  {% empty %}
-    <div class="text-center" style="width: 100%; margin-top: 20px;">
-      <p>No encontramos resultados para su búsqueda: "{{ search_string }}".</p>
-      <p>
-        <a href="{% url 'events:speaker_list' %}" class="btn btn-sm btn-primary">TODOS PRESENTADORES</a>
-      </p>
-    </div>
-  {% endfor %}
+  </div>
 
   {% get_pagination 2 1 %}
 </section><!--/#speaker-list-->
