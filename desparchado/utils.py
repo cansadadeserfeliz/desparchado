@@ -30,6 +30,9 @@ def send_notification(request, obj, model_name, created):
     """
     Send notification about creation or edition of an object.
     """
+    if request.user.is_superuser:
+        return
+
     try:
         send_mail(
             '{purpose} {model} "{obj}" by {user}'.format(
