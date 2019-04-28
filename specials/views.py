@@ -1,3 +1,5 @@
+from collections import OrderedDict
+
 from django.views.generic import DetailView
 from django.utils.timezone import localtime
 
@@ -16,7 +18,7 @@ class SpecialDetailView(DetailView):
             id__in=speaker_ids,
         ).exclude(image='').all()
 
-        related_events_by_date = dict()
+        related_events_by_date = OrderedDict()
         for event in related_events:
             related_events_by_date.setdefault(
                 localtime(event.event_date).date(),
