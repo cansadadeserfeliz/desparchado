@@ -63,19 +63,23 @@
     <p>
       <div class="addthis_inline_share_toolbox"></div>
     </p>
-
-    {% regroup related_events by event_date|date:"l, j N Y" as related_events_list %}
-    <div>
-    {% for related_events_group in related_events_list %}
-        <h3>{{ related_events_group.grouper }}</h3>
-        {% include 'events/_events_grid.html' with events=related_events_group.list %}
+  
+    <div class="row text-center specials-nav">
+    {% for event_date in related_events_by_date.keys %}
+      <div class="col-xs-6 col-sm-3 col-md-2 item">
+        <div class="">
+          <a href="#{{ event_date|date:"Y-m-d" }}"> {{ event_date|date:"Y-m-d" }}</a>
+        </div>
+      </div>
     {% endfor %}
     </div>
 
-    {% regroup special.related_events.all by created_at|date:"Y-m-d" as events_by_day %}
-    {% for d in events_by_day %}
-      {{ d.grouper }}
+    <div>
+    {% for event_date, events in related_events_by_date.items %}
+        <h3 id="{{ event_date|date:"Y-m-d" }}">{{ event_date|date:"l, j N Y" }}</h3>
+        {% include 'events/_events_grid.html' with events=events %}
     {% endfor %}
+    </div>
 
     {% include 'includes/_disqus_comments.html' with page_id="special-"|add:special.slug %}
   </section>
