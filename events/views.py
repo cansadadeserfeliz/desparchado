@@ -66,6 +66,8 @@ class EventDetailView(DetailView):
         context['related_events'] = Event.objects.exclude(
             id=self.object.id
         ).published().future().order_by('?')[:3]
+        context['press_articles'] = \
+            list(self.object.press_articles.select_related('media_source'))
         return context
 
 

@@ -53,6 +53,10 @@ class PressArticle(TimeStampedModel):
     publication_date = models.DateTimeField('Fecha de publicación')
     excerpt = models.TextField('Excerpt')
 
+    @staticmethod
+    def autocomplete_search_fields():
+        return ('title__icontains',)
+
     def get_image_url(self):
         return self.image.url
 

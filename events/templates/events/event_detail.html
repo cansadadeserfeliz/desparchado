@@ -216,11 +216,13 @@
 
 <div>
   {% if related_events.exists %}
-
     <h4>Eventos relacionados</h4>
-
     {% include 'events/_events_grid.html' with events=related_events.all %}
+  {% endif %}
 
+  {% if press_articles %}
+    <h4>Artículos relacionados</h4>
+    {% include 'news/_press_articles.html' with press_articles=press_articles %}
   {% endif %}
 
   {% include 'includes/_disqus_comments.html' with page_id="event-"|add:event.id %}
