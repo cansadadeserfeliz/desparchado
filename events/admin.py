@@ -70,14 +70,24 @@ class EventAdmin(admin.ModelAdmin):
                 'speakers',
             ),
         }),
+        (_('Extra'), {
+            'fields': (
+                'press_articles',
+            ),
+        }),
     )
 
     ordering = ('-created', '-is_published')
 
-    raw_id_fields = ('organizer', 'place', 'speakers')
+    raw_id_fields = (
+        'organizer',
+        'place',
+        'speakers',
+        'press_articles',
+    )
     autocomplete_lookup_fields = {
         'fk': ['organizer', 'place'],
-        'm2m': ['speakers'],
+        'm2m': ['speakers', 'press_articles'],
     }
 
     def get_actions(self, request):

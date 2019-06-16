@@ -14,7 +14,10 @@ class MediaSourceAdmin(admin.ModelAdmin):
 
 @admin.register(PressArticle)
 class PressArticleAdmin(admin.ModelAdmin):
+    search_fields = ('title',)
+
     list_display = [
         'title',
         'source_url',
+        'publication_date',
     ]
