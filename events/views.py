@@ -68,6 +68,7 @@ class EventDetailView(DetailView):
         ).published().future().order_by('?')[:3]
         context['press_articles'] = \
             list(self.object.press_articles.select_related('media_source'))
+        context['books'] = list(self.object.books.published())
         return context
 
 

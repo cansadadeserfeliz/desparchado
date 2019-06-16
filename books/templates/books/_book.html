@@ -1,0 +1,12 @@
+<div class="book-group">
+  <div class="book">
+    <img class="image img-responsive" src="{{ book.get_image_url }}" alt="{{ book.title }}" />
+    <div class="book-head">
+      <h1 class="book-title">
+        <a href="{{ book.get_absolute_url }}">
+          {{ book.title }}
+        </a>
+      </h1>
+    </div>
+  </div>
+</div>

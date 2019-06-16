@@ -207,6 +207,16 @@
     </section> <!--/.boxes-grid-->
   {% endfor %}
 
+  {% if books %}
+    <h3 class="secondary-title">Libro{{ books|length|pluralize }}</h3>
+
+    <div class="related-books">
+      {% for book in books %}
+        {% include 'books/_book.html' %}
+      {% endfor %}
+    </div>
+  {% endif %}
+
   <br>
 
   <div class="fb-page" data-href="https://www.facebook.com/DesparchadoCo/" data-small-header="true" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="false"><blockquote cite="https://www.facebook.com/DesparchadoCo/" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/DesparchadoCo/">Desparchado</a></blockquote></div>

@@ -1,6 +1,7 @@
 from django.db import models
 from django.urls import reverse
 from django.core.validators import RegexValidator
+from django.templatetags.static import static
 
 from model_utils.models import TimeStampedModel
 from autoslug import AutoSlugField
@@ -59,7 +60,10 @@ class Book(TimeStampedModel):
         return ('title__icontains',)
 
     def get_image_url(self):
-        return self.image.url
+        if self.image:
+            return self.image.url
+        return static('images/default_book_image.png')
+
 
     def get_absolute_url(self):
         return reverse('books:book_detail', args=[self.slug])
