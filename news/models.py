@@ -23,3 +23,10 @@ class MediaSource(TimeStampedModel):
 
     def get_image_url(self):
         return self.image.url
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = 'Media Source'
+        verbose_name_plural = 'Media Sources'

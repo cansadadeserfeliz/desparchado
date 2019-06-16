@@ -46,3 +46,9 @@ class Special(TimeStampedModel):
     def get_image_url(self):
         return self.image.url
 
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = 'Special'
+        verbose_name_plural = 'Specials'
