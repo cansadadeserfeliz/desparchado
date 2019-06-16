@@ -50,6 +50,7 @@ class PressArticle(TimeStampedModel):
         on_delete=models.PROTECT,
     )
     source_url = models.URLField('Enlace a la página del artítulo')
+    publication_date = models.DateTimeField('Fecha de publicación')
     excerpt = models.TextField('Excerpt')
 
     def get_image_url(self):
