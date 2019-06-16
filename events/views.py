@@ -68,7 +68,8 @@ class EventDetailView(DetailView):
         ).published().future().order_by('?')[:3]
         context['press_articles'] = \
             list(self.object.press_articles.select_related('media_source'))
-        context['books'] = list(self.object.books.published())
+        context['books'] = \
+            list(self.object.books.prefetch_related('authors').published())
         return context
 
 
@@ -95,10 +96,16 @@ class SpeakerDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['events'] = \
-            self.get_object().events.published().future().all()[:9]
+        speaker = self.get_object()
+        context['events'] = speaker.events.published().future().all()[:9]
         context['past_events'] = \
-            self.get_object().events.published().past().order_by('-event_date').all()[:9]
+            speaker.events.published().past().order_by('-event_date').all()[:9]
+
+        books = []
+        if hasattr(speaker, 'book_author'):
+            books = list(speaker.book_author.books.prefetch_related('authors').all())
+        context['books'] = books
+
         return context
 
 

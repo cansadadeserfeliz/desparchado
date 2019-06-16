@@ -1,6 +1,7 @@
 from django.contrib import admin
 
 from .models import Book
+from .models import Author
 
 
 @admin.register(Book)
@@ -20,11 +21,13 @@ class BookAdmin(admin.ModelAdmin):
     raw_id_fields = (
         'related_events',
         'press_articles',
+        'authors',
     )
     autocomplete_lookup_fields = {
         'm2m': [
             'related_events',
             'press_articles',
+            'authors',
         ],
     }
 
@@ -38,3 +41,22 @@ class BookAdmin(admin.ModelAdmin):
 
     def get_actions(self, request):
         return []
+
+
+@admin.register(Author)
+class AuthorAdmin(admin.ModelAdmin):
+
+    search_fields = ('name',)
+
+    list_display = [
+        'name',
+        'slug',
+        'created',
+    ]
+
+    raw_id_fields = (
+        'speaker',
+    )
+    autocomplete_lookup_fields = {
+        'fk': ['speaker'],
+    }

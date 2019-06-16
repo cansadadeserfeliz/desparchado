@@ -15,7 +15,15 @@
 {% block content %}
   <div class="container book-detail-page">
     <h1 class="book-title">{{ book.title }}</h1>
-
+    <div class="book-authors">
+    {% for author in book.authors.all %}
+      {% if author.speaker %}
+        <a href="{{ author.speaker.get_absolute_url }}">{{ author.name }}{% if not forloop.last %}</a>,{% endif %}
+      {% else %}
+        {{ author.name }}{% if not forloop.last %},{% endif %}
+      {% endif %}
+    {% endfor %}
+    </div>
     <div class="row">
       <div class="col-sm-3">
         <img class="image img-responsive" src="{{ book.get_image_url }}" alt="{{ book.title }}" />
