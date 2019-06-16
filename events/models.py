@@ -188,6 +188,13 @@ class Event(TimeStampedModel):
         help_text='Campo de uso exclusivo para el administrador del sitio',
     )
 
+    press_articles = models.ManyToManyField(
+        'news.PressArticle',
+        verbose_name='Artículos de prensa',
+        related_name='events',
+        blank=True,
+    )
+
     created_by = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.DO_NOTHING,

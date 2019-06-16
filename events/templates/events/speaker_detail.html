@@ -44,6 +44,18 @@
 </div>
 {% endif %}
 
+{% if books %}
+  <h4>Libro{{ books|length|pluralize }}</h4>
+
+  <div class="related-books">
+    {% for book in books %}
+      {% include 'books/_book.html' %}
+    {% endfor %}
+  </div>
+{% endif %}
+
+<div class="clearfix"></div>
+
 {% if events %}
 
   <h4>Próximos eventos con {{ speaker.name }}</h4>
