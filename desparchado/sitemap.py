@@ -6,6 +6,7 @@ from events.models import Speaker
 from events.models import Organizer
 from places.models import Place
 from blog.models import Post
+from books.models import Book
 
 
 class StaticViewSitemap(sitemaps.Sitemap):
@@ -28,7 +29,7 @@ class StaticViewSitemap(sitemaps.Sitemap):
 
 
 class EventSitemap(sitemaps.Sitemap):
-    changefreq = 'daily'
+    changefreq = 'always'
     priority = 1
 
     def items(self):
@@ -39,8 +40,8 @@ class EventSitemap(sitemaps.Sitemap):
 
 
 class OrganizerSitemap(sitemaps.Sitemap):
-    changefreq = 'daily'
-    priority = 1
+    changefreq = 'hourly'
+    priority = 1.0
 
     def items(self):
         return Organizer.objects.all()
@@ -50,8 +51,8 @@ class OrganizerSitemap(sitemaps.Sitemap):
 
 
 class PlaceSitemap(sitemaps.Sitemap):
-    changefreq = 'daily'
-    priority = 0.7
+    changefreq = 'hourly'
+    priority = 0.9
 
     def items(self):
         return Place.objects.all()
@@ -61,8 +62,8 @@ class PlaceSitemap(sitemaps.Sitemap):
 
 
 class PostSitemap(sitemaps.Sitemap):
-    changefreq = 'daily'
-    priority = 0.7
+    changefreq = 'hourly'
+    priority = 0.9
 
     def items(self):
         return Post.objects.all()
@@ -73,10 +74,21 @@ class PostSitemap(sitemaps.Sitemap):
 
 class SpeakerSitemap(sitemaps.Sitemap):
     changefreq = 'daily'
-    priority = 0.7
+    priority = 0.9
 
     def items(self):
         return Speaker.objects.all()
+
+    def lastmod(self, item):
+        return item.modified
+
+
+class BookSitemap(sitemaps.Sitemap):
+    changefreq = 'hourly'
+    priority = 0.7
+
+    def items(self):
+        return Book.objects.published().all()
 
     def lastmod(self, item):
         return item.modified
@@ -87,4 +99,5 @@ sitemaps = {
     'places': PlaceSitemap,
     'posts': PostSitemap,
     'speakers': SpeakerSitemap,
+    'books': BookSitemap,
 }
