@@ -190,7 +190,7 @@ class Event(TimeStampedModel):
 
     press_articles = models.ManyToManyField(
         'news.PressArticle',
-        verbose_name='Artículos e prensa',
+        verbose_name='Artículos de prensa',
         related_name='events',
         blank=True,
     )

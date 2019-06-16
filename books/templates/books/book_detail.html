@@ -1,0 +1,46 @@
+{% extends 'layout/base.html' %}
+{% load i18n staticfiles desparchado_tags %}
+
+{% block title %}{{ book.title }}{% endblock %}
+
+{% block meta %}
+  <meta property="og:title" content="{{ book.title }}">
+  <meta property="og:description" content="Libros en Desparchado.co">
+  <meta property="og:image" content="https://{{ request.get_host }}{{ book.get_image_url }}">
+
+  <meta name="twitter:title" content="{{ book.title }}">
+  <meta name="twitter:description" content="Libros en Desparchado.co">
+{% endblock %}
+
+{% block content %}
+  <div class="container book-detail-page">
+    <h1 class="book-title">{{ book.title }}</h1>
+
+    <div class="row">
+      <div class="col-sm-3">
+        <img class="image img-responsive" src="{{ book.get_image_url }}" alt="{{ book.title }}" />
+      </div>
+      <div class="col-sm-9">
+        <div class="book-description">
+          {{ book.description|markdown }}
+        </div>
+        <div class="addthis_inline_share_toolbox"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    {% if related_events %}
+      <h4>Eventos relacionados</h4>
+      {% include 'events/_events_grid.html' with events=related_events %}
+    {% endif %}
+
+    {% if book.press_articles.exists %}
+      <h4>Artículos relacionados</h4>
+      {% include 'news/_press_articles.html' with press_articles=book.press_articles.all %}
+    {% endif %}
+
+    {% include 'includes/_disqus_comments.html' with page_id="book-"|add:book.id %}
+  </div>
+
+{% endblock content %}
