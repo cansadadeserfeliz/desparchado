@@ -11,6 +11,7 @@
       {% for author in book.authors.all %}
         {{ author.name }}{% if not forloop.last %},{% endif %}
       {% endfor %}
+        <div><a href="{{ book.get_absolute_url }}"><i>leer más</i></a></div>
       </div>
     </div>
   </div>
