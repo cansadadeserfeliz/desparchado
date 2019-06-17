@@ -66,3 +66,4 @@ class PressArticle(TimeStampedModel):
     class Meta:
         verbose_name = 'Press article'
         verbose_name_plural = 'Press articles'
+        ordering = ('-publication_date',)

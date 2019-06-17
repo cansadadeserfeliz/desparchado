@@ -9,8 +9,9 @@ from django.http import JsonResponse
 from dal import autocomplete
 
 from desparchado.utils import send_notification
-from .models import Event, Organizer, Speaker
 from places.models import City
+from .models import Event, Organizer, Speaker
+from .services import get_event_press_articles
 from .forms import EventCreateForm
 from .forms import OrganizerForm
 from .forms import SpeakerForm
@@ -59,15 +60,21 @@ class EventDetailView(DetailView):
     model = Event
 
     def get_queryset(self):
-        return Event.objects.published().all()
+        return Event.objects.published().select_related(
+            'organizer',
+            'place',
+        ).prefetch_related(
+            'books',
+            'speakers',
+        ).all()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['related_events'] = Event.objects.exclude(
             id=self.object.id
-        ).published().future().order_by('?')[:3]
+        ).published().future().select_related('place').order_by('?')[:3]
         context['press_articles'] = \
-            list(self.object.press_articles.select_related('media_source'))
+            get_event_press_articles(self.object).select_related('media_source').distinct()
         context['books'] = \
             list(self.object.books.prefetch_related('authors').published())
         return context
