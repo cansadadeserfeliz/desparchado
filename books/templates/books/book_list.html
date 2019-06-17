@@ -1,0 +1,30 @@
+{% extends 'layout/base.html' %}
+{% load i18n staticfiles desparchado_tags %}
+
+{% block title %}{{ book.title }}{% endblock %}
+
+{% block meta %}
+  <meta property="og:title" content="Libros en Desparchado.co">
+  <meta property="og:description" content="Libros en Desparchado.co">
+
+  <meta name="twitter:title" content="Libros en Desparchado.co">
+  <meta name="twitter:description" content="Libros en Desparchado.co">
+{% endblock %}
+
+{% block content %}
+ <div class="container book-list-page">
+   <div class="row row-eq-height">
+      {% for book in books %}
+        <div class="col-sm-4">
+          {% include 'books/_book.html' %}
+        </div>
+      {% if forloop.counter|divisibleby:3 and not forloop.last %}
+        </div>
+        <div class="row row-eq-height">
+      {% elif forloop.last %}
+        </div>
+    {% endif %}
+  {% endfor %}
+
+ </div>
+{% endblock content %}

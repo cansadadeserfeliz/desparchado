@@ -1,6 +1,17 @@
 from django.views.generic import DetailView
+from django.views.generic import ListView
 
 from .models import Book
+
+
+class BookListView(ListView):
+    model = Book
+    context_object_name = 'books'
+    paginate_by = 50
+
+    def get_queryset(self):
+        queryset = Book.objects.published().order_by('-created')
+        return queryset.prefetch_related('authors')
 
 
 class BookDetailView(DetailView):
