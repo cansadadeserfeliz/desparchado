@@ -20,7 +20,7 @@
         <div class="footer-col">
           <h3>Ciudades</h3>
           <ul class="footer-links list-unstyled">
-          {% for city in cities %}
+          {% for city in global_cities %}
             <li><a href="{% url 'places:city_detail' city.slug %}">{{ city.name }}</a></li>
           {% endfor %}
           </ul>
