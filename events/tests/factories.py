@@ -41,11 +41,22 @@ class EventFactory(factory.django.DjangoModelFactory):
     event_date = factory.LazyFunction(random_future_date)
     event_type = factory.fuzzy.FuzzyChoice(dict(Event.EVENT_TYPES).keys())
     topic = factory.fuzzy.FuzzyChoice(dict(Event.EVENT_TOPICS).keys())
-    organizer = factory.SubFactory(OrganizerFactory)
+    organizers = factory.SubFactory(OrganizerFactory)
     place = factory.SubFactory(PlaceFactory)
     created_by = factory.SubFactory(UserFactory)
     is_published = True
     is_approved = True
+
+    @factory.post_generation
+    def organizers(self, create, extracted, **kwargs):
+        if not create:
+            # Simple build, do nothing.
+            return
+
+        if extracted:
+            # A list of groups were passed in, use them
+            for organizer in extracted:
+                self.organizers.add(organizer)
 
     class Meta:
         model = Event

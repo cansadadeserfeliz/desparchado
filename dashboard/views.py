@@ -205,7 +205,7 @@ class EventCreateView(CreateView):
                 event_type=event_type,
                 topic=Event.EVENT_TOPIC_ART,
                 event_source_url=self.event_source_url,
-                organizer=organizer,
+                organizers=[organizer],
                 place=place,
             ))
         return initial
