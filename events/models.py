@@ -122,11 +122,15 @@ class Event(TimeStampedModel):
         'Tema',
         choices=EVENT_TOPICS,
     )
-    event_date = models.DateTimeField('Fecha del evento')
+    event_date = models.DateTimeField(
+        'Fecha del evento',
+        db_index=True,
+    )
     event_end_date = models.DateTimeField(
         'Fecha final',
         null=True,
-        blank=True
+        blank=True,
+        db_index=True,
     )
     event_source_url = models.URLField(
         'Enlace a la página del evento',
@@ -155,6 +159,7 @@ class Event(TimeStampedModel):
         verbose_name='Organizador',
         related_name='events',
         on_delete=models.DO_NOTHING,
+        db_index=True,
         help_text=
         'Por favor, asegúrese de que el organizador que '
         'quiere asignar al evento '
@@ -164,6 +169,7 @@ class Event(TimeStampedModel):
         'places.Place', verbose_name='Lugar',
         related_name='events',
         on_delete=models.DO_NOTHING,
+        db_index=True,
         help_text=
         'Por favor, asegúrese de que el lugar que '
         'quiere asignar al evento no existe en '

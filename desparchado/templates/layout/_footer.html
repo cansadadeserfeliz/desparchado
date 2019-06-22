@@ -20,10 +20,9 @@
         <div class="footer-col">
           <h3>Ciudades</h3>
           <ul class="footer-links list-unstyled">
-            <li><a href="{% url 'places:city_detail' 'bogota' %}">Bogotá</a></li>
-            <li><a href="{% url 'places:city_detail' 'cartagena' %}">Cartagena</a></li>
-            <li><a href="{% url 'places:city_detail' 'cali' %}">Cali</a></li>
-            <li><a href="{% url 'places:city_detail' 'medellin' %}">Medellín</a></li>
+          {% for city in global_cities %}
+            <li><a href="{% url 'places:city_detail' city.slug %}">{{ city.name }}</a></li>
+          {% endfor %}
           </ul>
         </div>
 
@@ -90,7 +89,13 @@
       <div class="col-md-12 text-center footer-bottom">
         <span class="logo">Desparchado</span>
         <div class="space-20"></div>
-        <span>Copyright &copy; 2017—{% now 'Y' %} Desparchado | All Rights Reserved</span>
+        <span>
+          Copyright &copy; 2017—{% now 'Y' %} Desparchado
+          |
+          All Rights Reserved
+          |
+          Hecho en Colombia con <span style="color: #b51f09; font-family: sans-serif">&#x2764;</span>
+        </span>
       </div>
     </div><!--footer copyright row end-->
   </div><!--container-->
