@@ -61,6 +61,7 @@ class CityAdmin(gis_admin.OSMGeoAdmin):
         'name',
         'slug',
         'description',
+        'show_on_home',
     ]
 
     def get_actions(self, request):
