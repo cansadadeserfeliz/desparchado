@@ -9,7 +9,12 @@ from model_utils.models import TimeStampedModel
 
 
 class Place(TimeStampedModel):
-    name = models.CharField('Nombre', max_length=255, unique=True)
+    name = models.CharField(
+        'Nombre',
+        max_length=255,
+        unique=True,
+        db_index=True,
+    )
     slug = AutoSlugField(
         null=True, default=None, unique=True, populate_from='name')
     image = models.ImageField(
@@ -23,6 +28,7 @@ class Place(TimeStampedModel):
         'places.City',
         verbose_name='Ciudad',
         on_delete=models.DO_NOTHING,
+        db_index=True,
     )
 
     created_by = models.ForeignKey(
@@ -58,7 +64,13 @@ class Place(TimeStampedModel):
 
 
 class City(TimeStampedModel):
-    name = models.CharField(verbose_name='Nombre', max_length=255, unique=True)
+    name = models.CharField(
+        verbose_name='Nombre',
+        max_length=255,
+        unique=True,
+        db_index=True,
+    )
+    show_on_home = models.BooleanField(default=False)
     slug = AutoSlugField(
         null=True, default=None, unique=True, populate_from='name')
     image = models.ImageField(
