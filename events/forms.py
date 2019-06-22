@@ -52,7 +52,7 @@ class EventCreateForm(forms.ModelForm):
             ),
             PrependedText('price', '$'),
             Div(
-                Div('organizer', css_class='col-xs-10'),
+                Div('organizers', css_class='col-xs-10'),
                 Div(
                     HTML(
                         '<a href="{}" class="btn btn-default add-related" '
@@ -116,13 +116,13 @@ class EventCreateForm(forms.ModelForm):
             'event_date',
             'event_end_date',
             'price',
-            'organizer',
+            'organizers',
             'place',
             'speakers',
         ]
         widgets = {
-            'organizer':
-            autocomplete.ModelSelect2(
+            'organizers':
+            autocomplete.ModelSelect2Multiple(
                 url='events:organizer_autocomplete',
                 attrs={
                     'data-html': True,

@@ -154,12 +154,23 @@ class Event(TimeStampedModel):
         null=True,
         blank=True
     )
+    organizers = models.ManyToManyField(
+        'events.Organizer',
+        verbose_name='Organizadores',
+        related_name='events',
+        help_text=
+        'Por favor, asegúrese de que el organizador que '
+        'quiere asignar al evento '
+        'no existe en nuestro sistema, antes de crearlo.',
+    )
     organizer = models.ForeignKey(
         'events.Organizer',
         verbose_name='Organizador',
-        related_name='events',
+        related_name='event',
         on_delete=models.DO_NOTHING,
         db_index=True,
+        null=True,
+        blank=True,
         help_text=
         'Por favor, asegúrese de que el organizador que '
         'quiere asignar al evento '

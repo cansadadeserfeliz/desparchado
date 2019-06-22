@@ -77,6 +77,7 @@ class EventDetailView(DetailView):
             get_event_press_articles(self.object).select_related('media_source').distinct()
         context['books'] = \
             list(self.object.books.prefetch_related('authors').published())
+        context['organizers'] = list(self.object.organizers.all())
         return context
 
 

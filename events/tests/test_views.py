@@ -164,7 +164,7 @@ class EventCreateViewTest(WebTest):
         ).strftime('%d/%m/%Y %H:%M')
         form['event_source_url'] = 'http://example.com'
         form['price'] = 12000
-        form['organizer'].force_value(self.organizer.id)
+        form['organizers'].force_value([self.organizer.id])
         form['place'].force_value(self.place.id)
 
         response = form.submit().follow()

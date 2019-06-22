@@ -173,27 +173,25 @@
 
   {% endif %}
 
-  {% if event.organizer %}
 
-    <h3 class="secondary-title">Organizador</h3>
+  <h3 class="secondary-title">Organizador{{ organizers|pluralize:'es' }}</h3>
 
+  {% for organizer in organizers %}
     <div class="event-organizer">
-
-      {% if event.organizer.image %}
+      {% if organizer.image %}
       <div class="text-center">
-        <a href="{{ event.organizer.get_absolute_url }}">
-          <img class="image img-responsive" src="{{ event.organizer.get_image_url }}" alt="{{ event.organizer.name }}">
+        <a href="{{ organizer.get_absolute_url }}">
+          <img class="image img-responsive" src="{{ organizer.get_image_url }}" alt="{{ organizer.name }}">
         </a>
       </div>
       {% endif %}
-      <h4 class="tex-center"><a href="{{ event.organizer.get_absolute_url }}">{{ event.organizer.name }}</a></h4>
+      <h4 class="tex-center"><a href="{{ organizer.get_absolute_url }}">{{ organizer.name }}</a></h4>
 
       <div>
-        {{ event.organizer.description|markdown|truncatewords_html:50 }}
+        {{ organizer.description|markdown|truncatewords_html:50 }}
       </div>
     </div>
-
-  {% endif %}
+  {% endfor %}
 
   {% for special in event.specials.all %}
     <br>
