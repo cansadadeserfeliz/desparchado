@@ -61,11 +61,11 @@ class EventDetailView(DetailView):
 
     def get_queryset(self):
         return Event.objects.published().select_related(
-            'organizer',
             'place',
         ).prefetch_related(
             'books',
             'speakers',
+            'organizers',
         ).all()
 
     def get_context_data(self, **kwargs):

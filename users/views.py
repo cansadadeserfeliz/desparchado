@@ -4,6 +4,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+from django.utils import timezone
 from django.contrib.auth import authenticate
 
 from .forms import RegisterForm
@@ -17,8 +18,25 @@ class UserDetailView(DetailView):
     slug_field = 'username'
     model = User
 
+    def get_template_names(self):
+        if self.request.user.is_authenticated:
+            return ['auth/user_detail.html']
+        return ['auth/public_user_detail.html']
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+
+        if self.request.user.is_authenticated:
+            added_events_count = Event.objects.filter(
+                created_by=self.object
+            ).published().count()
+            context['added_events_count'] = added_events_count
+            days_on_page = (timezone.now() - self.object.date_joined).days
+            context['days_on_page'] = days_on_page
+            context['total_points'] = int(
+                days_on_page / 3 + added_events_count * 2
+            )
+
         return context
 
 

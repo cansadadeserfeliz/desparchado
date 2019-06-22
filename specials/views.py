@@ -10,6 +10,10 @@ from events.models import Speaker
 class SpecialDetailView(DetailView):
     model = Special
 
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return queryset.filter(is_published=True)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         related_events = self.object.events.order_by('event_date').all()
