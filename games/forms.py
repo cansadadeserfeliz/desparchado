@@ -14,7 +14,7 @@ class HuntingOfSnarkGameCreateForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
 
         self.helper = FormHelper()
-        self.helper.form_id = 'event_form'
+        self.helper.form_id = 'game_form'
         self.helper.form_method = 'post'
 
         self.helper.layout = Layout(
