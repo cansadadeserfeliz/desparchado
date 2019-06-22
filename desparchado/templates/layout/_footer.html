@@ -20,10 +20,9 @@
         <div class="footer-col">
           <h3>Ciudades</h3>
           <ul class="footer-links list-unstyled">
-            <li><a href="{% url 'places:city_detail' 'bogota' %}">Bogotá</a></li>
-            <li><a href="{% url 'places:city_detail' 'cartagena' %}">Cartagena</a></li>
-            <li><a href="{% url 'places:city_detail' 'cali' %}">Cali</a></li>
-            <li><a href="{% url 'places:city_detail' 'medellin' %}">Medellín</a></li>
+          {% for city in cities %}
+            <li><a href="{% url 'places:city_detail' city.slug %}">{{ city.name }}</a></li>
+          {% endfor %}
           </ul>
         </div>
 
