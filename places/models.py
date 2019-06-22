@@ -77,7 +77,7 @@ class City(TimeStampedModel):
         'Imagen', null=True, blank=True, upload_to='places')
     image_source_url = models.URLField(
         'Enlace a la fuente de la imagen', null=True, blank=True)
-    description = models.TextField('Dirección', blank=True, default='')
+    description = models.TextField('Descripción', blank=True, default='')
     center_location = geo_models.PointField(null=False)
 
     def __str__(self):
