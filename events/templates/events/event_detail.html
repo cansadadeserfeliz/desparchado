@@ -138,6 +138,16 @@
   </div>
 
   <div class="col-md-4">
+  
+  {% if books %}
+    <h3 class="secondary-title">Libro{{ books|length|pluralize }}</h3>
+
+    <div class="related-books">
+      {% for book in books %}
+        {% include 'books/_book.html' %}
+      {% endfor %}
+    </div>
+  {% endif %}
 
   {% if event.speakers.exists %}
 
@@ -206,16 +216,6 @@
       </div>
     </section> <!--/.boxes-grid-->
   {% endfor %}
-
-  {% if books %}
-    <h3 class="secondary-title">Libro{{ books|length|pluralize }}</h3>
-
-    <div class="related-books">
-      {% for book in books %}
-        {% include 'books/_book.html' %}
-      {% endfor %}
-    </div>
-  {% endif %}
 
   <br>
 
