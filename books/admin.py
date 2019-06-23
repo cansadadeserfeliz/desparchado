@@ -22,12 +22,14 @@ class BookAdmin(admin.ModelAdmin):
         'related_events',
         'press_articles',
         'authors',
+        'blog_posts',
     )
     autocomplete_lookup_fields = {
         'm2m': [
             'related_events',
             'press_articles',
             'authors',
+            'blog_posts',
         ],
     }
 
