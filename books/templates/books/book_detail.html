@@ -43,7 +43,12 @@
       <div class="col-sm-9">
         <div class="book-description">
           {{ book.description|markdown }}
+
+          <p>
+            <b>ISBN:</b> {{ book.isbn }}
+          </p>
         </div>
+        <div class="clearfix"></div>
         <div class="addthis_inline_share_toolbox"></div>
       </div>
     </div>
