@@ -1,8 +1,2 @@
 [report]
-omit =
-    # omit everything in /home/travis
-    /home/travis/*
-    # omit this single file
-    manage.py
-    # omit anything in a virtualenv directory anywhere
-    */virtualenv/*
+omit = *travis*, *virtualenv*
