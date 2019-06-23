@@ -4,3 +4,5 @@ omit =
     /home/travis/*
     # omit this single file
     manage.py
+    # omit anything in a virtualenv directory anywhere
+    */virtualenv/*
