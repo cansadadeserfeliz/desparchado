@@ -58,6 +58,12 @@ class Book(TimeStampedModel):
         related_name='books',
         blank=True,
     )
+    blog_posts = models.ManyToManyField(
+        'blog.Post',
+        verbose_name='Entradas de blog',
+        related_name='books',
+        blank=True,
+    )
 
     objects = BookQuerySet().as_manager()
 
