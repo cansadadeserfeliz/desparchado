@@ -1,6 +1,2 @@
-[run]
-omit =
-    # omit everything in /home/travis
-    /home/travis/*
-    # omit this single file
-    manage.py
+[report]
+omit = *travis*, *virtualenv*
