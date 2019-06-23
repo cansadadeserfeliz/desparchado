@@ -5,6 +5,7 @@ from django.utils import timezone
 
 from django_webtest import WebTest
 
+from books.tests.factories import BookFactory
 from users.tests.factories import UserFactory
 from places.tests.factories import PlaceFactory
 from .factories import EventFactory
@@ -40,6 +41,7 @@ class EventDetailViewTest(WebTest):
 
     def test_successfully_shows_event(self):
         event = EventFactory()
+        BookFactory(related_events=[event])
         response = self.app.get(
             reverse('events:event_detail', args=[event.slug]),
             status=200
