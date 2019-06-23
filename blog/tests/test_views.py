@@ -5,7 +5,7 @@ from django_webtest import WebTest
 from .factories import PostFactory
 
 
-class PostListViewTest(WebTest):
+class PostViewsTest(WebTest):
 
     def setUp(self):
         self.first_post = PostFactory()
@@ -20,3 +20,17 @@ class PostListViewTest(WebTest):
         self.assertIn(self.second_post, response.context['posts'])
         self.assertNotIn(self.not_published_post, response.context['posts'])
         self.assertNotIn(self.not_approved_post, response.context['posts'])
+
+    def test_show_post_detail(self):
+        self.app.get(
+            reverse('blog:post_detail', args=[self.first_post.slug]),
+            status=200
+        )
+        self.app.get(
+            reverse('blog:post_detail', args=[self.not_published_post.slug]),
+            status=404
+        )
+        self.app.get(
+            reverse('blog:post_detail', args=[self.not_approved_post.slug]),
+            status=404
+        )
