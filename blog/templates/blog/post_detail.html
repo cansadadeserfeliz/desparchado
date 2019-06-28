@@ -23,7 +23,7 @@
   "image" : "https://{{ request.get_host }}{{ post.get_image_url }}",
   "author" : {
     "@type" : "Person",
-    "name" : "{{ post.created_by.username }}"
+    "name" : "{{ post.get_author_name }}"
   },
   "publisher" : {
     "@type" : "Organization",
@@ -46,7 +46,7 @@
           <h1>{{ post.title }}</h1>
           <h2 class="subheading">{{ post.subtitle }}</h2>
           <span class="meta">Publicado por
-            <a href="#">{{ post.created_by.username }}</a>
+            <i>{{ post.get_author_name }}</i>
             el {{ post.created|date:'DATE_FORMAT' }}</span>
         </div>
       </div>
