@@ -28,7 +28,7 @@
         <h3 class="post-subtitle">{{ post.subtitle }}</h3>
       </a>
       <p class="post-meta">Publicado por
-        <a href="#">{{ post.created_by.username }}</a>
+        <i>{{ post.get_author_name }}</i>
         el {{ post.created|date:'DATE_FORMAT' }}</p>
     </div>
   {% endfor %}

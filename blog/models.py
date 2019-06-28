@@ -57,6 +57,10 @@ class Post(TimeStampedModel):
         help_text='Campo de uso exclusivo para el administrador del sitio',
     )
 
+    created_by_desparchado = models.BooleanField(
+        'Está publicado a nombre de la plataforma',
+        default=False,
+    )
     created_by = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         verbose_name='Creado por',
@@ -82,4 +86,9 @@ class Post(TimeStampedModel):
         if self.header_image:
             return self.header_image.url
         return static('images/default_event_image.png')
+
+    def get_author_name(self):
+        if self.created_by_desparchado:
+            return 'desparchado.co'
+        return self.created_by.username
 
