@@ -116,10 +116,14 @@ class Event(TimeStampedModel):
     )
     event_type = models.PositiveSmallIntegerField(
         'Tipo del evento',
+        null=True,
+        blank=True,
         choices=EVENT_TYPES,
     )
     topic = models.PositiveSmallIntegerField(
         'Tema',
+        null=True,
+        blank=True,
         choices=EVENT_TOPICS,
     )
     event_date = models.DateTimeField(
