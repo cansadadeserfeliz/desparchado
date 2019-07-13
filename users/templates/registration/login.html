@@ -4,22 +4,31 @@
 {% block content %}
 
   <div class="login-form">
-    <h3 class="secondary-title">Ingresar</h3>
+    <h3 class="secondary-title">Ingreso</h3>
+
+    <p>Para agregar eventos y reseñas tienes que ingresar al sitio.</p>
+
     {% crispy form %}
 
+    <hr>
+
     <div class="text-center">
-      ¿No tiene una cuenta?
-      <a href="{% url "users:register" %}" class="hover-color list-inline-item">
-        REGISTRARSE
+      <b>¿No tienes una cuenta?</b> ¡No hay problema!
+      <br />
+      El registro es muy fácil:
+      <br />
+      <a class="btn btn-primary" href="{% url "users:register" %}" class="hover-color list-inline-item">
+        REGÍSTRATE AQUÍ
       </a>
     </div>
 
     <br />
 
     <div class="text-center">
-      ¿Olvidó su contraseña?
-      <a href="{% url "users:password_reset" %}" class="hover-color list-inline-item">
-        RECUPERAR CONTRASEÑA
+      ¿Olvidaste tu contraseña?
+      <br />
+      <a class="btn btn-primary" href="{% url "users:password_reset" %}" class="hover-color list-inline-item">
+        RECUPERA TU CONTRASEÑA AQUÍ
       </a>
     </div>
 
