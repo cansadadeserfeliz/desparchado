@@ -13,6 +13,7 @@ from places.models import City
 from .models import Event, Organizer, Speaker
 from .services import get_event_press_articles
 from .forms import EventCreateForm
+from .forms import EventUpdateForm
 from .forms import OrganizerForm
 from .forms import SpeakerForm
 
@@ -160,7 +161,7 @@ class EventCreateView(LoginRequiredMixin, CreateView):
 
 
 class EventUpdateView(LoginRequiredMixin, UpdateView):
-    form_class = EventCreateForm
+    form_class = EventUpdateForm
     model = Event
     context_object_name = 'event'
 
