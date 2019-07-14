@@ -36,8 +36,12 @@
   <div class="col-md-8">
     <div class="event-heading">
       <ul class="event-tags">
+      {% if event.event_type %}
         <li class="tags-item">{{ event.get_event_type_display }}</li>
+      {% endif %}
+      {% if event.topic %}
         <li class="tags-item">{{ event.get_topic_display }}</li>
+      {% endif %}
       </ul>
       <h1 class="event-title">{{ event.title }}</h1>
       <div class="event-info">
@@ -76,7 +80,7 @@
 
   {% if user|user_can_edit_event:event %}
     <div class="event-edit text-center">
-      <a href="{% url 'events:event_update' event.pk %}" class="btn btn-sm btn-default">EDITAR EVENTO</a>
+      <a href="{% url 'events:event_update' event.pk %}" class="btn btn-sm btn-primary">EDITAR EVENTO</a>
     </div>
   {% endif %}
 

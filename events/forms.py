@@ -16,7 +16,114 @@ from .models import Organizer
 from .models import Speaker
 
 
-class EventCreateForm(forms.ModelForm):
+class EventBaseForm(forms.ModelForm):
+
+    def clean(self):
+        cleaned_data = super().clean()
+        event_date = cleaned_data.get('event_date')
+        event_end_date = cleaned_data.get('event_end_date')
+
+        if event_date and event_end_date and event_date >= event_end_date:
+            msg = 'Especifica una fecha de finalización igual ' \
+                  'o posterior a la fecha de inicio.'
+            self.add_error('event_end_date', msg)
+
+
+class EventCreateForm(EventBaseForm):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.fields['event_source_url'].required = True
+
+        self.helper = FormHelper()
+        self.helper.form_id = 'event_form'
+        self.helper.form_method = 'post'
+
+        self.helper.layout = Layout(
+            'title',
+            'description',
+            'event_source_url',
+            'image',
+            Div(
+                Div('event_date', css_class='col-md-6'),
+                Div('event_end_date', css_class='col-md-6'),
+                css_class='row',
+            ),
+            Div(
+                Div('organizers', css_class='col-xs-10'),
+                Div(
+                    HTML(
+                        '<a href="{}" class="btn btn-default add-related" '
+                        'title="Añadir nuevo organizador" target="_blank">'
+                        '<i class="fas fa-plus"></i>'
+                        '</a>'.format(
+                            reverse_lazy('events:organizer_add'),
+                        )
+                    ),
+                    css_class='col-xs-2'
+                ),
+                css_class='row',
+            ),
+            Div(
+                Div('place', css_class='col-xs-10'),
+                Div(
+                    HTML(
+                        '<a href="{}" class="btn btn-default add-related" '
+                        'title="Añadir nuevo presentador" target="_blank">'
+                        '<i class="fas fa-plus"></i>'
+                        '</a>'.format(
+                            reverse_lazy('places:place_add'),
+                        )
+                    ),
+                    css_class='col-xs-2'
+                ),
+                css_class='row',
+            ),
+            Div(
+                Submit('submit', 'PUBLICAR EVENTO', css_class='btn-primary'),
+                css_class='form-group',
+            ),
+        )
+
+    class Meta:
+        model = Event
+        fields = [
+            'title',
+            'description',
+            'event_source_url',
+            'image',
+            'event_date',
+            'event_end_date',
+            'organizers',
+            'place',
+        ]
+        widgets = {
+            'organizers':
+            autocomplete.ModelSelect2Multiple(
+                url='events:organizer_autocomplete',
+                attrs={
+                    'data-html': True,
+                },
+            ),
+            'place':
+            autocomplete.ModelSelect2(
+                url='places:place_autocomplete',
+                attrs={
+                    'data-html': True,
+                },
+            ),
+            'speakers':
+            autocomplete.ModelSelect2Multiple(
+                url='events:speaker_autocomplete',
+                attrs={
+                    'data-html': True,
+                },
+            )
+        }
+
+
+class EventUpdateForm(EventBaseForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -30,25 +137,19 @@ class EventCreateForm(forms.ModelForm):
         self.helper.layout = Layout(
             'title',
             'is_published',
-            Fieldset(
-                'Información básica',
-                'description',
-                'event_source_url',
-                'image',
-                'image_source_url',
-                Div(
-                    Div('event_type', css_class='col-md-6'),
-                    Div('topic', css_class='col-md-6'),
-                    css_class='row',
-                ),
+            'description',
+            'event_source_url',
+            'image',
+            'image_source_url',
+            Div(
+                Div('event_type', css_class='col-md-6'),
+                Div('topic', css_class='col-md-6'),
+                css_class='row',
             ),
-            Fieldset(
-                'Fechas',
-                Div(
-                    Div('event_date', css_class='col-md-6'),
-                    Div('event_end_date', css_class='col-md-6'),
-                    css_class='row',
-                ),
+            Div(
+                Div('event_date', css_class='col-md-6'),
+                Div('event_end_date', css_class='col-md-6'),
+                css_class='row',
             ),
             PrependedText('price', '$'),
             Div(
@@ -143,16 +244,6 @@ class EventCreateForm(forms.ModelForm):
                 },
             )
         }
-
-    def clean(self):
-        cleaned_data = super().clean()
-        event_date = cleaned_data.get('event_date')
-        event_end_date = cleaned_data.get('event_end_date')
-
-        if event_date and event_end_date and event_date >= event_end_date:
-            msg = 'Especifique una fecha de finalización igual ' \
-                  'o posterior a la fecha de inicio.'
-            self.add_error('event_end_date', msg)
 
 
 class OrganizerForm(forms.ModelForm):

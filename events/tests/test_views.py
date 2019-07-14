@@ -156,8 +156,6 @@ class EventCreateViewTest(WebTest):
                               'cuya lectura creemos inminente, ' \
                               'pero que vamos aplazando año tras año ' \
                               'sin ningún motivo concreto.'
-        form['event_type'].select(Event.EVENT_TYPE_MEETING)
-        form['topic'].select(Event.EVENT_TOPIC_LITERATURE)
         form['event_date'] = (
             timezone.now() + timedelta(days=1)
         ).strftime('%d/%m/%Y %H:%M')
@@ -165,7 +163,6 @@ class EventCreateViewTest(WebTest):
             timezone.now() + timedelta(days=2)
         ).strftime('%d/%m/%Y %H:%M')
         form['event_source_url'] = 'http://example.com'
-        form['price'] = 12000
         form['organizers'].force_value([self.organizer.id])
         form['place'].force_value(self.place.id)
 
