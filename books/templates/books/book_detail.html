@@ -56,7 +56,7 @@
 
   <div class="container">
     {% if book.press_articles.exists %}
-      <h4>Artículos en prensa</h4>
+      <h4>Artículos relacionados</h4>
       {% include 'news/_press_articles.html' with press_articles=book.press_articles.all %}
     {% endif %}
 

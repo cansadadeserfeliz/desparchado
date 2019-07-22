@@ -327,6 +327,8 @@ SOCIAL_AUTH_FACEBOOK_SCOPE = [
 GRAPPELLI_ADMIN_TITLE = 'Desparchado. Administrador de eventos'
 GRAPPELLI_INDEX_DASHBOARD = 'dashboard.CustomIndexDashboard'
 
+GOODREADS_API_KEY = ''
+GOODREADS_API_SECRET = ''
 
 MAP_WIDGETS = {
     "GooglePointFieldWidget": (

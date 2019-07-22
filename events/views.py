@@ -94,7 +94,7 @@ class OrganizerDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['events'] = \
-            self.get_object().events.published().future().all()[:9]
+            self.get_object().events.published().future().all()
         context['past_events'] = \
             self.get_object().events.published().past().order_by('-event_date').all()[:9]
         return context
@@ -106,7 +106,7 @@ class SpeakerDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         speaker = self.get_object()
-        context['events'] = speaker.events.published().future().all()[:9]
+        context['events'] = speaker.events.published().future().all()
         context['past_events'] = \
             speaker.events.published().past().order_by('-event_date').all()[:9]
 
