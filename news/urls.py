@@ -5,7 +5,7 @@ from .views import PressArticleListView
 app_name = 'news'
 urlpatterns = [
     path(
-        'press',
+        'articles',
         PressArticleListView.as_view(),
         name='press_article_list'
     ),
