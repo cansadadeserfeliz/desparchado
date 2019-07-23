@@ -9,6 +9,9 @@ class MediaSourceAdmin(admin.ModelAdmin):
     list_display = [
         'title',
         'slug',
+        'source_type',
+        'website_url',
+        'description',
     ]
 
 
@@ -16,8 +19,11 @@ class MediaSourceAdmin(admin.ModelAdmin):
 class PressArticleAdmin(admin.ModelAdmin):
     search_fields = ('title',)
 
+    list_select_related = ('media_source',)
+
     list_display = [
         'title',
         'source_url',
+        'media_source',
         'publication_date',
     ]
