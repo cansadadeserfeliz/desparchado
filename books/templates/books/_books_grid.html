@@ -1,6 +1,6 @@
  <div class="row row-eq-height">
     {% for book in books %}
-      <div class="col-sm-4">
+      <div class="col-sm-{{ col_size|default:4 }}">
         {% include 'books/_book.html' %}
       </div>
     {% if forloop.counter|divisibleby:3 and not forloop.last %}
