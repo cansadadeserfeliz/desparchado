@@ -18,6 +18,7 @@ class Book(TimeStampedModel):
     title = models.CharField(
         'Título',
         max_length=255,
+        db_index=True,
     )
     slug = AutoSlugField(
         null=False, unique=True,
@@ -91,6 +92,7 @@ class Author(TimeStampedModel):
     name = models.CharField(
         'Nombre completo',
         max_length=255,
+        db_index=True,
     )
     slug = AutoSlugField(
         null=False, unique=True,
@@ -103,6 +105,10 @@ class Author(TimeStampedModel):
         blank=True,
         null=True,
     )
+
+    @staticmethod
+    def autocomplete_search_fields():
+        return ('name__icontains',)
 
     def __str__(self):
         return self.name

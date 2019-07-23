@@ -1,0 +1,12 @@
+ <div class="row row-eq-height">
+    {% for book in books %}
+      <div class="col-sm-4">
+        {% include 'books/_book.html' %}
+      </div>
+    {% if forloop.counter|divisibleby:3 and not forloop.last %}
+      </div>
+      <div class="row row-eq-height">
+    {% elif forloop.last %}
+      </div>
+  {% endif %}
+{% endfor %}

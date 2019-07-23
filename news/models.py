@@ -5,9 +5,28 @@ from autoslug import AutoSlugField
 
 
 class MediaSource(TimeStampedModel):
+    SOURCE_TYPE_BLOG = 'blog'
+    SOURCE_TYPE_BOOKTUBE = 'booktube'
+    SOURCE_TYPE_PODCAST = 'podcast'
+    SOURCE_TYPE_MAGAZINE = 'magazine'
+    SOURCE_TYPES = (
+        (SOURCE_TYPE_BLOG, SOURCE_TYPE_BLOG),
+        (SOURCE_TYPE_BOOKTUBE, SOURCE_TYPE_BOOKTUBE),
+        (SOURCE_TYPE_PODCAST, SOURCE_TYPE_PODCAST),
+        (SOURCE_TYPE_MAGAZINE, SOURCE_TYPE_MAGAZINE),
+    )
+
     title = models.CharField(
         'Título',
         max_length=255,
+    )
+    source_type = models.CharField(
+        'Tipo del recurso',
+        max_length=50,
+        null=True,
+        blank=True,
+        db_index=True,
+        choices=SOURCE_TYPES,
     )
     slug = AutoSlugField(
         null=False, unique=True,
