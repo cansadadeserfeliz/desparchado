@@ -1,8 +1,26 @@
 from django.views.generic import DetailView
 from django.views.generic import ListView
+from django.views.generic import TemplateView
 
 from .models import Book
-from .services import goodreads_get_book_info
+from news.models import PressArticle
+from news.models import MediaSource
+
+
+class HomeTemplateView(TemplateView):
+    template_name = 'books/index.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['books'] = Book.objects.published().order_by('-created')[:10]
+        context['articles'] = PressArticle.objects.filter(
+            media_source__source_type__in=[
+                MediaSource.SOURCE_TYPE_BLOG,
+                MediaSource.SOURCE_TYPE_BOOKTUBE,
+                MediaSource.SOURCE_TYPE_PODCAST,
+            ],
+        ).select_related('media_source').order_by('-created')[:30]
+        return context
 
 
 class BookListView(ListView):
@@ -25,5 +43,4 @@ class BookDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         context['related_events'] = \
             list(self.object.related_events.published().all())
-        # context['goodreads_info'] = goodreads_get_book_info(self.object.isbn)
         return context
