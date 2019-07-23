@@ -2,6 +2,7 @@ from django.views.generic import DetailView
 from django.views.generic import ListView
 
 from .models import Book
+from .services import goodreads_get_book_info
 
 
 class BookListView(ListView):
@@ -24,4 +25,5 @@ class BookDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         context['related_events'] = \
             list(self.object.related_events.published().all())
+        # context['goodreads_info'] = goodreads_get_book_info(self.object.isbn)
         return context
