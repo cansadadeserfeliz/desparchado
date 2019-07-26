@@ -7,7 +7,12 @@
         <h2 class="press-article-title">
           <a href="{{ press_article.source_url }}" target="_blank">{{ press_article.title }}</a>
         </h2>
-        <div class="press-article-info">{{ press_article.excerpt }}</div>
+        <div class="press-article-info">
+          {{ press_article.excerpt }}
+
+          <br>
+          <i>{{ press_article.publication_date|date:'l, j M Y' }}</i>
+        </div>
       </div>
     </div>
   </div>
