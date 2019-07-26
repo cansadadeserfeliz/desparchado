@@ -79,6 +79,7 @@ class PressArticle(TimeStampedModel):
     source_url = models.URLField('Enlace a la página del artítulo')
     publication_date = models.DateTimeField('Fecha de publicación')
     excerpt = models.TextField('Excerpt')
+    content = models.TextField('Content', blank=True, null=True)
 
     def get_absolute_url(self):
         return reverse('news:press_article_detail', args=[self.slug])

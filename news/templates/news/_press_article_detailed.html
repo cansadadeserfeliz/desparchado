@@ -3,7 +3,7 @@
 <div class="press-article-detailed-group">
   <div class="press-media-source">
     <img class="image" alt="{{ press_article.media_source.title }}" src="{{ press_article.media_source.get_image_url }}" />
-    <a href="{{ press_article.media_source.website_url }}" target="_blank">
+    <a href="{{ press_article.get_absolute_url }}" target="_blank">
       <div>
         {{ press_article.media_source.title }}
       </div>
@@ -28,6 +28,10 @@
     </div>
     {% else %}
       <a href="{{ press_article.source_url }}" class="btn btn-default" target="_blank">VER EN EL SITIO</a>
+    {% endif %}
+
+    {% if press_article.content %}
+      {{ press_article.content|markdown }}
     {% endif %}
   {% else %}
    <a href="{{ press_article.get_absolute_url }}" class="btn btn-primary">VER MÁS</a>
