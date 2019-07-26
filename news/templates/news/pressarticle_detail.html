@@ -17,7 +17,11 @@
 <div class="container press-article-detail-page">
   {% include 'news/_press_article_detailed.html' with article=press_article show_content=True %}
 
-  {% include 'books/_books_grid.html' with books=related_books %}
+  <h4>Libro{{ books|length|pluralize }} relacionado{{ books|length|pluralize }}</h4>
+
+  <div class="related-books">
+    {% include 'books/_books_grid.html' with books=related_books %}
+  </div>
 
   {% include 'includes/_disqus_comments.html' with page_id="press-article-"|add:press_article.id %}
 </div>
