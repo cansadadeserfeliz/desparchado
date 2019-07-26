@@ -1,0 +1,27 @@
+  <div class="press-article-detailed-group">
+    <div class="press-media-source">
+      <img class="image" alt="{{ press_article.media_source.title }}" src="{{ press_article.media_source.get_image_url }}" />
+      <a href="{{ press_article.media_source.website_url }}" target="_blank">
+        <div>
+          {{ press_article.media_source.title }}
+        </div>
+      </a>
+    </div>
+    <h2 class="press-article-title">
+      <a href="{{ press_article.source_url }}" target="_blank">{{ press_article.title }}</a>
+    </h2>
+    <div class="press-article-detail">
+      {% if press_article.image %}
+        <img class="image img-responsive" src="{{ press_article.get_image_url }}" alt="{{ press_article.title }}">
+      {% endif %}
+
+      {{ press_article.excerpt }}
+
+    {% if show_content %}
+    {% endif %}
+
+      <div class="date">
+        {{ press_article.publication_date|date:'l, j M Y' }}
+      </div>
+    </div>
+  </div>

@@ -41,39 +41,35 @@
 .press-article-detailed-list
   padding-top: 20px
 
-  .press-article-group
-    margin-bottom: 12px
-    padding-bottom: 10px
-    border-bottom: 1px solid #ededed
-    position: relative
+.press-article-detailed-group
+  margin-bottom: 12px
+  padding-bottom: 10px
+  border-bottom: 1px solid #ededed
+  position: relative
+  min-height: 150px
 
-    .press-article
-      margin-left: 50px
+  .press-media-source
+    float: right
+    text-align: center
+    margin: 4px 0 7px 21px
 
-    .media-source-icon
-      position: absolute
-      left: 0
-      width: 30px
-      height: 30px
-      margin-top: 6px
+    .image
+      width: 100px
 
-    .press-article-head
-      display: table-cell
-      height: 46px
-      vertical-align: middle
-      min-height: 46px
-      margin: 0
-      line-height: 23px
+  .press-article-title
+    font-size: 32px
+    font-weight: 700
+    line-height: 42px
+    margin-top: 0
 
-      .press-article-title
-        font-size: 16px
-        line-height: 1.43
-        font-weight: 700
-        margin-top: 0
-        margin-right: 10px
+  .press-article-detail
+    color: $dark-gray
+    line-height: 1.5
+    font-size: 18px
 
-      .press-article-info
-        display: inline-flex
-        max-width: 100%
-        color: $dark-gray
-        font-size: 13px
+    .image
+      margin: 10px 0
+
+    .date
+      margin: 10px 0
+      color: $dark-gray
