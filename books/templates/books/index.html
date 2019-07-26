@@ -28,7 +28,11 @@
 
    <div class="row">
      <div class="col-sm-8">
-        {% include 'news/_press_articles_detailed_grid.html' with press_articles=articles %}
+        <section class="press-article-detailed-list">
+          {% for press_article in press_articles %}
+            {% include 'news/_press_article_detailed.html' with show_content=False %}
+          {% endfor %}
+        </section>
      </div>
      <div class="col-sm-4">
        {% include 'books/_books_grid.html' with books=books col_size=12 %}
