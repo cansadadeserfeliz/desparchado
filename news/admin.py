@@ -23,6 +23,7 @@ class PressArticleAdmin(admin.ModelAdmin):
 
     list_display = [
         'title',
+        'slug',
         'source_url',
         'media_source',
         'publication_date',

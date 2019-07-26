@@ -1,4 +1,8 @@
+from urllib.parse import urlparse
+from urllib.parse import parse_qs
+
 from django.db import models
+from django.urls import reverse
 
 from model_utils.models import TimeStampedModel
 from autoslug import AutoSlugField
@@ -57,6 +61,10 @@ class PressArticle(TimeStampedModel):
         'Título',
         max_length=255,
     )
+    slug = AutoSlugField(
+        null=False, unique=True,
+        populate_from='title',
+    )
     image = models.ImageField(
         'Background Image',
         blank=True,
@@ -72,12 +80,38 @@ class PressArticle(TimeStampedModel):
     publication_date = models.DateTimeField('Fecha de publicación')
     excerpt = models.TextField('Excerpt')
 
+    def get_absolute_url(self):
+        return reverse('news:press_article_detail', args=[self.slug])
+
     @staticmethod
     def autocomplete_search_fields():
         return ('title__icontains',)
 
     def get_image_url(self):
         return self.image.url
+
+    def get_youtube_video_id(self):
+        """
+        Examples:
+        - http://youtu.be/SA2iWivDJiE
+        - http://www.youtube.com/watch?v=_oPAwA_Udwc&feature=feedu
+        - http://www.youtube.com/embed/SA2iWivDJiE
+        - http://www.youtube.com/v/SA2iWivDJiE?version=3&amp;hl=en_US
+        """
+        if 'youtu' not in self.source_url:
+            return None
+        query = urlparse(self.source_url)
+        if query.hostname == 'youtu.be':
+            return query.path[1:]
+        if query.hostname in ('www.youtube.com', 'youtube.com'):
+            if query.path == '/watch':
+                p = parse_qs(query.query)
+                return p['v'][0]
+            if query.path[:7] == '/embed/':
+                return query.path.split('/')[2]
+            if query.path[:3] == '/v/':
+                return query.path.split('/')[2]
+        return None
 
     def __str__(self):
         return self.title

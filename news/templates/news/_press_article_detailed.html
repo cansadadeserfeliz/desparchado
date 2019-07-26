@@ -1,0 +1,35 @@
+{% load i18n staticfiles desparchado_tags %}
+
+<div class="press-article-detailed-group">
+  <div class="press-media-source">
+    <img class="image" alt="{{ press_article.media_source.title }}" src="{{ press_article.media_source.get_image_url }}" />
+    <a href="{{ press_article.media_source.website_url }}" target="_blank">
+      <div>
+        {{ press_article.media_source.title }}
+      </div>
+    </a>
+  </div>
+  <h2 class="press-article-title">
+    <a href="{{ press_article.get_absolute_url }}">{{ press_article.title }}</a>
+  </h2>
+  <div class="press-article-detail">
+    {% if press_article.image %}
+      <img class="image img-responsive" src="{{ press_article.get_image_url }}" alt="{{ press_article.title }}">
+    {% endif %}
+
+    {{ press_article.excerpt|markdown }}
+
+  {% if show_content %}
+    {% if press_article.get_youtube_video_id %}
+    <div class="embedded">
+      <iframe class="embed-responsive-item" width="560" height="315" src="https://www.youtube.com/embed/{{ press_article.get_youtube_video_id }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+    {% else %}
+      <a href="{{ press_article.source_url }}" class="btn btn-default" target="_blank">LEER MÁS</a>
+    {% endif %}
+  {% endif %}
+    <div class="date">
+      {{ press_article.publication_date|date:'l, j M Y' }}
+    </div>
+  </div>
+</div>
