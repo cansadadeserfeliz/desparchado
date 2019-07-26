@@ -55,22 +55,6 @@
           </a>
         </li>
         {% endif %}
-      {% comment %}
-        <li class="dropdown list-inline-item"><a href="#" data-toggle="dropdown" class="dropdown-toggle hover-color" aria-expanded="false"> BOGOTÁ</a>
-          <ul class="dropdown-menu dropdown-menu-right lang-dropdown">
-            <li><a href="#">MEDELLÍN</a></li>
-            <li><a href="#">BUCARAMANGA</a></li>
-            <li><a href="#">CARTAGENA</a></li>
-          </ul>
-        </li>
-        <li class="list-inline-item">
-          <div class="right-search">
-            <span class="icon-search">
-              <i class="ion-ios-search-strong"></i>
-            </span>
-          </div>
-        </li>
-      {% endcomment %}
       </ul>
     </div>
   </div><!--container end-->
@@ -90,7 +74,7 @@
           <li><a href="/">Inicio</a></li>
           <li><a href="{% url 'events:event_list' %}">Eventos</a></li>
           <li><a href="{% url 'blog:post_list' %}">Blog</a></li>
-          <li><a href="{% url 'games:hunting_of_snark_create' %}">Juego</a></li>
+          <li><a href="{% url 'books:home' %}">Libros</a></li>
         </ul>
       </div>
     </div>

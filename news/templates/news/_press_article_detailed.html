@@ -27,8 +27,10 @@
       <iframe class="embed-responsive-item" width="560" height="315" src="https://www.youtube.com/embed/{{ press_article.get_youtube_video_id }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     </div>
     {% else %}
-      <a href="{{ press_article.source_url }}" class="btn btn-default" target="_blank">LEER MÁS</a>
+      <a href="{{ press_article.source_url }}" class="btn btn-default" target="_blank">VER EN EL SITIO</a>
     {% endif %}
+  {% else %}
+   <a href="{{ press_article.get_absolute_url }}" class="btn btn-primary">VER MÁS</a>
   {% endif %}
     <div class="date">
       {{ press_article.publication_date|date:'l, j M Y' }}
