@@ -1,0 +1,24 @@
+{% extends 'layout/base.html' %}
+{% load paginator_tags %}
+
+{% block title %}{{ press_article.title }}{% endblock %}
+
+{% block meta %}
+  <meta property="og:title" content="{{ press_article.title }}">
+  <meta property="og:description" content="Artículos en Desparchado.co">
+{% if press_article.image %}
+  <meta property="og:image" content="https://{{ request.get_host }}{{ press_article.get_image_url }}">
+{% endif %}
+  <meta name="twitter:title" content="{{ press_article.title }}">
+  <meta name="twitter:description" content="Artículos en Desparchado.co">
+{% endblock %}
+
+{% block content %}
+<div class="container press-article-detail-page">
+  {% include 'news/_press_article_detailed.html' with article=press_article show_content=True %}
+
+  {% include 'books/_books_grid.html' with books=books %}
+
+  {% include 'includes/_disqus_comments.html' with page_id="press-article-"|add:press_article.id %}
+</div>
+{% endblock content %}
