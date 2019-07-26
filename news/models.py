@@ -57,6 +57,10 @@ class PressArticle(TimeStampedModel):
         'Título',
         max_length=255,
     )
+    slug = AutoSlugField(
+        unique=True,
+        populate_from='title',
+    )
     image = models.ImageField(
         'Background Image',
         blank=True,
