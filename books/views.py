@@ -4,7 +4,6 @@ from django.views.generic import TemplateView
 
 from .models import Book
 from news.models import PressArticle
-from news.models import MediaSource
 
 
 class HomeTemplateView(TemplateView):
@@ -13,13 +12,7 @@ class HomeTemplateView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['books'] = Book.objects.published().order_by('-created')[:10]
-        context['articles'] = PressArticle.objects.filter(
-            media_source__source_type__in=[
-                MediaSource.SOURCE_TYPE_BLOG,
-                MediaSource.SOURCE_TYPE_BOOKTUBE,
-                MediaSource.SOURCE_TYPE_PODCAST,
-            ],
-        ).select_related('media_source').order_by('-created')[:30]
+        context['articles'] = PressArticle.objects.select_related('media_source')[:30]
         return context
 
 

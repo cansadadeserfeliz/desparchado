@@ -15,6 +15,8 @@
 
 {% block content %}
 <div class="container press-article-detail-page">
+  <a href="{% url 'news:press_article_list' %}" class="btn btn-primary">&larr; VOLVER</a>
+
   {% include 'news/_press_article_detailed.html' with article=press_article show_content=True %}
 
   <h4>Libro{{ books|length|pluralize }} relacionado{{ books|length|pluralize }}</h4>
