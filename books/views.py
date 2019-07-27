@@ -19,7 +19,7 @@ class HomeTemplateView(TemplateView):
                 MediaSource.SOURCE_TYPE_BOOKTUBE,
                 MediaSource.SOURCE_TYPE_PODCAST,
             ],
-        ).select_related('media_source').order_by('-created')[:30]
+        ).select_related('media_source')[:30]
         return context
 
 
