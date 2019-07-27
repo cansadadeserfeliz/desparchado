@@ -2,6 +2,7 @@ from django.contrib import admin
 
 from .models import MediaSource
 from .models import PressArticle
+from books.models import Book
 
 
 @admin.register(MediaSource)
