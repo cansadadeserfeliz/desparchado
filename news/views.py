@@ -7,7 +7,7 @@ from .models import PressArticle
 class PressArticleListView(ListView):
     model = PressArticle
     context_object_name = 'press_articles'
-    paginate_by = 50
+    paginate_by = 30
 
 
 class PressArticleDetailView(DetailView):
