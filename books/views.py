@@ -4,7 +4,6 @@ from django.views.generic import TemplateView
 
 from .models import Book
 from news.models import PressArticle
-from news.models import MediaSource
 
 
 class HomeTemplateView(TemplateView):
