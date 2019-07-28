@@ -54,3 +54,63 @@
 
 .book-list-page
   margin-top: 20px
+
+
+.book-prices
+  margin: 10px 0
+
+  .prices-list
+    border-radius: 0
+    margin: 5px 0
+
+    .book-price
+      border-radius: 0
+      min-height: 50px
+
+      .book-seller
+        font-weight: 400
+        font-size: 14px
+        line-height: 28px
+
+      .price-tag
+        float: right
+
+  .taganga
+    font-size: 12px
+
+  .price-tag
+    display: inline-block
+    width: auto
+    height: 30px
+    background-color: $secondary-color
+    -webkit-border-radius: 3px 4px 4px 3px
+    -moz-border-radius: 3px 4px 4px 3px
+    border-radius: 3px 4px 4px 3px
+    border-left: 1px solid $secondary-color
+    margin-left: 15px
+    position: relative
+    color: $primary-color
+    font-weight: 600
+    font-size: 14px
+    line-height: 28px
+    padding: 0 10px 0 10px
+    &:before
+      content: ""
+      position: absolute
+      display: block
+      left: -15px
+      width: 0
+      height: 0
+      border-top: 15px solid transparent
+      border-bottom: 15px solid transparent
+      border-right: 15px solid $secondary-color
+    &:after
+      content: ""
+      background-color: white
+      border-radius: 50%
+      width: 4px
+      height: 4px
+      display: block
+      position: absolute
+      left: -2px
+      top: 14px

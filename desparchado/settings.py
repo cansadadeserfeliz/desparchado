@@ -330,6 +330,9 @@ GRAPPELLI_INDEX_DASHBOARD = 'dashboard.CustomIndexDashboard'
 GOODREADS_API_KEY = ''
 GOODREADS_API_SECRET = ''
 
+TAGANGA_AUTH_TOKEN = ''
+TAGANGA_BASE_URL = 'https://taganga-api.herokuapp.com/api/v1/'
+
 MAP_WIDGETS = {
     "GooglePointFieldWidget": (
         ("zoom", 12),
