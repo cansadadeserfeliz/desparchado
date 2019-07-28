@@ -12,6 +12,7 @@ class BookAdmin(admin.ModelAdmin):
     list_display = [
         'title',
         'slug',
+        'isbn',
         'is_published',
         'created',
     ]
