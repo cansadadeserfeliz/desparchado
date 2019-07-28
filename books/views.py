@@ -3,6 +3,7 @@ from django.views.generic import ListView
 from django.views.generic import TemplateView
 
 from .models import Book
+from .services import taganga_get_book_prices
 from news.models import PressArticle
 
 
@@ -36,4 +37,5 @@ class BookDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         context['related_events'] = \
             list(self.object.related_events.published().all())
+        context['book_prices'] = taganga_get_book_prices(self.object.isbn)
         return context

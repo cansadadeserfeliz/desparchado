@@ -3,8 +3,10 @@ import logging
 from django.conf import settings
 
 from .goodreads_client import GoodreadsClient
-from .goodreads_client import RequestFailureException
-from .goodreads_client import UnknownResultException
+from .taganga_client import TagangaClient
+from desparchado.exceptions import RequestFailureException
+from desparchado.exceptions import UnknownResultException
+
 
 logger = logging.getLogger(__name__)
 
@@ -12,6 +14,14 @@ logger = logging.getLogger(__name__)
 def get_goodreads_client(timeout_secs=10):
     return GoodreadsClient(
         developer_key=settings.GOODREADS_API_KEY,
+        timeout_secs=timeout_secs,
+    )
+
+
+def get_taganga_client(timeout_secs=10):
+    return TagangaClient(
+        base_url=settings.TAGANGA_BASE_URL,
+        auth_token=settings.TAGANGA_AUTH_TOKEN,
         timeout_secs=timeout_secs,
     )
 
@@ -45,4 +55,18 @@ def goodreads_get_book_info(book_isbn):
         average_rating=book_data.find('average_rating').text,
         ratings_count=book_data.find('ratings_count').text,
     )
+
+
+def taganga_get_book_prices(book_isbn):
+    taganga_client = get_taganga_client()
+
+    try:
+        prices_list = taganga_client.get_book_prices(book_isbn)
+    except (RequestFailureException, UnknownResultException) as e:
+        return []
+
+    if type(prices_list) is not list:
+        return []
+
+    return prices_list
 
