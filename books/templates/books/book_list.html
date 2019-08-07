@@ -12,15 +12,13 @@
 {% endblock %}
 
 {% block subheader %}
- <div class="row text-center clearfix well promo">
-     <div class="col-sm-8 col-sm-offset-2">
-        <h4>
-          ¿Le gusta leer? En Desparchado.co hemos creado un juego literario llamado
-          <a href="{% url 'games:hunting_of_snark_create' %}"><b>«La caza del Snark»</b></a>
-          para que la lectura sea aún más entretenida y aventurera.
-        </h4>
-     </div>
-  </div>
+<div class="card card-body bg-light promo">
+  <h4>
+    ¿Le gusta leer? En Desparchado.co hemos creado un juego literario llamado
+    <a href="{% url 'games:hunting_of_snark_create' %}"><b>«La caza del Snark»</b></a>
+    para que la lectura sea aún más entretenida y aventurera.
+  </h4>
+</div>
 {% endblock subheader %}
 
 {% block content %}
