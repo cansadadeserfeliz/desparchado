@@ -200,19 +200,21 @@
   {% for special in event.specials.all %}
     <br>
 
-    <section class="container boxes-grid">
+    <section class="container-fluid boxes-grid">
       <div class="row row-eq-height">
-        <div class="desparchado-box col-sm-4">
-          <a class="link" href="{{ special.get_absolute_url }}">
-            <div class="box-img-wrap">
-              <img class="image img-responsive"
-                   src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQ4AAACHAQMAAADdtyVCAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAANQTFRF////p8QbyAAAAAF0Uk5TAEDm2GYAAAAbSURBVBgZ7cExAQAAAMIg+6deCU9gAAAAAPAWEnUAAUFphIwAAAAASUVORK5CYII="
-                   alt="{{ special.title }}" style="background-image: url({{ special.get_image_url }});">
+        <div class="col-sm-12">
+          <div class="desparchado-box">
+            <a class="link" href="{{ special.get_absolute_url }}">
+              <div class="box-img-wrap">
+                <img class="image img-responsive"
+                     src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQ4AAACHAQMAAADdtyVCAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAANQTFRF////p8QbyAAAAAF0Uk5TAEDm2GYAAAAbSURBVBgZ7cExAQAAAMIg+6deCU9gAAAAAPAWEnUAAUFphIwAAAAASUVORK5CYII="
+                     alt="{{ special.title }}" style="background-image: url({{ special.get_image_url }});">
+              </div>
+            </a>
+            <div class="box-inner">
+              <div class="box-subtitle">{{ special.subtitle }}</div>
+              <a href="{{ special.get_absolute_url }}"><h2 class="box-title">{{ special.title }}</h2></a>
             </div>
-          </a>
-          <div class="box-inner">
-            <div class="box-subtitle">{{ special.subtitle }}</div>
-            <a href="{{ special.get_absolute_url }}"><h2 class="box-title">{{ special.title }}</h2></a>
           </div>
         </div>
       </div>
