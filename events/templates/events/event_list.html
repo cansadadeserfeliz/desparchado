@@ -5,9 +5,11 @@
 
 {% block subheader %}
 <div class="games-header-menu">
-  <ul class="nav nav-pills ">
+  <ul class="nav justify-content-center ">
   {% for city in global_cities %}
-    <li role="presentation"><a href="{% url 'events:event_list' %}?city={{ city.slug }}">{{ city.name }}</a></li>
+    <li class="nav-item" role="presentation">
+      <a class="nav-link" href="{% url 'events:event_list' %}?city={{ city.slug }}">{{ city.name }}</a>
+    </li>
   {% endfor %}
   </ul>
 </div>
@@ -15,15 +17,13 @@
 
 {% block content %}
 <section class="container" itemscope itemtype="http://schema.org/CollectionPage">
-  <div class="row text-center clearfix">
-    <div class="col-sm-8 col-sm-offset-2">
-      <h2 class="title-one">
-        Próximos eventos
-        {% if city_filter %}
-          en <a href="{{ city_filter.get_absolute_url }}">{{ city_filter.name }}</a>
-        {% endif %}
-      </h2>
-    </div>
+  <div class="row text-center justify-content-md-center clearfix">
+    <h2 class="title-one">
+      Próximos eventos
+      {% if city_filter %}
+        en <a href="{{ city_filter.get_absolute_url }}">{{ city_filter.name }}</a>
+      {% endif %}
+    </h2>
   </div>
 </section>
 
@@ -31,14 +31,12 @@
 
   {% if city_filter and not events %}
 
-  <div class="row text-center clearfix well promo">
-     <div class="col-sm-8 col-sm-offset-2">
-        <h4>
-         No se encontraron eventos en <a href="{{ city_filter.get_absolute_url }}">{{ city_filter.name }}</a>.
-          <br>
-          <a href="{% url 'events:event_list' %}">Ver eventos en otras ciudades.</a>
-        </h4>
-     </div>
+  <div class="row card card-body bg-light text-center clearfix promo">
+    <h4>
+      No se encontraron eventos en <a href="{{ city_filter.get_absolute_url }}">{{ city_filter.name }}</a>.
+      <br>
+      <a href="{% url 'events:event_list' %}">Ver eventos en otras ciudades.</a>
+    </h4>
   </div>
 
   <section class="container">
