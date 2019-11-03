@@ -60,23 +60,28 @@
   </div><!--container end-->
 </div>
 
-<header id="navigation">
-  <div class="navbar navbar-inverse" role="banner">
-    <div class="container">
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-          <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="/"><h1>Desparchado</h1></a>
-      </div>
-      <div class="collapse navbar-collapse">
-        <ul class="nav navbar-nav navbar-right">
-          <li><a href="/">Inicio</a></li>
-          <li><a href="{% url 'events:event_list' %}">Eventos</a></li>
-          <li><a href="{% url 'blog:post_list' %}">Blog</a></li>
-          <li><a href="{% url 'books:home' %}">Libros</a></li>
-        </ul>
-      </div>
+<nav id="navigation" class="navbar navbar-expand-lg navbar-light ">
+  <div class="container">
+    <a class="navbar-brand" href="/"><h1>Desparchado</h1></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="/">Inicio</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'events:event_list' %}">Eventos</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'blog:post_list' %}">Blog</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'books:home' %}">Libros</a>
+        </li>
+      </ul>
     </div>
-  </div><!--/navbar-->
-</header> <!--/#navigation-->
+  </div>
+</nav>

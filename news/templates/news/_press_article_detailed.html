@@ -14,9 +14,9 @@
   </h2>
   <div class="press-article-detail">
     {% if press_article.image %}
-      <img class="image img-responsive" src="{{ press_article.get_image_url }}" alt="{{ press_article.title }}">
+      <img class="image img-fluid" src="{{ press_article.get_image_url }}" alt="{{ press_article.title }}">
     {% elif press_article.get_youtube_video_id %}
-      <img class="image img-responsive" src="https://img.youtube.com/vi/{{ press_article.get_youtube_video_id }}/0.jpg" alt="{{ press_article.title }}">
+      <img class="image img-fluid" src="https://img.youtube.com/vi/{{ press_article.get_youtube_video_id }}/0.jpg" alt="{{ press_article.title }}">
     {% endif %}
 
     {{ press_article.excerpt|markdown }}

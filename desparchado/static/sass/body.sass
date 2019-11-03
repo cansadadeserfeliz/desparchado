@@ -6,10 +6,15 @@ body
   font-weight: 400
   background: #fff
   color: #43484E
+  font-size: 14px
 
 body .section-clear
   padding: 50px 0
   margin: 0
+
+form
+  .col-form-label
+    font-weight: 700
 
 a
   -webkit-transition: 300ms
@@ -26,6 +31,10 @@ a
 
 h1, h2, h3, h4, h5, h6
   font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif
+
+h2
+  margin-top: 10px
+  margin-bottom: 10px
 
 .row-eq-height
   display: -webkit-box
@@ -96,18 +105,14 @@ h1, h2, h3, h4, h5, h6
     font-size: 24px
     cursor: pointer
 
-#navigation
-  .navbar
-    margin-bottom: 0
-    background-color: $primary-color
-    border-radius: 0
-    border-bottom: 0
-    padding-bottom: 8px
-  .navbar-toggle
-    margin-top: 20px
-    background-color: $secondary-color
-    .icon-bar
-      background-color: $primary-color
+#navigation.navbar
+  margin-bottom: 0
+  background-color: $primary-color !important
+  border-radius: 0
+  border-bottom: 0
+
+
+
   .navbar-brand h1
     padding: 0
     margin: 0
@@ -116,28 +121,39 @@ h1, h2, h3, h4, h5, h6
     font-size: 36px
     text-transform: capitalize
     letter-spacing: 2px
-  .navbar-nav.navbar-right
-    padding-top: 16px
-    padding-bottom: 12px
-    li
-      a, .btn-link
+
+  .navbar-nav
+    padding-bottom: 4px
+    .nav-item
+      .nav-link, .btn-link
         font-size: 15px
         font-weight: 700
         text-transform: uppercase
         color: #fff
         letter-spacing: 2px
         padding: 12px 15px 6px
-  .navbar-inverse .navbar-nav .active a,
-  .navbar-inverse .navbar-nav .active .btn-link
-    color: #fff
-    background-color: #33383b
-    &:focus
-      color: #fff
-      background-color: $primary-color
-  .navbar-nav.navbar-right li a:hover,
-  .navbar-nav.navbar-right li .btn-link:hover
-    color: #171a1d
-    background-color: $secondary-color
+
+      .nav-link:hover, .btn-link:hover
+        color: #171a1d
+        background-color: $secondary-color
+
+    &.active
+      .nav-link, .btn-link
+        color: #fff
+        background-color: #33383b
+        &:focus
+          color: #fff
+          background-color: $primary-color
+
+.navbar
+  padding-bottom: 8px
+  padding-right: 30px
+  padding-left: 30px
+
+.navbar-toggler
+  background-color: $secondary-color
+  .navbar-toggler-icon
+    color: $primary-color
 
 /* Pager */
 

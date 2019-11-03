@@ -1,6 +1,28 @@
 $(function () {
   $('.datetimeinput').datetimepicker({
     locale: 'es',
+    allowInputToggle: true,
+    icons: {
+        time: 'fas fa-clock',
+        date: 'fas fa-calendar',
+        up: 'fas fa-arrow-up',
+        down: 'fas fa-arrow-down',
+        previous: 'fas fa-chevron-left',
+        next: 'fas fa-chevron-right',
+        today: 'fas fa-calendar-check',
+        clear: 'fas fa-trash',
+        close: 'fas fa-times'
+    },
+    buttons: {
+      showToday: false,
+      showClear: false,
+      showClose: true
+    },
+    keepOpen: false,
+    widgetPositioning: {
+      horizontal: 'auto',
+      vertical: 'top'
+    },
     format: 'DD/MM/YYYY HH:mm'
   });
 

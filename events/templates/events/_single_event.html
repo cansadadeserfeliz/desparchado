@@ -1,7 +1,7 @@
 <div class="event desparchado-box col-sm-4">
   <a class="link" href="{{ event.get_absolute_url }}">
     <div class="box-img-wrap">
-      <img class="image img-responsive"
+      <img class="image img-fluid"
            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQ4AAACHAQMAAADdtyVCAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAANQTFRF////p8QbyAAAAAF0Uk5TAEDm2GYAAAAbSURBVBgZ7cExAQAAAMIg+6deCU9gAAAAAPAWEnUAAUFphIwAAAAASUVORK5CYII="
            alt="{{ event.title }}" style="background-image: url({{ event.get_image_url }});">
       <div class="city-name-label">{{ event.place.city.name }}</div>
