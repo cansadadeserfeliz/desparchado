@@ -129,12 +129,14 @@ class Event(TimeStampedModel):
     event_date = models.DateTimeField(
         'Fecha del evento',
         db_index=True,
+        help_text='p. ej. 23/11/2019 16:40',
     )
     event_end_date = models.DateTimeField(
         'Fecha final',
         null=True,
         blank=True,
         db_index=True,
+        help_text='p. ej. 23/11/2019 18:00 (opcional)',
     )
     event_source_url = models.URLField(
         'Enlace a la página del evento',
