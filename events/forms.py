@@ -6,7 +6,6 @@ from crispy_forms.layout import Submit
 from crispy_forms.layout import Layout
 from crispy_forms.layout import Div
 from crispy_forms.layout import HTML
-from crispy_forms.layout import Fieldset
 from crispy_forms.layout import Field
 from crispy_forms.bootstrap import PrependedText
 from dal import autocomplete
@@ -46,8 +45,22 @@ class EventCreateForm(EventBaseForm):
             'event_source_url',
             'image',
             Div(
-                Div('event_date', css_class='col-md-6'),
-                Div('event_end_date', css_class='col-md-6'),
+                Div(
+                    Field(
+                        'event_date',
+                        data_toggle='datetimepicker',
+                        data_target='#id_event_date',
+                    ),
+                    css_class='col-md-6'
+                ),
+                Div(
+                    Field(
+                        'event_end_date',
+                        data_toggle='datetimepicker',
+                        data_target='#id_event_end_date',
+                    ),
+                    css_class='col-md-6'
+                ),
                 css_class='form-row',
             ),
             Div(
@@ -147,8 +160,22 @@ class EventUpdateForm(EventBaseForm):
                 css_class='form-row',
             ),
             Div(
-                Div('event_date', css_class='col-md-6'),
-                Div('event_end_date', css_class='col-md-6'),
+                Div(
+                    Field(
+                        'event_date',
+                        data_toggle='datetimepicker',
+                        data_target='#id_event_date',
+                    ),
+                    css_class='col-md-6'
+                ),
+                Div(
+                    Field(
+                        'event_end_date',
+                        data_toggle='datetimepicker',
+                        data_target='#id_event_end_date',
+                    ),
+                    css_class='col-md-6'
+                ),
                 css_class='form-row',
             ),
             PrependedText('price', '$'),
