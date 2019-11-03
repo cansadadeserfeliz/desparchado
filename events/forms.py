@@ -48,13 +48,13 @@ class EventCreateForm(EventBaseForm):
             Div(
                 Div('event_date', css_class='col-md-6'),
                 Div('event_end_date', css_class='col-md-6'),
-                css_class='row',
+                css_class='form-row',
             ),
             Div(
                 Div('organizers', css_class='col-xs-10'),
                 Div(
                     HTML(
-                        '<a href="{}" class="btn btn-default add-related" '
+                        '<a href="{}" class="btn btn-light add-related" '
                         'title="Añadir nuevo organizador" target="_blank">'
                         '<i class="fas fa-plus"></i>'
                         '</a>'.format(
@@ -63,13 +63,13 @@ class EventCreateForm(EventBaseForm):
                     ),
                     css_class='col-xs-2'
                 ),
-                css_class='row',
+                css_class='form-row',
             ),
             Div(
                 Div('place', css_class='col-xs-10'),
                 Div(
                     HTML(
-                        '<a href="{}" class="btn btn-default add-related" '
+                        '<a href="{}" class="btn btn-light add-related" '
                         'title="Añadir nuevo presentador" target="_blank">'
                         '<i class="fas fa-plus"></i>'
                         '</a>'.format(
@@ -78,7 +78,7 @@ class EventCreateForm(EventBaseForm):
                     ),
                     css_class='col-xs-2'
                 ),
-                css_class='row',
+                css_class='form-row',
             ),
             Div(
                 Submit('submit', 'PUBLICAR EVENTO', css_class='btn-primary'),
@@ -144,19 +144,19 @@ class EventUpdateForm(EventBaseForm):
             Div(
                 Div('event_type', css_class='col-md-6'),
                 Div('topic', css_class='col-md-6'),
-                css_class='row',
+                css_class='form-row',
             ),
             Div(
                 Div('event_date', css_class='col-md-6'),
                 Div('event_end_date', css_class='col-md-6'),
-                css_class='row',
+                css_class='form-row',
             ),
             PrependedText('price', '$'),
             Div(
                 Div('organizers', css_class='col-xs-10'),
                 Div(
                     HTML(
-                        '<a href="{}" class="btn btn-default add-related" '
+                        '<a href="{}" class="btn btn-light add-related" '
                         'title="Añadir nuevo organizador" target="_blank">'
                         '<i class="fas fa-plus"></i>'
                         '</a>'.format(
@@ -165,13 +165,13 @@ class EventUpdateForm(EventBaseForm):
                     ),
                     css_class='col-xs-2'
                 ),
-                css_class='row',
+                css_class='form-row',
             ),
             Div(
                 Div('place', css_class='col-xs-10'),
                 Div(
                     HTML(
-                        '<a href="{}" class="btn btn-default add-related" '
+                        '<a href="{}" class="btn btn-light add-related" '
                         'title="Añadir nuevo presentador" target="_blank">'
                         '<i class="fas fa-plus"></i>'
                         '</a>'.format(
@@ -180,13 +180,13 @@ class EventUpdateForm(EventBaseForm):
                     ),
                     css_class='col-xs-2'
                 ),
-                css_class='row',
+                css_class='form-row',
             ),
             Div(
                 Div('speakers', css_class='col-xs-10'),
                 Div(
                     HTML(
-                        '<a href="{}" class="btn btn-default add-related" '
+                        '<a href="{}" class="btn btn-light add-related" '
                         'title="Añadir nuevo presentador" target="_blank">'
                         '<i class="fas fa-plus"></i>'
                         '</a>'.format(
@@ -195,7 +195,7 @@ class EventUpdateForm(EventBaseForm):
                     ),
                     css_class='col-xs-2'
                 ),
-                css_class='row',
+                css_class='form-row',
             ),
             Div(
                 Submit('submit', 'GUARDAR', css_class='btn-primary'),

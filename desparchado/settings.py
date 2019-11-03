@@ -300,7 +300,7 @@ AXES_LOGIN_FAILURE_LIMIT = 5
 
 GOOGLE_ANALYTICS_CODE = 'UA-43471959-4'
 
-CRISPY_TEMPLATE_PACK = 'bootstrap3'
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.social_auth.social_details',
