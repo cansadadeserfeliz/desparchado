@@ -70,7 +70,7 @@
 
     <div class="event-image">
       <div class="event-img-wrap">
-        <img class="image img-responsive" alt="{{ event.title }}" src="{{ event.get_image_url }}">
+        <img class="image img-fluid" alt="{{ event.title }}" src="{{ event.get_image_url }}">
         <div class="city-name-label">
           <a href="{{ event.place.city.get_absolute_url }}">{{ event.place.city.name }}</a>
         </div>
@@ -185,7 +185,7 @@
       {% if organizer.image %}
       <div class="text-center">
         <a href="{{ organizer.get_absolute_url }}">
-          <img class="image img-responsive" src="{{ organizer.get_image_url }}" alt="{{ organizer.name }}">
+          <img class="image img-fluid" src="{{ organizer.get_image_url }}" alt="{{ organizer.name }}">
         </a>
       </div>
       {% endif %}
@@ -206,7 +206,7 @@
           <div class="desparchado-box">
             <a class="link" href="{{ special.get_absolute_url }}">
               <div class="box-img-wrap">
-                <img class="image img-responsive"
+                <img class="image img-fluid"
                      src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQ4AAACHAQMAAADdtyVCAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAANQTFRF////p8QbyAAAAAF0Uk5TAEDm2GYAAAAbSURBVBgZ7cExAQAAAMIg+6deCU9gAAAAAPAWEnUAAUFphIwAAAAASUVORK5CYII="
                      alt="{{ special.title }}" style="background-image: url({{ special.get_image_url }});">
               </div>

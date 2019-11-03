@@ -16,16 +16,14 @@
 {% endblock subheader %}
 
 {% block content %}
-<section class="container" itemscope itemtype="http://schema.org/CollectionPage">
-  <div class="row text-center justify-content-md-center clearfix">
-    <h2 class="title-one">
+  <section class="container clearfix" itemscope itemtype="http://schema.org/CollectionPage">
+    <h2 class="text-justify text-center">
       Próximos eventos
       {% if city_filter %}
         en <a href="{{ city_filter.get_absolute_url }}">{{ city_filter.name }}</a>
       {% endif %}
     </h2>
-  </div>
-</section>
+  </section>
 
   {% include 'events/_events_grid.html' %}
 
