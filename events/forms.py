@@ -64,7 +64,7 @@ class EventCreateForm(EventBaseForm):
                 css_class='form-row',
             ),
             Div(
-                Div('organizers', css_class='col-xs-10'),
+                Div('organizers', css_class='col-10'),
                 Div(
                     HTML(
                         '<a href="{}" class="btn btn-light add-related" '
@@ -74,12 +74,12 @@ class EventCreateForm(EventBaseForm):
                             reverse_lazy('events:organizer_add'),
                         )
                     ),
-                    css_class='col-xs-2'
+                    css_class='col-2'
                 ),
                 css_class='form-row',
             ),
             Div(
-                Div('place', css_class='col-xs-10'),
+                Div('place', css_class='col-10'),
                 Div(
                     HTML(
                         '<a href="{}" class="btn btn-light add-related" '
@@ -89,7 +89,7 @@ class EventCreateForm(EventBaseForm):
                             reverse_lazy('places:place_add'),
                         )
                     ),
-                    css_class='col-xs-2'
+                    css_class='col-2'
                 ),
                 css_class='form-row',
             ),
@@ -180,7 +180,7 @@ class EventUpdateForm(EventBaseForm):
             ),
             PrependedText('price', '$'),
             Div(
-                Div('organizers', css_class='col-xs-10'),
+                Div('organizers', css_class='col-10'),
                 Div(
                     HTML(
                         '<a href="{}" class="btn btn-light add-related" '
@@ -190,12 +190,12 @@ class EventUpdateForm(EventBaseForm):
                             reverse_lazy('events:organizer_add'),
                         )
                     ),
-                    css_class='col-xs-2'
+                    css_class='col-2'
                 ),
                 css_class='form-row',
             ),
             Div(
-                Div('place', css_class='col-xs-10'),
+                Div('place', css_class='col-10'),
                 Div(
                     HTML(
                         '<a href="{}" class="btn btn-light add-related" '
@@ -205,12 +205,12 @@ class EventUpdateForm(EventBaseForm):
                             reverse_lazy('places:place_add'),
                         )
                     ),
-                    css_class='col-xs-2'
+                    css_class='col-2'
                 ),
                 css_class='form-row',
             ),
             Div(
-                Div('speakers', css_class='col-xs-10'),
+                Div('speakers', css_class='col-10'),
                 Div(
                     HTML(
                         '<a href="{}" class="btn btn-light add-related" '
@@ -220,7 +220,7 @@ class EventUpdateForm(EventBaseForm):
                             reverse_lazy('events:speaker_add'),
                         )
                     ),
-                    css_class='col-xs-2'
+                    css_class='col-2'
                 ),
                 css_class='form-row',
             ),
