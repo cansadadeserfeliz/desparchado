@@ -1,15 +1,15 @@
 {% extends 'layout/base.html' %}
 
 {% block subheader %}
- <div class="row text-center clearfix well promo">
-     <div class="col-sm-8 col-sm-offset-2">
-        <h4>
-          <b>Desparchado.co</b> es un proyecto sin ánimo de lucro, que sirve
-          para compartir eventos culturales y educativos y darles más visibilidad.
-          Los anuncios de los eventos pueden ser publicados en la página web por editores
-          o usuarios registrados.
-        </h4>
-     </div>
+ <div class="card card-body bg-light promo">
+   <div class="container">
+      <h4>
+        <b>Desparchado.co</b> es un proyecto sin ánimo de lucro, que sirve
+        para compartir eventos culturales y educativos y darles más visibilidad.
+        Los anuncios de los eventos pueden ser publicados en la página web por editores
+        o usuarios registrados.
+      </h4>
+    </div>
   </div>
 {% endblock subheader %}
 
@@ -32,12 +32,9 @@
   </section>
 
   {% if past_events %}
-    <section class="container">
-      <div class="row text-center clearfix">
-        <div class="col-sm-8 col-sm-offset-2">
-          <h2 class="title-one">Eventos pasados</h2>
-        </div>
-      </div>
+
+    <section class="container clearfix">
+      <h2 class="text-justify text-center">Eventos pasados</h2>
     </section>
 
     {% include 'events/_events_grid.html' with events=past_events %}
@@ -50,22 +47,14 @@
 
   {% endif %}
 
-  <section class="container">
-    <div class="row text-center clearfix">
-      <div class="col-sm-8 col-sm-offset-2">
-        <h2 class="title-one">Ciudades</h2>
-      </div>
-    </div>
+  <section class="container clearfix">
+    <h2 class="text-justify text-center">Ciudades</h2>
   </section>
 
   {% include 'places/_cities_grid.html' with cities=global_cities %}
 
-  <section class="container">
-    <div class="row text-center clearfix">
-      <div class="col-sm-8 col-sm-offset-2">
-        <h2 class="title-one">Blog</h2>
-      </div>
-    </div>
+  <section class="container clearfix">
+    <h2 class="text-justify text-center">Blog</h2>
   </section>
 
   {% include 'blog/_posts_grid.html' %}

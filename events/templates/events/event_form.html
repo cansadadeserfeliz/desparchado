@@ -4,7 +4,7 @@
 {% block title %}{% if event %}Editar evento{% else %}Añadir evento{% endif %}{% endblock %}
 
 {% block content %}
-<h1>{% if event %}Editar evento{% else %}Añadir nuevo evento{% endif %}:</h1>
+<h2 class="text-center">{% if event %}Editar evento{% else %}Añadir nuevo evento{% endif %}:</h2>
 
 <section id="event_form_container" class="container">
   {% crispy form %}

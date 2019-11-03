@@ -2,7 +2,7 @@
   <p>
     <b>{{ key }}:</b>
   {% ifequal key 'imagen' %}
-    <img class="img-responsive" src="{{ value.src }}">
+    <img class="img-fluid" src="{{ value.src }}">
   {% else %}
     {{ value|safe }}
   {% endifequal %}

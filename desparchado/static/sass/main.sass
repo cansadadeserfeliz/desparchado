@@ -50,15 +50,13 @@
   border-radius: 0
   margin-left: 0
   margin-right: 0
+  text-align: center
+  margin-bottom: 20px
+  min-height: 20px
+  padding: 19px
 
-.ml-auto, .mx-auto
-  margin-left: auto!important
-  margin-right: auto!important
-  position: relative
-  width: 100%
-  min-height: 1px
-  padding-right: 15px
-  padding-left: 15px
+  h4
+    font-size: 18px
 
 .login-form,
 .register-form,
@@ -102,6 +100,7 @@
     padding: 13px
     display: inline-block
     height: 100%
+    width: 100%
 
     .box-title
       overflow: hidden
@@ -163,12 +162,10 @@
 /* Image Gallery */
 
 .image-gallery-container
-  display: grid
-  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr))
-  grid-gap: 1em
 
   .image-gallery-listing
     position: relative
+    margin: 10px
 
     .image-gallery-title
       font-size: 12px
@@ -204,6 +201,7 @@
         transform: scale(1.1)
         height: 130px
         width: 130px
+        margin: auto
         background-repeat: no-repeat
         background-position: center
         background-size: cover

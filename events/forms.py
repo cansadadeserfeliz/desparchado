@@ -6,7 +6,6 @@ from crispy_forms.layout import Submit
 from crispy_forms.layout import Layout
 from crispy_forms.layout import Div
 from crispy_forms.layout import HTML
-from crispy_forms.layout import Fieldset
 from crispy_forms.layout import Field
 from crispy_forms.bootstrap import PrependedText
 from dal import autocomplete
@@ -46,39 +45,53 @@ class EventCreateForm(EventBaseForm):
             'event_source_url',
             'image',
             Div(
-                Div('event_date', css_class='col-md-6'),
-                Div('event_end_date', css_class='col-md-6'),
-                css_class='row',
+                Div(
+                    Field(
+                        'event_date',
+                        data_toggle='datetimepicker',
+                        data_target='#id_event_date',
+                    ),
+                    css_class='col-md-6'
+                ),
+                Div(
+                    Field(
+                        'event_end_date',
+                        data_toggle='datetimepicker',
+                        data_target='#id_event_end_date',
+                    ),
+                    css_class='col-md-6'
+                ),
+                css_class='form-row',
             ),
             Div(
-                Div('organizers', css_class='col-xs-10'),
+                Div('organizers', css_class='col-10'),
                 Div(
                     HTML(
-                        '<a href="{}" class="btn btn-default add-related" '
+                        '<a href="{}" class="btn btn-light add-related" '
                         'title="Añadir nuevo organizador" target="_blank">'
                         '<i class="fas fa-plus"></i>'
                         '</a>'.format(
                             reverse_lazy('events:organizer_add'),
                         )
                     ),
-                    css_class='col-xs-2'
+                    css_class='col-2'
                 ),
-                css_class='row',
+                css_class='form-row',
             ),
             Div(
-                Div('place', css_class='col-xs-10'),
+                Div('place', css_class='col-10'),
                 Div(
                     HTML(
-                        '<a href="{}" class="btn btn-default add-related" '
+                        '<a href="{}" class="btn btn-light add-related" '
                         'title="Añadir nuevo presentador" target="_blank">'
                         '<i class="fas fa-plus"></i>'
                         '</a>'.format(
                             reverse_lazy('places:place_add'),
                         )
                     ),
-                    css_class='col-xs-2'
+                    css_class='col-2'
                 ),
-                css_class='row',
+                css_class='form-row',
             ),
             Div(
                 Submit('submit', 'PUBLICAR EVENTO', css_class='btn-primary'),
@@ -144,58 +157,72 @@ class EventUpdateForm(EventBaseForm):
             Div(
                 Div('event_type', css_class='col-md-6'),
                 Div('topic', css_class='col-md-6'),
-                css_class='row',
+                css_class='form-row',
             ),
             Div(
-                Div('event_date', css_class='col-md-6'),
-                Div('event_end_date', css_class='col-md-6'),
-                css_class='row',
+                Div(
+                    Field(
+                        'event_date',
+                        data_toggle='datetimepicker',
+                        data_target='#id_event_date',
+                    ),
+                    css_class='col-md-6'
+                ),
+                Div(
+                    Field(
+                        'event_end_date',
+                        data_toggle='datetimepicker',
+                        data_target='#id_event_end_date',
+                    ),
+                    css_class='col-md-6'
+                ),
+                css_class='form-row',
             ),
             PrependedText('price', '$'),
             Div(
-                Div('organizers', css_class='col-xs-10'),
+                Div('organizers', css_class='col-10'),
                 Div(
                     HTML(
-                        '<a href="{}" class="btn btn-default add-related" '
+                        '<a href="{}" class="btn btn-light add-related" '
                         'title="Añadir nuevo organizador" target="_blank">'
                         '<i class="fas fa-plus"></i>'
                         '</a>'.format(
                             reverse_lazy('events:organizer_add'),
                         )
                     ),
-                    css_class='col-xs-2'
+                    css_class='col-2'
                 ),
-                css_class='row',
+                css_class='form-row',
             ),
             Div(
-                Div('place', css_class='col-xs-10'),
+                Div('place', css_class='col-10'),
                 Div(
                     HTML(
-                        '<a href="{}" class="btn btn-default add-related" '
+                        '<a href="{}" class="btn btn-light add-related" '
                         'title="Añadir nuevo presentador" target="_blank">'
                         '<i class="fas fa-plus"></i>'
                         '</a>'.format(
                             reverse_lazy('places:place_add'),
                         )
                     ),
-                    css_class='col-xs-2'
+                    css_class='col-2'
                 ),
-                css_class='row',
+                css_class='form-row',
             ),
             Div(
-                Div('speakers', css_class='col-xs-10'),
+                Div('speakers', css_class='col-10'),
                 Div(
                     HTML(
-                        '<a href="{}" class="btn btn-default add-related" '
+                        '<a href="{}" class="btn btn-light add-related" '
                         'title="Añadir nuevo presentador" target="_blank">'
                         '<i class="fas fa-plus"></i>'
                         '</a>'.format(
                             reverse_lazy('events:speaker_add'),
                         )
                     ),
-                    css_class='col-xs-2'
+                    css_class='col-2'
                 ),
-                css_class='row',
+                css_class='form-row',
             ),
             Div(
                 Submit('submit', 'GUARDAR', css_class='btn-primary'),
