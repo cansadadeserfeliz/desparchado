@@ -6,7 +6,6 @@ from django.utils import timezone
 
 from events.models import Event
 from events.models import SocialNetworkPost
-from places.models import City
 from blog.models import Post
 
 

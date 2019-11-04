@@ -96,7 +96,7 @@ class OrganizerDetailView(DetailView):
         context['events'] = \
             self.get_object().events.published().future().all()
         context['past_events'] = \
-            self.get_object().events.published().past().order_by('-event_date').all()[:9]
+            self.get_object().events.published().past().order_by('-event_date').all()[:18]
         return context
 
 

@@ -125,35 +125,12 @@ class OrganizerAdmin(admin.ModelAdmin):
 
     readonly_fields = ('slug',)
 
-    fieldsets = (
-        (None, {
-            'fields': (
-                'name',
-                'slug',
-                'description',
-                'website_url',
-            ),
-        }),
-        ('Image', {
-            'fields': (
-                'image',
-                'image_source_url',
-            ),
-        }),
-    )
+    exclude = ('created_by',)
 
     def save_model(self, request, obj, form, change):
         if not obj.id:
             obj.created_by = request.user
         super().save_model(request, obj, form, change)
-
-        send_admin_notification(request, obj, form, change)
-
-    def get_actions(self, request):
-        return []
-
-    def has_delete_permission(self, request, obj=None):
-        return False
 
 
 @admin.register(Speaker)

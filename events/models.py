@@ -256,6 +256,9 @@ class Organizer(TimeStampedModel):
         null=False, unique=True, populate_from='name')
     description = models.TextField('Descripción', default='')
     website_url = models.URLField('Página web', null=True, blank=True)
+    facebook_url = models.URLField('Página en Facebook', null=True, blank=True)
+    twitter_url = models.URLField('Página en Twitter', null=True, blank=True)
+    instagram_url = models.URLField('Página en Instagram', null=True, blank=True)
     image = models.ImageField(
         'Imagen', blank=True, null=True, upload_to='organizers')
     image_source_url = models.URLField(
@@ -276,7 +279,7 @@ class Organizer(TimeStampedModel):
     def get_image_url(self):
         if self.image:
             return self.image.url
-        return None
+        return static('images/organizer-default.jpeg')
 
     def get_absolute_url(self):
         return reverse('events:organizer_detail', args=[self.slug])
