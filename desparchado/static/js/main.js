@@ -2,6 +2,7 @@ $(function () {
   $('.datetimeinput').datetimepicker({
     locale: 'es',
     allowInputToggle: true,
+    focusOnShow: true,
     icons: {
         time: 'fas fa-clock',
         date: 'fas fa-calendar',
@@ -11,7 +12,7 @@ $(function () {
         next: 'fas fa-chevron-right',
         today: 'fas fa-calendar-check',
         clear: 'fas fa-trash',
-        close: 'fas fa-times'
+        close: 'fas fa-window-close'
     },
     tooltips: {
       today: 'Go to today',
