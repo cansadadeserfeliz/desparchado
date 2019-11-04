@@ -1,25 +1,17 @@
 import requests
 
 
-def get_blaa_events_list():
+def get_blaa_events_list(page):
     url = 'https://admin.banrepcultural.org/api/actividades?/api/taxonomias/etiquetas?tid_raw_4=1192&page={page}'
-    response = requests.get(url.format(page=1), verify=False)
+    response = requests.get(url.format(page=page), verify=False)
     data = response.json()
     nodes = data['nodes']
     view = data['view']
-    pages = view['pages']
+    pages_count = view['pages']
     events = []
-    for page in range(1, pages + 1):
-        if page == 1:
-            for node in nodes:
+    for node in nodes:
                 events.append(node)
-        else:
-            response = requests.get(url.format(page=page), verify=False)
-            data = response.json()
-            nodes = data['nodes']
-            for node in nodes:
-                events.append(node)
-    return events
+    return events, pages_count
 
 
 def get_blaa_event(event_id):
