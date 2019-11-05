@@ -218,9 +218,9 @@ class EventCreateView(CreateView):
 
             start_date = None
             start = self.blaa_event_json.get('start')
-            hour = self.blaa_event_json.get('hour', '').upper()
+            hour = self.blaa_event_json.get('hour', '')
             if start and hour:
-                found_hours = re.findall(r'\d{1,2}:\d\d\s+\w\w', hour)
+                found_hours = re.findall(r'\d{1,2}:\d\d\s+\w\w', hour.upper())
                 found_date = re.findall(r'\d{2}/\d{2}/\d{4}', start)
                 if found_hours and found_date:
                     t = time.strptime(found_hours[0], "%I:%M %p")
