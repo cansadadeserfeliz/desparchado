@@ -232,9 +232,12 @@ class EventCreateView(CreateView):
             organizer = Organizer.objects.filter(
                 name='Banco de la República'
             ).first()
-            place = Place.objects.filter(
-                name__icontains=self.blaa_event_json['place']
-            ).first()
+            if self.blaa_event_json['place']:
+                place = Place.objects.filter(
+                    name__icontains=self.blaa_event_json['place']
+                ).first()
+            else:
+                place = None
 
             initial.update(dict(
                 title=self.blaa_event_json['titulo'],
