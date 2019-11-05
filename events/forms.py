@@ -8,6 +8,7 @@ from crispy_forms.layout import Div
 from crispy_forms.layout import HTML
 from crispy_forms.layout import Field
 from crispy_forms.bootstrap import PrependedText
+from crispy_forms.bootstrap import AppendedText
 from dal import autocomplete
 
 from .models import Event
@@ -46,20 +47,24 @@ class EventCreateForm(EventBaseForm):
             'image',
             Div(
                 Div(
-                    Field(
+                    AppendedText(
                         'event_date',
-                        data_toggle='datetimepicker',
-                        data_target='#id_event_date',
+                        '<i data-target="#id_event_date" '
+                        '   data-toggle="datetimepicker" '
+                        '   class="fa fa-calendar"></i>'
                     ),
-                    css_class='col-md-6'
+                    data_target="#id_event_date",
+                    css_class='input-group date col-md-6',
                 ),
                 Div(
-                    Field(
+                    AppendedText(
                         'event_end_date',
-                        data_toggle='datetimepicker',
-                        data_target='#id_event_end_date',
+                        '<i data-target="#id_event_end_date" '
+                        '   data-toggle="datetimepicker" '
+                        '   class="fa fa-calendar"></i>'
                     ),
-                    css_class='col-md-6'
+                    data_target="#event_end_date",
+                    css_class='input-group date col-md-6',
                 ),
                 css_class='form-row',
             ),
@@ -161,20 +166,24 @@ class EventUpdateForm(EventBaseForm):
             ),
             Div(
                 Div(
-                    Field(
+                    AppendedText(
                         'event_date',
-                        data_toggle='datetimepicker',
-                        data_target='#id_event_date',
+                        '<i data-target="#id_event_date" '
+                        '   data-toggle="datetimepicker" '
+                        '   class="fa fa-calendar"></i>'
                     ),
-                    css_class='col-md-6'
+                    data_target="#id_event_date",
+                    css_class='input-group date col-md-6',
                 ),
                 Div(
-                    Field(
+                    AppendedText(
                         'event_end_date',
-                        data_toggle='datetimepicker',
-                        data_target='#id_event_end_date',
+                        '<i data-target="#id_event_end_date" '
+                        '   data-toggle="datetimepicker" '
+                        '   class="fa fa-calendar"></i>'
                     ),
-                    css_class='col-md-6'
+                    data_target="#event_end_date",
+                    css_class='input-group date col-md-6',
                 ),
                 css_class='form-row',
             ),
