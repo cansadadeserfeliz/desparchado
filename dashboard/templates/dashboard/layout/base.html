@@ -19,12 +19,6 @@
     <!-- Generated: 2018-04-16 09:29:05 +0200 -->
     <title>Dashboard Desparchado</title>
 
-    <script src="./assets/js/require.min.js"></script>
-    <script>
-      requirejs.config({
-          baseUrl: '.'
-      });
-    </script>
     <!-- Dashboard Core -->
     {% stylesheet 'dashboard' %}
     {% javascript 'dashboard' %}
@@ -88,13 +82,13 @@
               <div class="row">
                 <div class="col-6 col-md-3">
                   <ul class="list-unstyled mb-0">
-                    <li><a href="#">First link</a></li>
-                    <li><a href="#">Second link</a></li>
+                    <li><a href="{% url 'home' %}">desparchado.co</a></li>
+                    <li><a href="{% url 'admin:index' %}">Django Admin</a></li>
                   </ul>
                 </div>
                 <div class="col-6 col-md-3">
                   <ul class="list-unstyled mb-0">
-                    <li><a href="#">Third link</a></li>
+                    <li><a href="https://github.com/vero4karu/desparchado">Github</a></li>
                     <li><a href="#">Fourth link</a></li>
                   </ul>
                 </div>
@@ -113,7 +107,11 @@
               </div>
             </div>
             <div class="col-lg-4 mt-4 mt-lg-0">
-              Premium and Open Source dashboard template with responsive and high quality UI. For Free!
+              Desparchado.co es un proyecto sin ánimo de lucro,
+              que sirve para compartir eventos culturales y educativos
+              y darles más visibilidad.
+              Los anuncios de los eventos pueden ser publicados en la página web
+              por editores o usuarios registrados.
             </div>
           </div>
         </div>
@@ -125,12 +123,12 @@
               <div class="row align-items-center">
                 <div class="col-auto">
                   <ul class="list-inline list-inline-dots mb-0">
-                    <li class="list-inline-item"><a href="./docs/index.html">Documentation</a></li>
-                    <li class="list-inline-item"><a href="./faq.html">FAQ</a></li>
+                    <li class="list-inline-item"><a href="https://github.com/vero4karu/desparchado">Documentation</a></li>
+                    <li class="list-inline-item"><a href="{% url 'about' %}">FAQ</a></li>
                   </ul>
                 </div>
                 <div class="col-auto">
-                  <a href="https://github.com/tabler/tabler" class="btn btn-outline-primary btn-sm">Source code</a>
+                  <a href="https://github.com/vero4karu/desparchado" class="btn btn-outline-primary btn-sm">Source code</a>
                 </div>
               </div>
             </div>

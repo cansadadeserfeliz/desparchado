@@ -7,25 +7,19 @@
             <a href="{% url 'dashboard:home' %}" class="nav-link"><i class="fe fe-home"></i> Dashboard home</a>
           </li>
           <li class="nav-item">
-            <a href="{% url 'home' %}" class="nav-link"><i class="fe fe-home"></i> desparchado.co</a>
+            <a href="{% url 'dashboard:events' %}" class="nav-link"><i class="fe fe-home"></i> Events</a>
           </li>
           <li class="nav-item">
-            <a href="{% url 'admin:index' %}" class="nav-link"><i class="fe fe-home"></i> Django Admin</a>
+            <a href="{% url 'dashboard:places' %}" class="nav-link"><i class="fe fe-home"></i> Places</a>
           </li>
           <li class="nav-item">
-            <a href="javascript:void(0)" class="nav-link" data-toggle="dropdown"><i class="fe fe-box"></i> Main navigation</a>
-            <div class="dropdown-menu dropdown-menu-arrow">
-              <a href="{% url 'dashboard:events' %}" class="dropdown-item ">Events</a>
-              <a href="{% url 'dashboard:places' %}" class="dropdown-item ">Places</a>
-              <a href="{% url 'dashboard:users' %}" class="dropdown-item ">Users</a>
-            </div>
+            <a href="{% url 'dashboard:users' %}" class="nav-link"><i class="fe fe-home"></i> Users</a>
           </li>
           <li class="nav-item">
-            <a href="javascript:void(0)" class="nav-link" data-toggle="dropdown"><i class="fe fe-box"></i> Events to add</a>
-            <div class="dropdown-menu dropdown-menu-arrow">
-              <a href="{% url 'dashboard:blaa_events_list' %}" class="dropdown-item ">BLAA</a>
-              <a href="{% url 'dashboard:event_sources' %}" class="dropdown-item ">Sources</a>
-            </div>
+            <a href="{% url 'dashboard:blaa_events_list' %}" class="nav-link"><i class="fe fe-home"></i> BLAA</a>
+          </li>
+          <li class="nav-item">
+            <a href="{% url 'dashboard:event_sources' %}" class="nav-link"><i class="fe fe-home"></i> Sources</a>
           </li>
           <li class="nav-item">
             <a href="{% url 'dashboard:social_posts' %}" class="nav-link"><i class="far fa-calendar-alt"></i> Social posts</a>
