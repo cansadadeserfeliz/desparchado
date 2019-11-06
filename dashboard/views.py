@@ -40,7 +40,6 @@ class HomeView(SuperuserRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['total_events_count'] = Event.objects.published().count()
         context['future_events'] = Event.objects.published().future().all()
         context['future_events_count'] = Event.objects.published().future().count()
         context['future_events_by_date'] = Event.objects.published().future()\
@@ -51,7 +50,6 @@ class HomeView(SuperuserRequiredMixin, TemplateView):
             .annotate(weekday=ExtractWeekDay('event_date')).values('weekday')\
             .annotate(count=Count('id')).values('weekday', 'count')\
             .order_by('weekday')
-        context['places_count'] = Place.objects.count()
         context['organizers_count'] = Organizer.objects.count()
         context['speakers_count'] = Speaker.objects.count()
         context['active_users_count'] = User.objects.filter(is_active=True).count()

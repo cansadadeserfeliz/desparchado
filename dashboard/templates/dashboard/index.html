@@ -2,154 +2,133 @@
 {% load humanize desparchado_tags %}
 
 {% block content %}
-<div class="row">
-  <div class="col-md-4 col-sm-6 col-12">
-    <div class="info-box">
-      <span class="info-box-icon bg-aqua"><i class="fa fa-calendar"></i></span>
-
-      <div class="info-box-content">
-        <span class="info-box-text">Published Events</span>
-        <span class="info-box-number">{{ total_events_count|intcomma }}</span>
-      </div><!-- /.info-box-content -->
-    </div><!-- /.info-box -->
-  </div><!-- /.col -->
-  <div class="col-md-4 col-sm-6 col-12">
-    <div class="info-box">
-      <span class="info-box-icon bg-green"><i class="fa fa-calendar"></i></span>
-
-      <div class="info-box-content">
-        <span class="info-box-text">Future Events</span>
-        <span class="info-box-number">{{ future_events_count|intcomma }}</span>
-      </div><!-- /.info-box-content -->
-    </div><!-- /.info-box -->
-  </div><!-- /.col -->
-  <div class="col-md-4 col-sm-6 col-12">
-    <div class="info-box">
-      <span class="info-box-icon bg-yellow"><i class="fa fa-users"></i></span>
-
-      <div class="info-box-content">
-        <span class="info-box-text">Active users</span>
-        <span class="info-box-number">{{ active_users_count|intcomma }}</span>
-      </div><!-- /.info-box-content -->
-    </div><!-- /.info-box -->
-  </div><!-- /.col -->
-</div><!-- /.row -->
-
-<div class="row">
-  <div class="col-md-4 col-sm-6 col-12">
-    <div class="info-box">
-      <span class="info-box-icon bg-aqua"><i class="fa fa-map-marker"></i></span>
-
-      <div class="info-box-content">
-        <span class="info-box-text">Places</span>
-        <span class="info-box-number">{{ places_count|intcomma }}</span>
-      </div><!-- /.info-box-content -->
-    </div><!-- /.info-box -->
-  </div><!-- /.col -->
-  <div class="col-md-4 col-sm-6 col-12">
-    <div class="info-box">
-      <span class="info-box-icon bg-aqua"><i class="fa fa-building-o"></i></span>
-
-      <div class="info-box-content">
-        <span class="info-box-text">Organizers</span>
-        <span class="info-box-number">{{ organizers_count|intcomma }}</span>
-      </div><!-- /.info-box-content -->
-    </div><!-- /.info-box -->
-  </div><!-- /.col -->
-  <div class="col-md-4 col-sm-6 col-12">
-    <div class="info-box">
-      <span class="info-box-icon bg-aqua"><i class="fa fa-black-tie"></i></span>
-
-      <div class="info-box-content">
-        <span class="info-box-text">Speakers</span>
-        <span class="info-box-number">{{ speakers_count|intcomma }}</span>
-      </div><!-- /.info-box-content -->
-    </div><!-- /.info-box -->
-  </div><!-- /.col -->
-</div><!-- /.row -->
-
-<div class="row">
-
-  <div class="col-md-4 col-sm-6 col-12">
-    <div class="small-box bg-aqua">
-      <div class="inner">
-        <h3>BLAA</h3>
-
-        <p>BLAA</p>
-      </div>
-      <div class="icon">
-        <i class="fa fa-calendar-check-o"></i>
-      </div>
-      <a href="{% url 'dashboard:blaa_events_list' %}" class="small-box-footer">See events <i class="fa fa-arrow-circle-right"></i></a>
-    </div>
-  </div><!-- /.col -->
-
-  <div class="col-md-4 col-sm-6 col-12">
-  </div><!-- /.col -->
-
-  <div class="col-md-4 col-sm-6 col-12">
-  </div><!-- /.col -->
-
-</div><!-- /.row -->
-
 <script src='https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyAFbA9J0IcGyy20cl7xd6Le16U_Bx_TSeI'></script>
 
-<div class="row">
-  <div class="col-md-6">
-    <div class="box box-success">
-      <div class="box-header with-border">
-        <h3 class="box-title">Future events per weekday</h3>
-        <div class="box-tools pull-right">
-          <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+<div class="row row-cards">
+  <div class="col-sm-6 col-lg-3">
+    <div class="card p-3">
+      <div class="d-flex align-items-center">
+        <span class="stamp stamp-md bg-orange mr-3">
+          <i class="fe fe-anchor"></i>
+        </span>
+        <div>
+          <h4 class="m-0"><a href="{% url 'dashboard:events' %}">{{ future_events_count|intcomma }} <small>Future events</small></a></h4>
+          <small class="text-muted">Eventos futuros</small>
         </div>
-      </div><!-- /.box-header -->
-      <div class="box-body">
-        <ul class="nav nav-stacked">
-        {% for item in future_events_by_weekday %}
-          <li><a href="#">{{ item.weekday|weekday_to_str }} <span class="pull-right badge bg-blue">{{ item.count }}</span></a></li>
-        {% endfor %}
-        </ul>
       </div>
-    </div><!-- /.box -->
-
-    <div class="box box-success">
-      <div class="box-header with-border">
-        <h3 class="box-title">Future events per date</h3>
-        <div class="box-tools pull-right">
-          <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+    </div>
+  </div>
+  <div class="col-sm-6 col-lg-3">
+    <div class="card p-3">
+      <div class="d-flex align-items-center">
+        <span class="stamp stamp-md bg-red mr-3">
+          <i class="fe fe-user-check"></i>
+        </span>
+        <div>
+          <h4 class="m-0"><a href="{% url 'dashboard:users' %}">{{ active_users_count|intcomma }} <small>Active users</small></a></h4>
+          <small class="text-muted">Usuarios activos</small>
         </div>
-      </div><!-- /.box-header -->
-      <div class="box-body">
-        <ul class="nav nav-stacked">
-        {% for item in future_events_by_date %}
-          <li><a href="#">{{ item.day|date:'d-m-Y, l' }} <span class="pull-right badge bg-blue">{{ item.count }}</span></a></li>
-        {% endfor %}
-        </ul>
       </div>
-    </div><!-- /.box -->
+    </div>
+  </div>
+  <div class="col-sm-6 col-lg-3">
+    <div class="card p-3">
+      <div class="d-flex align-items-center">
+        <span class="stamp stamp-md bg-gray mr-3">
+          <i class="fe fe-briefcase"></i>
+        </span>
+        <div>
+          <h4 class="m-0"><a href="javascript:void(0)">{{ organizers_count|intcomma }} <small>Organizers</small></a></h4>
+          <small class="text-muted">Organizadores</small>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6 col-lg-3">
+    <div class="card p-3">
+      <div class="d-flex align-items-center">
+        <span class="stamp stamp-md bg-cyan mr-3">
+          <i class="fe fe-users"></i>
+        </span>
+        <div>
+          <h4 class="m-0"><a href="javascript:void(0)">{{ speakers_count|intcomma }} <small>Speakers</small></a></h4>
+          <small class="text-muted">Presentadores</small>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <div class="col-md-6">
-    <div class="box">
-      <div class="box-header with-border">
-        <h3 class="box-title">Future events map</h3>
+  <div class="col-lg-6">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">Future events per weekday</h3>
       </div>
-      <!-- /.box-header -->
-      <div class="box-body">
-        <div style='overflow:hidden;height:400px;width:auto;'>
-          <div id='map_canvas' style='height:400px;'></div>
-          <style>
-            #map_canvas img {
-              width: auto;
-              max-width:none !important;
-              background:none !important
-            }
-          </style>
-        </div>
+      <div class="table-responsive">
+        <table class="table card-table table-striped table-vcenter table-sm">
+          <thead>
+            <tr>
+              <th>Weekday</th>
+              <th>Count</th>
+            </tr>
+          </thead>
+          <tbody>
+          {% for item in future_events_by_weekday %}
+            <tr>
+              <td>{{ item.weekday|weekday_to_str }}</td>
+              <td>{{ item.count }}</td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
       </div>
-    </div><!-- /.box -->
+    </div>
   </div>
-</div><!-- /.row -->
+
+  <div class="col-lg-6">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">Future events per per date</h3>
+      </div>
+      <div class="table-responsive">
+        <table class="table card-table table-striped table-vcenter table-sm">
+          <thead>
+            <tr>
+              <th>Weekday</th>
+              <th>Count</th>
+            </tr>
+          </thead>
+          <tbody>
+          {% for item in future_events_by_date %}
+            <tr>
+              <td>{{ item.day|date:'d-m-Y, l' }}</td>
+              <td>{{ item.count }}</td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">Future events map</h3>
+      </div>
+      <div style='overflow:hidden;height:400px;width:auto;'>
+        <div id='map_canvas' style='height:400px;'></div>
+        <style>
+          #map_canvas img {
+            width: auto;
+            max-width:none !important;
+            background:none !important
+          }
+        </style>
+      </div>
+    </div>
+  </div>
+
+</div>
 
 <script type='text/javascript'>
     const bounds = new google.maps.LatLngBounds();
