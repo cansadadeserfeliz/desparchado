@@ -40,7 +40,9 @@
 
 {% if user|user_can_edit_speaker:speaker %}
 <div class="event-edit text-center">
-  <a href="{% url 'events:speaker_update' speaker.slug %}" class="btn btn-sm btn-default">EDITAR</a>
+  <a class="btn btn-primary" href="{% url 'events:speaker_update' speaker.slug %}" class="hover-color list-inline-item">
+    EDITAR
+  </a>
 </div>
 {% endif %}
 

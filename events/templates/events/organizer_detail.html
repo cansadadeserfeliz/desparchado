@@ -40,7 +40,9 @@
           <p class="card-description">
             {% if user|user_can_edit_organizer:organizer %}
             <div class="text-center">
-              <a href="{% url 'events:organizer_update' organizer.slug %}" class="btn btn-sm btn-primary">EDITAR</a>
+              <a class="btn btn-primary" href="{% url 'events:organizer_update' organizer.slug %}" class="hover-color list-inline-item">
+                EDITAR
+              </a>
             </div>
             {% endif %}
           </p>

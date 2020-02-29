@@ -80,7 +80,9 @@
 
   {% if user|user_can_edit_event:event %}
     <div class="event-edit text-center">
-      <a href="{% url 'events:event_update' event.pk %}" class="btn btn-sm btn-primary">EDITAR EVENTO</a>
+      <a class="btn btn-primary" href="{% url 'events:event_update' event.pk %}" class="hover-color list-inline-item">
+        EDITAR EVENTO
+      </a>
     </div>
   {% endif %}
 
