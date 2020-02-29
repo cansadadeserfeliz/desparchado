@@ -68,6 +68,7 @@ class EventAdmin(admin.ModelAdmin):
                 'organizers',
                 'place',
                 'speakers',
+                'editors',
             ),
         }),
         (_('Extra'), {
@@ -84,6 +85,7 @@ class EventAdmin(admin.ModelAdmin):
         'speakers',
         'press_articles',
         'organizers',
+        'editors',
     )
     autocomplete_lookup_fields = {
         'fk': ['place'],
@@ -91,6 +93,7 @@ class EventAdmin(admin.ModelAdmin):
             'speakers',
             'organizers',
             'press_articles',
+            'editors',
         ],
     }
 

@@ -211,6 +211,11 @@ class Event(TimeStampedModel):
         verbose_name='Creado por',
         related_name='created_events',
     )
+    editors = models.ManyToManyField(
+        settings.AUTH_USER_MODEL,
+        blank=True,
+        related_name='can_edit_events',
+    )
 
     objects = EventQuerySet().as_manager()
 
@@ -268,6 +273,11 @@ class Organizer(TimeStampedModel):
         settings.AUTH_USER_MODEL,
         on_delete=models.DO_NOTHING,
     )
+    editors = models.ManyToManyField(
+        settings.AUTH_USER_MODEL,
+        blank=True,
+        related_name='can_edit_organizers',
+    )
 
     class Meta:
         verbose_name = 'Organizador'
@@ -302,6 +312,11 @@ class Speaker(TimeStampedModel):
     created_by = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.DO_NOTHING,
+    )
+    editors = models.ManyToManyField(
+        settings.AUTH_USER_MODEL,
+        blank=True,
+        related_name='can_edit_speakers',
     )
 
     class Meta:

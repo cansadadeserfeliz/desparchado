@@ -36,6 +36,11 @@ class Place(TimeStampedModel):
         verbose_name='Creado por',
         on_delete=models.DO_NOTHING,
     )
+    editors = models.ManyToManyField(
+        settings.AUTH_USER_MODEL,
+        blank=True,
+        related_name='can_edit_places',
+    )
 
     class Meta:
         verbose_name = 'Lugar'
