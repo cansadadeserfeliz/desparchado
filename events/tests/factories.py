@@ -37,11 +37,12 @@ class OrganizerFactory(factory.django.DjangoModelFactory):
 
 
 class EventFactory(factory.django.DjangoModelFactory):
-    title = factory.fuzzy.FuzzyText(length=100)
+    title = factory.Faker('sentence')
     event_date = factory.LazyFunction(random_future_date)
     event_type = factory.fuzzy.FuzzyChoice(dict(Event.EVENT_TYPES).keys())
+    description = factory.Faker('text')
+    event_source_url = factory.Faker('url')
     topic = factory.fuzzy.FuzzyChoice(dict(Event.EVENT_TOPICS).keys())
-    organizers = factory.SubFactory(OrganizerFactory)
     place = factory.SubFactory(PlaceFactory)
     created_by = factory.SubFactory(UserFactory)
     is_published = True

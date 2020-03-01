@@ -63,6 +63,69 @@ class EventDetailViewTest(WebTest):
         )
 
 
+class EventUpdateViewTest(WebTest):
+
+    def setUp(self):
+        self.user = UserFactory()
+        self.event = EventFactory(created_by=self.user)
+        self.event.organizers.add(OrganizerFactory())
+
+    def test_redirects_for_non_authenticated_user(self):
+        response = self.app.get(
+            reverse('events:event_update', args=[self.event.id]),
+            status=302
+        )
+        self.assertIn(reverse('users:login'), response.location)
+
+    def test_redirects_for_not_event_creator(self):
+        user = UserFactory()
+        self.app.get(
+            reverse('events:event_update', args=[self.event.id]),
+            user=user,
+            status=403
+        )
+
+
+    def test_successfully_updates_event(self):
+        response = self.app.get(
+            reverse('events:event_update', args=[self.event.id]),
+            user=self.user,
+            status=200
+        )
+        self.assertContains(response, self.event.title)
+
+        form = response.forms['event_form']
+        form['title'] = 'Presentación del libro de Julian Barnes'
+        form.submit().follow()
+
+        self.event.refresh_from_db()
+
+        # Title was changed
+        self.assertEqual(self.event.title, 'Presentación del libro de Julian Barnes')
+        self.assertEqual(self.event.created_by, self.user)
+
+    def test_allows_editor_to_edit_event(self):
+        editor_user = UserFactory()
+        self.event.editors.add(editor_user)
+
+        response = self.app.get(
+            reverse('events:event_update', args=[self.event.id]),
+            user=editor_user,
+            status=200
+        )
+        self.assertContains(response, self.event.title)
+
+        form = response.forms['event_form']
+        form['title'] = 'Presentación del libro de Julian Barnes'
+        form.submit().follow()
+
+        self.event.refresh_from_db()
+
+        # Title was changed
+        self.assertEqual(self.event.title, 'Presentación del libro de Julian Barnes')
+        self.assertEqual(self.event.created_by, self.user)
+
+
 class OrganizerDetailViewTest(WebTest):
 
     def setUp(self):

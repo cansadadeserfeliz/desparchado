@@ -241,6 +241,11 @@ class Event(TimeStampedModel):
     def get_absolute_url(self):
         return reverse('events:event_detail', args=[self.slug])
 
+    def can_edit(self, user):
+        if user.is_superuser or user == self.created_by or user in self.editors.all():
+            return True
+        return False
+
     @property
     def is_visible(self):
         return self.is_published and self.is_approved
@@ -294,6 +299,11 @@ class Organizer(TimeStampedModel):
     def get_absolute_url(self):
         return reverse('events:organizer_detail', args=[self.slug])
 
+    def can_edit(self, user):
+        if user.is_superuser or user == self.created_by or user in self.editors.all():
+            return True
+        return False
+
     @staticmethod
     def autocomplete_search_fields():
         return ('name__icontains',)
@@ -333,6 +343,11 @@ class Speaker(TimeStampedModel):
 
     def get_absolute_url(self):
         return reverse('events:speaker_detail', args=[self.slug])
+
+    def can_edit(self, user):
+        if user.is_superuser or user == self.created_by or user in self.editors.all():
+            return True
+        return False
 
     @staticmethod
     def autocomplete_search_fields():

@@ -63,6 +63,11 @@ class Place(TimeStampedModel):
     def get_absolute_url(self):
         return reverse('places:place_detail', args=[self.slug])
 
+    def can_edit(self, user):
+        if user.is_superuser or user == self.created_by or user in self.editors.all():
+            return True
+        return False
+
     @staticmethod
     def autocomplete_search_fields():
         return ('name__icontains',)

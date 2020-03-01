@@ -9,6 +9,7 @@ from django.http import JsonResponse
 from dal import autocomplete
 
 from desparchado.utils import send_notification
+from desparchado.mixins import EditorPermissionRequiredMixin
 from places.models import City
 from .models import Event, Organizer, Speaker
 from .services import get_event_press_articles
@@ -160,7 +161,7 @@ class EventCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class EventUpdateView(LoginRequiredMixin, UpdateView):
+class EventUpdateView(EditorPermissionRequiredMixin, UpdateView):
     form_class = EventUpdateForm
     model = Event
     context_object_name = 'event'
