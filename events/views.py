@@ -190,7 +190,7 @@ class OrganizerCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class OrganizerUpdateView(LoginRequiredMixin, UpdateView):
+class OrganizerUpdateView(EditorPermissionRequiredMixin, UpdateView):
     model = Organizer
     form_class = OrganizerForm
 
@@ -212,7 +212,7 @@ class SpeakerCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class SpeakerUpdateView(LoginRequiredMixin, UpdateView):
+class SpeakerUpdateView(EditorPermissionRequiredMixin, UpdateView):
     model = Speaker
     form_class = SpeakerForm
 
