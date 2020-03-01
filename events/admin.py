@@ -130,6 +130,15 @@ class OrganizerAdmin(admin.ModelAdmin):
 
     exclude = ('created_by',)
 
+    raw_id_fields = (
+        'editors',
+    )
+    autocomplete_lookup_fields = {
+        'm2m': [
+            'editors',
+        ],
+    }
+
     def save_model(self, request, obj, form, change):
         if not obj.id:
             obj.created_by = request.user
@@ -158,7 +167,21 @@ class SpeakerAdmin(admin.ModelAdmin):
                 'image_source_url',
             ),
         }),
+        ('Related', {
+            'fields': (
+                'editors',
+            ),
+        }),
     )
+
+    raw_id_fields = (
+        'editors',
+    )
+    autocomplete_lookup_fields = {
+        'm2m': [
+            'editors',
+        ],
+    }
 
     def save_model(self, request, obj, form, change):
         if not obj.id:

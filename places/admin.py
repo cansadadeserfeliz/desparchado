@@ -39,7 +39,21 @@ class PlaceAdmin(gis_admin.OSMGeoAdmin):
                 'image_source_url',
             ),
         }),
+        ('Related', {
+            'fields': (
+                'editors',
+            ),
+        }),
     )
+
+    raw_id_fields = (
+        'editors',
+    )
+    autocomplete_lookup_fields = {
+        'm2m': [
+            'editors',
+        ],
+    }
 
     def get_actions(self, request):
         return []
