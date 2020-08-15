@@ -5,6 +5,8 @@
 [![Coverage Status](https://coveralls.io/repos/github/vero4karu/desparchado/badge.svg?branch=master)](https://coveralls.io/github/vero4karu/desparchado?branch=master)
 [![Build Status](https://travis-ci.org/vero4karu/desparchado.svg?branch=master)](https://travis-ci.org/vero4karu/desparchado)
 
+<span class="badge-patreon"><a href="https://www.patreon.com/desparchado" title="Donate to this project using Patreon"><img src="https://img.shields.io/badge/patreon-donate-yellow.svg" alt="Patreon donate button" /></a></span>
+
 ## Installation
 
     $ sudo apt-get install gettext
