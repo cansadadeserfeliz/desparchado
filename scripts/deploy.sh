@@ -1,4 +1,4 @@
-workon desparchado
+source /home/vero4ka/.virtualenvs/desparchado/bin/activate
 
 git pull
 
