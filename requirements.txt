@@ -5,16 +5,16 @@ uWSGI==2.0.19.1
 Django==3.1.4
 
 # Python Libs
-Pillow==5.4.1
+Pillow==7.1.0
 psycopg2==2.7.4  # apt-get install postgis
 raven==6.10.0
-social-auth-core==3.0.0
-requests==2.21.0
+social-auth-core==3.3.3
+requests===2.25.0
 
 # Django Libs
 django-autocomplete-light==3.8.1
 django-autoslug==1.9.8
-django-axes==3.1.4
+django-axes==5.9.1
 django-crispy-forms==1.10.0
 django-debug-toolbar==3.2
 django-grappelli==2.14.3
