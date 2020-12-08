@@ -2,7 +2,7 @@
 uWSGI==2.0.19.1
 
 # Framework
-Django==2.0.13
+Django==2.2.13
 
 # Python Libs
 Pillow==5.4.1
