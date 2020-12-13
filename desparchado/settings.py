@@ -342,11 +342,14 @@ MAP_WIDGETS = {
     "LANGUAGE": 'es',
 }
 
-EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp-relay.gmail.com'
-EMAIL_HOST_USER = ''
-EMAIL_HOST_PASSWORD = ''
-EMAIL_PORT = 587
+EMAIL_BACKEND = 'django_ses.SESBackend'
+EMAIL_FROM = 'no-reply@desparchado.co'
+
+AWS_SES_ACCESS_KEY_ID = 'YOUR-ACCESS-KEY-ID'
+AWS_SES_SECRET_ACCESS_KEY = 'YOUR-SECRET-ACCESS-KEY'
+
+AWS_SES_REGION_NAME = 'us-east-1'
+AWS_SES_REGION_ENDPOINT = 'email.us-east-1.amazonaws.com'
 
 # django-debug-toolbar
 INTERNAL_IPS = [
