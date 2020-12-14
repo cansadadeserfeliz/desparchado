@@ -342,6 +342,7 @@ MAP_WIDGETS = {
     "LANGUAGE": 'es',
 }
 
+EMAIL_USE_TLS = True
 EMAIL_BACKEND = 'django_ses.SESBackend'
 EMAIL_FROM = 'no-reply@desparchado.co'
 
