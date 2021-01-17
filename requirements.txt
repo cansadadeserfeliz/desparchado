@@ -6,7 +6,7 @@ Django==3.1.4
 
 # Python Libs
 Pillow==7.1.0
-psycopg2==2.7.4  # apt-get install postgis
+psycopg2==2.8.6  # apt-get install postgis
 raven==6.10.0
 social-auth-core==3.3.3
 requests===2.25.0
