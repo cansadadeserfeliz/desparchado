@@ -68,11 +68,13 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
+    'axes.middleware.AxesMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 AUTHENTICATION_BACKENDS = [
     'social_core.backends.facebook.FacebookOAuth2',
+    'axes.backends.AxesBackend',
 
     'django.contrib.auth.backends.ModelBackend',
 ]
@@ -183,7 +185,7 @@ STATICFILES_FINDERS = (
 )
 
 # django-pipeline
-STATICFILES_STORAGE = 'pipeline.storage.PipelineCachedStorage'
+STATICFILES_STORAGE = 'pipeline.storage.PipelineManifestStorage'
 PIPELINE = {
     'COMPILERS': (
         'pipeline.compilers.sass.SASSCompiler',
