@@ -21,9 +21,7 @@ def send_admin_notification(request, obj, form, change):
             fail_silently=True,
         )
     except:
-        logger.error(
-            'No se pudo enviar correo electrónico',
-        )
+        logger.error('No se pudo enviar correo electrónico')
 
 
 def send_notification(request, obj, model_name, created):
@@ -47,6 +45,4 @@ def send_notification(request, obj, model_name, created):
             fail_silently=True,
         )
     except:
-        logger.error(
-            'No se pudo enviar correo electrónico',
-        )
+        logger.error('No se pudo enviar correo electrónico')
