@@ -18,9 +18,11 @@ environment.json
 .env
 
 # Folders
-desparchado/static/.sass-cache
+desparchado/static/sass/.sass-cache
 desparchado/static/.bundle-gems
 desparchado/static/bower_components
+desparchado/static/node_modules/
+package-lock.json
 
 /static
 /staticfiles
