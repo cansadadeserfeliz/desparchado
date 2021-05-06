@@ -20,8 +20,8 @@ services:
   - postgresql
 
 before_script:
-  - psql -c "CREATE USER vero4ka WITH PASSWORD 'secret' SUPERUSER;" -U postgres
-  - psql -c "CREATE database desparchado_test OWNER vero4ka;" -U postgres
+  - psql -c "CREATE USER desparchado_dev WITH PASSWORD 'secret' SUPERUSER;" -U postgres
+  - psql -c "CREATE database desparchado_test OWNER desparchado_dev;" -U postgres
   - psql -c "create extension postgis" desparchado_test
 
 install:
