@@ -13,7 +13,7 @@ django-autocomplete-light==3.2.10
 django-autoslug==1.9.4
 django-axes==2.3.2
 django-crispy-forms==1.7.2
-django-debug-toolbar==1.11
+django-debug-toolbar==1.11.1
 django-grappelli==2.9.1
 django-map-widgets==0.1.9
 django-markdownx==2.0.28
