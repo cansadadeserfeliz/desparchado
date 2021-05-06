@@ -3,19 +3,24 @@ language: python
 python: 3.8
 
 addons:
-  postgresql: 13
+  postgresql: "11"
   apt:
     packages:
-    - postgresql-13-postgis-3
+    - postgresql-11-postgis-3
     - nodejs
     - npm
+
+env:
+  global:
+  - PGPORT=5432
+  - PGUSER=vero4ka
 
 services:
   - postgresql
 
 before_script:
   - psql -c "CREATE USER vero4ka WITH PASSWORD 'secret' SUPERUSER;" -U postgres
-  - psql -c "CREATE database desparchado_test  OWNER vero4ka;" -U postgres
+  - psql -c "CREATE database desparchado_test OWNER vero4ka;" -U postgres
   - psql -c "create extension postgis" desparchado_test
 
 install:
