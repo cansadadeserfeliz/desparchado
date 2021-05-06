@@ -3,11 +3,12 @@ language: python
 python: 3.8
 
 addons:
-  postgresql: "10"
+  postgresql: "11"
   apt:
     packages:
-    - postgresql-10-postgis-2.5
-    - postgresql-10-postgis-2.5-scripts
+    - postgresql-11
+    - postgresql-11-postgis-2.5
+    - postgresql-11-postgis-2.5-scripts
     - nodejs
     - npm
 
@@ -15,6 +16,10 @@ services:
   - postgresql
 
 before_script:
+  - sudo sed -i 's/port = 5433/port = 5432/' /etc/postgresql/11/main/postgresql.conf
+  - sudo cp /etc/postgresql/{10,11}/main/pg_hba.conf
+  - sudo service postgresql stop
+  - sudo service postgresql start 11
   - psql -c "CREATE USER desparchado_dev WITH PASSWORD 'secret' SUPERUSER;" -U postgres
   - psql -c "CREATE database desparchado_test OWNER desparchado_dev;" -U postgres
   - psql -c "create extension postgis" desparchado_test
