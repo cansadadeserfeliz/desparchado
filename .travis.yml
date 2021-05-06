@@ -3,18 +3,12 @@ language: python
 python: 3.8
 
 addons:
-  postgresql: "11"
+  postgresql: "9.6"
   apt:
     packages:
-    - postgresql-11-postgis-3
-    - postgresql-client-11
+    - postgresql-9.6-postgis-2.4
     - nodejs
     - npm
-
-env:
-  global:
-  - PGPORT=5432
-  - PGUSER=vero4ka
 
 services:
   - postgresql
