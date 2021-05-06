@@ -7,6 +7,7 @@ addons:
   apt:
     packages:
     - postgresql-11-postgis-3
+    - postgresql-client-11
     - nodejs
     - npm
 
