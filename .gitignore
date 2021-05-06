@@ -24,6 +24,8 @@ desparchado/static/sass/.sass-cache/
 desparchado/static/.bundle-gems
 desparchado/static/bower_components
 desparchado/static/node_modules/
+.docker_pip_cache
+!.docker_pip_cache/.keep
 
 /static
 /staticfiles
