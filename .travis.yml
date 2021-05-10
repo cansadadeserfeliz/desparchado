@@ -47,7 +47,6 @@ script:
   - psql -c 'SELECT PostGIS_full_version()' -U travis
   - python manage.py test
   - coverage run manage.py test
-  - echo "Done"
 
 after_success:
-  - bash <(curl -s https://codecov.io/bash)
+  - codecov
