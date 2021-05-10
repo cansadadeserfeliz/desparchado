@@ -2,11 +2,14 @@ language: python
 
 python: 3.8
 
+dist: focal
 addons:
   postgresql: "13"
   apt:
     update: true
     packages:
+    - gdal-bin
+    - python3-gdal
     - postgresql-13
     - postgresql-client-13
     - postgresql-13-postgis-3
@@ -21,10 +24,6 @@ env:
 
 services:
   - postgresql
-
-
-before_install:
-  - sudo apt-get -y install gdal-bin
 
 before_script:
   - psql --version
@@ -41,7 +40,7 @@ install:
 script:
   - export CPLUS_INCLUDE_PATH=/usr/include/gdal
   - export C_INCLUDE_PATH=/usr/include/gdal
-  - pip install GDAL
+  - ls -la /usr/include/gdal
   - ls -la /usr/lib/libgdal*
   - psql --version
   - psql -c 'SELECT version()' -U travis
