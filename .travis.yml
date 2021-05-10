@@ -46,7 +46,6 @@ script:
   - psql -c 'SELECT version()' -U travis
   - psql -c 'SELECT PostGIS_full_version()' -U travis
   - coverage run manage.py test
-  - coverage report
 
 
 after_success:
