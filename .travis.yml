@@ -7,6 +7,7 @@ addons:
   apt:
     packages:
     - gdal-bin
+    - libgdal-dev
     - postgresql-13
     - postgresql-client-13
     - postgresql-13-postgis-3
@@ -35,8 +36,8 @@ install:
   - pip install codecov
 
 script:
-  # export GEOS_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu/libgeos_c.so
-  # export GDAL_LIBRARY_PATH=/usr/lib/libgdal.so
+  - export CPLUS_INCLUDE_PATH=/usr/include/gdal
+  - export C_INCLUDE_PATH=/usr/include/gdal
   - psql --version
   - psql -c 'SELECT version()' -U travis
   - psql -c 'SELECT PostGIS_full_version()' -U travis
