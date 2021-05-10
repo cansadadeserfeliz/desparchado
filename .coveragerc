@@ -1,2 +1,2 @@
 [report]
-omit = *travis*, *virtualenv*
+omit = *migrations*, *tests*
