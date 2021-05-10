@@ -6,8 +6,6 @@ addons:
   postgresql: "13"
   apt:
     packages:
-    - gdal-bin
-    - libgdal-dev
     - postgresql-13
     - postgresql-client-13
     - postgresql-13-postgis-3
@@ -22,6 +20,11 @@ env:
 
 services:
   - postgresql
+
+
+before_install:
+  - sudo apt-get -y install gdal-bin
+  - sudo apt-get -y install libgdal-dev
 
 before_script:
   - psql --version
