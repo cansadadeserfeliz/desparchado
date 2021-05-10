@@ -38,6 +38,7 @@ install:
 script:
   - export CPLUS_INCLUDE_PATH=/usr/include/gdal
   - export C_INCLUDE_PATH=/usr/include/gdal
+  - ls -la /usr/lib/libgdal*
   - psql --version
   - psql -c 'SELECT version()' -U travis
   - psql -c 'SELECT PostGIS_full_version()' -U travis
