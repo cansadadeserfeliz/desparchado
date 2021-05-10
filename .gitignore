@@ -16,11 +16,16 @@ environment.json
 .tags
 .tags_sorted_by_file
 .env
+package-lock.json
 
 # Folders
 desparchado/static/.sass-cache
+desparchado/static/sass/.sass-cache/
 desparchado/static/.bundle-gems
 desparchado/static/bower_components
+desparchado/static/node_modules/
+.docker_pip_cache
+!.docker_pip_cache/.keep
 
 /static
 /staticfiles

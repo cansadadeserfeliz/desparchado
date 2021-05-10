@@ -34,7 +34,9 @@
 
   {% if user|user_can_edit_place:place %}
     <div class="event-edit text-center">
-      <a href="{% url 'places:place_update' place.pk %}" class="btn btn-sm btn-default">EDITAR LUGAR</a>
+      <a class="btn btn-primary" href="{% url 'places:place_update' place.pk %}" class="hover-color list-inline-item">
+        EDITAR LUGAR
+      </a>
     </div>
   {% endif %}
   </div>

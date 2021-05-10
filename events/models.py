@@ -129,12 +129,14 @@ class Event(TimeStampedModel):
     event_date = models.DateTimeField(
         'Fecha del evento',
         db_index=True,
+        help_text='p. ej. 23/11/2019 16:40',
     )
     event_end_date = models.DateTimeField(
         'Fecha final',
         null=True,
         blank=True,
         db_index=True,
+        help_text='p. ej. 23/11/2019 18:00 (opcional)',
     )
     event_source_url = models.URLField(
         'Enlace a la página del evento',
@@ -209,6 +211,11 @@ class Event(TimeStampedModel):
         verbose_name='Creado por',
         related_name='created_events',
     )
+    editors = models.ManyToManyField(
+        settings.AUTH_USER_MODEL,
+        blank=True,
+        related_name='can_edit_events',
+    )
 
     objects = EventQuerySet().as_manager()
 
@@ -234,6 +241,11 @@ class Event(TimeStampedModel):
     def get_absolute_url(self):
         return reverse('events:event_detail', args=[self.slug])
 
+    def can_edit(self, user):
+        if user.is_superuser or user == self.created_by or user in self.editors.all():
+            return True
+        return False
+
     @property
     def is_visible(self):
         return self.is_published and self.is_approved
@@ -254,6 +266,9 @@ class Organizer(TimeStampedModel):
         null=False, unique=True, populate_from='name')
     description = models.TextField('Descripción', default='')
     website_url = models.URLField('Página web', null=True, blank=True)
+    facebook_url = models.URLField('Página en Facebook', null=True, blank=True)
+    twitter_url = models.URLField('Página en Twitter', null=True, blank=True)
+    instagram_url = models.URLField('Página en Instagram', null=True, blank=True)
     image = models.ImageField(
         'Imagen', blank=True, null=True, upload_to='organizers')
     image_source_url = models.URLField(
@@ -262,6 +277,11 @@ class Organizer(TimeStampedModel):
     created_by = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.DO_NOTHING,
+    )
+    editors = models.ManyToManyField(
+        settings.AUTH_USER_MODEL,
+        blank=True,
+        related_name='can_edit_organizers',
     )
 
     class Meta:
@@ -274,10 +294,15 @@ class Organizer(TimeStampedModel):
     def get_image_url(self):
         if self.image:
             return self.image.url
-        return None
+        return static('images/organizer-default.jpeg')
 
     def get_absolute_url(self):
         return reverse('events:organizer_detail', args=[self.slug])
+
+    def can_edit(self, user):
+        if user.is_superuser or user == self.created_by or user in self.editors.all():
+            return True
+        return False
 
     @staticmethod
     def autocomplete_search_fields():
@@ -298,6 +323,11 @@ class Speaker(TimeStampedModel):
         settings.AUTH_USER_MODEL,
         on_delete=models.DO_NOTHING,
     )
+    editors = models.ManyToManyField(
+        settings.AUTH_USER_MODEL,
+        blank=True,
+        related_name='can_edit_speakers',
+    )
 
     class Meta:
         verbose_name = 'Presentador'
@@ -313,6 +343,11 @@ class Speaker(TimeStampedModel):
 
     def get_absolute_url(self):
         return reverse('events:speaker_detail', args=[self.slug])
+
+    def can_edit(self, user):
+        if user.is_superuser or user == self.created_by or user in self.editors.all():
+            return True
+        return False
 
     @staticmethod
     def autocomplete_search_fields():

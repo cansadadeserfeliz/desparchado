@@ -36,6 +36,11 @@ class Place(TimeStampedModel):
         verbose_name='Creado por',
         on_delete=models.DO_NOTHING,
     )
+    editors = models.ManyToManyField(
+        settings.AUTH_USER_MODEL,
+        blank=True,
+        related_name='can_edit_places',
+    )
 
     class Meta:
         verbose_name = 'Lugar'
@@ -57,6 +62,11 @@ class Place(TimeStampedModel):
 
     def get_absolute_url(self):
         return reverse('places:place_detail', args=[self.slug])
+
+    def can_edit(self, user):
+        if user.is_superuser or user == self.created_by or user in self.editors.all():
+            return True
+        return False
 
     @staticmethod
     def autocomplete_search_fields():

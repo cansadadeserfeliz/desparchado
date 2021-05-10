@@ -39,7 +39,21 @@ class PlaceAdmin(gis_admin.OSMGeoAdmin):
                 'image_source_url',
             ),
         }),
+        ('Related', {
+            'fields': (
+                'editors',
+            ),
+        }),
     )
+
+    raw_id_fields = (
+        'editors',
+    )
+    autocomplete_lookup_fields = {
+        'm2m': [
+            'editors',
+        ],
+    }
 
     def get_actions(self, request):
         return []
@@ -48,8 +62,6 @@ class PlaceAdmin(gis_admin.OSMGeoAdmin):
         if not obj.id:
             obj.created_by = request.user
         super().save_model(request, obj, form, change)
-
-        send_admin_notification(request, obj, form, change)
 
     def has_delete_permission(self, request, obj=None):
         return False

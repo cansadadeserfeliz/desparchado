@@ -68,6 +68,7 @@ class EventAdmin(admin.ModelAdmin):
                 'organizers',
                 'place',
                 'speakers',
+                'editors',
             ),
         }),
         (_('Extra'), {
@@ -84,6 +85,7 @@ class EventAdmin(admin.ModelAdmin):
         'speakers',
         'press_articles',
         'organizers',
+        'editors',
     )
     autocomplete_lookup_fields = {
         'fk': ['place'],
@@ -91,6 +93,7 @@ class EventAdmin(admin.ModelAdmin):
             'speakers',
             'organizers',
             'press_articles',
+            'editors',
         ],
     }
 
@@ -125,35 +128,21 @@ class OrganizerAdmin(admin.ModelAdmin):
 
     readonly_fields = ('slug',)
 
-    fieldsets = (
-        (None, {
-            'fields': (
-                'name',
-                'slug',
-                'description',
-                'website_url',
-            ),
-        }),
-        ('Image', {
-            'fields': (
-                'image',
-                'image_source_url',
-            ),
-        }),
+    exclude = ('created_by',)
+
+    raw_id_fields = (
+        'editors',
     )
+    autocomplete_lookup_fields = {
+        'm2m': [
+            'editors',
+        ],
+    }
 
     def save_model(self, request, obj, form, change):
         if not obj.id:
             obj.created_by = request.user
         super().save_model(request, obj, form, change)
-
-        send_admin_notification(request, obj, form, change)
-
-    def get_actions(self, request):
-        return []
-
-    def has_delete_permission(self, request, obj=None):
-        return False
 
 
 @admin.register(Speaker)
@@ -178,7 +167,21 @@ class SpeakerAdmin(admin.ModelAdmin):
                 'image_source_url',
             ),
         }),
+        ('Related', {
+            'fields': (
+                'editors',
+            ),
+        }),
     )
+
+    raw_id_fields = (
+        'editors',
+    )
+    autocomplete_lookup_fields = {
+        'm2m': [
+            'editors',
+        ],
+    }
 
     def save_model(self, request, obj, form, change):
         if not obj.id:

@@ -5,10 +5,10 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': 'test_desparchado',
-        'USER': 'vero4ka',
+        'NAME': 'desparchado_test',
+        'USER': 'desparchado_dev',
         'PASSWORD': 'secret',
         'HOST': '127.0.0.1',
-        'PORT': '5432',
+        'PORT': 5433,
     }
 }

@@ -62,32 +62,28 @@ def shorten_url(value):
 @register.filter()
 def user_can_edit_event(user, event):
     if user.is_authenticated:
-        if user.is_superuser or user == event.created_by:
-            return True
+        return event.can_edit(user)
     return False
 
 
 @register.filter()
 def user_can_edit_organizer(user, organizer):
     if user.is_authenticated:
-        if user.is_superuser or user == organizer.created_by:
-            return True
+        return organizer.can_edit(user)
     return False
 
 
 @register.filter()
 def user_can_edit_speaker(user, speaker):
     if user.is_authenticated:
-        if user.is_superuser or user == speaker.created_by:
-            return True
+        return speaker.can_edit(user)
     return False
 
 
 @register.filter()
 def user_can_edit_place(user, place):
     if user.is_authenticated:
-        if user.is_superuser or user == place.created_by:
-            return True
+        return place.can_edit(user)
     return False
 
 

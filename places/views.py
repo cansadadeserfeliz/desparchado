@@ -5,6 +5,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from dal import autocomplete
 
 from desparchado.utils import send_notification
+from desparchado.mixins import EditorPermissionRequiredMixin
 from events.models import Event
 from .models import Place
 from .models import City
@@ -72,7 +73,7 @@ class PlaceCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class PlaceUpdateView(LoginRequiredMixin, UpdateView):
+class PlaceUpdateView(EditorPermissionRequiredMixin, UpdateView):
     model = Place
     form_class = PlaceForm
 

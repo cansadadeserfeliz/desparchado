@@ -1,5 +1,5 @@
 {% extends 'layout/base.html' %}
-{% load i18n staticfiles desparchado_tags %}
+{% load i18n static desparchado_tags %}
 
 {% block title %}{{ special.title }} en Desparchado.co{% endblock %}
 
@@ -40,19 +40,21 @@
     <h3>Presentadores</h3>
 
     <div>
-      <div class="image-gallery-container">
+      <div class="row text-center text-lg-left image-gallery-container">
       {% for speaker in speakers %}
-        <article class="image-gallery-listing">
-          <a class="image-gallery-title" href="{{ speaker.get_absolute_url }}">{{ speaker.name }}</a>
-          <div class="image-gallery-image-wrapper">
-            <a href="{{ speaker.get_absolute_url }}">
-              <div class="image"
-                   style="background-image: url('{{ speaker.get_image_url }}');"
-                   title="{{ speaker.name }}">
-              </div>
-            </a>
-          </div>
-        </article>
+        <div class="col-lg-2 col-md-4 col-12">
+          <article class="image-gallery-listing">
+            <a class="image-gallery-title image-gallery-title-show" href="{{ speaker.get_absolute_url }}">{{ speaker.name }}</a>
+            <div class="image-gallery-image-wrapper">
+              <a href="{{ speaker.get_absolute_url }}">
+                <div class="image"
+                     style="background-image: url('{{ speaker.get_image_url }}');"
+                     title="{{ speaker.name }}">
+                </div>
+              </a>
+            </div>
+          </article>
+        </div>
       {% endfor %}
       </div>
     </div>

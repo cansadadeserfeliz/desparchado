@@ -20,26 +20,33 @@
     <tbody>
     {% for event in events %}
       <tr>
-        <td>{{ event.title }}</td>
+        <td>
+          <a href="{{ event.get_absolute_url }}" class="btn btn-default btn-sm" title="Ver evento">
+            <div>
+              <img style="max-width: 200px; max-height: 100px" src="{{ event.get_image_url }}" />
+            </div>
+            <b>{{ event.title }}</b>
+          </a>
+        </td>
         <td>{{ event.event_date }}</td>
         <td>
-          <span class="label {% if event.is_published %}label-success{% else %}label-danger{% endif %}">
+          <span class="badge {% if event.is_published %}badge-success{% else %}badge-danger{% endif %}">
             {{ event.is_published|yesno }}
           </span>
         </td>
         <td>
-          <span class="label {% if event.is_approved %}label-success{% else %}label-danger{% endif %}">
+          <span class="badge {% if event.is_approved %}badge-success{% else %}badge-danger{% endif %}">
             {{ event.is_approved|yesno }}
           </span>
         </td>
         <td>
         {% if event.is_visible %}
           <a href="{{ event.get_absolute_url }}" class="btn btn-default btn-sm" title="Ver evento">
-            <i class="fa fa-eye"></i>
+            <i class="fa fa-eye"></i> Ver
           </a>
         {% endif %}
-          <a href="{% url 'events:event_update' event.pk %}" class="btn btn-default btn-sm" title="Ver evento">
-            <i class="fa fa-edit"></i>
+          <a href="{% url 'events:event_update' event.pk %}" class="btn btn-default btn-sm" title="Editar evento">
+            <i class="fa fa-edit"></i> Editar
           </a>
         </td>
       </tr>

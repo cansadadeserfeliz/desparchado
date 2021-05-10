@@ -15,30 +15,61 @@
             <thead>
               <tr>
                 <th>Title</th>
+                <th></th>
                 <th>Date</th>
                 <th>Type</th>
+                <th>City</th>
                 <th>Image</th>
-                <th>Add event</th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
             {% for event in events %}
               <tr>
-                <td>{{ event.titulo1 }}</td>
+                <td>
+                {% if event.desparchado_event %}
+                  <span class="status-icon bg-success"></span>
+                  <a target="_blank" href="{{ event.desparchado_event.get_absolute_url }}">
+                    {{ event.titulo1 }}
+                  </a>
+                {% else %}
+                  <span class="status-icon bg-gray"></span>
+                  {{ event.titulo1 }}
+                {% endif %}
+                </td>
+                <td class="w-1">
+
+                </td>
                 <td>{{ event.fecha_dia }}/{{ event.fecha_mes }}/{{ event.fecha_ano }}</td>
                 <td>{{ event.tipo }}</td>
-                <td><img src="{{ event.imagen.src }}"></td>
-                <td>
-                  <a href="{% url 'dashboard:event_add' %}?blaa-slug={{ event.contenido_url|escape }}"
-                     class="btn btn-primary btn-sm" target="_blank">
-                    Add event
+                <td>{{ event.city }}</td>
+                <td class="text-center w-2">
+                  <img src="{{ event.imagen.src }}">
+                </td>
+                <td class="w-1">
+                {% if event.desparchado_event %}
+                  <a href="{% url 'events:event_update' event.desparchado_event.pk %}" target="_blank">
+                    <i class="fe fe-plus-circle" data-toggle="tooltip" title="Añadir evento" data-original-title="fe fe-edit-2"></i>
                   </a>
+                {% else %}
+                  <a href="{% url 'dashboard:event_add' %}?blaa-slug={{ event.contenido_url|escape }}" target="_blank">
+                    <i class="fe fe-plus-circle" data-toggle="tooltip" title="Añadir evento" data-original-title="fe fe-plus-circle"></i>
+                  </a>
+                {% endif %}
                 </td>
               </tr>
             {% endfor %}
             </tbody>
           </table>
         </div>
+
+        <nav aria-label="..." style="overflow: scroll;">
+          <ul class="pagination pagination-sm">
+          {% for page in pages %}
+            <li class="page-item {% ifequal page current_page %}active{% endifequal %}"><a class="page-link" href="?page={{ page }}">{{ page }}</a></li>
+          {% endfor %}
+          </ul>
+        </nav>
       </div>
       <!-- /.box-body -->
     </div>

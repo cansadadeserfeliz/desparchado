@@ -1,13 +1,11 @@
 {% extends 'layout/base.html' %}
-{% load i18n staticfiles %}
+{% load i18n static %}
 
 {% block content %}
-<section class="container">
-  <div class="row text-center clearfix">
-    <div class="col-sm-8 col-sm-offset-2">
-      <h2 class="title-one">Acerca de</h2>
-    </div>
-  </div>
+<section class="container clearfix">
+  <h2 class="text-justify text-center">
+    Acerca de
+  </h2>
 </section>
 
 <div class="about">
@@ -71,34 +69,6 @@
     los editores de <b>Desparchado.co</b> no lo aceptarán para su publicación.
   </p>
 
-</div>
-
-<section class="container">
-  <div class="row text-center clearfix">
-    <div class="col-sm-8 col-sm-offset-2">
-      <h2 class="title-one">Nosotros</h2>
-    </div>
-  </div>
-</section>
-
-<div class="about row">
-  <div class="col-md-6 member-profile">
-    <div class="image" style="background-image: url('{% static 'images/nataly.jpg' %}');"
-         title="Nataliya Ershova"></div>
-    <b>Editora</b> <br>
-    Nataliya Ershova es una periodista en televisión y
-    maestra que ha trabajado en el campo educativo durante 5 años.
-    Durante 3 años trabajó como presentadora de noticias locales y
-    también como presentadora de noticias en campo.
-  </div>
-  <div class="col-md-6 member-profile">
-    <div class="image" style="background-image: url('{% static 'images/vera.jpg' %}');"
-         title="Vera Mazhuga"></div>
-    <b>Programadora</b> <br>
-    Vera Mazhuga es una MSc en Matemática Aplicada y
-    desarrolladora Web desde 2010.
-    Le gusta leer, cultivar plantas, montar bicicleta y caminar por Bogotá.
-  </div>
 </div>
 
 <div class="about">

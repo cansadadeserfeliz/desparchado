@@ -68,11 +68,13 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
+    'axes.middleware.AxesMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 AUTHENTICATION_BACKENDS = [
     'social_core.backends.facebook.FacebookOAuth2',
+    'axes.backends.AxesBackend',
 
     'django.contrib.auth.backends.ModelBackend',
 ]
@@ -183,7 +185,7 @@ STATICFILES_FINDERS = (
 )
 
 # django-pipeline
-STATICFILES_STORAGE = 'pipeline.storage.PipelineCachedStorage'
+STATICFILES_STORAGE = 'pipeline.storage.PipelineManifestStorage'
 PIPELINE = {
     'COMPILERS': (
         'pipeline.compilers.sass.SASSCompiler',
@@ -208,10 +210,10 @@ PIPELINE = {
         'dashboard': {
             'source_filenames': (
               'bower_components/bootstrap/dist/css/bootstrap.min.css',
-              'bower_components/font-awesome/css/font-awesome.min.css',
+              'libs/fontawesome-free-5.6.3-web/css/all.min.css',
               'bower_components/Ionicons/css/ionicons.min.css',
               'bower_components/admin-lte/dist/css/AdminLTE.min.css',
-              'bower_components/admin-lte/dist/css/skins/_all-skins.min.css',
+              'libs/tabler/assets/css/dashboard.css',
               'bower_components/fullcalendar/dist/fullcalendar.min.css',
               'sass/dashboard.sass',
             ),
@@ -237,8 +239,6 @@ PIPELINE = {
               'bower_components/moment/min/moment-with-locales.min.js',
               'bower_components/jquery-slimscroll/jquery.slimscroll.min.js',
               'bower_components/fastclick/lib/fastclick.js',
-              'bower_components/admin-lte/dist/js/adminlte.min.js',
-              'bower_components/admin-lte/dist/js/demo.js',
               'bower_components/moment/min/moment.min.js',
               'bower_components/fullcalendar/dist/fullcalendar.min.js',
               'js/dashboard.js',
@@ -345,7 +345,7 @@ MAP_WIDGETS = {
 }
 
 EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST = 'smtp-relay.gmail.com'
 EMAIL_HOST_USER = ''
 EMAIL_HOST_PASSWORD = ''
 EMAIL_PORT = 587

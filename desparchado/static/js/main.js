@@ -2,6 +2,7 @@ $(function () {
   $('.datetimeinput').datetimepicker({
     locale: 'es',
     allowInputToggle: true,
+    focusOnShow: true,
     icons: {
         time: 'fas fa-clock',
         date: 'fas fa-calendar',
@@ -11,7 +12,33 @@ $(function () {
         next: 'fas fa-chevron-right',
         today: 'fas fa-calendar-check',
         clear: 'fas fa-trash',
-        close: 'fas fa-times'
+        close: 'fas fa-window-close'
+    },
+    tooltips: {
+      today: 'Go to today',
+      clear: 'Clear selection',
+      close: 'Cerrar',
+      selectMonth: 'Seleccionar el mes',
+      prevMonth: 'Previous Month',
+      nextMonth: 'Next Month',
+      selectYear: 'Select Year',
+      selectDate: 'Seleccionar la fecha',
+      prevYear: 'Previous Year',
+      nextYear: 'Next Year',
+      selectDecade: 'Select Decade',
+      prevDecade: 'Previous Decade',
+      nextDecade: 'Next Decade',
+      prevCentury: 'Previous Century',
+      nextCentury: 'Next Century',
+      incrementHour: 'Incrementar la hora',
+      pickHour: 'Seleccionar la hora',
+      decrementHour:'Disminuir la hora',
+      incrementMinute: 'Incrementar minutos',
+      pickMinute: 'Pick Minute',
+      decrementMinute:'Disminuir minutos',
+      incrementSecond: 'Increment Second',
+      pickSecond: 'Seleccionar segundos',
+      decrementSecond:'Decrement Second'
     },
     buttons: {
       showToday: false,

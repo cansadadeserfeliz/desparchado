@@ -1,3 +1,5 @@
+import re
+import time
 import datetime
 
 from django.utils import timezone
@@ -38,7 +40,6 @@ class HomeView(SuperuserRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['total_events_count'] = Event.objects.published().count()
         context['future_events'] = Event.objects.published().future().all()
         context['future_events_count'] = Event.objects.published().future().count()
         context['future_events_by_date'] = Event.objects.published().future()\
@@ -49,7 +50,6 @@ class HomeView(SuperuserRequiredMixin, TemplateView):
             .annotate(weekday=ExtractWeekDay('event_date')).values('weekday')\
             .annotate(count=Count('id')).values('weekday', 'count')\
             .order_by('weekday')
-        context['places_count'] = Place.objects.count()
         context['organizers_count'] = Organizer.objects.count()
         context['speakers_count'] = Speaker.objects.count()
         context['active_users_count'] = User.objects.filter(is_active=True).count()
@@ -153,7 +153,24 @@ class BlaaEventsListView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['events'] = get_blaa_events_list()
+        page = self.request.GET.get('page', 1)
+        events, pages_count = get_blaa_events_list(page=page)
+
+        for event_data in events:
+            blaa_slug = event_data.get('contenido_url', '')
+            if blaa_slug:
+                event_source_url = 'http://www.banrepcultural.org{}'.format(
+                    blaa_slug
+                )
+                event = Event.objects.filter(
+                    event_source_url=event_source_url,
+                ).first()
+                if event:
+                    event_data['desparchado_event'] = event
+
+        context['events'] = events
+        context['pages'] = range(1, pages_count + 1)
+        context['current_page'] = int(page)
         return context
 
 
@@ -197,14 +214,38 @@ class EventCreateView(CreateView):
             elif self.blaa_event_json['tipo'] == 'Charla previa':
                 event_type = Event.EVENT_TYPE_MEETING
 
-            organizer = Organizer.objects.filter(name='Banco de la República').first()
-            place = Place.objects.filter(name=self.blaa_event_json['place']).first()
+            start_date = None
+            start = self.blaa_event_json.get('start')
+            hour = self.blaa_event_json.get('hour', '')
+            if start and hour:
+                found_hours = re.findall(r'\d{1,2}:\d\d\s+\w\w', hour.upper())
+                found_date = re.findall(r'\d{2}/\d{2}/\d{4}', start)
+                if found_hours and found_date:
+                    t = time.strptime(found_hours[0], "%I:%M %p")
+                    start_date = '{} {}'.format(
+                        found_date[0],
+                        time.strftime('%H:%M', t)
+                    )
+
+            organizer = Organizer.objects.filter(
+                name='Banco de la República'
+            ).first()
+            if self.blaa_event_json['place']:
+                place = Place.objects.filter(
+                    name__icontains=self.blaa_event_json['place']
+                ).first()
+            else:
+                place = None
 
             initial.update(dict(
                 title=self.blaa_event_json['titulo'],
                 event_type=event_type,
                 topic=Event.EVENT_TOPIC_ART,
                 event_source_url=self.event_source_url,
+                event_date=start_date,
+                description=
+                self.blaa_event_json.get('body', '') + '\n\n' +
+                self.blaa_event_json.get('notes', ''),
                 organizers=[organizer],
                 place=place,
             ))

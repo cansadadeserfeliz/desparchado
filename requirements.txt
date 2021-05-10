@@ -1,24 +1,27 @@
+# application server
+uWSGI==2.0.19.1
+
 # Framework
-Django==2.0.13
+Django==3.1.4
 
 # Python Libs
-Pillow==4.0.0
-psycopg2==2.7.4  # apt-get install postgis
+Pillow==7.1.0
+psycopg2==2.8.6  # apt-get install postgis
 raven==6.10.0
-social-auth-core==3.0.0
-requests==2.21.0
+social-auth-core==3.3.3
+requests===2.25.0
 
 # Django Libs
-django-autocomplete-light==3.2.10
-django-autoslug==1.9.4
-django-axes==2.3.2
-django-crispy-forms==1.7.2
-django-debug-toolbar==1.11
-django-grappelli==2.9.1
-django-map-widgets==0.1.9
-django-markdownx==2.0.28
-django-model-utils==2.6.1
-django-pipeline==1.6.11
-django-webtest==1.9.4
-factory-boy==2.11.1
-social-auth-app-django==3.1.0
+django-autocomplete-light==3.8.1
+django-autoslug==1.9.8
+django-axes==5.9.1
+django-crispy-forms==1.10.0
+django-debug-toolbar==3.2
+django-grappelli==2.14.3
+django-map-widgets==0.3.0
+django-markdownx==3.0.1
+django-model-utils==4.1.1
+django-pipeline==2.0.5
+django-webtest==1.9.7
+factory-boy==3.1.0
+social-auth-app-django==4.0.0

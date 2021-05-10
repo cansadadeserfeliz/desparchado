@@ -27,26 +27,70 @@
 
 {% block content %}
 <section id="organizer-detail" class="container">
-
-  <div class="organizer-heading">
-    <h1 class="organizer-title">{{ organizer.name }}</h1>
-    {% if organizer.image %}
-      <img src="{{ organizer.get_image_url }}" alt="{{ organizer.name }}" />
-    {% endif %}
-    <div class="organizer-description">{{ organizer.description|markdown }}</div>
-
-    {% if organizer.website_url %}
-    <div class="organizer-website-url">
-      <i class="fa fa-globe"></i>
-      <a href="{{ organizer.website_url }}" target="_blank">{{ organizer.website_url|truncatechars:50 }}</a>
+  <div class="row">
+    <div class="col-md-4">
+      <div class="card card-desparchado card-organizer">
+        <div class="card-image">
+          <a href="#">
+            <img class="img" alt="{{ organizer.name }}" src="{{ organizer.get_image_url }}">
+          </a>
+        </div>
+        <div class="table">
+          <h6 class="category">{{ organizer.name }}</h6>
+          <p class="card-description">
+            {% if user|user_can_edit_organizer:organizer %}
+            <div class="text-center">
+              <a class="btn btn-primary" href="{% url 'events:organizer_update' organizer.slug %}" class="hover-color list-inline-item">
+                EDITAR
+              </a>
+            </div>
+            {% endif %}
+          </p>
+          <div class="ftr">
+          {% if organizer.website_url %}
+            <a href="{{ organizer.website_url }}" target="_blank" class="btn btn-just-icon btn-website">
+              <i class="fas fa-globe"></i>
+            </a>
+          {% endif %}
+          {% if organizer.facebook_url %}
+            <a href="{{ organizer.facebook_url }}" target="_blank" class="btn btn-just-icon btn-facebook">
+              <i class="fab fa-facebook-square"></i>
+            </a>
+          {% endif %}
+          {% if organizer.twitter_url %}
+            <a href="{{ organizer.twitter_url }}" target="_blank" class="btn btn-just-icon btn-twitter">
+              <i class="fab fa-twitter"></i>
+            </a>
+          {% endif %}
+          {% if organizer.instagram_url %}
+            <a href="{{ organizer.instagram_url }}" target="_blank" class="btn btn-just-icon btn-instagram">
+              <i class="fab fa-instagram"></i>
+            </a>
+          {% endif %}
+          </div>
+        </div>
+      </div>
     </div>
-    {% endif %}
+    <div class="col-md-8">
+      <div class="text-lg">
+        {{ organizer.description|markdown }}
+      </div>
 
-    {% if user|user_can_edit_organizer:organizer %}
-    <div class="event-edit text-center">
-      <a href="{% url 'events:organizer_update' organizer.slug %}" class="btn btn-sm btn-default">EDITAR ORGANIZADOR</a>
+      <div class="card card-body bg-light promo">
+        <div class="container">
+          <h4>
+            ¿Conoces más eventos organizados por «{{ organizer.name }}» o eres su representante?
+            Regístrate en <b>Desparchado.co</b> y agrégalos.
+          </h4>
+
+          <div class="text-center">
+            <a href="{% url 'events:add_event' %}" class="btn btn-sm btn-primary">
+              AÑADIR EVENTO
+            </a>
+          </div>
+        </div>
+      </div>
     </div>
-    {% endif %}
   </div>
 
 </section><!--/#organizer-detail-->

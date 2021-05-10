@@ -1,0 +1,14 @@
+version: "3.9"
+services:
+  web:
+    build: "./docker-containers/web"
+    ports:
+      - "5000:5000"
+    environment:
+      DBUSER: "desparchado_dev"
+      DBPWD: "secret"
+    volumes:
+      - .:/app
+      - .docker_pip_cache:/root/.cache/pip
+  db:
+    build: "./docker-containers/db"

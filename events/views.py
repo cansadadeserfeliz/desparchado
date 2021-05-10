@@ -9,6 +9,7 @@ from django.http import JsonResponse
 from dal import autocomplete
 
 from desparchado.utils import send_notification
+from desparchado.mixins import EditorPermissionRequiredMixin
 from places.models import City
 from .models import Event, Organizer, Speaker
 from .services import get_event_press_articles
@@ -96,7 +97,7 @@ class OrganizerDetailView(DetailView):
         context['events'] = \
             self.get_object().events.published().future().all()
         context['past_events'] = \
-            self.get_object().events.published().past().order_by('-event_date').all()[:9]
+            self.get_object().events.published().past().order_by('-event_date').all()[:18]
         return context
 
 
@@ -160,7 +161,7 @@ class EventCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class EventUpdateView(LoginRequiredMixin, UpdateView):
+class EventUpdateView(EditorPermissionRequiredMixin, UpdateView):
     form_class = EventUpdateForm
     model = Event
     context_object_name = 'event'
@@ -189,7 +190,7 @@ class OrganizerCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class OrganizerUpdateView(LoginRequiredMixin, UpdateView):
+class OrganizerUpdateView(EditorPermissionRequiredMixin, UpdateView):
     model = Organizer
     form_class = OrganizerForm
 
@@ -211,7 +212,7 @@ class SpeakerCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class SpeakerUpdateView(LoginRequiredMixin, UpdateView):
+class SpeakerUpdateView(EditorPermissionRequiredMixin, UpdateView):
     model = Speaker
     form_class = SpeakerForm
 

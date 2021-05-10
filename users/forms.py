@@ -4,6 +4,9 @@ from django.contrib.auth.forms import PasswordResetForm as AuthPasswordResetForm
 from django.contrib.auth.forms import SetPasswordForm as AuthSetPasswordForm
 from django.contrib.auth import get_user_model
 from django import forms
+from django.template import loader
+from django.core.mail import EmailMultiAlternatives
+from django.conf import settings
 
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit, Layout, Div
@@ -80,6 +83,20 @@ class PasswordResetForm(AuthPasswordResetForm):
                 css_class='form-group',
             ),
         )
+
+    def send_mail(self, subject_template_name, email_template_name,
+                  context, from_email, to_email, html_email_template_name=None):
+        subject = loader.render_to_string(subject_template_name, context)
+        # Email subject *must not* contain newlines
+        subject = ''.join(subject.splitlines())
+        body = loader.render_to_string(email_template_name, context)
+
+        email_message = EmailMultiAlternatives(subject, body, settings.EMAIL_FROM, [to_email])
+        if html_email_template_name is not None:
+            html_email = loader.render_to_string(html_email_template_name, context)
+            email_message.attach_alternative(html_email, 'text/html')
+
+        email_message.send()
 
 
 class SetPasswordForm(AuthSetPasswordForm):

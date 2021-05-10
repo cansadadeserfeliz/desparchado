@@ -1,27 +1,34 @@
 {% if is_paginated %}
-<div class="row">
-  <div class="col-md-6">
-    <nav>
-      <ul class="pagination">
-      {% if page_obj.has_previous %}
-        <li><a href="?page={{ page_obj.previous_page_number }}&{{ search_query }}">&laquo;</a></li>
-      {% endif %}
-      {% for page in page_numbers %}
-        {% if page %}
-          {% ifequal page page_obj.number %}
-            <li class="active"><a href="#">{{ page }}</a></li>
-          {% else %}
-            <li><a href="?page={{ page }}&{{ search_query }}">{{ page }}</a></li>
-          {% endifequal %}
+
+<nav aria-label="pagination">
+  <ul class="pagination">
+    {% if page_obj.has_previous %}
+    <li class="page-item">
+      <a class="page-link" href="?page={{ page_obj.previous_page_number }}&{{ search_query }}" tabindex="-1">&laquo;</a>
+    </li>
+    {% endif %}
+    {% for page in page_numbers %}
+      {% if page %}
+        {% ifequal page page_obj.number %}
+          <li class="page-item active">
+            <a class="page-link" href="#">{{ page }}</a>
+          </li>
         {% else %}
-          <li class="disabled"><a href="#">...</a></li>
-        {% endif %}
-      {% endfor %}
-      {% if page_obj.has_next %}
-        <li><a href="?page={{ page_obj.next_page_number }}&{{ search_query }}">&raquo;</a></li>
+          <li class="page-item"><a class="page-link" href="?page={{ page }}&{{ search_query }}">{{ page }}</a></li>
+        {% endifequal %}
+      {% else %}
+        <li class="page-item disabled">
+          <a class="page-link" href="#" tabindex="-1">..</a>
+        </li>
       {% endif %}
-      </ul>
-    </nav>
-  </div>
-</div>
+    {% endfor %}
+    {% if page_obj.has_next %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ page_obj.next_page_number }}&{{ search_query }}">&raquo;</a>
+      </li>
+    {% endif %}
+  </ul>
+</nav>
+
+
 {% endif %}

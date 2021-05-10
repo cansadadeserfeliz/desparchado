@@ -1,4 +1,4 @@
-<div class="event desparchado-box col-sm-4">
+<div class="event desparchado-box col-sm-{{ col_size|default:4 }}">
   <a class="link" href="{{ event.get_absolute_url }}">
     <div class="box-img-wrap">
       <img class="image img-fluid"
