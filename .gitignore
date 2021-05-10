@@ -8,6 +8,13 @@
 *.mo
 *.sqlite3
 
+# Coverage reports
+htmlcov/
+.coverage
+.coverage.*
+coverage.xml
+*.cover
+
 # Configuration files
 desparchado/local_settings.py
 environment.json
