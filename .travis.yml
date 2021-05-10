@@ -5,6 +5,7 @@ python: 3.8
 addons:
   postgresql: "13"
   apt:
+    update: true
     packages:
     - postgresql-13
     - postgresql-client-13
