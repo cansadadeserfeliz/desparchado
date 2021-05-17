@@ -21,6 +21,12 @@ env:
   global:
   - PGPORT=5433
   - PGUSER=travis
+  - DJANGO_SECRET_KEY=secret
+  - DATABASE_NAME=desparchado_test
+  - DATABASE_USER=desparchado_dev
+  - DATABASE_PASSWORD=secret
+  - DATABASE_HOST=127.0.0.1
+  - DATABASE_PORT=5433
 
 services:
   - postgresql
@@ -45,7 +51,7 @@ script:
   - psql --version
   - psql -c 'SELECT version()' -U travis
   - psql -c 'SELECT PostGIS_full_version()' -U travis
-  - coverage run manage.py test
+  - coverage run manage.py test --settings=desparchado.settings.test_travis
 
 
 after_success:

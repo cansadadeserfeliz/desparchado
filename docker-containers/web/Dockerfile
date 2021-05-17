@@ -1,17 +1,19 @@
-FROM alpine:3.13
+#FROM alpine:3.13
+FROM python:3.8-buster
 
 COPY run.sh /
 RUN chmod +x /run.sh
 RUN mkdir -p /root/.cache/pip
-RUN apk add --no-cache python3 py3-pip
-RUN apk add --no-cache nodejs
+RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
+RUN apt-get install -y nodejs
+RUN npm install -g bower
+RUN npm install -g yuglify
+RUN apt --yes install libsass-dev
 
-# error: Can not find Rust compiler; ERROR: Failed building wheel for cryptography
+# Error: Can not find Rust compiler; ERROR: Failed building wheel for cryptography
 ENV CRYPTOGRAPHY_DONT_BUILD_RUST=1
 
-# stuff below is only needed during requirement-build time, can be deleted for
-# prod. image
-RUN apk add --no-cache python3-dev gcc libressl-dev postgis musl-dev libffi-dev jpeg-dev zlib-dev g++ postgresql-dev
+RUN apt --yes install postgis postgresql
 
 EXPOSE 5000
 
