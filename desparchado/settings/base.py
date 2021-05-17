@@ -194,7 +194,7 @@ STATICFILES_FINDERS = (
 )
 
 # django-pipeline
-STATICFILES_STORAGE = 'pipeline.storage.PipelineCachedStorage'
+STATICFILES_STORAGE = 'pipeline.storage.PipelineManifestStorage'
 PIPELINE = {
     'COMPILERS': (
         'pipeline.compilers.sass.SASSCompiler',
