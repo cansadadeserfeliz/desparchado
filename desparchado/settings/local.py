@@ -3,6 +3,7 @@ from .base import *
 DEBUG = True
 
 PIPELINE['PIPELINE_ENABLED'] = not DEBUG
+PIPELINE['SASS_BINARY'] = 'sassc'
 
 ALLOWED_HOSTS = ['*']
 

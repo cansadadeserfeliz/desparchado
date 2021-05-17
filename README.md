@@ -5,6 +5,40 @@
 [![Donate to this project using Patreon](https://img.shields.io/badge/patreon-donate-yellow.svg)](https://www.patreon.com/desparchado)
 [![Codefactor](https://www.codefactor.io/repository/github/cansadadeserfeliz/desparchado/badge?style=social)](https://www.codefactor.io/repository/github/cansadadeserfeliz/desparchado)
 
+# Development
+
+## Setup
+
+Start containers for Django application and PostgreSQL database:
+
+    docker-compose build
+    docker-compose up
+    
+First, open a shell for Django application:
+
+    sudo docker exec -it desparchado_web_1 bash
+
+Create `setenv.sh` file with environment variables, for example:
+
+    export DJANGO_SECRET_KEY='secret'
+    export DATABASE_NAME='desparchado_dev'
+    export DATABASE_USER='desparchado_dev'
+    export DATABASE_PASSWORD='secret'
+    export DATABASE_HOST='db'
+    export DATABASE_PORT=5432
+
+Load environment variables from `setenv.sh`:
+
+    source setenv.sh
+
+Collect static files:
+
+    python manage.py collectstatic --settings=desparchado.settings.local
+
+Run the application webserver:
+
+    python manage.py runserver --settings=desparchado.settings.local 0.0.0.0:5000
+
 
 ## Installation
 
@@ -36,6 +70,3 @@
     $ cd projectdir
     $ source scripts/deploy.sh
 
-## Issues
-
-https://tree.taiga.io/project/vero4ka-desparchado/kanban
