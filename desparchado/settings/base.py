@@ -75,13 +75,11 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
-    'axes.middleware.AxesMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 AUTHENTICATION_BACKENDS = [
     'social_core.backends.facebook.FacebookOAuth2',
-    'axes.backends.AxesBackend',
 
     'django.contrib.auth.backends.ModelBackend',
 ]
@@ -196,7 +194,7 @@ STATICFILES_FINDERS = (
 )
 
 # django-pipeline
-STATICFILES_STORAGE = 'pipeline.storage.PipelineManifestStorage'
+STATICFILES_STORAGE = 'pipeline.storage.PipelineCachedStorage'
 PIPELINE = {
     'COMPILERS': (
         'pipeline.compilers.sass.SASSCompiler',
@@ -359,10 +357,14 @@ MAP_WIDGETS = {
 }
 
 EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp-relay.gmail.com'
-EMAIL_HOST_USER = ''
-EMAIL_HOST_PASSWORD = ''
-EMAIL_PORT = 587
+EMAIL_BACKEND = 'django_ses.SESBackend'
+EMAIL_FROM = 'no-reply@desparchado.co'
+
+AWS_SES_ACCESS_KEY_ID = 'YOUR-ACCESS-KEY-ID'
+AWS_SES_SECRET_ACCESS_KEY = 'YOUR-SECRET-ACCESS-KEY'
+
+AWS_SES_REGION_NAME = 'us-east-1'
+AWS_SES_REGION_ENDPOINT = 'email.us-east-1.amazonaws.com'
 
 # django-debug-toolbar
 INTERNAL_IPS = [

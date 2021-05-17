@@ -1,5 +1,5 @@
 {% extends 'layout/base.html' %}
-{% load i18n static desparchado_tags %}
+{% load i18n staticfiles desparchado_tags %}
 
 {% block title %}{{ book.title }}{% endblock %}
 
@@ -40,23 +40,7 @@
       <div class="col-sm-3">
         <img class="image img-fluid" src="{{ book.get_image_url }}" alt="{{ book.title }}" />
 
-        {% if book_prices %}
-        <div class="book-prices">
-          <ul class="list-group prices-list">
-          {% for book_price in book_prices %}
-          <a href="{{ book_price.url }}" target="_blank">
-            <li class="list-group-item book-price">
-              <span class="price-tag">{{ book_price.last_price|format_currency }}</span>
-              <span class="book-seller">{{ book_price.seller_name }}</span>
-            </li>
-          </a>
-          {% endfor %}
-          </ul>
-          <div class="taganga text-center">
-           Sigue los precios en <img height="50" src="{% static 'images/taganga-large-logo.png' %}">
-          </div>
-        </div>
-        {% endif %}
+        {% include 'books/_book_prices.html' with book=book %}
 
       </div>
       <div class="col-sm-9">

@@ -10,7 +10,8 @@ psycopg2==2.8.6  # apt-get install postgis
 raven==6.10.0
 social-auth-core==3.3.3
 requests===2.25.0
-libsass==0.20.1
+social-auth-core==3.0.0
+requests==2.21.0
 
 # Django Libs
 django-autocomplete-light==3.8.1
