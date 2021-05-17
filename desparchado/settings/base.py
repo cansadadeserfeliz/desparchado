@@ -1,17 +1,18 @@
 import os
+from pathlib import Path
 
 from django.urls import reverse_lazy
+from django.core.exceptions import ImproperlyConfigured
 
 
 def getenvvar(name, default=None):
     v = os.environ.get(name, default)
     if not v:
-        raise Exception('Environment variable {} undefined'.format(name))
+        raise ImproperlyConfigured('Set the {} environment variable'.format(name))
     return v
 
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = Path('.').parent.parent
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
@@ -177,11 +178,11 @@ USE_TZ = True
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+STATIC_ROOT = BASE_DIR / 'static'
+MEDIA_ROOT = BASE_DIR / 'media'
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'desparchado', 'static'),
+    BASE_DIR / 'desparchado/static',
 ]
 
 STATICFILES_FINDERS = (
