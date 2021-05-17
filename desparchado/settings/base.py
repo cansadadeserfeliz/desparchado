@@ -1,7 +1,13 @@
 import os
-import sys
 
 from django.urls import reverse_lazy
+
+
+def getenvvar(name, default=None):
+    v = os.environ.get(name, default)
+    if not v:
+        raise Exception('Environment variable {} undefined'.format(name))
+    return v
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -11,10 +17,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'secret'
+SECRET_KEY = getenvvar('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
@@ -115,8 +121,12 @@ WSGI_APPLICATION = 'desparchado.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
+        'NAME': getenvvar('DATABASE_NAME'),
+        'USER': getenvvar('DATABASE_USER'),
+        'PASSWORD': getenvvar('DATABASE_PASSWORD'),
+        'HOST': getenvvar('DATABASE_HOST'),
+        'PORT': getenvvar('DATABASE_PORT'),
     }
 }
 
@@ -314,8 +324,8 @@ SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.social_auth.load_extra_data',
     'social_core.pipeline.user.user_details',
 )
-SOCIAL_AUTH_FACEBOOK_KEY = ''
-SOCIAL_AUTH_FACEBOOK_SECRET = ''
+SOCIAL_AUTH_FACEBOOK_KEY = getenvvar('SOCIAL_AUTH_FACEBOOK_KEY', 'not-set')
+SOCIAL_AUTH_FACEBOOK_SECRET = getenvvar('SOCIAL_AUTH_FACEBOOK_SECRET', 'not-set')
 
 SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/'
 
@@ -327,11 +337,14 @@ SOCIAL_AUTH_FACEBOOK_SCOPE = [
 GRAPPELLI_ADMIN_TITLE = 'Desparchado. Administrador de eventos'
 GRAPPELLI_INDEX_DASHBOARD = 'dashboard.CustomIndexDashboard'
 
-GOODREADS_API_KEY = ''
-GOODREADS_API_SECRET = ''
+GOODREADS_API_KEY = getenvvar('GOODREADS_API_KEY', 'not-set')
+GOODREADS_API_SECRET = getenvvar('GOODREADS_API_SECRET', 'not-set')
 
-TAGANGA_AUTH_TOKEN = ''
+TAGANGA_AUTH_TOKEN = getenvvar('TAGANGA_AUTH_TOKEN', 'not-set')
 TAGANGA_BASE_URL = 'https://taganga-api.herokuapp.com/api/v1/'
+
+AWS_SES_ACCESS_KEY_ID = getenvvar('AWS_SES_ACCESS_KEY_ID', 'not-set')
+AWS_SES_SECRET_ACCESS_KEY = getenvvar('AWS_SES_SECRET_ACCESS_KEY', 'not-set')
 
 MAP_WIDGETS = {
     "GooglePointFieldWidget": (
@@ -359,14 +372,3 @@ INTERNAL_IPS = [
 MARKDOWNX_MARKDOWN_EXTENSIONS = [
     'markdown.extensions.extra'
 ]
-
-try:
-    if 'test' in sys.argv:
-        from .test_settings import *
-    else:
-        from .local_settings import *
-except:
-    pass
-
-
-PIPELINE['PIPELINE_ENABLED'] = not DEBUG

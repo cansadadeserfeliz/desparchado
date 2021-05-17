@@ -1,16 +1,20 @@
-from desparchado.settings import *
+from .base import *
+
+DEBUG = True
 
 STATICFILES_STORAGE = 'pipeline.storage.NonPackagingPipelineStorage'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
+PIPELINE['PIPELINE_ENABLED'] = not DEBUG
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': 'desparchado_test',
-        'USER': 'desparchado_dev',
+        'NAME': 'test_desparchado',
+        'USER': 'vero4ka',
         'PASSWORD': 'secret',
-        'HOST': '127.0.0.1',
-        'PORT': 5433,
+        'HOST': 'db',
+        'PORT': 5432,
     }
 }
