@@ -30,7 +30,7 @@ class HuntingOfSnarkGame(TimeStampedModel):
         validators=[MinValueValidator(1), MaxValueValidator(50)],
     )
     criteria = models.ManyToManyField('games.HuntingOfSnarkCriteria')
-    extra = JSONField(default={})
+    extra = JSONField(default=dict())
 
     class Meta:
         ordering = ('-created',)
