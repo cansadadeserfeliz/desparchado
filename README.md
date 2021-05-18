@@ -13,7 +13,7 @@ Start containers for Django application and PostgreSQL database:
 
     docker-compose build
     docker-compose up
-    
+
 First, open a shell for Django application:
 
     sudo docker exec -it desparchado_web_1 bash
@@ -31,6 +31,10 @@ Load environment variables from `app/setenv.sh`:
 
     cd app/
     source setenv.sh
+
+Install static files:
+
+    bower install
 
 Collect static files:
 
