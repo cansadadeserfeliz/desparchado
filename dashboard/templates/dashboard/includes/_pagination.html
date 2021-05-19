@@ -4,11 +4,11 @@
   {% endif %}
   {% for page in page_numbers %}
     {% if page %}
-      {% ifequal page page_obj.number %}
+      {% if page == page_obj.number %}
         <li class="active"><a href="#">{{ page }}</a></li>
       {% else %}
         <li><a href="?page={{ page }}&{{ search_query }}">{{ page }}</a></li>
-      {% endifequal %}
+      {% endif %}
     {% else %}
       <li class="disabled"><a href="#">...</a></li>
     {% endif %}
