@@ -50,7 +50,7 @@ script:
   - psql --version
   - psql -c 'SELECT version()' -U travis
   - psql -c 'SELECT PostGIS_full_version()' -U travis
-  - coverage run pytest --ds=desparchado.settings.travis_test
+  - pytest --ds=desparchado.settings.travis_test --cov=./
 
 
 after_success:
