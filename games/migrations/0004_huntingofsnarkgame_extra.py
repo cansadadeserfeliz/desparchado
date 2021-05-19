@@ -16,6 +16,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='huntingofsnarkgame',
             name='extra',
-            field=django.db.models.JSONField(default={}),
+            field=django.db.models.JSONField(default=dict),
         ),
     ]
