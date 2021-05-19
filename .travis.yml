@@ -32,10 +32,7 @@ services:
   - postgresql
 
 before_script:
-  - psql --version
-  - psql -c "CREATE USER desparchado_dev WITH PASSWORD 'secret' SUPERUSER;" -U travis
-  - psql -c "CREATE database desparchado_test OWNER desparchado_dev;" -U travis
-  - psql -c 'CREATE EXTENSION IF NOT EXISTS postgis' -U travis
+  - psql -U postgres -c "create extension postgis"
 
 install:
   - pip install -r requirements.txt
