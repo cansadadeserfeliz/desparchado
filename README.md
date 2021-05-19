@@ -44,6 +44,9 @@ Run the application webserver:
 
     python manage.py runserver --settings=desparchado.settings.local 0.0.0.0:5000
 
+### Run the tests
+
+    python manage.py test --settings=desparchado.settings.test --keepdb
 
 ## Installation
 
