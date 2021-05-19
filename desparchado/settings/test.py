@@ -4,7 +4,7 @@ DEBUG = True
 
 STATICFILES_STORAGE = 'pipeline.storage.NonPackagingPipelineStorage'
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.locmem.EmailBackend'
 
 PIPELINE['PIPELINE_ENABLED'] = not DEBUG
 
