@@ -40,7 +40,6 @@ before_script:
 install:
   - pip install -r requirements.txt
   - npm install -g sass
-  - pip install coverage
   - pip install codecov
 
 script:
@@ -51,7 +50,7 @@ script:
   - psql --version
   - psql -c 'SELECT version()' -U travis
   - psql -c 'SELECT PostGIS_full_version()' -U travis
-  - coverage run manage.py test --settings=desparchado.settings.test_travis --keepdb
+  - coverage run pytest --ds=desparchado.settings.travis_test
 
 
 after_success:
