@@ -6,15 +6,21 @@ STATICFILES_STORAGE = 'pipeline.storage.NonPackagingPipelineStorage'
 
 EMAIL_BACKEND = 'django.core.mail.backends.locmem.EmailBackend'
 
-PIPELINE['PIPELINE_ENABLED'] = not DEBUG
+PIPELINE['PIPELINE_ENABLED'] = False
+PIPELINE['SASS_BINARY'] = 'sassc'
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': 'test_desparchado',
-        'USER': 'vero4ka',
+        'NAME': 'desparchado_test',
+        'USER': 'desparchado_dev',
         'PASSWORD': 'secret',
         'HOST': 'db',
         'PORT': 5432,
+        'TEST': {
+            'NAME': 'desparchado_test',
+        },
     }
 }
+
+LOGGING['root']['handlers'] = ['console']
