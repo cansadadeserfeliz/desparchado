@@ -24,7 +24,7 @@ env:
   - DJANGO_SECRET_KEY=secret
   - DATABASE_NAME=desparchado_test
   - DATABASE_USER=travis
-  - DATABASE_PASSWORD=secret
+  - DATABASE_PASSWORD=
   - DATABASE_HOST=127.0.0.1
   - DATABASE_PORT=5433
 
