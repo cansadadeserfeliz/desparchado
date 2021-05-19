@@ -52,7 +52,7 @@ script:
   - psql --version
   - psql -c 'SELECT version()' -U travis
   - psql -c 'SELECT PostGIS_full_version()' -U travis
-  - python -m pytest --ds=desparchado.settings.travis_test --cov=./
+  - python -m pytest --cov=./
 
 
 after_success:
