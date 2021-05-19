@@ -6,7 +6,7 @@ To activate your index dashboard add the following to your settings.py::
     GRAPPELLI_INDEX_DASHBOARD = 'ciencia_abierta.dashboard.CustomIndexDashboard'
 """
 
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 from grappelli.dashboard import modules, Dashboard
 from grappelli.dashboard.utils import get_admin_site_name
