@@ -27,7 +27,7 @@ env:
   - DATABASE_PASSWORD=secret
   - DATABASE_HOST=127.0.0.1
   - DATABASE_PORT=5433
-  - DJANGO_SETTINGS_MODULE='desparchado.settings.travis_test'
+  - DJANGO_SETTINGS_MODULE='desparchado.settings.test_travis'
 
 services:
   - postgresql
