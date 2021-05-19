@@ -47,6 +47,7 @@ Run the application webserver:
 ### Run the tests
 
     python manage.py test --settings=desparchado.settings.test --keepdb
+    pytest --cov=./
 
 ## Installation
 
