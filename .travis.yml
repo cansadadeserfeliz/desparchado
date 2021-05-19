@@ -51,7 +51,6 @@ script:
   - psql --version
   - psql -c 'SELECT version()' -U travis
   - psql -c 'SELECT PostGIS_full_version()' -U travis
-  - export PYTHONPATH=$PYTHONPATH:$(pwd)
   - python -m pytest --cov=./
 
 
