@@ -23,8 +23,8 @@ env:
   - PGUSER=travis
   - DJANGO_SECRET_KEY=secret
   - DATABASE_NAME=desparchado_test
-  - DATABASE_USER=travis
-  - DATABASE_PASSWORD=
+  - DATABASE_USER=desparchado_dev
+  - DATABASE_PASSWORD=secret
   - DATABASE_HOST=127.0.0.1
   - DATABASE_PORT=5433
 
@@ -32,7 +32,10 @@ services:
   - postgresql
 
 before_script:
-  - psql -U travis -c "create extension postgis"
+  - psql --version
+  - psql -c "CREATE USER desparchado_dev WITH PASSWORD 'secret' SUPERUSER;" -U travis
+  - psql -c "CREATE database desparchado_test OWNER desparchado_dev;" -U travis
+  - psql -c 'CREATE EXTENSION IF NOT EXISTS postgis' -U travis
 
 install:
   - pip install -r requirements.txt
@@ -48,7 +51,7 @@ script:
   - psql --version
   - psql -c 'SELECT version()' -U travis
   - psql -c 'SELECT PostGIS_full_version()' -U travis
-  - coverage run manage.py test --settings=desparchado.settings.test_travis
+  - coverage run manage.py test --settings=desparchado.settings.test_travis --keepdb
 
 
 after_success:
