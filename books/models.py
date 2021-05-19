@@ -33,7 +33,7 @@ class Book(TimeStampedModel):
     isbn = models.CharField(
         max_length=50,
         unique=True,
-        validators=[RegexValidator('\d{13}')],
+        validators=[RegexValidator(r'\d{13}')],
     )
     is_published = models.BooleanField(
         'Está publicado',
