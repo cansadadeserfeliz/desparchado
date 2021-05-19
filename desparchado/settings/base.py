@@ -128,6 +128,9 @@ DATABASES = {
         'PASSWORD': getenvvar('DATABASE_PASSWORD'),
         'HOST': getenvvar('DATABASE_HOST'),
         'PORT': getenvvar('DATABASE_PORT'),
+        'TEST': {
+            'NAME': 'desparchado_test',
+        },
     }
 }
 
