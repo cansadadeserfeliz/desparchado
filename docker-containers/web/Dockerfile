@@ -6,6 +6,7 @@ RUN chmod +x /run.sh
 RUN mkdir -p /root/.cache/pip
 RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
 RUN apt-get install -y nodejs
+RUN npm install -g sass
 RUN npm install -g bower
 RUN npm install -g yuglify
 RUN apt --yes install libsass-dev
