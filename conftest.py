@@ -7,6 +7,7 @@ from django.utils import timezone
 from users.tests.factories import UserFactory
 from events.tests.factories import EventFactory
 from events.tests.factories import OrganizerFactory
+from events.tests.factories import SpeakerFactory
 from books.tests.factories import BookFactory
 from places.tests.factories import PlaceFactory
 
@@ -72,3 +73,8 @@ def other_event_book(other_event):
 @pytest.fixture
 def place():
     return PlaceFactory()
+
+
+@pytest.fixture
+def speaker():
+    return SpeakerFactory()

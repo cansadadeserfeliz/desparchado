@@ -5,10 +5,6 @@ import pytest
 from django.urls import reverse
 from django.utils import timezone
 
-from django_webtest import WebTest
-
-from users.tests.factories import UserFactory
-from .factories import OrganizerFactory
 from .factories import SpeakerFactory
 from ..models import Event
 from ..models import Organizer
@@ -104,7 +100,7 @@ def test_successfully_create_event(django_app, user, organizer, place):
                           'sin ningún motivo concreto.'
     form['event_date'] = (timezone.now() + timedelta(days=1)).strftime('%d/%m/%Y %H:%M')
     form['event_end_date'] = (timezone.now() + timedelta(days=2)).strftime('%d/%m/%Y %H:%M')
-    form['event_source_url'] = 'http://example.com'
+    form['event_source_url'] = 'https://example.com'
     form['organizers'].force_value([organizer.id])
     form['place'].force_value(place.id)
 
@@ -116,7 +112,6 @@ def test_successfully_create_event(django_app, user, organizer, place):
     assert event.created_by == user
 
     assert event.get_absolute_url() in response.location
-
 
 
 @pytest.mark.django_db
@@ -168,188 +163,183 @@ def test_show_details_of_organizer(django_app, organizer):
     assert organizer.name in response
 
 
-class SpeakerDetailViewTest(WebTest):
-
-    def setUp(self):
-        self.speaker = SpeakerFactory()
-
-    def test_successfully_shows_speaker(self):
-        response = self.app.get(
-            reverse('events:speaker_detail', args=[self.speaker.slug]),
-            status=200
-        )
-        self.assertEqual(response.context['speaker'], self.speaker)
+@pytest.mark.django_db
+def test_successfully_show_details_of_speaker(django_app, speaker):
+    response = django_app.get(
+        reverse('events:speaker_detail', args=[speaker.slug]),
+        status=200
+    )
+    assert response.context['speaker'] == speaker
 
 
-class SpeakerListViewTest(WebTest):
-
-    def setUp(self):
-        self.first_speaker = SpeakerFactory(name='Pepito Perez')
-        self.second_speaker = SpeakerFactory(name='Django Pony')
-
-    def test_successfully_shows_speakers_list(self):
-        response = self.app.get(reverse('events:speaker_list'), status=200)
-        self.assertEqual(len(response.context['speakers']), 2)
-        self.assertIn(self.first_speaker, response.context['speakers'])
-        self.assertIn(self.second_speaker, response.context['speakers'])
-
-    def test_successfully_finds_speaker_by_name(self):
-        search_term = 'Pony'
-        response = self.app.get(
-            reverse('events:speaker_list'),
-            {'q': search_term},
-            status=200
-        )
-        self.assertEqual(len(response.context['speakers']), 1)
-        self.assertNotIn(self.first_speaker, response.context['speakers'])
-        self.assertIn(self.second_speaker, response.context['speakers'])
-        self.assertEqual(response.context['search_string'], search_term)
-        self.assertContains(response, search_term)
-
-    def test_successfully_finds_speaker_by_name_via_search_form(self):
-        search_term = 'Pony'
-        response = self.app.get(reverse('events:speaker_list'), status=200)
-
-        form = response.forms['speaker_search_form']
-        form['q'] = search_term
-        response = form.submit()
-
-        self.assertEqual(len(response.context['speakers']), 1)
-        self.assertNotIn(self.first_speaker, response.context['speakers'])
-        self.assertIn(self.second_speaker, response.context['speakers'])
-        self.assertEqual(response.context['search_string'], search_term)
-        self.assertContains(response, search_term)
+@pytest.mark.django_db
+def test_successfully_shows_speakers_list(django_app):
+    first_speaker = SpeakerFactory()
+    second_speaker = SpeakerFactory()
+    response = django_app.get(reverse('events:speaker_list'), status=200)
+    assert len(response.context['speakers']) == 2
+    assert first_speaker in response.context['speakers']
+    assert second_speaker in response.context['speakers']
 
 
+@pytest.mark.django_db
+def test_successfully_finds_speaker_by_name(django_app):
+    first_speaker = SpeakerFactory(name='Pepito Perez')
+    second_speaker = SpeakerFactory(name='Django Pony')
+    search_term = 'Pony'
+    response = django_app.get(
+        reverse('events:speaker_list'),
+        {'q': search_term},
+        status=200
+    )
+    assert len(response.context['speakers']) == 1
+    assert first_speaker not in response.context['speakers']
+    assert second_speaker in response.context['speakers']
+    assert response.context['search_string'] == search_term
+    assert search_term in response
 
 
+@pytest.mark.django_db
+def test_successfully_finds_speaker_by_name_via_search_form(django_app):
+    first_speaker = SpeakerFactory(name='Pepito Perez')
+    second_speaker = SpeakerFactory(name='Django Pony')
+    search_term = 'Pony'
+    response = django_app.get(reverse('events:speaker_list'), status=200)
 
-class OrganizerCreateViewTest(WebTest):
+    form = response.forms['speaker_search_form']
+    form['q'] = search_term
+    response = form.submit()
 
-    def setUp(self):
-        self.user = UserFactory()
-
-    def test_redirects_for_non_authenticated_user(self):
-        response = self.app.get(reverse('events:organizer_add'), status=302)
-        self.assertIn(reverse('users:login'), response.location)
-
-    def test_successfully_creates_organizer(self):
-        self.assertEqual(Organizer.objects.count(), 0)
-
-        response = self.app.get(
-            reverse('events:organizer_add'),
-            user=self.user,
-            status=200,
-        )
-
-        form = response.forms['organizer_form']
-        form['name'] = 'Librería LERNER'
-        form['description'] = 'Librería LERNER'
-        form['website_url'] = 'https://www.librerialerner.com.co/'
-
-        response = form.submit().follow()
-
-        self.assertEqual(Organizer.objects.count(), 1)
-
-        organizer = Organizer.objects.first()
-        self.assertEqual(organizer.created_by, self.user)
+    assert len(response.context['speakers']) == 1
+    assert first_speaker not in response.context['speakers']
+    assert second_speaker in response.context['speakers']
+    assert response.context['search_string'] == search_term
+    assert search_term in response
 
 
-class OrganizerUpdateViewTest(WebTest):
-
-    def setUp(self):
-        self.user = UserFactory()
-        self.organizer = OrganizerFactory(
-            name='Librería LERNER',
-            created_by=self.user,
-        )
-
-    def test_redirects_for_non_authenticated_user(self):
-        response = self.app.get(
-            reverse('events:organizer_update', args=[self.organizer.slug]),
-            status=302
-        )
-        self.assertIn(reverse('users:login'), response.location)
-
-    def test_successfully_updates_organizer(self):
-        response = self.app.get(
-            reverse('events:organizer_update', args=[self.organizer.slug]),
-            user=self.user,
-            status=200,
-        )
-
-        form = response.forms['organizer_form']
-        form['name'] = 'Librería Nacional'
-
-        response = form.submit().follow()
-
-        self.organizer.refresh_from_db()
-
-        self.assertEqual(self.organizer.created_by, self.user)
-        self.assertEqual(self.organizer.name, 'Librería Nacional')
+def test_non_authenticated_user_cannot_create_organizer(django_app):
+    response = django_app.get(reverse('events:organizer_add'), status=302)
+    assert reverse('users:login') in response.location
 
 
-class SpeakerCreateViewTest(WebTest):
-
-    def setUp(self):
-        self.user = UserFactory()
-
-    def test_redirects_for_non_authenticated_user(self):
-        response = self.app.get(reverse('events:speaker_add'), status=302)
-        self.assertIn(reverse('users:login'), response.location)
-
-    def test_successfully_creates_speaker(self):
-        self.assertEqual(Speaker.objects.count(), 0)
-
-        response = self.app.get(
-            reverse('events:speaker_add'),
-            user=self.user,
-            status=200,
-        )
-
-        form = response.forms['speaker_form']
-        form['name'] = 'Julian Barnes'
-        form['description'] = 'English writer'
-
-        response = form.submit().follow()
-
-        self.assertEqual(Speaker.objects.count(), 1)
-
-        speaker = Speaker.objects.first()
-        self.assertEqual(speaker.created_by, self.user)
-
-        self.assertContains(response, speaker.name)
+@pytest.mark.django_db
+def test_non_authenticated_user_cannot_update_organizer(django_app, organizer):
+    response = django_app.get(
+        reverse('events:organizer_update', args=[organizer.slug]),
+        status=302
+    )
+    assert reverse('users:login') in response.location
 
 
-class SpeakerUpdateViewTest(WebTest):
+@pytest.mark.django_db
+def test_successfully_create_organizer(django_app, user):
+    organizers_count = Organizer.objects.count()
 
-    def setUp(self):
-        self.user = UserFactory()
-        self.speaker = SpeakerFactory(
-            name='Julian Barnes',
-            created_by=self.user,
-        )
+    response = django_app.get(
+        reverse('events:organizer_add'),
+        user=user,
+        status=200,
+    )
 
-    def test_redirects_for_non_authenticated_user(self):
-        response = self.app.get(
-            reverse('events:speaker_update', args=[self.speaker.id]),
-            status=302
-        )
-        self.assertIn(reverse('users:login'), response.location)
+    form = response.forms['organizer_form']
+    form['name'] = 'Librería LERNER'
+    form['description'] = 'Librería LERNER'
+    form['website_url'] = 'https://www.librerialerner.com.co/'
 
-    def test_successfully_updates_speaker(self):
-        response = self.app.get(
-            reverse('events:speaker_update', args=[self.speaker.slug]),
-            user=self.user,
-            status=200,
-        )
+    response = form.submit()
+    assert response.status_code == 302
 
-        form = response.forms['speaker_form']
-        form['name'] = 'Chimamanda Ngozi Adichie'
+    assert Organizer.objects.count() == organizers_count + 1
 
-        response = form.submit().follow()
+    organizer = Organizer.objects.first()
+    assert organizer.created_by == user
+    assert organizer.get_absolute_url() in response.location
 
-        self.speaker.refresh_from_db()
 
-        self.assertEqual(self.speaker.created_by, self.user)
-        self.assertEqual(self.speaker.name, 'Chimamanda Ngozi Adichie')
+@pytest.mark.django_db
+def test_successfully_update_organizer(django_app, user, organizer):
+    organizer.created_by = user
+    organizer.save()
+
+    response = django_app.get(
+        reverse('events:organizer_update', args=[organizer.slug]),
+        user=user,
+        status=200,
+    )
+
+    form = response.forms['organizer_form']
+    form['name'] = 'Librería Nacional'
+
+    response = form.submit()
+    assert response.status_code == 302
+
+    organizer.refresh_from_db()
+
+    assert organizer.created_by == user
+    assert organizer.name == 'Librería Nacional'
+    assert organizer.get_absolute_url() in response.location
+
+
+def test_non_authenticated_user_cannot_create_speaker(django_app):
+    response = django_app.get(reverse('events:speaker_add'), status=302)
+    assert reverse('users:login') in response.location
+
+
+@pytest.mark.django_db
+def test_successfully_create_speaker(django_app, user):
+    speakers_count = Speaker.objects.count()
+
+    response = django_app.get(reverse('events:speaker_add'), user=user, status=200)
+
+    form = response.forms['speaker_form']
+    form['name'] = 'Julian Barnes'
+    form['description'] = 'English writer'
+
+    response = form.submit()
+    assert response.status_code == 302
+
+    assert Speaker.objects.count() == speakers_count + 1
+
+    speaker = Speaker.objects.first()
+    assert speaker.created_by == user
+
+    assert speaker.get_absolute_url() in response.location
+
+    response = response.follow()
+    assert speaker.name in response
+
+
+@pytest.mark.django_db
+def test_non_authenticated_user_cannot_update_speaker(django_app, speaker):
+    response = django_app.get(
+        reverse('events:speaker_update', args=[speaker.id]),
+        status=302
+    )
+    assert reverse('users:login') in response.location
+
+
+@pytest.mark.django_db
+def test_successfully_update_speaker(django_app, user, speaker):
+    speaker.created_by = user
+    speaker.save()
+
+    response = django_app.get(
+        reverse('events:speaker_update', args=[speaker.slug]),
+        user=user,
+        status=200,
+    )
+
+    form = response.forms['speaker_form']
+    form['name'] = 'Chimamanda Ngozi Adichie'
+
+    response = form.submit()
+    assert response.status_code == 302
+
+    speaker.refresh_from_db()
+
+    assert speaker.name == 'Chimamanda Ngozi Adichie'
+    assert speaker.get_absolute_url() in response.location
+
+    response = response.follow()
+    assert response.status_code == 200
+    assert speaker.name in response
