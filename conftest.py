@@ -10,6 +10,7 @@ from events.tests.factories import OrganizerFactory
 from events.tests.factories import SpeakerFactory
 from books.tests.factories import BookFactory
 from places.tests.factories import PlaceFactory
+from places.tests.factories import CityFactory
 
 
 @pytest.fixture
@@ -78,3 +79,8 @@ def place():
 @pytest.fixture
 def speaker():
     return SpeakerFactory()
+
+
+@pytest.fixture
+def city():
+    return CityFactory()
