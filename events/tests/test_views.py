@@ -45,6 +45,16 @@ def test_show_details_of_event(django_app, event):
 
 
 @pytest.mark.django_db
+def test_events_appearance_in_past_event_list(django_app, event, not_published_event, not_approved_event, past_event):
+    response = django_app.get(reverse('events:past_event_list'), status=200)
+
+    assert past_event in response.context['events']
+    assert event not in response.context['events']
+    assert not_published_event not in response.context['events']
+    assert not_approved_event not in response.context['events']
+
+
+@pytest.mark.django_db
 def test_show_book_in_details_of_event(django_app, event, book, other_event):
     response = django_app.get(
         reverse('events:event_detail', args=[event.slug]),
