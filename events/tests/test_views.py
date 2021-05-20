@@ -8,8 +8,6 @@ from django.utils import timezone
 from django_webtest import WebTest
 
 from users.tests.factories import UserFactory
-from places.tests.factories import PlaceFactory
-from .factories import EventFactory
 from .factories import OrganizerFactory
 from .factories import SpeakerFactory
 from ..models import Event
@@ -83,6 +81,45 @@ def test_show_details_of_not_approved_event(django_app, not_approved_event):
 
 
 @pytest.mark.django_db
+def test_not_authenticated_user_cannot_create_event(django_app):
+    response = django_app.get(reverse('events:add_event'), status=302)
+    assert reverse('users:login') in response.location
+
+
+@pytest.mark.django_db
+def test_successfully_create_event(django_app, user, organizer, place):
+    events_count = Event.objects.count()
+    response = django_app.get(
+        reverse('events:add_event'),
+        user=user,
+        status=200,
+    )
+
+    form = response.forms['event_form']
+    form['title'] = 'Presentación del libro de Julian Barnes'
+    form['description'] = 'Hasta hace poco he visto a Julian Barnes ' \
+                          'como uno de esos escritores que nos interesan, ' \
+                          'cuya lectura creemos inminente, ' \
+                          'pero que vamos aplazando año tras año ' \
+                          'sin ningún motivo concreto.'
+    form['event_date'] = (timezone.now() + timedelta(days=1)).strftime('%d/%m/%Y %H:%M')
+    form['event_end_date'] = (timezone.now() + timedelta(days=2)).strftime('%d/%m/%Y %H:%M')
+    form['event_source_url'] = 'http://example.com'
+    form['organizers'].force_value([organizer.id])
+    form['place'].force_value(place.id)
+
+    response = form.submit()
+    assert response.status_code == 302
+
+    assert Event.objects.count() == events_count + 1
+    event = Event.objects.first()
+    assert event.created_by == user
+
+    assert event.get_absolute_url() in response.location
+
+
+
+@pytest.mark.django_db
 def test_does_not_allow_update_events_not_authenticated_users(django_app, event):
     response = django_app.get(
         reverse('events:event_update', args=[event.id]),
@@ -121,17 +158,14 @@ def test_successfully_update_event(django_app, event_with_organizer):
     assert event.title == 'Presentación del libro de Julian Barnes'
 
 
-class OrganizerDetailViewTest(WebTest):
-
-    def setUp(self):
-        self.organizer = OrganizerFactory()
-
-    def test_successfully_shows_organizer(self):
-        response = self.app.get(
-            reverse('events:organizer_detail', args=[self.organizer.slug]),
-            status=200
-        )
-        self.assertEqual(response.context['organizer'], self.organizer)
+@pytest.mark.django_db
+def test_show_details_of_organizer(django_app, organizer):
+    response = django_app.get(
+        reverse('events:organizer_detail', args=[organizer.slug]),
+        status=200
+    )
+    assert response.context['organizer'] == organizer
+    assert organizer.name in response
 
 
 class SpeakerDetailViewTest(WebTest):
@@ -187,48 +221,7 @@ class SpeakerListViewTest(WebTest):
         self.assertContains(response, search_term)
 
 
-class EventCreateViewTest(WebTest):
 
-    def setUp(self):
-        self.user = UserFactory()
-        self.organizer = OrganizerFactory()
-        self.place = PlaceFactory()
-
-    def test_redirects_for_non_authenticated_user(self):
-        response = self.app.get(reverse('events:add_event'), status=302)
-        self.assertIn(reverse('users:login'), response.location)
-
-    def test_successfully_creates_event(self):
-        self.assertEqual(Event.objects.count(), 0)
-        response = self.app.get(
-            reverse('events:add_event'),
-            user=self.user,
-            status=200,
-        )
-
-        form = response.forms['event_form']
-
-        form['title'] = 'Presentación del libro de Julian Barnes'
-        form['description'] = 'Hasta hace poco he visto a Julian Barnes ' \
-                              'como uno de esos escritores que nos interesan, ' \
-                              'cuya lectura creemos inminente, ' \
-                              'pero que vamos aplazando año tras año ' \
-                              'sin ningún motivo concreto.'
-        form['event_date'] = (
-            timezone.now() + timedelta(days=1)
-        ).strftime('%d/%m/%Y %H:%M')
-        form['event_end_date'] = (
-            timezone.now() + timedelta(days=2)
-        ).strftime('%d/%m/%Y %H:%M')
-        form['event_source_url'] = 'http://example.com'
-        form['organizers'].force_value([self.organizer.id])
-        form['place'].force_value(self.place.id)
-
-        response = form.submit().follow()
-
-        self.assertEqual(Event.objects.count(), 1)
-        event = Event.objects.first()
-        self.assertEqual(event.created_by, self.user)
 
 
 class OrganizerCreateViewTest(WebTest):
