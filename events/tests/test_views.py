@@ -1,11 +1,12 @@
 from datetime import timedelta
 
+import pytest
+
 from django.urls import reverse
 from django.utils import timezone
 
 from django_webtest import WebTest
 
-from books.tests.factories import BookFactory
 from users.tests.factories import UserFactory
 from places.tests.factories import PlaceFactory
 from .factories import EventFactory
@@ -16,51 +17,51 @@ from ..models import Organizer
 from ..models import Speaker
 
 
-class EventListViewTest(WebTest):
+@pytest.mark.django_db
+def test_events_appearance_in_event_list(django_app, event, not_published_event, not_approved_event, past_event):
+    response = django_app.get(reverse('events:event_list'), status=200)
 
-    def setUp(self):
-        self.first_event = EventFactory()
-        self.second_event = EventFactory()
-        self.not_published_event = EventFactory(is_published=False)
-        self.not_approved_event = EventFactory(is_approved=False)
-        self.past_event = EventFactory(
-            event_date=timezone.now() - timedelta(days=1)
-        )
-
-    def test_events_appear_in_list(self):
-        response = self.app.get(reverse('events:event_list'), status=200)
-        self.assertEqual(len(response.context['events']), 2)
-        self.assertIn(self.first_event, response.context['events'])
-        self.assertIn(self.second_event, response.context['events'])
-        self.assertNotIn(self.not_published_event, response.context['events'])
-        self.assertNotIn(self.not_approved_event, response.context['events'])
-        self.assertNotIn(self.past_event, response.context['events'])
+    assert event in response.context['events']
+    assert not_published_event not in response.context['events']
+    assert not_approved_event not in response.context['events']
+    assert past_event not in response.context['events']
 
 
-class EventDetailViewTest(WebTest):
+@pytest.mark.django_db
+def test_show_details_of_event(django_app, event):
+    response = django_app.get(
+        reverse('events:event_detail', args=[event.slug]),
+        status=200
+    )
+    assert event == response.context['event']
 
-    def test_successfully_shows_event(self):
-        event = EventFactory()
-        BookFactory(related_events=[event])
-        response = self.app.get(
-            reverse('events:event_detail', args=[event.slug]),
-            status=200
-        )
-        self.assertEqual(response.context['event'], event)
 
-    def test_does_not_show_not_published_event(self):
-        not_published_event = EventFactory(is_published=False)
-        self.app.get(
-            reverse('events:event_detail', args=[not_published_event.slug]),
-            status=404
-        )
+@pytest.mark.django_db
+def test_show_book_in_details_of_event(django_app, event, book, other_event):
+    response = django_app.get(
+        reverse('events:event_detail', args=[event.slug]),
+        status=200
+    )
+    assert book in response.context['books']
+    assert book.title in response
 
-    def test_does_not_show_not_approved_event(self):
-        not_approved_event = EventFactory(is_approved=False)
-        self.app.get(
-            reverse('events:event_detail', args=[not_approved_event.slug]),
-            status=404
-        )
+    assert other_event not in response.context['books']
+
+
+@pytest.mark.django_db
+def test_show_details_of_not_published_event(django_app, not_published_event):
+    django_app.get(
+        reverse('events:event_detail', args=[not_published_event.slug]),
+        status=404
+    )
+
+
+@pytest.mark.django_db
+def test_show_details_of_not_approved_event(django_app, not_approved_event):
+    django_app.get(
+        reverse('events:event_detail', args=[not_approved_event.slug]),
+        status=404
+    )
 
 
 class EventUpdateViewTest(WebTest):
@@ -84,7 +85,6 @@ class EventUpdateViewTest(WebTest):
             user=user,
             status=403
         )
-
 
     def test_successfully_updates_event(self):
         response = self.app.get(
