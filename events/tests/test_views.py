@@ -95,8 +95,6 @@ def test_successfully_update_event(django_app, event_with_organizer):
 
     form = response.forms['event_form']
     form['title'] = 'Presentación del libro de Julian Barnes'
-    #response = form.submit()
-    #print(response)
     form.submit().follow()
 
     event.refresh_from_db()
