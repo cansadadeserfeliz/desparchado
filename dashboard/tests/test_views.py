@@ -14,9 +14,15 @@ def test_home_view(django_app, admin_user):
 
 
 @pytest.mark.django_db
-def test_access_denied_for_non_admin_users(django_app, user):
+@pytest.mark.parametrize('dashboard_view_name', [
+    'dashboard:home',
+    'dashboard:events',
+    'dashboard:social_posts',
+    'dashboard:event_sources',
+])
+def test_access_denied_for_non_admin_users(django_app, user, dashboard_view_name):
     django_app.get(
-        reverse('dashboard:home'),
+        reverse(dashboard_view_name),
         user=user,
         status=403
     )
