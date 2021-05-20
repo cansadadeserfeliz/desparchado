@@ -41,6 +41,7 @@ class EventFactory(factory.django.DjangoModelFactory):
     event_date = factory.LazyFunction(random_future_date)
     event_type = factory.fuzzy.FuzzyChoice(dict(Event.EVENT_TYPES).keys())
     description = factory.Faker('text')
+    image = factory.django.ImageField()
     price = factory.fuzzy.FuzzyDecimal(0, high=500_000, precision=2)
     event_source_url = factory.Faker('url')
     topic = factory.fuzzy.FuzzyChoice(dict(Event.EVENT_TOPICS).keys())
