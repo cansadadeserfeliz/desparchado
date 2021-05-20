@@ -121,35 +121,6 @@ def test_successfully_update_event(django_app, event_with_organizer):
     assert event.title == 'Presentación del libro de Julian Barnes'
 
 
-class EventUpdateViewTest(WebTest):
-
-    def setUp(self):
-        self.user = UserFactory()
-        self.event = EventFactory(created_by=self.user)
-        self.event.organizers.add(OrganizerFactory())
-
-    def test_allows_editor_to_edit_event(self):
-        editor_user = UserFactory()
-        self.event.editors.add(editor_user)
-
-        response = self.app.get(
-            reverse('events:event_update', args=[self.event.id]),
-            user=editor_user,
-            status=200
-        )
-        self.assertContains(response, self.event.title)
-
-        form = response.forms['event_form']
-        form['title'] = 'Presentación del libro de Julian Barnes'
-        form.submit().follow()
-
-        self.event.refresh_from_db()
-
-        # Title was changed
-        self.assertEqual(self.event.title, 'Presentación del libro de Julian Barnes')
-        self.assertEqual(self.event.created_by, self.user)
-
-
 class OrganizerDetailViewTest(WebTest):
 
     def setUp(self):
