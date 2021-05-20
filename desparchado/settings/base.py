@@ -32,7 +32,6 @@ INSTALLED_APPS = [
     'dal',
     'dal_select2',
     'desparchado',
-    'grappelli',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -337,8 +336,6 @@ SOCIAL_AUTH_FACEBOOK_IGNORE_DEFAULT_SCOPE = True
 SOCIAL_AUTH_FACEBOOK_SCOPE = [
     'email'
 ]
-
-GRAPPELLI_ADMIN_TITLE = 'Desparchado. Administrador de eventos'
 
 GOODREADS_API_KEY = getenvvar('GOODREADS_API_KEY', 'not-set')
 GOODREADS_API_SECRET = getenvvar('GOODREADS_API_SECRET', 'not-set')

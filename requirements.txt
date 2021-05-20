@@ -21,7 +21,6 @@ django-autoslug==1.9.8
 django-axes==5.9.1
 django-crispy-forms==1.10.0
 django-debug-toolbar==3.2.1
-django-grappelli==2.14.3
 django-map-widgets==0.3.0
 django-markdownx==3.0.1
 django-model-utils==4.1.1

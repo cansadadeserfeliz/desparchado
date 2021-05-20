@@ -82,7 +82,6 @@ urlpatterns = [
 
     path('', include('social_django.urls', namespace='social')),
 
-    path('grappelli/', include('grappelli.urls')),  # grappelli URLS
     path('admin/', admin.site.urls),
     path('markdownx/', include('markdownx.urls')),
 
