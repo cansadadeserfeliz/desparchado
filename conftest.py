@@ -6,21 +6,34 @@ from django.utils import timezone
 
 from users.tests.factories import UserFactory
 from events.tests.factories import EventFactory
+from events.tests.factories import OrganizerFactory
 from books.tests.factories import BookFactory
 
 
 @pytest.fixture
 def user():
-    return UserFactory(
-        is_superuser=False,
-        is_staff=False,
-        is_active=True,
-    )
+    return UserFactory()
+
+
+@pytest.fixture
+def other_user():
+    return UserFactory()
+
+
+@pytest.fixture
+def organizer():
+    return OrganizerFactory()
 
 
 @pytest.fixture
 def event():
     return EventFactory()
+
+
+@pytest.fixture
+def event_with_organizer(event, organizer):
+    event.organizers.add(organizer)
+    return event
 
 
 @pytest.fixture

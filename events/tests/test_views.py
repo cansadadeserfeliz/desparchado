@@ -64,45 +64,53 @@ def test_show_details_of_not_approved_event(django_app, not_approved_event):
     )
 
 
+@pytest.mark.django_db
+def test_does_not_allow_update_events_not_authenticated_users(django_app, event):
+    response = django_app.get(
+        reverse('events:event_update', args=[event.id]),
+        status=302
+    )
+    assert reverse('users:login') in response.location
+
+
+@pytest.mark.django_db
+def test_does_not_allow_update_other_users_event(django_app, other_user, event):
+    django_app.get(
+        reverse('events:event_update', args=[event.id]),
+        user=other_user,
+        status=403
+    )
+
+
+@pytest.mark.django_db
+def test_successfully_update_event(django_app, event_with_organizer):
+    event = event_with_organizer
+    user = event.created_by
+    response = django_app.get(
+        reverse('events:event_update', args=[event.id]),
+        user=user,
+        status=200
+    )
+    assert event.title in response
+
+    form = response.forms['event_form']
+    form['title'] = 'Presentación del libro de Julian Barnes'
+    #response = form.submit()
+    #print(response)
+    form.submit().follow()
+
+    event.refresh_from_db()
+
+    # Title was changed
+    assert event.title == 'Presentación del libro de Julian Barnes'
+
+
 class EventUpdateViewTest(WebTest):
 
     def setUp(self):
         self.user = UserFactory()
         self.event = EventFactory(created_by=self.user)
         self.event.organizers.add(OrganizerFactory())
-
-    def test_redirects_for_non_authenticated_user(self):
-        response = self.app.get(
-            reverse('events:event_update', args=[self.event.id]),
-            status=302
-        )
-        self.assertIn(reverse('users:login'), response.location)
-
-    def test_redirects_for_not_event_creator(self):
-        user = UserFactory()
-        self.app.get(
-            reverse('events:event_update', args=[self.event.id]),
-            user=user,
-            status=403
-        )
-
-    def test_successfully_updates_event(self):
-        response = self.app.get(
-            reverse('events:event_update', args=[self.event.id]),
-            user=self.user,
-            status=200
-        )
-        self.assertContains(response, self.event.title)
-
-        form = response.forms['event_form']
-        form['title'] = 'Presentación del libro de Julian Barnes'
-        form.submit().follow()
-
-        self.event.refresh_from_db()
-
-        # Title was changed
-        self.assertEqual(self.event.title, 'Presentación del libro de Julian Barnes')
-        self.assertEqual(self.event.created_by, self.user)
 
     def test_allows_editor_to_edit_event(self):
         editor_user = UserFactory()
