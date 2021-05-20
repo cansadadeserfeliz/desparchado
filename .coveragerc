@@ -6,6 +6,7 @@ omit =
     *settings*
     books/goodreads_client.py
     books/taganga_client.py
+    dashboard/*
 # Regexes for lines to exclude from consideration
 exclude_lines =
     # Have to re-enable the standard pragma
