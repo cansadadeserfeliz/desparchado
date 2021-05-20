@@ -68,10 +68,6 @@ class Book(TimeStampedModel):
 
     objects = BookQuerySet().as_manager()
 
-    @staticmethod
-    def autocomplete_search_fields():
-        return ('title__icontains',)
-
     def get_image_url(self):
         if self.image:
             return self.image.url
