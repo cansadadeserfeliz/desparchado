@@ -339,7 +339,6 @@ SOCIAL_AUTH_FACEBOOK_SCOPE = [
 ]
 
 GRAPPELLI_ADMIN_TITLE = 'Desparchado. Administrador de eventos'
-GRAPPELLI_INDEX_DASHBOARD = 'dashboard.CustomIndexDashboard'
 
 GOODREADS_API_KEY = getenvvar('GOODREADS_API_KEY', 'not-set')
 GOODREADS_API_SECRET = getenvvar('GOODREADS_API_SECRET', 'not-set')
