@@ -32,7 +32,6 @@ INSTALLED_APPS = [
     'dal',
     'dal_select2',
     'desparchado',
-    'grappelli',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -128,6 +127,9 @@ DATABASES = {
         'PASSWORD': getenvvar('DATABASE_PASSWORD'),
         'HOST': getenvvar('DATABASE_HOST'),
         'PORT': getenvvar('DATABASE_PORT'),
+        'TEST': {
+            'NAME': 'desparchado_test',
+        },
     }
 }
 
@@ -334,9 +336,6 @@ SOCIAL_AUTH_FACEBOOK_IGNORE_DEFAULT_SCOPE = True
 SOCIAL_AUTH_FACEBOOK_SCOPE = [
     'email'
 ]
-
-GRAPPELLI_ADMIN_TITLE = 'Desparchado. Administrador de eventos'
-GRAPPELLI_INDEX_DASHBOARD = 'dashboard.CustomIndexDashboard'
 
 GOODREADS_API_KEY = getenvvar('GOODREADS_API_KEY', 'not-set')
 GOODREADS_API_SECRET = getenvvar('GOODREADS_API_SECRET', 'not-set')

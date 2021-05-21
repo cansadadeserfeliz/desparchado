@@ -1,25 +1,22 @@
+import pytest
+
 from django.urls import reverse
 
-from django_webtest import WebTest
 
-from .factories import AuthorFactory
-from .factories import BookFactory
-from events.tests.factories import EventFactory
+@pytest.mark.django_db
+def test_show_home_view(django_app, book):
+    response = django_app.get(reverse('books:home'), status=200)
+    assert book.title in response
 
 
-class BookTest(WebTest):
+@pytest.mark.django_db
+def test_show_book_list(django_app, book):
+    response = django_app.get(reverse('books:book_list'), status=200)
+    assert book.title in response
 
-    def setUp(self):
-        self.book = BookFactory(
-            related_events=[EventFactory()],
-            authors=[AuthorFactory()],
-        )
 
-    def test_show_books_list(self):
-        self.app.get(reverse('books:book_list'), status=200)
+@pytest.mark.django_db
+def test_show_book_detail(django_app, book):
+    response = django_app.get(reverse('books:book_detail', args=[book.slug]), status=200)
+    assert book.title in response
 
-    def test_show_book_detail(self):
-        self.app.get(
-            reverse('books:book_detail', args=[self.book.slug]),
-            status=200
-        )

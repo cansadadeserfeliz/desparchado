@@ -17,14 +17,14 @@
       {{ event.event_date|date:'j M Y' }},
       {{ event.event_date|date:'h:i a' }}
     {% if event.event_end_date %}
-      {% ifequal event.event_date|date:"j-M-Y" event.event_end_date|date:"j-M-Y" %}
+      {% if event.event_date|date:"j-M-Y" == event.event_end_date|date:"j-M-Y" %}
         &ndash;
         {{ event.event_end_date|date:'h:i a' }}
       {% else %}
         &ndash;
         {{ event.event_end_date|date:'j M Y' }},
         {{ event.event_end_date|date:'h:i a' }}
-      {% endifequal %}
+      {% endif %}
     {% endif %}
     </div>
     <div class="event-place">

@@ -1,9 +1,3 @@
-from .base import *
+from .test import *
 
-DEBUG = True
-
-STATICFILES_STORAGE = 'pipeline.storage.NonPackagingPipelineStorage'
-
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-
-PIPELINE['PIPELINE_ENABLED'] = not DEBUG
+PIPELINE['SASS_BINARY'] = 'sass'

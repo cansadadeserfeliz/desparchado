@@ -44,6 +44,14 @@ Run the application webserver:
 
     python manage.py runserver --settings=desparchado.settings.local 0.0.0.0:5000
 
+Run Django shell:
+
+    python manage.py shell --settings=desparchado.settings.local
+
+### Run the tests
+
+    python manage.py test --settings=desparchado.settings.test --keepdb
+    pytest --cov=./
 
 ## Installation
 

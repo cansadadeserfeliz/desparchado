@@ -27,6 +27,7 @@ env:
   - DATABASE_PASSWORD=secret
   - DATABASE_HOST=127.0.0.1
   - DATABASE_PORT=5433
+  - DJANGO_SETTINGS_MODULE='desparchado.settings.test_travis'
 
 services:
   - postgresql
@@ -40,7 +41,6 @@ before_script:
 install:
   - pip install -r requirements.txt
   - npm install -g sass
-  - pip install coverage
   - pip install codecov
 
 script:
@@ -51,7 +51,7 @@ script:
   - psql --version
   - psql -c 'SELECT version()' -U travis
   - psql -c 'SELECT PostGIS_full_version()' -U travis
-  - coverage run manage.py test --settings=desparchado.settings.test_travis
+  - python -m pytest --cov=./
 
 
 after_success:
