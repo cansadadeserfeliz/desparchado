@@ -74,6 +74,7 @@ urlpatterns = [
     path('specials/', include('specials.urls', namespace='specials')),
     path('news/', include('news.urls', namespace='news')),
     path('books/', include('books.urls', namespace='books')),
+    path('historia/', include('history.urls', namespace='history')),
     path('dashboard/', include('dashboard.urls', namespace='dashboard')),
 
     path('i18n/', include('django.conf.urls.i18n')),
