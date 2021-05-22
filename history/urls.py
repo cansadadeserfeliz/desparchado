@@ -7,7 +7,7 @@ app_name = 'history'
 urlpatterns = [
     path(
         '',
-        TemplateView.as_view(template_name=''),
-        name='home'
+        TemplateView.as_view(template_name='history/index.html'),
+        name='index'
     ),
 ]
