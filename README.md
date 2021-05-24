@@ -48,6 +48,11 @@ Run Django shell:
 
     python manage.py shell --settings=desparchado.settings.local
 
+Create migrations (example for `history` app):
+
+    export PYTHONPATH="/app:$PYTHONPATH"
+    django-admin makemigrations history --settings=desparchado.settings.local
+
 ### Run the tests
 
     python manage.py test --settings=desparchado.settings.test --keepdb
