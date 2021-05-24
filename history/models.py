@@ -103,7 +103,7 @@ class Post(BaseHistoryModel):
         null=True,
         blank=True,
         choices=TYPES,
-        index=True,
+        db_index=True,
     )
 
     text = models.TextField('Texto')
