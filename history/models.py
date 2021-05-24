@@ -128,4 +128,3 @@ class Post(BaseHistoryModel):
         null=True,
         on_delete=models.PROTECT,
     )
-
