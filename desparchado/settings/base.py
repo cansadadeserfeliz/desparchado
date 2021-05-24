@@ -226,8 +226,6 @@ PIPELINE = {
               'bower_components/bootstrap/dist/css/bootstrap.min.css',
               'libs/fontawesome-free-5.6.3-web/css/all.min.css',
               'bower_components/Ionicons/css/ionicons.min.css',
-              'bower_components/admin-lte/dist/css/AdminLTE.min.css',
-              'libs/tabler/assets/css/dashboard.css',
               'bower_components/fullcalendar/dist/fullcalendar.min.css',
               'sass/dashboard.sass',
             ),
