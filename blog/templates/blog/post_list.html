@@ -4,16 +4,18 @@
 {% block title %}Blog{% endblock %}
 
 {% block subheader %}
-<section class="blog-header" style="background-image: url('{% static 'images/blog-header.jpeg' %}')">
-  <div class="overlay"></div>
-
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-8 col-md-10 mx-auto">
-        <div class="blog-heading">
-          <h1>Blog</h1>
-          <span class="subheading">Reseñas de eventos, entrevistas</span>
-        </div>
+<section
+  class="p-5 text-center bg-image page-img-title"
+  style="
+    background-image: url('{% static 'images/blog-header.jpeg' %}');
+    height: 400px;
+  "
+>
+  <div class="mask" style="background-color: rgba(0, 0, 0, 0.6);">
+    <div class="d-flex justify-content-center align-items-center h-100">
+      <div class="text-white">
+        <h1 class="mb-3 display-3 title">Blog</h1>
+        <h4 class="mb-3 subtitle">Reseñas de eventos, entrevistas</h4>
       </div>
     </div>
   </div>
@@ -22,12 +24,12 @@
 
 {% block content %}
   {% for post in posts %}
-    <div class="post-preview">
-      <a href="{{ post.get_absolute_url }}">
-        <h2 class="post-title">{{ post.title }}</h2>
-        <h3 class="post-subtitle">{{ post.subtitle }}</h3>
+    <div class="posts-grid-item">
+      <a class="text-decoration-none" href="{{ post.get_absolute_url }}">
+        <h2 class="title">{{ post.title }}</h2>
+        <h3 class="subtitle">{{ post.subtitle }}</h3>
       </a>
-      <p class="post-meta">Publicado por
+      <p class="details">Publicado por
         <i>{{ post.get_author_name }}</i>
         el {{ post.created|date:'DATE_FORMAT' }}</p>
     </div>
