@@ -1,0 +1,57 @@
+@import "variables"
+
+/* Header */
+
+.top-nav
+  background-color: $secondary-color
+  li
+    font-size: 14px
+    color: #555
+    font-weight: 600
+    text-transform: uppercase
+    letter-spacing: 1px
+    a
+      color: #555
+      padding: 4px 10px
+      text-decoration: none
+      display: block
+      &:hover
+        color: $primary-color
+
+.main-nav
+  padding-bottom: 4px
+  background-color: $primary-color !important
+  margin-bottom: 0
+
+  border-bottom: 0
+
+  .header-brand
+    padding: 0
+    margin: 0
+    font-family: 'Grand Hotel', cursive
+    color: #fff
+    font-size: 36px
+    text-transform: capitalize
+    letter-spacing: 2px
+
+  .nav-pills
+    .nav-link
+      font-size: 15px
+      font-weight: 700
+      text-transform: uppercase
+      color: #fff
+      letter-spacing: 2px
+      padding: 8px 15px 6px
+      border-radius: 0
+
+    .nav-link:hover
+      color: #171a1d
+      background-color: $secondary-color
+
+    &.active
+      .nav-link
+        color: #fff
+        background-color: #33383b
+        &:focus
+          color: #fff
+          background-color: $primary-color
