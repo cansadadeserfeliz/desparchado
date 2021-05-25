@@ -9,6 +9,91 @@ body
   color: #43484E
   font-size: 14px
 
+.btn
+  border-radius: 0
+
+.btn-primary
+  border-color: $secondary-color
+  background-color: $secondary-color
+  color: $primary-color
+  word-spacing: 3px
+  &:hover
+    color: $secondary-color
+    border-color: $primary-color
+    background-color: $primary-color
+
+.card
+  border-radius: 0
+  height: 100%
+
+  .card-title
+    overflow: hidden
+    margin: 5px 0
+    font-size: 16px
+    font-weight: 700
+    line-height: 19px
+    color: $primary-color
+
+  .card-subtitle
+    margin: -1px -1px 11px
+    letter-spacing: 1px
+    text-transform: uppercase
+    font-size: 11px
+    line-height: 1
+    color: $dark-gray
+
+  /* Get images in Bootstrap's card to be the same height/width */
+  .card-img-top
+    width: 100%
+    height: 15vw
+    object-fit: cover
+    border-radius: 0
+
+  &.event-card
+    .event-date
+      margin: 12px -1px -6px
+      font-size: 13px
+      line-height: 21px
+      color: $dark-gray
+    .event-place
+      margin: 12px -1px -6px
+      font-size: 13px
+      line-height: 21px
+      a
+        color: $primary-color
+
+.event-city-label
+  height: 26px
+  padding: 0 11px
+  white-space: nowrap
+  font-size: 14px
+  line-height: 28px
+  color: white
+  background: $city-label-color
+  position: absolute
+  display: block
+  z-index: 4
+  right: 0
+  top: 0
+  font-weight: 600
+  letter-spacing: 1px
+
+.event-price-label
+  height: 26px
+  padding: 0 11px
+  white-space: nowrap
+  font-size: 14px
+  line-height: 28px
+  color: $primary-color
+  background: $secondary-color
+  position: absolute
+  display: block
+  z-index: 4
+  right: 0
+  bottom: 0
+  font-weight: 600
+  letter-spacing: 1px
+
 /* Header */
 
 .top-nav
