@@ -69,7 +69,7 @@
   </div>
 
   {% if books %}
-    <h4>Libro{{ books|length|pluralize }}</h4>
+    <h5>Libro{{ books|length|pluralize }} relacionado{{ books|length|pluralize }}</h5>
 
     <div class="related-books">
       {% include 'books/_books_grid.html' with books=books %}
