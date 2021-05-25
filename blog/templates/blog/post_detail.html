@@ -69,19 +69,15 @@
   </div>
 
   {% if books %}
-    <h5>Libro{{ books|length|pluralize }} relacionado{{ books|length|pluralize }}</h5>
-
+    <h4>Libro{{ books|length|pluralize }} relacionado{{ books|length|pluralize }}</h4>
     <div class="related-books">
       {% include 'books/_books_grid.html' with books=books %}
     </div>
   {% endif %}
 
   {% if post.related_events.exists %}
-
     <h4>Eventos relacionados</h4>
-
     {% include 'events/_events_grid.html' with events=post.related_events.all %}
-
   {% endif %}
 
   {% include 'includes/_disqus_comments.html' with page_id="blog-"|add:post.id %}
