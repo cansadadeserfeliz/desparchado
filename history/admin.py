@@ -48,14 +48,48 @@ class EventAdmin(admin.ModelAdmin):
     filter_horizontal = ('historical_figures',)
 
     def save_model(self, request, obj, form, change):
-        print("GUARDANDO EVENTO", obj.id, request.user)
         if not obj.id:
-            print("GUARDE USUARIO")
             obj.created_by = request.user
         super().save_model(request, obj, form, change)
 
     readonly_fields = ['created_by']
 
 
-admin.site.register(HistoricalFigure)
+@admin.register(HistoricalFigure)
+class HistoricalFigureAdmin(admin.ModelAdmin):
+    list_display = [
+        'name',
+        'date_of_birth',
+        'date_of_death',
+        'created_by',
+        'created',
+        'modified',
+    ]
+
+    fieldsets = (
+        (_('Name and Sources'), {
+            'fields': (
+                'name',
+                'full_name',
+                'sources',
+                'image',
+                'image_source_url',
+            ),
+        }),
+        (_('Lifespan'), {
+            'fields': (
+                ('date_of_birth', 'date_of_birth_precision'),
+                ('date_of_death', 'date_of_death_precision'),
+            ),
+        }),
+    )
+
+    def save_model(self, request, obj, form, change):
+        if not obj.id:
+            obj.created_by = request.user
+        super().save_model(request, obj, form, change)
+
+    readonly_fields = ['created_by']
+
+
 admin.site.register(Post)
