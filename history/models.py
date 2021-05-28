@@ -55,6 +55,9 @@ class HistoricalFigure(TimeStampedModel):
         verbose_name = 'Personaje histórico'
         verbose_name_plural = 'Personajes históricos'
 
+    def __str__(self):
+        return self.name
+
 
 class Event(TimeStampedModel):
     token = models.UUIDField(unique=True, default=uuid.uuid4, editable=False)
