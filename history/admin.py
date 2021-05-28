@@ -1,5 +1,4 @@
 from django.contrib import admin
-from django.utils.translation import gettext_lazy as _
 
 from .models import HistoricalFigure, Event, Post
 
@@ -23,7 +22,7 @@ class EventAdmin(admin.ModelAdmin):
                 'title',
             ),
         }),
-        (_('Information and Sources'), {
+        ('Information and Sources', {
             'fields': (
                 'description',
                 'sources',
@@ -31,14 +30,14 @@ class EventAdmin(admin.ModelAdmin):
                 'image_source_url',
             ),
         }),
-        (_('Time and Place'), {
+        ('Time and Place', {
             'fields': (
                 ('event_date', 'event_date_precision'),
                 ('event_end_date', 'event_end_date_precision'),
                 'location_name',
             ),
         }),
-        (_('Historical Figures'), {
+        ('Historical Figures', {
             'fields': (
                 'historical_figures',
             ),
@@ -67,7 +66,7 @@ class HistoricalFigureAdmin(admin.ModelAdmin):
     ]
 
     fieldsets = (
-        (_('Name and Sources'), {
+        ('Name and Sources', {
             'fields': (
                 'name',
                 'full_name',
@@ -76,7 +75,7 @@ class HistoricalFigureAdmin(admin.ModelAdmin):
                 'image_source_url',
             ),
         }),
-        (_('Lifespan'), {
+        ('Lifespan', {
             'fields': (
                 ('date_of_birth', 'date_of_birth_precision'),
                 ('date_of_death', 'date_of_death_precision'),
@@ -103,7 +102,7 @@ class PostAdmin(admin.ModelAdmin):
     ]
 
     fieldsets = (
-        (_('Post Info'), {
+        ('Post Info', {
             'fields': (
                 'historical_figure',
                 'type',
@@ -113,7 +112,7 @@ class PostAdmin(admin.ModelAdmin):
                 'image_source_url',
             ),
         }),
-        (_('Post Date'), {
+        ('Post Date', {
             'fields': (
                 ('post_date', 'post_date_precision'),
             ),
