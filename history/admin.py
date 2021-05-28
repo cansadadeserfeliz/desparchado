@@ -92,4 +92,37 @@ class HistoricalFigureAdmin(admin.ModelAdmin):
     readonly_fields = ['created_by']
 
 
-admin.site.register(Post)
+@admin.register(Post)
+class PostAdmin(admin.ModelAdmin):
+    list_display = [
+        'historical_figure',
+        'post_date',
+        'type',
+        'created_by',
+        'created',
+    ]
+
+    fieldsets = (
+        (_('Post Info'), {
+            'fields': (
+                'historical_figure',
+                'type',
+                'text',
+                'sources',
+                'image',
+                'image_source_url',
+            ),
+        }),
+        (_('Post Date'), {
+            'fields': (
+                ('post_date', 'post_date_precision'),
+            ),
+        }),
+    )
+
+    def save_model(self, request, obj, form, change):
+        if not obj.id:
+            obj.created_by = request.user
+        super().save_model(request, obj, form, change)
+
+    readonly_fields = ['created_by']
