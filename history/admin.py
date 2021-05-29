@@ -96,12 +96,13 @@ class HistoricalFigureAdmin(admin.ModelAdmin):
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
     list_display = [
-        'historical_figure',
-        'post_date',
         'type',
+        'post_date',
         'created_by',
         'created',
     ]
+
+    list_filter = ('post_date',)
 
     fieldsets = (
         ('Post Info', {
