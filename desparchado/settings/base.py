@@ -107,8 +107,6 @@ TEMPLATES = [
 
                 'social_django.context_processors.backends',
                 'social_django.context_processors.login_redirect',
-
-                'desparchado.context_processors.cities',
             ],
         },
     },
@@ -208,9 +206,9 @@ PIPELINE = {
     'STYLESHEETS': {
         'main': {
             'source_filenames': (
-              'bower_components/bootstrap/dist/css/bootstrap.min.css',
-              'libs/fontawesome-free-5.6.3-web/css/all.min.css',
-              'bower_components/tempusdominus-bootstrap-4/build/css/tempusdominus-bootstrap-4.min.css',
+              #'bower_components/bootstrap/dist/css/bootstrap.min.css',
+              #'libs/fontawesome-free-5.6.3-web/css/all.min.css',
+              #'bower_components/tempusdominus-bootstrap-4/build/css/tempusdominus-bootstrap-4.min.css',
               'sass/main.sass',
             ),
             'output_filename': 'css/main.min.css',
@@ -223,12 +221,10 @@ PIPELINE = {
         },
         'dashboard': {
             'source_filenames': (
-              'bower_components/bootstrap/dist/css/bootstrap.min.css',
-              'libs/fontawesome-free-5.6.3-web/css/all.min.css',
-              'bower_components/Ionicons/css/ionicons.min.css',
-              'bower_components/admin-lte/dist/css/AdminLTE.min.css',
-              'libs/tabler/assets/css/dashboard.css',
-              'bower_components/fullcalendar/dist/fullcalendar.min.css',
+              #'bower_components/bootstrap/dist/css/bootstrap.min.css',
+              #'libs/fontawesome-free-5.6.3-web/css/all.min.css',
+              #'bower_components/Ionicons/css/ionicons.min.css',
+              #'bower_components/fullcalendar/dist/fullcalendar.min.css',
               'sass/dashboard.sass',
             ),
             'output_filename': 'css/dashboard.min.css',
@@ -237,10 +233,10 @@ PIPELINE = {
     'JAVASCRIPT': {
         'main': {
             'source_filenames': (
-              'bower_components/jquery/dist/jquery.min.js',
-              'bower_components/bootstrap/dist/js/bootstrap.min.js',
-              'bower_components/moment/min/moment-with-locales.min.js',
-              'bower_components/tempusdominus-bootstrap-4/build/js/tempusdominus-bootstrap-4.min.js',
+              #'bower_components/jquery/dist/jquery.min.js',
+              #'bower_components/bootstrap/dist/js/bootstrap.min.js',
+              #'bower_components/moment/min/moment-with-locales.min.js',
+              #'bower_components/tempusdominus-bootstrap-4/build/js/tempusdominus-bootstrap-4.min.js',
               'js/main.js',
               'js/letter-avatars.js',
             ),
@@ -248,13 +244,13 @@ PIPELINE = {
         },
         'dashboard': {
             'source_filenames': (
-              'bower_components/jquery/dist/jquery.min.js',
-              'bower_components/bootstrap/dist/js/bootstrap.min.js',
-              'bower_components/moment/min/moment-with-locales.min.js',
-              'bower_components/jquery-slimscroll/jquery.slimscroll.min.js',
-              'bower_components/fastclick/lib/fastclick.js',
-              'bower_components/moment/min/moment.min.js',
-              'bower_components/fullcalendar/dist/fullcalendar.min.js',
+              #'bower_components/jquery/dist/jquery.min.js',
+              #'bower_components/bootstrap/dist/js/bootstrap.min.js',
+              #'bower_components/moment/min/moment-with-locales.min.js',
+              #'bower_components/jquery-slimscroll/jquery.slimscroll.min.js',
+              #'bower_components/fastclick/lib/fastclick.js',
+              #'bower_components/moment/min/moment.min.js',
+              #'bower_components/fullcalendar/dist/fullcalendar.min.js',
               'js/dashboard.js',
             ),
             'output_filename': 'js/dashboard.min.js',

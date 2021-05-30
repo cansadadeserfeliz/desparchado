@@ -1,25 +1,13 @@
 @import "variables"
 
-@import "body"
-@import "events"
-@import "users"
-@import "blog"
-@import "games"
-@import "places"
-@import "speakers"
-@import "organizers"
-@import "specials"
-@import "news"
-@import "books"
-@import "cards"
-@import "buttons"
+/* Typography */
 
-/* Fix Bootstrap columns on Safari */
-.row:before, row:after
-  display: inline-block
-
-.form-control
-  border-radius: 0
+body
+  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif
+  font-weight: 400
+  background: #fff
+  color: #43484E
+  font-size: 14px
 
 .btn
   border-radius: 0
@@ -28,10 +16,51 @@
   border-color: $secondary-color
   background-color: $secondary-color
   color: $primary-color
+  word-spacing: 3px
   &:hover
     color: $secondary-color
     border-color: $primary-color
     background-color: $primary-color
+
+.card
+  border-radius: 0
+  height: 100%
+
+  .card-title
+    overflow: hidden
+    margin: 5px 0
+    font-size: 16px
+    font-weight: 700
+    line-height: 19px
+    color: $primary-color
+
+  .card-subtitle
+    margin-top: 6px
+    letter-spacing: 1px
+    text-transform: uppercase
+    font-size: 11px
+    line-height: 1
+    color: $dark-gray
+
+  /* Get images in Bootstrap's card (.card-img-top) to be the same height/width */
+  .card-img-fluid-top
+    width: 100%
+    height: 15vw
+    object-fit: cover
+    border-radius: 0
+
+  &.event-card
+    .event-date
+      margin: 12px -1px -6px
+      font-size: 13px
+      line-height: 21px
+      color: $dark-gray
+    .event-place
+      margin: 12px -1px -6px
+      font-size: 13px
+      line-height: 21px
+      a
+        color: $primary-color
 
 .secondary-title
   position: relative
@@ -47,109 +76,138 @@
     left: 0
     border-bottom: 3px solid $secondary-color
 
-.promo
-  border: none
-  border-radius: 0
-  margin-left: 0
-  margin-right: 0
-  text-align: center
-  margin-bottom: 20px
-  min-height: 20px
-  padding: 19px
+.event-city-label
+  height: 26px
+  padding: 0 11px
+  white-space: nowrap
+  font-size: 14px
+  line-height: 28px
+  color: white
+  background: $city-label-color
+  position: absolute
+  display: block
+  z-index: 4
+  right: 0
+  top: 0
+  font-weight: 600
+  letter-spacing: 1px
 
-  h4
-    font-size: 18px
+.event-price-label
+  height: 26px
+  padding: 0 11px
+  white-space: nowrap
+  font-size: 14px
+  line-height: 28px
+  color: $primary-color
+  background: $secondary-color
+  position: absolute
+  display: block
+  z-index: 4
+  right: 0
+  bottom: 0
+  font-weight: 600
+  letter-spacing: 1px
 
-.text-lg
-  line-height: 1.5
-  margin: 30px 0
-  font-size: 20px
+.bg-image
+  position: relative
+  overflow: hidden
+  background-repeat: no-repeat
+  background-size: cover
+  background-position: 50%
+
+.mask
+  position: absolute
+  top: 0
+  right: 0
+  bottom: 0
+  left: 0
   width: 100%
-  padding-right: 15px
-  padding-left: 15px
-  margin-right: auto
-  margin-left: auto
-  overflow-wrap: break-word
-  word-wrap: break-word
+  height: 100%
+  overflow: hidden
+  background-attachment: fixed
 
-.login-form,
-.register-form,
-.password-reset-done,
-.password-reset-confirm,
-.password-reset-complete,
-.password-reset-form
-  max-width: 450px
-  margin: 40px auto
-  padding: 30px 20px
-  border: 1px solid #e5e5e5
-  h3
-    margin-bottom: 20px
+.event-detail-page
 
-/* Box */
-
-.desparchado-box
-  vertical-align: top
-  margin-bottom: 30px
-
-  .link
-    position: relative
-    display: block
-    background: $bg-color
-
-  .box-img-wrap
-    overflow: hidden
-    .image
-      position: relative
-      z-index: 2
-      display: block
-      width: 100%
-      height: 160px
-      background-size: cover
-      background-position: center
-
-  .box-inner
-    border: 1px solid $bg-color
-    border-top: none
-    background: #fff
-    padding: 13px
-    display: inline-block
-    height: 100%
-    width: 100%
-
-    .box-title
-      overflow: hidden
-      margin: -2px -1px
-      font-size: 16px
-      font-weight: 700
-      line-height: 19px
-
-    .box-subtitle
-      margin: -1px -1px 11px
+  .event-heading
+    ul.tags
+      list-style: none
       letter-spacing: 1px
       text-transform: uppercase
+      display: inline-block
+      vertical-align: top
       font-size: 11px
-      line-height: 1
-      color: $dark-gray
+      font-weight: 400
+      padding-left: 0
+      li
+        margin-right: 1em
+        display: inline
+    .title
+      font-weight: 700
+      line-height: 42px
+    .date
+      font-size: 18px
+      line-height: 24px
+      font-weight: 700
+    .place
+      font-size: 16px
+      line-height: 24px
+      a
+        color: $dark-gray
 
-@media (max-width: 768px)
-  .desparchado-box
-    width: 100%
-
-/* About */
-
-.about
-  font-size: 18px
-  p
-    margin: 30px
-    text-align: justify
-  span
-    text-align: justify
-  .member-profile
-    padding: 20px 40px 0
+  .event-image
+    position: relative
     .image
-      width: 100px
+      position: relative
+      display: block
+      max-height: 300px
+      z-index: 2
+      object-fit: contain
+      margin: 0 auto
+
+  .event-description
+    line-height: 1.5
+    font-size: 20px
+    overflow-wrap: break-word
+    word-wrap: break-word
+
+  .event-place
+    .title a
+      color: $primary-color
+    .place-image
       height: 100px
       border: 1px solid #eee
+      float: left
+      margin-right: 20px
+      margin-bottom: 20px
+
+  .event-map
+    margin-top: 20px
+    margin-bottom: 20px
+    width: 100%
+
+  .event-speaker
+    margin-top: 20px
+    margin-bottom: 20px
+    position: relative
+    z-index: 1
+    padding-bottom: 5px
+    a
+      color: $primary-color
+
+    &:before
+      content: ""
+      position: absolute
+      width: 100px
+      height: 1px
+      bottom: 0
+      left: 50%
+      margin-left: -50px
+      border-bottom: 1px solid #b3b3b3
+
+    .image
+      width: 120px
+      height: 120px
+      margin: 10px auto
       border-radius: 50%
       background-repeat: no-repeat
       background-position: center
@@ -157,83 +215,136 @@
       -webkit-background-size: cover
       -moz-background-size: cover
       -o-background-size: cover
-      float: left
-      margin-right: 20px
-      margin-bottom: 20px
 
-/* Markdown */
+  .event-organizer
+    a
+      color: $primary-color
+    .image
+      max-width: 200px
+      max-height: 150px
+      margin: 10px auto
 
-#markdown
-  font-size: 20px
-  p
-    margin: 30px
+/* Header */
 
-  .table
-    max-width: 800px
-    margin: 20px auto
-
-
-/* Image Gallery */
-
-.image-gallery-container
-
-  .image-gallery-listing
-    position: relative
-    margin: 10px
-
-    .image-gallery-title
-      font-size: 12px
-      font-weight: bold
+.top-nav
+  background-color: $secondary-color
+  li
+    font-size: 14px
+    color: #555
+    font-weight: 600
+    text-transform: uppercase
+    letter-spacing: 1px
+    a
+      color: #555
+      padding: 4px 10px
       text-decoration: none
-      z-index: 1
-      position: absolute
-      height: 100%
-      width: 100%
-      top: 0
-      left: 0
-      opacity: 0
-      transition: opacity .5s
-      background: rgba(6, 9, 38, 0.4)
-      color: white
-      /* position the text in t’ middle
-      display: flex
-      align-items: center
-      justify-content: center
+      display: block
+      &:hover
+        color: $primary-color
+
+.main-nav
+  padding-bottom: 4px
+  background-color: $primary-color !important
+  margin-bottom: 0
+
+  border-bottom: 0
+
+  .header-brand
+    padding: 0
+    margin: 0
+    font-family: 'Grand Hotel', cursive
+    color: #fff
+    font-size: 36px
+    text-transform: capitalize
+    letter-spacing: 2px
+
+  .nav-pills
+    .nav-link
+      font-size: 15px
+      font-weight: 700
+      text-transform: uppercase
+      color: #fff
+      letter-spacing: 2px
+      padding: 8px 15px 6px
+      border-radius: 0
+
+    .nav-link:hover
+      color: #171a1d
+      background-color: $secondary-color
+
+    &.active
+      .nav-link
+        color: #fff
+        background-color: #33383b
+        &:focus
+          color: #fff
+          background-color: $primary-color
+
+/* Pages */
+
+.page-img-title
+  .title
+    font-weight: 800
+
+.posts-grid-item
+  .title, .subtitle
+    color: $primary-color
+  .title
+    margin-top: 30px
+    margin-bottom: 10px
+    font-weight: 800
+  .subtitle
+    font-weight: 600
+    font-size: 18px
+  .details
+    color: $dark-gray
+
+.post-content
+  line-height: 1.5
+  font-size: 20px
+  overflow-wrap: break-word
+  word-wrap: break-word
+
+/* Footer */
+
+footer
+  background-color: #171a1d
+  color: #b3b3b3
+
+  h5
+    font-size: 15px
+    font-weight: 700
+    text-transform: uppercase
+    color: #fff
+    margin-bottom: 30px
+    letter-spacing: 2px
+
+  .logo
+    color: #ffffff
+    font-family: 'Grand Hotel', cursive
+    font-size: 36px
+
+  ul li a.link-secondary
+    text-transform: uppercase
+    color: #b3b3b3
+    font-weight: 500
+    font-size: 14px
+    display: block
+    padding: 8px 0
+    border-bottom: 1px solid #444
+
+  .footer-social-icons
+    margin-top: 25px
+    a
+      display: inline-block
+      width: 35px
+      height: 35px
+      cursor: pointer
+      background-color: #33383b
+      border-radius: 2px
+      font-size: 20px
+      color: #ffffff
       text-align: center
-
-      &.image-gallery-title-show
-        opacity: 0.3
-        background: rgba(6, 9, 38, 0.3)
-
-    .image-gallery-image-wrapper
-      line-height: 0
-      overflow: hidden
-
-      .image
-        filter: blur(0px)
-        transition: filter 0.3s ease-in
-        transform: scale(1.1)
-        height: 130px
-        width: 130px
-        margin: auto
-        background-repeat: no-repeat
-        background-position: center
-        background-size: cover
-        -webkit-background-size: cover
-        -moz-background-size: cover
-        -o-background-size: cover
-
-.image-gallery-container
-  .image-gallery-listing:hover
-    .image-gallery-title
-      opacity: 1
-    .image-gallery-image-wrapper .image
-      filter: blur(2px)
-
-/* for touch screen devices
-@media (hover: none)
-  .image-gallery-container
-    .image-gallery-title
-      opacity: 1
-    .image-gallery-image-wrapper .image
-      filter: blur(2px)
+      line-height: 35px
+      margin-right: 3px
+      margin-bottom: 5px

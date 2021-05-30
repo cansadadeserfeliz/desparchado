@@ -1,16 +1,13 @@
-{% load i18n static pipeline desparchado_tags %}
 <!DOCTYPE html>
-<html>
+{% load i18n static pipeline desparchado_tags %}
+<html lang="es">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>{% block title %}Desparchado.co{% endblock %}</title>
+    <!-- Ensure proper rendering and touch zooming for all devices -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- Tell the browser to be responsive to screen width -->
-    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="Eventos culturales y educativos en Colombia: programación de conciertos, festivales, ferias, congresos, teatro, arte, conferencias, cine alternativo">
     <meta name="keywords" content="Eventos Bogotá, Eventos Cali, Eventos Madellín, Eventos Cartagena, Conciertos, Talleres, Cursos, agenda cultural, programación, cine arte, libros">
     <meta name="news_keywords" content="Eventos" />
@@ -19,8 +16,8 @@
     <link href="https://fonts.googleapis.com/css?family=Grand+Hotel" rel="stylesheet">
     <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
-  {% block meta %}
-  {% endblock meta %}
+
+    <title>{% block title %}Desparchado.co{% endblock %}</title>
 
     <meta name="news_keywords" content="Eventos" />
     <meta property="fb:pages" content="DesparchadoCo" />
@@ -29,24 +26,14 @@
 
     <meta name="google-site-verification" content="fzaFpFH8Q6VYOrIz3z98OPuzP8J99Cty7ic_jb9ApJo" />
 
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <!-- Fortawesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    {% block meta %}{% endblock meta %}
+
     {% stylesheet 'main' %}
-
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-
-    {% javascript 'main' %}
-
-    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-58ced1089d6b2a96"></script>
-
-    {% block javascript %}{% endblock javascript %}
-
-    {% include 'includes/_yandex_metrika_code.html' %}
-
-    {% google_analytics_code %}
   </head>
   {% block google-structured-markup %}{% endblock %}
 
@@ -56,7 +43,7 @@
     {% include 'layout/_header.html' %}
     {% block subheader %}{% endblock subheader %}
 
-    <div class="container">
+    <div class="container my-3">
       {% block content %}{% endblock content %}
     </div><!-- /.container -->
 
@@ -64,7 +51,19 @@
 
   {% endblock body %}
 
-    <script id="dsq-count-scr" src="//desparchado.disqus.com/count.js" async></script>
-  </body>
+    <!-- Separate Popper and Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js" integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT" crossorigin="anonymous"></script>
 
+    {% javascript 'main' %}
+
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-58ced1089d6b2a96"></script>
+    <script id="dsq-count-scr" src="//desparchado.disqus.com/count.js" async></script>
+
+    {% block javascript %}{% endblock javascript %}
+
+    {% include 'includes/_yandex_metrika_code.html' %}
+    {% google_analytics_code %}
+
+  </body>
 </html>

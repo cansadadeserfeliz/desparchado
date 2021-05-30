@@ -36,19 +36,21 @@
 {% endblock %}
 
 {% block subheader %}
-<section class="blog-header" style="background-image: url('{{ post.get_image_url }}')">
-  <div class="overlay"></div>
-
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-8 col-md-10 mx-auto">
-        <div class="post-heading">
-          <h1>{{ post.title }}</h1>
-          <h2 class="subheading">{{ post.subtitle }}</h2>
-          <span class="meta">Publicado por
+<section
+  class="p-5 text-center bg-image page-img-title"
+  style="
+    background-image: url('{{ post.get_image_url }}');
+    height: 400px;
+  "
+>
+  <div class="mask" style="background-color: rgba(0, 0, 0, 0.6);">
+    <div class="d-flex justify-content-center align-items-center h-100">
+      <div class="text-white">
+        <h1 class="mb-3 display-5 title">{{ post.title }}</h1>
+        <h4 class="mb-3 subtitle">{{ post.subtitle }}</h4>
+        <span class="meta">Publicado por
             <i>{{ post.get_author_name }}</i>
             el {{ post.created|date:'DATE_FORMAT' }}</span>
-        </div>
       </div>
     </div>
   </div>
@@ -67,19 +69,15 @@
   </div>
 
   {% if books %}
-    <h4>Libro{{ books|length|pluralize }}</h4>
-
+    <h4>Libro{{ books|length|pluralize }} relacionado{{ books|length|pluralize }}</h4>
     <div class="related-books">
       {% include 'books/_books_grid.html' with books=books %}
     </div>
   {% endif %}
 
   {% if post.related_events.exists %}
-
     <h4>Eventos relacionados</h4>
-
     {% include 'events/_events_grid.html' with events=post.related_events.all %}
-
   {% endif %}
 
   {% include 'includes/_disqus_comments.html' with page_id="blog-"|add:post.id %}

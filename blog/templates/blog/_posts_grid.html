@@ -1,12 +1,9 @@
-<section class="container-fluid boxes-grid">
-  <div class="row row-eq-height">
+<section class="d-flex justify-content-between align-self-start my-3">
+  <div class="row">
   {% for blog_post in blog_posts %}
-      {% include 'blog/_post_box.html' %}
-    {% if forloop.counter|divisibleby:3 and not forloop.last %}
-      </div>
-      <div class="row row-eq-height">
-    {% elif forloop.last %}
-      </div>
-    {% endif %}
+    <div class="col-md-4 gap-3 py-2">
+      {% include 'blog/_post_card.html' %}
+    </div>
   {% endfor %}
-</section> <!--/.boxes-grid-->
+  </div>
+</section>

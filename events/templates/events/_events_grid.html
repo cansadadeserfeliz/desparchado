@@ -1,12 +1,9 @@
-<section id="events" class="container">
-  <div class="row row-eq-height">
+<section class="d-flex justify-content-between align-self-start my-3">
+  <div class="row w-100">
   {% for event in events %}
+    <div class="col-md-4 gap-3 py-2">
       {% include 'events/_single_event.html' %}
-    {% if forloop.counter|divisibleby:3 and not forloop.last %}
-      </div>
-      <div class="row row-eq-height">
-    {% elif forloop.last %}
-      </div>
-    {% endif %}
+    </div>
   {% endfor %}
-</section> <!--/#events-->
+  </div>
+</section>

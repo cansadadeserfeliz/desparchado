@@ -1,12 +1,9 @@
- <div class="row row-eq-height">
-    {% for book in books %}
-      <div class="col-sm-{{ col_size|default:4 }}">
-        {% include 'books/_book.html' %}
-      </div>
-    {% if forloop.counter|divisibleby:3 and not forloop.last %}
-      </div>
-      <div class="row row-eq-height">
-    {% elif forloop.last %}
-      </div>
-  {% endif %}
-{% endfor %}
+<section class="d-flex justify-content-between align-self-start my-3">
+  <div class="row">
+  {% for book in books %}
+    <div class="col-md-4 gap-3 py-2">
+      {% include 'books/_book_card.html' %}
+    </div>
+  {% endfor %}
+  </div>
+</section>

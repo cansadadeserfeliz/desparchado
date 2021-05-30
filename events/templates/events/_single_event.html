@@ -1,34 +1,34 @@
-<div class="event desparchado-box col-sm-{{ col_size|default:4 }}">
-  <a class="link" href="{{ event.get_absolute_url }}">
-    <div class="box-img-wrap">
-      <img class="image img-fluid"
-           src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQ4AAACHAQMAAADdtyVCAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAANQTFRF////p8QbyAAAAAF0Uk5TAEDm2GYAAAAbSURBVBgZ7cExAQAAAMIg+6deCU9gAAAAAPAWEnUAAUFphIwAAAAASUVORK5CYII="
-           alt="{{ event.title }}" style="background-image: url({{ event.get_image_url }});">
-      <div class="city-name-label">{{ event.place.city.name }}</div>
-      {% if event.price %}<div class="ticket-price-label">{{ event.get_price_display }}</div>{% endif %}
-    </div>
-  </a>
-  <div class="box-inner">
-  {% if event.event_type %}
-    <div class="box-subtitle">{{ event.get_event_type_display }}</div>
-  {% endif %}
-    <a href="{{ event.get_absolute_url }}"><h2 class="box-title">{{ event.title }}</h2></a>
-    <div class="event-date">
-      {{ event.event_date|date:'j M Y' }},
-      {{ event.event_date|date:'h:i a' }}
-    {% if event.event_end_date %}
-      {% if event.event_date|date:"j-M-Y" == event.event_end_date|date:"j-M-Y" %}
-        &ndash;
-        {{ event.event_end_date|date:'h:i a' }}
-      {% else %}
-        &ndash;
-        {{ event.event_end_date|date:'j M Y' }},
-        {{ event.event_end_date|date:'h:i a' }}
+<div class="card event-card">
+  <a href="{{ event.get_absolute_url }}"><img src="{{ event.get_image_url }}" class="card-img-top card-img-fluid-top" alt="{{ event.title }}"></a>
+  <div class="event-city-label">{{ event.place.city.name }}</div>
+  {% if event.price %}<div class="event-price-label">{{ event.get_price_display }}</div>{% endif %}
+  <div class="card-body">
+    <a class="text-decoration-none" href="{{ event.get_absolute_url }}">
+      <h5 class="card-title">{{ event.title }}</h5>
+    </a>
+    <div class="card-text">
+      {% if event.event_type %}
+        <div class="card-subtitle">
+          <div class="event-type">{{ event.get_event_type_display }}</div>
+        </div>
       {% endif %}
-    {% endif %}
-    </div>
-    <div class="event-place">
-      <a href="{{ event.place.get_absolute_url }}">{{ event.place }}</a>
+      <div class="event-date">
+        {{ event.event_date|date:'j M Y' }},
+        {{ event.event_date|date:'h:i a' }}
+        {% if event.event_end_date %}
+          {% if event.event_date|date:"j-M-Y" == event.event_end_date|date:"j-M-Y" %}
+            &ndash;
+            {{ event.event_end_date|date:'h:i a' }}
+          {% else %}
+            &ndash;
+            {{ event.event_end_date|date:'j M Y' }},
+            {{ event.event_end_date|date:'h:i a' }}
+          {% endif %}
+        {% endif %}
+      </div>
+      <div class="event-place">
+        <a class="text-decoration-none" href="{{ event.place.get_absolute_url }}">{{ event.place }}</a>
+      </div>
     </div>
   </div>
 </div>
