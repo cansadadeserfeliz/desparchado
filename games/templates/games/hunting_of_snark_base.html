@@ -13,8 +13,29 @@
 {% endblock %}
 
 {% block subheader %}
+<section
+  class="p-5 text-center bg-image page-img-title"
+  style="
+    background-image: url('{% block subheader_bg_url %}{% static 'images/hunting_of_snark_bg.jpeg' %}{% endblock subheader_bg_url %}');
+    height: 400px;
+  "
+>
+  <div class="mask" style="background-color: rgba(0, 0, 0, 0.6);">
+    <div class="d-flex justify-content-center align-items-center h-100">
+      <div class="text-white">
+        <h1 class="mb-3 display-3 title">{% block subheader_title %}La caza del Snark{% endblock subheader_title %}</h1>
+        <h4 class="mb-3 subtitle">
+          <a href="{% url 'games:hunting_of_snark_create' %}">
+            {% block subheader_subtitle %}Juego literario{% endblock subheader_subtitle %}
+          </a>
+        </h4>
+      </div>
+    </div>
+  </div>
+</section>
+
 <div class="games-header-menu">
-  <ul class="nav justify-content-center">
+  <ul class="nav nav-pills justify-content-center">
     <li class="nav-item" role="presentation">
       <a class="nav-link" href="{% url 'games:hunting_of_snark_create' %}">Jugar</a>
     </li>
@@ -26,27 +47,6 @@
     </li>
   </ul>
 </div>
-<section class="game-header"
-         style="background-image: url('{% block subheader_bg_url %}{% static 'images/hunting_of_snark_bg.jpeg' %}{% endblock subheader_bg_url %}')">
-  <div class="overlay"></div>
-
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-8 col-md-10 mx-auto">
-        <div class="game-heading">
-          <h1>
-            {% block subheader_title %}La caza del Snark{% endblock subheader_title %}
-          </h1>
-          <span class="subheading">
-            <a href="{% url 'games:hunting_of_snark_create' %}">
-              {% block subheader_subtitle %}Juego literario{% endblock subheader_subtitle %}
-            </a>
-          </span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
 {% endblock subheader %}
 
 {% block content %}
