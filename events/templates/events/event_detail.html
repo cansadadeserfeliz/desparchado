@@ -31,66 +31,56 @@
 {% endblock %}
 
 {% block content %}
-<section id="event-detail" class="container">
-<div class="row">
-  <div class="col-md-8">
-    <div class="event-heading">
-      <ul class="event-tags">
-      {% if event.event_type %}
-        <li class="tags-item">{{ event.get_event_type_display }}</li>
-      {% endif %}
-      {% if event.topic %}
-        <li class="tags-item">{{ event.get_topic_display }}</li>
-      {% endif %}
-      </ul>
-      <h1 class="event-title">{{ event.title }}</h1>
-      <div class="event-info">
-        <div class="event-date">
-          {{ event.event_date|date:'l, j M Y' }},
-          {{ event.event_date|date:'h:i a' }}
-        {% if event.event_end_date %}
-          {% if event.event_date|date:"j-M-Y" == event.event_end_date|date:"j-M-Y" %}
-            &ndash;
-            {{ event.event_end_date|date:'h:i a' }}
-          {% else %}
-            &ndash;
-            {{ event.event_end_date|date:'l, j M Y' }},
-            {{ event.event_end_date|date:'h:i a' }}
-          {% endif %}
+<article class="event-detail-page">
+  <div class="row">
+    <div class="col-md-8">
+      <div class="event-heading mb-2">
+        {% if event.event_type or event.topic %}
+          <ul class="tags">
+            {% if event.event_type %}<li>{{ event.get_event_type_display }}</li>{% endif %}
+            {% if event.topic %}<li>{{ event.get_topic_display }}</li>{% endif %}
+          </ul>
         {% endif %}
+
+        <h1 class="title">{{ event.title }}</h1>
+
+        <div class="date">
+          {{ event.event_date|date:'l, j M Y' }}, {{ event.event_date|date:'h:i a' }}
+          {% if event.event_end_date %}
+            {% if event.event_date|date:"j-M-Y" == event.event_end_date|date:"j-M-Y" %}
+              &ndash; {{ event.event_end_date|date:'h:i a' }}
+            {% else %}
+              &ndash; {{ event.event_end_date|date:'l, j M Y' }}, {{ event.event_end_date|date:'h:i a' }}
+            {% endif %}
+          {% endif %}
         </div>
-        <div class="event-place">
-          <a class="link" href="{% url 'places:place_detail' event.place_id %}">
-            <i class="fas fa-map-marker-alt"></i>
-            {{ event.place }}
+
+        <div class="place my-1">
+          <a class="text-decoration-none" href="{% url 'places:place_detail' event.place_id %}">
+            <i class="fas fa-map-marker-alt"></i> {{ event.place }}
           </a>
         </div>
       </div>
-    </div>
 
-    <div class="event-image">
-      <div class="event-img-wrap">
-        <img class="image img-fluid" alt="{{ event.title }}" src="{{ event.get_image_url }}">
-        <div class="city-name-label">
-          <a href="{{ event.place.city.get_absolute_url }}">{{ event.place.city.name }}</a>
-        </div>
-        {% if event.price %}<div class="ticket-price-label">{{ event.get_price_display }}</div>{% endif %}
+      <div class="event-image">
+        <img class="image img-fluid img-thumbnail" alt="{{ event.title }}" src="{{ event.get_image_url }}">
+        <div class="event-city-label">{{ event.place.city.name }}</div>
+        {% if event.price %}<div class="event-price-label">{{ event.get_price_display }}</div>{% endif %}
       </div>
-    </div>
 
-  {% if user|user_can_edit_event:event %}
-    <div class="event-edit text-center">
-      <a class="btn btn-primary" href="{% url 'events:event_update' event.pk %}" class="hover-color list-inline-item">
-        EDITAR EVENTO
-      </a>
-    </div>
-  {% endif %}
+      {% if user|user_can_edit_event:event %}
+        <div class="event-edit text-center my-2">
+          <a class="btn btn-primary" href="{% url 'events:event_update' event.pk %}" class="hover-color list-inline-item">
+            <i class="far fa-edit"></i>&nbsp; EDITAR EVENTO
+          </a>
+        </div>
+      {% endif %}
 
-    <div class="event-description" itemprop="description">
-      {{ event.description|markdown }}
-    </div>
+      <div class="event-description my-1" itemprop="description">
+        {{ event.description|markdown }}
+      </div>
 
-    <p>
+      <p>
       <small>
       En Desparchado.co sólo brindamos un espacio en Internet para hacer difusión
       de eventos culturales, generalmente publicados en nuestro sitio por voluntarios.
@@ -104,48 +94,45 @@
       </small>
     </p>
 
-    {% if event.event_source_url %}
-    <div class="event-source">
-      <i class="fa fa-globe"></i>
-      <span>Página del evento:</span>
-      <a href="{{ event.event_source_url }}" target="_blank">{{ event.event_source_url|truncatechars:50 }}</a>
-    </div>
-    {% endif %}
-
-    <p>¿Planea ir al evento? Cuéntele a sus amigos:</p>
-
-    <div class="addthis_inline_share_toolbox"></div>
-
-  {% if event.image_source_url %}
-    <div class="image-source">
-      Imagen:
-      <a href="{{ event.image_source_url }}" target="_blank">{{ event.image_source_url|shorten_url }}</a>
-    </div>
-  {% endif %}
-
-    <div class="event-place">
-      <h3 class="secondary-title">Lugar del evento</h3>
-
-      {% if event.place.image %}
-        <img class="place-image" src="{{ event.place.get_image_url }}" alt="{{ event.place.name }}" />
+      {% if event.event_source_url %}
+        <div class="event-source">
+          <i class="fa fa-globe"></i>
+          <strong>Página del evento:</strong>
+          <a href="{{ event.event_source_url }}" target="_blank">{{ event.event_source_url|truncatechars:50 }}</a>
+        </div>
       {% endif %}
 
-      <h4><a href="{{ event.place.get_absolute_url }}">{{ event.place.name }}</a></h4>
+      <div class="my-2">
+        <i>¿Planeas ir al evento? Cuéntales a tus amigos:</i>
+        <div class="addthis_inline_share_toolbox"></div>
+      </div>
 
-      <div><b>Dirección:</b> {{ event.place.description }}</div>
+      {% if event.image_source_url %}
+        <div>
+          Fuente de la imagen:
+          <a href="{{ event.image_source_url }}" target="_blank">{{ event.image_source_url|shorten_url }}</a>
+        </div>
+      {% endif %}
 
-      <div><a href="{{ event.place.get_absolute_url }}">Ver otros eventos en este sitio</a></div>
+      <div class="event-place">
+        {% if event.place.image %}
+          <img class="place-image" src="{{ event.place.get_image_url }}" alt="{{ event.place.name }}" />
+        {% endif %}
+        <h5 class="title"><a class="text-decoration-none" href="{{ event.place.get_absolute_url }}">{{ event.place.name }}</a></h5>
+        <div><b>Dirección:</b> {{ event.place.description }}</div>
 
-      <div class="clearfix"></div>
+        <div><a href="{{ event.place.get_absolute_url }}">Ver otros eventos en este sitio</a></div>
 
-      {% include 'includes/_map.html' with title=event.place subtitle=event.event_date latitude=event.get_latitude_str longitude=event.get_longitude_str css_class='event-map' %}
+        <div class="clearfix"></div>
+
+        {% include 'includes/_map.html' with title=event.place subtitle=event.event_date latitude=event.get_latitude_str longitude=event.get_longitude_str css_class='event-map' %}
+      </div>
+
     </div>
 
-  </div>
+    <div class="col-md-4">
 
-  <div class="col-md-4">
-
-  {% if books %}
+    {% if books %}
     <h3 class="secondary-title">Libro{{ books|length|pluralize }}</h3>
 
     <div class="related-books">
@@ -155,82 +142,66 @@
     </div>
   {% endif %}
 
-  {% if event.speakers.exists %}
-
-    <h3 class="secondary-title">Presentadores</h3>
-
-    {% for speaker in event.speakers.all %}
-
-      <div class="event-speaker">
-        {% if speaker.image %}
-        <div class="text-center">
-          <a href="{{ speaker.get_absolute_url }}">
-            <div class="image" style="background-image: url('{{ speaker.get_image_url }}');"
-               title="{{ speaker.name }}"></div>
-          </a>
+    {% if event.speakers.exists %}
+      <h4 class="secondary-title">Presentadores</h4>
+      {% for speaker in event.speakers.all %}
+        <div class="event-speaker">
+          {% if speaker.image %}
+            <div class="text-center">
+              <a href="{{ speaker.get_absolute_url }}">
+                <div class="image" style="background-image: url('{{ speaker.get_image_url }}');"
+                   title="{{ speaker.name }}"></div>
+              </a>
+            </div>
+          {% endif %}
+          <h5><a class="text-decoration-none" href="{{ speaker.get_absolute_url }}">{{ speaker.name }}</a></h5>
+          <div>{{ speaker.description|markdown|truncatewords_html:50 }}</div>
         </div>
+      {% endfor %}
+    {% endif %}
+
+    <h4 class="secondary-title">Organizador{{ organizers|pluralize:'es' }}</h4>
+
+    {% for organizer in organizers %}
+      <div class="event-organizer">
+        {% if organizer.image %}
+          <div class="text-center">
+            <a href="{{ organizer.get_absolute_url }}">
+              <img class="image img-fluid" src="{{ organizer.get_image_url }}" alt="{{ organizer.name }}">
+            </a>
+          </div>
         {% endif %}
-        <h4><a href="{{ speaker.get_absolute_url }}">{{ speaker.name }}</a></h4>
+        <h5 class="text-center"><a class="text-decoration-none" href="{{ organizer.get_absolute_url }}">{{ organizer.name }}</a></h5>
         <div>
-          {{ speaker.description|markdown|truncatewords_html:50 }}
+          {{ organizer.description|markdown|truncatewords_html:50 }}
         </div>
       </div>
     {% endfor %}
 
-  {% endif %}
-
-
-  <h3 class="secondary-title">Organizador{{ organizers|pluralize:'es' }}</h3>
-
-  {% for organizer in organizers %}
-    <div class="event-organizer">
-      {% if organizer.image %}
-      <div class="text-center">
-        <a href="{{ organizer.get_absolute_url }}">
-          <img class="image img-fluid" src="{{ organizer.get_image_url }}" alt="{{ organizer.name }}">
-        </a>
-      </div>
-      {% endif %}
-      <h4 class="tex-center"><a href="{{ organizer.get_absolute_url }}">{{ organizer.name }}</a></h4>
-
-      <div>
-        {{ organizer.description|markdown|truncatewords_html:50 }}
-      </div>
-    </div>
-  {% endfor %}
-
-  {% for special in event.specials.all %}
-    <br>
-
-    <section class="container-fluid boxes-grid">
-      <div class="row row-eq-height">
-        <div class="col-sm-12">
-          <div class="desparchado-box">
-            <a class="link" href="{{ special.get_absolute_url }}">
-              <div class="box-img-wrap">
-                <img class="image img-fluid"
-                     src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQ4AAACHAQMAAADdtyVCAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAANQTFRF////p8QbyAAAAAF0Uk5TAEDm2GYAAAAbSURBVBgZ7cExAQAAAMIg+6deCU9gAAAAAPAWEnUAAUFphIwAAAAASUVORK5CYII="
-                     alt="{{ special.title }}" style="background-image: url({{ special.get_image_url }});">
+    {% for special in event.specials.all %}
+      <section class="d-flex justify-content-between align-self-start my-3">
+        <div class="row w-100">
+          <div class="col-sm-12">
+            <div class="card">
+              <a href="{{ special.get_absolute_url }}"><img src="{{ special.get_image_url }}" class="card-img-top card-img-fluid-top" alt="{{ special.title }}"></a>
+              <div class="card-body">
+                <a class="text-decoration-none" href="{{ special.get_absolute_url }}">
+                  <h5 class="card-title">{{ special.title }}</h5>
+                </a>
+                <div class="card-text">{{ special.subtitle }}</div>
               </div>
-            </a>
-            <div class="box-inner">
-              <div class="box-subtitle">{{ special.subtitle }}</div>
-              <a href="{{ special.get_absolute_url }}"><h2 class="box-title">{{ special.title }}</h2></a>
             </div>
           </div>
         </div>
-      </div>
-    </section> <!--/.boxes-grid-->
-  {% endfor %}
+      </section>
+    {% endfor %}
 
-  <br>
+    <div class="fb-page" data-href="https://www.facebook.com/DesparchadoCo/" data-small-header="true" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="false"><blockquote cite="https://www.facebook.com/DesparchadoCo/" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/DesparchadoCo/">Desparchado</a></blockquote></div>
 
-  <div class="fb-page" data-href="https://www.facebook.com/DesparchadoCo/" data-small-header="true" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="false"><blockquote cite="https://www.facebook.com/DesparchadoCo/" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/DesparchadoCo/">Desparchado</a></blockquote></div>
-
+    </div>
   </div>
-</div>
 
-<div>
+  <div>
   {% if press_articles %}
     <h4>Artículos relacionados</h4>
     {% include 'news/_press_articles.html' with press_articles=press_articles %}
@@ -244,5 +215,5 @@
   {% include 'includes/_disqus_comments.html' with page_id="event-"|add:event.id %}
 </div>
 
-</section><!--/#event-detail-->
+</article>
 {% endblock content %}

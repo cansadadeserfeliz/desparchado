@@ -19,13 +19,11 @@
 
   {% include 'events/_events_grid.html' %}
 
-  <section class="container">
-    <div class="text-center">
-      <a href="{% url 'events:event_list' %}" class="btn btn-sm btn-primary">VER TODOS LOS EVENTOS</a>
-    </div>
+  <div class="text-center">
+    <a href="{% url 'events:event_list' %}" class="btn btn-sm btn-primary">VER TODOS LOS EVENTOS</a>
+  </div>
 
     <hr>
-  </section>
 
   {% if past_events %}
 
@@ -43,15 +41,7 @@
 
   {% endif %}
 
-  <section class="container clearfix">
-    <h2 class="text-justify text-center">Ciudades</h2>
-  </section>
-
-  {% include 'places/_cities_grid.html' with cities=global_cities %}
-
-  <section class="container clearfix">
-    <h2 class="text-justify text-center">Blog</h2>
-  </section>
+  <h2 class="text-justify text-center">Blog</h2>
 
   {% include 'blog/_posts_grid.html' %}
 

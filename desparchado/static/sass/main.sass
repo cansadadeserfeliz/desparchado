@@ -62,6 +62,20 @@ body
       a
         color: $primary-color
 
+.secondary-title
+  position: relative
+  z-index: 1
+  padding-bottom: 5px
+
+  &:before
+    content: ""
+    position: absolute
+    width: 30%
+    height: 1px
+    bottom: 0
+    left: 0
+    border-bottom: 3px solid $secondary-color
+
 .event-city-label
   height: 26px
   padding: 0 11px
@@ -111,6 +125,104 @@ body
   height: 100%
   overflow: hidden
   background-attachment: fixed
+
+.event-detail-page
+
+  .event-heading
+    ul.tags
+      list-style: none
+      letter-spacing: 1px
+      text-transform: uppercase
+      display: inline-block
+      vertical-align: top
+      font-size: 11px
+      font-weight: 400
+      padding-left: 0
+      li
+        margin-right: 1em
+        display: inline
+    .title
+      font-weight: 700
+      line-height: 42px
+    .date
+      font-size: 18px
+      line-height: 24px
+      font-weight: 700
+    .place
+      font-size: 16px
+      line-height: 24px
+      a
+        color: $dark-gray
+
+  .event-image
+    position: relative
+    .image
+      position: relative
+      display: block
+      max-height: 300px
+      z-index: 2
+      object-fit: contain
+      margin: 0 auto
+
+  .event-description
+    line-height: 1.5
+    font-size: 20px
+    overflow-wrap: break-word
+    word-wrap: break-word
+
+  .event-place
+    .title a
+      color: $primary-color
+    .place-image
+      height: 100px
+      border: 1px solid #eee
+      float: left
+      margin-right: 20px
+      margin-bottom: 20px
+
+  .event-map
+    margin-top: 20px
+    margin-bottom: 20px
+    width: 100%
+
+  .event-speaker
+    margin-top: 20px
+    margin-bottom: 20px
+    position: relative
+    z-index: 1
+    padding-bottom: 5px
+    a
+      color: $primary-color
+
+    &:before
+      content: ""
+      position: absolute
+      width: 100px
+      height: 1px
+      bottom: 0
+      left: 50%
+      margin-left: -50px
+      border-bottom: 1px solid #b3b3b3
+
+    .image
+      width: 120px
+      height: 120px
+      margin: 10px auto
+      border-radius: 50%
+      background-repeat: no-repeat
+      background-position: center
+      background-size: cover
+      -webkit-background-size: cover
+      -moz-background-size: cover
+      -o-background-size: cover
+
+  .event-organizer
+    a
+      color: $primary-color
+    .image
+      max-width: 200px
+      max-height: 150px
+      margin: 10px auto
 
 /* Header */
 
