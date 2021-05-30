@@ -12,6 +12,7 @@ EMAIL_ADMIN_USERS = ['vero4ka.ru@gmail.com']
 
 AXES_ENABLED = False
 
+
 # django-debug-toolbar
 def show_debug_toolbar(request):
     return True
