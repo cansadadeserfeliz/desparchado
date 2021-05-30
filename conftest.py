@@ -24,6 +24,14 @@ def other_user():
 
 
 @pytest.fixture
+def user_admin():
+    return UserFactory(
+        is_staff=True,
+        is_superuser=True,
+    )
+
+
+@pytest.fixture
 def organizer():
     return OrganizerFactory()
 
