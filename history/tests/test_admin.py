@@ -41,3 +41,24 @@ def test_add_event(django_app, user_admin):
     assert event.created_by == user_admin
 
     assert reverse('admin:history_event_changelist') in response.location
+
+
+@pytest.mark.django_db
+def test_edit_event(django_app, user_admin, history_event):
+    assert history_event.created_by != user_admin
+    history_event_creator = history_event.created_by
+
+    response = django_app.get(
+        reverse('admin:history_event_change', args=(history_event.id,)),
+        user=user_admin,
+        status=200
+    )
+    form = response.forms['event_form']
+    response = form.submit()
+
+    assert response.status_code == 302
+    history_event.refresh_from_db()
+    assert history_event.created_by == history_event_creator
+
+
+
