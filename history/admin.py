@@ -95,7 +95,10 @@ class HistoricalFigureAdmin(admin.ModelAdmin):
 
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
+    list_select_related = ('historical_figure', 'created_by')
+
     list_display = [
+        'historical_figure',
         'type',
         'post_date',
         'created_by',
