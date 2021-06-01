@@ -2,6 +2,7 @@ import uuid
 
 from django.db import models
 from django.conf import settings
+from django.templatetags.static import static
 
 from model_utils.models import TimeStampedModel
 
@@ -50,6 +51,11 @@ class HistoricalFigure(TimeStampedModel):
         verbose_name='Creado por',
         related_name='created_historical_figures',
     )
+
+    def get_image_url(self):
+        if self.image:
+            return self.image.url
+        return static('images/default_historical_figure_image.png')
 
     class Meta:
         verbose_name = 'Personaje histórico'
