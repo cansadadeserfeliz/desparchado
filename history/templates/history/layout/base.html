@@ -11,6 +11,13 @@
 {% endblock %}
 
 {% block subheader %}
+<div class="history-sub-header">
+  <ul class="nav nav-pills justify-content-center">
+    <li class="nav-item" role="presentation">
+      <a class="nav-link" href="{% url 'history:historical_figure_list' %}">Personajes</a>
+    </li>
+  </ul>
+</div>
 {% endblock subheader %}
 
 {% block content %}
