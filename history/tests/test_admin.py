@@ -70,3 +70,25 @@ def test_show_historical_figure_list(django_app, user_admin, history_historical_
     )
     assert history_historical_figure.name in response
 
+
+@pytest.mark.django_db
+def test_add_historical_figure(django_app, user_admin):
+    historical_figures_count = HistoricalFigure.objects.count()
+    response = django_app.get(
+        reverse('admin:history_historicalfigure_add'),
+        user=user_admin,
+        status=200
+    )
+
+    form = response.forms['historicalfigure_form']
+    form['name'] = 'Simón Bolívar'
+    form['full_name'] = 'Simón José Antonio de la Santísima Trinidad Bolívar'
+    form['date_of_birth_0'] = '24/07/1783'
+    form['date_of_birth_1'] = '00:00'
+    form['date_of_birth_precision'] = DATETIME_PRECISION_DAY
+    response = form.submit()
+
+    assert response.status_code == 302
+    assert HistoricalFigure.objects.count() == historical_figures_count + 1
+    figure = HistoricalFigure.objects.first()
+    assert figure.created_by == user_admin
