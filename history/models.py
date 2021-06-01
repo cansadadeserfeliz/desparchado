@@ -21,6 +21,7 @@ class HistoricalFigure(TimeStampedModel):
     name = models.CharField(
         verbose_name='Nombre corto',
         max_length=255,
+        db_index=True,
         help_text='Por ejemplo, "Simón Bolívar"',
     )
     full_name = models.CharField(
@@ -58,6 +59,7 @@ class HistoricalFigure(TimeStampedModel):
         return static('images/default_historical_figure_image.png')
 
     class Meta:
+        ordering = ['name']
         verbose_name = 'Personaje histórico'
         verbose_name_plural = 'Personajes históricos'
 
