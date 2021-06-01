@@ -2,7 +2,7 @@ import pytest
 
 from django.urls import reverse
 
-from ..models import Event
+from ..models import Event, HistoricalFigure
 from ..models import DATETIME_PRECISION_DAY
 
 
@@ -61,4 +61,12 @@ def test_edit_event(django_app, user_admin, history_event):
     assert history_event.created_by == history_event_creator
 
 
+@pytest.mark.django_db
+def test_show_historical_figure_list(django_app, user_admin, history_historical_figure):
+    response = django_app.get(
+        reverse('admin:history_historicalfigure_changelist'),
+        user=user_admin,
+        status=200
+    )
+    assert history_historical_figure.name in response
 
