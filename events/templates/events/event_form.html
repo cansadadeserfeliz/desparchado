@@ -6,12 +6,16 @@
 {% block content %}
 <h2 class="text-center">{% if event %}Editar evento{% else %}Añadir nuevo evento{% endif %}:</h2>
 
-<section id="event_form_container" class="container">
+<section class="container event-form-container">
   {% crispy form %}
 </section>
 {% endblock content %}
 
+{% block extra_css %}
+  {{ form.media.css }}
+{% endblock extra_css %}
+
 {% block javascript %}
-  {{ form.media }}
+  {{ form.media.js }}
 {% endblock javascript %}
 

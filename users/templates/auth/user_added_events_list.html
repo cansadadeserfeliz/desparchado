@@ -21,7 +21,7 @@
     {% for event in events %}
       <tr>
         <td>
-          <a href="{{ event.get_absolute_url }}" class="btn btn-default btn-sm" title="Ver evento">
+          <a href="{{ event.get_absolute_url }}" title="Ver evento">
             <div>
               <img style="max-width: 200px; max-height: 100px" src="{{ event.get_image_url }}" />
             </div>
@@ -30,12 +30,12 @@
         </td>
         <td>{{ event.event_date }}</td>
         <td>
-          <span class="badge {% if event.is_published %}badge-success{% else %}badge-danger{% endif %}">
+          <span class="badge {% if event.is_published %}bg-success{% else %}bg-danger{% endif %}">
             {{ event.is_published|yesno }}
           </span>
         </td>
         <td>
-          <span class="badge {% if event.is_approved %}badge-success{% else %}badge-danger{% endif %}">
+          <span class="badge {% if event.is_approved %}bg-success{% else %}bg-danger{% endif %}">
             {{ event.is_approved|yesno }}
           </span>
         </td>

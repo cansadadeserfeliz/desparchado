@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'raven.contrib.django.raven_compat',
     'social_django',
     'crispy_forms',
+    'crispy_bootstrap5',
     'debug_toolbar',
 
     'dashboard',
@@ -310,7 +311,9 @@ AXES_LOGIN_FAILURE_LIMIT = 5
 
 GOOGLE_ANALYTICS_CODE = 'UA-43471959-4'
 
-CRISPY_TEMPLATE_PACK = 'bootstrap4'
+# crispy forms with bootstrap 5: https://github.com/django-crispy-forms/crispy-bootstrap5
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.social_auth.social_details',

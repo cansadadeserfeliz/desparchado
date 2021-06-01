@@ -1,14 +1,16 @@
-<div class="card book-card">
-  <a href="{{ book.get_absolute_url }}"><img src="{{ book.get_image_url }}" class="card-img-top" alt="{{ book.title }}"></a>
-  <div class="card-body">
-    <a class="text-decoration-none" href="{{ blog_post.get_absolute_url }}">
-      <h5 class="card-title">{{ book.title }}</h5>
-    </a>
-    <div class="card-text">
-      <div class="card-subtitle">Libro</div>
+<section class="book">
+  <a href="{{ book.get_absolute_url }}"><img class="image img-fluid" src="{{ book.get_image_url }}" alt="{{ book.title }}"></a>
+  <div class="book-head">
+    <h1 class="book-title">
+      <a href="{{ book.get_absolute_url }}">
+        {{ book.title }}
+      </a>
+    </h1>
+    <div class="book-info">
       {% for author in book.authors.all %}
         {{ author.name }}{% if not forloop.last %},{% endif %}
       {% endfor %}
+      <div><a href="{{ book.get_absolute_url }}"><i>leer más</i></a></div>
     </div>
   </div>
-</div>
+</section>
