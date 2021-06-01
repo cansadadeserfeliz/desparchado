@@ -135,7 +135,7 @@
     {% if books %}
     <h3 class="secondary-title">Libro{{ books|length|pluralize }}</h3>
 
-    <div class="related-books">
+    <div class="related-books book-group">
       {% for book in books %}
         {% include 'books/_book_card.html' %}
       {% endfor %}
