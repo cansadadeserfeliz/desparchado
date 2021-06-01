@@ -7,6 +7,8 @@ from .models import HistoricalFigure, Event, Post
 class EventAdmin(admin.ModelAdmin):
     search_fields = ('title',)
 
+    list_select_related = ('created_by',)
+
     list_display = [
         'title',
         'event_date',
@@ -57,6 +59,8 @@ class EventAdmin(admin.ModelAdmin):
 @admin.register(HistoricalFigure)
 class HistoricalFigureAdmin(admin.ModelAdmin):
     search_fields = ('name',)
+
+    list_select_related = ('created_by',)
 
     list_display = [
         'name',
