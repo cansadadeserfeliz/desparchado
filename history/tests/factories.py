@@ -3,7 +3,7 @@ import factory.fuzzy
 
 from desparchado.tests.helpers import random_future_date
 from users.tests.factories import UserFactory
-from ..models import Event
+from ..models import Event, HistoricalFigure
 from ..models import DATETIME_PRECISION_CHOICES
 
 
@@ -18,3 +18,14 @@ class EventFactory(factory.django.DjangoModelFactory):
 
     class Meta:
         model = Event
+
+
+class HistoricalFigureFactory(factory.django.DjangoModelFactory):
+    name = factory.Faker('name')
+    full_name = factory.Faker('name')
+    date_of_birth = factory.LazyFunction(random_future_date)
+    date_of_birth_precision = factory.fuzzy.FuzzyChoice(dict(DATETIME_PRECISION_CHOICES).keys())
+    created_by = factory.SubFactory(UserFactory)
+
+    class Meta:
+        model = HistoricalFigure
