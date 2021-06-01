@@ -283,6 +283,108 @@ body
           color: #fff
           background-color: $primary-color
 
+/* Speaker list */
+
+.speaker-card
+  padding: 36px 0px 32px
+
+  .speaker-card-inner
+    padding: 1px 5px 0px
+    vertical-align: top
+    margin: 0 auto
+    .speaker-card-title
+      text-align: center
+      font-weight: 400
+      line-height: 25px
+      font-size: 16px
+      word-wrap: break-word
+  .speaker-card-logo
+    width: 72px
+    vertical-align: top
+    margin: 0 auto
+    .image
+      width: 70px
+      height: 70px
+      border: 1px solid #eee
+      border-radius: 50%
+      background-repeat: no-repeat
+      background-position: center
+      background-size: cover
+      -webkit-background-size: cover
+      -moz-background-size: cover
+      -o-background-size: cover
+
+@media (max-width: 768px)
+  .speaker-card
+    .speaker-card-inner
+      .speaker-card-title
+        font-size: 11px
+
+/* Image Gallery */
+
+.image-gallery-container
+
+  .image-gallery-listing
+    position: relative
+    margin: 10px
+
+    .image-gallery-title
+      font-size: 12px
+      font-weight: bold
+      text-decoration: none
+      z-index: 1
+      position: absolute
+      height: 100%
+      width: 100%
+      top: 0
+      left: 0
+      opacity: 0
+      transition: opacity .5s
+      background: rgba(6, 9, 38, 0.4)
+      color: white
+      /* position the text in t’ middle
+      display: flex
+      align-items: center
+      justify-content: center
+      text-align: center
+
+      &.image-gallery-title-show
+        opacity: 0.3
+        background: rgba(6, 9, 38, 0.3)
+
+    .image-gallery-image-wrapper
+      line-height: 0
+      overflow: hidden
+
+      .image
+        filter: blur(0px)
+        transition: filter 0.3s ease-in
+        transform: scale(1.1)
+        height: 130px
+        width: 130px
+        margin: auto
+        background-repeat: no-repeat
+        background-position: center
+        background-size: cover
+        -webkit-background-size: cover
+        -moz-background-size: cover
+        -o-background-size: cover
+
+.image-gallery-container
+  .image-gallery-listing:hover
+    .image-gallery-title
+      opacity: 1
+    .image-gallery-image-wrapper .image
+      filter: blur(2px)
+
+/* for touch screen devices
+@media (hover: none)
+  .image-gallery-container
+    .image-gallery-title
+      opacity: 1
+    .image-gallery-image-wrapper .image
+      filter: blur(2px)
+
 /* Pages */
 
 .page-img-title
