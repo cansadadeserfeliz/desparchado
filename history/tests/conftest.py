@@ -1,6 +1,6 @@
 import pytest
 
-from .factories import EventFactory, HistoricalFigureFactory
+from .factories import EventFactory, HistoricalFigureFactory, PostFactory
 
 
 @pytest.fixture
@@ -11,3 +11,8 @@ def history_event():
 @pytest.fixture
 def history_historical_figure():
     return HistoricalFigureFactory()
+
+
+@pytest.fixture
+def history_post():
+    return PostFactory()
