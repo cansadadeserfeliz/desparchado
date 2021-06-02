@@ -23,6 +23,9 @@ class EventFactory(factory.django.DjangoModelFactory):
 class HistoricalFigureFactory(factory.django.DjangoModelFactory):
     name = factory.Faker('name')
     full_name = factory.Faker('name')
+    sources = factory.Faker('text')
+    image = factory.django.ImageField()
+    image_source_url = factory.Faker('url')
     date_of_birth = factory.LazyFunction(random_future_date)
     date_of_birth_precision = factory.fuzzy.FuzzyChoice(dict(DATETIME_PRECISION_CHOICES).keys())
     created_by = factory.SubFactory(UserFactory)
