@@ -2,7 +2,7 @@ import pytest
 
 from django.urls import reverse
 
-from ..models import Event, HistoricalFigure
+from ..models import Event, HistoricalFigure, Post
 from ..models import DATETIME_PRECISION_DAY
 
 
@@ -92,3 +92,13 @@ def test_add_historical_figure(django_app, user_admin):
     assert HistoricalFigure.objects.count() == historical_figures_count + 1
     figure = HistoricalFigure.objects.first()
     assert figure.created_by == user_admin
+
+
+@pytest.mark.django_db
+def test_show_post_list(django_app, user_admin, history_post):
+    response = django_app.get(
+        reverse('admin:history_post_changelist'),
+        user=user_admin,
+        status=200
+    )
+    assert str(history_post.historical_figure) in response
