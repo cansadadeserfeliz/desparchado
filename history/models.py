@@ -57,7 +57,7 @@ class HistoricalFigure(TimeStampedModel):
     def get_image_url(self):
         if self.image:
             return self.image.url
-        return static('images/default_historical_figure_image.png')
+        return static('images/default_historical_figure_image.jpg')
 
     class Meta:
         ordering = ['name']
