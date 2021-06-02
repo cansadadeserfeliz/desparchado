@@ -2,6 +2,7 @@ import uuid
 
 from django.db import models
 from django.conf import settings
+from django.templatetags.static import static
 
 from model_utils.models import TimeStampedModel
 
@@ -21,6 +22,7 @@ class HistoricalFigure(TimeStampedModel):
     name = models.CharField(
         verbose_name='Nombre corto',
         max_length=255,
+        db_index=True,
         help_text='Por ejemplo, "Simón Bolívar"',
     )
     full_name = models.CharField(
@@ -52,7 +54,13 @@ class HistoricalFigure(TimeStampedModel):
         related_name='created_historical_figures',
     )
 
+    def get_image_url(self):
+        if self.image:
+            return self.image.url
+        return static('images/default_historical_figure_image.jpg')
+
     class Meta:
+        ordering = ['name']
         verbose_name = 'Personaje histórico'
         verbose_name_plural = 'Personajes históricos'
 
