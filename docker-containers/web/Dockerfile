@@ -7,8 +7,7 @@ RUN mkdir -p /root/.cache/pip
 
 RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
 RUN apt-get install -y nodejs
-RUN node -v
-RUN npm -v
+RUN node -v  && RUN npm -v
 RUN npm install -g sass
 RUN npm install -g yuglify
 
