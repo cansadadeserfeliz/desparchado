@@ -95,6 +95,24 @@ def test_add_historical_figure(django_app, user_admin):
 
 
 @pytest.mark.django_db
+def test_edit_historical_figure(django_app, user_admin, history_historical_figure):
+    assert history_historical_figure.created_by != user_admin
+    history_historical_figure_creator = history_historical_figure.created_by
+
+    response = django_app.get(
+        reverse('admin:history_historicalfigure_change', args=(history_historical_figure.id,)),
+        user=user_admin,
+        status=200
+    )
+    form = response.forms['historicalfigure_form']
+    response = form.submit()
+
+    assert response.status_code == 302
+    history_historical_figure.refresh_from_db()
+    assert history_historical_figure.created_by == history_historical_figure_creator
+
+
+@pytest.mark.django_db
 def test_show_post_list(django_app, user_admin, history_post):
     response = django_app.get(
         reverse('admin:history_post_changelist'),
@@ -124,3 +142,21 @@ def test_add_post(django_app, user_admin):
     assert Post.objects.count() == posts_count + 1
     post_instance = Post.objects.first()
     assert post_instance.created_by == user_admin
+
+
+@pytest.mark.django_db
+def test_edit_post(django_app, user_admin, history_post):
+    assert history_post.created_by != user_admin
+    history_post_creator = history_post.created_by
+
+    response = django_app.get(
+        reverse('admin:history_post_change', args=(history_post.id,)),
+        user=user_admin,
+        status=200
+    )
+    form = response.forms['post_form']
+    response = form.submit()
+
+    assert response.status_code == 302
+    history_post.refresh_from_db()
+    assert history_post.created_by == history_post_creator
