@@ -1,20 +1,12 @@
-from datetime import timedelta
-from random import randint
-
 import factory
 import factory.fuzzy
 
-from django.utils import timezone
-
+from desparchado.tests.helpers import random_future_date
 from users.tests.factories import UserFactory
 from places.tests.factories import PlaceFactory
 from ..models import Event
 from ..models import Organizer
 from ..models import Speaker
-
-
-def random_future_date():
-    return timezone.now() + timedelta(days=randint(1, 400))
 
 
 class SpeakerFactory(factory.django.DjangoModelFactory):

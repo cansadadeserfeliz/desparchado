@@ -7,10 +7,11 @@ from django.templatetags.static import static
 from model_utils.models import TimeStampedModel
 
 
+DATETIME_PRECISION_DAY = 'day'
 DATETIME_PRECISION_CHOICES = (
     ('year', 'Año'),
     ('month', 'Mes'),
-    ('day', 'Día'),
+    (DATETIME_PRECISION_DAY, 'Día'),
     ('hour', 'Hora'),
     ('minute', 'Minuto'),
 )
@@ -62,6 +63,9 @@ class HistoricalFigure(TimeStampedModel):
         ordering = ['name']
         verbose_name = 'Personaje histórico'
         verbose_name_plural = 'Personajes históricos'
+
+    def __str__(self):
+        return self.name
 
 
 class Event(TimeStampedModel):
