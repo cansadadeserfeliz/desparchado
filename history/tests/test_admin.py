@@ -102,3 +102,25 @@ def test_show_post_list(django_app, user_admin, history_post):
         status=200
     )
     assert str(history_post.historical_figure) in response
+
+
+@pytest.mark.django_db
+def test_add_post(django_app, user_admin):
+    posts_count = Post.objects.count()
+    response = django_app.get(
+        reverse('admin:history_post_add'),
+        user=user_admin,
+        status=200
+    )
+
+    form = response.forms['post_form']
+    form['text'] = 'Más cuesta mantener el equilibrio de la libertad'\
+                   'que soportar el peso de la tiranía'
+    form['post_date_0'] = '24/07/1783'
+    form['post_date_1'] = '00:00'
+    response = form.submit()
+
+    assert response.status_code == 302
+    assert Post.objects.count() == posts_count + 1
+    post_instance = Post.objects.first()
+    assert post_instance.created_by == user_admin
