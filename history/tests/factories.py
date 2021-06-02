@@ -3,7 +3,7 @@ import factory.fuzzy
 
 from desparchado.tests.helpers import random_future_date
 from users.tests.factories import UserFactory
-from ..models import Event, HistoricalFigure
+from ..models import Event, HistoricalFigure, Post
 from ..models import DATETIME_PRECISION_CHOICES
 
 
@@ -32,3 +32,19 @@ class HistoricalFigureFactory(factory.django.DjangoModelFactory):
 
     class Meta:
         model = HistoricalFigure
+
+
+class PostFactory(factory.django.DjangoModelFactory):
+    type = factory.fuzzy.FuzzyChoice(dict(Post.TYPES).keys())
+    text = factory.Faker('text')
+    location_name = factory.Faker('sentence')
+    sources = factory.Faker('text')
+    image = factory.django.ImageField()
+    image_source_url = factory.Faker('url')
+    post_date = factory.LazyFunction(random_future_date)
+    post_date_precision = factory.fuzzy.FuzzyChoice(dict(DATETIME_PRECISION_CHOICES).keys())
+    historical_figure = factory.SubFactory(HistoricalFigureFactory)
+    created_by = factory.SubFactory(UserFactory)
+
+    class Meta:
+        model = Post
