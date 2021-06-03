@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "bootstrap": "^5.0.1",
+    "font-awesome": "^4.7.0",
+    "jquery": "^3.6.0",
+    "sass": "^1.34.0",
+    "select2-bootstrap-5-theme": "^1.1.1"
+  }
+}
