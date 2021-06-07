@@ -1,5 +1,5 @@
 from django.contrib import admin
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 from desparchado.utils import send_admin_notification
 from .models import Event, Organizer, Speaker, SocialNetworkPost

@@ -1,87 +1,65 @@
-<div class="top-bar">
-  <div class="search-form-nav float-right" style="display: none;">
-    <div class="container">
-      <form lpformnum="1">
-        <input type="text" class="form-control" placeholder="Busque su evento">
-        <span class="search-close">
-          <i class="ion-ios-close-empty"></i>
-        </span>
-      </form>
+<nav class="top-nav">
+  <ul class="nav justify-content-end">
+    <li class="nav-item">
+      <a href="https://www.facebook.com/DesparchadoCo" class="nav-link link-dark px-2">
+        <i class="fab fa-facebook-square"></i>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a href="https://twitter.com/DesparchadoCo" class="nav-link link-dark px-2">
+        <i class="fab fa-twitter"></i>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a href="{% url 'rss' %}" class="nav-link link-dark px-2">
+        <i class="fas fa-rss"></i>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a href="{% url 'events:add_event' %}" class="nav-link link-dark px-2">
+        <i class="fas fa-plus"></i>
+        Añadir evento
+      </a>
+    </li>
+
+  {% if user.is_authenticated %}
+    <li class="nav-item">
+      <a href="{% url 'users:user_detail' user.username %}" class="nav-link link-dark px-2">
+        <i class="fa fa-user"></i>
+        Perfil
+      </a>
+    </li>
+    <li class="nav-item">
+      <a href="{% url 'logout' %}" class="nav-link link-dark px-2">
+        <i class="fas fa-sign-out-alt"></i>
+        Salir
+      </a>
+    </li>
+  {% else %}
+    <li class="nav-item">
+      <a href="{% url "users:login" %}?next={{ request.path }}" class="nav-link link-dark px-2">
+        <i class="fa fa-sign-in"></i>
+        Ingresar
+      </a>
+    </li>
+  {% endif %}
+  </ul>
+</nav>
+<header class="main-nav p-3 pb-1 bg-dark text-white">
+  <div class="container d-flex flex-wrap justify-content-between justify-content-center">
+    <div class="d-flex align-items-center mb-3 mb-lg-0 me-lg-auto">
+      <a href="/" class="text-white text-decoration-none header-brand">
+        <h1>Desparchado</h1>
+      </a>
     </div>
-  </div><!--search form-->
-  <div class="container">
-    <div class="text-right">
-      <ul class="info list-inline">
-        <li class="hidden-xs-down list-inline-item">
-          <a href="https://www.facebook.com/DesparchadoCo" target="_blank" class="hover-color">
-            <i class="fab fa-facebook"></i>
-          </a>
-        </li>
-        <li class="hidden-xs-down list-inline-item">
-          <a href="https://twitter.com/DesparchadoCo" target="_blank" class="hover-color">
-            <i class="fab fa-twitter"></i>
-          </a>
-        </li>
-        <li class="hidden-xs-down list-inline-item">
-          <a href="{% url 'rss' %}" target="_blank" class="hover-color">
-            <i class="fas fa-rss"></i>
-          </a>
-        </li>
-        <li class="hidden-xs-down list-inline-item">
-          <a href="{% url 'events:add_event' %}" class="hover-color">
-            <i class="fas fa-plus"></i>
-            Añadir evento
-          </a>
-        </li>
 
-        {% if user.is_authenticated %}
-        <li class="list-inline-item">
-          <a href="{% url 'users:user_detail' user.username %}" class="hover-color list-inline-item">
-            <i class="fa fa-user"></i>
-            Perfil
-          </a>
-        </li>
-        <li class="list-inline-item">
-          <a href="{% url "logout" %}" class="hover-color list-inline-item">
-            <i class="fa fa-sign-out"></i>
-            Salir
-          </a>
-        </li>
-        {% else %}
-        <li class="list-inline-item">
-          <a href="{% url "users:login" %}?next={{ request.path }}" class="hover-color list-inline-item">
-            <i class="fa fa-sign-in"></i>
-            Ingresar
-          </a>
-        </li>
-        {% endif %}
-      </ul>
-    </div>
-  </div><!--container end-->
-</div>
-
-<nav id="navigation" class="navbar navbar-expand-lg navbar-light ">
-  <div class="container">
-    <a class="navbar-brand" href="/"><h1>Desparchado</h1></a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link" href="/">Inicio</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'events:event_list' %}">Eventos</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'blog:post_list' %}">Blog</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'books:home' %}">Libros</a>
-        </li>
+    <div class="d-flex align-items-center mb-3 mb-lg-0">
+      <ul class="nav nav-pills">
+        <li><a href="/" class="nav-link px-2">Inicio</a></li>
+        <li><a href="{% url 'events:event_list' %}" class="nav-link px-2">Eventos</a></li>
+        <li><a href="{% url 'blog:post_list' %}" class="nav-link px-2">Blog</a></li>
+        <li><a href="{% url 'books:home' %}" class="nav-link px-2">Libros</a></li>
       </ul>
     </div>
   </div>
-</nav>
+</header>

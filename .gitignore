@@ -8,21 +8,32 @@
 *.mo
 *.sqlite3
 
+# Coverage reports
+htmlcov/
+.coverage
+.coverage.*
+coverage.xml
+*.cover
+
 # Configuration files
 desparchado/local_settings.py
 environment.json
+setenv.sh
 .requirements_timestamp
 .idea
 .tags
 .tags_sorted_by_file
 .env
+package-lock.json
 
 # Folders
-desparchado/static/sass/.sass-cache
+desparchado/static/.sass-cache
+desparchado/static/sass/.sass-cache/
 desparchado/static/.bundle-gems
 desparchado/static/bower_components
 desparchado/static/node_modules/
-package-lock.json
+.docker_pip_cache
+!.docker_pip_cache/.keep
 
 /static
 /staticfiles

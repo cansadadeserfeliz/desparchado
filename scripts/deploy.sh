@@ -4,7 +4,11 @@ git pull
 
 bower install
 pip install -r requirements.txt
+
+source setenv.sh
+
 ./manage.py migrate
 ./manage.py collectstatic --no-input
 django-admin compilemessages
-touch desparchado/local_settings.py
+
+touch desparchado/settings/production.py

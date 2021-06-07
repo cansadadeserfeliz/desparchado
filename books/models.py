@@ -33,7 +33,7 @@ class Book(TimeStampedModel):
     isbn = models.CharField(
         max_length=50,
         unique=True,
-        validators=[RegexValidator('\d{13}')],
+        validators=[RegexValidator(r'\d{13}')],
     )
     is_published = models.BooleanField(
         'Está publicado',
@@ -67,10 +67,6 @@ class Book(TimeStampedModel):
     )
 
     objects = BookQuerySet().as_manager()
-
-    @staticmethod
-    def autocomplete_search_fields():
-        return ('title__icontains',)
 
     def get_image_url(self):
         if self.image:

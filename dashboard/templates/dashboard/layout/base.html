@@ -1,6 +1,5 @@
-{% load i18n staticfiles pipeline %}
-
-<!doctype html>
+<!DOCTYPE html>
+{% load i18n static pipeline %}
 <html lang="en" dir="ltr">
   <head>
     <meta charset="UTF-8">
@@ -21,11 +20,17 @@
 
 
     <!-- Dashboard Core -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/fontawesome.min.css" integrity="sha384-wESLQ85D6gbsF459vf1CiZ2+rr+CsxRY0RpiF1tLlQpDnAgg6rwdsUF1+Ics2bni" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://unpkg.com/@tabler/core@latest/dist/css/tabler.min.css">
     {% stylesheet 'dashboard' %}
+
     {% javascript 'dashboard' %}
+    <script src="https://unpkg.com/@tabler/core@latest/dist/js/tabler.min.js"></script>
+
     {% block javascript %}{% endblock %}
     {% block extra_javascript %}{% endblock %}
   </head>
+
   <body class="">
     <div class="page">
       <div class="page-main">

@@ -1,10 +1,10 @@
 {% for key, value in blaa_event_json.items %}
   <p>
     <b>{{ key }}:</b>
-  {% ifequal key 'imagen' %}
+  {% if key == 'imagen' %}
     <img class="img-fluid" src="{{ value.src }}">
   {% else %}
     {{ value|safe }}
-  {% endifequal %}
+  {% endif %}
   </p>
 {% endfor %}

@@ -1,80 +1,58 @@
-<footer class="footer">
-  <div class="container">
+<footer class="pt-4 pt-md-5">
+  <div class="container py-5">
     <div class="row">
-      <div class="col-md-4 margin-btm-20">
-
-        <div class="footer-col">
-          <h3>Acerca de</h3>
-          <p>
-            Desparchado.co es un proyecto sin ánimo de lucro, que sirve
-            para compartir eventos culturales y educativos y darles más
-            visibilidad.
-
-            Los anuncios de los eventos pueden ser publicados en la página web
-            por editores o usuarios registrados.
-          </p>
-        </div>
-
-        <div class="space-20"></div>
-
-        <div class="footer-col">
-          <h3>Ciudades</h3>
-          <ul class="footer-links list-unstyled">
-          {% for city in global_cities %}
-            <li><a href="{% url 'places:city_detail' city.slug %}">{{ city.name }}</a></li>
-          {% endfor %}
-          </ul>
-        </div>
-
-        <div class="space-20"></div>
-
-        <div class="footer-col">
-          <h3>Contáctenos</h3>
-          <p><a href="mailto:desparchado.co@gmail.com">desparchado.co@gmail.com</a></p>
-        </div>
-
-      </div><!--col-4 end-->
-      <div class="col-md-4 margin-btm-20">
-        <div class="footer-col">
-          <h3>Contenido</h3>
-          <ul class="footer-links list-unstyled">
-            <li><a href="/">Inicio</a></li>
-            <li><a href="{% url 'events:event_list' %}">Eventos</a></li>
-            <li><a href="{% url 'events:add_event' %}">Añadir evento</a></li>
-            <li><a href="{% url 'places:place_list' %}">Lugares</a></li>
-            <li><a href="{% url 'events:speaker_list' %}">Presentadores</a></li>
-            <li><a href="{% url 'books:home' %}">Libros</a></li>
-            <li><a href="{% url 'blog:post_list' %}">Blog</a></li>
-            <li><a href="{% url 'games:hunting_of_snark_create' %}">Juego «La caza del Snark»</a></li>
-            <li><a href="{% url 'events:past_event_list' %}">Eventos pasados</a></li>
-            <li><a href="{% url 'about' %}">Acerca de</a></li>
-          </ul>
-        </div>
-      </div><!--latest post col end-->
       <div class="col-md-4">
-        <div class="footer-col">
-          <h3>Síganos</h3>
-          <div class="footer-icons">
-            <a href="https://www.facebook.com/DesparchadoCo" target="_blank"><i class="fab fa-facebook"></i></a>
-            <a href="https://twitter.com/DesparchadoCo" target="_blank"><i class="fab fa-twitter"></i></a>
-            <a href="https://t.me/DesparchadoCo" target="_blank"><i class="fab fa-telegram"></i></a>
-            <a href="https://www.instagram.com/desparchado_co/" target="_blank"><i class="fab fa-instagram"></i></a>
-            <a href="https://www.patreon.com/desparchado" target="_blank"><i class="fab fa-patreon"></i></a>
-          </div>
+        <h5>Acerca de</h5>
+        <p class="mb-5">
+          Desparchado.co es un proyecto sin ánimo de lucro, que sirve
+          para compartir eventos culturales y educativos y darles más
+          visibilidad.
 
-          <hr>
+          Los anuncios de los eventos pueden ser publicados en la página web
+          por editores o usuarios registrados.
+        </p>
 
-          <div class="fb-page"
-               data-href="https://www.facebook.com/DesparchadoCo/"
-               data-small-header="false"
-               data-adapt-container-width="true"
-               data-hide-cover="false"
-               data-show-facepile="true">
-            <blockquote cite="https://www.facebook.com/DesparchadoCo/" class="fb-xfbml-parse-ignore">
-              <a href="https://www.facebook.com/DesparchadoCo/">Desparchado</a>
-            </blockquote>
-          </div>
+        <h5>Contáctenos</h5>
+        <p class="mb-5">
+          <a href="mailto:desparchado.co@gmail.com">desparchado.co@gmail.com</a>
+        </p>
+      </div>
+      <div class="col-md-4 mb-5">
+        <h5>Contenido</h5>
+        <ul class="list-unstyled text-small">
+          <li><a class="link-secondary text-decoration-none"  href="/">Inicio</a></li>
+          <li><a class="link-secondary text-decoration-none" href="{% url 'events:event_list' %}">Eventos</a></li>
+          <li><a class="link-secondary text-decoration-none"  href="{% url 'events:add_event' %}">Añadir evento</a></li>
+          <li><a class="link-secondary text-decoration-none"  href="{% url 'places:place_list' %}">Lugares</a></li>
+          <li><a class="link-secondary text-decoration-none"  href="{% url 'events:speaker_list' %}">Presentadores</a></li>
+          <li><a class="link-secondary text-decoration-none"  href="{% url 'books:home' %}">Libros</a></li>
+          <li><a class="link-secondary text-decoration-none"  href="{% url 'blog:post_list' %}">Blog</a></li>
+          <li><a class="link-secondary text-decoration-none"  href="{% url 'games:hunting_of_snark_create' %}">Juego «La caza del Snark»</a></li>
+          <li><a class="link-secondary text-decoration-none"  href="{% url 'events:past_event_list' %}">Eventos pasados</a></li>
+          <li><a class="link-secondary text-decoration-none"  href="{% url 'about' %}">Acerca de</a></li>
+        </ul>
+      </div>
+      <div class="col-md-4 mb-5">
+        <h5>Síganos</h5>
+        <div class="footer-social-icons">
+          <a href="https://www.facebook.com/DesparchadoCo" target="_blank"><i class="fab fa-facebook"></i></a>
+          <a href="https://twitter.com/DesparchadoCo" target="_blank"><i class="fab fa-twitter"></i></a>
+          <a href="https://t.me/DesparchadoCo" target="_blank"><i class="fab fa-telegram"></i></a>
+          <a href="https://www.instagram.com/desparchado_co/" target="_blank"><i class="fab fa-instagram"></i></a>
+          <a href="https://www.patreon.com/desparchado" target="_blank"><i class="fab fa-patreon"></i></a>
+        </div>
 
+        <hr>
+
+        <div class="fb-page mb-5"
+             data-href="https://www.facebook.com/DesparchadoCo/"
+             data-small-header="false"
+             data-adapt-container-width="true"
+             data-hide-cover="false"
+             data-show-facepile="true">
+          <blockquote cite="https://www.facebook.com/DesparchadoCo/" class="fb-xfbml-parse-ignore">
+            <a href="https://www.facebook.com/DesparchadoCo/">Desparchado</a>
+          </blockquote>
           <div id="fb-root"></div>
           <script>(function(d, s, id) {
             var js, fjs = d.getElementsByTagName(s)[0];
@@ -84,21 +62,17 @@
             fjs.parentNode.insertBefore(js, fjs);
           }(document, 'script', 'facebook-jssdk'));</script>
         </div>
-      </div><!--get in touch col end-->
-    </div><!--footer main row end-->
-    <div class="space-70"></div>
-    <div class="row">
-      <div class="col-md-12 text-center footer-bottom">
-        <span class="logo">Desparchado</span>
-        <div class="space-20"></div>
-        <span>
+      </div>
+      <div class="col-12 text-center">
+        <div class="logo">Desparchado</div>
+        <div>
           Copyright &copy; 2017—{% now 'Y' %} Desparchado
           |
           All Rights Reserved
           |
           Hecho en Colombia con <span style="color: #b51f09; font-family: sans-serif">&#x2764;</span>
-        </span>
+        </div>
       </div>
-    </div><!--footer copyright row end-->
-  </div><!--container-->
+    </div>
+  </div>
 </footer>

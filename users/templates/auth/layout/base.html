@@ -3,7 +3,7 @@
 {% block subheader %}
 {% if user.is_authenticated and user == user_object %}
   <div class="users-sub-header">
-    <ul class="nav justify-content-center">
+    <ul class="nav nav-pills justify-content-center">
       <li class="nav-item" role="presentation">
         <a class="nav-link" href="{% url 'users:user_detail' user.username %}">Perfil</a>
       </li>
