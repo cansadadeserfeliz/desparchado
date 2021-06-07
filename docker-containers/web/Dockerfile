@@ -10,11 +10,10 @@ RUN npm install -g sass
 RUN npm install -g bower
 RUN npm install -g yuglify
 RUN apt --yes install libsass-dev
+RUN apt --yes install libgdal-dev
 
 # Error: Can not find Rust compiler; ERROR: Failed building wheel for cryptography
 ENV CRYPTOGRAPHY_DONT_BUILD_RUST=1
-
-RUN apt --yes install postgis postgresql
 
 EXPOSE 5000
 
