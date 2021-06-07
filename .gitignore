@@ -36,3 +36,7 @@ package-lock.json
 uwsgi.ini
 uwsgi_params
 robots.txt
+
+
+.docker_pip_cache
+setenv.sh
