@@ -8,6 +8,7 @@ RUN chmod +x /run.sh
 
 RUN mkdir -p /root/.cache/pip
 
+RUN apt-get update
 RUN apt-get install -y curl
 
 # https://github.com/nodesource/distributions/blob/master/README.md#deb
