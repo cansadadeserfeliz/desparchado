@@ -1,7 +1,11 @@
 FROM python:3.8-slim-buster
 
 COPY build.sh /
+RUN chmod +x /build.sh
+
+COPY run.sh /
 RUN chmod +x /run.sh
+
 RUN mkdir -p /root/.cache/pip
 
 # https://github.com/nodesource/distributions/blob/master/README.md#deb
