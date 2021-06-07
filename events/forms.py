@@ -18,6 +18,15 @@ from .models import Speaker
 
 class EventBaseForm(forms.ModelForm):
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.fields['event_source_url'].required = True
+
+        self.helper = FormHelper()
+        self.helper.form_id = 'event_form'
+        self.helper.form_method = 'post'
+
     def clean(self):
         cleaned_data = super().clean()
         event_date = cleaned_data.get('event_date')
@@ -28,215 +37,58 @@ class EventBaseForm(forms.ModelForm):
                   'o posterior a la fecha de inicio.'
             self.add_error('event_end_date', msg)
 
-
-class EventCreateForm(EventBaseForm):
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-        self.fields['event_source_url'].required = True
-
-        self.helper = FormHelper()
-        self.helper.form_id = 'event_form'
-        self.helper.form_method = 'post'
-
-        self.helper.layout = Layout(
-            'title',
-            'description',
-            'event_source_url',
-            'image',
+    @staticmethod
+    def get_dates_div():
+        return Div(
             Div(
-                Div(
-                    AppendedText(
-                        'event_date',
-                        '<i data-target="#id_event_date" '
-                        '   data-toggle="datetimepicker" '
-                        '   class="fa fa-calendar"></i>'
-                    ),
-                    data_target="#id_event_date",
-                    css_class='input-group date col-md-6',
+                AppendedText(
+                    'event_date',
+                    '<i data-target="#id_event_date" '
+                    '   data-toggle="datetimepicker" '
+                    '   class="fa fa-calendar"></i>'
                 ),
-                Div(
-                    AppendedText(
-                        'event_end_date',
-                        '<i data-target="#id_event_end_date" '
-                        '   data-toggle="datetimepicker" '
-                        '   class="fa fa-calendar"></i>'
-                    ),
-                    data_target="#event_end_date",
-                    css_class='input-group date col-md-6',
-                ),
-                css_class='form-row',
+                data_target="#id_event_date",
+                css_class='input-group date col-md',
             ),
             Div(
-                Div('organizers', css_class='col-10'),
-                Div(
-                    HTML(
-                        '<a href="{}" class="btn btn-light add-related" '
-                        'title="Añadir nuevo organizador" target="_blank">'
-                        '<i class="fas fa-plus"></i>'
-                        '</a>'.format(
-                            reverse_lazy('events:organizer_add'),
-                        )
-                    ),
-                    css_class='col-2'
+                AppendedText(
+                    'event_end_date',
+                    '<i data-target="#id_event_end_date" '
+                    '   data-toggle="datetimepicker" '
+                    '   class="fa fa-calendar"></i>'
                 ),
-                css_class='form-row',
+                data_target="#event_end_date",
+                css_class='input-group date col-md',
             ),
-            Div(
-                Div('place', css_class='col-10'),
-                Div(
-                    HTML(
-                        '<a href="{}" class="btn btn-light add-related" '
-                        'title="Añadir nuevo presentador" target="_blank">'
-                        '<i class="fas fa-plus"></i>'
-                        '</a>'.format(
-                            reverse_lazy('places:place_add'),
-                        )
-                    ),
-                    css_class='col-2'
-                ),
-                css_class='form-row',
-            ),
-            Div(
-                Submit('submit', 'PUBLICAR EVENTO', css_class='btn-primary'),
-                css_class='form-group',
-            ),
+            css_class='row',
         )
 
-    class Meta:
-        model = Event
-        fields = [
-            'title',
-            'description',
-            'event_source_url',
-            'image',
-            'event_date',
-            'event_end_date',
-            'organizers',
-            'place',
-        ]
-        widgets = {
-            'organizers':
-            autocomplete.ModelSelect2Multiple(
-                url='events:organizer_autocomplete',
-                attrs={
-                    'data-html': True,
-                },
+    @staticmethod
+    def get_organizer_button():
+        return Div(
+            HTML(
+                '<a href="{}" class="btn btn-light add-related" '
+                'title="Añadir nuevo organizador" target="_blank">'
+                '<i class="fas fa-plus"></i> Añadir nuevo organizador'
+                '</a>'.format(
+                    reverse_lazy('events:organizer_add'),
+                )
             ),
-            'place':
-            autocomplete.ModelSelect2(
-                url='places:place_autocomplete',
-                attrs={
-                    'data-html': True,
-                },
-            ),
-            'speakers':
-            autocomplete.ModelSelect2Multiple(
-                url='events:speaker_autocomplete',
-                attrs={
-                    'data-html': True,
-                },
-            )
-        }
+            css_class='mb-3',
+        )
 
-
-class EventUpdateForm(EventBaseForm):
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-        self.fields['event_source_url'].required = True
-
-        self.helper = FormHelper()
-        self.helper.form_id = 'event_form'
-        self.helper.form_method = 'post'
-
-        self.helper.layout = Layout(
-            'title',
-            'is_published',
-            'description',
-            'event_source_url',
-            'image',
-            'image_source_url',
-            Div(
-                Div('event_type', css_class='col-md-6'),
-                Div('topic', css_class='col-md-6'),
-                css_class='form-row',
+    @staticmethod
+    def get_place_button():
+        return Div(
+            HTML(
+                '<a href="{}" class="btn btn-light add-related" '
+                'title="Añadir nuevo presentador" target="_blank">'
+                '<i class="fas fa-plus"></i> Añadir nuevo presentador'
+                '</a>'.format(
+                    reverse_lazy('places:place_add'),
+                )
             ),
-            Div(
-                Div(
-                    AppendedText(
-                        'event_date',
-                        '<i data-target="#id_event_date" '
-                        '   data-toggle="datetimepicker" '
-                        '   class="fa fa-calendar"></i>'
-                    ),
-                    data_target="#id_event_date",
-                    css_class='input-group date col-md-6',
-                ),
-                Div(
-                    AppendedText(
-                        'event_end_date',
-                        '<i data-target="#id_event_end_date" '
-                        '   data-toggle="datetimepicker" '
-                        '   class="fa fa-calendar"></i>'
-                    ),
-                    data_target="#event_end_date",
-                    css_class='input-group date col-md-6',
-                ),
-                css_class='form-row',
-            ),
-            PrependedText('price', '$'),
-            Div(
-                Div('organizers', css_class='col-10'),
-                Div(
-                    HTML(
-                        '<a href="{}" class="btn btn-light add-related" '
-                        'title="Añadir nuevo organizador" target="_blank">'
-                        '<i class="fas fa-plus"></i>'
-                        '</a>'.format(
-                            reverse_lazy('events:organizer_add'),
-                        )
-                    ),
-                    css_class='col-2'
-                ),
-                css_class='form-row',
-            ),
-            Div(
-                Div('place', css_class='col-10'),
-                Div(
-                    HTML(
-                        '<a href="{}" class="btn btn-light add-related" '
-                        'title="Añadir nuevo presentador" target="_blank">'
-                        '<i class="fas fa-plus"></i>'
-                        '</a>'.format(
-                            reverse_lazy('places:place_add'),
-                        )
-                    ),
-                    css_class='col-2'
-                ),
-                css_class='form-row',
-            ),
-            Div(
-                Div('speakers', css_class='col-10'),
-                Div(
-                    HTML(
-                        '<a href="{}" class="btn btn-light add-related" '
-                        'title="Añadir nuevo presentador" target="_blank">'
-                        '<i class="fas fa-plus"></i>'
-                        '</a>'.format(
-                            reverse_lazy('events:speaker_add'),
-                        )
-                    ),
-                    css_class='col-2'
-                ),
-                css_class='form-row',
-            ),
-            Div(
-                Submit('submit', 'GUARDAR', css_class='btn-primary'),
-                css_class='form-group',
-            ),
+            css_class='mb-3'
         )
 
     class Meta:
@@ -263,6 +115,7 @@ class EventUpdateForm(EventBaseForm):
                 url='events:organizer_autocomplete',
                 attrs={
                     'data-html': True,
+                    'data-theme': 'bootstrap-5',
                 },
             ),
             'place':
@@ -270,6 +123,7 @@ class EventUpdateForm(EventBaseForm):
                 url='places:place_autocomplete',
                 attrs={
                     'data-html': True,
+                    'data-theme': 'bootstrap-5',
                 },
             ),
             'speakers':
@@ -277,9 +131,85 @@ class EventUpdateForm(EventBaseForm):
                 url='events:speaker_autocomplete',
                 attrs={
                     'data-html': True,
+                    'data-theme': 'bootstrap-5',
                 },
             )
         }
+
+
+class EventCreateForm(EventBaseForm):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.helper.layout = Layout(
+            'title',
+            'description',
+            'event_source_url',
+            'image',
+            self.get_dates_div(),
+            'organizers',
+            self.get_organizer_button(),
+            'place',
+            self.get_place_button(),
+            Div(
+                Submit('submit', 'PUBLICAR EVENTO', css_class='btn-primary'),
+                css_class='form-group',
+            ),
+        )
+
+    class Meta(EventBaseForm.Meta):
+        fields = [
+            'title',
+            'description',
+            'event_source_url',
+            'image',
+            'event_date',
+            'event_end_date',
+            'organizers',
+            'place',
+        ]
+
+
+class EventUpdateForm(EventBaseForm):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.helper.layout = Layout(
+            'title',
+            'is_published',
+            'description',
+            'event_source_url',
+            'image',
+            'image_source_url',
+            Div(
+                Div('event_type', css_class='col-md-6'),
+                Div('topic', css_class='col-md-6'),
+                css_class='form-row',
+            ),
+            self.get_dates_div(),
+            PrependedText('price', '$'),
+            'organizers',
+            self.get_organizer_button(),
+            'place',
+            self.get_place_button(),
+            'speakers',
+            Div(
+                HTML(
+                    '<a href="{}" class="btn btn-light add-related" '
+                    'title="Añadir nuevo presentador" target="_blank">'
+                    '<i class="fas fa-plus"></i> Añadir nuevo presentador'
+                    '</a>'.format(
+                        reverse_lazy('events:speaker_add'),
+                    )
+                ),
+            ),
+            Div(
+                Submit('submit', 'GUARDAR', css_class='btn-primary'),
+                css_class='form-group',
+            ),
+        )
 
 
 class OrganizerForm(forms.ModelForm):

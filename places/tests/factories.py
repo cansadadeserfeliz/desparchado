@@ -27,6 +27,7 @@ class CityFactory(factory.django.DjangoModelFactory):
 
 class PlaceFactory(factory.django.DjangoModelFactory):
     name = factory.Faker('company')
+    description = factory.fuzzy.FuzzyText(length=100)
     city = factory.SubFactory(CityFactory)
     location = FuzzyPoint()
     created_by = factory.SubFactory(UserFactory)

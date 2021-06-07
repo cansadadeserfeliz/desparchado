@@ -1,58 +1,16 @@
-<div class="book-prices">
-  <ul class="list-group prices-list">
-      <a href="https://librerianacional.com/categoria/libros/busqueda/texto/{{ book.isbn }}" target="_blank">
-        <li class="list-group-item book-price">
-          <span class="price-tag">Comprar</span>
-          <span class="book-seller">Librería nacional</span>
-        </li>
-      </a>
-      <a href="https://www.buscalibre.com.co/libros/search?q={{ book.isbn }}" target="_blank">
-        <li class="list-group-item book-price">
-          <span class="price-tag">Comprar</span>
-          <span class="book-seller">Buscalibre</span>
-        </li>
-      </a>
-      <a href="https://www.panamericana.com.co/{{ book.isbn }}" target="_blank">
-        <li class="list-group-item book-price">
-          <span class="price-tag">Comprar</span>
-          <span class="book-seller">Panamericana</span>
-        </li>
-      </a>
-      <a href="https://www.tornamesa.co/busqueda/listaLibros.php?tipoBus=full&palabrasBusqueda={{ book.isbn }}&boton=Buscar" target="_blank">
-        <li class="list-group-item book-price">
-          <span class="price-tag">Comprar</span>
-          <span class="book-seller">Tornamesa</span>
-        </li>
-      </a>
-      <a href="https://www.libreriacasatomada.com/busqueda/listaLibros.php?tipoBus=full&palabrasBusqueda={{ book.isbn }}&boton=Buscar" target="_blank">
-        <li class="list-group-item book-price">
-          <span class="price-tag">Comprar</span>
-          <span class="book-seller">Casa Tomada LIbros y Café</span>
-        </li>
-      </a>
-      <a href="https://www.libreriadelau.com/busca?ft={{ book.isbn }}" target="_blank">
-        <li class="list-group-item book-price">
-          <span class="price-tag">Comprar</span>
-          <span class="book-seller">libreriadelaU</span>
-        </li>
-      </a>
-      <a href="https://www.wilborada1047.com/search/?q={{ book.isbn }}" target="_blank">
-        <li class="list-group-item book-price">
-          <span class="price-tag">Comprar</span>
-          <span class="book-seller">Wilborada 1047</span>
-        </li>
-      </a>
-      <a href="http://www.profitecnicas.com/busqueda/listaLibros.php?tipoBus=full&palabrasBusqueda={{ book.isbn }}&boton=Buscar" target="_blank">
-        <li class="list-group-item book-price">
-          <span class="price-tag">Comprar</span>
-          <span class="book-seller">Librería Profitécnicas</span>
-        </li>
-      </a>
-      <a href="https://www.happybooks.com.co/search?q={{ book.isbn }}" target="_blank">
-        <li class="list-group-item book-price">
-          <span class="price-tag">Comprar</span>
-          <span class="book-seller">Happy Books</span>
-        </li>
-      </a>
-  </ul>
+<p>
+  <a class="btn btn-secondary" data-bs-toggle="collapse" href="#collapsePriceTags" role="button" aria-expanded="false" aria-controls="collapsePriceTags">
+    MOSTRAR PRESIOS
+  </a>
+</p>
+
+<div class="list-group list-group-flush collapse" id="collapsePriceTags">
+{% for book_price_tag in book_price_tags_list %}
+  <a href="{{ book_price_tag.url }}" target="_blank" class="list-group-item list-group-item-action" aria-current="true">
+    <div class="d-flex w-100 justify-content-between">
+      <span class="mb-1">{{ book_price_tag.title }}</span>
+      <small><i class="fas fa-store"></i></small>
+    </div>
+  </a>
+{% endfor %}
 </div>

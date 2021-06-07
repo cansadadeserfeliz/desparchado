@@ -1,0 +1,173 @@
+@import "variables"
+
+@import "body"
+@import "events"
+@import "users"
+@import "blog"
+@import "games"
+@import "places"
+@import "speakers"
+@import "organizers"
+@import "specials"
+@import "news"
+@import "books"
+@import "cards"
+@import "buttons"
+
+/* Fix Bootstrap columns on Safari */
+.row:before, row:after
+  display: inline-block
+
+.form-control
+  border-radius: 0
+
+.btn
+  border-radius: 0
+
+.btn-primary
+  border-color: $secondary-color
+  background-color: $secondary-color
+  color: $primary-color
+  &:hover
+    color: $secondary-color
+    border-color: $primary-color
+    background-color: $primary-color
+
+.secondary-title
+  position: relative
+  z-index: 1
+  padding-bottom: 5px
+
+  &:before
+    content: ""
+    position: absolute
+    width: 30%
+    height: 1px
+    bottom: 0
+    left: 0
+    border-bottom: 3px solid $secondary-color
+
+.promo
+  border: none
+  border-radius: 0
+  margin-left: 0
+  margin-right: 0
+  text-align: center
+  margin-bottom: 20px
+  min-height: 20px
+  padding: 19px
+
+  h4
+    font-size: 18px
+
+.text-lg
+  line-height: 1.5
+  margin: 30px 0
+  font-size: 20px
+  width: 100%
+  padding-right: 15px
+  padding-left: 15px
+  margin-right: auto
+  margin-left: auto
+  overflow-wrap: break-word
+  word-wrap: break-word
+
+.login-form,
+.register-form,
+.password-reset-done,
+.password-reset-confirm,
+.password-reset-complete,
+.password-reset-form
+  max-width: 450px
+  margin: 40px auto
+  padding: 30px 20px
+  border: 1px solid #e5e5e5
+  h3
+    margin-bottom: 20px
+
+/* Box */
+
+.desparchado-box
+  vertical-align: top
+  margin-bottom: 30px
+
+  .link
+    position: relative
+    display: block
+    background: $bg-color
+
+  .box-img-wrap
+    overflow: hidden
+    .image
+      position: relative
+      z-index: 2
+      display: block
+      width: 100%
+      height: 160px
+      background-size: cover
+      background-position: center
+
+  .box-inner
+    border: 1px solid $bg-color
+    border-top: none
+    background: #fff
+    padding: 13px
+    display: inline-block
+    height: 100%
+    width: 100%
+
+    .box-title
+      overflow: hidden
+      margin: -2px -1px
+      font-size: 16px
+      font-weight: 700
+      line-height: 19px
+
+    .box-subtitle
+      margin: -1px -1px 11px
+      letter-spacing: 1px
+      text-transform: uppercase
+      font-size: 11px
+      line-height: 1
+      color: $dark-gray
+
+@media (max-width: 768px)
+  .desparchado-box
+    width: 100%
+
+/* About */
+
+.about
+  font-size: 18px
+  p
+    margin: 30px
+    text-align: justify
+  span
+    text-align: justify
+  .member-profile
+    padding: 20px 40px 0
+    .image
+      width: 100px
+      height: 100px
+      border: 1px solid #eee
+      border-radius: 50%
+      background-repeat: no-repeat
+      background-position: center
+      background-size: cover
+      -webkit-background-size: cover
+      -moz-background-size: cover
+      -o-background-size: cover
+      float: left
+      margin-right: 20px
+      margin-bottom: 20px
+
+/* Markdown */
+
+#markdown
+  font-size: 20px
+  p
+    margin: 30px
+
+  .table
+    max-width: 800px
+    margin: 20px auto

@@ -1,2 +1,25 @@
 [report]
-omit = *travis*, *virtualenv*
+omit =
+    *migrations*
+    *tests*
+    manage.py
+    *settings*
+    books/goodreads_client.py
+    books/taganga_client.py
+    dashboard/*
+# Regexes for lines to exclude from consideration
+exclude_lines =
+    # Have to re-enable the standard pragma
+    pragma: no cover
+
+    # Don't complain about missing debug-only code:
+    def __repr__
+    if self\.debug
+
+    # Don't complain if tests don't hit defensive assertion code:
+    raise AssertionError
+    raise NotImplementedError
+
+    # Don't complain if non-runnable code isn't run:
+    if 0:
+    if __name__ == .__main__.:

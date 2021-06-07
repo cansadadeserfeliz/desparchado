@@ -19,7 +19,7 @@ from django.conf.urls.static import static
 from django.conf.urls import include
 from django.urls import path
 from django.contrib import admin
-from django.contrib.auth import views as auth_views
+from django.contrib.auth import logout
 from django.contrib.sitemaps.views import sitemap
 
 from .views import HomeView, AtomSiteEventsFeed, \
@@ -74,15 +74,15 @@ urlpatterns = [
     path('specials/', include('specials.urls', namespace='specials')),
     path('news/', include('news.urls', namespace='news')),
     path('books/', include('books.urls', namespace='books')),
+    path('historia/', include('history.urls', namespace='history')),
     path('dashboard/', include('dashboard.urls', namespace='dashboard')),
 
     path('i18n/', include('django.conf.urls.i18n')),
 
-    path('logout/', auth_views.logout, name='logout'),
+    path('logout/', logout, name='logout'),
 
     path('', include('social_django.urls', namespace='social')),
 
-    path('grappelli/', include('grappelli.urls')),  # grappelli URLS
     path('admin/', admin.site.urls),
     path('markdownx/', include('markdownx.urls')),
 

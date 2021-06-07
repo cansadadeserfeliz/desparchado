@@ -1,11 +1,62 @@
 # Desparchado
 
-[![Join the chat at https://gitter.im/vero4karu/desparchado](https://badges.gitter.im/vero4karu/desparchado.svg)](https://gitter.im/desparchado)
+[![Build Status](https://travis-ci.com/cansadadeserfeliz/desparchado.svg?branch=master)](https://travis-ci.com/cansadadeserfeliz/desparchado)
+[![Coverage Status](https://codecov.io/gh/cansadadeserfeliz/desparchado/branch/master/graphs/badge.svg?branch=master)](https://codecov.io/github/cansadadeserfeliz/desparchado?branch=master)
+[![Donate to this project using Patreon](https://img.shields.io/badge/patreon-donate-yellow.svg)](https://www.patreon.com/desparchado)
+[![Codefactor](https://www.codefactor.io/repository/github/cansadadeserfeliz/desparchado/badge?style=social)](https://www.codefactor.io/repository/github/cansadadeserfeliz/desparchado)
 
-[![Coverage Status](https://coveralls.io/repos/github/vero4karu/desparchado/badge.svg?branch=master)](https://coveralls.io/github/vero4karu/desparchado?branch=master)
-[![Build Status](https://travis-ci.org/vero4karu/desparchado.svg?branch=master)](https://travis-ci.org/vero4karu/desparchado)
+## Development
 
-<span class="badge-patreon"><a href="https://www.patreon.com/desparchado" title="Donate to this project using Patreon"><img src="https://img.shields.io/badge/patreon-donate-yellow.svg" alt="Patreon donate button" /></a></span>
+### Setup
+
+Start containers for Django application and PostgreSQL database:
+
+    docker-compose build
+    docker-compose up
+
+First, open a shell for Django application:
+
+    sudo docker exec -it desparchado_web_1 bash
+
+Create `app/setenv.sh` file with environment variables, for example:
+
+    export DJANGO_SECRET_KEY='secret'
+    export DATABASE_NAME='desparchado_dev'
+    export DATABASE_USER='desparchado_dev'
+    export DATABASE_PASSWORD='secret'
+    export DATABASE_HOST='db'
+    export DATABASE_PORT=5432
+
+Load environment variables from `app/setenv.sh`:
+
+    cd app/
+    source setenv.sh
+
+Install static files:
+
+    bower install
+
+Collect static files:
+
+    python manage.py collectstatic --settings=desparchado.settings.local
+
+Run the application webserver:
+
+    python manage.py runserver --settings=desparchado.settings.local 0.0.0.0:5000
+
+Run Django shell:
+
+    python manage.py shell --settings=desparchado.settings.local
+
+Create migrations (example for `history` app):
+
+    export PYTHONPATH="/app:$PYTHONPATH"
+    django-admin makemigrations history --settings=desparchado.settings.local
+
+### Run the tests
+
+    python manage.py test --settings=desparchado.settings.test --keepdb
+    pytest --cov=./
 
 ## Installation
 
@@ -37,6 +88,3 @@
     $ cd projectdir
     $ source scripts/deploy.sh
 
-## Issues
-
-https://tree.taiga.io/project/vero4ka-desparchado/kanban
