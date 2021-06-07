@@ -20,6 +20,9 @@ RUN apt --yes install libsass-dev
 
 RUN apt --yes install libgdal-dev
 
+# Remove .deb files
+RUN apt-get clean
+
 # Error: Can not find Rust compiler; ERROR: Failed building wheel for cryptography
 ENV CRYPTOGRAPHY_DONT_BUILD_RUST=1
 
