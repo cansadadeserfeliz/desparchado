@@ -47,8 +47,3 @@ desparchado/static/node_modules/
 uwsgi.ini
 uwsgi_params
 robots.txt
-
-
-.docker_pip_cache
-!.docker_pip_cache/.keep
-setenv.sh
