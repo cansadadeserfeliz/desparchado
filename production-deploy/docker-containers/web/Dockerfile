@@ -1,20 +1,25 @@
-#FROM alpine:3.13
-FROM python:3.8-buster
+FROM python:3.8-slim-buster
 
-COPY run.sh /
+COPY build.sh /
 RUN chmod +x /run.sh
 RUN mkdir -p /root/.cache/pip
+
+# https://github.com/nodesource/distributions/blob/master/README.md#deb
 RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
 RUN apt-get install -y nodejs
 RUN npm install -g sass
-RUN npm install -g bower
 RUN npm install -g yuglify
 RUN apt --yes install libsass-dev
+
 RUN apt --yes install libgdal-dev
 
 # Error: Can not find Rust compiler; ERROR: Failed building wheel for cryptography
 ENV CRYPTOGRAPHY_DONT_BUILD_RUST=1
 
-EXPOSE 5000
+COPY ../../../ /app
+RUN pip install -r /app/requirements.txt
 
-CMD ["sh", "/run.sh"]
+EXPOSE 5000
+EXPOSE 49152
+
+CMD ["sh", "/build.sh"]
