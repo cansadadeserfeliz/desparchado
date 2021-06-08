@@ -154,7 +154,7 @@ class EventCreateForm(EventBaseForm):
             self.get_place_button(),
             Div(
                 Submit('submit', 'PUBLICAR EVENTO', css_class='btn-primary'),
-                css_class='form-group',
+                css_class='form-group mt-3',
             ),
         )
 
@@ -207,7 +207,7 @@ class EventUpdateForm(EventBaseForm):
             ),
             Div(
                 Submit('submit', 'GUARDAR', css_class='btn-primary'),
-                css_class='form-group',
+                css_class='form-group mt-3',
             ),
         )
 
