@@ -4,90 +4,48 @@
 {% block content %}
 <script src='https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyAFbA9J0IcGyy20cl7xd6Le16U_Bx_TSeI'></script>
 
-<div class="row row-cards">
+<div class="row row-deck row-cards">
   <div class="col-sm-6 col-lg-3">
-    <div class="card p-3">
-      <div class="d-flex align-items-center">
-        <span class="stamp stamp-md bg-orange mr-3">
-          <i class="fe fe-anchor"></i>
-        </span>
-        <div>
-          <h4 class="m-0"><a href="{% url 'dashboard:events' %}">{{ future_events_count|intcomma }} <small>Future events</small></a></h4>
-          <small class="text-muted">Eventos futuros</small>
-        </div>
-      </div>
-    </div>
+    {% include 'dashboard/includes/_stats_card.html' with value=future_events_count|intcomma title='Eventos futuros'  subtitle='Future events'  %}
   </div>
   <div class="col-sm-6 col-lg-3">
-    <div class="card p-3">
-      <div class="d-flex align-items-center">
-        <span class="stamp stamp-md bg-red mr-3">
-          <i class="fe fe-user-check"></i>
-        </span>
-        <div>
-          <h4 class="m-0"><a href="{% url 'dashboard:users' %}">{{ active_users_count|intcomma }} <small>Active users</small></a></h4>
-          <small class="text-muted">Usuarios activos</small>
-        </div>
-      </div>
-    </div>
+    {% include 'dashboard/includes/_stats_card.html' with value=active_users_count|intcomma title='Usuarios activos' subtitle='Users' %}
   </div>
   <div class="col-sm-6 col-lg-3">
-    <div class="card p-3">
-      <div class="d-flex align-items-center">
-        <span class="stamp stamp-md bg-gray mr-3">
-          <i class="fe fe-briefcase"></i>
-        </span>
-        <div>
-          <h4 class="m-0"><a href="javascript:void(0)">{{ organizers_count|intcomma }} <small>Organizers</small></a></h4>
-          <small class="text-muted">Organizadores</small>
-        </div>
-      </div>
-    </div>
+    {% include 'dashboard/includes/_stats_card.html' with value=organizers_count|intcomma title='Organizadores' subtitle='Organizers' %}
   </div>
   <div class="col-sm-6 col-lg-3">
-    <div class="card p-3">
-      <div class="d-flex align-items-center">
-        <span class="stamp stamp-md bg-cyan mr-3">
-          <i class="fe fe-users"></i>
-        </span>
-        <div>
-          <h4 class="m-0"><a href="javascript:void(0)">{{ speakers_count|intcomma }} <small>Speakers</small></a></h4>
-          <small class="text-muted">Presentadores</small>
-        </div>
-      </div>
-    </div>
+    {% include 'dashboard/includes/_stats_card.html' with value=speakers_count|intcomma title='Presentadores' subtitle='Speakers' %}
   </div>
 
-  <div class="col-lg-6">
-    <div class="card">
+  <div class="col-md-6">
+    <div class="card card-table table-responsive">
       <div class="card-header">
         <h3 class="card-title">Future events per weekday</h3>
       </div>
-      <div class="table-responsive">
-        <table class="table card-table table-striped table-vcenter table-sm">
-          <thead>
-            <tr>
-              <th>Weekday</th>
-              <th>Count</th>
-            </tr>
-          </thead>
-          <tbody>
-          {% for item in future_events_by_weekday %}
-            <tr>
-              <td>{{ item.weekday|weekday_to_str }}</td>
-              <td>{{ item.count }}</td>
-            </tr>
-          {% endfor %}
-          </tbody>
-        </table>
-      </div>
+      <table class="table card-table table-striped table-vcenter">
+        <thead>
+          <tr>
+            <th>Weekday</th>
+            <th>Count</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for item in future_events_by_weekday %}
+          <tr>
+            <td>{{ item.weekday|weekday_to_str }}</td>
+            <td>{{ item.count }}</td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
     </div>
   </div>
 
-  <div class="col-lg-6">
-    <div class="card">
+  <div class="col-md-6">
+    <div class="card card-table table-responsive">
       <div class="card-header">
-        <h3 class="card-title">Future events per per date</h3>
+        <h3 class="card-title">Future events per date</h3>
       </div>
       <div class="table-responsive">
         <table class="table card-table table-striped table-vcenter table-sm">
