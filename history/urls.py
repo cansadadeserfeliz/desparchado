@@ -1,7 +1,7 @@
 from django.urls import path
 
 from django.views.generic import TemplateView
-from .views import HistoricalFigureListView
+from .views import HistoricalFigureListView, EventsListView
 
 
 app_name = 'history'
@@ -15,5 +15,10 @@ urlpatterns = [
         'personajes-historicos/',
         HistoricalFigureListView.as_view(),
         name='historical_figure_list'
+    ),
+    path(
+        'eventos/',
+        EventsListView.as_view(),
+        name='event_list',
     ),
 ]
