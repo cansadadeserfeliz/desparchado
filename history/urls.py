@@ -1,7 +1,7 @@
 from django.urls import path
 
 from django.views.generic import TemplateView
-from .views import HistoricalFigureListView, EventsListView
+from .views import HistoricalFigureListView, EventsListView, eventdetail
 
 
 app_name = 'history'
@@ -20,5 +20,10 @@ urlpatterns = [
         'eventos/',
         EventsListView.as_view(),
         name='event_list',
+    ),
+    path(
+        'eventos/<uuid:token>',
+        eventdetail,
+        name='event_detail'
     ),
 ]
