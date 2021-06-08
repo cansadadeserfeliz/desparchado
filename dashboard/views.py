@@ -2,6 +2,8 @@ import re
 import time
 import datetime
 
+from dateutil.parser import parse
+
 from django.utils import timezone
 from django.views.generic import TemplateView
 from django.views.generic import CreateView
@@ -73,8 +75,8 @@ def social_events_source(request):
     end_date = request.GET.get('end')
     event_list = []
 
-    start_date = datetime.datetime.strptime(start_date, "%Y-%m-%dT%H:%M:%S")
-    end_date = datetime.datetime.strptime(end_date, "%Y-%m-%dT%H:%M:%S")
+    start_date = parse(start_date)
+    end_date = parse(end_date)
 
     red = '#f56954'
     yellow = '#f39c12'

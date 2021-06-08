@@ -1,20 +1,33 @@
-<ul class="pagination pagination-sm no-margin pull-right">
+<ul class="pagination ">
   {% if page_obj.has_previous %}
-    <li><a href="?page={{ page_obj.previous_page_number }}&{{ search_query }}">&laquo;</a></li>
+  <li class="page-item disabled">
+    <a class="page-link" href="?page={{ page_obj.previous_page_number }}&{{ search_query }}" tabindex="-1" aria-disabled="true">
+      <!-- Download SVG icon from http://tabler-icons.io/i/chevron-left -->
+      <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><polyline points="15 6 9 12 15 18"></polyline></svg>
+      prev
+    </a>
+  </li>
   {% endif %}
+
   {% for page in page_numbers %}
-    {% if page %}
-      {% if page == page_obj.number %}
-        <li class="active"><a href="#">{{ page }}</a></li>
+      {% if page %}
+        {% if page == page_obj.number %}
+          <li class="page-item active"><a class="page-link" href="#">{{ page }}</a></li>
+        {% else %}
+          <li class="page-item"><a class="page-link" href="?page={{ page }}&{{ search_query }}">{{ page }}</a></li>
+        {% endif %}
       {% else %}
-        <li><a href="?page={{ page }}&{{ search_query }}">{{ page }}</a></li>
+        <li class="page-item disabled"><a class="page-link" href="#">...</a></li>
       {% endif %}
-    {% else %}
-      <li class="disabled"><a href="#">...</a></li>
-    {% endif %}
   {% endfor %}
+
   {% if page_obj.has_next %}
-    <li><a href="?page={{ page_obj.next_page_number }}&{{ search_query }}">&raquo;</a></li>
+  <li class="page-item">
+    <a class="page-link" href="?page={{ page_obj.next_page_number }}&{{ search_query }}">
+      next <!-- Download SVG icon from http://tabler-icons.io/i/chevron-right -->
+      <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><polyline points="9 6 15 12 9 18"></polyline></svg>
+    </a>
+  </li>
   {% endif %}
 </ul>
 

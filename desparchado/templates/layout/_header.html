@@ -1,49 +1,51 @@
 <nav class="top-nav">
-  <ul class="nav justify-content-end">
-    <li class="nav-item">
-      <a href="https://www.facebook.com/DesparchadoCo" class="nav-link link-dark px-2">
-        <i class="fab fa-facebook-square"></i>
-      </a>
-    </li>
-    <li class="nav-item">
-      <a href="https://twitter.com/DesparchadoCo" class="nav-link link-dark px-2">
-        <i class="fab fa-twitter"></i>
-      </a>
-    </li>
-    <li class="nav-item">
-      <a href="{% url 'rss' %}" class="nav-link link-dark px-2">
-        <i class="fas fa-rss"></i>
-      </a>
-    </li>
-    <li class="nav-item">
-      <a href="{% url 'events:add_event' %}" class="nav-link link-dark px-2">
-        <i class="fas fa-plus"></i>
-        Añadir evento
-      </a>
-    </li>
+  <div class="container">
+    <ul class="nav justify-content-end">
+      <li class="nav-item">
+        <a href="https://www.facebook.com/DesparchadoCo" class="nav-link link-dark px-2">
+          <i class="fab fa-facebook-square"></i>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="https://twitter.com/DesparchadoCo" class="nav-link link-dark px-2">
+          <i class="fab fa-twitter"></i>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="{% url 'rss' %}" class="nav-link link-dark px-2">
+          <i class="fas fa-rss"></i>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="{% url 'events:add_event' %}" class="nav-link link-dark px-2">
+          <i class="fas fa-plus"></i>
+          Añadir evento
+        </a>
+      </li>
 
-  {% if user.is_authenticated %}
-    <li class="nav-item">
-      <a href="{% url 'users:user_detail' user.username %}" class="nav-link link-dark px-2">
-        <i class="fa fa-user"></i>
-        Perfil
-      </a>
-    </li>
-    <li class="nav-item">
-      <a href="{% url 'logout' %}" class="nav-link link-dark px-2">
-        <i class="fas fa-sign-out-alt"></i>
-        Salir
-      </a>
-    </li>
-  {% else %}
-    <li class="nav-item">
-      <a href="{% url "users:login" %}?next={{ request.path }}" class="nav-link link-dark px-2">
-        <i class="fa fa-sign-in"></i>
-        Ingresar
-      </a>
-    </li>
-  {% endif %}
-  </ul>
+    {% if user.is_authenticated %}
+      <li class="nav-item">
+        <a href="{% url 'users:user_detail' user.username %}" class="nav-link link-dark px-2">
+          <i class="fa fa-user"></i>
+          Perfil
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="{% url 'logout' %}" class="nav-link link-dark px-2">
+          <i class="fas fa-sign-out-alt"></i>
+          Salir
+        </a>
+      </li>
+    {% else %}
+      <li class="nav-item">
+        <a href="{% url "users:login" %}?next={{ request.path }}" class="nav-link link-dark px-2">
+          <i class="fa fa-sign-in"></i>
+          Ingresar
+        </a>
+      </li>
+    {% endif %}
+    </ul>
+  </div>
 </nav>
 <header class="main-nav p-3 pb-1 bg-dark text-white">
   <div class="container d-flex flex-wrap justify-content-between justify-content-center">
@@ -58,7 +60,6 @@
         <li><a href="/" class="nav-link px-2">Inicio</a></li>
         <li><a href="{% url 'events:event_list' %}" class="nav-link px-2">Eventos</a></li>
         <li><a href="{% url 'blog:post_list' %}" class="nav-link px-2">Blog</a></li>
-        <li><a href="{% url 'books:home' %}" class="nav-link px-2">Libros</a></li>
       </ul>
     </div>
   </div>

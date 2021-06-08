@@ -250,7 +250,6 @@ PIPELINE = {
               #'bower_components/moment/min/moment-with-locales.min.js',
               #'bower_components/jquery-slimscroll/jquery.slimscroll.min.js',
               #'bower_components/fastclick/lib/fastclick.js',
-              #'bower_components/moment/min/moment.min.js',
               #'bower_components/fullcalendar/dist/fullcalendar.min.js',
               'js/dashboard.js',
             ),
