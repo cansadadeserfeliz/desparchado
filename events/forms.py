@@ -178,7 +178,7 @@ class EventUpdateForm(EventBaseForm):
 
         self.helper.layout = Layout(
             'title',
-            'is_published',
+            Div('is_published', css_class='form-check form-switch'),
             'description',
             'event_source_url',
             'image',
