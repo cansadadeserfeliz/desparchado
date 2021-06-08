@@ -29,7 +29,6 @@ ENV CRYPTOGRAPHY_DONT_BUILD_RUST=1
 COPY . /app
 RUN pip install -r /app/requirements.txt
 
-EXPOSE 5000
 EXPOSE 49152
 
 CMD ["sh", "/build.sh"]
