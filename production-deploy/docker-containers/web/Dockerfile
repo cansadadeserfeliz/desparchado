@@ -10,6 +10,7 @@ RUN mkdir -p /root/.cache/pip
 
 RUN apt-get update
 RUN apt-get install -y curl
+RUN apt-get install -y gettext
 
 # https://github.com/nodesource/distributions/blob/master/README.md#deb
 RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
