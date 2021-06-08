@@ -1,9 +1,9 @@
 FROM python:3.8-slim-buster
 
-COPY build.sh /
+COPY production-deploy/docker-containers/web/build.sh /
 RUN chmod +x /build.sh
 
-COPY run.sh /
+COPY production-deploy/docker-containers/web/run.sh /
 RUN chmod +x /run.sh
 
 RUN mkdir -p /root/.cache/pip
@@ -26,7 +26,7 @@ RUN apt-get clean
 # Error: Can not find Rust compiler; ERROR: Failed building wheel for cryptography
 ENV CRYPTOGRAPHY_DONT_BUILD_RUST=1
 
-COPY ../../../ /app
+COPY . /app
 RUN pip install -r /app/requirements.txt
 
 EXPOSE 5000
