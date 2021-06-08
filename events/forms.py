@@ -184,9 +184,9 @@ class EventUpdateForm(EventBaseForm):
             'image',
             'image_source_url',
             Div(
-                Div('event_type', css_class='col-md-6'),
-                Div('topic', css_class='col-md-6'),
-                css_class='form-row',
+                Div('event_type', css_class='input-group col-md'),
+                Div('topic', css_class='input-group col-md'),
+                css_class='row',
             ),
             self.get_dates_div(),
             PrependedText('price', '$'),
