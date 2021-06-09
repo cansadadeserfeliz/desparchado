@@ -1,14 +1,13 @@
 {% extends 'history/layout/base.html' %}
 
-{% block title} Detalles {% endblock}
 {% block content %}
-<h1 style="text-align:center">Detalle del evento " {{event.title}}"</h1>
+<h1 style="text-align:center">Detalle del evento "{{event.title}}"</h1>
 <h2>Descripción</h2>
-    <p>
-        {{event.description}}
-    </p>
+<p>
+  {{event.description}}
+</p>
 <h2>Fecha</h2>
-    <p>
-        {{event.event_date}}
-    </p>
+<p>
+  {{event.event_date}}
+</p>
 {% endblock content %}
