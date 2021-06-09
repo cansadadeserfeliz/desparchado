@@ -37,14 +37,20 @@
 
 
 {% for post in historicalfigure.written_posts.all %}
-<div class="card">
-  <div class="card-header">
-    Quote
-  </div>
+<div class="card shadow-lg my-5">
+{% if post.image %}
+  <img src="{{ post.image.url }}" class="card-img-top card-img-fluid-top" alt="{{ historicalfigure.name }}">
+{% endif %}
+  <div class="card-header">{{ post.get_type_display }}</div>
   <div class="card-body">
     <blockquote class="blockquote mb-0">
       <p>{{ post.text }}</p>
-      <footer class="blockquote-footer">{{ post.location_name }} <cite title="Source Title">{{ post.post_date }}</cite></footer>
+    {% if post.location_name %}
+      <footer class="blockquote-footer"><i class="fas fa-map-marked-alt"></i> {{ post.location_name }}</footer>
+    {% endif %}
+    {% if post.post_date %}
+      <footer class="blockquote-footer"><cite>{{ post.post_date }}</cite></footer>
+    {% endif %}
     </blockquote>
   </div>
 </div>
