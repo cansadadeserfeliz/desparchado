@@ -2,6 +2,7 @@ import uuid
 
 from django.db import models
 from django.conf import settings
+from django.urls import reverse
 from django.templatetags.static import static
 
 from model_utils.models import TimeStampedModel
@@ -58,6 +59,9 @@ class HistoricalFigure(TimeStampedModel):
         if self.image:
             return self.image.url
         return static('images/default_historical_figure_image.jpg')
+
+    def get_absolute_url(self):
+        return reverse('history:historical_figure_detail', args=[self.token])
 
     class Meta:
         ordering = ['name']

@@ -118,6 +118,7 @@ class PostAdmin(admin.ModelAdmin):
                 'type',
                 'text',
                 'sources',
+                'location_name',
                 'image',
                 'image_source_url',
             ),
