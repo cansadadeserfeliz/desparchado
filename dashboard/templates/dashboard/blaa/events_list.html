@@ -49,11 +49,11 @@
                 <td class="w-1">
                 {% if event.desparchado_event %}
                   <a href="{% url 'events:event_update' event.desparchado_event.pk %}" target="_blank">
-                    <i class="fe fe-plus-circle" data-toggle="tooltip" title="Añadir evento" data-original-title="fe fe-edit-2"></i>
+                    <i class="ti ti-edit-circle" data-toggle="tooltip" title="Añadir evento"></i>
                   </a>
                 {% else %}
                   <a href="{% url 'dashboard:event_add' %}?blaa-slug={{ event.contenido_url|escape }}" target="_blank">
-                    <i class="fe fe-plus-circle" data-toggle="tooltip" title="Añadir evento" data-original-title="fe fe-plus-circle"></i>
+                    <i class="ti ti-circle-plus" data-toggle="tooltip" title="Añadir evento"></i>
                   </a>
                 {% endif %}
                 </td>

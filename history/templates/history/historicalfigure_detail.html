@@ -1,0 +1,81 @@
+{% extends 'history/layout/base.html' %}
+{% load static %}
+
+{% block title %}{{ historicalfigure.name }}{% endblock %}
+
+{% block content %}
+<section
+  class="p-5 bg-image border"
+  style="
+    background-image: url('{% static 'images/default_historical_figure_bg_image.jpg' %}');
+    height: 300px;
+  "
+>
+  <div class="mask" style="background-color: rgba(0, 0, 0, 0.8);">
+    <div class="d-flex justify-content-start align-items-end h-100">
+      <div class="text-white m-3">
+        <div class="d-flex align-items-center">
+          <div class="flex-shrink-0 bg-image" style="width: 100px; height: 100px;">
+            <img class="bd-placeholder-img rounded-circle img-fluid img-fluid-fit-cover" src="{{ historicalfigure.get_image_url }}" alt="{{ historicalfigure.name }}">
+            <div class="mask historical-figure-mask rounded-circle"></div>
+          </div>
+          <div class="flex-grow-1 ms-3">
+            <h1>{{ historicalfigure.name }}</h1>
+            <p>{{ historicalfigure.full_name }}</p>
+            <p>
+              {{ historicalfigure.date_of_birth }}
+              {% if historicalfigure.date_of_death %}
+                - {{ historicalfigure.date_of_death }}
+              {% endif %}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="row align-items-start">
+  <div class="col-md-3">
+    <div class="card border mt-5">
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">
+          <small class="text-muted">Nacimiento: {{ historicalfigure.date_of_birth }}</small>
+        </li>
+        <li class="list-group-item">
+          <small class="text-muted">Muerte: {{ historicalfigure.date_of_death }}</small>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="col-md-9">
+  {% for post in historicalfigure.written_posts.all %}
+    <div class="card shadow-lg my-5">
+    {% if post.image %}
+      <img src="{{ post.image.url }}" class="card-img-top card-img-fluid-top" alt="{{ historicalfigure.name }}">
+    {% endif %}
+      <div class="card-header">{{ post.get_type_display }}</div>
+      <div class="card-body">
+        <blockquote class="blockquote mb-0">
+          <p>
+            {{ post.text }}
+            {% if post.sources %}
+              <span class="text-muted" data-bs-toggle="tooltip" title="{{ post.sources }}">
+                <i class="fas fa-info-circle"></i>
+              </span>
+            {% endif %}
+          </p>
+        {% if post.location_name %}
+          <footer class="blockquote-footer"><i class="fas fa-map-marked-alt"></i> {{ post.location_name }}</footer>
+        {% endif %}
+        {% if post.post_date %}
+          <footer class="blockquote-footer"><cite>{{ post.post_date }}</cite></footer>
+        {% endif %}
+        </blockquote>
+      </div>
+    </div>
+  {% endfor %}
+  </div>
+</div>
+{% endblock content %}
+

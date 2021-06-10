@@ -154,7 +154,7 @@ class EventCreateForm(EventBaseForm):
             self.get_place_button(),
             Div(
                 Submit('submit', 'PUBLICAR EVENTO', css_class='btn-primary'),
-                css_class='form-group',
+                css_class='form-group mt-3',
             ),
         )
 
@@ -178,15 +178,15 @@ class EventUpdateForm(EventBaseForm):
 
         self.helper.layout = Layout(
             'title',
-            'is_published',
+            Div('is_published', css_class='form-check form-switch'),
             'description',
             'event_source_url',
             'image',
             'image_source_url',
             Div(
-                Div('event_type', css_class='col-md-6'),
-                Div('topic', css_class='col-md-6'),
-                css_class='form-row',
+                Div('event_type', css_class='input-group col-md'),
+                Div('topic', css_class='input-group col-md'),
+                css_class='row',
             ),
             self.get_dates_div(),
             PrependedText('price', '$'),
@@ -207,7 +207,7 @@ class EventUpdateForm(EventBaseForm):
             ),
             Div(
                 Submit('submit', 'GUARDAR', css_class='btn-primary'),
-                css_class='form-group',
+                css_class='form-group mt-3',
             ),
         )
 
