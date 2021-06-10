@@ -1,16 +1,21 @@
-<div class="card shadow-lg my-5">
+<div class="card card-historical-post shadow-lg my-5">
 {% if post.image %}
   <img src="{{ post.image.url }}" class="card-img-top card-img-fluid-top" alt="{{ historicalfigure.name }}">
 {% endif %}
   <div class="card-header">
-    <a class="link-secondary" href="{{ post.historical_figure.get_absolute_url }}">{{ post.historical_figure.name }}</a>,
-    {{ post.get_type_display }}
-    {% if post.historical_figure_mentions.exists %}
-      <i class="fas fa-angle-double-right"></i>
-      {% for mentioned_historical_figure in post.historical_figure_mentions.all %}
-        <a class="link-secondary" href="{{ mentioned_historical_figure.get_absolute_url }}">{{ mentioned_historical_figure.name }}</a>{% if not forloop.last %},{% endif %}
-      {% endfor %}
-    {% endif %}
+    <div class="d-flex justify-content-between">
+      <div>
+        <a class="author link-secondary" href="{{ post.historical_figure.get_absolute_url }}">{{ post.historical_figure.name }}</a>
+      </div>
+      <div>
+      {% if post.historical_figure_mentions.exists %}
+        <i class="fas fa-at"></i>
+        {% for mentioned_historical_figure in post.historical_figure_mentions.all %}
+          <a class="link-secondary" href="{{ mentioned_historical_figure.get_absolute_url }}">{{ mentioned_historical_figure.name }}</a>{% if not forloop.last %},{% endif %}
+        {% endfor %}
+      {% endif %}
+      </div>
+    </div>
   </div>
   <div class="card-body">
     <blockquote class="blockquote mb-0">
@@ -30,4 +35,12 @@
     {% endif %}
     </blockquote>
   </div>
+  {% if show_groups and post.published_in_groups.exists %}
+  <div class="card-header">
+    Publicado en los grupos:
+    {% for group in post.published_in_groups.all %}
+      <a class="link-secondary" href="{{ group.get_absolute_url }}">{{ group.title }}</a>{% if not forloop.last %},{% endif %}
+    {% endfor %}
+  </div>
+  {% endif %}
 </div>
