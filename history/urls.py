@@ -26,6 +26,6 @@ urlpatterns = [
     path(
         'grupos/<uuid:token>/',
         GroupDetailView.as_view(),
-        name='historical_group_detail'
+        name='group_detail'
     ),
 ]

@@ -233,7 +233,7 @@ class Group(TimeStampedModel):
     )
 
     def get_absolute_url(self):
-        return reverse('history:historical_group_detail', args=[self.token])
+        return reverse('history:group_detail', args=[self.token])
 
     class Meta:
         verbose_name = 'Grupo histórico'
