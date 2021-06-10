@@ -27,8 +27,10 @@ RUN chmod +x /build.sh
 COPY production-deploy/docker-containers/web/run.sh /
 RUN chmod +x /run.sh
 
+COPY requirements.txt /
+RUN pip install -r /requirements.txt
+
 COPY . /app
-RUN pip install -r /app/requirements.txt
 
 EXPOSE 49152
 
