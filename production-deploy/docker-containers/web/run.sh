@@ -11,4 +11,5 @@ uwsgi --chdir=/app \
     --uid=9999 --gid=2000 \
     --harakiri=20 \
     --max-requests=5000 \
+    --enable-threads \
     --vacuum
