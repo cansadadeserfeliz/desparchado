@@ -22,12 +22,6 @@
           <div class="flex-grow-1 ms-3">
             <h1>{{ historicalfigure.name }}</h1>
             <p>{{ historicalfigure.full_name }}</p>
-            <p>
-              {{ historicalfigure.date_of_birth }}
-              {% if historicalfigure.date_of_death %}
-                - {{ historicalfigure.date_of_death }}
-              {% endif %}
-            </p>
           </div>
         </div>
       </div>
@@ -40,10 +34,10 @@
     <div class="card border mt-5">
       <ul class="list-group list-group-flush">
         <li class="list-group-item">
-          <small class="text-muted">Nacimiento: {{ historicalfigure.date_of_birth }}</small>
+          <small class="text-muted">Nacimiento: {{ historicalfigure.get_date_of_birth_display }}</small>
         </li>
         <li class="list-group-item">
-          <small class="text-muted">Muerte: {{ historicalfigure.date_of_death }}</small>
+          <small class="text-muted">Muerte: {{ historicalfigure.get_date_of_death_display }}</small>
         </li>
         <li class="list-group-item">
           <small class="text-muted">
