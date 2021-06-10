@@ -135,6 +135,9 @@ class Event(TimeStampedModel):
         related_name='created_history_events',
     )
 
+    def __str__(self):
+        return self.title
+
     class Meta:
         verbose_name = 'Evento histórico'
         verbose_name_plural = 'Eventos históricos'
@@ -228,3 +231,10 @@ class Group(TimeStampedModel):
         verbose_name='Creado por',
         related_name='created_groups',
     )
+
+    class Meta:
+        verbose_name = 'Grupo histórico'
+        verbose_name_plural = 'Grupos históricos'
+
+    def __str__(self):
+        return self.title
