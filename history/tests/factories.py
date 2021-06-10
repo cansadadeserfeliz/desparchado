@@ -3,7 +3,7 @@ import factory.fuzzy
 
 from desparchado.tests.helpers import random_future_date
 from users.tests.factories import UserFactory
-from ..models import Event, HistoricalFigure, Post
+from ..models import Event, HistoricalFigure, Post, Group
 from ..models import DATETIME_PRECISION_CHOICES
 
 
@@ -48,3 +48,13 @@ class PostFactory(factory.django.DjangoModelFactory):
 
     class Meta:
         model = Post
+
+
+class GroupFactory(factory.django.DjangoModelFactory):
+    title = factory.Faker('sentence')
+    description = factory.Faker('text')
+    image = factory.django.ImageField()
+    created_by = factory.SubFactory(UserFactory)
+
+    class Meta:
+        model = Group

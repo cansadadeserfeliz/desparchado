@@ -1,6 +1,9 @@
 import pytest
 
-from .factories import EventFactory, HistoricalFigureFactory, PostFactory
+from .factories import EventFactory
+from .factories import HistoricalFigureFactory
+from .factories import PostFactory
+from .factories import GroupFactory
 
 
 @pytest.fixture
@@ -23,3 +26,8 @@ def history_historical_figure_without_image():
 @pytest.fixture
 def history_post():
     return PostFactory()
+
+
+@pytest.fixture
+def history_group():
+    return GroupFactory()
