@@ -3,7 +3,7 @@
 {% block content %}
   <div class="row">
     {% for historicalfigure in historicalfigure_list %}
-      <div class="col-md-6">
+      <div class="col-md-6 my-2">
         <div class="d-flex align-items-center">
           <div class="flex-shrink-0 bg-image" style="width: 100px; height: 100px;">
             <img class="bd-placeholder-img rounded-circle img-fluid img-fluid-fit-cover" src="{{ historicalfigure.get_image_url }}" alt="{{ historicalfigure.name }}">
