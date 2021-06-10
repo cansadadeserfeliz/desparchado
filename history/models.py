@@ -38,11 +38,16 @@ class HistoricalFigure(TimeStampedModel):
     image_source_url = models.URLField('Enlace a la fuente de la imagen', null=True, blank=True)
 
     date_of_birth = models.DateTimeField(db_index=True)
-    date_of_birth_precision = models.CharField(max_length=15, choices=DATETIME_PRECISION_CHOICES)
+    date_of_birth_precision = models.CharField(
+        max_length=15,
+        default=DATETIME_PRECISION_DAY,
+        choices=DATETIME_PRECISION_CHOICES,
+    )
 
     date_of_death = models.DateTimeField(db_index=True, blank=True, null=True)
     date_of_death_precision = models.CharField(
         max_length=15,
+        default=DATETIME_PRECISION_DAY,
         choices=DATETIME_PRECISION_CHOICES,
         blank=True,
         null=True
@@ -89,7 +94,11 @@ class Event(TimeStampedModel):
         db_index=True,
         help_text='p. ej. 23/11/2019 16:40',
     )
-    event_date_precision = models.CharField(max_length=15, choices=DATETIME_PRECISION_CHOICES)
+    event_date_precision = models.CharField(
+        max_length=15,
+        default=DATETIME_PRECISION_DAY,
+        choices=DATETIME_PRECISION_CHOICES,
+    )
     location_name = models.CharField(max_length=500, default='', blank=True)
 
     event_end_date = models.DateTimeField(
@@ -101,6 +110,7 @@ class Event(TimeStampedModel):
     )
     event_end_date_precision = models.CharField(
         max_length=15,
+        default=DATETIME_PRECISION_DAY,
         choices=DATETIME_PRECISION_CHOICES,
         blank=True,
         null=True,
@@ -152,7 +162,13 @@ class Post(TimeStampedModel):
         db_index=True,
         help_text='p. ej. 23/11/2019 18:00 (opcional)',
     )
-    post_date_precision = models.CharField(max_length=15, choices=DATETIME_PRECISION_CHOICES, blank=True, null=True)
+    post_date_precision = models.CharField(
+        max_length=15,
+        default=DATETIME_PRECISION_DAY,
+        choices=DATETIME_PRECISION_CHOICES,
+        blank=True,
+        null=True,
+    )
 
     historical_figure = models.ForeignKey(
         'history.HistoricalFigure',
