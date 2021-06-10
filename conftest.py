@@ -11,6 +11,7 @@ from events.tests.factories import SpeakerFactory
 from books.tests.factories import BookFactory
 from places.tests.factories import PlaceFactory
 from places.tests.factories import CityFactory
+from blog.tests.factories import PostFactory as BlogPostFactory
 
 
 @pytest.fixture
@@ -92,3 +93,8 @@ def speaker():
 @pytest.fixture
 def city():
     return CityFactory()
+
+
+@pytest.fixture
+def blog_post():
+    return BlogPostFactory()
