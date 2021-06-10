@@ -33,6 +33,7 @@ class HistoricalFigure(TimeStampedModel):
                   'de la Concepción y Ponte Palacios y Blanco"',
     )
     sources = models.TextField('Fuentes de la información', default='', blank=True)
+    admin_comments = models.TextField('Comentarios de los administradores', default='', blank=True)
 
     image = models.ImageField('Imagen', blank=True, null=True, upload_to='history/historical-figures')
     image_source_url = models.URLField('Enlace a la fuente de la imagen', null=True, blank=True)
@@ -85,6 +86,7 @@ class Event(TimeStampedModel):
     )
     description = models.TextField('Descripción', default='', blank=True)
     sources = models.TextField('Fuentes de la información', default='', blank=True)
+    admin_comments = models.TextField('Comentarios de los administradores', default='', blank=True)
 
     image = models.ImageField('Imagen', blank=True, null=True, upload_to='history/events')
     image_source_url = models.URLField('Enlace a la fuente de la imagen', null=True, blank=True)
@@ -151,6 +153,7 @@ class Post(TimeStampedModel):
     text = models.TextField('Texto')
     location_name = models.CharField(max_length=500, default='', blank=True)
     sources = models.TextField('Fuentes de la información', default='', blank=True)
+    admin_comments = models.TextField('Comentarios de los administradores', default='', blank=True)
 
     image = models.ImageField('Imagen', blank=True, null=True, upload_to='history/posts')
     image_source_url = models.URLField('Enlace a la fuente de la imagen', null=True, blank=True)
