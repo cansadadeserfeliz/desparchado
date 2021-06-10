@@ -189,10 +189,42 @@ class Post(TimeStampedModel):
         related_name='mentioned_in_posts',
         blank=True,
     )
+    published_in_groups = models.ManyToManyField(
+        'history.Group',
+        related_name='posts',
+        blank=True,
+    )
 
     created_by = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.DO_NOTHING,
         verbose_name='Creado por',
         related_name='created_history_posts',
+    )
+
+
+class Group(TimeStampedModel):
+    token = models.UUIDField(unique=True, default=uuid.uuid4, editable=False)
+    title = models.CharField(
+        verbose_name='Título',
+        max_length=500,
+    )
+    description = models.TextField('Descripción')
+
+    image = models.ImageField('Imagen', blank=True, null=True, upload_to='history/groups')
+    image_source_url = models.URLField('Enlace a la fuente de la imagen', null=True, blank=True)
+
+    admin_comments = models.TextField('Comentarios de los administradores', default='', blank=True)
+
+    members = models.ManyToManyField(
+        'history.HistoricalFigure',
+        related_name='groups',
+        blank=True,
+    )
+
+    created_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.DO_NOTHING,
+        verbose_name='Creado por',
+        related_name='created_groups',
     )
