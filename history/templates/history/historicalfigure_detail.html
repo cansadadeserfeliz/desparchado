@@ -45,35 +45,22 @@
         <li class="list-group-item">
           <small class="text-muted">Muerte: {{ historicalfigure.date_of_death }}</small>
         </li>
+        <li class="list-group-item">
+          <small class="text-muted">
+            Grupos:
+            {% for group in historicalfigure.groups.all %}
+              <a href="{{ group.get_absolute_url }}">{{ group.title }}</a>{% if not forloop.last %},{% endif %}
+            {% empty %}
+              -
+            {% endfor %}
+          </small>
+        </li>
       </ul>
     </div>
   </div>
   <div class="col-md-9">
-  {% for post in historicalfigure.written_posts.all %}
-    <div class="card shadow-lg my-5">
-    {% if post.image %}
-      <img src="{{ post.image.url }}" class="card-img-top card-img-fluid-top" alt="{{ historicalfigure.name }}">
-    {% endif %}
-      <div class="card-header">{{ post.get_type_display }}</div>
-      <div class="card-body">
-        <blockquote class="blockquote mb-0">
-          <p>
-            {{ post.text }}
-            {% if post.sources %}
-              <span class="text-muted" data-bs-toggle="tooltip" title="{{ post.sources }}">
-                <i class="fas fa-info-circle"></i>
-              </span>
-            {% endif %}
-          </p>
-        {% if post.location_name %}
-          <footer class="blockquote-footer"><i class="fas fa-map-marked-alt"></i> {{ post.location_name }}</footer>
-        {% endif %}
-        {% if post.post_date %}
-          <footer class="blockquote-footer"><cite>{{ post.post_date }}</cite></footer>
-        {% endif %}
-        </blockquote>
-      </div>
-    </div>
+  {% for post in posts %}
+    {% include 'history/_post.html' with post=post %}
   {% endfor %}
   </div>
 </div>

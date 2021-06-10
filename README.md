@@ -55,8 +55,7 @@ Create migrations (example for `history` app):
 
 ### Run the tests
 
-    python manage.py test --settings=desparchado.settings.test --keepdb
-    pytest --cov=./
+    pytest
 
 ## Installation
 
