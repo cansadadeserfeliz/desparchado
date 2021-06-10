@@ -100,7 +100,9 @@ class HistoricalFigure(TimeStampedModel):
         return get_historical_date_display(self.date_of_birth, self.date_of_birth_precision)
 
     def get_date_of_death_display(self):
-        return get_historical_date_display(self.date_of_death, self.date_of_death_precision)
+        if self.date_of_death:
+            return get_historical_date_display(self.date_of_death, self.date_of_death_precision)
+        return '-'
 
     class Meta:
         ordering = ['name']
@@ -168,7 +170,9 @@ class Event(TimeStampedModel):
         return get_historical_date_display(self.event_date, self.event_date_precision)
 
     def get_event_end_date_display(self):
-        return get_historical_date_display(self.event_end_date, self.event_end_date_precision)
+        if self.event_end_date:
+            return get_historical_date_display(self.event_end_date, self.event_end_date_precision)
+        return '-'
 
     def __str__(self):
         return self.title
