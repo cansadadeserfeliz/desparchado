@@ -184,6 +184,11 @@ class Post(TimeStampedModel):
         null=True,
         on_delete=models.PROTECT,
     )
+    historical_figure_mentions = models.ManyToManyField(
+        'history.HistoricalFigure',
+        related_name='mentioned_in_posts',
+        blank=True,
+    )
 
     created_by = models.ForeignKey(
         settings.AUTH_USER_MODEL,
