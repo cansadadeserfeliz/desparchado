@@ -1,0 +1,35 @@
+{% extends 'history/layout/base.html' %}
+{% load static %}
+
+{% block title %}{{ group.title }}{% endblock %}
+
+{% block content %}
+<div class="row align-items-start">
+  <div class="col-md-3">
+    <h1>{{ group.title }}</h1>
+
+    <div class="card border mt-5">
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">
+          <small class="text-muted">{{ group.description }}</small>
+        </li>
+        <li class="list-group-item">
+          <small class="text-muted">
+            Miembros:
+            {% for historical_figure in group.members.all %}
+              <a href="{{ historical_figure.get_absolute_url }}">{{ historical_figure.name }}</a>{% if not forloop.last %},{% endif %}
+            {% empty %}
+              -
+            {% endfor %}
+          </small>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="col-md-9">
+  {% for post in posts %}
+    {% include 'history/_post.html' with post=post %}
+  {% endfor %}
+  </div>
+</div>
+{% endblock content %}

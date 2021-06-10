@@ -1,36 +1,40 @@
-from django.urls import reverse
+import pytest
 
-from django_webtest import WebTest
+from django.urls import reverse
 
 from .factories import PostFactory
 
 
-class PostViewsTest(WebTest):
+@pytest.mark.django_db
+def test_posts_appear_in_list(django_app):
+    first_post = PostFactory()
+    second_post = PostFactory()
+    not_published_post = PostFactory(is_published=False)
+    not_approved_post = PostFactory(is_approved=False)
 
-    def setUp(self):
-        self.first_post = PostFactory()
-        self.second_post = PostFactory()
-        self.not_published_post = PostFactory(is_published=False)
-        self.not_approved_post = PostFactory(is_approved=False)
+    response = django_app.get(reverse('blog:post_list'), status=200)
 
-    def test_posts_appear_in_list(self):
-        response = self.app.get(reverse('blog:post_list'), status=200)
-        self.assertEqual(len(response.context['posts']), 2)
-        self.assertIn(self.first_post, response.context['posts'])
-        self.assertIn(self.second_post, response.context['posts'])
-        self.assertNotIn(self.not_published_post, response.context['posts'])
-        self.assertNotIn(self.not_approved_post, response.context['posts'])
+    assert len(response.context['posts']) == 2
+    assert first_post in response.context['posts']
+    assert second_post in response.context['posts']
+    assert not_published_post not in response.context['posts']
+    assert not_approved_post not in response.context['posts']
 
-    def test_show_post_detail(self):
-        self.app.get(
-            reverse('blog:post_detail', args=[self.first_post.slug]),
-            status=200
-        )
-        self.app.get(
-            reverse('blog:post_detail', args=[self.not_published_post.slug]),
-            status=404
-        )
-        self.app.get(
-            reverse('blog:post_detail', args=[self.not_approved_post.slug]),
-            status=404
-        )
+
+@pytest.mark.django_db
+def test_show_post_detail(django_app, blog_post):
+    django_app.get(reverse('blog:post_detail', args=[blog_post.slug]), status=200)
+
+
+@pytest.mark.django_db
+def test_don_not_show_not_published_post_detail(django_app, blog_post):
+    blog_post.is_published = False
+    blog_post.save()
+    django_app.get(reverse('blog:post_detail', args=[blog_post.slug]), status=404)
+
+
+@pytest.mark.django_db
+def test_don_not_show_not_approved_post_detail(django_app, blog_post):
+    blog_post.is_approved = False
+    blog_post.save()
+    django_app.get(reverse('blog:post_detail', args=[blog_post.slug]), status=404)
