@@ -232,6 +232,9 @@ class Group(TimeStampedModel):
         related_name='created_groups',
     )
 
+    def get_absolute_url(self):
+        return reverse('history:historical_group_detail', args=[self.token])
+
     class Meta:
         verbose_name = 'Grupo histórico'
         verbose_name_plural = 'Grupos históricos'
