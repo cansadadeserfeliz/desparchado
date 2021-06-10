@@ -9,12 +9,16 @@ from model_utils.models import TimeStampedModel
 
 
 DATETIME_PRECISION_DAY = 'day'
+DATETIME_PRECISION_YEAR = 'year'
+DATETIME_PRECISION_MONTH = 'month'
+DATETIME_PRECISION_HOUR = 'hour'
+DATETIME_PRECISION_MINUTE = 'minute'
 DATETIME_PRECISION_CHOICES = (
-    ('year', 'Año'),
-    ('month', 'Mes'),
+    (DATETIME_PRECISION_YEAR, 'Año'),
+    (DATETIME_PRECISION_MONTH, 'Mes'),
     (DATETIME_PRECISION_DAY, 'Día'),
-    ('hour', 'Hora'),
-    ('minute', 'Minuto'),
+    (DATETIME_PRECISION_HOUR, 'Hora'),
+    (DATETIME_PRECISION_MINUTE, 'Minuto'),
 )
 
 
