@@ -1,16 +1,16 @@
+import pytest
+
 from django.urls import reverse
 
-from django_webtest import WebTest
+
+@pytest.mark.django_db
+def test_home_page(django_app, event):
+    response = django_app.get(reverse('home'), status=200)
+    assert 'AÑADIR EVENTO' in response
+
+    assert event.title in response
 
 
-class HomeViewTestCase(WebTest):
+def test_about_page(django_app):
+    django_app.get(reverse('about'), status=200)
 
-    def testBlog(self):
-        response = self.app.get(reverse('home'), status=200)
-        self.assertContains(response, 'AÑADIR EVENTO')
-
-
-class AboutViewTestCase(WebTest):
-
-    def testBlog(self):
-        self.app.get(reverse('about'), status=200)
