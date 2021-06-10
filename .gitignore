@@ -47,5 +47,3 @@ desparchado/static/node_modules/
 uwsgi.ini
 uwsgi_params
 robots.txt
-
-dump*
