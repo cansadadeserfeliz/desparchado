@@ -34,14 +34,14 @@
     <div class="card border mt-5">
       <ul class="list-group list-group-flush">
         <li class="list-group-item">
-          <small class="text-muted">Nacimiento: {{ historicalfigure.get_date_of_birth_display }}</small>
+          <small class="text-muted"><strong>Nacimiento:</strong> {{ historicalfigure.get_date_of_birth_display }}</small>
         </li>
         <li class="list-group-item">
-          <small class="text-muted">Muerte: {{ historicalfigure.get_date_of_death_display }}</small>
+          <small class="text-muted"><strong>Muerte:</strong> {{ historicalfigure.get_date_of_death_display }}</small>
         </li>
         <li class="list-group-item">
           <small class="text-muted">
-            Grupos:
+            <strong>Grupos:</strong>
             {% for group in historicalfigure.groups.all %}
               <a href="{{ group.get_absolute_url }}">{{ group.title }}</a>{% if not forloop.last %},{% endif %}
             {% empty %}
