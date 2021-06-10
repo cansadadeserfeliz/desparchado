@@ -5,7 +5,7 @@ from django.conf import settings
 from django.urls import reverse
 from django.templatetags.static import static
 from django.template.defaultfilters import date as _date
-from django.template.defaultfilters import date as _time
+from django.template.defaultfilters import time as _time
 
 from model_utils.models import TimeStampedModel
 
