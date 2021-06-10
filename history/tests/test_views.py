@@ -2,6 +2,8 @@ import pytest
 
 from django.urls import reverse
 
+from .factories import PostFactory
+
 
 @pytest.mark.django_db
 def test_show_home_view(django_app):
@@ -17,11 +19,20 @@ def test_show_historical_figure_list(django_app, history_historical_figure, hist
 
 @pytest.mark.django_db
 def test_show_historical_figure_detail(django_app, history_historical_figure):
+    written_post = PostFactory(historical_figure=history_historical_figure)
+    mention_post = PostFactory()
+    mention_post.historical_figure_mentions.add(history_historical_figure)
+    not_related_post = PostFactory()
+
     response = django_app.get(
         reverse('history:historical_figure_detail', args=(history_historical_figure.token,)),
         status=200,
     )
     assert history_historical_figure.name in response
+
+    assert written_post.title in response
+    assert mention_post.title in response
+    assert not_related_post.title not in response
 
 
 @pytest.mark.django_db

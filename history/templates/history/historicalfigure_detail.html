@@ -59,7 +59,7 @@
     </div>
   </div>
   <div class="col-md-9">
-  {% for post in historicalfigure.written_posts.all %}
+  {% for post in posts %}
     {% include 'history/_post.html' with post=post %}
   {% endfor %}
   </div>
