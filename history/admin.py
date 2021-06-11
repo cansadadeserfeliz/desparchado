@@ -10,8 +10,8 @@ class EventAdmin(admin.ModelAdmin):
     list_select_related = ('created_by',)
     list_display = [
         'title',
-        'event_date',
-        'event_end_date',
+        'get_event_date_display',
+        'get_event_end_date_display',
         'created_by',
         'modified'
     ]
@@ -83,8 +83,8 @@ class HistoricalFigureAdmin(admin.ModelAdmin):
     list_select_related = ('created_by',)
     list_display = [
         'name',
-        'date_of_birth',
-        'date_of_death',
+        'get_date_of_birth_display',
+        'get_date_of_death_display',
         'created_by',
         'modified',
     ]
@@ -120,6 +120,13 @@ class HistoricalFigureAdmin(admin.ModelAdmin):
             obj.created_by = request.user
         super().save_model(request, obj, form, change)
 
+    def save_formset(self, request, form, formset, change):
+        instances = formset.save(commit=False)
+        for instance in instances:
+            instance.created_by = request.user
+            instance.save()
+        formset.save_m2m()
+
     def get_actions(self, request):
         return []
 
@@ -133,7 +140,7 @@ class PostAdmin(admin.ModelAdmin):
     list_display = [
         'historical_figure',
         'type',
-        'post_date',
+        'get_post_date_display',
         'created_by',
         'modified',
     ]

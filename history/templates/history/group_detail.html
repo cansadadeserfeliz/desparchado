@@ -6,16 +6,24 @@
 {% block content %}
 <div class="row align-items-start">
   <div class="col-md-3">
-    <h1>{{ group.title }}</h1>
+    <div class="card history-group-card mt-5">
+    {% if group.image %}
+      <img src="{{ group.image.url }}" class="card-img-top card-img-fluid-top" alt="{{ group.title }}">
+    {% endif %}
+      <div class="card-header">Grupo</div>
+      <div class="card-body">
+        <h1 class="card-title">{{ group.title }}</h1>
+      </div>
+    </div>
 
-    <div class="card border mt-5">
+    <div class="card border mt-2">
       <ul class="list-group list-group-flush">
         <li class="list-group-item">
           <small class="text-muted">{{ group.description }}</small>
         </li>
         <li class="list-group-item">
           <small class="text-muted">
-            Miembros:
+            <strong>Miembros del grupo:</strong>
             {% for historical_figure in group.members.all %}
               <a href="{{ historical_figure.get_absolute_url }}">{{ historical_figure.name }}</a>{% if not forloop.last %},{% endif %}
             {% empty %}
