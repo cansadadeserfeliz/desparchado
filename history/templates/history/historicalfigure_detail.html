@@ -22,12 +22,6 @@
           <div class="flex-grow-1 ms-3">
             <h1>{{ historicalfigure.name }}</h1>
             <p>{{ historicalfigure.full_name }}</p>
-            <p>
-              {{ historicalfigure.date_of_birth }}
-              {% if historicalfigure.date_of_death %}
-                - {{ historicalfigure.date_of_death }}
-              {% endif %}
-            </p>
           </div>
         </div>
       </div>
@@ -40,14 +34,14 @@
     <div class="card border mt-5">
       <ul class="list-group list-group-flush">
         <li class="list-group-item">
-          <small class="text-muted">Nacimiento: {{ historicalfigure.date_of_birth }}</small>
+          <small class="text-muted"><strong>Nacimiento:</strong> {{ historicalfigure.get_date_of_birth_display }}</small>
         </li>
         <li class="list-group-item">
-          <small class="text-muted">Muerte: {{ historicalfigure.date_of_death }}</small>
+          <small class="text-muted"><strong>Muerte:</strong> {{ historicalfigure.get_date_of_death_display }}</small>
         </li>
         <li class="list-group-item">
           <small class="text-muted">
-            Grupos:
+            <strong>Grupos:</strong>
             {% for group in historicalfigure.groups.all %}
               <a href="{{ group.get_absolute_url }}">{{ group.title }}</a>{% if not forloop.last %},{% endif %}
             {% empty %}
@@ -60,7 +54,7 @@
   </div>
   <div class="col-md-9">
   {% for post in posts %}
-    {% include 'history/_post.html' with post=post %}
+    {% include 'history/_post.html' with post=post show_groups=True%}
   {% endfor %}
   </div>
 </div>

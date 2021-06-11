@@ -4,6 +4,8 @@ from django.db import models
 from django.conf import settings
 from django.urls import reverse
 from django.templatetags.static import static
+from django.template.defaultfilters import date as _date
+from django.template.defaultfilters import time as _time
 
 from model_utils.models import TimeStampedModel
 
@@ -20,6 +22,27 @@ DATETIME_PRECISION_CHOICES = (
     (DATETIME_PRECISION_HOUR, 'Hora'),
     (DATETIME_PRECISION_MINUTE, 'Minuto'),
 )
+
+
+def get_historical_date_display(historical_date, precision):
+    """
+    Formats a given date according to precision.
+
+    :param historical_date: (datetime) historical date to format
+    :param precision: (str) precision from DATETIME_PRECISION_CHOICES
+    :return: (str) formatted date
+    """
+    date_str = _date(historical_date, 'Y')
+    if precision != DATETIME_PRECISION_YEAR:
+        date_str = _date(historical_date, 'F').lower() + ' ' + date_str
+    if precision != DATETIME_PRECISION_YEAR and precision != DATETIME_PRECISION_MONTH:
+        date_str = _date(historical_date, 'j') + ' de ' + date_str
+    if precision == DATETIME_PRECISION_HOUR:
+        date_str = date_str + ', ' + _time(historical_date, 'g a')
+    if precision == DATETIME_PRECISION_MINUTE:
+        date_str = date_str + ', ' + _time(historical_date, 'g:i a')
+
+    return date_str
 
 
 class HistoricalFigure(TimeStampedModel):
@@ -72,6 +95,14 @@ class HistoricalFigure(TimeStampedModel):
 
     def get_absolute_url(self):
         return reverse('history:historical_figure_detail', args=[self.token])
+
+    def get_date_of_birth_display(self):
+        return get_historical_date_display(self.date_of_birth, self.date_of_birth_precision)
+
+    def get_date_of_death_display(self):
+        if self.date_of_death:
+            return get_historical_date_display(self.date_of_death, self.date_of_death_precision)
+        return '-'
 
     class Meta:
         ordering = ['name']
@@ -134,6 +165,14 @@ class Event(TimeStampedModel):
         verbose_name='Creado por',
         related_name='created_history_events',
     )
+
+    def get_event_date_display(self):
+        return get_historical_date_display(self.event_date, self.event_date_precision)
+
+    def get_event_end_date_display(self):
+        if self.event_end_date:
+            return get_historical_date_display(self.event_end_date, self.event_end_date_precision)
+        return '-'
 
     def __str__(self):
         return self.title
@@ -204,6 +243,9 @@ class Post(TimeStampedModel):
         verbose_name='Creado por',
         related_name='created_history_posts',
     )
+
+    def get_post_date_display(self):
+        return get_historical_date_display(self.post_date, self.post_date_precision)
 
 
 class Group(TimeStampedModel):
