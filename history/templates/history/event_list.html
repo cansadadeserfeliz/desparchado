@@ -1,14 +1,14 @@
 {% extends 'history/layout/base.html' %}
 
 {% block content %}
-  <ul>
-    {% for event in event_list %}
-        <li>
-             <a href="{{event.token}}">
-                   {{event.title}}
-             </a>
-        </li>
-    {% endfor %}
-  </ul>
+<ul>
+  {% for event in event_list %}
+  <li>
+    <a href="{{ event.get_absolute_url }}">
+        {{event.title}}
+    </a>
+  </li>
+  {% endfor %}
+</ul>
 
 {% endblock content %}
