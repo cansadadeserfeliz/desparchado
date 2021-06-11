@@ -1,5 +1,5 @@
-from django.views.generic import ListView
-from django.shortcuts import render
+from django.views.generic import ListView, DetailView
+from django.shortcuts import get_object_or_404
 
 from .models import HistoricalFigure, Event
 
@@ -12,6 +12,8 @@ class EventsListView(ListView):
     model = Event
 
 
-def eventdetail(request, token):
-    event = Event.objects.get(token=token)
-    return render(request, "history/event_detail.html", {"event": event})
+class EventDetailView(DetailView):
+    model = Event
+
+    def get_object(self, queryset=None):
+        return Event.objects.get(token=self.kwargs.get("token"))
