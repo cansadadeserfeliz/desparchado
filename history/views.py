@@ -26,7 +26,7 @@ class HistoricalFigureDetailView(DetailView):
         ).prefetch_related(
             'historical_figure_mentions',
             'published_in_groups',
-        ).order_by('post_date').distinct()
+        ).order_by('-post_date').distinct()
         context['posts'] = posts
         return context
 
