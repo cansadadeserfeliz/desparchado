@@ -6,7 +6,7 @@
 {% block meta %}
   <meta property="og:title" content="{{ speaker.name }}">
   <meta property="og:description" content="{{ speaker.description|truncatewords:200 }}">
-  <meta property="og:image" content="http://{{ request.get_host }}{{ speaker.get_image_url }}">
+  <meta property="og:image" content="https://desparchado.co{{ speaker.get_image_url }}">
 
   <meta name="twitter:title" content="{{ speaker.name }}">
   <meta name="twitter:description" content="{{ speaker.description|truncatewords:200 }}">
@@ -19,7 +19,7 @@
   "@context" : "http://schema.org",
   "@type" : "Person",
   "name" : "{{ speaker.name }}",
-  "image" : "https://{{ request.get_host }}{{ speaker.get_image_url }}"
+  "image" : "https://desparchado.co{{ speaker.get_image_url }}"
 }
 </script>
 {% endblock %}
