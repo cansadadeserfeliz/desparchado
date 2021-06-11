@@ -98,6 +98,9 @@ class PasswordResetForm(AuthPasswordResetForm):
 
         email_message.send()
 
+    def save(self, **kwargs):
+        return super().save(domain_override='desparchado.co', **kwargs)
+
 
 class SetPasswordForm(AuthSetPasswordForm):
 
