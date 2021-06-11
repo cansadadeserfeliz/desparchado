@@ -6,7 +6,7 @@
 {% block meta %}
   <meta property="og:title" content="{{ post.title }}">
   <meta property="og:description" content="{{ post.subtitle }}">
-  <meta property="og:image" content="https://{{ request.get_host }}{{ post.get_image_url }}">
+  <meta property="og:image" content="https://desparchado.co{{ post.get_image_url }}">
 
   <meta name="twitter:title" content="{{ post.title }}">
   <meta name="twitter:description" content="{{ post.subtitle.name }}">
@@ -20,7 +20,7 @@
   "@type" : "Article",
   "name" : "{{ post.title }}",
   "headline" : "{{ post.title }}",
-  "image" : "https://{{ request.get_host }}{{ post.get_image_url }}",
+  "image" : "https://desparchado.co{{ post.get_image_url }}",
   "author" : {
     "@type" : "Person",
     "name" : "{{ post.get_author_name }}"

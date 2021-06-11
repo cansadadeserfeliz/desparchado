@@ -95,6 +95,7 @@ class HistoricalFigureAdmin(admin.ModelAdmin):
             'fields': (
                 'name',
                 'full_name',
+                'description',
                 'image',
                 'image_source_url',
             ),

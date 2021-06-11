@@ -82,8 +82,8 @@ class EventBaseForm(forms.ModelForm):
         return Div(
             HTML(
                 '<a href="{}" class="btn btn-light add-related" '
-                'title="Añadir nuevo presentador" target="_blank">'
-                '<i class="fas fa-plus"></i> Añadir nuevo presentador'
+                'title="Añadir nuevo lugar" target="_blank">'
+                '<i class="fas fa-plus"></i> Añadir nuevo lugar'
                 '</a>'.format(
                     reverse_lazy('places:place_add'),
                 )

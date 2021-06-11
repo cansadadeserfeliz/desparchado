@@ -21,7 +21,12 @@
           </div>
           <div class="flex-grow-1 ms-3">
             <h1>{{ historicalfigure.name }}</h1>
-            <p>{{ historicalfigure.full_name }}</p>
+            {% if historicalfigure.full_name %}
+              <p>{{ historicalfigure.full_name }}</p>
+            {% endif %}
+            {% if historicalfigure.description %}
+              <p>{{ historicalfigure.description }}</p>
+            {% endif %}
           </div>
         </div>
       </div>
