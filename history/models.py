@@ -3,6 +3,7 @@ import uuid
 from django.db import models
 from django.conf import settings
 from django.templatetags.static import static
+from django.urls import reverse
 
 from model_utils.models import TimeStampedModel
 
@@ -118,6 +119,9 @@ class Event(TimeStampedModel):
     class Meta:
         verbose_name = 'Evento histórico'
         verbose_name_plural = 'Eventos históricos'
+
+    def get_absolute_url(self):
+        return reverse('history:event_detail', kwargs={'token': self.token})
 
 
 class Post(TimeStampedModel):
