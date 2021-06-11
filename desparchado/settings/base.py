@@ -35,6 +35,7 @@ INSTALLED_APPS = [
 
     'django.contrib.admin',
     'django.contrib.auth',
+    'django.contrib.sites',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
@@ -196,6 +197,8 @@ STATICFILES_FINDERS = (
     'pipeline.finders.CachedFileFinder',
     'pipeline.finders.PipelineFinder',
 )
+
+SITE_ID = 1
 
 # django-pipeline
 STATICFILES_STORAGE = 'pipeline.storage.PipelineManifestStorage'
