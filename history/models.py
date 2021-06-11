@@ -59,6 +59,7 @@ class HistoricalFigure(TimeStampedModel):
         help_text='Por ejemplo, "Simón José Antonio de la Santísima Trinidad Bolívar '
                   'de la Concepción y Ponte Palacios y Blanco"',
     )
+    description = models.TextField('Descripción', default='', blank=True)
     sources = models.TextField('Fuentes de la información', default='', blank=True)
     admin_comments = models.TextField('Comentarios de los administradores', default='', blank=True)
 

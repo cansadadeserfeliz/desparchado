@@ -6,7 +6,7 @@
 {% block meta %}
   <meta property="og:title" content="{{ organizer.name }}">
   <meta property="og:description" content="{{ organizer.description|truncatewords:200 }}">
-  <meta property="og:image" content="http://{{ request.get_host }}{{ organizer.get_image_url }}">
+  <meta property="og:image" content="https://desparchado.co{{ organizer.get_image_url }}">
 
   <meta name="twitter:title" content="{{ organizer.name }}">
   <meta name="twitter:description" content="{{ organizer.description|truncatewords:200 }}">
@@ -20,7 +20,7 @@
   "@type" : "Organization",
   "name" : "{{ organizer.name }}",
   "description" : "{{ organizer.description }}",
-  "image" : "https://{{ request.get_host }}{{ organizer.get_image_url }}"
+  "image" : "https://desparchado.co{{ organizer.get_image_url }}"
 }
 </script>
 {% endblock %}
