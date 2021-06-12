@@ -5,22 +5,19 @@
 
 {% block content %}
 <section
-  class="p-5 bg-image border"
+  class="p-5 bg-image border historical-figure-header"
   style="
     background-image: url('{% static 'images/default_historical_figure_bg_image.jpg' %}');
     height: 300px;
   "
 >
-  <div class="mask" style="background-color: rgba(0, 0, 0, 0.8);">
+  <div class="mask" style="background-color: rgba(0, 0, 0, 0.7);">
     <div class="d-flex justify-content-start align-items-end h-100">
       <div class="text-white m-3">
         <div class="d-flex align-items-center">
-          <div class="flex-shrink-0 bg-image" style="width: 100px; height: 100px;">
-            <img class="bd-placeholder-img rounded-circle img-fluid img-fluid-fit-cover" src="{{ historicalfigure.get_image_url }}" alt="{{ historicalfigure.name }}">
-            <div class="mask historical-figure-mask rounded-circle"></div>
-          </div>
+          {% include 'history/_historical_figure_photo.html' with historical_figure=historicalfigure %}
           <div class="flex-grow-1 ms-3">
-            <h1>{{ historicalfigure.name }}</h1>
+            <h1 class="title">{{ historicalfigure.name }}</h1>
             {% if historicalfigure.full_name %}
               <p>{{ historicalfigure.full_name }}</p>
             {% endif %}
@@ -39,20 +36,20 @@
     <div class="card border mt-3">
       <ul class="list-group list-group-flush">
         <li class="list-group-item">
-          <small class="text-muted"><strong>Nacimiento:</strong> {{ historicalfigure.get_date_of_birth_display }}</small>
+          <div class="text-muted"><strong>Nacimiento:</strong> {{ historicalfigure.get_date_of_birth_display }}</div>
         </li>
         <li class="list-group-item">
-          <small class="text-muted"><strong>Muerte:</strong> {{ historicalfigure.get_date_of_death_display }}</small>
+          <div class="text-muted"><strong>Muerte:</strong> {{ historicalfigure.get_date_of_death_display }}</div>
         </li>
         <li class="list-group-item">
-          <small class="text-muted">
+          <div class="text-muted">
             <strong>Grupos:</strong>
             {% for group in historicalfigure.groups.all %}
               <a href="{{ group.get_absolute_url }}">{{ group.title }}</a>{% if not forloop.last %},{% endif %}
             {% empty %}
               -
             {% endfor %}
-          </small>
+          </div>
         </li>
       </ul>
     </div>

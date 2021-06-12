@@ -87,15 +87,6 @@ class EventAdmin(admin.ModelAdmin):
         'organizers',
         'editors',
     )
-    autocomplete_lookup_fields = {
-        'fk': ['place'],
-        'm2m': [
-            'speakers',
-            'organizers',
-            'press_articles',
-            'editors',
-        ],
-    }
 
     def get_actions(self, request):
         return []
@@ -133,11 +124,6 @@ class OrganizerAdmin(admin.ModelAdmin):
     raw_id_fields = (
         'editors',
     )
-    autocomplete_lookup_fields = {
-        'm2m': [
-            'editors',
-        ],
-    }
 
     def save_model(self, request, obj, form, change):
         if not obj.id:
@@ -177,11 +163,6 @@ class SpeakerAdmin(admin.ModelAdmin):
     raw_id_fields = (
         'editors',
     )
-    autocomplete_lookup_fields = {
-        'm2m': [
-            'editors',
-        ],
-    }
 
     def save_model(self, request, obj, form, change):
         if not obj.id:

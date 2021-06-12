@@ -19,9 +19,6 @@ class HuntingOfSnarkGameAdmin(admin.ModelAdmin):
     ]
 
     raw_id_fields = ('criteria',)
-    autocomplete_lookup_fields = {
-        'm2m': ['criteria'],
-    }
 
 
 @admin.register(HuntingOfSnarkCriteria)

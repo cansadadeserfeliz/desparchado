@@ -1,7 +1,6 @@
 from django.contrib.gis import admin as gis_admin
 from django.contrib import admin
 
-from desparchado.utils import send_admin_notification
 from .models import Place, City
 
 BOGOTA_LAT = 4.5930632
@@ -49,11 +48,6 @@ class PlaceAdmin(gis_admin.OSMGeoAdmin):
     raw_id_fields = (
         'editors',
     )
-    autocomplete_lookup_fields = {
-        'm2m': [
-            'editors',
-        ],
-    }
 
     def get_actions(self, request):
         return []

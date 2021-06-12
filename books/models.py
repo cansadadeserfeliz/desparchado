@@ -102,10 +102,6 @@ class Author(TimeStampedModel):
         null=True,
     )
 
-    @staticmethod
-    def autocomplete_search_fields():
-        return ('name__icontains',)
-
     def __str__(self):
         return self.name
 
