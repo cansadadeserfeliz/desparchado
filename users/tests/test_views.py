@@ -51,6 +51,15 @@ def test_register_user_email_already_exists(django_app, user):
 
 
 @pytest.mark.django_db
+def test_successfully_reset_password(django_app, user):
+    response = django_app.get(reverse('users:password_reset'), status=200)
+    form = response.forms['password_reset_form']
+    form['email'] = user.email
+    response = form.submit().follow()
+    assert 'Restablecimiento de contraseña enviado' in response
+
+
+@pytest.mark.django_db
 def test_successfully_shows_user_detail(django_app, user):
     response = django_app.get(
         reverse('users:user_detail', args=[user.username]),
