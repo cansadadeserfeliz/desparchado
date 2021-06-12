@@ -16,5 +16,5 @@ def test_about_page(django_app):
 
 
 @pytest.mark.django_db
-def test_sitemap(django_app):
+def test_sitemap(django_app, event):
     django_app.get(reverse('django.contrib.sitemaps.views.sitemap'), status=200)
