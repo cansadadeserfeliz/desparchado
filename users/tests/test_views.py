@@ -1,8 +1,11 @@
 import pytest
 
 from django.urls import reverse
+from django.contrib.auth import get_user_model
 
 from events.tests.factories import EventFactory
+
+User = get_user_model()
 
 
 @pytest.mark.django_db
@@ -17,6 +20,21 @@ def test_successfully_login(django_app, user):
     response = form.submit()
     assert response.status_code == 302
 
+
+@pytest.mark.django_db
+def test_successfully_register_user(django_app):
+    response = django_app.get(reverse('users:register'), status=200)
+    form = response.forms['register_form']
+    form['username'] = 'pepito'
+    form['first_name'] = 'Pepito'
+    form['email'] = 'pepito@example.com'
+    form['password1'] = 'acbCDE123$'
+    form['password2'] = 'acbCDE123$'
+    response = form.submit()
+    assert response.status_code == 302
+
+    user = User.objects.get(username='pepito')
+    assert user.is_active is True
 
 @pytest.mark.django_db
 def test_successfully_shows_user_detail(django_app, user):
