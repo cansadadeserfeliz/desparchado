@@ -8,6 +8,7 @@ from ..models import PressArticle
 
 class MediaSourceFactory(factory.django.DjangoModelFactory):
     title = factory.Faker('sentence')
+    image = factory.django.ImageField()
     source_type = factory.fuzzy.FuzzyChoice(dict(MediaSource.SOURCE_TYPES).keys())
     description = factory.Faker('text')
 
@@ -17,6 +18,7 @@ class MediaSourceFactory(factory.django.DjangoModelFactory):
 
 class PressArticleFactory(factory.django.DjangoModelFactory):
     title = factory.Faker('sentence')
+    image = factory.django.ImageField()
     media_source = factory.SubFactory(MediaSourceFactory)
     source_url = factory.Faker('url')
     publication_date = factory.LazyFunction(random_past_date)
