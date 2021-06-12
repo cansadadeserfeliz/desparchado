@@ -26,11 +26,6 @@ class BookAdmin(admin.ModelAdmin):
         'blog_posts',
     )
 
-    def save_model(self, request, obj, form, change):
-        if not obj.id:
-            obj.created_by = request.user
-        super().save_model(request, obj, form, change)
-
     def has_delete_permission(self, request, obj=None):
         return False
 
