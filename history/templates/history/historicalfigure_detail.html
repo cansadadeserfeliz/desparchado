@@ -15,10 +15,7 @@
     <div class="d-flex justify-content-start align-items-end h-100">
       <div class="text-white m-3">
         <div class="d-flex align-items-center">
-          <div class="flex-shrink-0 bg-image" style="width: 100px; height: 100px;">
-            <img class="bd-placeholder-img rounded-circle img-fluid img-fluid-fit-cover" src="{{ historicalfigure.get_image_url }}" alt="{{ historicalfigure.name }}">
-            <div class="mask historical-figure-mask rounded-circle"></div>
-          </div>
+          {% include 'history/_historical_figure_photo.html' with historical_figure=historicalfigure %}
           <div class="flex-grow-1 ms-3">
             <h1 class="title">{{ historicalfigure.name }}</h1>
             {% if historicalfigure.full_name %}

@@ -3,18 +3,31 @@
   <img src="{{ post.image.url }}" class="card-img-top card-img-fluid-top" alt="{{ historicalfigure.name }}">
 {% endif %}
   <div class="card-header">
-    <div class="d-flex justify-content-between">
+    <div class="d-flex justify-content-between align-self-center gap-2">
       <div>
-        <a class="author link-secondary text-decoration-none" href="{{ post.historical_figure.get_absolute_url }}">{{ post.historical_figure.name }}</a>
+        <div class="d-flex align-items-center">
+          <a class="author link-secondary" href="{{ post.historical_figure.get_absolute_url }}">
+            {% include 'history/_historical_figure_photo.html' with historical_figure=post.historical_figure size=30 %}
+          </a>
+          <div class="ms-2">
+            <a class="author link-secondary" href="{{ post.historical_figure.get_absolute_url }}">{{ post.historical_figure.name }}</a>
+          </div>
+        </div>
       </div>
-      <div>
-      {% if post.historical_figure_mentions.exists %}
-        <i class="fas fa-at"></i>
+    {% if post.historical_figure_mentions.exists %}
+      <div class="d-flex align-items-center gap-2">
+        <div>
+          <i class="fas fa-chevron-right"></i> <i>menciona a</i>
+        </div>
         {% for mentioned_historical_figure in post.historical_figure_mentions.all %}
-          <a class="link-secondary" href="{{ mentioned_historical_figure.get_absolute_url }}">{{ mentioned_historical_figure.name }}</a>{% if not forloop.last %},{% endif %}
+        <div>
+          <a class="author link-secondary" href="{{ mentioned_historical_figure.get_absolute_url }}" title="{{ mentioned_historical_figure.name }}">
+            {% include 'history/_historical_figure_photo.html' with historical_figure=mentioned_historical_figure size=30 %}
+          </a>
+        </div>
         {% endfor %}
-      {% endif %}
       </div>
+    {% endif %}
     </div>
   </div>
   <div class="card-body">
@@ -27,12 +40,20 @@
           </span>
         {% endif %}
       </p>
-    {% if post.location_name %}
-      <footer class="blockquote-footer"><i class="fas fa-map-marker"></i> {{ post.location_name }}</footer>
-    {% endif %}
-    {% if post.post_date %}
-      <footer class="blockquote-footer"><cite>{{ post.get_post_date_display }}</cite></footer>
-    {% endif %}
+    <div class="d-flex justify-content-between">
+      {% if post.post_date %}
+        <div>
+          <footer class="blockquote-footer"><cite>{{ post.get_post_date_display }}</cite></footer>
+        </div>
+      {% endif %}
+      {% if post.location_name %}
+        <div>
+          <footer class="blockquote-footer"><i class="fas fa-map-marker"></i> {{ post.location_name }}</footer>
+        </div>
+      {% endif %}
+    </div>
+
+
     </blockquote>
   </div>
   {% if show_groups and post.published_in_groups.exists %}
