@@ -30,13 +30,13 @@ def test_show_historical_figure_detail(django_app, history_historical_figure):
     )
     assert history_historical_figure.name in response
 
-    assert written_post.title in response
-    assert mention_post.title in response
-    assert not_related_post.title not in response
+    assert str(written_post.token) in response
+    assert str(mention_post.token) in response
+    assert str(not_related_post.token) not in response
 
 
 @pytest.mark.django_db
-def test_show_historical_figure_detail(django_app, history_group):
+def test_show_group_detail(django_app, history_group):
     response = django_app.get(
         reverse('history:group_detail', args=(history_group.token,)),
         status=200,

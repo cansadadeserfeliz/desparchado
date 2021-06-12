@@ -68,10 +68,6 @@ class Place(TimeStampedModel):
             return True
         return False
 
-    @staticmethod
-    def autocomplete_search_fields():
-        return ('name__icontains',)
-
 
 class City(TimeStampedModel):
     name = models.CharField(

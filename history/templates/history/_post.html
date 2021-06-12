@@ -1,38 +1,57 @@
-<div class="card card-historical-post shadow-lg my-3">
+<div class="card historical-post-card shadow-lg my-3" id="{{ post.token }}">
 {% if post.image %}
   <img src="{{ post.image.url }}" class="card-img-top card-img-fluid-top" alt="{{ historicalfigure.name }}">
 {% endif %}
   <div class="card-header">
-    <div class="d-flex justify-content-between">
+    <div class="d-flex justify-content-between align-self-center gap-2">
       <div>
-        <a class="author link-secondary" href="{{ post.historical_figure.get_absolute_url }}">{{ post.historical_figure.name }}</a>
+        <div class="d-flex align-items-center">
+          <a class="author link-secondary" href="{{ post.historical_figure.get_absolute_url }}">
+            {% include 'history/_historical_figure_photo.html' with historical_figure=post.historical_figure size=30 %}
+          </a>
+          <div class="ms-2">
+            <a class="author link-secondary" href="{{ post.historical_figure.get_absolute_url }}">{{ post.historical_figure.name }}</a>
+          </div>
+        </div>
       </div>
-      <div>
-      {% if post.historical_figure_mentions.exists %}
-        <i class="fas fa-at"></i>
+    {% if post.historical_figure_mentions.exists %}
+      <div class="d-flex align-items-center gap-2">
+        <div><i>menciona a</i></div>
         {% for mentioned_historical_figure in post.historical_figure_mentions.all %}
-          <a class="link-secondary" href="{{ mentioned_historical_figure.get_absolute_url }}">{{ mentioned_historical_figure.name }}</a>{% if not forloop.last %},{% endif %}
+        <div>
+          <a class="author link-secondary" href="{{ mentioned_historical_figure.get_absolute_url }}" title="{{ mentioned_historical_figure.name }}">
+            {% include 'history/_historical_figure_photo.html' with historical_figure=mentioned_historical_figure size=30 %}
+          </a>
+        </div>
         {% endfor %}
-      {% endif %}
       </div>
+    {% endif %}
     </div>
   </div>
   <div class="card-body">
     <blockquote class="blockquote mb-0">
       <p>
-        {{ post.text|safe }}
-        {% if post.sources %}
-          <span class="sources-icon" data-bs-toggle="tooltip" title="{{ post.sources }}">
-            <i class="fas fa-info-circle"></i>
-          </span>
-        {% endif %}
+        {{ post.text|safe|linebreaks }}
       </p>
-    {% if post.location_name %}
-      <footer class="blockquote-footer"><i class="fas fa-map-marker"></i> {{ post.location_name }}</footer>
-    {% endif %}
-    {% if post.post_date %}
-      <footer class="blockquote-footer"><cite>{{ post.get_post_date_display }}</cite></footer>
-    {% endif %}
+      <footer class="blockquote-footer">
+        <div class="d-flex justify-content-between align-items-center">
+        {% if post.post_date %}
+          <div>
+            <cite>{{ post.get_post_date_display }}</cite>
+          </div>
+        {% endif %}
+        {% if post.sources %}
+          <div data-bs-toggle="tooltip" title="{{ post.sources }}">
+            <i class="fas fa-info-circle"></i>
+          </div>
+        {% endif %}
+        {% if post.location_name %}
+          <div>
+            <i class="fas fa-map-marker"></i> {{ post.location_name }}
+          </div>
+        {% endif %}
+        </div>
+      </footer>
     </blockquote>
   </div>
   {% if show_groups and post.published_in_groups.exists %}

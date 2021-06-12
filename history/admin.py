@@ -137,15 +137,14 @@ class HistoricalFigureAdmin(admin.ModelAdmin):
 
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
-    list_select_related = ('historical_figure', 'created_by')
+    list_select_related = ('historical_figure',)
     list_display = [
         'historical_figure',
         'type',
+        'text',
         'get_post_date_display',
-        'created_by',
         'modified',
     ]
-    list_filter = ('type',)
     date_hierarchy = 'post_date'
 
     fieldsets = (
