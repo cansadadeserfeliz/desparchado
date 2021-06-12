@@ -49,11 +49,6 @@ class PlaceAdmin(gis_admin.OSMGeoAdmin):
     raw_id_fields = (
         'editors',
     )
-    autocomplete_lookup_fields = {
-        'm2m': [
-            'editors',
-        ],
-    }
 
     def get_actions(self, request):
         return []

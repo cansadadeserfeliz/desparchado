@@ -25,14 +25,6 @@ class BookAdmin(admin.ModelAdmin):
         'authors',
         'blog_posts',
     )
-    autocomplete_lookup_fields = {
-        'm2m': [
-            'related_events',
-            'press_articles',
-            'authors',
-            'blog_posts',
-        ],
-    }
 
     def save_model(self, request, obj, form, change):
         if not obj.id:
@@ -60,6 +52,3 @@ class AuthorAdmin(admin.ModelAdmin):
     raw_id_fields = (
         'speaker',
     )
-    autocomplete_lookup_fields = {
-        'fk': ['speaker'],
-    }

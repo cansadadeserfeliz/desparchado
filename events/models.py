@@ -250,10 +250,6 @@ class Event(TimeStampedModel):
     def is_visible(self):
         return self.is_published and self.is_approved
 
-    @staticmethod
-    def autocomplete_search_fields():
-        return ('title__icontains',)
-
     class Meta:
         verbose_name = 'Evento'
         verbose_name_plural = 'Eventos'
@@ -304,10 +300,6 @@ class Organizer(TimeStampedModel):
             return True
         return False
 
-    @staticmethod
-    def autocomplete_search_fields():
-        return ('name__icontains',)
-
 
 class Speaker(TimeStampedModel):
     name = models.CharField('Nombre', max_length=255, unique=True)
@@ -348,10 +340,6 @@ class Speaker(TimeStampedModel):
         if user.is_superuser or user == self.created_by or user in self.editors.all():
             return True
         return False
-
-    @staticmethod
-    def autocomplete_search_fields():
-        return ('name__icontains',)
 
 
 class SocialNetworkPost(TimeStampedModel):

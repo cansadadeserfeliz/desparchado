@@ -18,9 +18,6 @@ class UserBadgeAdmin(admin.ModelAdmin):
     ]
 
     raw_id_fields = ('user', 'badge')
-    autocomplete_lookup_fields = {
-        'fk': ['user', 'badge'],
-    }
 
 
 @admin.register(Badge)
@@ -45,9 +42,6 @@ class UserEventRelationAdmin(admin.ModelAdmin):
     )
 
     raw_id_fields = ('user', 'event')
-    autocomplete_lookup_fields = {
-        'fk': ['user', 'event'],
-    }
 
     def has_delete_permission(self, request, obj=None):
         return False

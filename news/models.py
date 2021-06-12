@@ -84,10 +84,6 @@ class PressArticle(TimeStampedModel):
     def get_absolute_url(self):
         return reverse('news:press_article_detail', args=[self.slug])
 
-    @staticmethod
-    def autocomplete_search_fields():
-        return ('title__icontains',)
-
     def get_image_url(self):
         return self.image.url
 
