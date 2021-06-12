@@ -1,7 +1,6 @@
 from django.contrib.gis import admin as gis_admin
 from django.contrib import admin
 
-from desparchado.utils import send_admin_notification
 from .models import Place, City
 
 BOGOTA_LAT = 4.5930632
