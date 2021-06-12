@@ -1,44 +1,26 @@
 import factory
 import factory.fuzzy
 
-from ..models import Book
-from ..models import Author
-from events.tests.factories import SpeakerFactory
+from desparchado.tests.helpers import random_past_date
+from ..models import MediaSource
+from ..models import PressArticle
 
 
-class AuthorFactory(factory.django.DjangoModelFactory):
-    name = factory.fuzzy.FuzzyText(length=100)
-    speaker = factory.SubFactory(SpeakerFactory)
-
-    class Meta:
-        model = Author
-
-
-class BookFactory(factory.django.DjangoModelFactory):
-    title = factory.fuzzy.FuzzyText(length=100)
-    description = factory.fuzzy.FuzzyText(length=100)
-
-    @factory.post_generation
-    def related_events(self, create, extracted, **kwargs):
-        if not create:
-            # Simple build, do nothing.
-            return
-
-        if extracted:
-            # A list of groups were passed in, use them
-            for related_event in extracted:
-                self.related_events.add(related_event)
-
-    @factory.post_generation
-    def authors(self, create, extracted, **kwargs):
-        if not create:
-            # Simple build, do nothing.
-            return
-
-        if extracted:
-            # A list of groups were passed in, use them
-            for author in extracted:
-                self.authors.add(author)
+class MediaSourceFactory(factory.django.DjangoModelFactory):
+    title = factory.Faker('sentence')
+    source_type = factory.fuzzy.FuzzyChoice(dict(MediaSource.SOURCE_TYPES).keys())
+    description = factory.Faker('text')
 
     class Meta:
-        model = Book
+        model = MediaSource
+
+
+class PressArticleFactory(factory.django.DjangoModelFactory):
+    title = factory.Faker('sentence')
+    media_source = factory.SubFactory(MediaSourceFactory)
+    source_url = factory.Faker('url')
+    publication_date = factory.LazyFunction(random_past_date)
+    excerpt = factory.Faker('text')
+
+    class Meta:
+        model = PressArticle
