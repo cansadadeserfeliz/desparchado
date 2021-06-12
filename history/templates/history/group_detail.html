@@ -19,10 +19,10 @@
     <div class="card border mt-2">
       <ul class="list-group list-group-flush">
         <li class="list-group-item">
-          <small class="text-muted">{{ group.description }}</small>
+          <div class="text-muted">{{ group.description }}</div>
         </li>
         <li class="list-group-item">
-          <small class="text-muted">
+          <div class="text-muted">
             <strong>Miembros del grupo:</strong>
             <div class="d-flex justify-content-start gap-2 my-2">
               {% for historical_figure in group.members.all %}
@@ -35,7 +35,7 @@
                 -
               {% endfor %}
             </div>
-          </small>
+          </div>
         </li>
       </ul>
     </div>

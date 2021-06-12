@@ -36,20 +36,20 @@
     <div class="card border mt-3">
       <ul class="list-group list-group-flush">
         <li class="list-group-item">
-          <small class="text-muted"><strong>Nacimiento:</strong> {{ historicalfigure.get_date_of_birth_display }}</small>
+          <div class="text-muted"><strong>Nacimiento:</strong> {{ historicalfigure.get_date_of_birth_display }}</div>
         </li>
         <li class="list-group-item">
-          <small class="text-muted"><strong>Muerte:</strong> {{ historicalfigure.get_date_of_death_display }}</small>
+          <div class="text-muted"><strong>Muerte:</strong> {{ historicalfigure.get_date_of_death_display }}</div>
         </li>
         <li class="list-group-item">
-          <small class="text-muted">
+          <div class="text-muted">
             <strong>Grupos:</strong>
             {% for group in historicalfigure.groups.all %}
               <a href="{{ group.get_absolute_url }}">{{ group.title }}</a>{% if not forloop.last %},{% endif %}
             {% empty %}
               -
             {% endfor %}
-          </small>
+          </div>
         </li>
       </ul>
     </div>
