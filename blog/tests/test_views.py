@@ -27,6 +27,22 @@ def test_show_post_detail(django_app, blog_post):
 
 
 @pytest.mark.django_db
+def test_show_post_detail_with_default_image(django_app, blog_post):
+    blog_post.image = None
+    blog_post.save()
+
+    django_app.get(reverse('blog:post_detail', args=[blog_post.slug]), status=200)
+
+
+@pytest.mark.django_db
+def test_show_post_detail_with_default_author(django_app, blog_post):
+    blog_post.created_by_desparchado = True
+    blog_post.save()
+
+    django_app.get(reverse('blog:post_detail', args=[blog_post.slug]), status=200)
+
+
+@pytest.mark.django_db
 def test_don_not_show_not_published_post_detail(django_app, blog_post):
     blog_post.is_published = False
     blog_post.save()
