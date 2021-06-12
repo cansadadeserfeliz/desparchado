@@ -4,6 +4,7 @@ omit =
     *tests*
     manage.py
     *settings*
+    books/services.py
     books/goodreads_client.py
     books/taganga_client.py
     dashboard/*
