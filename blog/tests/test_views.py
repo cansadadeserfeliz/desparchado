@@ -28,7 +28,7 @@ def test_show_post_detail(django_app, blog_post):
 
 @pytest.mark.django_db
 def test_show_post_detail_with_default_image(django_app, blog_post):
-    blog_post.image = None
+    blog_post.header_image = None
     blog_post.save()
 
     django_app.get(reverse('blog:post_detail', args=[blog_post.slug]), status=200)
