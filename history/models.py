@@ -56,6 +56,8 @@ class HistoricalFigure(TimeStampedModel):
     full_name = models.CharField(
         verbose_name='Nombre completo',
         max_length=500,
+        default='',
+        blank=True,
         help_text='Por ejemplo, "Simón José Antonio de la Santísima Trinidad Bolívar '
                   'de la Concepción y Ponte Palacios y Blanco"',
     )
