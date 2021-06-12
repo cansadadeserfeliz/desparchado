@@ -3,6 +3,7 @@ omit =
     *migrations*
     *tests*
     manage.py
+    desparchado/wsgi.py
     *settings*
     books/services.py
     books/goodreads_client.py
