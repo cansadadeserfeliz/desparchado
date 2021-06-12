@@ -16,9 +16,7 @@
       </div>
     {% if post.historical_figure_mentions.exists %}
       <div class="d-flex align-items-center gap-2">
-        <div>
-          <i class="fas fa-chevron-right"></i> <i>menciona a</i>
-        </div>
+        <div><i>menciona a</i></div>
         {% for mentioned_historical_figure in post.historical_figure_mentions.all %}
         <div>
           <a class="author link-secondary" href="{{ mentioned_historical_figure.get_absolute_url }}" title="{{ mentioned_historical_figure.name }}">
