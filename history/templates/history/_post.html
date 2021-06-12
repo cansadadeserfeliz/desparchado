@@ -1,11 +1,11 @@
-<div class="card card-historical-post shadow-lg my-3">
+<div class="card historical-post-card shadow-lg my-3">
 {% if post.image %}
   <img src="{{ post.image.url }}" class="card-img-top card-img-fluid-top" alt="{{ historicalfigure.name }}">
 {% endif %}
   <div class="card-header">
     <div class="d-flex justify-content-between">
       <div>
-        <a class="author link-secondary" href="{{ post.historical_figure.get_absolute_url }}">{{ post.historical_figure.name }}</a>
+        <a class="author link-secondary text-decoration-none" href="{{ post.historical_figure.get_absolute_url }}">{{ post.historical_figure.name }}</a>
       </div>
       <div>
       {% if post.historical_figure_mentions.exists %}
@@ -20,7 +20,7 @@
   <div class="card-body">
     <blockquote class="blockquote mb-0">
       <p>
-        {{ post.text|linebreaks|safe }}
+        {{ post.text|safe|linebreaks }}
         {% if post.sources %}
           <span class="sources-icon" data-bs-toggle="tooltip" title="{{ post.sources }}">
             <i class="fas fa-info-circle"></i>
