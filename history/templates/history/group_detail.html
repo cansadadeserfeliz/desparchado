@@ -24,11 +24,17 @@
         <li class="list-group-item">
           <small class="text-muted">
             <strong>Miembros del grupo:</strong>
-            {% for historical_figure in group.members.all %}
-              <a href="{{ historical_figure.get_absolute_url }}">{{ historical_figure.name }}</a>{% if not forloop.last %},{% endif %}
-            {% empty %}
-              -
-            {% endfor %}
+            <div class="d-flex justify-content-start gap-2 my-2">
+              {% for historical_figure in group.members.all %}
+                <div>
+                  <a class="author link-secondary" href="{{ historical_figure.get_absolute_url }}">
+                    {% include 'history/_historical_figure_photo.html' with historical_figure=historical_figure size=30 %}
+                  </a>
+                </div>
+              {% empty %}
+                -
+              {% endfor %}
+            </div>
           </small>
         </li>
       </ul>
