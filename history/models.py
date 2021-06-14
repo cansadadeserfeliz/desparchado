@@ -172,6 +172,13 @@ class Event(TimeStampedModel):
     def get_event_date_display(self):
         return get_historical_date_display(self.event_date, self.event_date_precision)
 
+    def get_event_day_and_month_display(self):
+        if self.event_date_precision == DATETIME_PRECISION_YEAR:
+            return '-'
+        if self.event_date_precision == DATETIME_PRECISION_MONTH:
+            return _date(self.event_date, 'b')
+        return _date(self.event_date, 'j b')
+
     def get_event_end_date_display(self):
         if self.event_end_date:
             return get_historical_date_display(self.event_end_date, self.event_end_date_precision)
@@ -181,6 +188,7 @@ class Event(TimeStampedModel):
         return self.title
 
     class Meta:
+        ordering = ['-event_date']
         verbose_name = 'Evento histórico'
         verbose_name_plural = 'Eventos históricos'
 
