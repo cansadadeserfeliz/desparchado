@@ -1,13 +1,44 @@
 {% extends 'history/layout/base.html' %}
 
 {% block content %}
-<h1 style="text-align:center">Detalle del evento "{{event.title}}"</h1>
-<h2>Descripción</h2>
-<p>
-  {{event.description}}
-</p>
-<h2>Fecha</h2>
-<p>
-  {{event.event_date}}
-</p>
+
+<article class="history-event-detail-page">
+  <div class="d-flex align-items-center">
+    <div>
+      <div class="card event-date-card text-center">
+        <div class="card-header month">
+          {{ event.get_event_day_and_month_display }}
+        </div>
+        <div class="card-body">
+          <h5 class="card-title year">{{ event.event_date|date:'Y' }}</h5>
+        </div>
+      </div>
+    </div>
+    <div class="flex-grow-1 ms-3">
+      <h1 class="title">{{ event.title }}</h1>
+      <p>
+        {{ event.get_event_date_display }}
+        {% if event.event_end_date %}
+          - {{ event.get_event_end_date_display }}
+        {% endif %}
+      </p>
+    </div>
+  </div>
+
+  <div class="my-3">
+  {% if event.historical_figures.exists %}
+    <div class="d-flex align-items-center gap-2">
+      <div><i>Figuras históricas:</i></div>
+      {% for mentioned_historical_figure in event.historical_figures.all %}
+      <div>
+        <a class="author link-secondary" href="{{ mentioned_historical_figure.get_absolute_url }}" title="{{ mentioned_historical_figure.name }}">
+          {% include 'history/_historical_figure_photo.html' with historical_figure=mentioned_historical_figure size=30 %}
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+    <p class="text-lg">{{event.description}}</p>
+  </div>
+</article>
 {% endblock content %}

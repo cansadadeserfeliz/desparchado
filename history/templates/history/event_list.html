@@ -1,7 +1,7 @@
 {% extends 'history/layout/base.html' %}
 
 {% block content %}
-<div class="row">
+<div class="history-events-list">
   {% for event in event_list %}
     <div class="col-md-12 my-2">
       <div class="d-flex align-items-center">
@@ -16,8 +16,8 @@
           </div>
         </div>
         <div class="flex-grow-1 ms-3">
-          <a class="author link-secondary" href="{{ event.get_absolute_url }}" title="{{ event.title }}">
-            <h5>{{ event.title }}</h5>
+          <a class="link-secondary" href="{{ event.get_absolute_url }}" title="{{ event.title }}">
+            <h5 class="title">{{ event.title }}</h5>
           </a>
         </div>
       </div>
