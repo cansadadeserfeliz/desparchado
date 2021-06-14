@@ -2,14 +2,16 @@
 
 {% block content %}
   <div class="row">
-    {% for historicalfigure in historicalfigure_list %}
+    {% for historical_figure in historicalfigure_list %}
       <div class="col-md-6 my-2">
         <div class="d-flex align-items-center">
           <a class="author link-secondary" href="{{ historical_figure.get_absolute_url }}">
-            {% include 'history/_historical_figure_photo.html' with historical_figure=historicalfigure size=70 %}
+            {% include 'history/_historical_figure_photo.html' with historical_figure=historical_figure size=70 %}
           </a>
           <div class="flex-grow-1 ms-3">
-            <h5>{{ historicalfigure.name }}</h5>
+            <a class="author link-secondary" href="{{ historical_figure.get_absolute_url }}">
+              <h5>{{ historical_figure.name }}</h5>
+            </a>
           </div>
         </div>
       </div>
