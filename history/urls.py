@@ -29,7 +29,7 @@ urlpatterns = [
         'grupos/<uuid:token>/',
         GroupDetailView.as_view(),
         name='group_detail'
-    ),   
+    ),
     path(
         'eventos/',
         EventsListView.as_view(),
@@ -40,5 +40,4 @@ urlpatterns = [
         EventDetailView.as_view(),
         name='event_detail'
     ),
-
 ]
