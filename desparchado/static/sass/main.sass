@@ -26,6 +26,10 @@ body
     border-color: $primary-color
     background-color: $primary-color
 
+.text-lg
+  line-height: 1.5
+  font-size: 20px
+
 .card
   border-radius: 0
   height: 100%
@@ -46,6 +50,17 @@ body
     line-height: 1
     color: $dark-gray
 
+  .blockquote
+    font-size: 18px
+
+  .blockquote-footer
+    margin-top: 0
+    color: $dark-gray
+    font-size: 14px
+
+    &:before
+      content: none
+
   /* Get images in Bootstrap's card (.card-img-top) to be the same height/width */
   .card-img-fluid-top
     width: 100%
@@ -65,6 +80,12 @@ body
       line-height: 21px
       a
         color: $primary-color
+
+  &.historical-post-card
+    .author
+      font-weight: 800
+      font-size: 16px
+
 
 .img-fluid-fit-cover
   width: 100%
@@ -148,6 +169,10 @@ body
 
 .historical-figure-mask
   background: radial-gradient(circle at top right, rgba(255, 220, 0, 0.6), rgba(6, 9, 38, 0.6) 90%)
+
+.historical-figure-header
+  .title
+    font-weight: 800
 
 .event-detail-page
 
@@ -471,7 +496,7 @@ body
 
 /* Footer */
 
-footer
+.footer
   background-color: #171a1d
   color: #b3b3b3
 

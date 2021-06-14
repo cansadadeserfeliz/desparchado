@@ -2,7 +2,7 @@ import pytest
 
 from django.urls import reverse
 
-from ..models import Event, HistoricalFigure, Post
+from ..models import Event, HistoricalFigure, Post, Group
 from ..models import DATETIME_PRECISION_DAY
 
 
@@ -160,3 +160,51 @@ def test_edit_post(django_app, user_admin, history_post):
     assert response.status_code == 302
     history_post.refresh_from_db()
     assert history_post.created_by == history_post_creator
+
+
+@pytest.mark.django_db
+def test_show_group_list(django_app, user_admin, history_group):
+    response = django_app.get(
+        reverse('admin:history_group_changelist'),
+        user=user_admin,
+        status=200
+    )
+    assert history_group.title in response
+
+
+@pytest.mark.django_db
+def test_add_group(django_app, user_admin):
+    groups_count = Group.objects.count()
+
+    response = django_app.get(reverse('admin:history_group_add'), user=user_admin, status=200)
+    form = response.forms['group_form']
+    form['title'] = 'Naturaleza'
+    form['description'] = 'La batalla del Puente de Boyacá fue la confrontación más importante de la guerra ' \
+                          'de independencia de Colombia que garantizó el éxito de la Campaña Libertadora ' \
+                          'de Nueva Granada.'
+    response = form.submit()
+    assert response.status_code == 302
+
+    assert Group.objects.count() == groups_count + 1
+    group = Group.objects.get(title='Naturaleza')
+    assert group.created_by == user_admin
+
+    assert reverse('admin:history_group_changelist') in response.location
+
+
+@pytest.mark.django_db
+def test_edit_group(django_app, user_admin, history_group):
+    assert history_group.created_by != user_admin
+    history_group_creator = history_group.created_by
+
+    response = django_app.get(
+        reverse('admin:history_group_change', args=(history_group.id,)),
+        user=user_admin,
+        status=200
+    )
+    form = response.forms['group_form']
+    response = form.submit()
+
+    assert response.status_code == 302
+    history_group.refresh_from_db()
+    assert history_group.created_by == history_group_creator

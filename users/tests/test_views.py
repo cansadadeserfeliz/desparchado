@@ -1,64 +1,111 @@
-from django.urls import reverse
+import pytest
 
-from django_webtest import WebTest
+from django.urls import reverse
+from django.contrib.auth import get_user_model
 
 from events.tests.factories import EventFactory
-from .factories import UserFactory
+
+User = get_user_model()
 
 
-class UserDetailViewTest(WebTest):
+@pytest.mark.django_db
+def test_successfully_login(django_app, user):
+    user.set_password('acbCDE123$')
+    user.save()
 
-    def setUp(self):
-        self.authenticated_user = UserFactory()
-        self.user = UserFactory()
-
-    def test_successfully_shows_user(self):
-        response = self.app.get(
-            reverse('users:user_detail', args=[self.user.username]),
-            status=200
-        )
-        self.assertEqual(response.context['user_object'], self.user)
-        self.assertContains(response, self.user.first_name)
-
-    def test_successfully_shows_user_detail_for_authenticated_user(self):
-        response = self.app.get(
-            reverse('users:user_detail', args=[self.user.username]),
-            user=self.authenticated_user,
-            status=200
-        )
-        self.assertEqual(response.context['user_object'], self.user)
-        self.assertContains(response, self.user.first_name)
+    response = django_app.get(reverse('users:login'), status=200)
+    form = response.forms['login_form']
+    form['username'] = user.username
+    form['password'] = 'acbCDE123$'
+    response = form.submit()
+    assert response.status_code == 302
 
 
-class UserAddedEventsListViewTest(WebTest):
+@pytest.mark.django_db
+def test_successfully_register_user(django_app):
+    response = django_app.get(reverse('users:register'), status=200)
+    form = response.forms['register_form']
+    form['username'] = 'pepito'
+    form['first_name'] = 'Pepito'
+    form['email'] = 'pepito@example.com'
+    form['password1'] = 'acbCDE123$'
+    form['password2'] = 'acbCDE123$'
+    response = form.submit()
+    assert response.status_code == 302
 
-    def setUp(self):
-        self.user = UserFactory()
-        self.other_user = UserFactory()
+    user = User.objects.get(username='pepito')
+    assert user.is_active is True
 
-        self.first_event = EventFactory(created_by=self.user)
-        self.second_event = EventFactory(created_by=self.user)
 
-        self.other_user_event = EventFactory(
-            created_by=self.other_user
-        )
+@pytest.mark.django_db
+def test_register_user_email_already_exists(django_app, user):
+    response = django_app.get(reverse('users:register'), status=200)
+    form = response.forms['register_form']
+    form['username'] = 'pepito'
+    form['first_name'] = 'Pepito'
+    form['email'] = user.email
+    form['password1'] = 'acbCDE123$'
+    form['password2'] = 'acbCDE123$'
+    response = form.submit()
+    assert response.status_code == 200
 
-    def test_redirects_for_non_authenticated_user(self):
-        response = self.app.get(
-            reverse('users:user_added_events_list'),
-            status=302
-        )
-        self.assertIn(reverse('users:login'), response.location)
 
-    def test_successfully_shows_user_events(self):
-        response = self.app.get(
-            reverse('users:user_added_events_list'),
-            user=self.user,
-            status=200
-        )
+@pytest.mark.django_db
+def test_successfully_reset_password(django_app, user):
+    response = django_app.get(reverse('users:password_reset'), status=200)
+    form = response.forms['password_reset_form']
+    form['email'] = user.email
+    response = form.submit().follow()
+    assert 'Restablecimiento de contraseña enviado' in response
 
-        self.assertEqual(response.context['user_object'], self.user)
-        self.assertEqual(len(response.context['events']), 2)
-        self.assertIn(self.first_event, response.context['events'])
-        self.assertIn(self.second_event, response.context['events'])
-        self.assertNotIn(self.other_user_event, response.context['events'])
+
+@pytest.mark.django_db
+def test_successfully_shows_user_detail(django_app, user):
+    response = django_app.get(
+        reverse('users:user_detail', args=[user.username]),
+        status=200
+    )
+    assert response.context['user_object'] == user
+    assert user.first_name in response
+
+
+@pytest.mark.django_db
+def test_successfully_shows_user_detail_for_authenticated_user(django_app, user):
+    response = django_app.get(
+        reverse('users:user_detail', args=[user.username]),
+        user=user,
+        status=200
+    )
+    assert response.context['user_object'] == user
+    assert user.first_name in response
+
+
+@pytest.mark.django_db
+def test_user_added_events_list_redirects_for_non_authenticated_user(django_app):
+    response = django_app.get(
+        reverse('users:user_added_events_list'),
+        status=302
+    )
+    assert reverse('users:login') in response.location
+
+
+@pytest.mark.django_db
+def test_successfully_shows_user_events(django_app, user, other_user):
+    first_event = EventFactory(created_by=user)
+    second_event = EventFactory(created_by=user)
+
+    other_user_event = EventFactory(
+        created_by=other_user
+    )
+
+    response = django_app.get(
+        reverse('users:user_added_events_list'),
+        user=user,
+        status=200
+    )
+
+    assert user == response.context['user_object']
+    assert len(response.context['events']) == 2
+    assert first_event in response.context['events']
+    assert second_event in response.context['events']
+    assert other_user_event not in response.context['events']

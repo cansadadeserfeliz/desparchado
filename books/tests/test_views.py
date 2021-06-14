@@ -20,3 +20,12 @@ def test_show_book_detail(django_app, book):
     response = django_app.get(reverse('books:book_detail', args=[book.slug]), status=200)
     assert book.title in response
 
+
+@pytest.mark.django_db
+def test_show_book_detail_without_image(django_app, book):
+    book.image = None
+    book.save()
+
+    response = django_app.get(reverse('books:book_detail', args=[book.slug]), status=200)
+    assert book.title in response
+

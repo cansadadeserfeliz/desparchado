@@ -35,6 +35,7 @@ INSTALLED_APPS = [
 
     'django.contrib.admin',
     'django.contrib.auth',
+    'django.contrib.sites',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
@@ -197,6 +198,8 @@ STATICFILES_FINDERS = (
     'pipeline.finders.PipelineFinder',
 )
 
+SITE_ID = 1
+
 # django-pipeline
 STATICFILES_STORAGE = 'pipeline.storage.PipelineManifestStorage'
 PIPELINE = {
@@ -250,7 +253,6 @@ PIPELINE = {
               #'bower_components/moment/min/moment-with-locales.min.js',
               #'bower_components/jquery-slimscroll/jquery.slimscroll.min.js',
               #'bower_components/fastclick/lib/fastclick.js',
-              #'bower_components/moment/min/moment.min.js',
               #'bower_components/fullcalendar/dist/fullcalendar.min.js',
               'js/dashboard.js',
             ),
@@ -343,9 +345,6 @@ GOODREADS_API_SECRET = getenvvar('GOODREADS_API_SECRET', 'not-set')
 TAGANGA_AUTH_TOKEN = getenvvar('TAGANGA_AUTH_TOKEN', 'not-set')
 TAGANGA_BASE_URL = 'https://taganga-api.herokuapp.com/api/v1/'
 
-AWS_SES_ACCESS_KEY_ID = getenvvar('AWS_SES_ACCESS_KEY_ID', 'not-set')
-AWS_SES_SECRET_ACCESS_KEY = getenvvar('AWS_SES_SECRET_ACCESS_KEY', 'not-set')
-
 MAP_WIDGETS = {
     "GooglePointFieldWidget": (
         ("zoom", 12),
@@ -361,8 +360,10 @@ EMAIL_USE_TLS = True
 EMAIL_BACKEND = 'django_ses.SESBackend'
 EMAIL_FROM = 'no-reply@desparchado.co'
 
-AWS_SES_ACCESS_KEY_ID = 'YOUR-ACCESS-KEY-ID'
-AWS_SES_SECRET_ACCESS_KEY = 'YOUR-SECRET-ACCESS-KEY'
+AWS_SES_ACCESS_KEY_ID = getenvvar('AWS_SES_ACCESS_KEY_ID', 'not-set')
+AWS_SES_SECRET_ACCESS_KEY = getenvvar('AWS_SES_SECRET_ACCESS_KEY', 'not-set')
+AWS_ACCESS_KEY_ID = getenvvar('AWS_SES_ACCESS_KEY_ID', 'not-set')
+AWS_SECRET_ACCESS_KEY = getenvvar('AWS_SES_SECRET_ACCESS_KEY', 'not-set')
 
 AWS_SES_REGION_NAME = 'us-east-1'
 AWS_SES_REGION_ENDPOINT = 'email.us-east-1.amazonaws.com'

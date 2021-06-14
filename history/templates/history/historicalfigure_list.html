@@ -3,16 +3,15 @@
 {% block content %}
   <div class="row">
     {% for historicalfigure in historicalfigure_list %}
-      <div class="col-md-6">
+      <div class="col-md-6 my-2">
         <div class="d-flex align-items-center">
-          <div class="flex-shrink-0 bg-image" style="width: 100px; height: 100px;">
+          <div class="flex-shrink-0 bg-image" style="width: 70px; height: 70px;">
             <img class="bd-placeholder-img rounded-circle img-fluid img-fluid-fit-cover" src="{{ historicalfigure.get_image_url }}" alt="{{ historicalfigure.name }}">
             <div class="mask historical-figure-mask rounded-circle"></div>
           </div>
           <div class="flex-grow-1 ms-3">
             <h5>{{ historicalfigure.name }}</h5>
-            <p>{{ historicalfigure.full_name }}</p>
-            <p><a class="link-secondary" href="#">Ver detalles &raquo;</a></p>
+            <p><a class="link-secondary" href="{{ historicalfigure.get_absolute_url }}">Ver detalles &raquo;</a></p>
           </div>
         </div>
       </div>

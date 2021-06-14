@@ -12,6 +12,3 @@ class SpecialAdmin(admin.ModelAdmin):
     ]
 
     raw_id_fields = ('related_events',)
-    autocomplete_lookup_fields = {
-        'm2m': ['related_events'],
-    }
