@@ -5,6 +5,7 @@ from django.db.models import Q
 from .models import HistoricalFigure
 from .models import Post
 from .models import Group
+from .models import Event
 
 
 class HistoricalFigureListView(ListView):
@@ -46,3 +47,14 @@ class GroupDetailView(DetailView):
 
     def get_object(self, queryset=None):
         return Group.objects.get(token=self.kwargs.get('token'))
+
+
+class EventsListView(ListView):
+    model = Event
+
+
+class EventDetailView(DetailView):
+    model = Event
+
+    def get_object(self, queryset=None):
+        return Event.objects.get(token=self.kwargs.get("token"))
