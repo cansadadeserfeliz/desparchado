@@ -37,7 +37,7 @@
         <div class="d-flex justify-content-between align-items-center">
           <div>
             {% if not hide_details_link %}
-              <a class="link-secondary" href="https://desparchado.co{{ post.get_absolute_url }}#disqus_thread" target="_blank">Escribe un comentario</a>
+              <a class="link-secondary" href="{{ post.get_absolute_url }}#disqus_thread" target="_blank">Escribe un comentario</a>
             {% endif %}
           </div>
           {% if post.sources %}
