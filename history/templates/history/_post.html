@@ -34,29 +34,21 @@
         {{ post.text|safe|linebreaks }}
       </p>
       <footer class="blockquote-footer">
-        {% if post.sources %}
-          <div class="mb-2 text-end">
-            <!-- Button trigger modal -->
-            <button type="button" class="btn btn-sm btn-outline-light" data-bs-toggle="modal" data-bs-target="#postSources_{{ post.token }}" title="Fuentes de información">
-              <i class="fas fa-info-circle text-muted"></i>
-            </button>
+        <div class="d-flex justify-content-between align-items-center">
+          <div>
+            {% if not hide_details_link %}
+              <a class="link-secondary" href="https://desparchado.co{{ post.get_absolute_url }}#disqus_thread" target="_blank">Escribe un comentario</a>
+            {% endif %}
           </div>
-
-          <!-- Sources Modal -->
-          <div class="modal fade" id="postSources_{{ post.token }}" tabindex="-1" aria-labelledby="postSources_{{ post.token }}_Label" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="postSources_{{ post.token }}_Label">Fuentes de información</h5>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-                </div>
-                <div class="modal-body">
-                  {{ post.sources|safe|linebreaks }}
-                </div>
-              </div>
+          {% if post.sources %}
+            <div class="text-end">
+              <!-- Button trigger modal -->
+              <button type="button" class="btn btn-sm btn-outline-light" data-bs-toggle="modal" data-bs-target="#postSources_{{ post.token }}" title="Fuentes de información">
+                <i class="fas fa-info-circle text-muted"></i>
+              </button>
             </div>
-          </div>
-        {% endif %}
+          {% endif %}
+        </div>
         <div class="d-flex justify-content-between align-items-center">
         {% if post.post_date %}
           <div>
@@ -81,3 +73,20 @@
   </div>
   {% endif %}
 </div>
+
+{% if post.sources %}
+  <!-- Sources Modal -->
+  <div class="modal fade" id="postSources_{{ post.token }}" tabindex="-1" aria-labelledby="postSources_{{ post.token }}_Label" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="postSources_{{ post.token }}_Label">Fuentes de información</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          {{ post.sources|safe|linebreaks }}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endif %}

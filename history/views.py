@@ -33,6 +33,13 @@ class HistoricalFigureDetailView(DetailView):
         return context
 
 
+class PostDetailView(DetailView):
+    model = Post
+
+    def get_object(self, queryset=None):
+        return get_object_or_404(Post, token=self.kwargs.get('token'))
+
+
 class GroupDetailView(DetailView):
     model = Group
 

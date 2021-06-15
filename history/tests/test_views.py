@@ -36,6 +36,15 @@ def test_show_historical_figure_detail(django_app, history_historical_figure):
 
 
 @pytest.mark.django_db
+def test_show_post_detail(django_app, history_post):
+    response = django_app.get(
+        reverse('history:post_detail', args=(history_post.token,)),
+        status=200,
+    )
+    assert history_post.historical_figure.name in response
+
+
+@pytest.mark.django_db
 def test_show_group_detail(django_app, history_group):
     response = django_app.get(
         reverse('history:group_detail', args=(history_group.token,)),
