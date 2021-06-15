@@ -68,12 +68,10 @@
       <div class="addthis_inline_share_toolbox"></div>
     </p>
 
-    <div class="row text-center specials-nav">
+    <div class="row">
     {% for event_date in related_events_by_date.keys %}
-      <div class="col-6 col-sm-3 col-md-2 item">
-        <div class="">
-          <a href="#{{ event_date|date:"Y-m-d" }}"> {{ event_date|date:"Y-m-d" }}</a>
-        </div>
+      <div class="col-md-2 col-sm-6 gap-3 my-2">
+        <a class="btn btn-primary" role="button" href="#{{ event_date|date:"Y-m-d" }}"> {{ event_date|date:"Y-m-d" }}</a>
       </div>
     {% endfor %}
     </div>
