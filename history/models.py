@@ -6,6 +6,7 @@ from django.urls import reverse
 from django.templatetags.static import static
 from django.template.defaultfilters import date as _date
 from django.template.defaultfilters import time as _time
+from django.contrib.postgres.fields import ArrayField
 
 from model_utils.models import TimeStampedModel
 
@@ -62,6 +63,7 @@ class HistoricalFigure(TimeStampedModel):
                   'de la Concepción y Ponte Palacios y Blanco"',
     )
     description = models.TextField('Descripción', default='', blank=True)
+    labels = ArrayField(models.CharField(max_length=15), blank=True, default=list)
     sources = models.TextField('Fuentes de la información', default='', blank=True)
     admin_comments = models.TextField('Comentarios de los administradores', default='', blank=True)
 
