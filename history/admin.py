@@ -80,12 +80,11 @@ class PostInline(admin.TabularInline):
 class HistoricalFigureAdmin(admin.ModelAdmin):
     search_fields = ('name',)
 
-    list_select_related = ('created_by',)
     list_display = [
         'name',
+        'labels',
         'get_date_of_birth_display',
         'get_date_of_death_display',
-        'created_by',
         'modified',
     ]
     date_hierarchy = 'date_of_birth'
@@ -96,6 +95,7 @@ class HistoricalFigureAdmin(admin.ModelAdmin):
                 'name',
                 'full_name',
                 'description',
+                'labels',
                 'image',
                 'image_source_url',
             ),

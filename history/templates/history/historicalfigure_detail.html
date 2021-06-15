@@ -32,7 +32,13 @@
             {% if historicalfigure.description %}
               <p>{{ historicalfigure.description }}</p>
             {% endif %}
-              <div class="addthis_inline_share_toolbox_mwgp"></div>
+            {% if historicalfigure.labels %}
+              <div>
+              {% for label in historicalfigure.labels %}
+                <span class="badge rounded-pill bg-light text-dark">{{ label }}</span>
+              {% endfor %}
+              </div>
+            {% endif %}
           </div>
         </div>
       </div>
@@ -59,6 +65,9 @@
               -
             {% endfor %}
           </div>
+        </li>
+        <li class="list-group-item">
+          <div class="addthis_inline_share_toolbox"></div>
         </li>
       </ul>
     </div>
