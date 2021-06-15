@@ -68,9 +68,9 @@
       <div class="addthis_inline_share_toolbox"></div>
     </p>
 
-    <div class="row">
+    <div class="d-flex justify-content-start flex-wrap gap-2 my-2">
     {% for event_date in related_events_by_date.keys %}
-      <div class="col-md-2 col-sm-6 gap-3 my-2">
+      <div>
         <a class="btn btn-primary" role="button" href="#{{ event_date|date:"Y-m-d" }}"> {{ event_date|date:"Y-m-d" }}</a>
       </div>
     {% endfor %}
