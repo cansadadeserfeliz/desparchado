@@ -260,6 +260,9 @@ class Post(TimeStampedModel):
         related_name='created_history_posts',
     )
 
+    def get_absolute_url(self):
+        return reverse('history:post_detail', args=[self.token])
+
     def get_post_date_display(self):
         return get_historical_date_display(self.post_date, self.post_date_precision)
 
