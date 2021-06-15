@@ -13,16 +13,18 @@
 {% endblock %}
 
 {% block subheader %}
-<section class="blog-header" style="background-image: url('{{ special.get_image_url }}')">
-  <div class="overlay"></div>
-
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-8 col-md-10 mx-auto">
-        <div class="post-heading">
-          <h1>{{ special.title }}</h1>
-          <h2 class="subheading">{{ special.subtitle }}</h2>
-        </div>
+<section
+  class="p-5 text-center bg-image page-img-title"
+  style="
+    background-image: url('{{ special.get_image_url }}');
+    height: 400px;
+  "
+>
+  <div class="mask" style="background-color: rgba(0, 0, 0, 0.1);">
+    <div class="d-flex justify-content-center align-items-center h-100">
+      <div class="text-white">
+        <h1 class="mb-3 display-3 title">{{ special.title }}</h1>
+        <h4 class="mb-3 subtitle">{{ special.subtitle }}</h4>
       </div>
     </div>
   </div>
