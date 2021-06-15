@@ -1,5 +1,6 @@
 from django.views.generic import ListView
 from django.views.generic import DetailView
+from django.shortcuts import get_object_or_404
 from django.db.models import Q
 
 from .models import HistoricalFigure
@@ -16,7 +17,7 @@ class HistoricalFigureDetailView(DetailView):
     model = HistoricalFigure
 
     def get_object(self, queryset=None):
-        return HistoricalFigure.objects.get(token=self.kwargs.get('token'))
+        return get_object_or_404(HistoricalFigure, token=self.kwargs.get('token'))
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -30,6 +31,13 @@ class HistoricalFigureDetailView(DetailView):
         ).order_by('-post_date').distinct()
         context['posts'] = posts
         return context
+
+
+class PostDetailView(DetailView):
+    model = Post
+
+    def get_object(self, queryset=None):
+        return get_object_or_404(Post, token=self.kwargs.get('token'))
 
 
 class GroupDetailView(DetailView):
@@ -46,7 +54,7 @@ class GroupDetailView(DetailView):
         return context
 
     def get_object(self, queryset=None):
-        return Group.objects.get(token=self.kwargs.get('token'))
+        return get_object_or_404(Group, token=self.kwargs.get('token'))
 
 
 class EventsListView(ListView):
@@ -57,4 +65,4 @@ class EventDetailView(DetailView):
     model = Event
 
     def get_object(self, queryset=None):
-        return Event.objects.get(token=self.kwargs.get("token"))
+        return get_object_or_404(Event, token=self.kwargs.get("token"))

@@ -3,6 +3,14 @@
 
 {% block title %}{{ historicalfigure.name }}{% endblock %}
 
+{% block meta %}
+  <meta property="og:title" content="{{ historicalfigure.name }}">
+  <meta property="og:description" content="{{ historicalfigure.description }}">
+
+  <meta name="twitter:title" content="{{ historicalfigure.name }}">
+  <meta name="twitter:description" content="{{ historicalfigure.description }}">
+{% endblock %}
+
 {% block content %}
 <section
   class="p-5 bg-image border historical-figure-header"
@@ -23,6 +31,13 @@
             {% endif %}
             {% if historicalfigure.description %}
               <p>{{ historicalfigure.description }}</p>
+            {% endif %}
+            {% if historicalfigure.labels %}
+              <div>
+              {% for label in historicalfigure.labels %}
+                <span class="badge rounded-pill bg-light text-dark">{{ label }}</span>
+              {% endfor %}
+              </div>
             {% endif %}
           </div>
         </div>
@@ -51,12 +66,43 @@
             {% endfor %}
           </div>
         </li>
+        <li class="list-group-item">
+          <div class="addthis_inline_share_toolbox"></div>
+        </li>
       </ul>
     </div>
+
+    {% if historicalfigure.history_events.exists %}
+    <div class="accordion accordion-flush events-accordion border mt-3" id="accordionEvents">
+      <div class="accordion-item">
+        <h6 class="accordion-header" id="headingOne">
+          <strong class="accordion-button collapsed text-muted" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+            Eventos
+          </strong>
+        </h6>
+        <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionEvents">
+          <div class="accordion-body">
+            <div class="text-muted">
+              {% for event in historicalfigure.history_events.all %}
+                <div class="my-2">
+                  <small>
+                    <strong>{{ event.get_event_date_display }}:</strong>
+                    <a class="link-secondary" href="{{ event.get_absolute_url }}" title="{{ event.title }}">
+                      {{ event.title }}
+                    </a>
+                  </small>
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endif %}
   </div>
   <div class="col-md-9">
   {% for post in posts %}
-    {% include 'history/_post.html' with post=post show_groups=True%}
+    {% include 'history/_post.html' with post=post show_groups=True %}
   {% endfor %}
   </div>
 </div>

@@ -1,5 +1,13 @@
 {% extends 'history/layout/base.html' %}
 
+{% block meta %}
+  <meta property="og:title" content="{{ event.title }}">
+  <meta property="og:description" content="{{ event.description }}">
+
+  <meta name="twitter:title" content="{{ event.title }}">
+  <meta name="twitter:description" content="{{ event.description }}">
+{% endblock %}
+
 {% block content %}
 
 <article class="history-event-detail-page">
@@ -38,7 +46,11 @@
       {% endfor %}
     </div>
   {% endif %}
-    <p class="text-lg">{{event.description}}</p>
+    <p class="text-lg">{{ event.description }}</p>
   </div>
+
+  <div class="addthis_inline_share_toolbox my-2"></div>
+
+  {% include 'includes/_disqus_comments.html' with page_id="history-event-"|add:event.token %}
 </article>
 {% endblock content %}
