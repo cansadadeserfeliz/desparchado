@@ -66,3 +66,9 @@ class EventDetailView(DetailView):
 
     def get_object(self, queryset=None):
         return get_object_or_404(Event, token=self.kwargs.get("token"))
+
+class PostListView(ListView):
+    paginate_by = 5
+    model = Post
+    template_name = 'history/post_list.html'
+    ordering = '-post_date'
