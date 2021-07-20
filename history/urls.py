@@ -4,7 +4,7 @@ from django.views.generic import TemplateView
 from .views import HistoricalFigureListView
 from .views import HistoricalFigureDetailView
 from .views import PostDetailView
-from .views import PostListView
+from .views import api_post_list
 from .views import GroupDetailView
 from .views import EventsListView
 from .views import EventDetailView
@@ -48,8 +48,8 @@ urlpatterns = [
         name='event_detail'
     ),
     path(
-        'posts/',
-        PostListView.as_view(),
-        name='post_list'
+        'api/posts/',
+        api_post_list,
+        name='api_post_list'
     ),
 ]
