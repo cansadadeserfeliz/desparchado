@@ -40,7 +40,7 @@
 
 {% if user|user_can_edit_speaker:speaker %}
 <div class="event-edit text-center">
-  <a class="btn btn-primary" href="{% url 'events:speaker_update' speaker.slug %}" class="hover-color list-inline-item">
+  <a class="btn btn-primary" href="{% url 'events:speaker_update' speaker.slug %}">
     EDITAR
   </a>
 </div>
@@ -49,29 +49,32 @@
 <div class="clearfix"></div>
 
 {% if books %}
+<section>
   <h4>Libro{{ books|length|pluralize }}</h4>
 
   <div class="related-books">
     {% include 'books/_books_grid.html' with books=books %}
   </div>
+</section>
 {% endif %}
+
 
 <div class="clearfix"></div>
 
 {% if events %}
-
+<section class="my-2">
   <h4>Próximos eventos con {{ speaker.name }}</h4>
 
   {% include 'events/_events_grid.html' %}
-
+</section>
 {% endif %}
 
 {% if past_events %}
-
+<section class="my-2">
   <h4>Eventos pasados con {{ speaker.name }}</h4>
 
   {% include 'events/_events_grid.html' with events=past_events %}
-
+</section>
 {% endif %}
 
 {% endblock content %}

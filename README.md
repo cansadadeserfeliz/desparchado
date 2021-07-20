@@ -44,6 +44,8 @@ Run the application webserver:
 
     python manage.py runserver --settings=desparchado.settings.local 0.0.0.0:5000
 
+Then open http://localhost:5000/ in your browser.
+
 Run Django shell:
 
     python manage.py shell --settings=desparchado.settings.local

@@ -1,14 +1,14 @@
 {% extends 'history/layout/base.html' %}
 {% load static %}
 
-{% block title %}{{ historicalfigure.name }}{% endblock %}
+{% block title %}{{ post.historical_figure.name }}{% endblock %}
 
 {% block meta %}
-  <meta property="og:title" content="{{ historicalfigure.name }}">
-  <meta property="og:description" content="{{ historicalfigure.description }}">
+  <meta property="og:title" content="{{ post.historical_figure.name }}">
+  <meta property="og:description" content="{{ post.text }}">
 
-  <meta name="twitter:title" content="{{ historicalfigure.name }}">
-  <meta name="twitter:description" content="{{ historicalfigure.description }}">
+  <meta name="twitter:title" content="{{ post.historical_figure.name }}">
+  <meta name="twitter:description" content="{{ post.text }}">
 {% endblock %}
 
 {% block content %}
