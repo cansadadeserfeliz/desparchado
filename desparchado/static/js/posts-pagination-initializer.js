@@ -9,7 +9,7 @@ $('#history_post_pagination').infiniteScroll({
 
 function getPenPath() {
   let pageNumber = this.loadCount + 1;
-  return `/historia/posts/?page=${pageNumber}`;
+  return `/historia/api/posts/?page=${pageNumber}`;
 }
 
 });
