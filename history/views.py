@@ -1,6 +1,8 @@
 from django.views.generic import ListView
 from django.views.generic import DetailView
 from django.core.paginator import Paginator
+from django.core.paginator import EmptyPage
+from django.http import HttpResponse
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from django.db.models import Q
@@ -75,5 +77,9 @@ def api_post_list(request):
     paginator = Paginator(posts, 5)  # Show 5 posts per page.
 
     page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
+
+    try:
+        page_obj = paginator.page(page_number)
+    except EmptyPage:
+        return HttpResponse(status=400)
     return render(request, 'history/_api_post_list.html', {'page_obj': page_obj})
