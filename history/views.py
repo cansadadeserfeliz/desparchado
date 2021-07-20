@@ -1,5 +1,7 @@
 from django.views.generic import ListView
 from django.views.generic import DetailView
+from django.core.paginator import Paginator
+from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from django.db.models import Q
 
@@ -67,8 +69,11 @@ class EventDetailView(DetailView):
     def get_object(self, queryset=None):
         return get_object_or_404(Event, token=self.kwargs.get("token"))
 
-class PostListView(ListView):
-    paginate_by = 5
-    model = Post
-    template_name = 'history/post_list.html'
-    ordering = '-post_date'
+
+def api_post_list(request):
+    posts = Post.objects.all().order_by('-post_date')
+    paginator = Paginator(posts, 5)  # Show 5 posts per page.
+
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'history/_api_post_list.html', {'page_obj': page_obj})

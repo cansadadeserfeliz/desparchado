@@ -1,0 +1,8 @@
+{% for post in page_obj %}
+<article class="post">
+  {% include 'history/_post.html' with post=post %}
+</article>
+{% endfor %}
+
+
+
