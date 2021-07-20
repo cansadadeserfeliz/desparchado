@@ -108,13 +108,13 @@
       </div>
 
       {% if event.image_source_url %}
-        <div>
+        <div class="small">
           Fuente de la imagen:
           <a href="{{ event.image_source_url }}" target="_blank">{{ event.image_source_url|shorten_url }}</a>
         </div>
       {% endif %}
 
-      <div class="event-place">
+      <div class="event-place my-3">
         {% if event.place.image %}
           <img class="place-image" src="{{ event.place.get_image_url }}" alt="{{ event.place.name }}" />
         {% endif %}
