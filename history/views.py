@@ -8,6 +8,7 @@ from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from django.db.models import Q
 
+from .services import get_posts_with_related_objects
 from .models import HistoricalFigure
 from .models import Post
 from .models import Group
@@ -21,12 +22,7 @@ class HistoryIndexTemplateView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        posts = Post.objects.select_related(
-            'historical_figure',
-        ).prefetch_related(
-            'historical_figure_mentions',
-            'published_in_groups',
-        ).order_by('-post_date')[:POST_INDEX_PAGINATE_BY]
+        posts = get_posts_with_related_objects(Post.objects.all()).order_by('-post_date')[:POST_INDEX_PAGINATE_BY]
         context['posts'] = posts
         return context
 
@@ -45,13 +41,9 @@ class HistoricalFigureDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         posts = Post.objects.filter(
             Q(historical_figure=self.object) | Q(historical_figure_mentions=self.object)
-        ).select_related(
-            'historical_figure',
-        ).prefetch_related(
-            'historical_figure_mentions',
-            'published_in_groups',
-        ).order_by('-post_date').distinct()
-        context['posts'] = posts
+        )
+        posts = get_posts_with_related_objects(posts)
+        context['posts'] = posts.order_by('-post_date').distinct()
         return context
 
 
@@ -91,8 +83,10 @@ class EventDetailView(DetailView):
 
 
 def api_post_list(request):
-    posts = Post.objects.all().order_by('-post_date')
-    paginator = Paginator(posts, 5)  # Show 5 posts per page.
+    paginator = Paginator(
+        get_posts_with_related_objects(Post.objects.all()).order_by('-post_date'),
+        POST_INDEX_PAGINATE_BY
+    )
 
     page_number = request.GET.get('page')
 
