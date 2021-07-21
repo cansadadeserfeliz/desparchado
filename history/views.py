@@ -87,8 +87,10 @@ def api_post_list(request):
         get_posts_with_related_objects(Post.objects.all()).order_by('-post_date'),
         POST_INDEX_PAGINATE_BY
     )
-
     page_number = request.GET.get('page')
+
+    if page_number is None:
+        return HttpResponse('You must use `page` query parameter.', status=422)
 
     try:
         page_obj = paginator.page(page_number)
