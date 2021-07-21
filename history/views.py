@@ -15,7 +15,7 @@ from .models import Post
 from .models import Group
 from .models import Event
 
-POST_INDEX_PAGINATE_BY = 2
+POST_INDEX_PAGINATE_BY = 7
 
 
 class HistoryIndexTemplateView(TemplateView):
