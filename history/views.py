@@ -4,7 +4,8 @@ from django.views.generic import TemplateView
 from django.core.paginator import Paginator
 from django.core.paginator import EmptyPage
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.http import JsonResponse
+from django.template import loader
 from django.shortcuts import get_object_or_404
 from django.db.models import Q
 
@@ -96,4 +97,10 @@ def api_post_list(request):
         page_obj = paginator.page(page_number)
     except EmptyPage:
         return HttpResponse(status=400)
-    return render(request, 'history/_api_post_list.html', {'page_obj': page_obj})
+
+    return JsonResponse(
+        dict(posts=[
+            loader.render_to_string('history/_post.html', dict(post=post))
+            for post in page_obj
+        ]),
+    )

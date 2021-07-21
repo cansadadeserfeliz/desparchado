@@ -4,14 +4,12 @@
 
 <div id="history_post_pagination" data-infinite-scroll-path="{% url 'history:api_post_list' %}">
 {% for post in posts %}
-  <article class="post">
-    {% include 'history/_post.html' with post=post %}
-  </article>
+  {% include 'history/_post.html' with post=post %}
 {% endfor %}
 </div>
 
 <!-- Infinite Scroll  -->
-<div class="page-load-status">
+<div class="js-page-load-status">
   <div class="infinite-scroll-request">
     <div class="d-flex justify-content-center">
       <div class="spinner-border text-secondary" role="status">
