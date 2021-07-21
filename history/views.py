@@ -100,7 +100,7 @@ def api_post_list(request):
 
     return JsonResponse(
         dict(posts=[
-            loader.render_to_string('history/_post.html', dict(post=post))
+            loader.render_to_string('history/_post.html', dict(post=post, show_groups=True))
             for post in page_obj
         ]),
     )

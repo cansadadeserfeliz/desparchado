@@ -4,7 +4,7 @@
 
 <div id="history_post_pagination" data-infinite-scroll-path="{% url 'history:api_post_list' %}">
 {% for post in posts %}
-  {% include 'history/_post.html' with post=post %}
+  {% include 'history/_post.html' with post=post show_groups=True %}
 {% endfor %}
 </div>
 
