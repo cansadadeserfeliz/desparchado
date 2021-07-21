@@ -1,5 +1,6 @@
 from django.views.generic import ListView
 from django.views.generic import DetailView
+from django.views.generic import TemplateView
 from django.core.paginator import Paginator
 from django.core.paginator import EmptyPage
 from django.http import HttpResponse
@@ -11,6 +12,23 @@ from .models import HistoricalFigure
 from .models import Post
 from .models import Group
 from .models import Event
+
+POST_INDEX_PAGINATE_BY = 2
+
+
+class HistoryIndexTemplateView(TemplateView):
+    template_name = 'history/index.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        posts = Post.objects.select_related(
+            'historical_figure',
+        ).prefetch_related(
+            'historical_figure_mentions',
+            'published_in_groups',
+        ).order_by('-post_date')[:POST_INDEX_PAGINATE_BY]
+        context['posts'] = posts
+        return context
 
 
 class HistoricalFigureListView(ListView):

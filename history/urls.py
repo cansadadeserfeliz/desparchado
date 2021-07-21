@@ -1,6 +1,6 @@
 from django.urls import path
 
-from django.views.generic import TemplateView
+from .views import HistoryIndexTemplateView
 from .views import HistoricalFigureListView
 from .views import HistoricalFigureDetailView
 from .views import PostDetailView
@@ -14,7 +14,7 @@ app_name = 'history'
 urlpatterns = [
     path(
         '',
-        TemplateView.as_view(template_name='history/index.html'),
+        HistoryIndexTemplateView.as_view(),
         name='index'
     ),
     path(
