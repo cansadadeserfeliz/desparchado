@@ -1,9 +1,14 @@
 {% extends 'history/layout/base.html' %}
 
 {% block content %}
-  <p>Historia de Colombia</p>
 
-<div id="history_post_pagination"></div>
+<div id="history_post_pagination" class="col-md-9" data-infinite-scroll-path="{% url 'history:api_post_list' %}">
+{% for post in posts %}
+  <article class="post">
+    {% include 'history/_post.html' with post=post %}
+  </article>
+{% endfor %}
+</div>
 
 <div class="page-load-status">
   <div class="infinite-scroll-request">
