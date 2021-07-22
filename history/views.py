@@ -1,14 +1,31 @@
 from django.views.generic import ListView
 from django.views.generic import DetailView
+from django.views.generic import TemplateView
 from django.core.paginator import Paginator
-from django.shortcuts import render
+from django.core.paginator import EmptyPage
+from django.http import HttpResponse
+from django.http import JsonResponse
+from django.template import loader
 from django.shortcuts import get_object_or_404
 from django.db.models import Q
 
+from .services import get_posts_with_related_objects
 from .models import HistoricalFigure
 from .models import Post
 from .models import Group
 from .models import Event
+
+POST_INDEX_PAGINATE_BY = 7
+
+
+class HistoryIndexTemplateView(TemplateView):
+    template_name = 'history/index.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        posts = get_posts_with_related_objects(Post.objects.all()).order_by('-post_date')[:POST_INDEX_PAGINATE_BY]
+        context['posts'] = posts
+        return context
 
 
 class HistoricalFigureListView(ListView):
@@ -25,13 +42,9 @@ class HistoricalFigureDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         posts = Post.objects.filter(
             Q(historical_figure=self.object) | Q(historical_figure_mentions=self.object)
-        ).select_related(
-            'historical_figure',
-        ).prefetch_related(
-            'historical_figure_mentions',
-            'published_in_groups',
-        ).order_by('-post_date').distinct()
-        context['posts'] = posts
+        )
+        posts = get_posts_with_related_objects(posts)
+        context['posts'] = posts.order_by('-post_date').distinct()
         return context
 
 
@@ -71,9 +84,23 @@ class EventDetailView(DetailView):
 
 
 def api_post_list(request):
-    posts = Post.objects.all().order_by('-post_date')
-    paginator = Paginator(posts, 5)  # Show 5 posts per page.
-
+    paginator = Paginator(
+        get_posts_with_related_objects(Post.objects.all()).order_by('-post_date'),
+        POST_INDEX_PAGINATE_BY
+    )
     page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
-    return render(request, 'history/_api_post_list.html', {'page_obj': page_obj})
+
+    if page_number is None:
+        return HttpResponse('You must use `page` query parameter.', status=422)
+
+    try:
+        page_obj = paginator.page(page_number)
+    except EmptyPage:
+        return HttpResponse(status=400)
+
+    return JsonResponse(
+        dict(posts=[
+            loader.render_to_string('history/_post.html', dict(post=post, show_groups=True))
+            for post in page_obj
+        ]),
+    )
