@@ -25,9 +25,7 @@
       <div class="text-white">
         <h1 class="mb-3 display-3 title">{% block subheader_title %}La caza del Snark{% endblock subheader_title %}</h1>
         <h4 class="mb-3 subtitle">
-          <a href="{% url 'games:hunting_of_snark_create' %}">
-            {% block subheader_subtitle %}Juego literario{% endblock subheader_subtitle %}
-          </a>
+          {% block subheader_subtitle %}Juego literario{% endblock subheader_subtitle %}
         </h4>
       </div>
     </div>
