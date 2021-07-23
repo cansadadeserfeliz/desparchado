@@ -201,8 +201,10 @@ class Event(TimeStampedModel):
 class Post(TimeStampedModel):
     token = models.UUIDField(unique=True, default=uuid.uuid4, editable=False)
     TYPE_QUOTE = 'quote'
+    TYPE_TRAVEL = 'Travel'
     TYPES = (
         (TYPE_QUOTE, 'Cita'),
+        (TYPE_TRAVEL, 'Viaje'),
     )
     type = models.CharField(
         max_length=15,
