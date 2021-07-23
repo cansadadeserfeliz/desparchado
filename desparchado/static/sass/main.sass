@@ -50,8 +50,11 @@ body
     line-height: 1
     color: $dark-gray
 
-  .blockquote
-    font-size: 18px
+  .card-body
+    padding: 0 1rem 1rem 1rem
+
+    .blockquote
+      font-size: 18px
 
   .blockquote-footer
     margin-top: 0
@@ -82,9 +85,27 @@ body
         color: $primary-color
 
   &.historical-post-card
+    .post-type
+      height: 10vw
+
+      .icon
+        width: 60px
+        height: 60px
+        text-align: center
+        .fas
+          line-height: 1
+          font-size: 24px
+
     .author
       font-weight: 800
       font-size: 16px
+
+    &.historical-post-card-travel
+      .card-body
+        background-color: #eddcd2
+        .blockquote
+          font-size: 16px
+          font-style: italic
 
   &.event-date-card
     width: 100px
