@@ -1,7 +1,22 @@
-<div class="card historical-post-card shadow-lg my-3" id="{{ post.token }}">
-{% if post.image %}
-  <img src="{{ post.image.url }}" class="card-img-top card-img-fluid-top" alt="{{ post.historical_figure.name }}">
-{% endif %}
+{% load static %}
+<div class="card historical-post-card {% if post.type == post.TYPE_TRAVEL %}historical-post-card-travel{% endif %} shadow-lg my-3" id="{{ post.token }}">
+  {% if post.type == post.TYPE_TRAVEL %}
+    <div class="post-type text-center bg-image"
+        style="background-image: url('{% static 'images/history_post_travel_bg.jpg' %}');"
+    >
+      <div class="mask" style="background-color: rgba(255, 255, 255, 0.6);">
+        <div class="d-flex justify-content-center align-items-center h-100">
+          <div class="icon bg-light border-secondary rounded-circle">
+            <i class="fas fa-suitcase m-3"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% else %}
+    {% if post.image %}
+      <img src="{{ post.image.url }}" class="card-img-top card-img-fluid-top" alt="{{ post.historical_figure.name }}">
+    {% endif %}
+  {% endif %}
   <div class="card-header">
     <div class="d-flex justify-content-between align-self-center gap-2">
       <div>
@@ -11,6 +26,7 @@
           </a>
           <div class="ms-2">
             <a class="author link-secondary" href="{{ post.historical_figure.get_absolute_url }}">{{ post.historical_figure.name }}</a>
+            {% if post.type == post.TYPE_TRAVEL %}<i>está viajando</i>{% endif %}
           </div>
         </div>
       </div>
