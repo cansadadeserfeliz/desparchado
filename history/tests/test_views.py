@@ -70,3 +70,9 @@ def test_show_event_detail(django_app, history_event):
 def test_show_post_preloaded_list(django_app, history_post):
     response = django_app.get(reverse('history:index'), status=200)
     assert history_post.historical_figure.name in response
+
+
+@pytest.mark.django_db
+def test_posts_api_retrieve_page(django_app, history_post_batch):
+    django_app.get(reverse('history:api_post_list') + '?page=2',  status=200)
+
