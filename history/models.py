@@ -202,9 +202,13 @@ class Post(TimeStampedModel):
     token = models.UUIDField(unique=True, default=uuid.uuid4, editable=False)
     TYPE_QUOTE = 'quote'
     TYPE_TRAVEL = 'Travel'
+    TYPE_MARRIAGE = 'marriage'
+    TYPE_LOSS = 'loss'
     TYPES = (
         (TYPE_QUOTE, 'Cita'),
         (TYPE_TRAVEL, 'Viaje'),
+        (TYPE_MARRIAGE, 'Matrimonio'),
+        (TYPE_LOSS, 'Pérdida de un ser querido'),
     )
     type = models.CharField(
         max_length=15,
@@ -261,6 +265,35 @@ class Post(TimeStampedModel):
         verbose_name='Creado por',
         related_name='created_history_posts',
     )
+
+    def get_post_type_subtitle(self):
+        if self.type == self.TYPE_TRAVEL:
+            return 'está viajando'
+        if self.type == self.TYPE_MARRIAGE:
+            return 'se casó'
+        if self.type == self.TYPE_LOSS:
+            return 'perdió a un ser querido'
+        return ''
+
+    def get_post_type_icon_class(self):
+        if self.type == self.TYPE_TRAVEL:
+            return 'fas fa-suitcase'
+        if self.type == self.TYPE_MARRIAGE:
+            return 'fas fa-church'
+        if self.type == self.TYPE_LOSS:
+            return 'fas fa-cross'
+        return ''
+
+    def get_post_type_image_url(self):
+        if self.type == self.TYPE_TRAVEL:
+            return static('images/history_post_travel_bg.jpg')
+        if self.type == self.TYPE_MARRIAGE:
+            # Source: https://unsplash.com/photos/8vaQKYnawHw
+            return static('images/history_post_marriage_bg.jpg')
+        if self.type == self.TYPE_LOSS:
+            # Source: https://unsplash.com/photos/9xEOFi3uGpM
+            return static('images/history_post_loss_bg.jpg')
+        return ''
 
     def get_absolute_url(self):
         return reverse('history:post_detail', args=[self.token])
