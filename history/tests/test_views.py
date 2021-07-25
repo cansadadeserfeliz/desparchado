@@ -84,5 +84,9 @@ def test_posts_api_response_without_query_parameter(django_app, history_post_bat
 
 @pytest.mark.django_db
 def test_posts_api_response_with_empty_page(django_app, history_post):
+    """
+    This test verifies response status code 400 when a request to an empty page is made.
+    In this case only exists a page with one post, history_post, then test ask for a non existent page number 2
+    """
     django_app.get(reverse('history:api_post_list'), params={'page': 2}, status=400)
 
