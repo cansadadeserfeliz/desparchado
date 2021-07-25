@@ -1,7 +1,7 @@
 from django.views.generic import ListView
 from django.views.generic import DetailView
 from django.views.generic import TemplateView
-from django.core.paginator import Paginator
+from django.core.paginator import Paginator, InvalidPage, PageNotAnInteger
 from django.core.paginator import EmptyPage
 from django.http import HttpResponse
 from django.http import JsonResponse
@@ -93,13 +93,12 @@ def api_post_list(request):
     if page_number is None:
         return HttpResponse('You must use `page` query parameter.', status=422)
 
-    if not isinstance(page_number, int):
-        return HttpResponse('Page number must be a positive integer.', status=422)
-
     try:
         page_obj = paginator.page(page_number)
     except EmptyPage:
         return HttpResponse(status=400)
+    except PageNotAnInteger:
+        return HttpResponse('Page number must be a positive integer', status=422)
 
     return JsonResponse(
         dict(posts=[
