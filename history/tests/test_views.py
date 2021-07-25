@@ -95,4 +95,3 @@ def test_posts_api_response_with_empty_page(django_app, history_post):
     In this case only exists a page with one post, history_post, then test ask for a non existent page number 2
     """
     django_app.get(reverse('history:api_post_list'), params={'page': 2}, status=400)
-
