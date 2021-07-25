@@ -84,6 +84,11 @@ def test_posts_api_response_without_query_parameter(django_app, history_post_bat
 
 
 @pytest.mark.django_db
+def test_posts_api_response_when_page_number_is_not_integer(django_app, history_post_batch):
+    django_app.get(reverse('history:api_post_list'), params={'page': 'xdxdxd'}, status=422)
+
+
+@pytest.mark.django_db
 def test_posts_api_response_with_empty_page(django_app, history_post):
     """
     This test verifies response status code 400 when a request to an empty page is made.
