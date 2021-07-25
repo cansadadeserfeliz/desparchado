@@ -93,6 +93,9 @@ def api_post_list(request):
     if page_number is None:
         return HttpResponse('You must use `page` query parameter.', status=422)
 
+    if not isinstance(page_number, int):
+        return HttpResponse('Page number must be a positive integer.', status=422)
+
     try:
         page_obj = paginator.page(page_number)
     except EmptyPage:
