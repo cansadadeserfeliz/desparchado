@@ -74,7 +74,8 @@ def test_show_post_preloaded_list(django_app, history_post):
 
 @pytest.mark.django_db
 def test_posts_api_retrieve_page(django_app, history_post_batch):
-    django_app.get(reverse('history:api_post_list'), params={'page': 2},  status=200)
+    response = django_app.get(reverse('history:api_post_list'), params={'page': 2},  status=200)
+    assert 'application/json' == response.content_type
 
 
 @pytest.mark.django_db
