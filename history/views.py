@@ -1,8 +1,9 @@
 from django.views.generic import ListView
 from django.views.generic import DetailView
 from django.views.generic import TemplateView
-from django.core.paginator import Paginator, InvalidPage, PageNotAnInteger
+from django.core.paginator import Paginator
 from django.core.paginator import EmptyPage
+from django.core.paginator import PageNotAnInteger
 from django.http import HttpResponse
 from django.http import JsonResponse
 from django.template import loader
