@@ -1,6 +1,21 @@
 {% extends 'history/layout/base.html' %}
 
 {% block content %}
-  <p>Historia de Colombia</p>
-{% endblock content %}
 
+<div id="history_post_pagination" data-infinite-scroll-path="{% url 'history:api_post_list' %}">
+{% for post in posts %}
+  {% include 'history/_post.html' with post=post show_groups=True %}
+{% endfor %}
+</div>
+
+<!-- Infinite Scroll  -->
+<div class="js-page-load-status">
+  <div class="infinite-scroll-request">
+    <div class="d-flex justify-content-center">
+      <div class="spinner-border text-secondary" role="status">
+        <span class="visually-hidden">Cargando más posts...</span>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}

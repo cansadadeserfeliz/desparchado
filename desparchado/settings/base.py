@@ -243,6 +243,7 @@ PIPELINE = {
               #'bower_components/tempusdominus-bootstrap-4/build/js/tempusdominus-bootstrap-4.min.js',
               'js/main.js',
               'js/letter-avatars.js',
+              'js/posts-pagination-initializer.js',
             ),
             'output_filename': 'js/main.min.js',
         },

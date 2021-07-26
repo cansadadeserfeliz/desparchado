@@ -34,6 +34,7 @@ desparchado/static/bower_components
 desparchado/static/node_modules/
 .docker_pip_cache
 !.docker_pip_cache/.keep
+/venv
 
 /static
 /staticfiles
