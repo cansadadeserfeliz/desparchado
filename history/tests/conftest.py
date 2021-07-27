@@ -31,3 +31,8 @@ def history_post():
 @pytest.fixture
 def history_group():
     return GroupFactory()
+
+
+@pytest.fixture
+def history_post_batch():
+    return PostFactory.create_batch(21)

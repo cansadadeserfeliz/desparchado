@@ -1,9 +1,10 @@
 from django.urls import path
 
-from django.views.generic import TemplateView
+from .views import HistoryIndexTemplateView
 from .views import HistoricalFigureListView
 from .views import HistoricalFigureDetailView
 from .views import PostDetailView
+from .views import api_post_list
 from .views import GroupDetailView
 from .views import EventsListView
 from .views import EventDetailView
@@ -13,7 +14,7 @@ app_name = 'history'
 urlpatterns = [
     path(
         '',
-        TemplateView.as_view(template_name='history/index.html'),
+        HistoryIndexTemplateView.as_view(),
         name='index'
     ),
     path(
@@ -45,5 +46,10 @@ urlpatterns = [
         'eventos/<uuid:token>/',
         EventDetailView.as_view(),
         name='event_detail'
+    ),
+    path(
+        'api/posts/',
+        api_post_list,
+        name='api_post_list'
     ),
 ]
