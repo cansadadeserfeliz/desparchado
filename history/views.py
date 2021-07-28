@@ -15,6 +15,7 @@ from .models import HistoricalFigure
 from .models import Post
 from .models import Group
 from .models import Event
+from .forms import PostsSearchForm
 
 POST_INDEX_PAGINATE_BY = 7
 
@@ -24,8 +25,20 @@ class HistoryIndexTemplateView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        posts = get_posts_with_related_objects(Post.objects.all()).order_by('-post_date')[:POST_INDEX_PAGINATE_BY]
+        posts = get_posts_with_related_objects(Post.objects.all())
+
+        posts_search_form = PostsSearchForm(self.request.GET)
+        if posts_search_form.is_valid():
+            start_date = posts_search_form.cleaned_data['start_date']
+            end_date = posts_search_form.cleaned_data['end_date']
+            if start_date:
+                posts = posts.filter(post_date__gte=f'{start_date}-01-01 00:00')
+            if end_date:
+                posts = posts.filter(post_date__lte=f'{end_date}-01-01 00:00')
+
+        posts = posts.order_by('-post_date')[:POST_INDEX_PAGINATE_BY]
         context['posts'] = posts
+        context['posts_search_form'] = posts_search_form
         return context
 
 

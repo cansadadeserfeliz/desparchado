@@ -1,6 +1,9 @@
 {% extends 'history/layout/base.html' %}
+{% load crispy_forms_tags %}
 
 {% block content %}
+
+{% crispy posts_search_form %}
 
 <div id="history_post_pagination" data-infinite-scroll-path="{% url 'history:api_post_list' %}">
 {% for post in posts %}
