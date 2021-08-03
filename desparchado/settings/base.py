@@ -311,6 +311,11 @@ LOGGING = {
 
 # django-axes
 AXES_LOGIN_FAILURE_LIMIT = 5
+# fetch IP addresses from a HTTP header such as X-Forwarded-For
+AXES_META_PRECEDENCE_ORDER = [
+   'HTTP_X_FORWARDED_FOR',
+   'REMOTE_ADDR',
+]
 
 GOOGLE_ANALYTICS_CODE = 'UA-43471959-4'
 
