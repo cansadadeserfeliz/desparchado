@@ -78,7 +78,16 @@
     {% block javascript %}{% endblock javascript %}
 
     {% include 'includes/_yandex_metrika_code.html' %}
-    {% google_analytics_code %}
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-43471959-4"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-43471959-4');
+    </script>
 
   </body>
 </html>

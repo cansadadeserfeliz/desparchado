@@ -317,8 +317,6 @@ AXES_META_PRECEDENCE_ORDER = [
    'REMOTE_ADDR',
 ]
 
-GOOGLE_ANALYTICS_CODE = 'UA-43471959-4'
-
 # crispy forms with bootstrap 5: https://github.com/django-crispy-forms/crispy-bootstrap5
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
