@@ -45,6 +45,7 @@ class Place(TimeStampedModel):
     class Meta:
         verbose_name = 'Lugar'
         verbose_name_plural = 'Lugares'
+        ordering = ['name']
 
     def __str__(self):
         return self.name
