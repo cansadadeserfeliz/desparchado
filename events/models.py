@@ -324,6 +324,7 @@ class Speaker(TimeStampedModel):
     class Meta:
         verbose_name = 'Presentador'
         verbose_name_plural = 'Presentadores'
+        ordering = ['name']
 
     def __str__(self):
         return self.name

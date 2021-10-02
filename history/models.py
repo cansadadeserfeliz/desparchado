@@ -266,6 +266,9 @@ class Post(TimeStampedModel):
         related_name='created_history_posts',
     )
 
+    class Meta:
+        ordering = ['-post_date']
+
     def get_post_type_subtitle(self):
         if self.type == self.TYPE_TRAVEL:
             return 'está viajando'
