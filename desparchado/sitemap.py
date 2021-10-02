@@ -7,6 +7,8 @@ from events.models import Organizer
 from places.models import Place
 from blog.models import Post
 from books.models import Book
+from history.models import Post as HistoryPost
+from history.models import HistoricalFigure
 
 
 class StaticViewSitemap(sitemaps.Sitemap):
@@ -93,6 +95,29 @@ class BookSitemap(sitemaps.Sitemap):
     def lastmod(self, item):
         return item.modified
 
+
+class HistoryPostSitemap(sitemaps.Sitemap):
+    changefreq = 'daily'
+    priority = 1
+
+    def items(self):
+        return HistoryPost.objects.all()
+
+    def lastmod(self, item):
+        return item.modified
+
+
+class HistoricalFigureSitemap(sitemaps.Sitemap):
+    changefreq = 'daily'
+    priority = 0.9
+
+    def items(self):
+        return HistoricalFigure.objects.all()
+
+    def lastmod(self, item):
+        return item.modified
+
+
 sitemaps = {
     'static': StaticViewSitemap,
     'events': EventSitemap,
@@ -100,4 +125,6 @@ sitemaps = {
     'posts': PostSitemap,
     'speakers': SpeakerSitemap,
     'books': BookSitemap,
+    'history_posts': HistoryPostSitemap,
+    'history_figure': HistoricalFigureSitemap,
 }

@@ -82,6 +82,7 @@ class Book(TimeStampedModel):
     class Meta:
         verbose_name = 'Libro'
         verbose_name_plural = 'Libros'
+        ordering = ['-created']
 
 
 class Author(TimeStampedModel):
