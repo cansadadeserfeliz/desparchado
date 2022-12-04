@@ -2,10 +2,10 @@
 uWSGI==2.0.19.1
 
 # Framework
-Django==3.1.13
+Django==3.1.14
 
 # Python Libs
-Pillow==8.3.2
+Pillow==9.3.0
 psycopg2==2.8.6  # apt-get install postgis
 raven==6.10.0
 social-auth-core==3.3.3
