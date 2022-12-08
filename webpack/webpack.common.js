@@ -1,5 +1,6 @@
 const path = require('path');
 const BundleTracker = require('webpack-bundle-tracker');
+//const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     entry: {
@@ -7,7 +8,7 @@ module.exports = {
         dashboard: './desparchado/static/src/js/dashboard'
     },
     output: {
-        filename: 'js/[name].js',
+        filename: 'js/[name].[hash].js',
         path: path.resolve(__dirname, '../desparchado/static/dist'),
         clean: true,
     },
