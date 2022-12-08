@@ -14,9 +14,9 @@ services:
       - .docker_pip_cache:/root/.cache/pip
   webpack:
     container_name: desparchado-webpack-1
-    build: "docker-containers/webpack"
+    build: "./docker-containers/webpack"
     ports:
       - "3000:3000"
     volumes:
       - .:/app
-      - /app/node_modules
+      - ./node_modules:/app/node_modules
