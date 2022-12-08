@@ -18,7 +18,6 @@ coverage.xml
 # Configuration files
 desparchado/local_settings.py
 environment.json
-setenv.sh
 .requirements_timestamp
 .idea
 .tags
