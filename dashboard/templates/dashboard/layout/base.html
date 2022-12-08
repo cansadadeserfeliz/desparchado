@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-{% load i18n static pipeline %}
+{% load i18n static %}
+{% load render_bundle from webpack_loader %}
 <html lang="en" dir="ltr">
   <head>
     <meta charset="UTF-8">
@@ -114,7 +115,7 @@
 
     <script src="https://unpkg.com/@tabler/core@latest/dist/js/tabler.min.js"></script>
 
-    {% javascript 'dashboard' %}
+    {% render_bundle 'dashboard' 'js' %}
 
     {% block javascript %}{% endblock javascript %}
 

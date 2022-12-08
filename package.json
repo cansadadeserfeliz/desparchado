@@ -4,11 +4,17 @@
   "description": "desparchado.co project",
   "private": true,
   "scripts": {
+    "build": "webpack --config webpack/webpack.prod.js --color",
     "build:dev": "webpack --config webpack/webpack.dev.js --color",
     "start": "webpack serve --config webpack/webpack.dev.js --color --port=3000"
   },
   "devDependencies": {
+    "css-loader": "^6.7.2",
+    "style-loader": "^3.3.1",
+    "ts-loader": "^9.4.2",
+    "typescript": "^4.9.4",
     "webpack": "^5.75.0",
+    "webpack-bundle-tracker": "^1.7.0",
     "webpack-cli": "^5.0.1",
     "webpack-dev-server": "^4.11.1",
     "webpack-merge": "^5.8.0"
