@@ -6,6 +6,7 @@
   "scripts": {
     "build": "webpack --config webpack/webpack.prod.js --color",
     "build:dev": "webpack --config webpack/webpack.dev.js --color",
+    "webpack": "webpack --watch --config webpack/webpack.dev.js --color",
     "start": "webpack serve --config webpack/webpack.dev.js --color --port=3000"
   },
   "devDependencies": {
@@ -24,5 +25,8 @@
     "webpack-cli": "^5.0.1",
     "webpack-dev-server": "^4.11.1",
     "webpack-merge": "^5.8.0"
+  },
+  "dependencies": {
+    "bootstrap": "^5.2.3"
   }
 }

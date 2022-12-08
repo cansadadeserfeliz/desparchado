@@ -1,6 +1,7 @@
 const path = require('path');
 const BundleTracker = require('webpack-bundle-tracker');
-// TODO: const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+console.log(path.resolve(__dirname, '../desparchado/static/dist'));
 
 module.exports = {
     entry: {
@@ -24,8 +25,7 @@ module.exports = {
                 exclude: /node_modules/,
                 use: [
                     // Creates `style` nodes from JS strings
-                    'style-loader',
-                    // TODO: MiniCssExtractPlugin.loader,
+                    MiniCssExtractPlugin.loader,  // replaces 'style-loader'
                     // Translates CSS into CommonJS
                     'css-loader',
                     // PostCSS
@@ -50,6 +50,9 @@ module.exports = {
     },
     plugins: [
         new BundleTracker({filename: './webpack-stats.json'}),
-        //TODO: new MiniCssExtractPlugin({filename: './desparchado/static/dist/css/[name].css',})
+        new MiniCssExtractPlugin({
+            filename: 'css/[name]-[hash].css',
+            chunkFilename: '[id]-[hash].css'
+        }),
     ],
 }
