@@ -7,7 +7,8 @@
     "build": "webpack --config webpack/webpack.prod.js --color",
     "build:dev": "webpack --config webpack/webpack.dev.js --color",
     "webpack": "webpack --watch --config webpack/webpack.dev.js --color",
-    "start": "webpack serve --config webpack/webpack.dev.js --color --port=3000"
+    "webpack-serve": "webpack serve --config webpack/webpack.dev.js --color --port=3000",
+    "start": "webpack --watch --config webpack/webpack.dev.js --color"
   },
   "devDependencies": {
     "css-loader": "^6.7.2",

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-{% load i18n static pipeline desparchado_tags %}
+{% load i18n static webpack_loader desparchado_tags %}
 <html lang="es">
   <head>
     <meta charset="utf-8">
@@ -37,7 +37,7 @@
     <!-- Select 2 Bootstrap 5 theme-->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.1.1/dist/select2-bootstrap-5-theme.min.css" />
 
-    {% stylesheet 'main' %}
+    {% render_bundle 'main' 'css' %}
 
     <!-- jQuery -->
     <script
@@ -70,7 +70,7 @@
     <!-- Infinite Scroll -->
     <script src="https://unpkg.com/infinite-scroll@4/dist/infinite-scroll.pkgd.min.js"></script>
 
-    {% javascript 'main' %}
+    {% render_bundle 'main' 'js' %}
 
     <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-58ced1089d6b2a96"></script>
     <script id="dsq-count-scr" src="//desparchado.disqus.com/count.js" async></script>
