@@ -18,15 +18,16 @@ coverage.xml
 # Configuration files
 desparchado/local_settings.py
 environment.json
-setenv.sh
 .requirements_timestamp
 .idea
 .tags
 .tags_sorted_by_file
 .env
 package-lock.json
+webpack-stats.json
 
 # Folders
+desparchado/static/dist
 desparchado/static/.sass-cache
 desparchado/static/sass/.sass-cache/
 desparchado/static/.bundle-gems

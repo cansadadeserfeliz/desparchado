@@ -21,3 +21,6 @@ def show_debug_toolbar(request):
 DEBUG_TOOLBAR_CONFIG = {
     'SHOW_TOOLBAR_CALLBACK': show_debug_toolbar,
 }
+
+# django-webpack-loader
+WEBPACK_LOADER['DEFAULT']['CACHE'] = not DEBUG

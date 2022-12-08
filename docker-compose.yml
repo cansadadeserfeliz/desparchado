@@ -1,13 +1,22 @@
 version: "3.9"
 services:
+  db:
+    build: "./docker-containers/db"
+    ports:
+      - "5032:5432"
   web:
+    container_name: desparchado-web-1
     build: "./docker-containers/web"
     ports:
       - "5000:5000"
     volumes:
       - .:/app
       - .docker_pip_cache:/root/.cache/pip
-  db:
-    build: "./docker-containers/db"
+  webpack:
+    container_name: desparchado-webpack-1
+    build: "./docker-containers/webpack"
     ports:
-      - "5032:5432"
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - ./node_modules:/app/node_modules

@@ -2,10 +2,19 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
+from pathlib import Path
 
+import environ
+
+BASE_DIR = Path('.').parent
+
+def set_environ():
+    # Take environment variables from .env file
+    environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
 def main():
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "desparchado.settings")
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "desparchado.settings.dev")
+    set_environ()
     try:
         from django.core.management import execute_from_command_line
     except ImportError:

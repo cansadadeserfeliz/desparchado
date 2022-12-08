@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'crispy_bootstrap5',
     'debug_toolbar',
+    'webpack_loader',
 
     'dashboard',
     'events',
@@ -199,6 +200,18 @@ STATICFILES_FINDERS = (
 )
 
 SITE_ID = 1
+
+# django-webpack-loader
+WEBPACK_LOADER = {
+    'DEFAULT': {
+        'CACHE': not DEBUG,
+        'BUNDLE_DIR_NAME': 'dist/',
+        'STATS_FILE': os.path.join(BASE_DIR, 'webpack-stats.json'),
+        'POLL_INTERVAL': 0.1,
+        'IGNORE': [r'.+\.hot-update.js', r'.+\.map'],
+        'LOADER_CLASS': 'webpack_loader.loader.WebpackLoader',
+    }
+}
 
 # django-pipeline
 STATICFILES_STORAGE = 'pipeline.storage.PipelineManifestStorage'
