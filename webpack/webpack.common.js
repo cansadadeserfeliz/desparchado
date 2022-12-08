@@ -28,6 +28,17 @@ module.exports = {
                     // TODO: MiniCssExtractPlugin.loader,
                     // Translates CSS into CommonJS
                     'css-loader',
+                    // PostCSS
+                    {
+                        loader:'postcss-loader',
+                        options: {
+                            postcssOptions: {
+                                plugins: [
+                                    ['postcss-preset-env', {}]
+                                ]
+                            }
+                        }
+                    },
                     // Compiles Sass to CSS
                     'sass-loader',
                 ]
