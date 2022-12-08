@@ -27,6 +27,7 @@ setenv.sh
 package-lock.json
 
 # Folders
+desparchado/static/dist
 desparchado/static/.sass-cache
 desparchado/static/sass/.sass-cache/
 desparchado/static/.bundle-gems

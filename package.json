@@ -1,0 +1,13 @@
+{
+  "name": "desparchado",
+  "version": "1.0.0",
+  "description": "desparchado.co project",
+  "private": true,
+  "scripts": {
+    "start": "webpack --config webpack/webpack.config.js --color --watch"
+  },
+  "devDependencies": {
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.1"
+  }
+}
