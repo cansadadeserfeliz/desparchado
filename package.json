@@ -4,6 +4,7 @@
   "description": "desparchado.co project",
   "private": true,
   "scripts": {
+    "webpack": "webpack --config webpack/webpack.dev.js --color --watch",
     "start": "webpack --config webpack/webpack.dev.js --color --watch"
   },
   "devDependencies": {
