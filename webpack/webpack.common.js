@@ -1,7 +1,6 @@
 const path = require('path');
 const BundleTracker = require('webpack-bundle-tracker');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-console.log(path.resolve(__dirname, '../desparchado/static/dist'));
 
 module.exports = {
     entry: {
