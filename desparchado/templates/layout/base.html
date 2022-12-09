@@ -1,93 +1,43 @@
-<!DOCTYPE html>
+<!doctype html>
 {% load i18n static webpack_loader desparchado_tags %}
 <html lang="es">
   <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-
-    <!-- Ensure proper rendering and touch zooming for all devices -->
+    <title>{% block title %}Desparchado.co{% endblock %}</title>
+    <meta name="description" content="Eventos culturales y educativos en Colombia: programación de conciertos, festivales, ferias, congresos, teatro, arte, conferencias, cine alternativo">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <meta name="description" content="Eventos culturales y educativos en Colombia: programación de conciertos, festivales, ferias, congresos, teatro, arte, conferencias, cine alternativo">
-    <meta name="keywords" content="Eventos Bogotá, Eventos Cali, Eventos Madellín, Eventos Cartagena, Conciertos, Talleres, Cursos, agenda cultural, programación, cine arte, libros">
-    <meta name="news_keywords" content="Eventos" />
-    <link rel="icon" href="https://desparchado.co/favicon.ico">
-
-    <link href="https://fonts.googleapis.com/css?family=Grand+Hotel" rel="stylesheet">
-    <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
-
-    <title>{% block title %}Desparchado.co{% endblock %}</title>
+    <link rel="icon" href="https://desparchado.co/favicon.ico" sizes="any">
+    <link rel="apple-touch-icon" href="https://desparchado.co/favicon.ico">
 
     <meta name="news_keywords" content="Eventos" />
     <meta property="fb:pages" content="DesparchadoCo" />
     <meta name="twitter:site" content="@DesparchadoCo">
     <meta name="yandex-verification" content="23be5300a3865e55" />
+    {% block meta %}{% endblock meta %}
 
     <meta name="google-site-verification" content="fzaFpFH8Q6VYOrIz3z98OPuzP8J99Cty7ic_jb9ApJo" />
 
-    <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
-    <!-- Fortawesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
-    <!-- Extra CSS -->
-    {% block extra_css %}{% endblock extra_css %}
-
-    <!-- Select 2 Bootstrap 5 theme-->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.1.1/dist/select2-bootstrap-5-theme.min.css" />
-
     {% render_bundle 'main' 'css' %}
-
-    <!-- jQuery -->
-    <script
-          src="https://code.jquery.com/jquery-3.6.0.min.js"
-          integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
-          crossorigin="anonymous"></script>
-
-    {% block meta %}{% endblock meta %}
+    {% block extra_css %}{% endblock extra_css %}
   </head>
   {% block google-structured-markup %}{% endblock %}
 
   <body>
-  {% block body %}
+    {% block body %}
+      {% include 'layout/_header.html' %}
+      {% block subheader %}{% endblock subheader %}
 
-    {% include 'layout/_header.html' %}
-    {% block subheader %}{% endblock subheader %}
+      <div class="container my-3">
+        {% block content %}{% endblock content %}
+      </div><!-- /.container -->
 
-    <div class="container my-3">
-      {% block content %}{% endblock content %}
-    </div><!-- /.container -->
-
-    {% include 'layout/_footer.html' %}
-
-  {% endblock body %}
-
-    <!-- Separate Popper and Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js" integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT" crossorigin="anonymous"></script>
-
-    <!-- Infinite Scroll -->
-    <script src="https://unpkg.com/infinite-scroll@4/dist/infinite-scroll.pkgd.min.js"></script>
+      {% include 'layout/_footer.html' %}
+    {% endblock body %}
 
     {% render_bundle 'main' 'js' %}
-
-    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-58ced1089d6b2a96"></script>
-    <script id="dsq-count-scr" src="//desparchado.disqus.com/count.js" async></script>
-
     {% block javascript %}{% endblock javascript %}
 
-    {% include 'includes/_yandex_metrika_code.html' %}
-
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-43471959-4"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', 'UA-43471959-4');
-    </script>
-
+    {% include 'includes/google_analytics.html'%}
   </body>
 </html>
