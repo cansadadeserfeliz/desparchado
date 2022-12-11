@@ -92,6 +92,13 @@ body {
     margin-inline: auto;
 }
 
+.padding-block-400 {
+    padding-block: $size-400;
+}
+.padding-block-600 {
+    padding-block: $size-600;
+}
+
 .even-columns {
     display: grid;
     gap: 1rem;
@@ -99,12 +106,13 @@ body {
 @media (min-width: 50em) {
     .even-columns {
         grid-auto-flow: column;
+        grid-auto-columns: 1fr;
     }
 }
 
 .events-grid {
     display: grid;
-    gap: 1.5rem;
+    gap: $size-600;
 }
 @media (min-width: 50em) {
     .event-columns {

@@ -16,7 +16,7 @@ class HomeView(TemplateView):
         context = super().get_context_data(**kwargs)
         events = Event.objects.published().future().order_by('?').all()[:6]
         context['events'] = events
-        if events.count() <= 3:
+        if events.count() <= 6:
             context['past_events'] = \
                 Event.objects.published().past().order_by('-event_date').all()[:6]
         else:
