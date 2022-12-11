@@ -7,10 +7,12 @@
     "build": "webpack --config webpack/webpack.prod.js --color",
     "build:dev": "webpack --config webpack/webpack.dev.js --color",
     "webpack": "webpack --watch --config webpack/webpack.dev.js --color",
-    "start": "webpack serve --config webpack/webpack.dev.js --color --port=3000"
+    "webpack-serve": "webpack-dev-server --config webpack/webpack.dev.js",
+    "start": "webpack --watch --config webpack/webpack.dev.js --color"
   },
   "devDependencies": {
     "css-loader": "^6.7.2",
+    "file-loader": "^6.2.0",
     "mini-css-extract-plugin": "^2.7.2",
     "postcss": "^8.4.19",
     "postcss-loader": "^7.0.2",
@@ -27,6 +29,6 @@
     "webpack-merge": "^5.8.0"
   },
   "dependencies": {
-    "bootstrap": "^5.2.3"
+    "@fortawesome/fontawesome-free": "^6.2.1"
   }
 }

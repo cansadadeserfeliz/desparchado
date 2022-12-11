@@ -12,37 +12,42 @@
 {% endblock subheader %}
 
 {% block content %}
+  <div class="container">
+    <section class="padding-block-400">
+      <div class="text-center">
+        <a href="{% url 'events:add_event' %}" class="btn btn-sm btn-primary"><i class="fas fa-plus"></i>&nbsp;AÑADIR EVENTO</a>
+      </div>
+    </section>
 
-  <div class="text-center">
-    <a href="{% url 'events:add_event' %}" class="btn btn-sm btn-primary"><i class="fas fa-plus"></i>&nbsp;AÑADIR EVENTO</a>
-  </div>
+    <section class="padding-block-400">
+      {% include 'events/_events_grid.html' %}
+    </section>
 
-  {% include 'events/_events_grid.html' %}
-
-  <div class="text-center">
-    <a href="{% url 'events:event_list' %}" class="btn btn-sm btn-primary">VER TODOS LOS EVENTOS</a>
-  </div>
-
-    <hr>
+    <section class="padding-block-400">
+      <div class="text-center">
+        <a href="{% url 'events:event_list' %}" class="btn btn-sm btn-primary">VER TODOS LOS EVENTOS</a>
+      </div>
+    </section>
 
   {% if past_events %}
-
-    <section class="container clearfix">
+    <section class="padding-block-400">
       <h2 class="text-justify text-center">Eventos pasados</h2>
     </section>
 
-    {% include 'events/_events_grid.html' with events=past_events %}
+    <section class="padding-block-400">
+      {% include 'events/_events_grid.html' with events=past_events %}
+    </section>
 
-    <section class="container">
+    <section class="padding-block-400">
       <div class="text-center">
         <a href="{% url 'events:past_event_list' %}" class="btn btn-sm btn-primary">VER MÁS EVENTOS PASADOS</a>
       </div>
     </section>
-
   {% endif %}
 
-  <h2 class="text-justify text-center">Blog</h2>
-
-  {% include 'blog/_posts_grid.html' %}
-
+    <section class="padding-block-400">
+      <h2 class="text-justify text-center">Blog</h2>
+      {% include 'blog/_posts_grid.html' %}
+    </section>
+  </div>
 {% endblock content %}

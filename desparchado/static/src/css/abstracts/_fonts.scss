@@ -1,0 +1,40 @@
+// Google Fonts
+@import url('https://fonts.googleapis.com/css?family=Grand+Hotel&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open-Sans:wght@400;500;700&display=swap');
+
+// Font Variables
+$ff-brand: 'Grand Hotel', cursive;
+$ff-primary: 'Open Sans', sans-serif;
+
+$ff-heading: $ff-primary;
+$ff-body: $ff-primary;
+
+$fw-regular: 400;
+$fw-semi-bold: 500;
+$fw-bold: 700;
+
+$fs-300: .8125rem;
+$fs-400: .875rem;
+$fs-500: 1rem;
+$fs-600: 1.875rem;
+$fs-700: 2.5rem;
+
+$fs-body: $fs-400;
+$fs-body: $fs-500;
+$fs-button: $fs-300;
+
+:root {
+    --fs-300: .8125rem;
+    --fs-400: .875rem;
+    --fs-500: 1rem;
+    --fs-600: 1.875rem;
+    --fs-700: 2.5rem;
+}
+
+@media (min-width: 50em) {
+    :root {
+        --fs-400: 2rem;
+        --fs-600: 2.5rem;
+        --fs-700: 3.5rem;
+    }
+}
