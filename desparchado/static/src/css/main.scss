@@ -1,6 +1,6 @@
-@use "abstracts";
-@use "layout";
-@use "components";
+@import "abstracts";
+@import "layout";
+@import "components";
 
 /* Box sizing rules */
 *,
@@ -66,4 +66,33 @@ svg {
     }
 }
 
+.text-primary-400 {
+    color: $clr-primary-400;
+}
+.text-neutral-400 {
+    color: $clr-neutral-900;
+}
+.bg-primary-400 {
+    background-color: $clr-primary-400;
+}
+.bg-neutral-900 {
+    background-color: $clr-neutral-900;
+}
+
+/* general styling */
+
+body {
+    font-size: $fs-body;
+    font-family: $ff-body;
+    color: $clr-neutral-900;
+}
+
+
+.brand-link {
+    text-decoration: none;
+    font-family: $ff-brand;
+    font-size: $fs-700;
+    color: $clr-neutral-900;
+    font-weight: $fw-semi-bold;
+}
 
