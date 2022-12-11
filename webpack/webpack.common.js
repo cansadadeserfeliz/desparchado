@@ -32,9 +32,7 @@ module.exports = {
                         loader:'postcss-loader',
                         options: {
                             postcssOptions: {
-                                plugins: [
-                                    ['postcss-preset-env', {}]
-                                ]
+                                plugins: [['postcss-preset-env', {}]]
                             }
                         }
                     },
@@ -42,6 +40,20 @@ module.exports = {
                     'sass-loader',
                 ]
             },
+            {
+                test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
+                type: 'asset/resource',
+                use: [
+                    {
+                        loader: 'file-loader',
+                        options: {
+                            name: '[name].[ext]',
+                            outputPath: 'fonts',
+                            publicPath: 'fonts',
+                        }
+                    }
+                ]
+            }
         ]
     },
     resolve: {
