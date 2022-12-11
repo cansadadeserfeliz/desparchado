@@ -87,6 +87,35 @@ body {
     color: $clr-neutral-900;
 }
 
+.container {
+    max-width: min($container-max-width, 100% - $container-padding * 2);
+    margin-inline: auto;
+}
+
+.even-columns {
+    display: grid;
+    gap: 1rem;
+}
+@media (min-width: 50em) {
+    .even-columns {
+        grid-auto-flow: column;
+    }
+}
+
+.events-grid {
+    display: grid;
+    gap: 1.5rem;
+}
+@media (min-width: 50em) {
+    .event-columns {
+        grid-auto-flow: column;
+    }
+    @for $i from 1 through $events-grid-columns {
+        .grid-item:nth-child(#{$events-grid-columns}n + #{$i}) {
+            grid-column: $i;
+        }
+    }
+}
 
 .brand-link {
     text-decoration: none;

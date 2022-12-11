@@ -13,36 +13,36 @@
 
 {% block content %}
 
-  <div class="text-center">
-    <a href="{% url 'events:add_event' %}" class="btn btn-sm btn-primary"><i class="fas fa-plus"></i>&nbsp;AÑADIR EVENTO</a>
-  </div>
+  <div class="container">
 
-  {% include 'events/_events_grid.html' %}
-
-  <div class="text-center">
-    <a href="{% url 'events:event_list' %}" class="btn btn-sm btn-primary">VER TODOS LOS EVENTOS</a>
-  </div>
-
-    <hr>
-
-  {% if past_events %}
-
-    <section class="container clearfix">
-      <h2 class="text-justify text-center">Eventos pasados</h2>
-    </section>
-
-    {% include 'events/_events_grid.html' with events=past_events %}
-
-    <section class="container">
       <div class="text-center">
-        <a href="{% url 'events:past_event_list' %}" class="btn btn-sm btn-primary">VER MÁS EVENTOS PASADOS</a>
+        <a href="{% url 'events:add_event' %}" class="btn btn-sm btn-primary"><i class="fas fa-plus"></i>&nbsp;AÑADIR EVENTO</a>
       </div>
-    </section>
 
-  {% endif %}
+      {% include 'events/_events_grid.html' %}
 
-  <h2 class="text-justify text-center">Blog</h2>
+      <div class="text-center">
+        <a href="{% url 'events:event_list' %}" class="btn btn-sm btn-primary">VER TODOS LOS EVENTOS</a>
+      </div>
 
-  {% include 'blog/_posts_grid.html' %}
+        <hr>
+
+      {% if past_events %}
+
+        <section class="container">
+          <h2 class="text-justify text-center">Eventos pasados</h2>
+        </section>
+
+        {% include 'events/_events_grid.html' with events=past_events %}
+
+        <div class="text-center">
+          <a href="{% url 'events:past_event_list' %}" class="btn btn-sm btn-primary">VER MÁS EVENTOS PASADOS</a>
+        </div>
+      {% endif %}
+
+      <h2 class="text-justify text-center">Blog</h2>
+
+      {% include 'blog/_posts_grid.html' %}
+  </div>
 
 {% endblock content %}

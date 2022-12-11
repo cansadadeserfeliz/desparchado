@@ -1,3 +1,52 @@
+{% load i18n %}
+<footer>
+  <div class="container">
+    <div class="even-columns">
+      <div>
+        <h5>Acerca de</h5>
+        <p>
+          Desparchado.co es un proyecto sin ánimo de lucro, que sirve
+          para compartir eventos culturales y educativos y darles más
+          visibilidad.
+
+          Los anuncios de los eventos pueden ser publicados en la página web
+          por editores o usuarios registrados.
+        </p>
+        <h5>Contáctenos</h5>
+        <p>
+          <a href="mailto:desparchado.co@gmail.com">desparchado.co@gmail.com</a>
+        </p>
+      </div>
+      <div>
+        <navjjj>
+          <ul role="list" class="nav-list">
+            <li><a href="{% url 'events:event_list' %}"></a>{% trans 'Eventos' %}</li>
+            <li><a href="{% url 'events:add_event' %}">Añadir evento</a></li>
+            <li><a href="{% url 'places:place_list' %}">Lugares</a></li>
+            <li><a href="{% url 'events:speaker_list' %}">Presentadores</a></li>
+            <li><a href="{% url 'blog:post_list' %}">Blog</a></li>
+            <li><a href="{% url 'games:hunting_of_snark_create' %}">Juego «La caza del Snark»</a></li>
+            <li><a href="{% url 'events:past_event_list' %}">Eventos pasados</a></li>
+            <li><a href="{% url 'about' %}">Acerca de</a></li>
+          </ul>
+        </navjjj>
+      </div>
+      <div>
+        <h5>Síganos</h5>
+        <ul role="list" aria-label="{% trans 'redes sociales' %}">
+          <li><a aria-label="facebook"></a></li>
+          <li><a aria-label="twitter"></a></li>
+          <li><a aria-label="instagram"></a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div>
+      <a href="/" class="brand-link">Desparchado</a>
+    </div>
+  </div>
+</footer>
+
 <footer class="footer pt-4 pt-md-5">
   <div class="container py-5">
     <div class="row">
