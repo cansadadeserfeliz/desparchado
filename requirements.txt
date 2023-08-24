@@ -1,5 +1,5 @@
 # application server
-uWSGI==2.0.19.1
+uWSGI==2.0.22
 
 # Framework
 Django==3.1.14
@@ -34,4 +34,4 @@ pytest-django==4.3.0
 social-auth-app-django==4.0.0
 
 # Web server
-uWSGI==2.0.19.1
+uWSGI==2.0.22
