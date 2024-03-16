@@ -2,13 +2,13 @@
 uWSGI==2.0.22
 
 # Framework
-Django==3.1.14
+Django>=4.2.11,<4.3
 
 # Python Libs
 Pillow==9.3.0
 psycopg2==2.8.6  # apt-get install postgis
 raven==6.10.0
-social-auth-core==3.3.3
+social-auth-core>=4.5.3,<4.6
 requests==2.25.0
 libsass==0.20.1
 pytest==6.2.4
@@ -17,18 +17,18 @@ python-dateutil==2.8.1
 pytest-pythonpath==0.7.3
 
 # Django Libs
-django-autocomplete-light==3.8.1
-django-autoslug==1.9.8
+django-autocomplete-light>=3.11.0,<3.12
+django-autoslug>=1.9.9,<1.10
 django-axes==5.9.1
-django-crispy-forms==1.10.0
-crispy-bootstrap5==0.4
+django-crispy-forms>=2.1,<2.2
+crispy-bootstrap5==0.7
 django-debug-toolbar==3.2.1
-django-map-widgets==0.3.2
-django-markdownx==3.0.1
+django-map-widgets>=0.4.2,<0.5
+django-markdownx>=4.0.7,<4.1
 django-model-utils==4.1.1
-django-pipeline==2.0.5
+django-pipeline>=3.0.0,<3.1
 django-ses==3.5.0
 django-webtest==1.9.7
 factory-boy==3.1.0
 pytest-django==4.3.0
-social-auth-app-django==4.0.0
+social-auth-app-django>=5.4.0,<5.5
