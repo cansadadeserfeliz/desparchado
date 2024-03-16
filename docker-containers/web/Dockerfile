@@ -1,10 +1,9 @@
-#FROM alpine:3.13
-FROM python:3.8-buster
+FROM python:3.8-bookworm
 
 COPY run.sh /
 RUN chmod +x /run.sh
 RUN mkdir -p /root/.cache/pip
-RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
+RUN curl -fsSL https://deb.nodesource.com/setup_21.x | bash -
 RUN apt-get install -y nodejs
 RUN npm install -g sass
 RUN npm install -g bower

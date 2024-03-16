@@ -1,15 +1,15 @@
 # application server
-uWSGI==2.0.19.1
+uWSGI==2.0.22
 
 # Framework
-Django==3.1.14
+Django==3.2.24
 
 # Python Libs
-Pillow==9.3.0
+Pillow==10.2.0
 psycopg2==2.8.6  # apt-get install postgis
 raven==6.10.0
 social-auth-core==3.3.3
-requests==2.25.0
+requests==2.31.0
 libsass==0.20.1
 pytest==6.2.4
 pytest-cov==2.12.0
@@ -27,11 +27,8 @@ django-map-widgets==0.3.2
 django-markdownx==3.0.1
 django-model-utils==4.1.1
 django-pipeline==2.0.5
-django-ses==2.0.0
+django-ses==3.5.0
 django-webtest==1.9.7
 factory-boy==3.1.0
 pytest-django==4.3.0
 social-auth-app-django==4.0.0
-
-# Web server
-uWSGI==2.0.19.1
