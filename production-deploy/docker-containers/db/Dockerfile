@@ -1,4 +1,4 @@
-FROM postgis/postgis:13-3.1-alpine
+FROM postgis/postgis:13-3.4-alpine
 
 # these are the postgres superuser credentials
 ENV POSTGRES_PASSWORD="secret"
