@@ -9,7 +9,7 @@ Pillow==10.0.1
 psycopg2==2.8.6  # apt-get install postgis
 raven==6.10.0
 social-auth-core==3.3.3
-requests==2.25.0
+requests==2.31.0
 libsass==0.20.1
 pytest==6.2.4
 pytest-cov==2.12.0
