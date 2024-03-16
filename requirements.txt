@@ -5,7 +5,7 @@ uWSGI==2.0.22
 Django>=4.2.11,<4.3
 
 # Python Libs
-Pillow==9.3.0
+Pillow==10.2.0
 psycopg2==2.8.6  # apt-get install postgis
 raven==6.10.0
 social-auth-core>=4.5.3,<4.6
