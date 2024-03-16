@@ -16,7 +16,7 @@ Start containers for Django application and PostgreSQL database:
 
 First, open a shell for Django application:
 
-    sudo docker exec -it desparchado_web_1 bash
+    sudo docker exec -it desparchado-web-1 bash
 
 Create `app/setenv.sh` file with environment variables, for example:
 
