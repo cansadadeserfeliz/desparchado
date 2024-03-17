@@ -1,5 +1,6 @@
 from django import forms
 from django.urls import reverse_lazy
+from django.utils.safestring import mark_safe
 
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
@@ -41,23 +42,11 @@ class EventBaseForm(forms.ModelForm):
     def get_dates_div():
         return Div(
             Div(
-                AppendedText(
-                    'event_date',
-                    '<i data-target="#id_event_date" '
-                    '   data-toggle="datetimepicker" '
-                    '   class="fa fa-calendar"></i>'
-                ),
-                data_target="#id_event_date",
+                'event_date',
                 css_class='input-group date col-md',
             ),
             Div(
-                AppendedText(
-                    'event_end_date',
-                    '<i data-target="#id_event_end_date" '
-                    '   data-toggle="datetimepicker" '
-                    '   class="fa fa-calendar"></i>'
-                ),
-                data_target="#event_end_date",
+                'event_end_date',
                 css_class='input-group date col-md',
             ),
             css_class='row',
@@ -110,6 +99,7 @@ class EventBaseForm(forms.ModelForm):
             'speakers',
         ]
         widgets = {
+            'event_date': forms.DateInput(),
             'organizers':
             autocomplete.ModelSelect2Multiple(
                 url='events:organizer_autocomplete',
