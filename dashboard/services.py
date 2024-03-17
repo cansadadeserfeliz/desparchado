@@ -10,7 +10,7 @@ def get_blaa_events_list(page):
     pages_count = pager['pages']
     events = []
     for node in nodes:
-                events.append(node)
+        events.append(node)
     return events, pages_count
 
 
