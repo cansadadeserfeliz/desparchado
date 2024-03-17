@@ -14,9 +14,9 @@ def get_blaa_events_list(page):
     return events, pages_count
 
 
-def get_blaa_event(event_id):
-    url = 'https://admin.banrepcultural.org/api/actividades/detalle?alias={event_id}'
-    url = url.format(event_id=event_id.lstrip('/'))
+def get_blaa_event(event_slug):
+    url = 'https://admin.banrepcultural.org/api/actividades/detalle?alias={event_slug}'
+    url = url.format(event_slug=event_slug)
     response = requests.get(url, verify=False)
     data = response.json()
     return data['nodes'][0]

@@ -1,7 +1,7 @@
 {% for key, value in blaa_event_json.items %}
   <p>
     <b>{{ key }}:</b>
-  {% if key == 'imagen' %}
+  {% if key == 'image' %}
     <img class="img-fluid" src="{{ value.src }}">
   {% else %}
     {{ value|safe }}
