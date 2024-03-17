@@ -10,6 +10,7 @@ from crispy_forms.layout import HTML
 from crispy_forms.layout import Field
 from crispy_forms.bootstrap import PrependedText
 from crispy_forms.bootstrap import AppendedText
+from crispy_bootstrap5.bootstrap5 import Switch
 from dal import autocomplete
 
 from .models import Event
@@ -167,7 +168,7 @@ class EventUpdateForm(EventBaseForm):
 
         self.helper.layout = Layout(
             'title',
-            Div('is_published', css_class='form-check form-switch'),
+            Switch('is_published'),
             'description',
             'event_source_url',
             'image',
