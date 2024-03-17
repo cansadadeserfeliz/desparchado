@@ -99,7 +99,6 @@ class EventBaseForm(forms.ModelForm):
             'speakers',
         ]
         widgets = {
-            'event_date': forms.DateInput(),
             'organizers':
             autocomplete.ModelSelect2Multiple(
                 url='events:organizer_autocomplete',
