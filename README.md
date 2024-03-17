@@ -36,7 +36,7 @@ Install static files:
 
     bower install
 
-Collect static files:
+Collect static files (optional):
 
     python manage.py collectstatic --settings=desparchado.settings.local
 

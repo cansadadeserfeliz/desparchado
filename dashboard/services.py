@@ -6,11 +6,11 @@ def get_blaa_events_list(page):
     response = requests.get(url.format(page=page), verify=False)
     data = response.json()
     nodes = data['nodes']
-    view = data['view']
-    pages_count = view['pages']
+    pager = data['pager']
+    pages_count = pager['pages']
     events = []
     for node in nodes:
-                events.append(node)
+        events.append(node)
     return events, pages_count
 
 

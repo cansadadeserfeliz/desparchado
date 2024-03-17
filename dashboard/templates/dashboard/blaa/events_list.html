@@ -34,17 +34,17 @@
                   </a>
                 {% else %}
                   <span class="status-icon bg-gray"></span>
-                  {{ event.titulo1 }}
+                  {{ event.title }}
                 {% endif %}
                 </td>
                 <td class="w-1">
 
                 </td>
-                <td>{{ event.fecha_dia }}/{{ event.fecha_mes }}/{{ event.fecha_ano }}</td>
-                <td>{{ event.tipo }}</td>
-                <td>{{ event.city }}</td>
+                <td>{{ event.date }}</td>
+                <td>{{ event.type_activity }}</td>
+                <td>{{ event.city }} / {{ event.place }}</td>
                 <td class="text-center w-2">
-                  <img src="{{ event.imagen.src }}">
+                  <img src="{{ event.image.src }}">
                 </td>
                 <td class="w-1">
                 {% if event.desparchado_event %}
