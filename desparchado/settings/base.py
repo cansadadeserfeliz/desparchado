@@ -212,7 +212,6 @@ PIPELINE = {
             'source_filenames': (
               #'bower_components/bootstrap/dist/css/bootstrap.min.css',
               #'libs/fontawesome-free-5.6.3-web/css/all.min.css',
-              #'bower_components/tempusdominus-bootstrap-4/build/css/tempusdominus-bootstrap-4.min.css',
               'sass/main.sass',
             ),
             'output_filename': 'css/main.min.css',
@@ -240,7 +239,6 @@ PIPELINE = {
               #'bower_components/jquery/dist/jquery.min.js',
               #'bower_components/bootstrap/dist/js/bootstrap.min.js',
               #'bower_components/moment/min/moment-with-locales.min.js',
-              #'bower_components/tempusdominus-bootstrap-4/build/js/tempusdominus-bootstrap-4.min.js',
               'js/main.js',
               'js/letter-avatars.js',
               'js/posts-pagination-initializer.js',
