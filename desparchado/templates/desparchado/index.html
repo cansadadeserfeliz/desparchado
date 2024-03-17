@@ -23,7 +23,7 @@
     <a href="{% url 'events:event_list' %}" class="btn btn-sm btn-primary">VER TODOS LOS EVENTOS</a>
   </div>
 
-    <hr>
+  <hr>
 
   {% if past_events %}
 
@@ -41,7 +41,11 @@
 
   {% endif %}
 
-  <h2 class="text-justify text-center">Blog</h2>
+  <hr>
+
+  <section class="container clearfix">
+    <h2 class="text-justify text-center">Blog</h2>
+  </section>
 
   {% include 'blog/_posts_grid.html' %}
 
