@@ -48,12 +48,12 @@
                 </td>
                 <td class="w-1">
                 {% if event.desparchado_event %}
-                  <a href="{% url 'events:event_update' event.desparchado_event.pk %}" target="_blank">
-                    <i class="ti ti-edit-circle" data-toggle="tooltip" title="Añadir evento"></i>
+                  <a class="btn" href="{% url 'events:event_update' event.desparchado_event.pk %}" target="_blank">
+                    Añadir evento
                   </a>
                 {% else %}
-                  <a href="{% url 'dashboard:event_add' %}?blaa-slug={{ event.contenido_url|escape }}" target="_blank">
-                    <i class="ti ti-circle-plus" data-toggle="tooltip" title="Añadir evento"></i>
+                  <a class="btn" href="{% url 'dashboard:event_add' %}?blaa-slug={{ event.path|escape }}" target="_blank">
+                    Añadir evento
                   </a>
                 {% endif %}
                 </td>

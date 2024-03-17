@@ -185,7 +185,7 @@ class EventCreateView(CreateView):
 
         blaa_slug = self.request.GET.get('blaa-slug', '')
         if blaa_slug:
-            self.blaa_event_json = get_blaa_event(blaa_slug)
+            self.blaa_event_json = get_blaa_event(event_slug=blaa_slug)
 
             self.event_source_url = 'http://www.banrepcultural.org{}'.format(
                 self.blaa_event_json['path']
@@ -203,31 +203,20 @@ class EventCreateView(CreateView):
 
         if self.blaa_event_json:
             event_type = Event.EVENT_TYPE_PUBLIC_LECTURE
-            if self.blaa_event_json['tipo'] == 'Taller':
+            if self.blaa_event_json['type_activity'] == 'Taller':
                 event_type = Event.EVENT_TYPE_MASTER_CLASS
-            elif self.blaa_event_json['tipo'] == 'Visita guiada':
+            elif self.blaa_event_json['type_activity'] == 'Visita guiada':
                 event_type = Event.EVENT_TYPE_TOUR
-            elif self.blaa_event_json['tipo'] == 'Club de Lectura':
+            elif self.blaa_event_json['type_activity'] == 'Club de Lectura':
                 event_type = Event.EVENT_TYPE_MEETING
-            elif self.blaa_event_json['tipo'] == 'Exposición':
+            elif self.blaa_event_json['type_activity'] == 'Exposición':
                 event_type = Event.EVENT_TYPE_EXHIBITION
-            elif self.blaa_event_json['tipo'] == 'Concierto':
+            elif self.blaa_event_json['type_activity'] == 'Concierto':
                 event_type = Event.EVENT_TYPE_CONCERT
-            elif self.blaa_event_json['tipo'] == 'Charla previa':
+            elif self.blaa_event_json['type_activity'] == 'Charla previa':
                 event_type = Event.EVENT_TYPE_MEETING
 
-            start_date = None
-            start = self.blaa_event_json.get('start')
-            hour = self.blaa_event_json.get('hour', '')
-            if start and hour:
-                found_hours = re.findall(r'\d{1,2}:\d\d\s+\w\w', hour.upper())
-                found_date = re.findall(r'\d{2}/\d{2}/\d{4}', start)
-                if found_hours and found_date:
-                    t = time.strptime(found_hours[0], "%I:%M %p")
-                    start_date = '{} {}'.format(
-                        found_date[0],
-                        time.strftime('%H:%M', t)
-                    )
+            start_date = parse(self.blaa_event_json.get('date'))
 
             organizer = Organizer.objects.filter(
                 name='Banco de la República'
@@ -240,13 +229,15 @@ class EventCreateView(CreateView):
                 place = None
 
             initial.update(dict(
-                title=self.blaa_event_json['titulo'],
+                title=self.blaa_event_json['title'],
                 event_type=event_type,
                 topic=Event.EVENT_TOPIC_ART,
                 event_source_url=self.event_source_url,
                 event_date=start_date,
                 description=
                 self.blaa_event_json.get('body', '') + '\n\n' +
+                self.blaa_event_json.get('horarios', '') + '\n\n' +
+                self.blaa_event_json.get('description', '') + '\n\n' +
                 self.blaa_event_json.get('notes', ''),
                 organizers=[organizer],
                 place=place,
