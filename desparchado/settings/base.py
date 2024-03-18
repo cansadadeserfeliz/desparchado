@@ -308,12 +308,9 @@ LOGGING = {
 }
 
 # django-axes
-AXES_LOGIN_FAILURE_LIMIT = 5
-# fetch IP addresses from a HTTP header such as X-Forwarded-For
-AXES_META_PRECEDENCE_ORDER = [
-   'HTTP_X_FORWARDED_FOR',
-   'REMOTE_ADDR',
-]
+AXES_FAILURE_LIMIT = 5
+# defines a period of inactivity after which old failed login attempts will be cleared
+AXES_COOLOFF_TIME = 24  # hours
 
 # crispy forms with bootstrap 5:
 # https://github.com/django-crispy-forms/crispy-bootstrap5
