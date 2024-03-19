@@ -64,7 +64,7 @@
 
       <div class="event-image">
         <img class="image img-fluid img-thumbnail" alt="{{ event.title }}" src="{{ event.get_image_url }}">
-        <div class="event-city-label">{{ event.place.city.name }}</div>
+        {% if event.place.city %}<div class="event-city-label">{{ event.place.city.name }}</div>{% endif %}
         {% if event.price %}<div class="event-price-label">{{ event.get_price_display }}</div>{% endif %}
       </div>
 

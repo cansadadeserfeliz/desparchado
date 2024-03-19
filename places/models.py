@@ -29,6 +29,8 @@ class Place(TimeStampedModel):
         verbose_name='Ciudad',
         on_delete=models.DO_NOTHING,
         db_index=True,
+        null=True,
+        blank=True,
     )
 
     created_by = models.ForeignKey(
