@@ -84,7 +84,6 @@ urlpatterns = [
     path('', include('social_django.urls', namespace='social')),
 
     path('admin/', admin.site.urls),
-    path('markdownx/', include('markdownx.urls')),
 
     path(
         'sitemap.xml',

@@ -46,7 +46,6 @@ INSTALLED_APPS = [
     'django.contrib.postgres',
 
     'axes',
-    'markdownx',
     'mapwidgets',
     'pipeline',
     'raven.contrib.django.raven_compat',
@@ -372,8 +371,4 @@ AWS_SES_REGION_ENDPOINT = 'email.us-east-1.amazonaws.com'
 INTERNAL_IPS = [
     '127.0.0.1',
     'localhost',
-]
-
-MARKDOWNX_MARKDOWN_EXTENSIONS = [
-    'markdown.extensions.extra'
 ]
