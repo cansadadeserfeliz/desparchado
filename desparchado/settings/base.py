@@ -346,9 +346,8 @@ TAGANGA_BASE_URL = 'https://taganga-api.herokuapp.com/api/v1/'
 
 MAP_WIDGETS = {
     'GooglePointFieldWidget': (
-        ('zoom', 12),
-        ('mapCenterLocation', [4.5930632, -74.0757637]),
-        ('mapCenterLocationName', 'bogota'),
+        ('zoom', 5),
+        ('mapCenterLocationName', 'Colombia'),
         ('language', 'es'),
     ),
     'GOOGLE_MAP_API_KEY': 'AIzaSyAFbA9J0IcGyy20cl7xd6Le16U_Bx_TSeI',
