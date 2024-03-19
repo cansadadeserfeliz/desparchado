@@ -1,6 +1,5 @@
 from django import forms
 from django.urls import reverse_lazy
-from django.utils.safestring import mark_safe
 
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
@@ -9,9 +8,9 @@ from crispy_forms.layout import Div
 from crispy_forms.layout import HTML
 from crispy_forms.layout import Field
 from crispy_forms.bootstrap import PrependedText
-from crispy_forms.bootstrap import AppendedText
 from crispy_bootstrap5.bootstrap5 import Switch
 from dal import autocomplete
+from desparchado.utils import strip_html_tags
 
 from .models import Event
 from .models import Organizer
@@ -38,6 +37,10 @@ class EventBaseForm(forms.ModelForm):
             msg = 'Especifica una fecha de finalización igual ' \
                   'o posterior a la fecha de inicio.'
             self.add_error('event_end_date', msg)
+
+        cleaned_data['description'] = strip_html_tags(cleaned_data.get('description', ''))
+
+        return cleaned_data
 
     @staticmethod
     def get_dates_div():
@@ -228,6 +231,11 @@ class OrganizerForm(forms.ModelForm):
             ),
         )
 
+    def clean(self):
+        cleaned_data = super().clean()
+        cleaned_data['description'] = strip_html_tags(cleaned_data.get('description', ''))
+        return cleaned_data
+
     class Meta:
         model = Organizer
         fields = [
@@ -258,6 +266,11 @@ class SpeakerForm(forms.ModelForm):
                 css_class='form-group',
             ),
         )
+
+    def clean(self):
+        cleaned_data = super().clean()
+        cleaned_data['description'] = strip_html_tags(cleaned_data.get('description', ''))
+        return cleaned_data
 
     class Meta:
         model = Speaker

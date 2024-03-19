@@ -1,12 +1,10 @@
 from urllib.parse import urlparse
 import calendar
 
-from django import template
-from django.conf import settings
-from django.utils.safestring import mark_safe
-from django.utils.html import urlize
+import markdown
 
-from markdownx.utils import markdownify
+from django import template
+from django.utils.safestring import mark_safe
 
 register = template.Library()
 
@@ -66,6 +64,6 @@ def user_can_edit_place(user, place):
     return False
 
 
-@register.filter
-def markdown(text):
-    return mark_safe(markdownify(text))
+@register.filter(name='markdown')
+def markdown_filter(text):
+    return mark_safe(markdown.markdown(text))

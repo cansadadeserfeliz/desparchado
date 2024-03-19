@@ -5,6 +5,7 @@ from crispy_forms.layout import Submit
 from crispy_forms.layout import Layout
 from crispy_forms.layout import Div
 from mapwidgets.widgets import GooglePointFieldWidget
+from desparchado.utils import strip_html_tags
 
 from .models import Place
 
@@ -31,6 +32,11 @@ class PlaceForm(forms.ModelForm):
                 css_class='form-group',
             ),
         )
+
+    def clean(self):
+        cleaned_data = super().clean()
+        cleaned_data['description'] = strip_html_tags(cleaned_data.get('description', ''))
+        return cleaned_data
 
     class Meta:
         model = Place

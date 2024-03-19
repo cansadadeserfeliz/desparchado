@@ -5,6 +5,7 @@ uWSGI>=2.0.24,<2.1
 Django>=4.2.11,<4.3
 
 # Python Libs
+Markdown>=3.6,<3.7
 Pillow>=10.2.0,<10.3
 psycopg2==2.8.6  # apt-get install postgis
 raven==6.10.0
@@ -23,7 +24,6 @@ django-crispy-forms>=2.1,<2.2
 crispy-bootstrap5==2024.2
 django-debug-toolbar>=4.2.0,<4.3
 django-map-widgets>=0.4.2,<0.5
-django-markdownx>=4.0.7,<4.1
 django-model-utils>=4.3.1,<4.4
 django-pipeline>=3.0.0,<3.1
 django-ses>=3.5.2,<3.6
