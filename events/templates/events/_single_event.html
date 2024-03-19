@@ -1,6 +1,6 @@
 <div class="card event-card">
   <a href="{{ event.get_absolute_url }}"><img src="{{ event.get_image_url }}" class="card-img-top card-img-fluid-top" alt="{{ event.title }}"></a>
-  <div class="event-city-label">{{ event.place.city.name }}</div>
+  {% if event.place.city %}<div class="event-city-label">{{ event.place.city.name }}</div>{% endif %}
   {% if event.price %}<div class="event-price-label">{{ event.get_price_display }}</div>{% endif %}
   <div class="card-body">
     <a class="text-decoration-none" href="{{ event.get_absolute_url }}">

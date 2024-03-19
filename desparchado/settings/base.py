@@ -46,7 +46,6 @@ INSTALLED_APPS = [
     'django.contrib.postgres',
 
     'axes',
-    'markdownx',
     'mapwidgets',
     'pipeline',
     'raven.contrib.django.raven_compat',
@@ -308,12 +307,9 @@ LOGGING = {
 }
 
 # django-axes
-AXES_LOGIN_FAILURE_LIMIT = 5
-# fetch IP addresses from a HTTP header such as X-Forwarded-For
-AXES_META_PRECEDENCE_ORDER = [
-   'HTTP_X_FORWARDED_FOR',
-   'REMOTE_ADDR',
-]
+AXES_FAILURE_LIMIT = 5
+# defines a period of inactivity after which old failed login attempts will be cleared
+AXES_COOLOFF_TIME = 24  # hours
 
 # crispy forms with bootstrap 5:
 # https://github.com/django-crispy-forms/crispy-bootstrap5
@@ -349,14 +345,13 @@ TAGANGA_AUTH_TOKEN = getenvvar('TAGANGA_AUTH_TOKEN', 'not-set')
 TAGANGA_BASE_URL = 'https://taganga-api.herokuapp.com/api/v1/'
 
 MAP_WIDGETS = {
-    "GooglePointFieldWidget": (
-        ("zoom", 12),
-        ("mapCenterLocation", [4.5930632, -74.0757637]),
-        ("mapCenterLocationName", "bogota"),
-        ("language", 'es'),
+    'GooglePointFieldWidget': (
+        ('zoom', 5),
+        ('mapCenterLocationName', 'Colombia'),
+        ('language', 'es'),
     ),
-    "GOOGLE_MAP_API_KEY": 'AIzaSyAFbA9J0IcGyy20cl7xd6Le16U_Bx_TSeI',
-    "LANGUAGE": 'es',
+    'GOOGLE_MAP_API_KEY': 'AIzaSyAFbA9J0IcGyy20cl7xd6Le16U_Bx_TSeI',
+    'LANGUAGE': 'es',
 }
 
 EMAIL_USE_TLS = True
@@ -375,8 +370,4 @@ AWS_SES_REGION_ENDPOINT = 'email.us-east-1.amazonaws.com'
 INTERNAL_IPS = [
     '127.0.0.1',
     'localhost',
-]
-
-MARKDOWNX_MARKDOWN_EXTENSIONS = [
-    'markdown.extensions.extra'
 ]

@@ -1,4 +1,6 @@
 import logging
+from io import StringIO
+from html.parser import HTMLParser
 
 from django.core.mail import send_mail
 from django.conf import settings
@@ -46,3 +48,24 @@ def send_notification(request, obj, model_name, created):
         )
     except:
         logger.error('No se pudo enviar correo electrónico')
+
+
+class MLStripper(HTMLParser):
+    def __init__(self):
+        super().__init__()
+        self.reset()
+        self.strict = False
+        self.convert_charrefs= True
+        self.text = StringIO()
+
+    def handle_data(self, d):
+        self.text.write(d)
+
+    def get_data(self):
+        return self.text.getvalue()
+
+
+def strip_html_tags(html: str):
+    s = MLStripper()
+    s.feed(html)
+    return s.get_data()
