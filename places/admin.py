@@ -81,3 +81,7 @@ class CityAdmin(admin.ModelAdmin):
 
     def has_delete_permission(self, request, obj=None):
         return False
+
+    formfield_overrides = {
+        geo_models.PointField: {'widget': GooglePointFieldWidget()}
+    }
