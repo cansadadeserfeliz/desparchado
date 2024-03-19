@@ -7,6 +7,13 @@ services:
     volumes:
       - .:/app
       - .docker_pip_cache:/root/.cache/pip
+    environment:
+      - DJANGO_SECRET_KEY=secret
+      - DATABASE_NAME=desparchado_dev
+      - DATABASE_USER=desparchado_dev
+      - DATABASE_PASSWORD=secret
+      - DATABASE_HOST=db
+      - DATABASE_PORT=5432
   db:
     build: "./docker-containers/db"
     ports:
