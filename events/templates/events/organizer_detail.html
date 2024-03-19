@@ -69,22 +69,22 @@
 
 </section><!--/#organizer-detail-->
 
-<div class="card card-body bg-light promo">
-  <div class="container">
-    <h4>
-      ¿Conoces más eventos organizados por «{{ organizer.name }}» o eres su representante?
-      Regístrate en <b>Desparchado.co</b> y agrégalos.
-    </h4>
+<section class="container my-3">
+  <div class="card card-body bg-light promo">
+    <div class="container">
+      <p class="text-center">
+        ¿Conoces más eventos organizados por «{{ organizer.name }}» o eres su representante? <br>
+        Regístrate en <b>Desparchado.co</b> y agrégalos.
+      </p>
 
-    <div class="text-center">
-      <a href="{% url 'events:add_event' %}" class="btn btn-sm btn-primary">
-        AÑADIR EVENTO
-      </a>
+      <div class="text-center">
+        <a href="{% url 'events:add_event' %}" class="btn btn-sm btn-primary">
+          AÑADIR EVENTO
+        </a>
+      </div>
     </div>
   </div>
-</div>
-
-</section><!--/#organizer-detail-->
+</section>
 
 <div class="clearfix"></div>
 
