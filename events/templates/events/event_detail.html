@@ -81,29 +81,28 @@
       </div>
 
       <p>
-      <small>
-      En Desparchado.co sólo brindamos un espacio en Internet para hacer difusión
-      de eventos culturales, generalmente publicados en nuestro sitio por voluntarios.
-      El registro de asistentes, tiquetes, boletería, inscripciones son manejados
-      por los organizadores de cada evento, con quienes, por lo general,
-      no tenemos contacto directo.
-      Le recomendamos contactar al organizador del evento
-      o al sitio donde el evento tendrá lugar
-      para solicitar información sobre la inscripción
-      en el caso de que sea necesario.
-      </small>
-    </p>
+        <div class="alert alert-warning d-flex align-items-center" role="alert">
+          <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Warning:" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M64 64c0-17.7-14.3-32-32-32S0 46.3 0 64V320c0 17.7 14.3 32 32 32s32-14.3 32-32V64zM32 480a40 40 0 1 0 0-80 40 40 0 1 0 0 80z"/></svg>
+          <div>
+            Es importante tener en cuenta que <i>Desparchado.co</i> no organiza los eventos que se muestran en la plataforma.
+            Somos un servicio de divulgación que recopila información sobre eventos culturales de diversas fuentes
+            y los presenta de manera accesible para ti.
+            Si necesitas más información o confirmación sobre algún evento en particular,
+            te recomendamos que contactes directamente a los organizadores a través de los detalles proporcionados
+            en {% if event.event_source_url %}<a href="{{ event.event_source_url }}" target="_blank">{% endif %}la página de cada evento{% if event.event_source_url %}</a>{% endif %}.
+          </div>
+        </div>
+      </p>
 
       {% if event.event_source_url %}
         <div class="event-source">
-          <i class="fa fa-globe"></i>
+          <i class="fa fa-link"></i>
           <strong>Página del evento:</strong>
           <a href="{{ event.event_source_url }}" target="_blank">{{ event.event_source_url|truncatechars:50 }}</a>
         </div>
       {% endif %}
 
       <div class="my-2">
-        <i>¿Planeas ir al evento? Cuéntales a tus amigos:</i>
         <div class="addthis_inline_share_toolbox"></div>
       </div>
 
