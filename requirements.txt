@@ -9,7 +9,6 @@ Markdown>=3.6,<3.7
 Pillow>=10.2.0,<10.3
 psycopg2==2.8.6  # apt-get install postgis
 raven==6.10.0
-social-auth-core>=4.5.3,<4.6
 requests==2.25.0
 libsass==0.20.1
 pytest>=7.4.4,<7.5
@@ -30,4 +29,3 @@ django-ses>=3.5.2,<3.6
 django-webtest>=1.9.11,<1.10
 factory-boy>=3.3.0,<3.4
 pytest-django>=4.7.0,<4.8
-social-auth-app-django>=5.4.0,<5.5
