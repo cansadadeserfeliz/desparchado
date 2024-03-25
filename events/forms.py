@@ -60,7 +60,7 @@ class EventBaseForm(forms.ModelForm):
     def get_organizer_button():
         return Div(
             HTML(
-                '<a href="{}" class="btn btn-light add-related" '
+                '<a href="{}" class="btn btn-light" '
                 'title="Añadir nuevo organizador" target="_blank">'
                 '<i class="fas fa-plus"></i> Añadir nuevo organizador'
                 '</a>'.format(
@@ -74,7 +74,7 @@ class EventBaseForm(forms.ModelForm):
     def get_place_button():
         return Div(
             HTML(
-                '<a href="{}" class="btn btn-light add-related" '
+                '<a href="{}" class="btn btn-light" '
                 'title="Añadir nuevo lugar" target="_blank">'
                 '<i class="fas fa-plus"></i> Añadir nuevo lugar'
                 '</a>'.format(
@@ -190,7 +190,7 @@ class EventUpdateForm(EventBaseForm):
             'speakers',
             Div(
                 HTML(
-                    '<a href="{}" class="btn btn-light add-related" '
+                    '<a href="{}" class="btn btn-light" '
                     'title="Añadir nuevo presentador" target="_blank">'
                     '<i class="fas fa-plus"></i> Añadir nuevo presentador'
                     '</a>'.format(
