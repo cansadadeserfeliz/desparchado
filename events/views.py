@@ -44,15 +44,17 @@ class EventListView(ListView):
         return context
 
     def get_queryset(self):
-        queryset = Event.objects.published().future()
+        queryset = Event.objects.published()
+
+        if self.city:
+            queryset = queryset.filter(place__city=self.city)
 
         if self.q:
             queryset = queryset.filter(
                 Q(title__icontains=self.q) | Q(description__icontains=self.q)
-            )
-
-        if self.city:
-            queryset = queryset.filter(place__city=self.city)
+            ).order_by('-event_date')
+        else:
+            queryset = queryset.future().order_by('event_date')
 
         return queryset.select_related('place')
 
