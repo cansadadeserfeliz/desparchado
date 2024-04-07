@@ -25,7 +25,7 @@ def test_successfully_login(django_app, user):
 def test_successfully_register_user(django_app):
     response = django_app.get(reverse('users:register'), status=200)
     form = response.forms['register_form']
-    form['username'] = 'pepito'
+    # form['username'] = 'pepito'
     form['first_name'] = 'Pepito'
     form['email'] = 'pepito@example.com'
     form['password1'] = 'acbCDE123$'

@@ -4,9 +4,9 @@ from django.contrib.auth import get_user_model
 
 from .models import UserEventRelation
 from .models import UserBadge
-from .models import Badge
+from .models import Badge, User
 
-User = get_user_model()
+AuthUser = get_user_model()
 
 
 @admin.register(UserBadge)
@@ -47,11 +47,26 @@ class UserEventRelationAdmin(admin.ModelAdmin):
         return False
 
 
-admin.site.unregister(User)
+admin.site.unregister(AuthUser)
+
+
+@admin.register(AuthUser)
+class MyUserAdmin(UserAdmin):
+
+    list_display = [
+        'username',
+        'email',
+        'first_name',
+        'last_name',
+        'is_active',
+        'is_staff',
+        'is_superuser',
+        'last_login',
+    ]
 
 
 @admin.register(User)
-class MyUserAdmin(UserAdmin):
+class CustomUserAdmin(UserAdmin):
 
     list_display = [
         'username',
