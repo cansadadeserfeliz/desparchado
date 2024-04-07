@@ -1,18 +1,9 @@
 {% extends 'layout/base.html' %}
 {% load i18n paginator_tags %}
 
-{% block title %}Próximos eventos{% endblock %}
+{% block title %}Eventos{% endblock %}
 
 {% block subheader %}
-<div class="games-header-menu">
-  <ul class="nav justify-content-center">
-  {% for city in global_cities %}
-    <li class="nav-item" role="presentation">
-      <a class="nav-link" href="{% url 'events:event_list' %}?city={{ city.slug }}">{{ city.name }}</a>
-    </li>
-  {% endfor %}
-  </ul>
-</div>
 {% endblock subheader %}
 
 {% block content %}
