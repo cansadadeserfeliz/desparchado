@@ -14,15 +14,20 @@ class HomeView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        events = Event.objects.published().future().order_by('?').all()[:6]
+        future_events_limit = 18
+        past_events_limit = 18
+        blog_posts_limit = 6
+
+        events = Event.objects.published().future().order_by('?').all()[:future_events_limit]
+
         context['events'] = events
-        if events.count() <= 3:
+        if events.count() <= 6:
             context['past_events'] = \
-                Event.objects.published().past().order_by('-event_date').all()[:6]
+                Event.objects.published().past().order_by('-event_date').all()[:past_events_limit]
         else:
             context['past_events'] = []
 
-        context['blog_posts'] = Post.objects.published().order_by('?').all()[:6]
+        context['blog_posts'] = Post.objects.published().order_by('?').all()[:blog_posts_limit]
         return context
 
 
