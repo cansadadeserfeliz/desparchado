@@ -1,48 +1,53 @@
 {% extends 'layout/base.html' %}
 {% load i18n paginator_tags %}
 
-{% block title %}Próximos eventos{% endblock %}
-
-{% block subheader %}
-<div class="games-header-menu">
-  <ul class="nav justify-content-center">
-  {% for city in global_cities %}
-    <li class="nav-item" role="presentation">
-      <a class="nav-link" href="{% url 'events:event_list' %}?city={{ city.slug }}">{{ city.name }}</a>
-    </li>
-  {% endfor %}
-  </ul>
-</div>
-{% endblock subheader %}
+{% block title %}Eventos{% endblock %}
 
 {% block content %}
   <section class="container clearfix" itemscope itemtype="http://schema.org/CollectionPage">
     <h2 class="text-justify text-center">
-      Próximos eventos
+      Eventos
       {% if city_filter %}
         en <a href="{{ city_filter.get_absolute_url }}">{{ city_filter.name }}</a>
       {% endif %}
     </h2>
   </section>
 
+  <div class="row justify-content-center align-items-center">
+    <form id="event_search_form" method="get">
+      <div class="input-group mb-3">
+        <input type="text" class="form-control" name="q" placeholder="Buscar eventos..." value="{{ search_string }}">
+        <span class="input-group-btn">
+          <button class="btn btn-default" type="submit"><i class="fa fa-search"></i></button>
+        </span>
+      </div>
+    </form>
+  </div><!-- /.row -->
+
   {% include 'events/_events_grid.html' %}
 
   {% if city_filter and not events %}
-
-  <div class="row card card-body bg-light text-center clearfix promo">
-    <h4>
-      No se encontraron eventos en <a href="{{ city_filter.get_absolute_url }}">{{ city_filter.name }}</a>.
-      <br>
-      <a href="{% url 'events:event_list' %}">Ver eventos en otras ciudades.</a>
-    </h4>
-  </div>
-
-  <section class="container">
-    <div class="text-center">
-      <a href="{% url 'events:add_event' %}" class="btn btn-sm btn-primary"><i class="fas fa-plus"></i>&nbsp;AÑADIR EVENTO</a>
+    <div class="row card card-body bg-light text-center clearfix promo">
+      <h4>
+        No se encontraron eventos en <a href="{{ city_filter.get_absolute_url }}">{{ city_filter.name }}</a>.
+        <br>
+        <a href="{% url 'events:event_list' %}">Ver eventos en otras ciudades.</a>
+      </h4>
     </div>
-  </section>
 
+    <section class="container">
+      <div class="text-center">
+        <a href="{% url 'events:add_event' %}" class="btn btn-sm btn-primary"><i class="fas fa-plus"></i>&nbsp;AÑADIR EVENTO</a>
+      </div>
+    </section>
+  {% elif search_string and not events %}
+    <div class="row card card-body bg-light text-center clearfix promo">
+      <div>
+        No encontramos resultados para la búsqueda: "{{ search_string }}".
+        <br>
+        <a href="{% url 'events:event_list' %}">Ver todos los eventos.</a>
+      </div>
+    </div>
   {% endif %}
 
 <section class="container">
