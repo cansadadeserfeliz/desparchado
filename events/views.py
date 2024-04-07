@@ -44,12 +44,14 @@ class EventListView(ListView):
         return context
 
     def get_queryset(self):
-        queryset = Event.objects.published().future()
+        queryset = Event.objects.published()
 
         if self.q:
             queryset = queryset.filter(
                 Q(title__icontains=self.q) | Q(description__icontains=self.q)
             )
+        else:
+            queryset = queryset.future()
 
         if self.city:
             queryset = queryset.filter(place__city=self.city)
