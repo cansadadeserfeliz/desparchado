@@ -2,6 +2,7 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from django.views import View
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse
+from django.db.models import Q
 from django.utils.html import format_html
 from django.utils.safestring import mark_safe
 from django.http import JsonResponse
@@ -26,8 +27,9 @@ class EventListView(ListView):
     city = None
 
     def dispatch(self, request, *args, **kwargs):
-
+        self.q = request.GET.get('q', '')
         self.city_slug_filter = request.GET.get('city')
+
         if self.city_slug_filter:
             self.city = City.objects.filter(slug=self.city_slug_filter).first()
 
@@ -35,11 +37,19 @@ class EventListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+
+        context['search_string'] = self.q
         context['city_filter'] = self.city
+
         return context
 
     def get_queryset(self):
         queryset = Event.objects.published().future()
+
+        if self.q:
+            queryset = queryset.filter(
+                Q(title__icontains=self.q) | Q(description__icontains=self.q)
+            )
 
         if self.city:
             queryset = queryset.filter(place__city=self.city)
