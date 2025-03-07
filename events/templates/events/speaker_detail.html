@@ -48,19 +48,6 @@
 
 <div class="clearfix"></div>
 
-{% if books %}
-<section>
-  <h4>Libro{{ books|length|pluralize }}</h4>
-
-  <div class="related-books">
-    {% include 'books/_books_grid.html' with books=books %}
-  </div>
-</section>
-{% endif %}
-
-
-<div class="clearfix"></div>
-
 {% if events %}
 <section class="my-2">
   <h4>Próximos eventos con {{ speaker.name }}</h4>

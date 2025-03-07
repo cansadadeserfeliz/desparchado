@@ -8,7 +8,6 @@ from users.tests.factories import UserFactory
 from events.tests.factories import EventFactory
 from events.tests.factories import OrganizerFactory
 from events.tests.factories import SpeakerFactory
-from books.tests.factories import BookFactory
 from places.tests.factories import PlaceFactory
 from places.tests.factories import CityFactory
 from blog.tests.factories import PostFactory as BlogPostFactory
@@ -69,16 +68,6 @@ def past_event():
     return EventFactory(
         event_date=timezone.now() - timedelta(days=1)
     )
-
-
-@pytest.fixture
-def book(event):
-    return BookFactory(related_events=[event])
-
-
-@pytest.fixture
-def other_event_book(other_event):
-    return BookFactory(related_events=[other_event])
 
 
 @pytest.fixture

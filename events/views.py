@@ -76,7 +76,6 @@ class EventDetailView(DetailView):
         return Event.objects.published().select_related(
             'place',
         ).prefetch_related(
-            'books',
             'speakers',
             'organizers',
         ).all()
@@ -86,8 +85,6 @@ class EventDetailView(DetailView):
         context['related_events'] = Event.objects.exclude(
             id=self.object.id
         ).published().future().select_related('place').order_by('?')[:3]
-        context['books'] = \
-            list(self.object.books.prefetch_related('authors').published())
         context['organizers'] = list(self.object.organizers.all())
         return context
 
@@ -119,12 +116,6 @@ class SpeakerDetailView(DetailView):
         context['events'] = speaker.events.published().future().all()
         context['past_events'] = \
             speaker.events.published().past().order_by('-event_date').all()[:9]
-
-        books = []
-        if hasattr(speaker, 'book_author'):
-            books = list(speaker.book_author.books.prefetch_related('authors').all())
-        context['books'] = books
-
         return context
 
 
