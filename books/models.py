@@ -53,12 +53,6 @@ class Book(TimeStampedModel):
         related_name='books',
         blank=True,
     )
-    press_articles = models.ManyToManyField(
-        'news.PressArticle',
-        verbose_name='Artículos de prensa',
-        related_name='books',
-        blank=True,
-    )
     blog_posts = models.ManyToManyField(
         'blog.Post',
         verbose_name='Entradas de blog',
