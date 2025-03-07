@@ -19,12 +19,3 @@ class PostDetailView(DetailView):
 
     def get_queryset(self):
         return Post.objects.published().all()
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        post = self.get_object()
-
-        books = list(post.books.prefetch_related('authors').all())
-        context['books'] = books
-
-        return context

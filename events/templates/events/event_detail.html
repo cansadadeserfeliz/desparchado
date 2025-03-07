@@ -130,17 +130,6 @@
     </div>
 
     <div class="col-md-4">
-
-    {% if books %}
-    <h3 class="secondary-title">Libro{{ books|length|pluralize }}</h3>
-
-    <div class="related-books book-group">
-      {% for book in books %}
-        {% include 'books/_book_card.html' %}
-      {% endfor %}
-    </div>
-  {% endif %}
-
     {% if event.speakers.exists %}
       <h4 class="secondary-title">Presentadores</h4>
       {% for speaker in event.speakers.all %}
