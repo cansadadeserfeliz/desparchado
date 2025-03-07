@@ -338,12 +338,6 @@ SOCIAL_AUTH_FACEBOOK_SCOPE = [
     'email'
 ]
 
-GOODREADS_API_KEY = getenvvar('GOODREADS_API_KEY', 'not-set')
-GOODREADS_API_SECRET = getenvvar('GOODREADS_API_SECRET', 'not-set')
-
-TAGANGA_AUTH_TOKEN = getenvvar('TAGANGA_AUTH_TOKEN', 'not-set')
-TAGANGA_BASE_URL = 'https://taganga-api.herokuapp.com/api/v1/'
-
 MAP_WIDGETS = {
     'GooglePointFieldWidget': (
         ('zoom', 5),
