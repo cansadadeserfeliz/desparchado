@@ -6,7 +6,6 @@ from events.models import Speaker
 from events.models import Organizer
 from places.models import Place
 from blog.models import Post
-from books.models import Book
 from history.models import Post as HistoryPost
 from history.models import HistoricalFigure
 
@@ -85,17 +84,6 @@ class SpeakerSitemap(sitemaps.Sitemap):
         return item.modified
 
 
-class BookSitemap(sitemaps.Sitemap):
-    changefreq = 'hourly'
-    priority = 0.7
-
-    def items(self):
-        return Book.objects.published().all()
-
-    def lastmod(self, item):
-        return item.modified
-
-
 class HistoryPostSitemap(sitemaps.Sitemap):
     changefreq = 'daily'
     priority = 1
@@ -124,7 +112,6 @@ sitemaps = {
     'places': PlaceSitemap,
     'posts': PostSitemap,
     'speakers': SpeakerSitemap,
-    'books': BookSitemap,
     'history_posts': HistoryPostSitemap,
     'history_figure': HistoricalFigureSitemap,
 }
