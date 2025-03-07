@@ -13,7 +13,6 @@ from desparchado.utils import send_notification
 from desparchado.mixins import EditorPermissionRequiredMixin
 from places.models import City
 from .models import Event, Organizer, Speaker
-from .services import get_event_press_articles
 from .forms import EventCreateForm
 from .forms import EventUpdateForm
 from .forms import OrganizerForm
@@ -87,8 +86,6 @@ class EventDetailView(DetailView):
         context['related_events'] = Event.objects.exclude(
             id=self.object.id
         ).published().future().select_related('place').order_by('?')[:3]
-        context['press_articles'] = \
-            get_event_press_articles(self.object).select_related('media_source').distinct()
         context['books'] = \
             list(self.object.books.prefetch_related('authors').published())
         context['organizers'] = list(self.object.organizers.all())

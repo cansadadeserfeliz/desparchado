@@ -71,11 +71,6 @@ class EventAdmin(admin.ModelAdmin):
                 'editors',
             ),
         }),
-        (_('Extra'), {
-            'fields': (
-                'press_articles',
-            ),
-        }),
     )
 
     ordering = ('-created', '-is_published')
@@ -83,7 +78,6 @@ class EventAdmin(admin.ModelAdmin):
     raw_id_fields = (
         'place',
         'speakers',
-        'press_articles',
         'organizers',
         'editors',
     )

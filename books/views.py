@@ -4,7 +4,6 @@ from django.views.generic import TemplateView
 
 from .models import Book
 from .data import BOOKSHOPS_LIST
-from news.models import PressArticle
 
 
 class HomeTemplateView(TemplateView):
@@ -13,7 +12,6 @@ class HomeTemplateView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['books'] = Book.objects.published().order_by('-created')[:10]
-        context['articles'] = PressArticle.objects.select_related('media_source')[:30]
         return context
 
 

@@ -50,11 +50,6 @@
   </div>
 
   <div class="container">
-    {% if book.press_articles.exists %}
-      <h4>Artículos relacionados</h4>
-      {% include 'news/_press_articles.html' with press_articles=book.press_articles.all %}
-    {% endif %}
-
     {% if related_events %}
       <h4>Eventos relacionados</h4>
       {% include 'events/_events_grid.html' with events=related_events %}
