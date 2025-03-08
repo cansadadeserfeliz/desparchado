@@ -1,8 +1,8 @@
 # application server
-uWSGI>=2.0.24,<2.1
+uWSGI>=2.0.28,<2.1
 
 # Framework
-Django>=4.2.11,<4.3
+Django>=5.1.7,<5.2
 
 # Python Libs
 Markdown>=3.6,<3.7

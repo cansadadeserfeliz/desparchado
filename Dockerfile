@@ -1,4 +1,4 @@
-FROM python:3.8-bookworm
+FROM python:3.10-bookworm
 
 ##### Install Node.js
 
