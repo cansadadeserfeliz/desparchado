@@ -1,31 +1,31 @@
 # application server
-uWSGI>=2.0.24,<2.1
+uWSGI>=2.0.28,<2.1
 
 # Framework
-Django>=4.2.11,<4.3
+Django>=5.1.7,<5.2
 
 # Python Libs
-Markdown>=3.6,<3.7
-Pillow>=10.2.0,<10.3
-psycopg2==2.8.6  # apt-get install postgis
+Markdown>=3.7,<3.8
+Pillow>=11.1.0,<11.2
+psycopg2==2.9.10  # apt-get install postgis
 raven==6.10.0
-requests==2.32.0
+requests>=2.32.3,<2.33
 libsass==0.20.1
-pytest>=7.4.4,<7.5
-pytest-cov>=4.1.0,<4.2
+pytest>=8.3.5,<8.4
+pytest-cov>=6.0.0,<6.1
 python-dateutil>=2.9.0,<3
 
 # Django Libs
-django-autocomplete-light>=3.11.0,<3.12
+django-autocomplete-light>=3.12.1,<3.13
 django-autoslug>=1.9.9,<1.10
-django-axes>=6.4.0,<6.5
-django-crispy-forms>=2.1,<2.2
-crispy-bootstrap5==2024.2
-django-debug-toolbar>=4.2.0,<4.3
-django-map-widgets>=0.4.2,<0.5
-django-model-utils>=4.3.1,<4.4
+django-axes>=7.0.2,<7.1
+django-crispy-forms>=2.3,<2.4
+crispy-bootstrap5==2024.10
+django-debug-toolbar>=5.0.1,<5.1
+django-map-widgets>=0.5.1,<0.6
+django-model-utils>=5.0.0,<5.1
 django-pipeline>=3.0.0,<3.1
-django-ses>=3.5.2,<3.6
-django-webtest>=1.9.11,<1.10
-factory-boy>=3.3.0,<3.4
-pytest-django>=4.7.0,<4.8
+django-ses>=4.4.0,<4.5
+django-webtest>=1.9.12,<1.10
+factory-boy>=3.3.3,<3.4
+pytest-django>=4.10.0,<4.11
