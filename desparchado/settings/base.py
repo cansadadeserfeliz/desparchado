@@ -25,6 +25,7 @@ DEBUG = False
 
 ALLOWED_HOSTS = []
 
+DEFAULT_AUTO_FIELD='django.db.models.AutoField'
 
 # Application definition
 
@@ -309,14 +310,30 @@ CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap5'
 CRISPY_TEMPLATE_PACK = 'bootstrap5'
 
 MAP_WIDGETS = {
-    'GooglePointFieldWidget': (
-        ('zoom', 5),
-        ('mapCenterLocationName', 'Colombia'),
-        ('language', 'es'),
-    ),
-    'GOOGLE_MAP_API_KEY': 'AIzaSyAFbA9J0IcGyy20cl7xd6Le16U_Bx_TSeI',
-    'LANGUAGE': 'es',
+    "GoogleMap": {
+        "apiKey": 'AIzaSyAFbA9J0IcGyy20cl7xd6Le16U_Bx_TSeI',
+        "CDNURLParams": {
+            "language": "es",
+            "libraries": "places,marker",
+            "loading": "async",
+            "v": "quarterly",
+        },
+        "PointField": {
+            "interactive": {
+                "mapOptions": {
+                    "zoom": 5,  # default map initial zoom,
+                    "scrollwheel": False,
+                    "streetViewControl": True
+                },
+                "GooglePlaceAutocompleteOptions": {
+                    "componentRestrictions": {"country": "co"}
+                },
+                "mapCenterLocationName": "Bogota"
+            },
+        },
+    },
 }
+
 
 EMAIL_USE_TLS = True
 EMAIL_BACKEND = 'django_ses.SESBackend'
