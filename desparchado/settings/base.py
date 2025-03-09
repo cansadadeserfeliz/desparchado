@@ -299,10 +299,15 @@ LOGGING = {
     },
 }
 
-# django-axes
+# Brute force login attacks: django-axes
 AXES_FAILURE_LIMIT = 5
 # defines a period of inactivity after which old failed login attempts will be cleared
 AXES_COOLOFF_TIME = 24  # hours
+AXES_IPWARE_PROXY_COUNT = 1  # The number of reverse proxies in front of Django as an integer
+AXES_IPWARE_META_PRECEDENCE_ORDER = [
+    'HTTP_X_FORWARDED_FOR',
+    'REMOTE_ADDR',
+]
 
 # crispy forms with bootstrap 5:
 # https://github.com/django-crispy-forms/crispy-bootstrap5
