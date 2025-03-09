@@ -3,7 +3,7 @@ set -e  # para salir del script si alguno de los comandos devuelve algo distinto
 set -x  # para imprimirme cada comando antes de ejecutarlo
 cd /home/desparchado/desparchado
 
-git checkout master
+git checkout main
 git pull
 
 # No se va a romper si el nombre de la imagen es duplicado
