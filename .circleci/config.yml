@@ -16,7 +16,7 @@ jobs:
           DJANGO_SECRET_KEY: 'secret'
           DATABASE_NAME: 'desparchado_test'
           DATABASE_USER: 'root'
-          DATABASE_PASSWORD: '
+          DATABASE_PASSWORD: ''
           DATABASE_HOST: 'localhost'
           DATABASE_PORT: '5433'
           DJANGO_SETTINGS_MODULE: 'desparchado.settings.test'
