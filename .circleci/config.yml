@@ -7,7 +7,7 @@ jobs:
   test-be:
     # Install dependencies and run tests
     docker:
-      - image: circleci/postgres:13.19-postgis
+      - image: cimg/postgres:13.16-postgis
         environment:
           POSTGRES_USER: root
           POSTGRES_DB: desparchado_test
