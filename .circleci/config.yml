@@ -1,6 +1,7 @@
 version: 2.1
 orbs:
   python: circleci/python@2
+  codecov: codecov/codecov@3.2.4
 jobs:
   test-be:
     docker:
@@ -32,8 +33,11 @@ jobs:
           name: Install SASS
           command: npm install -g sass
       - run:
-          name: Run tests
-          command: python -m pytest
+          name: Run tests with coverage
+          command: |
+            pytest --cov=your_package_name --cov-report=xml
+      - codecov/upload:
+          file: coverage.xml
 workflows:
   test:
     jobs:
