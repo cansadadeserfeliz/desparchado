@@ -22,7 +22,10 @@ jobs:
           - DJANGO_SETTINGS_MODULE='desparchado.settings.test'
     steps:
       - checkout
-      - python/install-packages
+      - run:
+          name: Install Dependencies
+          command: |
+            pip3 install -r requirements.txt
       - run:
           name: Run tests
           command: python -m pytest
