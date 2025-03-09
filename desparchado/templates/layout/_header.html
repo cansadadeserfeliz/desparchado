@@ -31,10 +31,13 @@
         </a>
       </li>
       <li class="nav-item">
-        <a href="{% url 'logout' %}" class="nav-link link-dark px-2">
-          <i class="fas fa-sign-out-alt"></i>
-          Salir
-        </a>
+        <form id="logout-form" method="post" action="{% url 'admin:logout' %}">
+          {% csrf_token %}
+          <button type="submit" class="nav-link link-dark px-2">
+            <i class="fas fa-sign-out-alt"></i>
+            Salir
+          </button>
+        </form>
       </li>
     {% else %}
       <li class="nav-item">
