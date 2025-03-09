@@ -73,7 +73,6 @@ class CityAdmin(admin.ModelAdmin):
         'name',
         'slug',
         'description',
-        'show_on_home',
     ]
 
     def get_actions(self, request):

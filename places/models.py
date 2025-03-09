@@ -79,7 +79,6 @@ class City(TimeStampedModel):
         unique=True,
         db_index=True,
     )
-    show_on_home = models.BooleanField(default=False)
     slug = AutoSlugField(
         null=True, default=None, unique=True, populate_from='name')
     image = models.ImageField(

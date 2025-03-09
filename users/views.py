@@ -33,9 +33,6 @@ class UserDetailView(DetailView):
             context['added_events_count'] = added_events_count
             days_on_page = (timezone.now() - self.object.date_joined).days
             context['days_on_page'] = days_on_page
-            context['total_points'] = int(
-                days_on_page / 3 + added_events_count * 2
-            )
 
         return context
 
