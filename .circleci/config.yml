@@ -1,16 +1,9 @@
-# This config was automatically generated from your source code
-# Stacks detected: cicd:github-actions:.github/workflows,deps:python:.,file:manage.py:.
 version: 2.1
 orbs:
   python: circleci/python@2
 jobs:
   test-be:
-    # Install dependencies and run tests
     docker:
-      - image: cimg/postgres:13.16-postgis
-        environment:
-          POSTGRES_USER: root
-          POSTGRES_DB: desparchado_test
       - image: cimg/python:3.10.16-node
         environment:
           DJANGO_SECRET_KEY: 'secret'
@@ -20,8 +13,14 @@ jobs:
           DATABASE_HOST: 'localhost'
           DATABASE_PORT: '5433'
           DJANGO_SETTINGS_MODULE: 'desparchado.settings.test'
+      - image: cimg/postgres:13.16-postgis
+        environment:
+          POSTGRES_USER: root
+          POSTGRES_DB: desparchado_test
     steps:
       - checkout
+      - run: sudo chown -R circleci:circleci /usr/local/bin
+      - run: sudo chown -R circleci:circleci /usr/local/lib/python3.10/site-packages
       - run:
           name: Install Dependencies
           command: |
