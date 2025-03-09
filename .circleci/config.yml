@@ -11,7 +11,7 @@ jobs:
           DATABASE_USER: 'root'
           DATABASE_PASSWORD: 'root'
           DATABASE_HOST: 'localhost'
-          DATABASE_PORT: '5433'
+          DATABASE_PORT: '5432'
           DJANGO_SETTINGS_MODULE: 'desparchado.settings.test'
       - image: cimg/postgres:13.16-postgis
         environment:
