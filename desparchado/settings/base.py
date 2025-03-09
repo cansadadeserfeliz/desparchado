@@ -25,6 +25,7 @@ DEBUG = False
 
 ALLOWED_HOSTS = []
 
+DEFAULT_AUTO_FIELD='django.db.models.AutoField'
 
 # Application definition
 
@@ -49,7 +50,6 @@ INSTALLED_APPS = [
     'mapwidgets',
     'pipeline',
     'raven.contrib.django.raven_compat',
-    'social_django',
     'crispy_forms',
     'crispy_bootstrap5',
     'debug_toolbar',
@@ -81,8 +81,6 @@ MIDDLEWARE = [
 ]
 
 AUTHENTICATION_BACKENDS = [
-    'social_core.backends.facebook.FacebookOAuth2',
-
     'axes.backends.AxesBackend',
     'django.contrib.auth.backends.ModelBackend',
 ]
@@ -105,9 +103,6 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'django.template.context_processors.i18n',
-
-                'social_django.context_processors.backends',
-                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -168,8 +163,6 @@ LANGUAGES = [
 TIME_ZONE = 'America/Bogota'
 
 USE_I18N = True
-
-USE_L10N = True
 
 USE_TZ = True
 
@@ -316,37 +309,31 @@ AXES_COOLOFF_TIME = 24  # hours
 CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap5'
 CRISPY_TEMPLATE_PACK = 'bootstrap5'
 
-SOCIAL_AUTH_PIPELINE = (
-    'social_core.pipeline.social_auth.social_details',
-    'social_core.pipeline.social_auth.social_uid',
-    'social_core.pipeline.social_auth.auth_allowed',
-    'social_core.pipeline.social_auth.social_user',
-    'social_core.pipeline.user.get_username',
-    'social_core.pipeline.social_auth.associate_by_email',
-    'social_core.pipeline.user.create_user',
-    'social_core.pipeline.social_auth.associate_user',
-    'social_core.pipeline.social_auth.load_extra_data',
-    'social_core.pipeline.user.user_details',
-)
-SOCIAL_AUTH_FACEBOOK_KEY = getenvvar('SOCIAL_AUTH_FACEBOOK_KEY', 'not-set')
-SOCIAL_AUTH_FACEBOOK_SECRET = getenvvar('SOCIAL_AUTH_FACEBOOK_SECRET', 'not-set')
-
-SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/'
-
-SOCIAL_AUTH_FACEBOOK_IGNORE_DEFAULT_SCOPE = True
-SOCIAL_AUTH_FACEBOOK_SCOPE = [
-    'email'
-]
-
 MAP_WIDGETS = {
-    'GooglePointFieldWidget': (
-        ('zoom', 5),
-        ('mapCenterLocationName', 'Colombia'),
-        ('language', 'es'),
-    ),
-    'GOOGLE_MAP_API_KEY': 'AIzaSyAFbA9J0IcGyy20cl7xd6Le16U_Bx_TSeI',
-    'LANGUAGE': 'es',
+    "GoogleMap": {
+        "apiKey": 'AIzaSyAFbA9J0IcGyy20cl7xd6Le16U_Bx_TSeI',
+        "CDNURLParams": {
+            "language": "es",
+            "libraries": "places,marker",
+            "loading": "async",
+            "v": "quarterly",
+        },
+        "PointField": {
+            "interactive": {
+                "mapOptions": {
+                    "zoom": 5,  # default map initial zoom,
+                    "scrollwheel": False,
+                    "streetViewControl": True
+                },
+                "GooglePlaceAutocompleteOptions": {
+                    "componentRestrictions": {"country": "co"}
+                },
+                "mapCenterLocationName": "Bogota"
+            },
+        },
+    },
 }
+
 
 EMAIL_USE_TLS = True
 EMAIL_BACKEND = 'django_ses.SESBackend'

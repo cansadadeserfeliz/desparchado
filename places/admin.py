@@ -1,7 +1,7 @@
 from django.contrib.gis.db import models as geo_models
 from django.contrib import admin
 
-from mapwidgets.widgets import GooglePointFieldWidget
+import mapwidgets
 
 from .models import Place, City
 
@@ -52,7 +52,7 @@ class PlaceAdmin(admin.ModelAdmin):
     )
 
     formfield_overrides = {
-        geo_models.PointField: {'widget': GooglePointFieldWidget()}
+        geo_models.PointField: {'widget': mapwidgets.GoogleMapPointFieldWidget()}
     }
 
     def get_actions(self, request):
@@ -83,5 +83,5 @@ class CityAdmin(admin.ModelAdmin):
         return False
 
     formfield_overrides = {
-        geo_models.PointField: {'widget': GooglePointFieldWidget()}
+        geo_models.PointField: {'widget': mapwidgets.GoogleMapPointFieldWidget()}
     }
