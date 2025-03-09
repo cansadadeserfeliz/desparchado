@@ -29,6 +29,14 @@ body
   line-height: 1.5
   font-size: 20px
 
+#logout-form
+  display: inline
+
+  button
+    background: none
+    border: none
+    cursor: pointer
+
 .card
   border-radius: 0
   height: 100%
@@ -326,13 +334,12 @@ body
 .top-nav
   background-color: $secondary-color
   li
-    font-size: 14px
-    color: #555
-    font-weight: 600
-    text-transform: uppercase
-    letter-spacing: 1px
-    a
+    a, button
+      font-size: 14px
       color: #555
+      font-weight: 600
+      text-transform: uppercase
+      letter-spacing: 1px
       padding: 4px 10px
       text-decoration: none
       display: block
