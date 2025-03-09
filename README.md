@@ -38,22 +38,22 @@ Install static files:
 
 Collect static files (optional):
 
-    python manage.py collectstatic --settings=desparchado.settings.local
+    python manage.py collectstatic
 
 Run the application webserver:
 
-    python manage.py runserver --settings=desparchado.settings.local 0.0.0.0:5000
+    python manage.py runserver 0.0.0.0:5000
 
 Then open http://localhost:5000/ in your browser.
 
 Run Django shell:
 
-    python manage.py shell --settings=desparchado.settings.local
+    python manage.py shell
 
 Create migrations (example for `history` app):
 
     export PYTHONPATH="/app:$PYTHONPATH"
-    django-admin makemigrations history --settings=desparchado.settings.local
+    django-admin makemigrations history
 
 ### Run the tests
 
