@@ -19,8 +19,6 @@ jobs:
           POSTGRES_DB: desparchado_test
     steps:
       - checkout
-      - run: sudo chown -R circleci:circleci /usr/local/bin
-      - run: sudo chown -R circleci:circleci /usr/local/lib/python3.10/site-packages
       - run:
           name: Install Dependencies
           command: |
