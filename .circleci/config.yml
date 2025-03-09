@@ -11,15 +11,15 @@ jobs:
         environment:
           POSTGRES_USER: root
           POSTGRES_DB: desparchado_test
-      - image: circleci/python:3.10
+      - image: cimg/python:3.10.16-node
         environment:
-          - DJANGO_SECRET_KEY=secret
-          - DATABASE_NAME=desparchado_test
-          - DATABASE_USER=root
-          - DATABASE_PASSWORD=
-          - DATABASE_HOST=localhost
-          - DATABASE_PORT=5433
-          - DJANGO_SETTINGS_MODULE='desparchado.settings.test'
+          DJANGO_SECRET_KEY: 'secret'
+          DATABASE_NAME: 'desparchado_test'
+          DATABASE_USER: 'root'
+          DATABASE_PASSWORD: '
+          DATABASE_HOST: 'localhost'
+          DATABASE_PORT: '5433'
+          DJANGO_SETTINGS_MODULE: 'desparchado.settings.test'
     steps:
       - checkout
       - run:
