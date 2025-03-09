@@ -1,0 +1,44 @@
+version: 2.1
+orbs:
+  python: circleci/python@2
+  codecov: codecov/codecov@3.2.4
+jobs:
+  test-be:
+    docker:
+      - image: cimg/python:3.10.16-node
+        environment:
+          DJANGO_SECRET_KEY: 'secret'
+          DATABASE_NAME: 'desparchado_test'
+          DATABASE_USER: 'root'
+          DATABASE_PASSWORD: 'root'
+          DATABASE_HOST: 'localhost'
+          DATABASE_PORT: '5432'
+          DJANGO_SETTINGS_MODULE: 'desparchado.settings.test'
+      - image: cimg/postgres:13.16-postgis
+        environment:
+          POSTGRES_USER: root
+          POSTGRES_PASSWORD: root
+          POSTGRES_DB: desparchado_test
+    steps:
+      - checkout
+      - run:
+          name: Install GDAL
+          command: |
+            sudo apt-get update && sudo apt-get install -y gdal-bin
+      - run:
+          name: Install Dependencies
+          command: |
+            pip3 install -r requirements.txt
+      - run:
+          name: Install SASS
+          command: npm install -g sass
+      - run:
+          name: Run tests with coverage
+          command: |
+            pytest --cov=your_package_name --cov-report=xml
+      - codecov/upload:
+          file: coverage.xml
+workflows:
+  test:
+    jobs:
+      - test-be
