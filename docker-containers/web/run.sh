@@ -1,4 +1,6 @@
 #!/bin/sh
+set -e
+set -x
 
 chown -R root:root /root/.cache/pip
 

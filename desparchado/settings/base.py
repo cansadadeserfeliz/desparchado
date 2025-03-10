@@ -4,6 +4,12 @@ from pathlib import Path
 from django.urls import reverse_lazy
 from django.core.exceptions import ImproperlyConfigured
 
+from dotenv import load_dotenv
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
+
+load_dotenv()  # set environment variables from the .env file
+
 
 def getenvvar(name, default=None):
     v = os.environ.get(name, default)
@@ -49,7 +55,6 @@ INSTALLED_APPS = [
     'axes',
     'mapwidgets',
     'pipeline',
-    'raven.contrib.django.raven_compat',
     'crispy_forms',
     'crispy_bootstrap5',
     'debug_toolbar',
@@ -252,16 +257,12 @@ PIPELINE = {
     },
 }
 
-RAVEN_CONFIG = {
-    'dsn': 'https://secretuser:secretpassword@sentry.io/secretid',
-}
-
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': True,
     'root': {
         'level': 'WARNING',
-        'handlers': ['sentry', 'console'],
+        'handlers': ['console'],
     },
     'formatters': {
         'verbose': {
@@ -270,10 +271,6 @@ LOGGING = {
         },
     },
     'handlers': {
-        'sentry': {
-            'level': 'INFO',
-            'class': 'raven.contrib.django.raven_compat.handlers.SentryHandler',
-        },
         'console': {
             'level': 'DEBUG',
             'class': 'logging.StreamHandler',
@@ -286,7 +283,7 @@ LOGGING = {
             'handlers': ['console'],
             'propagate': False,
         },
-        'raven': {
+        'sentry': {
             'level': 'DEBUG',
             'handlers': ['console'],
             'propagate': False,
@@ -357,3 +354,14 @@ INTERNAL_IPS = [
     '127.0.0.1',
     'localhost',
 ]
+
+# Sentry
+sentry_sdk.init(
+    dsn=getenvvar('SENTRY_CONFIG_DNS'),
+    integrations=[
+        DjangoIntegration(),
+    ],
+    # Add data like request headers and IP for users;
+    # see https://docs.sentry.io/platforms/python/data-management/data-collected/ for more info
+    send_default_pii=True,
+)

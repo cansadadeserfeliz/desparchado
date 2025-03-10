@@ -17,19 +17,14 @@ First, open a shell for Django application:
 
     sudo docker exec -it desparchado-web-1 bash
 
-Create `app/setenv.sh` file with environment variables, for example:
+Create `.env` file with environment variables, for example:
 
-    export DJANGO_SECRET_KEY='secret'
-    export DATABASE_NAME='desparchado_dev'
-    export DATABASE_USER='desparchado_dev'
-    export DATABASE_PASSWORD='secret'
-    export DATABASE_HOST='db'
-    export DATABASE_PORT=5432
-
-Load environment variables from `app/setenv.sh`:
-
-    cd app/
-    source setenv.sh
+    DJANGO_SECRET_KEY='secret'
+    DATABASE_NAME='desparchado_dev'
+    DATABASE_USER='desparchado_dev'
+    DATABASE_PASSWORD='secret'
+    DATABASE_HOST='db'
+    DATABASE_PORT=5432
 
 Install static files:
 
