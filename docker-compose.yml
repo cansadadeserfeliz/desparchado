@@ -1,12 +1,14 @@
 version: "3.9"
 services:
+
   web:
     build: "./docker-containers/web"
     ports:
       - "5000:5000"
     volumes:
       - .:/app
-      - .docker_pip_cache:/root/.cache/pip
+      - desparchado_web_data:/root/.cache/pip
+      - desparchado_web_data:/root/hist
     environment:
       - DJANGO_SECRET_KEY=secret
       - DATABASE_NAME=desparchado_dev
@@ -14,7 +16,18 @@ services:
       - DATABASE_PASSWORD=secret
       - DATABASE_HOST=db
       - DATABASE_PORT=5432
+      - HISTFILE=/root/hist/.bash_history
+    command: sh -c "sh run.sh"
+    depends_on:
+      - db
+
   db:
     build: "./docker-containers/db"
     ports:
       - "5032:5432"
+    volumes:
+      - desparchado_db_data:/var/lib/postgresql/data/
+
+volumes:
+  desparchado_db_data:
+  desparchado_web_data:
