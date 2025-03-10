@@ -17,7 +17,8 @@ services:
       - DATABASE_HOST=db
       - DATABASE_PORT=5432
       - HISTFILE=/root/hist/.bash_history
-    command: sh -c "sh run.sh"
+    command: >
+      sh -c "sh run.sh"
     depends_on:
       - db
 

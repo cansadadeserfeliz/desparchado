@@ -261,7 +261,7 @@ LOGGING = {
     'version': 1,
     'disable_existing_loggers': True,
     'root': {
-        'level': 'WARNING',
+        'level': 'DEBUG',
         'handlers': ['console'],
     },
     'formatters': {
@@ -357,7 +357,7 @@ INTERNAL_IPS = [
 
 # Sentry
 sentry_sdk.init(
-    dsn=getenvvar('SENTRY_CONFIG_DNS'),
+    dsn=getenvvar('SENTRY_CONFIG_DNS', 'not-set'),
     integrations=[
         DjangoIntegration(),
     ],
