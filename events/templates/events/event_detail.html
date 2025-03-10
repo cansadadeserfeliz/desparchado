@@ -194,8 +194,6 @@
     <h4>Eventos relacionados</h4>
     {% include 'events/_events_grid.html' with events=related_events.all %}
   {% endif %}
-
-  {% include 'includes/_disqus_comments.html' with page_id="event-"|add:event.id %}
 </div>
 
 </article>

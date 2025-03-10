@@ -1,11 +1,11 @@
 #!/bin/sh
+set -e
+set -x
 
 chown -R root:root /root/.cache/pip
 
 cd /app
 pip install -r requirements.txt
 
-while true; do
-    date
-    sleep 60
-done
+python manage.py migrate
+python manage.py runserver 0.0.0.0:5000

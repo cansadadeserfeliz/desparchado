@@ -15,5 +15,3 @@ RUN apt --yes install libgdal-dev
 ENV CRYPTOGRAPHY_DONT_BUILD_RUST=1
 
 EXPOSE 5000
-
-CMD ["sh", "/run.sh"]

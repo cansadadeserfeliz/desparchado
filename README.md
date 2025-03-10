@@ -1,6 +1,5 @@
 # Desparchado
 
-[![Build Status](https://travis-ci.com/cansadadeserfeliz/desparchado.svg?branch=main)](https://travis-ci.com/cansadadeserfeliz/desparchado)
 [![Coverage Status](https://codecov.io/gh/cansadadeserfeliz/desparchado/branch/main/graphs/badge.svg?branch=main)](https://codecov.io/github/cansadadeserfeliz/desparchado?branch=main)
 [![Donate to this project using Patreon](https://img.shields.io/badge/patreon-donate-yellow.svg)](https://www.patreon.com/desparchado)
 [![Codefactor](https://www.codefactor.io/repository/github/cansadadeserfeliz/desparchado/badge?style=social)](https://www.codefactor.io/repository/github/cansadadeserfeliz/desparchado)
@@ -18,19 +17,14 @@ First, open a shell for Django application:
 
     sudo docker exec -it desparchado-web-1 bash
 
-Create `app/setenv.sh` file with environment variables, for example:
+Create `.env` file with environment variables, for example:
 
-    export DJANGO_SECRET_KEY='secret'
-    export DATABASE_NAME='desparchado_dev'
-    export DATABASE_USER='desparchado_dev'
-    export DATABASE_PASSWORD='secret'
-    export DATABASE_HOST='db'
-    export DATABASE_PORT=5432
-
-Load environment variables from `app/setenv.sh`:
-
-    cd app/
-    source setenv.sh
+    DJANGO_SECRET_KEY='secret'
+    DATABASE_NAME='desparchado_dev'
+    DATABASE_USER='desparchado_dev'
+    DATABASE_PASSWORD='secret'
+    DATABASE_HOST='db'
+    DATABASE_PORT=5432
 
 Install static files:
 
@@ -38,22 +32,22 @@ Install static files:
 
 Collect static files (optional):
 
-    python manage.py collectstatic --settings=desparchado.settings.local
+    python manage.py collectstatic
 
 Run the application webserver:
 
-    python manage.py runserver --settings=desparchado.settings.local 0.0.0.0:5000
+    python manage.py runserver 0.0.0.0:5000
 
 Then open http://localhost:5000/ in your browser.
 
 Run Django shell:
 
-    python manage.py shell --settings=desparchado.settings.local
+    python manage.py shell
 
 Create migrations (example for `history` app):
 
     export PYTHONPATH="/app:$PYTHONPATH"
-    django-admin makemigrations history --settings=desparchado.settings.local
+    django-admin makemigrations history
 
 ### Run the tests
 

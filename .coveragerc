@@ -4,10 +4,7 @@ omit =
     *tests*
     manage.py
     desparchado/wsgi.py
-    *settings*
-    books/services.py
-    books/goodreads_client.py
-    books/taganga_client.py
+    desparchado/settings/*
     dashboard/*
     *apps.py
 # Regexes for lines to exclude from consideration

@@ -16,9 +16,6 @@
   {% include 'history/_post.html' with post=post show_groups=True hide_details_link=True %}
 
   <div class="addthis_inline_share_toolbox my-2"></div>
-
-  {% include 'includes/_disqus_comments.html' with page_id="history-post-"|add:post.token %}
-
 </article>
 {% endblock content %}
 
