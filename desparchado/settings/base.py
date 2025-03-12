@@ -276,7 +276,6 @@ AXES_FAILURE_LIMIT = 5
 AXES_COOLOFF_TIME = 24  # hours
 AXES_IPWARE_PROXY_COUNT = 1  # The number of reverse proxies in front of Django as an integer
 AXES_IPWARE_META_PRECEDENCE_ORDER = [
-    'c',
     'HTTP_X_FORWARDED_FOR',
     'REMOTE_ADDR',
 ]
