@@ -5,8 +5,6 @@ from django.urls import reverse_lazy
 from django.core.exceptions import ImproperlyConfigured
 
 from dotenv import load_dotenv
-import sentry_sdk
-from sentry_sdk.integrations.django import DjangoIntegration
 
 load_dotenv()  # set environment variables from the .env file
 
@@ -331,14 +329,3 @@ INTERNAL_IPS = [
     '127.0.0.1',
     'localhost',
 ]
-
-# Sentry
-sentry_sdk.init(
-    dsn=getenvvar('SENTRY_CONFIG_DNS', 'not-set'),
-    integrations=[
-        DjangoIntegration(),
-    ],
-    # Add data like request headers and IP for users;
-    # see https://docs.sentry.io/platforms/python/data-management/data-collected/ for more info
-    send_default_pii=True,
-)
