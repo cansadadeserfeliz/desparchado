@@ -4,6 +4,12 @@ from pathlib import Path
 from django.urls import reverse_lazy
 from django.core.exceptions import ImproperlyConfigured
 
+from dotenv import load_dotenv
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
+
+load_dotenv()  # set environment variables from the .env file
+
 
 def getenvvar(name, default=None):
     v = os.environ.get(name, default)
@@ -49,7 +55,6 @@ INSTALLED_APPS = [
     'axes',
     'mapwidgets',
     'pipeline',
-    'raven.contrib.django.raven_compat',
     'crispy_forms',
     'crispy_bootstrap5',
     'debug_toolbar',
@@ -252,50 +257,18 @@ PIPELINE = {
     },
 }
 
-RAVEN_CONFIG = {
-    'dsn': 'https://secretuser:secretpassword@sentry.io/secretid',
-}
-
 LOGGING = {
     'version': 1,
-    'disable_existing_loggers': True,
+    'disable_existing_loggers': False,
     'root': {
-        'level': 'WARNING',
-        'handlers': ['sentry', 'console'],
-    },
-    'formatters': {
-        'verbose': {
-            'format': '%(levelname)s %(asctime)s %(module)s '
-                      '%(process)d %(thread)d %(message)s'
-        },
+        'level': 'DEBUG',
+        'handlers': ['console'],
     },
     'handlers': {
-        'sentry': {
-            'level': 'INFO',
-            'class': 'raven.contrib.django.raven_compat.handlers.SentryHandler',
-        },
         'console': {
             'level': 'DEBUG',
             'class': 'logging.StreamHandler',
-            'formatter': 'verbose'
         }
-    },
-    'loggers': {
-        'django.db.backends': {
-            'level': 'ERROR',
-            'handlers': ['console'],
-            'propagate': False,
-        },
-        'raven': {
-            'level': 'DEBUG',
-            'handlers': ['console'],
-            'propagate': False,
-        },
-        'sentry.errors': {
-            'level': 'DEBUG',
-            'handlers': ['console'],
-            'propagate': False,
-        },
     },
 }
 
@@ -305,6 +278,7 @@ AXES_FAILURE_LIMIT = 5
 AXES_COOLOFF_TIME = 24  # hours
 AXES_IPWARE_PROXY_COUNT = 1  # The number of reverse proxies in front of Django as an integer
 AXES_IPWARE_META_PRECEDENCE_ORDER = [
+    'c',
     'HTTP_X_FORWARDED_FOR',
     'REMOTE_ADDR',
 ]
@@ -357,3 +331,14 @@ INTERNAL_IPS = [
     '127.0.0.1',
     'localhost',
 ]
+
+# Sentry
+sentry_sdk.init(
+    dsn=getenvvar('SENTRY_CONFIG_DNS', 'not-set'),
+    integrations=[
+        DjangoIntegration(),
+    ],
+    # Add data like request headers and IP for users;
+    # see https://docs.sentry.io/platforms/python/data-management/data-collected/ for more info
+    send_default_pii=True,
+)
