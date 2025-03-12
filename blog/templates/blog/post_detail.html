@@ -73,7 +73,5 @@
     {% include 'events/_events_grid.html' with events=post.related_events.all %}
   {% endif %}
 
-  {% include 'includes/_disqus_comments.html' with page_id="blog-"|add:post.id %}
-
 
 {% endblock content %}
