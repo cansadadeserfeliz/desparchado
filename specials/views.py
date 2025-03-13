@@ -1,7 +1,7 @@
 from collections import OrderedDict
 
 from django.views.generic import DetailView
-from django.utils.timezone import now
+from django.utils.timezone import now, localtime
 
 from .models import Special
 from events.models import Speaker
@@ -29,6 +29,6 @@ class SpecialDetailView(DetailView):
                 []
             ).append(event)
 
-        context['date_now'] = now().date()
+        context['date_now'] = localtime(now()).date()
         context['related_events_by_date'] = related_events_by_date
         return context
