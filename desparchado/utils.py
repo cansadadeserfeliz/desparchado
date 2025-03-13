@@ -5,6 +5,7 @@ from django.core.mail import send_mail
 from django.conf import settings
 
 logger = logging.getLogger(__name__)
+sanitizer = Sanitizer()
 
 
 def send_admin_notification(request, obj, form, change):
@@ -50,5 +51,4 @@ def send_notification(request, obj, model_name, created):
 
 
 def strip_html_tags(html: str):
-    sanitizer = Sanitizer()
     return sanitizer.sanitize(html)
