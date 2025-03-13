@@ -44,18 +44,20 @@
       <div class="addthis_inline_share_toolbox"></div>
     </p>
 
-    <div class="d-flex justify-content-start flex-wrap gap-2 my-2">
-    {% for event_date in related_events_by_date.keys %}
-      <div>
-        <a class="btn btn-primary" role="button" href="#{{ event_date|date:"Y-m-d" }}"> {{ event_date|date:"Y-m-d" }}</a>
-      </div>
-    {% endfor %}
-    </div>
-
-    <div>
+    <div class="accordion accordion-flush" id="accordionEvents">
     {% for event_date, events in related_events_by_date.items %}
-        <h3 id="{{ event_date|date:"Y-m-d" }}">{{ event_date|date:"l, j N Y" }}</h3>
-        {% include 'events/_events_grid.html' with events=events %}
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="flush-heading{{ forloop.counter }}">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse{{ forloop.counter }}" aria-expanded="false" aria-controls="flush-collapse{{ forloop.counter }}">
+            {{ event_date|date:"Y-m-d" }}
+          </button>
+        </h2>
+        <div id="flush-collapse{{ forloop.counter }}" class="accordion-collapse collapse" aria-labelledby="flush-heading{{ forloop.counter }}" data-bs-parent="#accordionEvents">
+          <div class="accordion-body">
+            {% include 'events/_events_grid.html' with events=events %}
+          </div>
+        </div>
+      </div>
     {% endfor %}
     </div>
 
