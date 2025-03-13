@@ -39,6 +39,27 @@
       {{ special.description|markdown }}
     </div>
 
+    <p>Compártalo con sus amigos:</p>
+    <p>
+      <div class="addthis_inline_share_toolbox"></div>
+    </p>
+
+    <div class="d-flex justify-content-start flex-wrap gap-2 my-2">
+    {% for event_date in related_events_by_date.keys %}
+      <div>
+        <a class="btn btn-primary" role="button" href="#{{ event_date|date:"Y-m-d" }}"> {{ event_date|date:"Y-m-d" }}</a>
+      </div>
+    {% endfor %}
+    </div>
+
+    <div>
+    {% for event_date, events in related_events_by_date.items %}
+        <h3 id="{{ event_date|date:"Y-m-d" }}">{{ event_date|date:"l, j N Y" }}</h3>
+        {% include 'events/_events_grid.html' with events=events %}
+    {% endfor %}
+    </div>
+
+  {% if speakers %}
     <h3>Presentadores</h3>
 
     <div>
@@ -60,28 +81,8 @@
       {% endfor %}
       </div>
     </div>
+  {% endif %}
 
-    <br>
-
-    <p>Compártalo con sus amigos:</p>
-    <p>
-      <div class="addthis_inline_share_toolbox"></div>
-    </p>
-
-    <div class="d-flex justify-content-start flex-wrap gap-2 my-2">
-    {% for event_date in related_events_by_date.keys %}
-      <div>
-        <a class="btn btn-primary" role="button" href="#{{ event_date|date:"Y-m-d" }}"> {{ event_date|date:"Y-m-d" }}</a>
-      </div>
-    {% endfor %}
-    </div>
-
-    <div>
-    {% for event_date, events in related_events_by_date.items %}
-        <h3 id="{{ event_date|date:"Y-m-d" }}">{{ event_date|date:"l, j N Y" }}</h3>
-        {% include 'events/_events_grid.html' with events=events %}
-    {% endfor %}
-    </div>
   </section>
 
 {% endblock content %}
