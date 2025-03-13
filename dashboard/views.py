@@ -57,14 +57,6 @@ class HomeView(SuperuserRequiredMixin, TemplateView):
         return context
 
 
-class EventsListView(SuperuserRequiredMixin, ListView):
-    model = Event
-    paginate_by = 50
-    context_object_name = 'events'
-    template_name = 'dashboard/events.html'
-    ordering = '-modified'
-
-
 class SocialPostsListView(SuperuserRequiredMixin, TemplateView):
     template_name = 'dashboard/social_posts.html'
 
