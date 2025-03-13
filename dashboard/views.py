@@ -23,7 +23,6 @@ from events.models import Speaker
 from events.models import SocialNetworkPost
 from events.forms import EventCreateForm
 from places.models import Place
-from dashboard.models import EventSource
 from dashboard.services import get_blaa_events_list
 from dashboard.services import get_blaa_event
 
@@ -140,14 +139,6 @@ class UsersListView(SuperuserRequiredMixin, ListView):
             events_count=Count('created_events'),
         ).order_by('-last_login')
         return queryset
-
-
-class EventSourceListView(SuperuserRequiredMixin, ListView):
-    model = EventSource
-    paginate_by = 50
-    template_name = 'dashboard/event_sources.html'
-    context_object_name = 'event_sources'
-    ordering = '-modified'
 
 
 class BlaaEventsListView(TemplateView):

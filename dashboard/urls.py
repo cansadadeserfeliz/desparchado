@@ -34,11 +34,6 @@ urlpatterns = [
         dashboard_views.UsersListView.as_view(),
         name='users'
     ),
-    path(
-        'events-sources/',
-        dashboard_views.EventSourceListView.as_view(),
-        name='event_sources'
-    ),
 
     # BLAA
     path(
