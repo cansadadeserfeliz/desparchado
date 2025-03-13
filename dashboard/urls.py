@@ -10,11 +10,6 @@ urlpatterns = [
         name='home'
     ),
     path(
-        'events/',
-        dashboard_views.EventsListView.as_view(),
-        name='events'
-    ),
-    path(
         'social-posts/',
         dashboard_views.SocialPostsListView.as_view(),
         name='social_posts'
@@ -33,11 +28,6 @@ urlpatterns = [
         'users/',
         dashboard_views.UsersListView.as_view(),
         name='users'
-    ),
-    path(
-        'events-sources/',
-        dashboard_views.EventSourceListView.as_view(),
-        name='event_sources'
     ),
 
     # BLAA
