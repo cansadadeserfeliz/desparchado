@@ -3,6 +3,7 @@ from django.utils.translation import gettext_lazy as _
 
 from desparchado.utils import send_admin_notification
 from .models import Event, Organizer, Speaker, SocialNetworkPost
+from specials.models import Special
 
 
 @admin.register(SocialNetworkPost)
@@ -29,6 +30,10 @@ class SocialNetworkPostInline(admin.TabularInline):
         'published_at',
     )
 
+class SpecialInline(admin.TabularInline):
+    model = Special.related_events.through
+    extra = 0
+
 
 @admin.register(Event)
 class EventAdmin(admin.ModelAdmin):
@@ -47,7 +52,7 @@ class EventAdmin(admin.ModelAdmin):
         'created',
     ]
 
-    inlines = [SocialNetworkPostInline]
+    inlines = [SocialNetworkPostInline, SpecialInline]
 
     fieldsets = (
         (None, {
