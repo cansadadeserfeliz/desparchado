@@ -221,6 +221,11 @@ class Event(TimeStampedModel):
     objects = EventQuerySet().as_manager()
 
     def __str__(self):
+        """
+        Return the string representation of the event.
+        
+        This method returns the event's title, serving as a human-readable identifier.
+        """
         return self.title
 
     def get_longitude_str(self):

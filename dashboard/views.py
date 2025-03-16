@@ -52,6 +52,16 @@ class SocialPostsListView(SuperuserRequiredMixin, TemplateView):
 
 
 def social_events_source(request):
+    """
+    Returns a JSON response with event and social post entries for a specified date range.
+    
+    This view parses the 'start' and 'end' parameters from the GET query to determine the date range.
+    It retrieves published events occurring within this period and assigns a green color if the event
+    has associated social posts or a muted color if not. Additionally, it retrieves published social
+    network posts within the same range, assigning them a blue color. Each entry in the response
+    includes the event title, local start time in ISO format, background and border colors, a URL for
+    admin editing, and an image URL. The aggregated list is returned as a JSON response.
+    """
     start_date = request.GET.get('start')
     end_date = request.GET.get('end')
     event_list = []
@@ -113,6 +123,12 @@ class UsersListView(SuperuserRequiredMixin, ListView):
     template_name = 'dashboard/users.html'
 
     def get_queryset(self):
+        """
+        Return users annotated with event counts, ordered by last login.
+        
+        Retrieves a queryset where each user object is annotated with the count of its related
+        'created_events' and sorted in descending order by the user's last login timestamp.
+        """
         queryset = User.objects.annotate(
             events_count=Count('created_events'),
         ).order_by('-last_login')
@@ -123,6 +139,16 @@ class BlaaEventsListView(SuperuserRequiredMixin, TemplateView):
     template_name = 'dashboard/blaa/events_list.html'
 
     def get_context_data(self, **kwargs):
+        """
+        Enhance context with paginated Blaa events and enriched event details.
+        
+        Retrieves the current page from the query parameters (defaulting to 1) and obtains
+        a list of Blaa events along with the total page count using get_blaa_events_list.
+        For each event, if a source slug ('contenido_url') is available, constructs an event
+        source URL and checks the database for a matching Event. If found, the Event is added
+        to the event data under 'desparchado_event'. Updates the context with the events list,
+        a pagination range, and the current page number.
+        """
         context = super().get_context_data(**kwargs)
         page = self.request.GET.get('page', 1)
         events, pages_count = get_blaa_events_list(page=page)
@@ -226,6 +252,20 @@ class EventCreateView(SuperuserRequiredMixin, CreateView):
             return reverse('users:user_added_events_list')
 
     def form_valid(self, form):
+        """
+        Validates and saves form data by marking the object as approved.
+        
+        This method creates a new object from the submitted form data without committing
+        it immediately. It sets the object's approval status to True and assigns the current
+        user as the creator before saving the object. It then delegates to the superclass's
+        form_valid method to complete the processing and return an HTTP response.
+        
+        Args:
+            form: The validated form instance containing the data to save.
+        
+        Returns:
+            An HTTP response from the superclass's form_valid method.
+        """
         self.object = form.save(commit=False)
         self.object.is_approved = True
         self.object.created_by = self.request.user
@@ -240,6 +280,19 @@ class FilboEventFormView(SuperuserRequiredMixin, FormView):
     success_url = reverse_lazy('dashboard:filbo_event_form')
 
     def form_valid(self, form):
+        """
+        Synchronizes Filbo events using validated spreadsheet data.
+        
+        Extracts the spreadsheet ID, worksheet number, and worksheet range from the form's
+        cleaned data and calls sync_filbo_events to update event information. Delegates to
+        the superclass's form_valid method to continue form processing.
+        
+        Args:
+            form: A Django form instance containing the spreadsheet parameters.
+        
+        Returns:
+            The HTTP response returned by the superclass's form_valid method.
+        """
         sync_filbo_events(
             spreadsheet_id=form.cleaned_data['spreadsheet_id'],
             worksheet_number=form.cleaned_data['worksheet_number'],
