@@ -2,19 +2,13 @@ from django import forms
 from django.urls import reverse_lazy
 
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Submit
-from crispy_forms.layout import Layout
-from crispy_forms.layout import Div
-from crispy_forms.layout import HTML
-from crispy_forms.layout import Field
+from crispy_forms.layout import Submit, Layout, Div, HTML, Field
 from crispy_forms.bootstrap import PrependedText
 from crispy_bootstrap5.bootstrap5 import Switch
 from dal import autocomplete
 from desparchado.utils import strip_html_tags
 
-from .models import Event
-from .models import Organizer
-from .models import Speaker
+from .models import Event, Organizer, Speaker
 
 
 class EventBaseForm(forms.ModelForm):

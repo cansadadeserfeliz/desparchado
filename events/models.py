@@ -210,6 +210,14 @@ class Event(TimeStampedModel):
         related_name='can_edit_events',
     )
 
+    filbo_id = models.CharField(
+        verbose_name='ID del FILBo',
+        max_length=10,
+        null=True,
+        blank=True,
+        unique=True,
+    )
+
     objects = EventQuerySet().as_manager()
 
     def __str__(self):
