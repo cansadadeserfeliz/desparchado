@@ -1,11 +1,11 @@
 import logging
-from io import StringIO
-from html.parser import HTMLParser
+from html_sanitizer import Sanitizer
 
 from django.core.mail import send_mail
 from django.conf import settings
 
 logger = logging.getLogger(__name__)
+sanitizer = Sanitizer()
 
 
 def send_admin_notification(request, obj, form, change):
@@ -22,8 +22,8 @@ def send_admin_notification(request, obj, form, change):
             settings.EMAIL_ADMIN_USERS,
             fail_silently=True,
         )
-    except:
-        logger.error('No se pudo enviar correo electrónico')
+    except Exception as e:
+        logger.error('No se pudo enviar correo electrónico', exc_info=e)
 
 
 def send_notification(request, obj, model_name, created):
@@ -50,22 +50,5 @@ def send_notification(request, obj, model_name, created):
         logger.error('No se pudo enviar correo electrónico')
 
 
-class MLStripper(HTMLParser):
-    def __init__(self):
-        super().__init__()
-        self.reset()
-        self.strict = False
-        self.convert_charrefs= True
-        self.text = StringIO()
-
-    def handle_data(self, d):
-        self.text.write(d)
-
-    def get_data(self):
-        return self.text.getvalue()
-
-
 def strip_html_tags(html: str):
-    s = MLStripper()
-    s.feed(html)
-    return s.get_data()
+    return sanitizer.sanitize(html)

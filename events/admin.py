@@ -3,6 +3,7 @@ from django.utils.translation import gettext_lazy as _
 
 from desparchado.utils import send_admin_notification
 from .models import Event, Organizer, Speaker, SocialNetworkPost
+from specials.models import Special
 
 
 @admin.register(SocialNetworkPost)
@@ -29,6 +30,10 @@ class SocialNetworkPostInline(admin.TabularInline):
         'published_at',
     )
 
+class SpecialInline(admin.TabularInline):
+    model = Special.related_events.through
+    extra = 0
+
 
 @admin.register(Event)
 class EventAdmin(admin.ModelAdmin):
@@ -41,13 +46,14 @@ class EventAdmin(admin.ModelAdmin):
         'is_approved',
         'event_type',
         'topic',
+        'filbo_id',
         'event_date',
-        'event_end_date',
+        'event_source_url',
         'created_by',
         'created',
     ]
 
-    inlines = [SocialNetworkPostInline]
+    inlines = [SocialNetworkPostInline, SpecialInline]
 
     fieldsets = (
         (None, {
@@ -163,7 +169,8 @@ class SpeakerAdmin(admin.ModelAdmin):
             obj.created_by = request.user
         super().save_model(request, obj, form, change)
 
-        send_admin_notification(request, obj, form, change)
+        if not request.user.is_superuser:
+            send_admin_notification(request, obj, form, change)
 
     def get_actions(self, request):
         return []

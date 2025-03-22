@@ -25,9 +25,7 @@ def test_social_posts(django_app, admin_user):
 @pytest.mark.django_db
 @pytest.mark.parametrize('dashboard_view_name', [
     'dashboard:home',
-    'dashboard:events',
     'dashboard:social_posts',
-    'dashboard:event_sources',
 ])
 def test_access_denied_for_non_admin_users(django_app, user, dashboard_view_name):
     django_app.get(

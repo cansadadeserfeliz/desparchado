@@ -1,31 +1,20 @@
-import re
-import time
-import datetime
-
 from dateutil.parser import parse
 
 from django.utils import timezone
-from django.views.generic import TemplateView
-from django.views.generic import CreateView
-from django.views.generic import ListView
+from django.views.generic import TemplateView, CreateView, ListView, FormView
 from django.http import JsonResponse
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.contrib.auth import get_user_model
 from django.db.models import Count
-from django.db.models.functions import ExtractWeekDay
-from django.db.models.functions import Cast
+from django.db.models.functions import ExtractWeekDay, Cast
 from django.db.models.fields import DateField
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 
-from events.models import Event
-from events.models import Organizer
-from events.models import Speaker
-from events.models import SocialNetworkPost
+from events.models import Event, Organizer, Speaker, SocialNetworkPost
 from events.forms import EventCreateForm
 from places.models import Place
-from dashboard.models import EventSource
-from dashboard.services import get_blaa_events_list
-from dashboard.services import get_blaa_event
+from dashboard.services import get_blaa_events_list, get_blaa_event, sync_filbo_events
+from dashboard.forms import FilboEventCreateForm
 
 
 User = get_user_model()
@@ -58,14 +47,6 @@ class HomeView(SuperuserRequiredMixin, TemplateView):
         return context
 
 
-class EventsListView(SuperuserRequiredMixin, ListView):
-    model = Event
-    paginate_by = 50
-    context_object_name = 'events'
-    template_name = 'dashboard/events.html'
-    ordering = '-modified'
-
-
 class SocialPostsListView(SuperuserRequiredMixin, TemplateView):
     template_name = 'dashboard/social_posts.html'
 
@@ -78,12 +59,8 @@ def social_events_source(request):
     start_date = parse(start_date)
     end_date = parse(end_date)
 
-    red = '#f56954'
-    yellow = '#f39c12'
     blue = '#0073b7'
-    aqua = '#00c0ef'
     green = '#00a65a'
-    light_blue = '#3c8dbc'
     muted = '#777777'
 
     events = Event.objects.published().filter(
@@ -142,15 +119,7 @@ class UsersListView(SuperuserRequiredMixin, ListView):
         return queryset
 
 
-class EventSourceListView(SuperuserRequiredMixin, ListView):
-    model = EventSource
-    paginate_by = 50
-    template_name = 'dashboard/event_sources.html'
-    context_object_name = 'event_sources'
-    ordering = '-modified'
-
-
-class BlaaEventsListView(TemplateView):
+class BlaaEventsListView(SuperuserRequiredMixin, TemplateView):
     template_name = 'dashboard/blaa/events_list.html'
 
     def get_context_data(self, **kwargs):
@@ -176,7 +145,7 @@ class BlaaEventsListView(TemplateView):
         return context
 
 
-class EventCreateView(CreateView):
+class EventCreateView(SuperuserRequiredMixin, CreateView):
     form_class = EventCreateForm
     template_name = 'dashboard/event_form.html'
 
@@ -261,5 +230,21 @@ class EventCreateView(CreateView):
         self.object.is_approved = True
         self.object.created_by = self.request.user
         self.object.save()
+
+        return super().form_valid(form)
+
+
+class FilboEventFormView(SuperuserRequiredMixin, FormView):
+    form_class = FilboEventCreateForm
+    template_name = 'dashboard/filbo/events_form.html'
+    success_url = reverse_lazy('dashboard:filbo_event_form')
+
+    def form_valid(self, form):
+        sync_filbo_events(
+            spreadsheet_id=form.cleaned_data['spreadsheet_id'],
+            worksheet_number=form.cleaned_data['worksheet_number'],
+            worksheet_range=form.cleaned_data['worksheet_range'],
+            request_user=self.request.user,
+        )
 
         return super().form_valid(form)
