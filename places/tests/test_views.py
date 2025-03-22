@@ -89,7 +89,6 @@ def test_successfully_update_place(django_app, user, place):
     form['name'] = 'Librería LERNER'
 
     response = form.submit()
-    print(response)
     assert response.status_code == 302
 
     place.refresh_from_db()
