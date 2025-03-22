@@ -112,5 +112,5 @@ ORGANIZERS_MAP = {
 }
 
 SPEAKERS_MAP = {
-
+    "Lizardo Carvajal": "Lizardo Carvajal",
 }

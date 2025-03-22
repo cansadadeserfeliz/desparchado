@@ -39,20 +39,13 @@ def get_organizers(organizer_name, request_user):
     return organizers
 
 def get_speakers(participants, request_user):
-    participants = participants.split(',')
     speakers = []
 
-    for participant in participants:
-        participant_name = (participant.strip()
-                            .replace(' - COLOMBIA', '')
-                            .replace(' (Col)', '')
-                            .replace(' - Ecuador', '')
-                            )
-        canonical_speaker_name = SPEAKERS_MAP.get(participant_name, participant_name)
-        logger.info(f'Speaker: {canonical_speaker_name}')
-        speaker = Speaker.objects.filter(name__iexact=canonical_speaker_name).first()
-        if speaker:
-            speakers.append(speaker)
+    for original_name, canonical_name in SPEAKERS_MAP.items():
+        if original_name in participants:
+            speaker = Speaker.objects.filter(name__iexact=canonical_name).first()
+            if speaker and speaker not in speakers:
+                speakers.append(speaker)
 
     return speakers
 
@@ -137,6 +130,8 @@ def sync_filbo_event(event_data, special, request_user):
 
     event.organizers.set(get_organizers(organizer_name=organizer, request_user=request_user))
     event.speakers.set(get_speakers(participants=participants, request_user=request_user))
+    event.save()
+
     special.related_events.add(event)
 
     status = 'created' if created else 'updated'
