@@ -110,20 +110,16 @@ def sync_filbo_event(event_data, special, request_user):
         return
 
     event_type = None
-    topic = None
-    if category in [
-        'Firma de Libros',
-        'Presentaciones de libros',
-        'FILBo Literatura',
-        'FILBo Poesía',
-    ]:
-        topic = Event.EVENT_TOPIC_BOOKS
-    elif category in ['FILBo Medio Ambiente']:
-        topic = Event.EVENT_TOPIC_ENVIRONMENT
-    elif category in ['FILBo Ciencia']:
-        topic = Event.EVENT_TOPIC_SCIENCE
-    elif category in ['FILBo Ilustrada']:
-        topic = Event.EVENT_TOPIC_ART
+    topic = {
+        'Firma de Libros': Event.EVENT_TOPIC_BOOKS,
+        'Presentaciones de libros': Event.EVENT_TOPIC_BOOKS,
+        'FILBo Literatura': Event.EVENT_TOPIC_BOOKS,
+        'FILBo Poesía': Event.EVENT_TOPIC_BOOKS,
+        'FILBo Medio Ambiente': Event.EVENT_TOPIC_ENVIRONMENT,
+        'FILBo Ciencia': Event.EVENT_TOPIC_SCIENCE,
+        'FILBo Ilustrada': Event.EVENT_TOPIC_ART,
+        'FILBo Música': Event.EVENT_TOPIC_ART,
+    }.get(category, None)
 
     defaults = dict(
         title=f'{title} | FILBo 2025',

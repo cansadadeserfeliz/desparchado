@@ -45,6 +45,7 @@ class EventAdmin(admin.ModelAdmin):
         'is_published',
         'is_approved',
         'event_type',
+        'topic',
         'filbo_id',
         'event_date',
         'event_source_url',
