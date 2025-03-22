@@ -22,8 +22,8 @@ def send_admin_notification(request, obj, form, change):
             settings.EMAIL_ADMIN_USERS,
             fail_silently=True,
         )
-    except:
-        logger.error('No se pudo enviar correo electrónico')
+    except Exception as e:
+        logger.error('No se pudo enviar correo electrónico', exc_info=e)
 
 
 def send_notification(request, obj, model_name, created):

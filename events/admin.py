@@ -168,7 +168,8 @@ class SpeakerAdmin(admin.ModelAdmin):
             obj.created_by = request.user
         super().save_model(request, obj, form, change)
 
-        send_admin_notification(request, obj, form, change)
+        if not request.user.is_superuser:
+            send_admin_notification(request, obj, form, change)
 
     def get_actions(self, request):
         return []
