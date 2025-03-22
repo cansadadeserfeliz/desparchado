@@ -237,6 +237,9 @@ class Event(TimeStampedModel):
     def get_image_url(self):
         if self.image:
             return self.image.url
+
+        if self.filbo_id and self.event_date.year == 2025:
+            return static('images/filbo-2025.jpg')
         return static('images/default_event_image.jpg')
 
     def get_absolute_url(self):
