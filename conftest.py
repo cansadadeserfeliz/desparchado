@@ -1,6 +1,7 @@
 from datetime import timedelta
 
 import pytest
+from django.template.defaultfilters import title
 
 from django.utils import timezone
 
@@ -55,12 +56,12 @@ def other_event():
 
 @pytest.fixture
 def not_published_event():
-    return EventFactory(is_published=False)
+    return EventFactory(title='Unpublished event title', is_published=False)
 
 
 @pytest.fixture
 def not_approved_event():
-    return EventFactory(is_approved=False)
+    return EventFactory(title='Not approved event title', is_approved=False)
 
 
 @pytest.fixture
@@ -91,5 +92,5 @@ def blog_post():
 
 
 @pytest.fixture
-def special(event):
-    return SpecialFactory(related_events=[event])
+def special(event, not_published_event, not_approved_event):
+    return SpecialFactory(related_events=[event, not_published_event, not_approved_event])

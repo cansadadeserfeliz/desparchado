@@ -125,6 +125,8 @@ def sync_filbo_event(event_data, special, request_user):
         event_end_date=event_end_date,
         event_source_url=link,
         place=get_place(place_name=place, request_user=request_user),
+        is_published=True,
+        is_approved=True,
     )
     logger.info(f'FILBo event {filbo_id} defaults', extra=defaults)
     event, created = Event.objects.update_or_create(
