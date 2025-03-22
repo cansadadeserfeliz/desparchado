@@ -1,10 +1,10 @@
 from django.db.models.functions import TruncDate
 from django.views.generic import DetailView
-from django.utils.timezone import now, localtime
+from django.utils.timezone import now
+from django.core.paginator import Paginator
 from django.utils.dateparse import parse_date
 
 from .models import Special
-from events.models import Speaker
 
 
 class SpecialDetailView(DetailView):
@@ -24,8 +24,8 @@ class SpecialDetailView(DetailView):
 
         today = now().date()
 
-        date_param = 'fecha'
-        selected_date = parse_date(self.request.GET.get(date_param, ''))
+        selected_date_param = 'fecha'
+        selected_date = parse_date(self.request.GET.get(selected_date_param, ''))
         if not selected_date:
             if today in event_dates:
                 selected_date = today
@@ -34,13 +34,21 @@ class SpecialDetailView(DetailView):
 
         selected_date_events = related_events.filter(event_date__date=selected_date).order_by('event_date')
 
-        speaker_ids = related_events.values_list('speakers__id', flat=True)
-        context['speakers'] = Speaker.objects.filter(
-            id__in=speaker_ids,
-        ).exclude(image='').all()
+        # Pagination
+        page_number = self.request.GET.get('page', 1)
+        try:
+            page_number = int(page_number)
+        except ValueError:
+            page_number = 1
 
-        context['date_param'] = date_param
+        paginator = Paginator(selected_date_events, 30)
+        page = paginator.get_page(page_number)
+        context['events'] = page.object_list
+        context['paginator'] = paginator
+        context['page_obj'] = page
+        context['is_paginated'] = page.has_other_pages()
+
+        context['selected_date_param'] = selected_date_param
         context['event_dates'] = event_dates
         context['selected_date'] = selected_date
-        context['events'] = selected_date_events
         return context

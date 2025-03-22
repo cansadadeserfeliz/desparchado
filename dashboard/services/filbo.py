@@ -111,7 +111,7 @@ def sync_filbo_event(event_data, special, request_user):
 
     defaults = dict(
         title=f'{title} | FILBo 2025',
-        description=description,
+        description=description or title,
         # event_type=,
         # topic=,
         event_date=event_start_date,
