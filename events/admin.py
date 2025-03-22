@@ -47,7 +47,7 @@ class EventAdmin(admin.ModelAdmin):
         'event_type',
         'topic',
         'event_date',
-        'event_end_date',
+        'event_source_url',
         'created_by',
         'created',
     ]

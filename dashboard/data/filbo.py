@@ -110,3 +110,7 @@ ORGANIZERS_MAP = {
     "SIGLO DEL HOMBRE EDITORES": "Siglo Editorial",
     "Siglo Editorial": "Siglo Editorial",
 }
+
+SPEAKERS_MAP = {
+
+}

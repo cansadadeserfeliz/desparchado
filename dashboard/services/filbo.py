@@ -6,10 +6,14 @@ from dateutil.parser import parse
 import gspread
 from django.conf import settings
 from django.contrib.gis.geos import Point
+from django.core.validators import URLValidator
+from django.core.exceptions import ValidationError
 
-from dashboard.data.filbo import ORGANIZERS_MAP
+from dashboard.data.filbo import ORGANIZERS_MAP, SPEAKERS_MAP
 from events.models import Event, Organizer, Speaker
 from places.models import Place, City
+from specials.models import Special
+
 
 logger = logging.getLogger(__name__)
 
@@ -19,7 +23,7 @@ def get_organizers(organizer_name, request_user):
     )
     organizers = [default_organizer]
 
-    canonical_organizer_name = ORGANIZERS_MAP.get(organizer_name)
+    canonical_organizer_name = ORGANIZERS_MAP.get(organizer_name.strip())
     if canonical_organizer_name:
         organizer, created = Organizer.objects.get_or_create(
             name=canonical_organizer_name,
@@ -39,7 +43,14 @@ def get_speakers(participants, request_user):
     speakers = []
 
     for participant in participants:
-        speaker = Speaker.objects.filter(name__icontains=participant).first()
+        participant_name = (participant.strip()
+                            .replace(' - COLOMBIA', '')
+                            .replace(' (Col)', '')
+                            .replace(' - Ecuador', '')
+                            )
+        canonical_speaker_name = SPEAKERS_MAP.get(participant_name, participant_name)
+        logger.info(f'Speaker: {canonical_speaker_name}')
+        speaker = Speaker.objects.filter(name__iexact=canonical_speaker_name).first()
         if speaker:
             speakers.append(speaker)
 
@@ -59,7 +70,7 @@ def get_place(place_name, request_user):
         )
 
 
-def sync_filbo_event(event_data, request_user):
+def sync_filbo_event(event_data, special, request_user):
     logger.info(f'Started sync for FILBo event: {event_data}')
 
     def _get_event_field(col):
@@ -92,6 +103,19 @@ def sync_filbo_event(event_data, request_user):
     event_end_date = parse(f'{event_date} {end_time}')
     logger.info(f'FILBo event ID extracted: {filbo_id}, {event_start_date} - {event_end_date}')
 
+    title = title.strip().rstrip('-')
+    description = description.strip().rstrip('-')
+
+    try:
+        URLValidator()(link)
+    except (ValidationError,) as e:
+        logger.error(f'Invalid FILBo event URL', extra=dict(link=link), exc_info=e)
+        return
+
+    if len(link) > Event.EVENT_SOURCE_URL_MAX_LENGTH:
+        logger.error(f'Invalid FILBo event URL', extra=dict(link=link))
+        return
+
     defaults = dict(
         title=f'{title} | FILBo 2025',
         description=description,
@@ -108,8 +132,11 @@ def sync_filbo_event(event_data, request_user):
         defaults=defaults,
         create_defaults=dict(created_by=request_user, **defaults),
     )
+
     event.organizers.set(get_organizers(organizer_name=organizer, request_user=request_user))
     event.speakers.set(get_speakers(participants=participants, request_user=request_user))
+    special.related_events.add(event)
+
     status = 'created' if created else 'updated'
     logger.info(f'FILBo event {filbo_id} was {status}: {event}')
 
@@ -129,5 +156,7 @@ def sync_filbo_events(
     results = sheet.get(worksheet_range)
     logger.info(results)
 
+    special = Special.objects.filter(title='FILBo 2025').first()
+
     for event_data in results:
-        sync_filbo_event(event_data=event_data, request_user=request_user)
+        sync_filbo_event(event_data=event_data, special=special, request_user=request_user)

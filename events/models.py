@@ -138,10 +138,13 @@ class Event(TimeStampedModel):
         db_index=True,
         help_text='p. ej. 23/11/2019 18:00 (opcional)',
     )
+
+    EVENT_SOURCE_URL_MAX_LENGTH = 500
     event_source_url = models.URLField(
         'Enlace a la página del evento',
         null=True,
         blank=False,
+        max_length=EVENT_SOURCE_URL_MAX_LENGTH,
     )
     price = models.DecimalField(
         'Precio',
