@@ -47,8 +47,18 @@
     {% endfor %}
     </div>
 
-    {% include 'events/_events_grid.html' with events=events %}
+  <div class="row justify-content-center align-items-center">
+    <form id="event_search_form" method="get" action="{% url 'events:event_list' %}">
+      <div class="input-group mb-3">
+        <input type="text" class="form-control" name="q" placeholder="Buscar eventos..." value="{{ search_string }}">
+        <span class="input-group-btn">
+          <button class="btn btn-default" type="submit"><i class="fa fa-search"></i></button>
+        </span>
+      </div>
+    </form>
+  </div><!-- /.row -->
 
+    {% include 'events/_events_grid.html' with events=events %}
 
     <section class="container">
       {% get_simple_pagination %}
