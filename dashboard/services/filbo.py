@@ -69,7 +69,7 @@ def sync_filbo_event(event_data, special, request_user):
     def _get_event_field(col):
         zero_based_index = ord(col) - ord('A')
         try:
-            return event_data[zero_based_index]
+            return event_data[zero_based_index].strip()
         except IndexError:
             return ''
 
@@ -94,7 +94,7 @@ def sync_filbo_event(event_data, special, request_user):
 
     event_start_date = parse(f'{event_date} {start_time}')
     event_end_date = parse(f'{event_date} {end_time}')
-    logger.info(f'FILBo event ID extracted: {filbo_id}, {event_start_date} - {event_end_date}')
+    logger.debug(f'FILBo event ID extracted: {filbo_id}, {event_start_date} - {event_end_date}')
 
     title = title.strip().rstrip('-')
     description = description.strip().rstrip('-')
@@ -109,11 +109,27 @@ def sync_filbo_event(event_data, special, request_user):
         logger.error(f'Invalid FILBo event URL', extra=dict(link=link))
         return
 
+    event_type = None
+    topic = None
+    if category in [
+        'Firma de Libros',
+        'Presentaciones de libros',
+        'FILBo Literatura',
+        'FILBo Poesía',
+    ]:
+        topic = Event.EVENT_TOPIC_BOOKS
+    elif category in ['FILBo Medio Ambiente']:
+        topic = Event.EVENT_TOPIC_ENVIRONMENT
+    elif category in ['FILBo Ciencia']:
+        topic = Event.EVENT_TOPIC_SCIENCE
+    elif category in ['FILBo Ilustrada']:
+        topic = Event.EVENT_TOPIC_ART
+
     defaults = dict(
         title=f'{title} | FILBo 2025',
         description=description or title,
-        # event_type=,
-        # topic=,
+        event_type=event_type,
+        topic=topic,
         event_date=event_start_date,
         event_end_date=event_end_date,
         event_source_url=link,
@@ -121,7 +137,7 @@ def sync_filbo_event(event_data, special, request_user):
         is_published=True,
         is_approved=True,
     )
-    logger.info(f'FILBo event {filbo_id} defaults', extra=defaults)
+    logger.debug(f'FILBo event {filbo_id} defaults', extra=defaults)
     event, created = Event.objects.update_or_create(
         filbo_id=filbo_id,
         defaults=defaults,
@@ -135,7 +151,7 @@ def sync_filbo_event(event_data, special, request_user):
     special.related_events.add(event)
 
     status = 'created' if created else 'updated'
-    logger.info(f'FILBo event {filbo_id} was {status}: {event}')
+    logger.debug(f'FILBo event {filbo_id} was {status}: {event}')
 
 
 def sync_filbo_events(

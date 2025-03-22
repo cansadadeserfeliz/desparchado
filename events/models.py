@@ -81,20 +81,20 @@ class Event(TimeStampedModel):
     EVENT_TOPIC_SOCIETY = 5
     EVENT_TOPIC_HUMAN_SCIENCE = 6
     EVENT_TOPIC_LANGUAGES = 7
-    EVENT_TOPIC_LITERATURE = 8
+    EVENT_TOPIC_BOOKS = 8
     EVENT_TOPIC_ENVIRONMENT = 9
-    EVENT_TOPIC_MEDICINE = 10
+    EVENT_TOPIC_HEALTH = 10
     EVENT_TOPICS = (
         (EVENT_TOPIC_CITY, 'Urbanismo'),
-        (EVENT_TOPIC_SCIENCE, 'Ciencias exactas'),
+        (EVENT_TOPIC_SCIENCE, 'Ciencia'),
         (EVENT_TOPIC_ART, 'Arte'),
         (EVENT_TOPIC_BUSINESS, 'Emprendimiento'),
         (EVENT_TOPIC_SOCIETY, 'Democracia'),
         (EVENT_TOPIC_HUMAN_SCIENCE, 'Ciencias humanas'),
         (EVENT_TOPIC_LANGUAGES, 'Idiomas'),
-        (EVENT_TOPIC_LITERATURE, 'Literatura'),
-        (EVENT_TOPIC_ENVIRONMENT, 'Medioambiente'),
-        (EVENT_TOPIC_MEDICINE, 'Medicina'),
+        (EVENT_TOPIC_BOOKS, 'Libros'),
+        (EVENT_TOPIC_ENVIRONMENT, 'Medio ambiente'),
+        (EVENT_TOPIC_HEALTH, 'Salud'),
     )
 
     title = models.CharField(
