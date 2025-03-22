@@ -1,10 +1,10 @@
-from collections import OrderedDict
-
+from django.db.models.functions import TruncDate
 from django.views.generic import DetailView
-from django.utils.timezone import now, localtime
+from django.utils.timezone import now
+from django.core.paginator import Paginator
+from django.utils.dateparse import parse_date
 
 from .models import Special
-from events.models import Speaker
 
 
 class SpecialDetailView(DetailView):
@@ -16,19 +16,39 @@ class SpecialDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        related_events = self.object.events.order_by('event_date').all()
-        speaker_ids = related_events.values_list('speakers__id', flat=True)
-        context['speakers'] = Speaker.objects.filter(
-            id__in=speaker_ids,
-        ).exclude(image='').all()
+        related_events = self.object.events.published().all()
 
-        related_events_by_date = OrderedDict()
-        for event in related_events:
-            related_events_by_date.setdefault(
-                event.event_date.date(),
-                []
-            ).append(event)
+        event_dates = related_events.annotate(
+            event_date_only=TruncDate('event_date')
+        ).values_list('event_date_only', flat=True).order_by('event_date_only').distinct()
 
-        context['date_now'] = localtime(now()).date()
-        context['related_events_by_date'] = related_events_by_date
+        today = now().date()
+
+        selected_date_param = 'fecha'
+        selected_date = parse_date(self.request.GET.get(selected_date_param, ''))
+        if not selected_date:
+            if today in event_dates:
+                selected_date = today
+            else:
+                selected_date = event_dates[0]
+
+        selected_date_events = related_events.filter(event_date__date=selected_date).order_by('event_date')
+
+        # Pagination
+        page_number = self.request.GET.get('page', 1)
+        try:
+            page_number = int(page_number)
+        except ValueError:
+            page_number = 1
+
+        paginator = Paginator(selected_date_events, 30)
+        page = paginator.get_page(page_number)
+        context['events'] = page.object_list
+        context['paginator'] = paginator
+        context['page_obj'] = page
+        context['is_paginated'] = page.has_other_pages()
+
+        context['selected_date_param'] = selected_date_param
+        context['event_dates'] = event_dates
+        context['selected_date'] = selected_date
         return context

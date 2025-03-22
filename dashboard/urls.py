@@ -41,4 +41,11 @@ urlpatterns = [
         dashboard_views.EventCreateView.as_view(),
         name='event_add'
     ),
+
+    # FILBo
+    path(
+        'filbo/events/create/',
+        dashboard_views.FilboEventFormView.as_view(),
+        name='filbo_event_form'
+    ),
 ]

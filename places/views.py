@@ -25,7 +25,7 @@ class PlaceDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['events'] = \
-            self.get_object().events.published().future().all()
+            self.get_object().events.published().future().all()[:30]
         context['past_events'] = \
             self.get_object().events.published().past().order_by('-event_date').all()[:9]
         return context

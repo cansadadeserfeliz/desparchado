@@ -1,7 +1,8 @@
 # Desparchado
 
+![Pony powered](http://media.djangopony.com/img/small/badge.png)
+
 [![Coverage Status](https://codecov.io/gh/cansadadeserfeliz/desparchado/branch/main/graphs/badge.svg?branch=main)](https://codecov.io/github/cansadadeserfeliz/desparchado?branch=main)
-[![Donate to this project using Patreon](https://img.shields.io/badge/patreon-donate-yellow.svg)](https://www.patreon.com/desparchado)
 [![Codefactor](https://www.codefactor.io/repository/github/cansadadeserfeliz/desparchado/badge?style=social)](https://www.codefactor.io/repository/github/cansadadeserfeliz/desparchado)
 
 ## Development

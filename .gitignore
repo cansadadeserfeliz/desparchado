@@ -47,3 +47,6 @@ desparchado/static/node_modules/
 uwsgi.ini
 uwsgi_params
 robots.txt
+
+# Secrets
+spreadsheet_credentials.json

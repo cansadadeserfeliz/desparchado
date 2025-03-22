@@ -11,7 +11,7 @@ class Special(TimeStampedModel):
         max_length=255,
     )
     subtitle = models.CharField(
-        'Título',
+        'Subtítulo',
         default='',
         max_length=500,
     )

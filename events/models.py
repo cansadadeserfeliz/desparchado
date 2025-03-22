@@ -81,20 +81,20 @@ class Event(TimeStampedModel):
     EVENT_TOPIC_SOCIETY = 5
     EVENT_TOPIC_HUMAN_SCIENCE = 6
     EVENT_TOPIC_LANGUAGES = 7
-    EVENT_TOPIC_LITERATURE = 8
+    EVENT_TOPIC_BOOKS = 8
     EVENT_TOPIC_ENVIRONMENT = 9
-    EVENT_TOPIC_MEDICINE = 10
+    EVENT_TOPIC_HEALTH = 10
     EVENT_TOPICS = (
         (EVENT_TOPIC_CITY, 'Urbanismo'),
-        (EVENT_TOPIC_SCIENCE, 'Ciencias exactas'),
+        (EVENT_TOPIC_SCIENCE, 'Ciencia'),
         (EVENT_TOPIC_ART, 'Arte'),
         (EVENT_TOPIC_BUSINESS, 'Emprendimiento'),
         (EVENT_TOPIC_SOCIETY, 'Democracia'),
         (EVENT_TOPIC_HUMAN_SCIENCE, 'Ciencias humanas'),
         (EVENT_TOPIC_LANGUAGES, 'Idiomas'),
-        (EVENT_TOPIC_LITERATURE, 'Literatura'),
-        (EVENT_TOPIC_ENVIRONMENT, 'Medioambiente'),
-        (EVENT_TOPIC_MEDICINE, 'Medicina'),
+        (EVENT_TOPIC_BOOKS, 'Libros'),
+        (EVENT_TOPIC_ENVIRONMENT, 'Medio ambiente'),
+        (EVENT_TOPIC_HEALTH, 'Salud'),
     )
 
     title = models.CharField(
@@ -138,10 +138,13 @@ class Event(TimeStampedModel):
         db_index=True,
         help_text='p. ej. 23/11/2019 18:00 (opcional)',
     )
+
+    EVENT_SOURCE_URL_MAX_LENGTH = 500
     event_source_url = models.URLField(
         'Enlace a la página del evento',
         null=True,
         blank=False,
+        max_length=EVENT_SOURCE_URL_MAX_LENGTH,
     )
     price = models.DecimalField(
         'Precio',
@@ -210,6 +213,14 @@ class Event(TimeStampedModel):
         related_name='can_edit_events',
     )
 
+    filbo_id = models.CharField(
+        verbose_name='ID del FILBo',
+        max_length=10,
+        null=True,
+        blank=True,
+        unique=True,
+    )
+
     objects = EventQuerySet().as_manager()
 
     def __str__(self):
@@ -229,6 +240,9 @@ class Event(TimeStampedModel):
     def get_image_url(self):
         if self.image:
             return self.image.url
+
+        if self.filbo_id and self.event_date.year == 2025:
+            return static('images/filbo-2025.jpg')
         return static('images/default_event_image.jpg')
 
     def get_absolute_url(self):

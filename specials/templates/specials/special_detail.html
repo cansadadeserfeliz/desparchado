@@ -1,5 +1,5 @@
 {% extends 'layout/base.html' %}
-{% load i18n static desparchado_tags %}
+{% load i18n static paginator_tags desparchado_tags %}
 
 {% block title %}{{ special.title }} en Desparchado.co{% endblock %}
 
@@ -36,56 +36,33 @@
   <section class="special-detail" id="special_detail">
 
     <div class="text">
-      {{ special.description|markdown }}
+      {{ special.description|markdown }}{{ date_now }}
     </div>
 
-    <p>Compártalo con sus amigos:</p>
-    <p>
-      <div class="addthis_inline_share_toolbox"></div>
-    </p>
-
-    <div class="accordion accordion-flush" id="accordionEvents">
-    {% for event_date, events in related_events_by_date.items %}
-      <div class="accordion-item">
-        <h2 class="accordion-header" id="flush-heading{{ forloop.counter }}">
-          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse{{ forloop.counter }}" aria-expanded="{% if date_now == event_date %}true{% else %}false{% endif %}" aria-controls="flush-collapse{{ forloop.counter }}">
-            {{ event_date|date:"Y-m-d" }}
-          </button>
-        </h2>
-        <div id="flush-collapse{{ forloop.counter }}" class="accordion-collapse collapse {% if date_now == event_date %}show{% endif %}" aria-labelledby="flush-heading{{ forloop.counter }}" data-bs-parent="#accordionEvents">
-          <div class="accordion-body">
-            {% include 'events/_events_grid.html' with events=events %}
-          </div>
-        </div>
+    <div class="d-flex justify-content-start flex-wrap gap-2 my-2">
+    {% for event_date in event_dates %}
+      <div>
+        <a class="btn {% if event_date == selected_date %}btn-primary{% else %}btn-secondary{% endif %}" role="button" href="?{{ selected_date_param }}={{ event_date|date:"Y-m-d" }}"> {{ event_date|date:"Y-m-d" }}</a>
       </div>
     {% endfor %}
     </div>
 
-  {% if speakers %}
-    <div class="mt-4"></div>
-
-    <h3>Presentadores</h3>
-
-    <div>
-      <div class="row text-center text-lg-left image-gallery-container">
-      {% for speaker in speakers %}
-        <div class="col-lg-2 col-md-4 col-12">
-          <article class="image-gallery-listing">
-            <a class="image-gallery-title image-gallery-title-show" href="{{ speaker.get_absolute_url }}">{{ speaker.name }}</a>
-            <div class="image-gallery-image-wrapper">
-              <a href="{{ speaker.get_absolute_url }}">
-                <div class="image"
-                     style="background-image: url('{{ speaker.get_image_url }}');"
-                     title="{{ speaker.name }}">
-                </div>
-              </a>
-            </div>
-          </article>
-        </div>
-      {% endfor %}
+  <div class="row justify-content-center align-items-center">
+    <form id="event_search_form" method="get" action="{% url 'events:event_list' %}">
+      <div class="input-group mb-3">
+        <input type="text" class="form-control" name="q" placeholder="Buscar eventos..." value="{{ search_string }}">
+        <span class="input-group-btn">
+          <button class="btn btn-default" type="submit"><i class="fa fa-search"></i></button>
+        </span>
       </div>
-    </div>
-  {% endif %}
+    </form>
+  </div><!-- /.row -->
+
+    {% include 'events/_events_grid.html' with events=events %}
+
+    <section class="container justify-content-center">
+      {% get_simple_pagination %}
+    </section>
 
   </section>
 

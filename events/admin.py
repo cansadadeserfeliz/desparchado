@@ -46,8 +46,9 @@ class EventAdmin(admin.ModelAdmin):
         'is_approved',
         'event_type',
         'topic',
+        'filbo_id',
         'event_date',
-        'event_end_date',
+        'event_source_url',
         'created_by',
         'created',
     ]
@@ -168,7 +169,8 @@ class SpeakerAdmin(admin.ModelAdmin):
             obj.created_by = request.user
         super().save_model(request, obj, form, change)
 
-        send_admin_notification(request, obj, form, change)
+        if not request.user.is_superuser:
+            send_admin_notification(request, obj, form, change)
 
     def get_actions(self, request):
         return []
