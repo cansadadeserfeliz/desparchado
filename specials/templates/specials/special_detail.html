@@ -60,7 +60,11 @@
     </form>
   </div><!-- /.row -->
 
-  {% include 'events/_events_list.html' with events=events %}
+  {% if paginator.count > 9 %}
+    {% include 'events/_events_list.html' with events=events %}
+  {% else %}
+    {% include 'events/_events_grid.html' with events=events %}
+  {% endif %}
 
   <section class="container justify-content-center">
     {% get_simple_pagination %}
