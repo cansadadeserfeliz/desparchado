@@ -55,11 +55,11 @@ class EventListView(ListView):
                     'description__unaccent',
                     'speakers__name__unaccent',
                 ),
-            ).filter(search=SearchQuery(self.q)).order_by('-event_date')
+            ).filter(search=SearchQuery(self.q))
         else:
-            queryset = queryset.order_by('event_date')
+            queryset = queryset
 
-        return queryset.select_related('place')
+        return queryset.select_related('place').order_by('event_date')
 
 
 class PastEventListView(ListView):
