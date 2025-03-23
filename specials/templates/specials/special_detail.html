@@ -49,7 +49,7 @@
     {% endfor %}
     </div>
 
-  <div class="row justify-content-center align-items-center">
+  <div class="row justify-content-center align-items-center my-3">
     <form id="event_search_form" method="get" action="{% url 'events:event_list' %}">
       <div class="input-group mb-3">
         <input type="text" class="form-control" name="q" placeholder="Buscar eventos..." value="{{ search_string }}">
@@ -60,7 +60,7 @@
     </form>
   </div><!-- /.row -->
 
-  {% include 'events/_events_grid.html' with events=events %}
+  {% include 'events/_events_list.html' with events=events %}
 
   <section class="container justify-content-center">
     {% get_simple_pagination %}
