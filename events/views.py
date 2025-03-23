@@ -1,8 +1,8 @@
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from django.views import View
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.postgres.search import SearchVector, SearchQuery
 from django.urls import reverse
-from django.db.models import Q
 from django.utils.html import format_html
 from django.utils.safestring import mark_safe
 from django.http import JsonResponse
@@ -43,17 +43,21 @@ class EventListView(ListView):
         return context
 
     def get_queryset(self):
-        queryset = Event.objects.published()
+        queryset = Event.objects.published().future()
 
         if self.city:
             queryset = queryset.filter(place__city=self.city)
 
-        if self.q:
-            queryset = queryset.filter(
-                Q(title__icontains=self.q) | Q(description__icontains=self.q)
-            ).order_by('-event_date')
+        if self.q and len(self.q) > 3:
+            queryset = queryset.annotate(
+                search=SearchVector(
+                    'title__unaccent',
+                    'description__unaccent',
+                    'speakers__name__unaccent',
+                ),
+            ).filter(search=SearchQuery(self.q)).order_by('-event_date')
         else:
-            queryset = queryset.future().order_by('event_date')
+            queryset = queryset.order_by('event_date')
 
         return queryset.select_related('place')
 
