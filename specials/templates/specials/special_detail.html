@@ -36,13 +36,15 @@
   <section class="special-detail" id="special_detail">
 
     <div class="text">
-      {{ special.description|markdown }}{{ date_now }}
+      {{ special.description|markdown }}
     </div>
 
     <div class="d-flex justify-content-start flex-wrap gap-2 my-2">
     {% for event_date in event_dates %}
       <div>
-        <a class="btn {% if event_date == selected_date %}btn-primary{% else %}btn-secondary{% endif %}" role="button" href="?{{ selected_date_param }}={{ event_date|date:"Y-m-d" }}"> {{ event_date|date:"Y-m-d" }}</a>
+        <a class="btn {% if event_date == selected_date %}btn-primary{% else %}btn-secondary{% endif %}" role="button" href="?{{ selected_date_param }}={{ event_date|date:"Y-m-d" }}">
+          {{ event_date|date:'D, b j' }}{% if today.year != event_date.year %} {{ event_date|date:'Y' }}{% endif %}
+        </a>
       </div>
     {% endfor %}
     </div>
@@ -58,11 +60,11 @@
     </form>
   </div><!-- /.row -->
 
-    {% include 'events/_events_grid.html' with events=events %}
+  {% include 'events/_events_grid.html' with events=events %}
 
-    <section class="container justify-content-center">
-      {% get_simple_pagination %}
-    </section>
+  <section class="container justify-content-center">
+    {% get_simple_pagination %}
+  </section>
 
   </section>
 
