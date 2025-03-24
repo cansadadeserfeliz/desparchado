@@ -2,6 +2,7 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from django.views import View
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.postgres.search import SearchVector, SearchQuery
+from django.db.models import Q
 from django.urls import reverse
 from django.utils.html import format_html
 from django.utils.safestring import mark_safe
@@ -49,13 +50,15 @@ class EventListView(ListView):
             queryset = queryset.filter(place__city=self.city)
 
         if self.q and len(self.q) > 3:
-            queryset = queryset.annotate(
-                search=SearchVector(
-                    'title__unaccent',
-                    'description__unaccent',
-                    'speakers__name__unaccent',
-                ),
-            ).filter(search=SearchQuery(self.q))
+            queryset = (queryset
+            .annotate(unaccent_title=SearchVector('title__unaccent'))
+            .annotate(unaccent_description=SearchVector('description__unaccent'))
+            .annotate(unaccent_speakers_name=SearchVector('speakers__name__unaccent'))
+            .filter(
+                Q(unaccent_title__icontains=self.q)
+                | Q(unaccent_description__icontains=self.q)
+                | Q(unaccent_speakers_name__icontains=self.q)
+            ))
         else:
             queryset = queryset
 
