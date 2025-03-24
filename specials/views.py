@@ -51,4 +51,5 @@ class SpecialDetailView(DetailView):
         context['selected_date_param'] = selected_date_param
         context['event_dates'] = event_dates
         context['selected_date'] = selected_date
+        context['today'] = today
         return context

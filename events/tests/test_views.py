@@ -31,7 +31,10 @@ def test_filter_events_by_city_in_event_list(django_app, event, other_event):
 
 @pytest.mark.django_db
 def test_search_events_in_event_list(django_app, event, other_event):
-    response = django_app.get(reverse('events:event_list') + f'?q={event.title.split()[0]}', status=200)
+    event.title = 'Después de la siesta, despertó con el rostro abuhado y los sueños revueltos'
+    event.save()
+
+    response = django_app.get(reverse('events:event_list') + '?q=abuhado', status=200)
     assert event in response.context['events']
     assert other_event not in response.context['events']
 
