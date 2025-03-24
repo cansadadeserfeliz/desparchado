@@ -6,60 +6,50 @@
 
 <div class="row row-deck row-cards">
   <div class="col-sm-6 col-lg-3">
-    {% include 'dashboard/includes/_stats_card.html' with value=future_events_count|intcomma title='Eventos futuros'  subtitle='Future events'  %}
+    {% include 'dashboard/includes/_stats_card.html' with value=future_events_count|intcomma title='Eventos futuros' icon='event' color='orange' %}
   </div>
   <div class="col-sm-6 col-lg-3">
-    {% include 'dashboard/includes/_stats_card.html' with value=active_users_count|intcomma title='Usuarios activos' subtitle='Users' %}
+    {% include 'dashboard/includes/_stats_card.html' with value=filbo_2025_events_count|intcomma title='Eventos FILBo 2025' icon='event' color='red' %}
   </div>
   <div class="col-sm-6 col-lg-3">
-    {% include 'dashboard/includes/_stats_card.html' with value=organizers_count|intcomma title='Organizadores' subtitle='Organizers' %}
+    {% include 'dashboard/includes/_stats_card.html' with value=active_users_count|intcomma title='Usuarios activos' icon='user' color='green' %}
   </div>
   <div class="col-sm-6 col-lg-3">
-    {% include 'dashboard/includes/_stats_card.html' with value=speakers_count|intcomma title='Presentadores' subtitle='Speakers' %}
+    {% include 'dashboard/includes/_stats_card.html' with value=organizers_count|intcomma title='Organizadores' icon='organizer' color='yellow' %}
+  </div>
+  <div class="col-sm-6 col-lg-3">
+    {% include 'dashboard/includes/_stats_card.html' with value=speakers_count|intcomma title='Presentadores' icon='speaker' color='pink' %}
+  </div>
+  <div class="col-sm-6 col-lg-3">
+    {% include 'dashboard/includes/_stats_card.html' with value=speakers_filbo_2025_count|intcomma title='Presentadores FILBo 2025' icon='speaker' color='red' %}
+  </div>
+  <div class="col-sm-6 col-lg-3">
+    {% include 'dashboard/includes/_stats_card.html' with value=speakers_without_image_count|intcomma title='Presentadores sin foto' icon='speaker' color='purple' %}
+  </div>
+  <div class="col-sm-6 col-lg-3">
+    {% include 'dashboard/includes/_stats_card.html' with value=places_count|intcomma title='Lugares' icon='place' color='teal' %}
   </div>
 
   <div class="col-md-6">
     <div class="card card-table table-responsive">
       <div class="card-header">
-        <h3 class="card-title">Future events per weekday</h3>
-      </div>
-      <table class="table card-table table-striped table-vcenter">
-        <thead>
-          <tr>
-            <th>Weekday</th>
-            <th>Count</th>
-          </tr>
-        </thead>
-        <tbody>
-        {% for item in future_events_by_weekday %}
-          <tr>
-            <td>{{ item.weekday|weekday_to_str }}</td>
-            <td>{{ item.count }}</td>
-          </tr>
-        {% endfor %}
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <div class="col-md-6">
-    <div class="card card-table table-responsive">
-      <div class="card-header">
-        <h3 class="card-title">Future events per date</h3>
+        <h3 class="card-title">Eventos futuros por fecha</h3>
       </div>
       <div class="table-responsive">
         <table class="table card-table table-striped table-vcenter table-sm">
           <thead>
             <tr>
-              <th>Weekday</th>
-              <th>Count</th>
+              <th>Día</th>
+              <th>Día de la semana</th>
+              <th>Total</th>
             </tr>
           </thead>
           <tbody>
           {% for item in future_events_by_date %}
             <tr>
-              <td>{{ item.day|date:'d-m-Y, l' }}</td>
-              <td>{{ item.count }}</td>
+              <td>{{ item.day|date:'d-m-Y' }}</td>
+              <td>{{ item.day|date:'l' }}</td>
+              <td class="w-1 fw-bold text-end">{{ item.count }}</td>
             </tr>
           {% endfor %}
           </tbody>
@@ -68,13 +58,13 @@
     </div>
   </div>
 
-  <div class="col-lg-12">
+  <div class="col-md-6">
     <div class="card">
       <div class="card-header">
-        <h3 class="card-title">Future events map</h3>
+        <h3 class="card-title">Eventos futuros en mapa</h3>
       </div>
       <div style='overflow:hidden;height:400px;width:auto;'>
-        <div id='map_canvas' style='height:400px;'></div>
+        <div id='map_canvas' style='min-height: 600px;'></div>
         <style>
           #map_canvas img {
             width: auto;
