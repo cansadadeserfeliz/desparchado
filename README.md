@@ -45,42 +45,13 @@ Run Django shell:
 
     python manage.py shell
 
-Create migrations (example for `history` app):
+Create migrations (example for `events` app):
 
     export PYTHONPATH="/app:$PYTHONPATH"
-    django-admin makemigrations history
+    django-admin makemigrations events
 
 ### Run the tests
 
     pytest
 
-## Installation
-
-    $ sudo apt-get install gettext
-
-    $ sudo apt-get update
-    $ sudo apt-get install nodejs
-    $ sudo apt-get install npm
-
-    $ npm install -g bower
-    $ npm install -g yuglify
-
-    # Install SASS
-    $ sudo apt-get install rubygems
-    $ sudo su -c "gem install sass"
-
-    # Create database
-    $ createdb desparchado
-    $ psql desparchado
-    desparchado=# CREATE EXTENSION postgis;
-
-    # Create virtualenv
-    $ mkvirtualenv desparchado -p python3
-
-    $ pip install uwsgi
-
-## Deployment
-
-    $ cd projectdir
-    $ source scripts/deploy.sh
 
