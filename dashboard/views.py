@@ -115,19 +115,6 @@ class PlacesListView(SuperuserRequiredMixin, ListView):
     template_name = 'dashboard/places.html'
 
 
-class UsersListView(SuperuserRequiredMixin, ListView):
-    model = User
-    paginate_by = 50
-    context_object_name = 'users'
-    template_name = 'dashboard/users.html'
-
-    def get_queryset(self):
-        queryset = User.objects.annotate(
-            events_count=Count('created_events'),
-        ).order_by('-last_login')
-        return queryset
-
-
 class BlaaEventsListView(SuperuserRequiredMixin, TemplateView):
     template_name = 'dashboard/blaa/events_list.html'
 
