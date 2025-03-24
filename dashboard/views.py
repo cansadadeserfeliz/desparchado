@@ -46,11 +46,11 @@ class HomeView(SuperuserRequiredMixin, TemplateView):
 
         context['organizers_count'] = Organizer.objects.count()
         context['speakers_count'] = Speaker.objects.count()
-        context['speakers_without_image_count'] = Speaker.objects.filter(
+        context['speakers_filbo_2025_count'] = Speaker.objects.filter(
             events__filbo_id__isnull=False,
             events__event_date__year=2025,
         ).distinct().count()
-        context['speakers_filbo_2025_count'] = Speaker.objects.filter(image='').count()
+        context['speakers_without_image_count'] = Speaker.objects.filter(image='').count()
         context['active_users_count'] = User.objects.filter(is_active=True).count()
         context['places_count'] = Place.objects.count()
         return context
