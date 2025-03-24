@@ -33,17 +33,26 @@ class HomeView(SuperuserRequiredMixin, TemplateView):
         context = super().get_context_data(**kwargs)
         context['future_events'] = Event.objects.published().future().all()
         context['future_events_count'] = Event.objects.published().future().count()
+
         context['future_events_by_date'] = Event.objects.published().future()\
             .annotate(day=Cast('event_date', DateField())).values('day') \
             .annotate(count=Count('day')).values('day', 'count')\
             .order_by('day')
-        context['future_events_by_weekday'] = Event.objects.published().future()\
-            .annotate(weekday=ExtractWeekDay('event_date')).values('weekday')\
-            .annotate(count=Count('id')).values('weekday', 'count')\
-            .order_by('weekday')
+
+        context['filbo_2025_events_count'] = Event.objects.published().future().filter(
+            filbo_id__isnull=False,
+            event_date__year=2025,
+        ).count()
+
         context['organizers_count'] = Organizer.objects.count()
         context['speakers_count'] = Speaker.objects.count()
+        context['speakers_without_image_count'] = Speaker.objects.filter(
+            events__filbo_id__isnull=False,
+            events__event_date__year=2025,
+        ).distinct().count()
+        context['speakers_filbo_2025_count'] = Speaker.objects.filter(image='').count()
         context['active_users_count'] = User.objects.filter(is_active=True).count()
+        context['places_count'] = Place.objects.count()
         return context
 
 
