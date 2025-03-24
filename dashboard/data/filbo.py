@@ -110,18 +110,3 @@ ORGANIZERS_MAP = {
     "SIGLO DEL HOMBRE EDITORES": "Siglo Editorial",
     "Siglo Editorial": "Siglo Editorial",
 }
-
-SPEAKERS_MAP = {
-    "Lizardo Carvajal": "Lizardo Carvajal",
-    "Nicolás Guevara": "Nicolás Guevara",
-    "Juan Gabriel Vásquez": "Juan Gabriel Vásquez",
-    "Rodrigo Bastidas": "Rodrigo Bastidas",
-    "Luis Carlos Barragán": "Luis Carlos Barragán",
-    "Mauricio Loza": "Mauricio Loza",
-    "Margarita García Robayo": "Margarita García Robayo",
-    "Laura Ortiz Gómez": "Laura Ortiz Gómez",
-    "Giuseppe Caputo": "Giuseppe Caputo",
-    "Kim Un-su": "Kim Un-su",
-    "Carolina Sanín": "Carolina Sanín",
-    "Sara Uribe": "Sara Uribe",
-}

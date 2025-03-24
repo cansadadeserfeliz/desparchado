@@ -9,7 +9,7 @@ from django.contrib.gis.geos import Point
 from django.core.validators import URLValidator
 from django.core.exceptions import ValidationError
 
-from dashboard.data.filbo import ORGANIZERS_MAP, SPEAKERS_MAP
+from dashboard.data.filbo import ORGANIZERS_MAP
 from events.models import Event, Organizer, Speaker
 from places.models import Place, City
 from specials.models import Special
@@ -38,12 +38,18 @@ def get_organizers(organizer_name, request_user):
 
     return organizers
 
-def get_speakers(participants, request_user):
+def get_speakers(participants, speakers_map, event_description, request_user):
     speakers = []
 
-    for original_name, canonical_name in SPEAKERS_MAP.items():
-        if original_name in participants:
-            speaker = Speaker.objects.filter(name__iexact=canonical_name).first()
+    for speaker_record in speakers_map:
+        if not speaker_record['FILBO_NAME'] or not speaker_record['CANONICAL_NAME']:
+            continue
+
+        if speaker_record['FILBO_NAME'] in participants or speaker_record['FILBO_NAME'] in event_description:
+            speaker, created = Speaker.objects.get_or_create(
+                name=speaker_record['CANONICAL_NAME'],
+                defaults=dict(created_by=request_user, description=speaker_record['DESCRIPTION']),
+            )
             if speaker and speaker not in speakers:
                 speakers.append(speaker)
 
@@ -63,7 +69,7 @@ def get_place(place_name, request_user):
         )
 
 
-def sync_filbo_event(event_data, special, request_user):
+def sync_filbo_event(event_data, special, speakers_map, request_user):
     logger.info(f'Started sync for FILBo event: {event_data}')
 
     def _get_event_field(col):
@@ -141,7 +147,12 @@ def sync_filbo_event(event_data, special, request_user):
     )
 
     event.organizers.set(get_organizers(organizer_name=organizer, request_user=request_user))
-    event.speakers.set(get_speakers(participants=participants, request_user=request_user))
+    event.speakers.set(get_speakers(
+        participants=participants,
+        speakers_map=speakers_map,
+        event_description=description,
+        request_user=request_user,
+    ))
     event.save()
 
     special.related_events.add(event)
@@ -165,7 +176,9 @@ def sync_filbo_events(
     results = sheet.get(worksheet_range)
     logger.info(results)
 
+    speakers_map = spreadsheet.get_worksheet(1).get_all_records()
+
     special = Special.objects.filter(title='FILBo 2025').first()
 
     for event_data in results:
-        sync_filbo_event(event_data=event_data, special=special, request_user=request_user)
+        sync_filbo_event(event_data=event_data, special=special, speakers_map=speakers_map, request_user=request_user)
