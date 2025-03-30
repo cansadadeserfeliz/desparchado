@@ -76,7 +76,7 @@ class EventListView(ListView):
         else:
             queryset = queryset
 
-        return queryset.select_related('place').order_by('event_date')
+        return queryset.select_related('place').order_by('event_date').distinct()
 
 
 class PastEventListView(ListView):
