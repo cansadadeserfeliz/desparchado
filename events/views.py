@@ -76,7 +76,7 @@ class EventListView(ListView):
         else:
             queryset = queryset
 
-        return queryset.select_related('place').order_by('event_date')
+        return queryset.select_related('place').order_by('event_date').distinct()
 
 
 class PastEventListView(ListView):
@@ -153,7 +153,12 @@ class SpeakerListView(ListView):
     def get_queryset(self):
         queryset = super().get_queryset()
         if self.q:
-            queryset = queryset.filter(name__icontains=self.q)
+            queryset = queryset.annotate(
+                unaccent_name=SearchVector('name__unaccent')
+            ).filter(
+                Q(name__icontains=self.q)
+                | Q(unaccent_name__icontains=self.q)
+            )
         return queryset
 
     def get_context_data(self, **kwargs):
