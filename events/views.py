@@ -56,14 +56,20 @@ class EventListView(ListView):
             .annotate(unaccent_speakers_name=SearchVector('speakers__name__unaccent'))
             .annotate(
                 search=SearchVector(
+                    'title',
                     'unaccent_title',
+                    'description',
                     'unaccent_description',
+                    'speakers__name',
                     'unaccent_speakers_name',
                 ),
             )
             .filter(
-                Q(unaccent_title__icontains=self.q)
+                Q(title__icontains=self.q)
+                | Q(unaccent_title__icontains=self.q)
+                | Q(description__icontains=self.q)
                 | Q(unaccent_description__icontains=self.q)
+                | Q(speakers__name__icontains=self.q)
                 | Q(unaccent_speakers_name__icontains=self.q)
                 | Q(search=SearchQuery(self.q))
             ))
