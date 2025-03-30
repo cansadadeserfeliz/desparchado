@@ -1,6 +1,7 @@
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from django.views import View
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.postgres.aggregates import StringAgg
 from django.contrib.postgres.search import SearchVector, SearchQuery
 from django.db.models import Q
 from django.urls import reverse
@@ -53,15 +54,16 @@ class EventListView(ListView):
             queryset = (queryset
             .annotate(unaccent_title=SearchVector('title__unaccent'))
             .annotate(unaccent_description=SearchVector('description__unaccent'))
-            .annotate(unaccent_speakers_name=SearchVector('speakers__name__unaccent'))
+            .annotate(speakers_names=SearchVector(StringAgg('speakers__name', delimiter=' ')))
+            .annotate(unaccent_speakers_names=SearchVector(StringAgg('speakers__name__unaccent', delimiter=' ')))
             .annotate(
                 search=SearchVector(
                     'title',
                     'unaccent_title',
                     'description',
                     'unaccent_description',
-                    'speakers__name',
-                    'unaccent_speakers_name',
+                    'speakers_names',
+                    'unaccent_speakers_names',
                 ),
             )
             .filter(
@@ -69,8 +71,8 @@ class EventListView(ListView):
                 | Q(unaccent_title__icontains=self.q)
                 | Q(description__icontains=self.q)
                 | Q(unaccent_description__icontains=self.q)
-                | Q(speakers__name__icontains=self.q)
-                | Q(unaccent_speakers_name__icontains=self.q)
+                | Q(speakers_names__icontains=self.q)
+                | Q(unaccent_speakers_names__icontains=self.q)
                 | Q(search=SearchQuery(self.q))
             ))
         else:
