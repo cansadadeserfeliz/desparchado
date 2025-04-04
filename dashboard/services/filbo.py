@@ -109,11 +109,11 @@ def sync_filbo_event(event_data, special, speakers_map, request_user):
         URLValidator()(link)
     except (ValidationError,) as e:
         logger.error(f'Invalid FILBo event URL', extra=dict(link=link), exc_info=e)
-        return
+        return None
 
     if len(link) > Event.EVENT_SOURCE_URL_MAX_LENGTH:
         logger.error(f'Invalid FILBo event URL', extra=dict(link=link))
-        return
+        return None
 
     event_type = None
     topic = {
@@ -186,7 +186,8 @@ def sync_filbo_events(
 
     for event_data in results:
         filbo_id = sync_filbo_event(event_data=event_data, special=special, speakers_map=speakers_map, request_user=request_user)
-        synced_filbo_ids.add(filbo_id)
+        if filbo_id is not None:
+            synced_filbo_ids.add(filbo_id)
 
     all_events = Event.objects.filter(
         filbo_id__isnull=False,
