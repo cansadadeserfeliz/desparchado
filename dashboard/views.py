@@ -39,7 +39,11 @@ class HomeView(SuperuserRequiredMixin, TemplateView):
             .annotate(count=Count('day')).values('day', 'count')\
             .order_by('day')
 
-        context['filbo_2025_events_count'] = Event.objects.published().future().filter(
+        context['all_filbo_2025_events_count'] = Event.objects.filter(
+            filbo_id__isnull=False,
+            event_date__year=2025,
+        ).count()
+        context['published_filbo_2025_events_count'] = Event.objects.published().filter(
             filbo_id__isnull=False,
             event_date__year=2025,
         ).count()

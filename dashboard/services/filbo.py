@@ -109,11 +109,11 @@ def sync_filbo_event(event_data, special, speakers_map, request_user):
         URLValidator()(link)
     except (ValidationError,) as e:
         logger.error(f'Invalid FILBo event URL', extra=dict(link=link), exc_info=e)
-        return
+        return None
 
     if len(link) > Event.EVENT_SOURCE_URL_MAX_LENGTH:
         logger.error(f'Invalid FILBo event URL', extra=dict(link=link))
-        return
+        return None
 
     event_type = None
     topic = {
@@ -160,6 +160,8 @@ def sync_filbo_event(event_data, special, speakers_map, request_user):
     status = 'created' if created else 'updated'
     logger.debug(f'FILBo event {filbo_id} was {status}: {event}')
 
+    return filbo_id
+
 
 def sync_filbo_events(
     spreadsheet_id: str,
@@ -180,5 +182,19 @@ def sync_filbo_events(
 
     special = Special.objects.filter(title='FILBo 2025').first()
 
+    synced_filbo_ids = set()
+
     for event_data in results:
-        sync_filbo_event(event_data=event_data, special=special, speakers_map=speakers_map, request_user=request_user)
+        filbo_id = sync_filbo_event(event_data=event_data, special=special, speakers_map=speakers_map, request_user=request_user)
+        if filbo_id is not None:
+            synced_filbo_ids.add(filbo_id)
+
+    all_events = Event.objects.filter(
+        filbo_id__isnull=False,
+        event_date__year=2025,
+    )
+    logger.info(f'>>> ALL FILBo events: {all_events.count()}')
+    unpublished_events = all_events.exclude(filbo_id__in=synced_filbo_ids)
+    logger.info(f'>>> UNPUBLISHED FILBo events: {unpublished_events.count()}')
+
+    unpublished_events.update(is_published=False)
