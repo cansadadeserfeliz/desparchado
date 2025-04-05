@@ -57,10 +57,10 @@ class EventAdmin(admin.ModelAdmin):
 
     fieldsets = (
         (None, {
-            'fields': (
-                ('title', 'is_published',),
-                ('slug', 'is_approved',)
-            ),
+            'fields': [
+                ('title', 'is_published', 'is_featured_on_homepage',),
+                ('slug', 'is_approved',),
+            ],
         }),
         (_('Information'), {
             'fields': (
@@ -78,6 +78,8 @@ class EventAdmin(admin.ModelAdmin):
             ),
         }),
     )
+
+    list_filter = ('is_featured_on_homepage', 'is_published', 'is_approved')
 
     ordering = ('-created', '-is_published')
 

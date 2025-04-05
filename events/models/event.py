@@ -1,6 +1,5 @@
 import datetime
 
-from django.core.exceptions import ValidationError
 from django.db import models
 from django.urls import reverse
 from django.conf import settings
@@ -191,6 +190,12 @@ class Event(TimeStampedModel):
         'quieres asignar al evento no existe en '
         'nuestro sistema, antes de crearlo/crearla.',
     )
+
+    is_featured_on_homepage = models.BooleanField(
+        'Está destacado en la página principal',
+        default=False,
+    )
+
     is_published = models.BooleanField(
         'Está publicado',
         default=True,
@@ -261,121 +266,3 @@ class Event(TimeStampedModel):
         verbose_name = 'Evento'
         verbose_name_plural = 'Eventos'
         ordering = ('event_date',)
-
-
-class Organizer(TimeStampedModel):
-    name = models.CharField('Nombre', max_length=255, unique=True)
-    slug = AutoSlugField(
-        null=False, unique=True, populate_from='name')
-    description = models.TextField('Descripción', default='')
-    website_url = models.URLField('Página web', null=True, blank=True)
-    facebook_url = models.URLField('Página en Facebook', null=True, blank=True)
-    twitter_url = models.URLField('Página en Twitter', null=True, blank=True)
-    instagram_url = models.URLField('Página en Instagram', null=True, blank=True)
-    image = models.ImageField(
-        'Imagen', blank=True, null=True, upload_to='organizers')
-    image_source_url = models.URLField(
-        'Enlace a la fuente de la imagen', null=True, blank=True)
-
-    created_by = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        on_delete=models.DO_NOTHING,
-    )
-    editors = models.ManyToManyField(
-        settings.AUTH_USER_MODEL,
-        blank=True,
-        related_name='can_edit_organizers',
-    )
-
-    class Meta:
-        verbose_name = 'Organizador'
-        verbose_name_plural = 'Organizadores'
-
-    def __str__(self):
-        return self.name
-
-    def get_image_url(self):
-        if self.image:
-            return self.image.url
-        return static('images/organizer-default.jpeg')
-
-    def get_absolute_url(self):
-        return reverse('events:organizer_detail', args=[self.slug])
-
-    def can_edit(self, user):
-        if user.is_superuser or user == self.created_by or user in self.editors.all():
-            return True
-        return False
-
-
-class Speaker(TimeStampedModel):
-    name = models.CharField('Nombre', max_length=255, unique=True)
-    slug = AutoSlugField(
-        null=True, default=None, unique=True, populate_from='name')
-    description = models.TextField('Descripción', default='')
-    image = models.ImageField(
-        'Imagen', blank=True, null=True, upload_to='speakers')
-    image_source_url = models.URLField(
-        'Enlace a la fuente de la imagen', null=True, blank=True)
-
-    created_by = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        on_delete=models.DO_NOTHING,
-    )
-    editors = models.ManyToManyField(
-        settings.AUTH_USER_MODEL,
-        blank=True,
-        related_name='can_edit_speakers',
-    )
-
-    class Meta:
-        verbose_name = 'Presentador'
-        verbose_name_plural = 'Presentadores'
-        ordering = ['name']
-
-    def __str__(self):
-        return self.name
-
-    def get_image_url(self):
-        if self.image:
-            return self.image.url
-        return static('images/default_speaker_image.png')
-
-    def get_absolute_url(self):
-        return reverse('events:speaker_detail', args=[self.slug])
-
-    def can_edit(self, user):
-        if user.is_superuser or user == self.created_by or user in self.editors.all():
-            return True
-        return False
-
-
-class SocialNetworkPost(TimeStampedModel):
-    event = models.ForeignKey(
-        'events.Event',
-        related_name='social_posts',
-        on_delete=models.DO_NOTHING,
-    )
-    description = models.TextField(
-        verbose_name='Descripción',
-        help_text='Texto de publicación',
-    )
-    published_at = models.DateTimeField('Fecha de publicación')
-    created_by = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        on_delete=models.DO_NOTHING,
-    )
-
-    def __str__(self):
-        return self.description
-
-    class Meta:
-        ordering = ('-published_at',)
-
-    def clean(self):
-        if self.published_at and not self.id:
-            if self.published_at < timezone.now() - datetime.timedelta(minutes=30):
-                raise ValidationError('You cannot set publish date in the past.')
-        if self.published_at:
-            if self.published_at > self.event.event_date:
-                raise ValidationError('You cannot publish after event is started.')
