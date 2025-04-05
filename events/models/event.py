@@ -190,6 +190,12 @@ class Event(TimeStampedModel):
         'quieres asignar al evento no existe en '
         'nuestro sistema, antes de crearlo/crearla.',
     )
+
+    is_featured_on_homepage = models.BooleanField(
+        'Está destacado en la página principal',
+        default=False,
+    )
+
     is_published = models.BooleanField(
         'Está publicado',
         default=True,
