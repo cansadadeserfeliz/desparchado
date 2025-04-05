@@ -35,7 +35,7 @@
       <img class="organizer-image" src="{{ organizer.get_image_url }}" alt="{{ organizer.name }}" />
     {% endif %}
 
-    <div class="organizer-description">{{ organizer.description|markdown }}</div>
+    <div class="organizer-description">{{ organizer.description|linebreaksbr|safe }}</div>
 
     {% if organizer.website_url %}
       <a href="{{ organizer.website_url }}" target="_blank" class="btn btn-just-icon btn-website">
