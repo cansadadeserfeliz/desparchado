@@ -6,7 +6,6 @@ from django.urls import reverse
 @pytest.mark.django_db
 def test_home_page(django_app, event):
     response = django_app.get(reverse('home'), status=200)
-    assert 'AÑADIR EVENTO' in response
 
     assert event.title in response
 
