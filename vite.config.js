@@ -2,11 +2,10 @@ import { defineConfig } from 'vite';
 import { resolve } from 'path';
 
 export default defineConfig({
-  base: "/desparchado/static/",
+  base: "/static/",
   server: {
     host: '0.0.0.0',
-    port: 5173,
-    open: false,
+    port: 5173
   },
   build: {
     manifest: "manifest.json",
