@@ -1,90 +1,58 @@
-/*
- * LetterAvatar
- *
- * Artur Heinze
- * Create Letter avatar based on Initials
- * based on https://gist.github.com/leecrossley/6027780
- */
-(function(w, d){
+(() => {
 
-  function LetterAvatar (name, size) {
+  function LetterAvatar(name = '', size = 60) {
+    const colors = [
+      "#1abc9c", "#2ecc71", "#3498db", "#9b59b6", "#34495e", "#16a085", "#27ae60", "#2980b9",
+      "#8e44ad", "#2c3e50", "#f1c40f", "#e67e22", "#e74c3c", "#ecf0f1", "#95a5a6",
+      "#f39c12", "#d35400", "#c0392b", "#bdc3c7", "#7f8c8d"
+    ];
 
-    name  = name || '';
-    size  = size || 60;
+    const nameParts = name.toUpperCase().split(' ');
+    const initials = nameParts.length === 1
+      ? nameParts[0]?.charAt(0) || '?'
+      : nameParts[0].charAt(0) + nameParts[1].charAt(0);
 
-    var colours = [
-            "#1abc9c", "#2ecc71", "#3498db", "#9b59b6", "#34495e", "#16a085", "#27ae60", "#2980b9", "#8e44ad", "#2c3e50",
-            "#f1c40f", "#e67e22", "#e74c3c", "#ecf0f1", "#95a5a6", "#f39c12", "#d35400", "#c0392b", "#bdc3c7", "#7f8c8d"
-        ],
-
-        nameSplit = String(name).toUpperCase().split(' '),
-        initials, charIndex, colourIndex, canvas, context, dataURI;
-
-
-    if (nameSplit.length == 1) {
-        initials = nameSplit[0] ? nameSplit[0].charAt(0):'?';
-    } else {
-        initials = nameSplit[0].charAt(0) + nameSplit[1].charAt(0);
+    if (window.devicePixelRatio) {
+      size *= window.devicePixelRatio;
     }
 
-    if (w.devicePixelRatio) {
-        size = (size * w.devicePixelRatio);
-    }
+    const charIndex = (initials === '?' ? 72 : initials.charCodeAt(0)) - 64;
+    const colorIndex = charIndex % colors.length;
 
-    charIndex     = (initials == '?' ? 72 : initials.charCodeAt(0)) - 64;
-    colourIndex   = charIndex % 20;
-    canvas        = d.createElement('canvas');
-    canvas.width  = size;
+    const canvas = document.createElement('canvas');
+    canvas.width = size;
     canvas.height = size;
-    context       = canvas.getContext("2d");
 
-    context.fillStyle = colours[colourIndex - 1];
-    context.fillRect (0, 0, canvas.width, canvas.height);
-    context.font = Math.round(canvas.width/2)+"px Arial";
-    context.textAlign = "center";
-    context.fillStyle = "#FFF";
-    context.fillText(initials, size / 2, size / 1.5);
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle = colors[colorIndex];
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.font = `${Math.round(canvas.width / 2)}px Arial`;
+    ctx.textAlign = 'center';
+    ctx.fillStyle = '#FFF';
+    ctx.fillText(initials, size / 2, size / 1.5);
 
-    dataURI = canvas.toDataURL();
-    canvas  = null;
-
+    const dataURI = canvas.toDataURL();
     return dataURI;
   }
 
-  LetterAvatar.transform = function() {
-
-    Array.prototype.forEach.call(d.querySelectorAll('img[avatar]'), function(img, name) {
-      name = img.getAttribute('avatar');
-      img.src = LetterAvatar(name, img.getAttribute('width'));
+  function transformLetterAvatars() {
+    document.querySelectorAll('img[avatar]').forEach(img => {
+      const name = img.getAttribute('avatar');
+      const width = parseInt(img.getAttribute('width'), 10) || 60;
+      img.src = LetterAvatar(name, width);
       img.removeAttribute('avatar');
       img.setAttribute('alt', name);
     });
-  };
-
-
-  // AMD support
-  if (typeof define === 'function' && define.amd) {
-
-    define(function () { return LetterAvatar; });
-
-  // CommonJS and Node.js module support.
-  } else if (typeof exports !== 'undefined') {
-
-    // Support Node.js specific `module.exports` (which can be a function)
-    if (typeof module != 'undefined' && module.exports) {
-        exports = module.exports = LetterAvatar;
-    }
-
-    // But always support CommonJS module 1.1.1 spec (`exports` cannot be a function)
-    exports.LetterAvatar = LetterAvatar;
-
-  } else {
-
-    window.LetterAvatar = LetterAvatar;
-
-    d.addEventListener('DOMContentLoaded', function(event) {
-        LetterAvatar.transform();
-    });
   }
 
-})(window, document);
+  // Export as a global, module, or define as needed
+  if (typeof define === 'function' && define.amd) {
+    define(() => LetterAvatar);
+  } else if (typeof module !== 'undefined' && module.exports) {
+    module.exports = LetterAvatar;
+  } else {
+    window.LetterAvatar = LetterAvatar;
+    document.addEventListener('DOMContentLoaded', transformLetterAvatars);
+  }
+
+})();

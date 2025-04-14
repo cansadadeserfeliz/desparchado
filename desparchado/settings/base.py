@@ -52,10 +52,10 @@ INSTALLED_APPS = [
 
     'axes',
     'mapwidgets',
-    'pipeline',
     'crispy_forms',
     'crispy_bootstrap5',
     'debug_toolbar',
+    'django_vite',
 
     'dashboard',
     'events',
@@ -184,74 +184,9 @@ STATICFILES_DIRS = [
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-
-    'pipeline.finders.FileSystemFinder',
-    'pipeline.finders.AppDirectoriesFinder',
-    'pipeline.finders.CachedFileFinder',
-    'pipeline.finders.PipelineFinder',
 )
 
 SITE_ID = 1
-
-# django-pipeline
-STATICFILES_STORAGE = 'pipeline.storage.PipelineManifestStorage'
-PIPELINE = {
-    'COMPILERS': (
-        'pipeline.compilers.sass.SASSCompiler',
-    ),
-    'JS_COMPRESSOR': None,
-    'STYLESHEETS': {
-        'main': {
-            'source_filenames': (
-              #'bower_components/bootstrap/dist/css/bootstrap.min.css',
-              #'libs/fontawesome-free-5.6.3-web/css/all.min.css',
-              'sass/main.sass',
-            ),
-            'output_filename': 'css/main.min.css',
-        },
-        'admin': {
-            'source_filenames': (
-              'sass/dashboard.sass',
-            ),
-            'output_filename': 'css/admin.min.css',
-        },
-        'dashboard': {
-            'source_filenames': (
-              #'bower_components/bootstrap/dist/css/bootstrap.min.css',
-              #'libs/fontawesome-free-5.6.3-web/css/all.min.css',
-              #'bower_components/Ionicons/css/ionicons.min.css',
-              #'bower_components/fullcalendar/dist/fullcalendar.min.css',
-              'sass/dashboard.sass',
-            ),
-            'output_filename': 'css/dashboard.min.css',
-        },
-    },
-    'JAVASCRIPT': {
-        'main': {
-            'source_filenames': (
-              #'bower_components/jquery/dist/jquery.min.js',
-              #'bower_components/bootstrap/dist/js/bootstrap.min.js',
-              #'bower_components/moment/min/moment-with-locales.min.js',
-              'js/main.js',
-              'js/letter-avatars.js',
-              'js/posts-pagination-initializer.js',
-            ),
-            'output_filename': 'js/main.min.js',
-        },
-        'dashboard': {
-            'source_filenames': (
-              #'bower_components/jquery/dist/jquery.min.js',
-              #'bower_components/bootstrap/dist/js/bootstrap.min.js',
-              #'bower_components/moment/min/moment-with-locales.min.js',
-              #'bower_components/jquery-slimscroll/jquery.slimscroll.min.js',
-              #'bower_components/fastclick/lib/fastclick.js',
-              #'bower_components/fullcalendar/dist/fullcalendar.min.js',
-              'js/dashboard.js',
-            ),
-            'output_filename': 'js/dashboard.min.js',
-        },
-    },
-}
 
 LOGGING = {
     'version': 1,
@@ -326,3 +261,10 @@ INTERNAL_IPS = [
     '127.0.0.1',
     'localhost',
 ]
+
+# django-vite
+DJANGO_VITE = {
+  "default": {
+    "dev_mode": False
+  }
+}

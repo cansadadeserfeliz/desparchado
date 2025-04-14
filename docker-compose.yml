@@ -1,10 +1,20 @@
 version: "3.9"
 services:
 
+  frontend:
+    build: "./docker-containers/frontend"
+    ports:
+      - "5173:5173"  # default Vite port
+    working_dir: /app
+    volumes:
+      - .:/app
+    command: >
+      sh -c "sh docker-containers/frontend/run.sh"
+
   web:
     build: "./docker-containers/web"
     ports:
-      - "5000:5000"
+      - "8000:8000"
     volumes:
       - .:/app
       - desparchado_web_data:/root/.cache/pip
@@ -21,6 +31,7 @@ services:
       sh -c "sh run.sh"
     depends_on:
       - db
+      - frontend
 
   db:
     build: "./docker-containers/db"

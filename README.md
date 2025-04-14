@@ -37,9 +37,9 @@ Collect static files (optional):
 
 Run the application webserver:
 
-    python manage.py runserver 0.0.0.0:5000
+    python manage.py runserver 0.0.0.0:8000
 
-Then open http://localhost:5000/ in your browser.
+Then open http://localhost:8000/ in your browser.
 
 Run Django shell:
 
