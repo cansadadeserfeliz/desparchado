@@ -265,6 +265,7 @@ INTERNAL_IPS = [
 # django-vite
 DJANGO_VITE = {
   'default': {
-    'dev_mode': False
+    'dev_mode': False,
+    'manifest_path': STATIC_ROOT / 'dist' / 'manifest.json',
   }
 }
