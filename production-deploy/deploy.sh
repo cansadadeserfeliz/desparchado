@@ -15,7 +15,7 @@ docker build \
 # Arrancar el contenedor de forma síncrona y corre el build de los archivos estaticos
 # y los deja en /app/desparchado/static/dist dentro del contenedor
 docker run --name desparchado_frontend_build \
-      --mount type=bind,source=/srv/desparchado/static,target=/app/desparchado/static \
+      --mount type=bind,source=/home/desparchado/desparchado/desparchado/static,target=/app/desparchado/static \
       --rm \
       desparchado:frontend_latest sh /build.sh
 
