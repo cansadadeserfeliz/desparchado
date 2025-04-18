@@ -1,4 +1,3 @@
-
 # File types
 *.pyc
 *.swo
@@ -6,7 +5,6 @@
 *.swn
 *.log
 *.mo
-*.sqlite3
 
 # Coverage reports
 htmlcov/
@@ -16,32 +14,22 @@ coverage.xml
 *.cover
 
 # Configuration files
-desparchado/local_settings.py
 environment.json
 .requirements_timestamp
 .idea
 .tags
 .tags_sorted_by_file
 .env
-package-lock.json
 
 # Folders
-desparchado/static/.sass-cache
-desparchado/static/sass/.sass-cache/
-desparchado/static/.bundle-gems
-desparchado/static/bower_components
-desparchado/static/node_modules/
 .docker_pip_cache
 !.docker_pip_cache/.keep
 /venv
 
+# Static files
 /static
-/staticfiles
-/reports
-/doc/build
-/uploads
+/desparchado/static/dist
 /media
-/app/media/uploads
 /node_modules
 
 uwsgi.ini

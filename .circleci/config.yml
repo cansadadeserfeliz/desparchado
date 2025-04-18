@@ -30,8 +30,11 @@ jobs:
           command: |
             pip3 install -r requirements.txt
       - run:
-          name: Install SASS
-          command: npm install -g sass
+          name: Install NPM packages
+          command: npm install -g
+      - run:
+          name: Build the static files
+          command: npm run build
       - run:
           name: Run tests with coverage
           command: |
