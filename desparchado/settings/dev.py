@@ -23,7 +23,7 @@ DEBUG_TOOLBAR_CONFIG = {
 
 # Indicates whether to serve assets via the ViteJS development server
 # or from compiled production assets
-DJANGO_VITE["default"]["dev_mode"] = True
+DJANGO_VITE['default']['dev_mode'] = True
 
 # Sentry
 sentry_sdk.init(

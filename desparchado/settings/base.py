@@ -264,7 +264,7 @@ INTERNAL_IPS = [
 
 # django-vite
 DJANGO_VITE = {
-  "default": {
-    "dev_mode": False
+  'default': {
+    'dev_mode': False
   }
 }

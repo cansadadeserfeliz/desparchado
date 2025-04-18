@@ -10,6 +10,9 @@ up:
 test:
 	sudo docker exec -it $(web_container_name) sh -c "cd app && pytest"
 
+collectstatic:
+	sudo docker exec -it $(web_container_name) sh -c "cd app && python3 manage.py collectstatic"
+
 sh-frontend:
 	sudo docker exec -it $(frontend_container_name) sh
 
