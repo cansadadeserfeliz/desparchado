@@ -1,4 +1,6 @@
 #!/bin/sh
+set -ex
+
 echo "Running front-end container..."
 
 npm update -g npm
