@@ -8,19 +8,19 @@ up:
 	docker-compose up
 
 test:
-	sudo docker exec -it $(web_container_name) sh -c "cd app && pytest"
+	docker exec -it $(web_container_name) sh -c "cd app && pytest"
 
 collectstatic:
-	sudo docker exec -it $(web_container_name) sh -c "cd app && python3 manage.py collectstatic"
+	docker exec -it $(web_container_name) sh -c "cd app && python3 manage.py collectstatic"
 
 sh-frontend:
-	sudo docker exec -it $(frontend_container_name) sh
+	docker exec -it $(frontend_container_name) sh
 
 sh-web:
-	sudo docker exec -it $(web_container_name) sh
+	docker exec -it $(web_container_name) sh
 
 createsuperuser:
-	docker exec -it $(web_container_name) sh -c "cd app && python3 manage.py createsuperuser"
+	exec -it $(web_container_name) sh -c "cd app && python3 manage.py createsuperuser"
 
 sync_filbo_events:
-	sudo docker exec -it $(web_container_name)  sh -c "cd app && python manage.py sync_filbo_events $(spreadsheet_id)"
+	docker exec -it $(web_container_name)  sh -c "cd app && python manage.py sync_filbo_events $(spreadsheet_id)"
