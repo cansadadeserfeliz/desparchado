@@ -19,9 +19,6 @@ docker run --name desparchado_frontend_build \
       --rm \
       desparchado:frontend_latest sh /build.sh
 
-docker stop desparchado_frontend_build
-docker rm desparchado_frontend_build
-
 # No se va a romper si el nombre de la imagen es duplicado
 docker build \
       --tag desparchado:web_$(date +%Y%m%d-%H%M)_$(git rev-parse --short HEAD) \
@@ -36,9 +33,6 @@ docker run --name desparchado_web_build \
       --network container:desparchado_db \
       --rm \
       desparchado:web_latest sh /build.sh
-
-docker stop desparchado_web_build
-docker rm desparchado_web_build
 
 docker stop desparchado_web
 docker rm desparchado_web
