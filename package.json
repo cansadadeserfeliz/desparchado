@@ -1,0 +1,16 @@
+{
+  "name": "desparchado",
+  "version": "1.0.0",
+  "description": "Frontend bundling",
+  "scripts": {
+    "start": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "type": "commonjs",
+  "devDependencies": {
+    "sass-embedded": "^1.86.3",
+    "typescript": "^5.4.0",
+    "vite": "^6.2.6"
+  }
+}

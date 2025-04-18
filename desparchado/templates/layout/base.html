@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-{% load i18n static pipeline desparchado_tags %}
+{% load i18n django_vite desparchado_tags %}
 <html lang="es">
   <head>
     <meta charset="utf-8">
@@ -28,19 +28,17 @@
     <!-- Fortawesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
+    {# This will add a <script> tag to include the ViteJS HMR client. #}
+    {# This tag will include this script only if DJANGO_VITE_DEV_MODE is true, otherwise this will do nothing. #}
+    {% vite_hmr_client %}
+
+    {% vite_asset 'desparchado/static/ts/main.ts' %}
+
     <!-- Extra CSS -->
     {% block extra_css %}{% endblock extra_css %}
 
     <!-- Select 2 Bootstrap 5 theme-->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.1.1/dist/select2-bootstrap-5-theme.min.css" />
-
-    {% stylesheet 'main' %}
-
-    <!-- jQuery -->
-    <script
-          src="https://code.jquery.com/jquery-3.6.0.min.js"
-          integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
-          crossorigin="anonymous"></script>
 
     {% block meta %}{% endblock meta %}
   </head>
@@ -65,8 +63,6 @@
 
     <!-- Infinite Scroll -->
     <script src="https://unpkg.com/infinite-scroll@4/dist/infinite-scroll.pkgd.min.js"></script>
-
-    {% javascript 'main' %}
 
     {% block javascript %}{% endblock javascript %}
 

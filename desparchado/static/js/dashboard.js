@@ -1,37 +1,49 @@
-$(function() {
+document.addEventListener("DOMContentLoaded", function () {
+  const calendarEl = document.getElementById('social_posts_calendar');
 
-  $('#social_posts_calendar').fullCalendar({
-    timezone: 'America/Bogota',
+  const calendar = new FullCalendar.Calendar(calendarEl, {
+    timeZone: 'America/Bogota',
+    initialView: 'timeGridWeek',
+    firstDay: 1,
+    headerToolbar: {
+      left: 'prev,next today refreshButton',
+      center: 'title',
+      right: 'dayGridMonth,timeGridWeek,timeGridDay'
+    },
     customButtons: {
       refreshButton: {
         text: 'refresh',
-        click: function() {
-          $('#social_posts_calendar').fullCalendar('refetchEvents')
+        click: function () {
+          calendar.refetchEvents();
         }
       }
-    },
-    header: {
-      left  : 'prev,next today refreshButton',
-      center: 'title',
-      right : 'month,agendaWeek,agendaDay'
     },
     buttonText: {
       today: 'today',
       month: 'month',
-      week : 'week',
-      day  : 'day'
-    },
-    defaultView: 'agendaWeek',
-    firstDay: 1,
-    timeFormat: 'hh:mm',
-    eventRender: function(event, eventElement) {
-      if (event.imageUrl) {
-        eventElement.find("div.fc-content").append("<br><img src='" + event.imageUrl +"' width='70'>");
-      }
+      week: 'week',
+      day: 'day'
     },
     eventSources: [
-      '/dashboard/social-posts/source'
-    ]
-  })
+      {
+        url: '/dashboard/social-posts/source'
+      }
+    ],
+    eventDidMount: function(info) {
+      if (info.event.extendedProps.imageUrl) {
+        const img = document.createElement('img');
+        img.src = info.event.extendedProps.imageUrl;
+        img.width = 70;
+        info.el.querySelector('.fc-event-title').appendChild(document.createElement('br'));
+        info.el.querySelector('.fc-event-title').appendChild(img);
+      }
+    },
+    slotLabelFormat: {
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: true
+    }
+  });
 
+  calendar.render();
 });
