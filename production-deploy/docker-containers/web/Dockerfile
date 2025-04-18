@@ -1,7 +1,5 @@
 FROM python:3.10-slim-bookworm
 
-RUN mkdir -p /root/.cache/pip
-
 RUN apt-get update
 RUN apt-get install -y curl
 RUN apt-get install -y gettext
@@ -10,6 +8,8 @@ RUN apt --yes install libgdal-dev
 
 # Remove .deb files
 RUN apt-get clean
+
+RUN mkdir -p /root/.cache/pip
 
 # Error: Can not find Rust compiler; ERROR: Failed building wheel for cryptography
 ENV CRYPTOGRAPHY_DONT_BUILD_RUST=1
