@@ -9,49 +9,34 @@
 
 ### Setup
 
-Start containers for Django application and PostgreSQL database:
+The application runs locally using three containers defined in `docker-compose`:
 
-    docker-compose build
-    docker-compose up
+- `db` — PostgreSQL database container
+- `web` — Django web application
+- `frontend` — Front‑end development environment using Vite
 
-First, open a shell for Django application:
+First, create a `.env` file with the following environment variables, which will be used by the `web` container:
 
-    sudo docker exec -it desparchado-web-1 bash
+```bash
+DJANGO_SECRET_KEY='secret'
+DATABASE_NAME='desparchado_dev'
+DATABASE_USER='desparchado_dev'
+DATABASE_PASSWORD='secret'
+DATABASE_HOST='db'
+DATABASE_PORT=5432
 
-Create `.env` file with environment variables, for example:
+S3_ACCESS_KEY_ID='secret'
+S3_SECRET_ACCESS_KEY='secret'
 
-    DJANGO_SECRET_KEY='secret'
-    DATABASE_NAME='desparchado_dev'
-    DATABASE_USER='desparchado_dev'
-    DATABASE_PASSWORD='secret'
-    DATABASE_HOST='db'
-    DATABASE_PORT=5432
+AWS_SES_ACCESS_KEY_ID='secret'
+AWS_SES_SECRET_ACCESS_KEY='secret'
 
-Install static files:
+SENTRY_CONFIG_DNS='secret'
+SENTRY_ENVIRONMENT='development'
+```
 
-    bower install
+To build the container images, run: `make build`.
 
-Collect static files (optional):
+And to start them: `make up`.
 
-    python manage.py collectstatic
-
-Run the application webserver:
-
-    python manage.py runserver 0.0.0.0:8000
-
-Then open http://localhost:8000/ in your browser.
-
-Run Django shell:
-
-    python manage.py shell
-
-Create migrations (example for `events` app):
-
-    export PYTHONPATH="/app:$PYTHONPATH"
-    django-admin makemigrations events
-
-### Run the tests
-
-    pytest
-
-
+Once everything is up and running, open your browser and visit [http://localhost:8000/](http://localhost:8000/) to access the application.

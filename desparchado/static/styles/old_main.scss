@@ -1,4 +1,4 @@
-@use 'variables';
+@use 'old_variables';
 
 body {
   font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -11,14 +11,14 @@ body {
   border-radius: 0;
 }
 .btn-primary {
-  border-color: variables.$secondary-color;
-  background-color: variables.$secondary-color;
-  color: variables.$primary-color;
+  border-color: old_variables.$secondary-color;
+  background-color: old_variables.$secondary-color;
+  color: old_variables.$primary-color;
   word-spacing: 3px;
   &:hover {
-    color: variables.$secondary-color;
-    border-color: variables.$primary-color;
-    background-color: variables.$primary-color;
+    color: old_variables.$secondary-color;
+    border-color: old_variables.$primary-color;
+    background-color: old_variables.$primary-color;
   }
 }
 .text-lg {
@@ -44,7 +44,7 @@ body {
     font-size: 16px;
     font-weight: 700;
     line-height: 19px;
-    color: variables.$primary-color;
+    color: old_variables.$primary-color;
   }
   .card-subtitle {
     margin-top: 6px;
@@ -52,7 +52,7 @@ body {
     text-transform: uppercase;
     font-size: 11px;
     line-height: 1;
-    color: variables.$dark-gray;
+    color: old_variables.$dark-gray;
   }
   .card-body {
     padding: 0 1rem 1rem;
@@ -63,7 +63,7 @@ body {
   }
   .blockquote-footer {
     margin-top: 0;
-    color: variables.$dark-gray;
+    color: old_variables.$dark-gray;
     font-size: 14px;
 
     &:before {
@@ -81,14 +81,14 @@ body {
       margin: 12px -1px -6px;
       font-size: 13px;
       line-height: 21px;
-      color: variables.$dark-gray;
+      color: old_variables.$dark-gray;
     }
     .event-place {
       margin: 12px -1px -6px;
       font-size: 13px;
       line-height: 21px;
       a {
-        color: variables.$primary-color;
+        color: old_variables.$primary-color;
       }
     }
   }
@@ -133,7 +133,7 @@ body {
       border-top: 0;
     }
     .year {
-      color: variables.$primary-color;
+      color: old_variables.$primary-color;
       font-weight: 800;
       font-size: 22px;
     }
@@ -156,7 +156,7 @@ body {
     height: 1px;
     bottom: 0;
     left: 0;
-    border-bottom: 3px solid variables.$secondary-color;
+    border-bottom: 3px solid old_variables.$secondary-color;
   }
 }
 .event-date-label {
@@ -167,7 +167,7 @@ body {
   line-height: 28px;
   width: auto;
   color: white;
-  background: variables.$city-label-color;
+  background: old_variables.$city-label-color;
   font-weight: 600;
   letter-spacing: 1px;
 }
@@ -178,7 +178,7 @@ body {
   font-size: 14px;
   line-height: 28px;
   color: white;
-  background: variables.$city-label-color;
+  background: old_variables.$city-label-color;
   position: absolute;
   display: block;
   z-index: 4;
@@ -193,8 +193,8 @@ body {
   white-space: nowrap;
   font-size: 14px;
   line-height: 28px;
-  color: variables.$primary-color;
-  background: variables.$secondary-color;
+  color: old_variables.$primary-color;
+  background: old_variables.$secondary-color;
   position: absolute;
   display: block;
   z-index: 4;
@@ -234,7 +234,7 @@ body {
 }
 .special-detail {
   .accordion-button {
-    background: variables.$secondary-color;
+    background: old_variables.$secondary-color;
   }
 }
 .historical-figure-mask {
@@ -286,7 +286,7 @@ body {
       font-size: 16px;
       line-height: 24px;
       a {
-        color: variables.$dark-gray;
+        color: old_variables.$dark-gray;
       }
     }
   }
@@ -309,7 +309,7 @@ body {
   }
   .event-place {
     .title a {
-      color: variables.$primary-color;
+      color: old_variables.$primary-color;
       font-weight: bold;
     }
     .place-image {
@@ -332,7 +332,7 @@ body {
     z-index: 1;
     padding-bottom: 5px;
     a {
-      color: variables.$primary-color;
+      color: old_variables.$primary-color;
     }
     &:before {
       content: "";
@@ -359,7 +359,7 @@ body {
   }
   .event-organizer {
     a {
-      color: variables.$primary-color;
+      color: old_variables.$primary-color;
     }
     .image {
       max-width: 200px;
@@ -374,7 +374,7 @@ body {
 /* Header */
 
 .top-nav {
-  background-color: variables.$secondary-color;
+  background-color: old_variables.$secondary-color;
   li {
     a,
     button {
@@ -387,14 +387,14 @@ body {
       text-decoration: none;
       display: block;
       &:hover {
-        color: variables.$primary-color;
+        color: old_variables.$primary-color;
       }
     }
   }
 }
 .main-nav {
   padding-bottom: 4px;
-  background-color: variables.$primary-color !important;
+  background-color: old_variables.$primary-color !important;
   margin-bottom: 0;
 
   border-bottom: 0;
@@ -420,7 +420,7 @@ body {
     }
     .nav-link:hover {
       color: #171a1d;
-      background-color: variables.$secondary-color;
+      background-color: old_variables.$secondary-color;
     }
     &.active {
       .nav-link {
@@ -428,7 +428,7 @@ body {
         background-color: #33383b;
         &:focus {
           color: #fff;
-          background-color: variables.$primary-color;
+          background-color: old_variables.$primary-color;
         }
       }
     }
@@ -579,7 +579,7 @@ body {
 .posts-grid-item {
   .title,
   .subtitle {
-    color: variables.$primary-color;
+    color: old_variables.$primary-color;
   }
   .title {
     margin-top: 30px;
@@ -591,7 +591,7 @@ body {
     font-size: 18px;
   }
   .details {
-    color: variables.$dark-gray;
+    color: old_variables.$dark-gray;
   }
 }
 .post-content {
@@ -697,7 +697,7 @@ body {
   .organizer-heading {
     padding: 30px;
     text-align: center;
-    background-color: variables.$bg-color;
+    background-color: old_variables.$bg-color;
   }
   .organizer-image {
     height: 100px;
@@ -750,7 +750,7 @@ body {
   .place-heading {
     padding: 30px;
     text-align: center;
-    background-color: variables.$bg-color;
+    background-color: old_variables.$bg-color;
   }
   .place-image {
     height: 100px;
