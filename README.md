@@ -11,11 +11,9 @@
 
 The application runs locally using three containers defined in `docker-compose`:
 
-`db`: PostgreSQL database container
-
-`web`: Django web application
-
-`frontend`: Front-end development environment using Vite
+- `db` — PostgreSQL database container
+- `web` — Django web application
+- `frontend` — Front‑end development environment using Vite
 
 First, create a `.env` file with the following environment variables, which will be used by the `web` container:
 
@@ -41,4 +39,4 @@ To build the container images, run: `make build`.
 
 And to start them: `make up`.
 
-Once everything is up and running, open your browser and visit http://localhost:8000/ to access the application.
+Once everything is up and running, open your browser and visit [http://localhost:8000/](http://localhost:8000/) to access the application.
