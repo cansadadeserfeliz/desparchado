@@ -20,6 +20,11 @@ AXES_IPWARE_META_PRECEDENCE_ORDER = [
     'REMOTE_ADDR',
 ]
 
+# Indicates whether to serve assets via the ViteJS development server
+# or from compiled production assets
+DJANGO_VITE['default']['manifest_path'] = STATIC_ROOT / 'dist' / 'manifest.json'
+DJANGO_VITE['default']['static_url_prefix'] = 'dist'
+
 # Sentry
 sentry_sdk.init(
     dsn=getenvvar('SENTRY_CONFIG_DNS', 'not-set'),
