@@ -74,6 +74,7 @@ urlpatterns = [
     path('specials/', include('specials.urls', namespace='specials')),
     path('historia/', include('history.urls', namespace='history')),
     path('dashboard/', include('dashboard.urls', namespace='dashboard')),
+    path('playground/', include('playground.urls', namespace='playground')),
 
     path('i18n/', include('django.conf.urls.i18n')),
 
