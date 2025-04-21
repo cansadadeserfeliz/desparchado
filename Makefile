@@ -20,7 +20,7 @@ sh-web:
 	docker exec -it $(web_container_name) sh
 
 createsuperuser:
-	exec -it $(web_container_name) sh -c "cd app && python3 manage.py createsuperuser"
+	docker exec -it $(web_container_name) sh -c "cd app && python3 manage.py createsuperuser"
 
 django-shell:
 	docker exec -it $(web_container_name) sh -c "cd app && python3 manage.py shell"
