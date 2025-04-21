@@ -20,7 +20,10 @@ sh-web:
 	docker exec -it $(web_container_name) sh
 
 createsuperuser:
-	exec -it $(web_container_name) sh -c "cd app && python3 manage.py createsuperuser"
+	docker exec -it $(web_container_name) sh -c "cd app && python3 manage.py createsuperuser"
+
+django-shell:
+	docker exec -it $(web_container_name) sh -c "cd app && python3 manage.py shell"
 
 sync_filbo_events:
 	docker exec -it $(web_container_name)  sh -c "cd app && python manage.py sync_filbo_events $(spreadsheet_id)"

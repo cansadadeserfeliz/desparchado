@@ -17,7 +17,8 @@ export default defineConfig({
     outDir: resolve("./desparchado/static/dist"),
     rollupOptions: {
       input: {
-        main: resolve("./desparchado/static/ts/main.ts"),
+        old_main: resolve("./desparchado/static/ts/old_main.ts"),
+        playground: resolve("./desparchado/static/ts/playground.ts"),
         dashboard: resolve("./desparchado/static/js/dashboard.js")
       }
     }

@@ -67,6 +67,7 @@ INSTALLED_APPS = [
     'books',
     'news',
     'history',
+    'playground',
 ]
 
 MIDDLEWARE = [
