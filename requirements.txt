@@ -26,8 +26,10 @@ crispy-bootstrap5==2024.10
 django-debug-toolbar>=5.0.1,<5.1
 django-map-widgets>=0.5.1,<0.6
 django-model-utils>=5.0.0,<5.1
+djangorestframework>=3.16.0,<3.17
 django-ses>=4.4.0,<4.5
 django-vite>=3.1.0,<3.2
 django-webtest>=1.9.12,<1.10
+drf-yasg>=1.21.10,<1.22
 factory-boy>=3.3.3,<3.4
 pytest-django>=4.10.0,<4.11
