@@ -1,0 +1,17 @@
+{% load django_vite %}
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <title>Playground</title>
+
+    {# This will add a <script> tag to include the ViteJS HMR client. #}
+    {# This tag will include this script only if DJANGO_VITE_DEV_MODE is true, otherwise this will do nothing. #}
+    {% vite_hmr_client %}
+
+    {% vite_asset 'desparchado/static/ts/playground.ts' %}
+  </head>
+  <body>
+    Hello World
+  </body>
+</html>
