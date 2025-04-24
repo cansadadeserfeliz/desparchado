@@ -97,5 +97,10 @@ const vueMount = new VueComponentMount(components);
  * Wait for DOMContentLoaded to ensure all elements are present before mounting.
  */
 document.addEventListener('DOMContentLoaded', () => {
-  vueMount.mountAll();
+  try {
+    vueMount.mountAll();
+    console.info(`Successfully mounted ${Object.keys(components).length} Vue component types`);
+  } catch (error) {
+    console.error('Error mounting Vue components:', error);
+  }
 });
