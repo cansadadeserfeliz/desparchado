@@ -11,7 +11,7 @@
     "forceConsistentCasingInFileNames": true,
     "paths": {
       "@presentational_components/*": ["./desparchado/frontend/components/presentational/*"]
-    },
+    }
   },
   "include": ["desparchado/frontend/**/*"]
 }
