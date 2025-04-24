@@ -5,6 +5,7 @@ services:
     build: "./docker-containers/frontend"
     ports:
       - "5173:5173"  # default Vite port
+      - "6006:6006"  # default Vite port
     working_dir: /app
     volumes:
       - .:/app

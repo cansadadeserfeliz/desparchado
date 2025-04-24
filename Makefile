@@ -16,6 +16,9 @@ collectstatic:
 sh-frontend:
 	docker exec -it $(frontend_container_name) sh
 
+run-storybook:
+	docker exec -it $(frontend_container_name) sh -c "npm run storybook"
+
 sh-web:
 	docker exec -it $(web_container_name) sh
 
