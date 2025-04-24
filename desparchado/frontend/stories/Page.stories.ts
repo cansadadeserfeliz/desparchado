@@ -1,7 +1,7 @@
 import { expect, userEvent, within } from '@storybook/test';
 import type { Meta, StoryObj } from '@storybook/vue3';
 
-import MyPage from './Page.vue';
+import MyPage from '../components/presentational/Page.vue';
 
 const meta = {
   title: 'Example/Page',

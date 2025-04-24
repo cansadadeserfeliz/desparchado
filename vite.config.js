@@ -21,8 +21,14 @@ export default defineConfig({
       input: {
         old_main: resolve("./desparchado/static/ts/old_main.ts"),
         playground: resolve("./desparchado/static/ts/playground.ts"),
-        dashboard: resolve("./desparchado/static/js/dashboard.js")
+        dashboard: resolve("./desparchado/static/js/dashboard.js"),
+        mount_vue: resolve("./desparchado/frontend/scripts/mount-vue.ts")
       }
+    }
+  },
+  resolve: {
+    alias: {
+      "@presentational_components": resolve("./desparchado/frontend/components/presentational"),
     }
   }
 })

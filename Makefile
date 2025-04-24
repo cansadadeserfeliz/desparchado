@@ -19,6 +19,9 @@ sh-frontend:
 run-storybook:
 	docker exec -it $(frontend_container_name) sh -c "npm run storybook"
 
+build-storybook:
+	docker exec -it $(frontend_container_name) sh -c "npm run build-storybook"
+
 sh-web:
 	docker exec -it $(web_container_name) sh
 
