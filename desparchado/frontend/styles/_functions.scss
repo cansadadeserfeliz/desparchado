@@ -1,0 +1,25 @@
+@use "sass:math";
+
+@function toRem($px) {
+  @return math.div($px, 16px) * 1rem;
+}
+
+@function fluid-typo($min-size, $max-size, $min-bp, $max-bp, $unit: vw) {
+  @if ($min-size > $max-size) {
+    $temp-size: $min-size;
+    $min-size: $max-size;
+    $max-size: $temp-size;
+
+    $temp-bp: $min-bp;
+    $min-bp: $max-bp;
+    $max-bp: $temp-bp;
+  }
+
+  $slope: math.div(($max-size - $min-size), ($max-bp - $min-bp));
+  $slope-to-unit: $slope * 100;
+  $intercept-rem: toRem($min-size - $slope * $min-bp);
+  $min-size-rem: toRem($min-size);
+  $max-size-rem: toRem($max-size);
+
+  @return clamp(#{$min-size-rem}, #{$slope-to-unit}#{$unit} + #{$intercept-rem}, #{$max-size-rem});
+}
