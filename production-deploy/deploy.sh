@@ -30,7 +30,7 @@ docker build \
 docker run --name desparchado_web_build \
       --mount type=bind,source=/srv/desparchado/static,target=/app/static \
       --mount type=bind,source=/srv/desparchado/media,target=/app/media \
-      --mount type=bind,source=/srv/desparchado/storybook-static,target=/app/storybook-static \
+      --mount type=bind,source=/srv/desparchado/storybook,target=/app/storybook-static \
       --env-file setenv.sh \
       --network container:desparchado_db \
       --rm \
