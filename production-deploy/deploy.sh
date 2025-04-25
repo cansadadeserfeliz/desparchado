@@ -1,6 +1,10 @@
 #!/bin/bash
 set -e  # para salir del script si alguno de los comandos devuelve algo distinto a 0
 set -x  # para imprimirme cada comando antes de ejecutarlo
+
+# Create build folder for storybook.js
+mkdir -p /home/desparchado/desparchado/storybook-static
+
 cd /home/desparchado/desparchado
 
 git checkout main
@@ -16,7 +20,7 @@ docker build \
 # y los deja en /app/desparchado/static/dist dentro del contenedor
 docker run --name desparchado_frontend_build \
       --mount type=bind,source=/home/desparchado/desparchado/desparchado/static,target=/app/desparchado/static \
-      --mount type=bind,source=/home/desparchado/desparchado/storybook-static,target=/app/desparchado/storybook-static \
+      --mount type=bind,source=/srv/desparchado/storybook,target=/app/storybook-static \
       --rm \
       desparchado:frontend_latest sh /build.sh
 
@@ -30,7 +34,6 @@ docker build \
 docker run --name desparchado_web_build \
       --mount type=bind,source=/srv/desparchado/static,target=/app/static \
       --mount type=bind,source=/srv/desparchado/media,target=/app/media \
-      --mount type=bind,source=/srv/desparchado/storybook,target=/app/storybook-static \
       --env-file setenv.sh \
       --network container:desparchado_db \
       --rm \
@@ -42,7 +45,6 @@ docker rm desparchado_web
 docker create --name desparchado_web  \
       --mount type=bind,source=/srv/desparchado/static,target=/app/static \
       --mount type=bind,source=/srv/desparchado/media,target=/app/media \
-      --mount type=bind,source=/srv/desparchado/storybook,target=/app/storybook-static \
       --env-file setenv.sh \
       --network container:desparchado_db \
       desparchado:web_latest sh /run.sh
