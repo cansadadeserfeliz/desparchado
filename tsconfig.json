@@ -10,8 +10,9 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "paths": {
-      "@presentational_components/*": ["./desparchado/frontend/components/presentational/*"]
-    }
+      "@presentational_components/*": ["./desparchado/frontend/components/presentational/*"],
+      "@styles/*": ["./desparchado/frontend/styles/*"]
+    },
   },
   "include": ["desparchado/frontend/**/*"]
 }

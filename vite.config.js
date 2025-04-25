@@ -22,13 +22,15 @@ export default defineConfig({
         old_main: resolve("./desparchado/static/ts/old_main.ts"),
         playground: resolve("./desparchado/static/ts/playground.ts"),
         dashboard: resolve("./desparchado/static/js/dashboard.js"),
-        mount_vue: resolve("./desparchado/frontend/scripts/mount-vue.ts")
+        mount_vue: resolve("./desparchado/frontend/scripts/mount-vue.ts"),
+        main_styles: resolve("./desparchado/frontend/styles/index.scss")
       }
     }
   },
   resolve: {
     alias: {
       "@presentational_components": resolve("./desparchado/frontend/components/presentational"),
+      "@styles": resolve("./desparchado/frontend/styles"),
     }
   }
 })
