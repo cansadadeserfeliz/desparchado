@@ -42,7 +42,7 @@ docker rm desparchado_web
 docker create --name desparchado_web  \
       --mount type=bind,source=/srv/desparchado/static,target=/app/static \
       --mount type=bind,source=/srv/desparchado/media,target=/app/media \
-      --mount type=bind,source=/srv/desparchado/storybook-static,target=/app/storybook-static \
+      --mount type=bind,source=/srv/desparchado/storybook,target=/app/storybook-static \
       --env-file setenv.sh \
       --network container:desparchado_db \
       desparchado:web_latest sh /run.sh
