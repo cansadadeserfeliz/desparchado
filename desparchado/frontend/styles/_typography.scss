@@ -1,1 +1,122 @@
 @use '@styles/variables' as *;
+@use '@styles/breakpoints' as *;
+@use '@styles/mixins' as *;
+
+$font-sizes-heading-1: (
+  xs: 60px,
+  s: 80px,
+  m: 186px,
+  l: 250px,
+  xl: 250px
+);
+$font-sizes-subtitle-1: (
+  xs: 22px,
+  s: 22px,
+  m: 58px,
+  l: 80px,
+  xl: 80px
+);
+$font-sizes-heading-2: (
+  xs: 50px,
+  s: 50px,
+  m: 115px,
+  l: 150px,
+  xl: 150px,
+);
+$font-sizes-heading-3: (
+  xs: 30px,
+  s: 30px,
+  m: 50px,
+  l: 50px,
+  xl: 50px
+);
+$font-sizes-heading-4: (
+  xs: 12px,
+  s: 12px,
+  m: 16px,
+  l: 24px,
+  xl: 24px
+);
+$font-sizes-heading-5: (
+  xs: 16px,
+  s: 16px,
+  m: 20px,
+  l: 20px,
+  xl: 20px
+);
+
+.text-heading-1 {
+  text-transform: uppercase;
+
+  @include fluid-heading(
+    $font-tertiary,
+    1,
+    $font-sizes-heading-1,
+    $breakpoints
+  );
+}
+
+.text-subtitle-1 {
+  font-style: italic;
+
+  @include fluid-heading(
+    $font-secondary,
+    1,
+    $font-sizes-subtitle-1,
+    $breakpoints
+  );
+}
+
+.text-heading-2 {
+  text-transform: uppercase;
+
+  @include fluid-heading(
+    $font-tertiary,
+    1,
+    $font-sizes-heading-2,
+    $breakpoints
+  );
+}
+
+.text-heading-3 {
+  font-style: italic;
+
+  @include fluid-heading(
+    $font-secondary,
+    1,
+    $font-sizes-heading-3,
+    $breakpoints
+  );
+}
+
+.text-heading-4 {
+  @include fluid-heading(
+    $font-primary,
+    1,
+    $font-sizes-heading-4,
+    $breakpoints
+  );
+}
+
+.text-heading-5 {
+  font-style: italic;
+
+  @include fluid-heading(
+    $font-secondary,
+    1,
+    $font-sizes-heading-5,
+    $breakpoints
+  );
+}
+
+.text-regular {
+  font-weight: $f-weight-regular;
+}
+
+.text-medium {
+  font-weight: $f-weight-medium;
+}
+
+.text-bold {
+  font-weight: $f-weight-bold;
+}

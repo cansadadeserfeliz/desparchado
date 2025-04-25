@@ -1,5 +1,13 @@
 $main-variable-testing: blue;
 
-$font-primary: 'Nohemi', sans-serif;
-$font-secondary: 'Newsreader', serif;
-$font-tertiary: 'Humane', sans-serif;
+$font-humane: 'Humane', sans-serif;
+$font-nohemi: 'Nohemi', sans-serif;
+$font-newsreader: 'Newsreader', serif;
+
+$font-primary: $font-nohemi;
+$font-secondary: $font-newsreader;
+$font-tertiary: $font-humane;
+
+$f-weight-regular: 400;
+$f-weight-medium: 500;
+$f-weight-bold: 700;

@@ -4,7 +4,7 @@ import { createApp, Component } from 'vue';
  * Auto-import all Vue components from the specified folder using Vite's glob import.
  * Eager mode ensures components are immediately available without dynamic import.
  */
-const files = import.meta.glob('@presentational_components/*.vue', { eager: true });
+const files = import.meta.glob('@presentational_components/**/*.vue', { eager: true });
 
 /**
  * Converts a PascalCase or camelCase string to kebab-case.
