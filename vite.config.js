@@ -31,6 +31,7 @@ export default defineConfig({
     alias: {
       "@presentational_components": resolve("./desparchado/frontend/components/presentational"),
       "@styles": resolve("./desparchado/frontend/styles"),
+      "@fonts": resolve("./desparchado/frontend/assets/fonts"),
     }
   }
 })

@@ -1,0 +1,30 @@
+// Self-hosted fonts (Humane and Nohemi)
+@font-face {
+  font-family: 'Humane';
+  src: url('@fonts/humane/Humane-Bold.woff2') format('woff2'),
+       url('@fonts/humane/Humane-Bold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Nohemi';
+  src: url('@fonts/nohemi/Nohemi-Medium.woff2') format('woff2'),
+       url('@fonts/nohemi/Nohemi-Medium.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Nohemi';
+  src: url('@fonts/nohemi/Nohemi-Regular.woff2') format('woff2'),
+       url('@fonts/nohemi/Nohemi-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+// Google Fonts (Newsreader)
+@import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,500;1,400;1,500&display=swap');
