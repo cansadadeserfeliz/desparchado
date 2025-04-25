@@ -12,10 +12,11 @@ docker build \
       --tag desparchado:frontend_latest \
       -f production-deploy/docker-containers/frontend/Dockerfile .
 
-# Arrancar el contenedor de forma síncrona y corre el build de los archivos estaticos
+# Arrancar el contenedor de forma síncrona y corre el build de los archivos estáticos
 # y los deja en /app/desparchado/static/dist dentro del contenedor
 docker run --name desparchado_frontend_build \
       --mount type=bind,source=/home/desparchado/desparchado/desparchado/static,target=/app/desparchado/static \
+      --mount type=bind,source=/home/desparchado/desparchado/storybook-static,target=/app/desparchado/storybook-static \
       --rm \
       desparchado:frontend_latest sh /build.sh
 
@@ -29,6 +30,7 @@ docker build \
 docker run --name desparchado_web_build \
       --mount type=bind,source=/srv/desparchado/static,target=/app/static \
       --mount type=bind,source=/srv/desparchado/media,target=/app/media \
+      --mount type=bind,source=/srv/desparchado/storybook-static,target=/app/storybook-static \
       --env-file setenv.sh \
       --network container:desparchado_db \
       --rm \
@@ -40,6 +42,7 @@ docker rm desparchado_web
 docker create --name desparchado_web  \
       --mount type=bind,source=/srv/desparchado/static,target=/app/static \
       --mount type=bind,source=/srv/desparchado/media,target=/app/media \
+      --mount type=bind,source=/srv/desparchado/storybook-static,target=/app/storybook-static \
       --env-file setenv.sh \
       --network container:desparchado_db \
       desparchado:web_latest sh /run.sh
