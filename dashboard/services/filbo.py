@@ -38,14 +38,14 @@ def get_organizers(organizer_name, request_user):
 
     return organizers
 
-def get_speakers(participants, speakers_map, event_description, request_user):
+def get_speakers(participants, speakers_map, event_title, event_description, request_user):
     speakers = []
 
     for speaker_record in speakers_map:
         if not speaker_record['FILBO_NAME'] or not speaker_record['CANONICAL_NAME']:
             continue
 
-        if speaker_record['FILBO_NAME'] in participants or speaker_record['FILBO_NAME'] in event_description:
+        if speaker_record['FILBO_NAME'] in participants or speaker_record['FILBO_NAME'] in event_description or speaker_record in event_title:
             speaker, created = Speaker.objects.get_or_create(
                 name=speaker_record['CANONICAL_NAME'],
                 defaults=dict(created_by=request_user, description=speaker_record['DESCRIPTION']),
@@ -150,6 +150,7 @@ def sync_filbo_event(event_data, special, speakers_map, request_user):
     event.speakers.set(get_speakers(
         participants=participants,
         speakers_map=speakers_map,
+        event_title=title,
         event_description=description,
         request_user=request_user,
     ))
