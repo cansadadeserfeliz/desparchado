@@ -45,7 +45,11 @@ def get_speakers(participants, speakers_map, event_title, event_description, req
         if not speaker_record['FILBO_NAME'] or not speaker_record['CANONICAL_NAME']:
             continue
 
-        if speaker_record['FILBO_NAME'] in participants or speaker_record['FILBO_NAME'] in event_description or speaker_record in event_title:
+        if (
+            speaker_record['FILBO_NAME'] in participants or
+            speaker_record['FILBO_NAME'] in event_description or
+            speaker_record['FILBO_NAME'] in event_title
+        ):
             speaker, created = Speaker.objects.get_or_create(
                 name=speaker_record['CANONICAL_NAME'],
                 defaults=dict(created_by=request_user, description=speaker_record['DESCRIPTION']),
