@@ -47,8 +47,8 @@ def get_speakers(participants, speakers_map, event_title, event_description, req
 
         if (
             speaker_record['FILBO_NAME'] in participants or
-            speaker_record['FILBO_NAME'] in event_description or
-            speaker_record['FILBO_NAME'] in event_title
+            speaker_record['FILBO_NAME'].lower() in event_description.lower() or
+            speaker_record['FILBO_NAME'].lower() in event_title.lower()
         ):
             speaker, created = Speaker.objects.get_or_create(
                 name=speaker_record['CANONICAL_NAME'],
