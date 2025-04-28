@@ -4,7 +4,9 @@ import { createApp, Component } from 'vue';
  * Auto-import all Vue components from the specified folder using Vite's glob import.
  * Eager mode ensures components are immediately available without dynamic import.
  */
-const files = import.meta.glob('@presentational_components/**/*.vue', { eager: true });
+const files = import.meta.glob('@presentational_components/**/*.vue', {
+  eager: true,
+});
 
 /**
  * Converts a PascalCase or camelCase string to kebab-case.
@@ -38,7 +40,7 @@ for (const path in files) {
  * Mounts Vue components dynamically to DOM elements using data attributes.
  */
 class VueComponentMount {
-  private components: Record<string, Component>;
+  private readonly components: Record<string, Component>;
 
   /**
    * @param {Record<string, Component>} components - A map of kebab-case component names to Vue components
@@ -51,11 +53,11 @@ class VueComponentMount {
    * Finds all elements with `data-vue-component` and mounts the matching Vue component.
    * Props are passed using `data-vue-prop-[propName]` attributes.
    */
-  public mountAll() {
+  public mountAll(): void {
     const elements = document.querySelectorAll<HTMLElement>('[data-vue-component]');
 
     elements.forEach((el) => {
-      const componentName = el.dataset.vueComponent?.toLowerCase();
+      const componentName = el.dataset.vueComponent?.toLowerCase() as string;
       if (!componentName) return;
 
       const component = this.components[componentName];
@@ -73,12 +75,12 @@ class VueComponentMount {
    * Extracts props from `data-vue-prop-*` attributes on a DOM element.
    *
    * @param {HTMLElement} el - The element containing prop attributes
-   * @returns {Record<string, any>} An object of prop key-value pairs
+   * @returns {Record<string, unknown>} An object of prop key-value pairs
    */
-  private extractProps(el: HTMLElement): Record<string, any> {
-    const props: Record<string, any> = {};
+  private extractProps(el: HTMLElement): Record<string, unknown> {
+    const props: Record<string, unknown> = {};
 
-    Array.from(el.attributes).forEach(attr => {
+    Array.from(el.attributes).forEach((attr) => {
       const match = attr.name.match(/^data-vue-prop-(.+)$/);
       if (match) {
         const propName = match[1];
