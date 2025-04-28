@@ -6,7 +6,7 @@ from crispy_forms.layout import Submit, Layout, Div, HTML, Field
 from crispy_forms.bootstrap import PrependedText
 from crispy_bootstrap5.bootstrap5 import Switch
 from dal import autocomplete
-from desparchado.utils import strip_html_tags
+from desparchado.utils import sanitize_html
 
 from .models import Event, Organizer, Speaker
 
@@ -32,7 +32,7 @@ class EventBaseForm(forms.ModelForm):
                   'o posterior a la fecha de inicio.'
             self.add_error('event_end_date', msg)
 
-        cleaned_data['description'] = strip_html_tags(cleaned_data.get('description', ''))
+        cleaned_data['description'] = sanitize_html(cleaned_data.get('description', ''))
 
         return cleaned_data
 
@@ -227,7 +227,7 @@ class OrganizerForm(forms.ModelForm):
 
     def clean(self):
         cleaned_data = super().clean()
-        cleaned_data['description'] = strip_html_tags(cleaned_data.get('description', ''))
+        cleaned_data['description'] = sanitize_html(cleaned_data.get('description', ''))
         return cleaned_data
 
     class Meta:
@@ -263,7 +263,7 @@ class SpeakerForm(forms.ModelForm):
 
     def clean(self):
         cleaned_data = super().clean()
-        cleaned_data['description'] = strip_html_tags(cleaned_data.get('description', ''))
+        cleaned_data['description'] = sanitize_html(cleaned_data.get('description', ''))
         return cleaned_data
 
     class Meta:
