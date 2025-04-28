@@ -25,7 +25,7 @@ const meta = {
     tag: 'h1',
     type: 'h1',
     weight: 'regular',
-  }
+  },
 } satisfies Meta<typeof Heading>;
 
 export default meta;
@@ -38,6 +38,7 @@ export const H1: Story = {
     type: 'h1',
     weight: 'bold',
     text: 'Heading 1',
+    id: 'head1',
   },
 };
 
@@ -46,6 +47,7 @@ export const Subtitle1: Story = {
     tag: 'h1',
     type: 's1',
     text: 'Subtitle 1',
+    id: 'sub1',
   },
 };
 
@@ -54,6 +56,7 @@ export const H2: Story = {
     tag: 'h2',
     type: 'h2',
     text: 'Heading 2',
+    id: 'head2',
   },
 };
 
@@ -63,6 +66,7 @@ export const H3: Story = {
     type: 'h3',
     weight: 'medium',
     text: 'Heading 3',
+    id: 'head3',
   },
 };
 
@@ -71,6 +75,7 @@ export const H4: Story = {
     tag: 'h4',
     type: 'h4',
     text: 'Heading 4',
+    id: 'head4',
   },
 };
 
@@ -79,5 +84,6 @@ export const H5: Story = {
     tag: 'h5',
     type: 'h5',
     text: 'Heading 5',
+    id: 'head5',
   },
 };
