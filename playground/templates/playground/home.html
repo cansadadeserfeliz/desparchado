@@ -1,4 +1,5 @@
 {% load django_vite %}
+
 <!DOCTYPE html>
 <html lang="es">
   <head>
@@ -10,8 +11,8 @@
     {% vite_hmr_client %}
 
     {% vite_asset 'desparchado/static/ts/playground.ts' %}
-    {% vite_asset 'desparchado/frontend/styles/index.scss' %}
     {% vite_asset 'desparchado/frontend/scripts/mount-vue.ts' %}
+    <link rel="stylesheet" href="{% vite_asset_url 'desparchado/frontend/styles/index.scss' %}">
 
   </head>
   <body>
