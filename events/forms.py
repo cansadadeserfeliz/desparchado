@@ -6,7 +6,7 @@ from crispy_forms.layout import Submit, Layout, Div, HTML, Field
 from crispy_forms.bootstrap import PrependedText
 from crispy_bootstrap5.bootstrap5 import Switch
 from dal import autocomplete
-from desparchado.utils import strip_html_tags
+from desparchado.utils import sanitize_html
 
 from .models import Event, Organizer, Speaker
 
@@ -23,6 +23,11 @@ class EventBaseForm(forms.ModelForm):
         self.helper.form_method = 'post'
 
     def clean(self):
+        """
+        Validates event dates and sanitizes the event description.
+        
+        Ensures that the event end date is not earlier than the start date, adding a validation error if necessary. The event description is sanitized to remove unsafe HTML content.
+        """
         cleaned_data = super().clean()
         event_date = cleaned_data.get('event_date')
         event_end_date = cleaned_data.get('event_end_date')
@@ -32,7 +37,7 @@ class EventBaseForm(forms.ModelForm):
                   'o posterior a la fecha de inicio.'
             self.add_error('event_end_date', msg)
 
-        cleaned_data['description'] = strip_html_tags(cleaned_data.get('description', ''))
+        cleaned_data['description'] = sanitize_html(cleaned_data.get('description', ''))
 
         return cleaned_data
 
@@ -226,8 +231,14 @@ class OrganizerForm(forms.ModelForm):
         )
 
     def clean(self):
+        """
+        Cleans and sanitizes the description field to remove unsafe HTML content.
+        
+        Returns:
+            The cleaned form data with a sanitized description.
+        """
         cleaned_data = super().clean()
-        cleaned_data['description'] = strip_html_tags(cleaned_data.get('description', ''))
+        cleaned_data['description'] = sanitize_html(cleaned_data.get('description', ''))
         return cleaned_data
 
     class Meta:
@@ -262,8 +273,14 @@ class SpeakerForm(forms.ModelForm):
         )
 
     def clean(self):
+        """
+        Cleans and sanitizes the form data, ensuring the description field contains only safe HTML.
+        
+        Returns:
+            The cleaned and sanitized form data.
+        """
         cleaned_data = super().clean()
-        cleaned_data['description'] = strip_html_tags(cleaned_data.get('description', ''))
+        cleaned_data['description'] = sanitize_html(cleaned_data.get('description', ''))
         return cleaned_data
 
     class Meta:

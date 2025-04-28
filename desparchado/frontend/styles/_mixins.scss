@@ -1,0 +1,54 @@
+@use '@styles/functions' as *;
+@use "sass:map";
+
+@mixin fluid-heading(
+  $font-family,
+  $line-height,
+  $sizes,
+  $breakpoints
+) {
+  color: inherit;
+  margin: 0;
+  font-family: $font-family;
+  line-height: $line-height;
+
+  // Large to XL
+  @media (min-width: map.get($breakpoints, l)) {
+    font-size: #{fluid-typo(
+      map.get($sizes, l),
+      map.get($sizes, xl),
+      map.get($breakpoints, l),
+      map.get($breakpoints, xl)
+    )};
+  }
+
+  // Medium to Large
+  @media (min-width: map.get($breakpoints, m)) and (max-width: map.get($breakpoints, l-minus-1)) {
+    font-size: #{fluid-typo(
+      map.get($sizes, m),
+      map.get($sizes, l),
+      map.get($breakpoints, m),
+      map.get($breakpoints, l-minus-1)
+    )};
+  }
+
+  // Small to Medium
+  @media (min-width: map.get($breakpoints, s)) and (max-width: map.get($breakpoints, m-minus-1)) {
+    font-size: #{fluid-typo(
+      map.get($sizes, s),
+      map.get($sizes, m),
+      map.get($breakpoints, s),
+      map.get($breakpoints, m-minus-1)
+    )};
+  }
+
+  // Less than small
+  @media (max-width: map.get($breakpoints, s-minus-1)) {
+    font-size: #{fluid-typo(
+      map.get($sizes, xs),
+      map.get($sizes, s),
+      map.get($breakpoints, xs),
+      map.get($breakpoints, s-minus-1)
+    )};
+  }
+}

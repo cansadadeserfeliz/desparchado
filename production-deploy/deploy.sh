@@ -1,6 +1,10 @@
 #!/bin/bash
 set -e  # para salir del script si alguno de los comandos devuelve algo distinto a 0
 set -x  # para imprimirme cada comando antes de ejecutarlo
+
+# Create build folder for storybook.js
+mkdir -p /home/desparchado/desparchado/storybook-static
+
 cd /home/desparchado/desparchado
 
 git checkout main
@@ -12,10 +16,11 @@ docker build \
       --tag desparchado:frontend_latest \
       -f production-deploy/docker-containers/frontend/Dockerfile .
 
-# Arrancar el contenedor de forma síncrona y corre el build de los archivos estaticos
+# Arrancar el contenedor de forma síncrona y corre el build de los archivos estáticos
 # y los deja en /app/desparchado/static/dist dentro del contenedor
 docker run --name desparchado_frontend_build \
       --mount type=bind,source=/home/desparchado/desparchado/desparchado/static,target=/app/desparchado/static \
+      --mount type=bind,source=/srv/desparchado/storybook,target=/app/storybook-static \
       --rm \
       desparchado:frontend_latest sh /build.sh
 

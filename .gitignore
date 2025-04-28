@@ -32,6 +32,7 @@ environment.json
 /desparchado/static/dist
 /media
 /node_modules
+storybook-static/
 
 uwsgi.ini
 uwsgi_params
@@ -39,3 +40,6 @@ robots.txt
 
 # Secrets
 spreadsheet_credentials.json
+
+*storybook.log
+
