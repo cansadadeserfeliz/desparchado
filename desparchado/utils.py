@@ -5,7 +5,9 @@ from django.core.mail import send_mail
 from django.conf import settings
 
 logger = logging.getLogger(__name__)
-sanitizer = Sanitizer()
+sanitizer = Sanitizer({
+    'keep_typographic_whitespace': True,
+})
 
 
 def send_admin_notification(request, obj, form, change):
@@ -50,5 +52,7 @@ def send_notification(request, obj, model_name, created):
         logger.error('No se pudo enviar correo electrónico')
 
 
-def strip_html_tags(html: str):
+def sanitize_html(html: str):
+    print(html)
+    print(sanitizer.sanitize(html))
     return sanitizer.sanitize(html)
