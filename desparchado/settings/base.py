@@ -56,6 +56,8 @@ INSTALLED_APPS = [
     'crispy_bootstrap5',
     'debug_toolbar',
     'django_vite',
+    'drf_yasg',
+    'rest_framework',
 
     'dashboard',
     'events',
@@ -268,4 +270,14 @@ DJANGO_VITE = {
   'default': {
     'dev_mode': False,
   }
+}
+
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 50
 }

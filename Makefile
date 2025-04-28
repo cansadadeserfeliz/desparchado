@@ -15,6 +15,9 @@ test:
 collectstatic:
 	docker exec -it $(web_container_name) sh -c "cd app && python3 manage.py collectstatic"
 
+migrate:
+	docker exec -it $(web_container_name) sh -c "cd app && python3 manage.py migrate"
+
 sh-frontend:
 	docker exec -it $(frontend_container_name) sh
 
