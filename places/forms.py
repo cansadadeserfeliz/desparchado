@@ -5,7 +5,7 @@ from crispy_forms.layout import Submit
 from crispy_forms.layout import Layout
 from crispy_forms.layout import Div
 from mapwidgets import GoogleMapPointFieldWidget
-from desparchado.utils import strip_html_tags
+from desparchado.utils import sanitize_html
 
 from .models import Place
 
@@ -34,8 +34,14 @@ class PlaceForm(forms.ModelForm):
         )
 
     def clean(self):
+        """
+        Cleans and sanitizes form data, ensuring the description field is safe for use.
+        
+        Returns:
+            The cleaned and sanitized form data as a dictionary.
+        """
         cleaned_data = super().clean()
-        cleaned_data['description'] = strip_html_tags(cleaned_data.get('description', ''))
+        cleaned_data['description'] = sanitize_html(cleaned_data.get('description', ''))
         return cleaned_data
 
     class Meta:
