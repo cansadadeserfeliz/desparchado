@@ -53,6 +53,4 @@ def send_notification(request, obj, model_name, created):
 
 
 def sanitize_html(html: str):
-    print(html)
-    print(sanitizer.sanitize(html))
     return sanitizer.sanitize(html)
