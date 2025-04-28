@@ -8,7 +8,7 @@
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006 --config-dir desparchado/frontend/.storybook --ci",
     "build-storybook": "storybook build --config-dir desparchado/frontend/.storybook",
-    "lint-scripts": "npx eslint --ext .ts,.vue"
+    "lint-scripts": "npx eslint --ext .ts,.vue ."
   },
   "type": "commonjs",
   "devDependencies": {
