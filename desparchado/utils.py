@@ -73,6 +73,4 @@ def sanitize_html(html: str):
     Returns:
         The sanitized HTML string with typographic whitespace preserved.
     """
-    print(html)
-    print(sanitizer.sanitize(html))
     return sanitizer.sanitize(html)
