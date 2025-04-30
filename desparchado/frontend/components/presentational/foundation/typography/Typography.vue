@@ -8,7 +8,20 @@
   import { computed } from 'vue';
 
   // -------- [Types] --------
-  type HeadingTypes = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 's1';
+  type HeadingTags = 'span' | 'p' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5';
+  type HeadingTypes =
+    | 'body_sm'
+    | 'body_md'
+    | 'body_lg'
+    | 'body_highlight'
+    | 'caption'
+    | 'header_item'
+    | 'h1'
+    | 'h2'
+    | 'h3'
+    | 'h4'
+    | 'h5'
+    | 's1';
   type WeightValues = 'regular' | 'medium' | 'bold';
 
   const weights: Record<WeightValues, string> = {
@@ -18,6 +31,12 @@
   };
 
   const types: Record<HeadingTypes, string> = {
+    body_sm: 'text-body-sm',
+    body_md: 'text-body-md',
+    body_lg: 'text-body-lg',
+    body_highlight: 'text-body-highlight',
+    caption: 'text-caption',
+    header_item: 'text-header-item',
     h1: 'text-heading-1',
     h2: 'text-heading-2',
     h3: 'text-heading-3',
@@ -29,7 +48,7 @@
   // -------- [Props] --------
   const props = withDefaults(
     defineProps<{
-      tag?: HeadingTypes;
+      tag?: HeadingTags;
       type?: HeadingTypes;
       weight?: WeightValues;
       text: string;
@@ -37,8 +56,8 @@
       customClass?: string;
     }>(),
     {
-      tag: 'h1',
-      type: 'h1',
+      tag: 'p',
+      type: 'body_md',
       weight: 'regular',
     },
   );
