@@ -1,7 +1,7 @@
 @use '@styles/functions' as *;
 @use "sass:map";
 
-@mixin fluid-heading(
+@mixin fluid-typography-styles(
   $font-family,
   $line-height,
   $sizes,
