@@ -1,4 +1,6 @@
 @use '@styles/functions' as *;
+@use '@styles/animations' as *;
+@use '@styles/variables' as *;
 @use "sass:map";
 
 @mixin fluid-typography-styles(
@@ -50,5 +52,19 @@
       map.get($breakpoints, xs),
       map.get($breakpoints, s-minus-1)
     )};
+  }
+}
+
+@mixin animation-delayed($class-list, $animation, $duration, $initial-delay) {
+  $i: 0;
+
+  @each $class in $class-list {
+    .#{$class} {
+      animation: #{$animation} $duration ease-out forwards;
+      animation-delay: ($duration * $i) + $initial-delay;
+      animation-timing-function: $ease-in-quart;
+    }
+
+    $i: $i + 1;
   }
 }
