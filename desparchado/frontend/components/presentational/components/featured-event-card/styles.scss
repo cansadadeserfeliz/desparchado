@@ -3,7 +3,7 @@
 @use '@styles/animations' as *;
 @use '@styles/mixins' as *;
 
-// main layout
+// main old_layout
 .featured-event-card {
   $self: &;
 
@@ -12,10 +12,10 @@
 
   &:hover {
     --featured-event-card-background: #{$color-layout-foreground};
-    --featured-event-card-color: #{$color-layout-background}; 
-    
+    --featured-event-card-color: #{$color-layout-background};
+
     #{$self}__wrapper {
-      transition-duration: 150ms;  
+      transition-duration: 150ms;
       transition-timing-function: $ease-in-quart;
     }
 

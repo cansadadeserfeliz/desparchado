@@ -53,14 +53,14 @@
   <body>
   {% block body %}
 
-    {% include 'layout/_header.html' %}
+    {% include 'old_layout/_header.html' %}
     {% block subheader %}{% endblock subheader %}
 
     <div class="container my-3">
       {% block content %}{% endblock content %}
     </div><!-- /.container -->
 
-    {% include 'layout/_footer.html' %}
+    {% include 'old_layout/_footer.html' %}
 
   {% endblock body %}
 
