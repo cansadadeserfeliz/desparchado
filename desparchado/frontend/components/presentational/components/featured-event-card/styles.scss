@@ -1,0 +1,95 @@
+@use '@styles/variables' as *;
+@use '@styles/functions' as *;
+
+.featured-event-card {
+  $self: &;
+
+  --featured-event-card-background: #{$color-layout-background};
+  --featured-event-card-color: #{$color-layout-foreground};
+
+  &:hover {
+    --featured-event-card-background: #{$color-layout-foreground};
+    --featured-event-card-color: #{$color-layout-background}; 
+    
+    #{$self}__wrapper {
+      transition-duration: 150ms;  
+      transition-timing-function: $ease-in-quart;
+    }
+
+    #{$self}__image {
+      overflow: hidden;
+
+      img {
+        clip-path: circle(150% at 20% 100%);
+        transition-duration: 1000ms;
+        transition-timing-function: $ease-out-quart;
+      }
+    }
+  }
+
+  &__image {
+    align-items: center;
+    box-sizing: border-box;
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    padding: toRem(20px);
+    width: 100%;
+
+    img {
+      clip-path: circle(0% at 20% 100%);
+      max-height: 30vh;
+      transition-duration: 500ms;
+      transition-property: clip-path;
+      transition-timing-function: $ease-out-quart;
+      object-fit: contain;
+      object-position: left;
+      width: 100%;
+    }
+  }
+
+  &__wrapper {
+    align-items: end;
+    background-color: var(--featured-event-card-background);
+    border: $hairline_regular;
+    color: var(--featured-event-card-color);
+    display: grid;
+    height: 100%;
+    padding: toRem(15px) toRem(20px);
+    row-gap: toRem(30px);
+    transition-property: background, color;
+    transition-duration: 300ms;
+    transition-timing-function: $ease-out-quart;
+  }
+
+  &__location {
+    align-self: baseline;
+    grid-column: 1;
+    grid-row: 1;
+    justify-self: baseline;
+  }
+
+  &__date-copy {
+    align-self: baseline;
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: end;
+  }
+
+  &__title {
+    align-self: end;
+    grid-column: 1;
+    grid-row: 2;
+    justify-self: baseline;
+  }
+
+  &__date {
+    align-self: end;
+    color: $color-layout-interactive;
+    display: flex;
+    flex-direction: column;
+    grid-column: 2;
+    grid-row: 2;
+    justify-self: end;
+  }
+}
