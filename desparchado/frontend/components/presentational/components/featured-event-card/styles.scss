@@ -1,6 +1,9 @@
 @use '@styles/variables' as *;
 @use '@styles/functions' as *;
+@use '@styles/animations' as *;
+@use '@styles/mixins' as *;
 
+// main layout
 .featured-event-card {
   $self: &;
 
@@ -91,5 +94,34 @@
     grid-column: 2;
     grid-row: 2;
     justify-self: end;
+  }
+}
+
+// animation on component
+.featured-event-card {
+  .featured-event-card {
+    $initial-delay: 300ms;
+
+    &__date {
+      $delayed_classes: ('featured-event-card__day', 'featured-event-card__time');
+
+      @include animation-delayed($delayed_classes, fadeIn, 300ms, $initial-delay + 300ms);
+    }
+
+    &__location,
+    &__date-copy,
+    &__title {
+      opacity: 0;
+      animation: fadeIn 300ms $ease-in-quart forwards;
+      animation-delay: $initial-delay;
+    }
+
+    &__day {
+      opacity: 0;
+    }
+
+    &__time {
+      opacity: 0;
+    }
   }
 }
