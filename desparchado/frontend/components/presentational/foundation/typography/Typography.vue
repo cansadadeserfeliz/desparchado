@@ -52,7 +52,7 @@
       type?: HeadingTypes;
       weight?: WeightValues;
       text: string;
-      id: string;
+      id?: string;
       customClass?: string;
     }>(),
     {
