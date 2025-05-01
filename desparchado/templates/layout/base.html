@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+{% load i18n django_vite %}
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    {# Ensure proper rendering and touch zooming for all devices #}
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="description" content="Eventos culturales y educativos en Colombia: programación de conciertos, festivales, ferias, congresos, teatro, arte, conferencias, cine alternativo">
+    <meta name="keywords" content="Eventos Bogotá, Eventos Cali, Eventos Medellín, Eventos Cartagena, Conciertos, Talleres, Cursos, agenda cultural, programación, cine arte, libros">
+    <meta name="news_keywords" content="Eventos" />
+    <link rel="icon" href="https://desparchado.co/favicon.ico">
+
+    <title>{% block title %}Desparchado.co{% endblock %}</title>
+
+    <meta name="news_keywords" content="Eventos" />
+    <meta name="google-site-verification" content="fzaFpFH8Q6VYOrIz3z98OPuzP8J99Cty7ic_jb9ApJo" />
+
+    {# This will add a <script> tag to include the ViteJS HMR client. #}
+    {# This tag will include this script only if DJANGO_VITE_DEV_MODE is true, otherwise this will do nothing. #}
+    {% vite_hmr_client %}
+
+    {% vite_asset 'desparchado/frontend/styles/index.scss' %}
+    {% vite_asset 'desparchado/frontend/scripts/mount-vue.ts' %}
+
+    {# Extra CSS #}
+    {% block extra_css %}{% endblock extra_css %}
+
+    {% block meta %}{% endblock meta %}
+  </head>
+
+  {% block google-structured-markup %}{% endblock %}
+
+  <body>
+  {% block body %}
+
+    {% include 'layout/_header.html' %}
+
+    {% block content %}{% endblock content %}
+
+    {% include 'layout/_footer.html' %}
+
+  {% endblock body %}
+
+    {# Extra JS #}
+    {% block javascript %}{% endblock javascript %}
+
+    {# Global site tag (gtag.js) - Google Analytics #}
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-3N7JDK8B9C"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-3N7JDK8B9C');
+    </script>
+
+    {# Umami Open Source Analytics #}
+    <script defer src="https://cloud.umami.is/script.js" data-website-id="1ccee07e-d5e4-4c95-a986-3b1569f29d9b"></script>
+
+  </body>
+</html>

@@ -1,0 +1,46 @@
+{% load i18n %}
+
+{% translate '¿Buscas algo?' %}
+
+<br />
+
+<a href="{% url 'blog:post_list' %}">{% translate 'inspiración' %}</a>
+-- <a href="{% url 'places:place_list' %}">{% translate 'lugares' %}</a>
+-- <a href="{% url 'events:speaker_list' %}">{% translate 'presentadores' %}</a>
+-- <a href="{% url 'events:organizer_list' %}">{% translate 'organizadores' %}</a>
+
+<br />
+
+{% translate 'Consultas y sugerencias' %}
+
+<br />
+
+<a href="https://forms.gle/jumYbpstoyqUUr878" target="_blank">{% translate 'Escríbenos' %}</a>
+-- <a href="https://www.instagram.com/desparchado_co/" target="_blank">{% translate 'Instagram' %}</a>
+-- <a href="https://x.com/DesparchadoCo" target="_blank">{% translate 'X' %}</a>
+-- <a href="https://www.facebook.com/DesparchadoCo" target="_blank">{% translate 'Facebook' %}</a>
+
+<br />
+
+{% translate 'Sobre los eventos' %}
+
+<br />
+
+<a href="{% url 'events:event_list' %}">{% translate 'eventos activos' %}</a>
+-- <a href="{% url 'events:past_event_list' %}">{% translate 'archivo de eventos' %}</a>
+-- <a href="{% url 'events:add_event' %}">{% translate 'publica un evento' %}</a>
+
+<br />
+
+<a href="https://www.instagram.com/desparchado_co/" target="_blank">{% translate 'Instagram' %}</a>
+<a href="https://x.com/DesparchadoCo" target="_blank">{% translate 'X' %}</a>
+<a href="https://www.facebook.com/DesparchadoCo" target="_blank">{% translate 'Facebook' %}</a>
+<a href="https://t.me/DesparchadoCo" target="_blank">{% translate 'Telegram' %}</a>
+
+<br />
+
+{% translate 'tu guía cultural' %}
+
+<br />
+
+<a href="{% url 'terms_and_conditions' %}">{% translate 'Términos y condiciones' %}</a>

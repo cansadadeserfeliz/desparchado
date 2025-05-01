@@ -1,13 +1,43 @@
+from datetime import date, datetime
 from urllib.parse import urlparse
-import calendar
 
+import calendar
 import markdown
 
 from django import template
+from django.utils.translation import gettext as _
 from django.utils.safestring import mark_safe
 
 register = template.Library()
 
+
+# Perform the comparison in the default time zone when USE_TZ = True
+# (unless a specific time zone has been applied with the |timezone filter).
+@register.filter(expects_localtime=True)
+@register.filter
+def naturalday_no_default(value, arg=None):
+    """
+    For date values that are tomorrow, today or yesterday compared to
+    present day return representing string.
+    Otherwise, return an empty string.
+
+    See from django.contrib.humanize.templatetags.humanize.naturalday
+    """
+    tzinfo = getattr(value, "tzinfo", None)
+    try:
+        value = date(value.year, value.month, value.day)
+    except AttributeError:
+        # Passed value wasn't a date object
+        return value
+    today = datetime.now(tzinfo).date()
+    delta = value - today
+    if delta.days == 0:
+        return _("today")
+    elif delta.days == 1:
+        return _("tomorrow")
+    elif delta.days == -1:
+        return _("yesterday")
+    return ''
 
 @register.filter()
 def format_currency(value):
