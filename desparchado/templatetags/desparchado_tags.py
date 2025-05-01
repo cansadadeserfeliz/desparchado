@@ -14,7 +14,6 @@ register = template.Library()
 # Perform the comparison in the default time zone when USE_TZ = True
 # (unless a specific time zone has been applied with the |timezone filter).
 @register.filter(expects_localtime=True)
-@register.filter
 def naturalday_no_default(value, arg=None):
     """
     For date values that are tomorrow, today or yesterday compared to
