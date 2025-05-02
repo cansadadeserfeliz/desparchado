@@ -1,0 +1,122 @@
+@use '@styles/variables' as *;
+@use '@styles/functions' as *;
+@use '@styles/animations' as *;
+@use '@styles/mixins' as *;
+@use '@styles/breakpoints' as *;
+@use "sass:map";
+
+.button {
+  $self: &;
+
+  align-items: center;
+  background: var(--button-background);
+  border: none;
+  border-radius: toRem(60px);
+  box-sizing: border-box;
+  color: var(--button-foreground);
+  cursor: pointer;
+  display: flex;
+  gap: toRem(18px);
+  justify-content: center;
+  padding: toRem(15px) toRem(30px) toRem(10px);
+  position: relative;
+  text-decoration: none;
+  transition: $ease-out-quart 150ms background-color;
+  width: fit-content;
+
+  &__hover-feature {
+    height: 2ex;
+    position: relative;
+    width: 2ex;
+
+    @media (min-width: map.get($breakpoints, s)) and (max-width: map.get($breakpoints, m-minus-1)) {
+      height: 1.5ex;
+      width: 1.5ex;
+    }
+  
+    @media (max-width: map.get($breakpoints, s-minus-1)) {
+      height: 1ex;
+      width: 1ex;
+    }
+  
+    &::before,
+    &::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      right: 0;
+      transform: translateY(-50%);
+      transition: 300ms transform $ease-out-quart;
+    }
+
+    &::before {
+      border: toRem(2px) solid var(--button-foreground);
+      border-radius: 50%;
+      height: 2ex;
+      width: 2ex;
+
+      @media (min-width: map.get($breakpoints, s)) and (max-width: map.get($breakpoints, m-minus-1)) {
+        height: 1.5ex;
+        width: 1.5ex;
+      }
+    
+      @media (max-width: map.get($breakpoints, s-minus-1)) {
+        height: 1ex;
+        width: 1ex;
+      }
+    }
+
+    &::after {
+      background: var(--button-foreground);
+      height: toRem(2px);
+      width: toRem(2px);
+    }
+  }
+
+  &:hover {
+    #{$self}__hover-feature {
+      &::before,
+      &::after {
+        transition: 300ms transform $ease-out-quart;
+      }
+
+      &::before {
+        transform: translateY(-50%) translateX(4px);
+      }
+      &::after {
+        transform: translateY(-50%) translateX(13px);
+      }
+    }
+  }
+
+  &:focus {
+    outline: toRem(2px) solid $color-layout-interactive;
+    outline-offset: toRem(2px);
+  }
+
+  &--condensed {
+    padding: toRem(10px) toRem(30px) toRem(5px);
+  }
+
+  &--primary {
+    --button-background: #{$color-layout-interactive-background};
+    --button-foreground: #{$color-layout-background};
+
+    &:hover {
+      --button-background: #{$color-layout-foreground};
+    }
+  }
+
+  &--secondary {
+    --button-background: #{$color-layout-background};
+    --button-foreground: #{$color-layout-interactive-background};
+
+    border: $hairline_regular;
+    border-color: var(--button-foreground);
+  }
+
+  &--tertiary {
+    --button-background: transparent;
+    --button-foreground: #{$color-layout-foreground};
+  }
+}

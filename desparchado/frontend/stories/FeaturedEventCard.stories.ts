@@ -21,7 +21,7 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-export const H1: Story = {
+export const NormalCard: Story = {
   args: {
     tag: 'div',
     location: 'Biblioteca Luis Ángel Aranjo',
