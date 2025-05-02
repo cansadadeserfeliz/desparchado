@@ -60,8 +60,24 @@ def not_published_event():
 
 
 @pytest.fixture
+def featured_not_published_event(not_published_event):
+    not_published_event.is_featured_on_homepage = True
+    not_published_event.save()
+
+    return not_published_event
+
+
+@pytest.fixture
 def not_approved_event():
     return EventFactory(title='Not approved event title', is_approved=False)
+
+
+@pytest.fixture
+def featured_not_approved_event(not_approved_event):
+    not_approved_event.is_featured_on_homepage = True
+    not_approved_event.save()
+
+    return not_approved_event
 
 
 @pytest.fixture
@@ -69,6 +85,27 @@ def past_event():
     return EventFactory(
         event_date=timezone.now() - timedelta(days=1)
     )
+
+@pytest.fixture
+def featured_past_event(past_event):
+    past_event.is_featured_on_homepage = True
+    past_event.save()
+
+    return past_event
+
+
+@pytest.fixture
+def future_event():
+    return EventFactory(
+        event_date=timezone.now() + timedelta(days=1)
+    )
+
+@pytest.fixture
+def featured_future_event(future_event):
+    future_event.is_featured_on_homepage = True
+    future_event.save()
+
+    return future_event
 
 
 @pytest.fixture

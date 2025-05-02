@@ -25,7 +25,7 @@ from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 
-from .views import HomeView, AtomSiteEventsFeed, \
+from .views import HomeView, OldHomeView, AtomSiteEventsFeed, \
     SocialNetworksRssSiteEventsFeed
 from .sitemap import sitemaps
 
@@ -35,11 +35,12 @@ schema_view = get_schema_view(
       default_version='v1',
    ),
    public=False,
-   permission_classes=(permissions.IsAdminUser,),
+   permission_classes=[permissions.IsAdminUser],
 )
 
 urlpatterns = [
-    path('', HomeView.as_view(), name='home'),
+    path('', OldHomeView.as_view(), name='old-home'),
+    path('redesign/', HomeView.as_view(), name='home'),
     path(
         'about/',
         TemplateView.as_view(template_name='desparchado/about.html'),

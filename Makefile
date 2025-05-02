@@ -21,6 +21,9 @@ migrate:
 sh-frontend:
 	docker exec -it $(frontend_container_name) sh
 
+build-frontend:
+	docker exec -it $(frontend_container_name) sh -c "npm run build"
+
 run-storybook:
 	docker exec -it $(frontend_container_name) sh -c "npm run storybook"
 
