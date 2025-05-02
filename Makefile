@@ -15,14 +15,23 @@ test:
 collectstatic:
 	docker exec -it $(web_container_name) sh -c "cd app && python3 manage.py collectstatic"
 
+migrate:
+	docker exec -it $(web_container_name) sh -c "cd app && python3 manage.py migrate"
+
 sh-frontend:
 	docker exec -it $(frontend_container_name) sh
+
+build-frontend:
+	docker exec -it $(frontend_container_name) sh -c "npm run build"
 
 run-storybook:
 	docker exec -it $(frontend_container_name) sh -c "npm run storybook"
 
 build-storybook:
 	docker exec -it $(frontend_container_name) sh -c "npm run build-storybook"
+
+lint-scripts:
+	docker exec -it $(frontend_container_name) sh -c "npm run lint-scripts"
 
 sh-web:
 	docker exec -it $(web_container_name) sh

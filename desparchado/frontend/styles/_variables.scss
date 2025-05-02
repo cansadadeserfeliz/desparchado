@@ -1,4 +1,4 @@
-$main-variable-testing: blue;
+@use '@styles/functions' as *;
 
 $font-humane: 'Humane', sans-serif;
 $font-nohemi: 'Nohemi', sans-serif;
@@ -11,3 +11,50 @@ $font-tertiary: $font-humane;
 $f-weight-regular: 400;
 $f-weight-medium: 500;
 $f-weight-bold: 700;
+
+// gray
+$color-gray-00: #FFF;
+$color-gray-100: #CCCCCC;
+$color-gray-200: #EDEDED;
+$color-gray-300: #DADADA;
+$color-gray-400: #BEBEBE;
+$color-gray-500: #A5A5A5;
+$color-gray-600: #7F7F7F;
+$color-gray-700: #5A5A5A;
+$color-gray-800: #3C3C3C;
+$color-gray-900: #222222;
+$color-gray-1000: #010101;
+
+// dp-orange
+$color-dp-orange-50: #FBF8F2;
+$color-dp-orange-100: #FCE1B1;
+$color-dp-orange-200: #FDBE71;
+$color-dp-orange-300: #F42C04;
+$color-dp-orange-400: #B32400;
+$color-dp-orange-500: #7A1600;
+
+// dp-violet
+$color-dp-violet-100: #D6D4F2;
+$color-dp-violet-200: #9B98DC;
+$color-dp-violet-300: #0D00A4;
+$color-dp-violet-400: #08007A;
+$color-dp-violet-500: #04004C;
+
+// base
+$color-base-primary: $color-dp-orange-300;
+$color-base-secondary: $color-dp-violet-300;
+
+// old_layout
+$color-layout-background: $color-dp-orange-50;
+$color-layout-interactive-background: $color-gray-1000;
+$color-layout-foreground: $color-gray-900;
+$color-layout-interactive: $color-dp-orange-300;
+$color-layout-hairline: $color-gray-100;
+$color-layout-focus: $color-dp-violet-300;
+
+// border
+$hairline_regular: toRem(2px) solid $color-layout-foreground;
+
+// timing functions
+$ease-out-quart: cubic-bezier(0.165, 0.840, 0.440, 1.000);
+$ease-in-quart: cubic-bezier(0.895, 0.030, 0.685, 0.220);

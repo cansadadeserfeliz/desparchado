@@ -44,11 +44,53 @@ $font-sizes-heading-5: (
   l: 20px,
   xl: 20px
 );
+$font-sizes-body-sm: (
+  xs: 12px,
+  s: 12px,
+  m: 14px,
+  l: 14px,
+  xl: 14px,
+);
+$font-sizes-body-md: (
+  xs: 14px,
+  s: 14px,
+  m: 16px,
+  l: 16px,
+  xl: 16px,
+);
+$font-sizes-body-lg: (
+  xs: 16px,
+  s: 16px,
+  m: 20px,
+  l: 20px,
+  xl: 20px,
+);
+$font-sizes-body-highlight: (
+  xs: 12px,
+  s: 12px,
+  m: 16px,
+  l: 20px,
+  xl: 20px,
+);
+$font-sizes-caption: (
+  xs: 12px,
+  s: 12px,
+  m: 14px,
+  l: 14px,
+  xl: 14px,
+);
+$font-sizes-header-item: (
+  xs: 26px,
+  s: 26px,
+  m: 16px,
+  l: 16px,
+  xl: 16px,
+);
 
 .text-heading-1 {
   text-transform: uppercase;
 
-  @include fluid-heading(
+  @include fluid-typography-styles(
     $font-tertiary,
     1,
     $font-sizes-heading-1,
@@ -59,7 +101,7 @@ $font-sizes-heading-5: (
 .text-subtitle-1 {
   font-style: italic;
 
-  @include fluid-heading(
+  @include fluid-typography-styles(
     $font-secondary,
     1,
     $font-sizes-subtitle-1,
@@ -70,7 +112,7 @@ $font-sizes-heading-5: (
 .text-heading-2 {
   text-transform: uppercase;
 
-  @include fluid-heading(
+  @include fluid-typography-styles(
     $font-tertiary,
     1,
     $font-sizes-heading-2,
@@ -81,7 +123,7 @@ $font-sizes-heading-5: (
 .text-heading-3 {
   font-style: italic;
 
-  @include fluid-heading(
+  @include fluid-typography-styles(
     $font-secondary,
     1,
     $font-sizes-heading-3,
@@ -90,7 +132,7 @@ $font-sizes-heading-5: (
 }
 
 .text-heading-4 {
-  @include fluid-heading(
+  @include fluid-typography-styles(
     $font-primary,
     1,
     $font-sizes-heading-4,
@@ -101,13 +143,70 @@ $font-sizes-heading-5: (
 .text-heading-5 {
   font-style: italic;
 
-  @include fluid-heading(
+  @include fluid-typography-styles(
     $font-secondary,
     1,
     $font-sizes-heading-5,
     $breakpoints
   );
 }
+
+.text-body-sm {
+  @include fluid-typography-styles(
+    $font-primary,
+    1.8,
+    $font-sizes-body-sm,
+    $breakpoints
+  );
+}
+
+.text-body-md {
+  @include fluid-typography-styles(
+    $font-primary,
+    1.5,
+    $font-sizes-body-md,
+    $breakpoints
+  );
+}
+
+.text-body-lg {
+  @include fluid-typography-styles(
+    $font-primary,
+    1.5,
+    $font-sizes-body-lg,
+    $breakpoints
+  );
+}
+
+.text-body-highlight {
+  @include fluid-typography-styles(
+    $font-primary,
+    1,
+    $font-sizes-body-highlight,
+    $breakpoints
+  );
+}
+
+.text-caption {
+  @include fluid-typography-styles(
+    $font-primary,
+    1,
+    $font-sizes-caption,
+    $breakpoints
+  );
+}
+
+.text-header-item {
+  text-transform: uppercase;
+
+  @include fluid-typography-styles(
+    $font-primary,
+    1,
+    $font-sizes-header-item,
+    $breakpoints
+  );
+}
+
 
 .text-regular {
   font-weight: $f-weight-regular;

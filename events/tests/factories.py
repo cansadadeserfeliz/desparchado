@@ -39,6 +39,7 @@ class EventFactory(factory.django.DjangoModelFactory):
     topic = factory.fuzzy.FuzzyChoice(dict(Event.EVENT_TOPICS).keys())
     place = factory.SubFactory(PlaceFactory)
     created_by = factory.SubFactory(UserFactory)
+    is_featured_on_homepage = True
     is_published = True
     is_approved = True
 

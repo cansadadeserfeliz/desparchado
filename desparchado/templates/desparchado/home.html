@@ -1,0 +1,67 @@
+{% extends 'layout/base.html' %}
+{% load i18n desparchado_tags %}
+
+{% block content %}
+  {% translate 'Vive' %}
+  {% translate 'Cultura' %}
+
+  <br />
+
+  {% translate 'Descubre y comparte cultura en tu ciudad' %}
+  {% translate 'Párchate' %}
+
+  <br />
+  <br />
+
+  {% for featured_event in featured_events %}
+    <div>
+      {{ featured_event.place.name }}
+      <br />
+      {{ featured_event.event_date|naturalday_no_default }}
+      <br />
+      {{ featured_event.title }}
+      <br />
+      {# 17 Jun #}
+      {{ featured_event.event_date|date:'j M' }}
+      {# 22:00 #}
+      {{ featured_event.event_date|date:'H:i' }}
+    </div>
+  {% endfor %}
+
+  <br />
+  <br />
+
+  {% translate '¿Buscas algo?' %}
+  <br />
+  {% translate '¡Llenemos la ciudad de buenos parches!' %}
+  <br />
+  {% translate 'Regístrate y publica tu evento' %}
+
+  <br />
+
+  {% blocktranslate %}
+    ¿Tienes un evento? Súbelo y conviértelo en el próximo gran plan.
+    Súmate a nuestra comunidad, comparte tu evento y deja que más personas lo descubran.
+    ¡Las buenas experiencias merecen ser vividas!
+    Publica tu evento y arma el parche
+  {% endblocktranslate %}
+
+  <br />
+
+  <a href="{% url 'events:add_event' %}">{% translate 'Publica tu evento' %}</a>
+
+  <br />
+  <br />
+
+  <div data-url="{% url 'events_api:future_events_list' %}">
+    {% translate 'agéndate' %}
+
+    {% translate 'agéndate' %}
+    {% translate 'Temática' %}
+    {# TODO: get list of topics #}
+    {% translate 'Cuándo' %}
+    {# TODO: get list of dates #}
+    {% translate 'Limpiar filtros' %}
+  </div>
+
+{% endblock content %}
