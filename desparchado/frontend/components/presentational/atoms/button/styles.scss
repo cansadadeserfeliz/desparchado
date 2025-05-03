@@ -90,6 +90,10 @@
   }
 
   &:focus {
+    outline: none;
+  }
+
+  &:focus-visible {
     outline: toRem(2px) solid $color-layout-interactive;
     outline-offset: toRem(2px);
   }
