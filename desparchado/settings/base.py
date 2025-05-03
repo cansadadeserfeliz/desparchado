@@ -109,6 +109,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'django.template.context_processors.i18n',
+                'desparchado.template.context_processors.constants',
             ],
         },
     },
@@ -221,9 +222,10 @@ AXES_IPWARE_META_PRECEDENCE_ORDER = [
 CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap5'
 CRISPY_TEMPLATE_PACK = 'bootstrap5'
 
+GOOGLE_MAPS_API_KEY = getenvvar('GOOGLE_MAPS_API_KEY', 'not-set')
 MAP_WIDGETS = {
     "GoogleMap": {
-        "apiKey": 'AIzaSyAFbA9J0IcGyy20cl7xd6Le16U_Bx_TSeI',
+        "apiKey": GOOGLE_MAPS_API_KEY,
         "CDNURLParams": {
             "language": "es",
             "libraries": "places,marker",
