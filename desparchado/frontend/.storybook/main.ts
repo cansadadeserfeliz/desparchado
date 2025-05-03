@@ -23,7 +23,8 @@ const config: StorybookConfig = {
       alias: {
         "@presentational_components": resolve(__dirname, "../components/presentational"),
         "@styles": resolve(__dirname, "../styles"),
-        "@fonts": resolve(__dirname, "../assets/fonts")
+        "@fonts": resolve(__dirname, "../assets/fonts"),
+        "@assets": resolve(__dirname, "../assets")
       }
     };
     return config;
