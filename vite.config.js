@@ -32,6 +32,7 @@ export default defineConfig({
       "@presentational_components": resolve("./desparchado/frontend/components/presentational"),
       "@styles": resolve("./desparchado/frontend/styles"),
       "@fonts": resolve("./desparchado/frontend/assets/fonts"),
+      "@assets": resolve("./desparchado/frontend/assets"),
     }
   }
 })
