@@ -6,7 +6,7 @@
 
 <script lang="ts" setup>
   import { computed } from 'vue';
-  import siteSvgs from '@assets/site.svg';
+  import siteSvgs from '@assets/icons.svg';
 
   type IconSizeType = 'unset' | 'small' | 'regular';
 
