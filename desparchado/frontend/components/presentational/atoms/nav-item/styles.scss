@@ -1,0 +1,80 @@
+@use '@styles/variables' as *;
+@use '@styles/functions' as *;
+@use '@styles/animations' as *;
+@use '@styles/mixins' as *;
+@use '@styles/breakpoints' as *;
+@use "sass:map";
+
+.nav-item {
+  $self: &;
+
+  align-items: center;
+  border: none;
+  box-sizing: border-box;
+  color: $color-layout-foreground;
+  cursor: pointer;
+  display: flex;
+  gap: toRem(18px);
+  justify-content: center;
+  padding: toRem(15px) toRem(30px) toRem(10px);
+  position: relative;
+  text-decoration: none;
+  width: fit-content;
+
+  &:focus {
+    outline: none;
+  }
+
+  &:focus-visible {
+    outline: toRem(2px) solid $color-layout-interactive;
+    outline-offset: toRem(2px);
+  }
+
+  &:not(:last-child)::after {
+    content: '';
+    height: toRem(2px);
+    width: 2rem;;
+    background-color: $color-layout-foreground;
+
+  }
+
+  &:hover {
+    #{$self}__label {
+      &::before {
+        opacity: 1;
+        transform: translateX(0);
+        transition: $ease-out-quart 500ms;
+      }
+    }
+  }
+
+  &__label {
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+      content: '';
+      height: toRem(2px);
+      width: 100%;
+      bottom: 0;
+      position: absolute;
+
+      background-color: $color-layout-lighter-foreground;
+      transform: translateX(-100%);
+      opacity: 0;
+      transition: $ease-in-quart 500ms;
+      transition-property: transform, opacity;
+      will-change: transform, opacity;
+    }
+  }
+
+  &--active {
+    #{$self}__label {
+      &::before {
+        transform: translateX(0);
+        opacity: 1;   
+        background-color: $color-layout-foreground;   
+      }
+    }
+  }
+}

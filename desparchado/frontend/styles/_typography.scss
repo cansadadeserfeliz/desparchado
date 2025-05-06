@@ -196,7 +196,7 @@ $font-sizes-header-item: (
   );
 }
 
-.text-header-item {
+.text-nav-item {
   text-transform: uppercase;
 
   @include fluid-typography-styles(
@@ -206,7 +206,6 @@ $font-sizes-header-item: (
     $breakpoints
   );
 }
-
 
 .text-regular {
   font-weight: $f-weight-regular;
