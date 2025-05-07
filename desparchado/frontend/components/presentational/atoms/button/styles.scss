@@ -18,7 +18,6 @@
   display: flex;
   gap: toRem(18px);
   justify-content: center;
-  padding: toRem(15px) toRem(30px) toRem(10px);
   position: relative;
   text-decoration: none;
   transition: $ease-out-quart 150ms background-color;
@@ -98,29 +97,94 @@
     outline-offset: toRem(2px);
   }
 
-  &--condensed {
-    padding: toRem(10px) toRem(30px) toRem(5px);
-  }
+  &--padding {
+    &-regular {
+      $pt: (s: 16px, l: 15px);
+      $psides: (s: 24px, l: 30px);
+      $pb: (s: 12px, l: 10px);
 
-  &--primary {
-    --button-background: #{$color-layout-interactive-background};
-    --button-foreground: #{$color-layout-background};
+      padding:
+      #{fluid-size(
+        map.get($pt, s),
+        map.get($pt, l),
+        map.get($breakpoints, s),
+        map.get($breakpoints, l)
+      )}
+      #{fluid-size(
+        map.get($psides, s),
+        map.get($psides, l),
+        map.get($breakpoints, s),
+        map.get($breakpoints, l)
+      )}
+      #{fluid-size(
+        map.get($pb, s),
+        map.get($pb, l),
+        map.get($breakpoints, s),
+        map.get($breakpoints, l)
+      )}
+    }
 
-    &:hover {
-      --button-background: #{$color-layout-foreground};
+    &-condensed {
+      $pt: (s: 8px, l: 10px);
+      $psides: (s: 24px, l: 30px);
+      $pb: (s: 6px, l: 5px);
+
+      padding:
+      #{fluid-size(
+        map.get($pt, s),
+        map.get($pt, l),
+        map.get($breakpoints, s),
+        map.get($breakpoints, l)
+      )}
+      #{fluid-size(
+        map.get($psides, s),
+        map.get($psides, l),
+        map.get($breakpoints, s),
+        map.get($breakpoints, l)
+      )}
+      #{fluid-size(
+        map.get($pb, s),
+        map.get($pb, l),
+        map.get($breakpoints, s),
+        map.get($breakpoints, l)
+      )}
+    }
+
+    &-balanced {
+      $padding: (s: 10px, l: 12px);
+
+      padding:
+      #{fluid-size(
+        map.get($padding, s),
+        map.get($padding, l),
+        map.get($breakpoints, s),
+        map.get($breakpoints, l)
+      )}
     }
   }
 
-  &--secondary {
-    --button-background: #{$color-layout-background};
-    --button-foreground: #{$color-layout-interactive-background};
-
-    border: $hairline_regular;
-    border-color: var(--button-foreground);
-  }
-
-  &--tertiary {
-    --button-background: transparent;
-    --button-foreground: #{$color-layout-foreground};
+  &--type {
+    &-primary {
+      --button-background: #{$color-layout-interactive-background};
+      --button-foreground: #{$color-layout-background};
+      fill: var(--button-foreground);
+  
+      &:hover {
+        --button-background: #{$color-layout-foreground};
+      }
+    }
+  
+    &-secondary {
+      --button-background: #{$color-layout-background};
+      --button-foreground: #{$color-layout-interactive-background};
+  
+      border: $hairline_regular;
+      border-color: var(--button-foreground);
+    }
+  
+    &-tertiary {
+      --button-background: transparent;
+      --button-foreground: #{$color-layout-foreground};
+    }
   }
 }

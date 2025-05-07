@@ -16,7 +16,7 @@
 
   // Large to XL
   @media (min-width: map.get($breakpoints, l)) {
-    font-size: #{fluid-typo(
+    font-size: #{fluid-size(
       map.get($sizes, l),
       map.get($sizes, xl),
       map.get($breakpoints, l),
@@ -26,7 +26,7 @@
 
   // Medium to Large
   @media (min-width: map.get($breakpoints, m)) and (max-width: map.get($breakpoints, l-minus-1)) {
-    font-size: #{fluid-typo(
+    font-size: #{fluid-size(
       map.get($sizes, m),
       map.get($sizes, l),
       map.get($breakpoints, m),
@@ -36,7 +36,7 @@
 
   // Small to Medium
   @media (min-width: map.get($breakpoints, s)) and (max-width: map.get($breakpoints, m-minus-1)) {
-    font-size: #{fluid-typo(
+    font-size: #{fluid-size(
       map.get($sizes, s),
       map.get($sizes, m),
       map.get($breakpoints, s),
@@ -46,7 +46,7 @@
 
   // Less than small
   @media (max-width: map.get($breakpoints, s-minus-1)) {
-    font-size: #{fluid-typo(
+    font-size: #{fluid-size(
       map.get($sizes, xs),
       map.get($sizes, s),
       map.get($breakpoints, xs),
