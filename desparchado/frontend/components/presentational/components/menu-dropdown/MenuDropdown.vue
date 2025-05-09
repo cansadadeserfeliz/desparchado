@@ -1,11 +1,11 @@
 <template>
-  <div :class="[bem(), isOpen && bem('', 'open')]" ref="wrapperRef">
+  <div :class="[bem(baseClass), isOpen && bem(baseClass, '', 'open')]" ref="wrapperRef">
     <Button
       type="primary"
       padding="balanced"
       :onClick="toggleMenu"
       ref="triggerRef"
-      :custom-class="bem('trigger')"
+      :custom-class="bem(baseClass, 'trigger')"
     >
       <template #icon>
         <Icon id="user" size="regular" />
@@ -16,9 +16,9 @@
       <div
         v-if="isOpen"
         :class="[
-          bem('content'),
-          bem('content', contentPositionX),
-          bem('content', contentPositionY),
+          bem(baseClass, 'content'),
+          bem(baseClass, 'content', contentPositionX),
+          bem(baseClass, 'content', contentPositionY),
         ]"
         role="menu"
         :aria-label="props.ariaLabel || 'Dropdown Menu'"
@@ -31,7 +31,7 @@
               radius="squared"
               :label="item.label"
               :link="item.url"
-              :custom-class="bem('item')"
+              :custom-class="bem(baseClass, 'item')"
             ></Button>
           </li>
         </ul>
@@ -46,6 +46,7 @@
   import Button from '@presentational_components/atoms/button/Button.vue';
   import Icon from '@presentational_components/foundation/icon/Icon.vue';
   import './styles.scss';
+  import { bem } from '../../../../scripts/utils/bem';
 
   // -------- [Interfaces] --------
   export interface MenuItem {
@@ -55,13 +56,6 @@
 
   // -------- [Class] --------
   const baseClass = 'menu-dropdown';
-  const bem = (suffix?: string, modifier?: string) => {
-    let className = suffix ? `${baseClass}__${suffix}` : baseClass;
-    if (modifier) {
-      className += `--${modifier}`;
-    }
-    return className;
-  };
 
   // -------- [Variables] --------
   const contentPositionX = ref('');
