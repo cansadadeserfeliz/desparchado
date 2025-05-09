@@ -15,7 +15,7 @@
     | 'body_lg'
     | 'body_highlight'
     | 'caption'
-    | 'header_item'
+    | 'nav_item'
     | 'h1'
     | 'h2'
     | 'h3'
@@ -36,7 +36,7 @@
     body_lg: 'text-body-lg',
     body_highlight: 'text-body-highlight',
     caption: 'text-caption',
-    header_item: 'text-header-item',
+    nav_item: 'text-nav-item',
     h1: 'text-heading-1',
     h2: 'text-heading-2',
     h3: 'text-heading-3',

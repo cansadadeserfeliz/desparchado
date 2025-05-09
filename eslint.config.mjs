@@ -5,6 +5,7 @@ import parserTs from '@typescript-eslint/parser';
 import vueParser from 'vue-eslint-parser';
 import prettier from 'eslint-plugin-prettier';
 import configPrettier from 'eslint-config-prettier';
+import globals from "globals";
 
 const prettierRc = {
   semi: true,
@@ -75,7 +76,6 @@ export default [
 
       // Prettier integration rule
       'prettier/prettier': ['warn', prettierRc],
-
     },
   },
 
@@ -87,16 +87,19 @@ export default [
         parser: parserTs,
         ecmaVersion: 'latest',
         sourceType: 'module',
+        project: ['./tsconfig.json'],
         extraFileExtensions: ['.vue'],
       },
     },
     plugins: {
       vue,
+      '@typescript-eslint': typescript,
       prettier,
     },
     rules: {
       'vue/multi-word-component-names': 'off',
       'vue/no-unused-vars': 'warn',
+      '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
       'prettier/prettier': ['warn', prettierRc],
     },
   },
@@ -116,12 +119,7 @@ export default [
       ecmaVersion: 'latest',
       sourceType: 'module',
       globals: {
-        document: 'readonly',
-        window: 'readonly',
-        console: 'readonly',
-        navigator: 'readonly',
-        location: 'readonly',
-        fetch: 'readonly',
+        ...globals.browser,
       },
     },
   },

@@ -9,7 +9,7 @@ const meta = {
   argTypes: {
     id: {
       control: 'select',
-      options: ['logo-imagotype', 'user', 'more-vertical', 'instagram', 'xsocial', 'facebook'],
+      options: ['user', 'more-vertical', 'instagram', 'xsocial', 'facebook'],
     },
     size: {
       control: 'select',
@@ -17,20 +17,13 @@ const meta = {
     },
   },
   args: {
-    id: 'logo-imagotype',
+    id: 'user',
   },
 } satisfies Meta<typeof Icon>;
 
 export default meta;
 
 type Story = StoryObj<typeof meta>;
-
-export const LogoIcon: Story = {
-  args: {
-    size: 'unset',
-    id: 'logo-imagotype',
-  },
-};
 
 export const SmallIcon: Story = {
   args: {

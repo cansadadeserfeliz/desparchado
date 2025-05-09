@@ -1,4 +1,5 @@
 import Button from '@presentational_components/atoms/button/Button.vue';
+import Icon from '@presentational_components/foundation/icon/Icon.vue';
 import type { Meta, StoryObj } from '@storybook/vue3';
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
@@ -11,17 +12,18 @@ const meta = {
       control: 'select',
       options: ['primary', 'secondary', 'tertiary'],
     },
-    condensed: {
-      control: 'boolean',
+    padding: {
+      control: 'select',
+      options: ['condensed', 'balanced', 'regular'],
+    },
+    radius: {
+      control: 'select',
+      options: ['squared', 'soft', 'circular'],
     },
     link: {
       control: 'text',
       description: 'Link to transform button into anchor if provided',
     },
-  },
-  args: {
-    type: 'primary',
-    condensed: false,
   },
 } satisfies Meta<typeof Button>;
 
@@ -33,7 +35,16 @@ export const CondensedButton: Story = {
   args: {
     type: 'primary',
     label: 'Leer más',
-    condensed: true,
+    padding: 'condensed',
+    link: 'google.com',
+  },
+};
+
+export const BalancedButton: Story = {
+  args: {
+    type: 'primary',
+    label: 'Leer más',
+    padding: 'balanced',
     link: 'google.com',
   },
 };
@@ -65,4 +76,24 @@ export const LinkButton: Story = {
     label: 'Leer más',
     link: 'google.com',
   },
+};
+
+export const OnlyIconButton: Story = {
+  args: {
+    type: 'primary',
+    padding: 'balanced',
+  },
+  render: (args) => ({
+    components: { Button, Icon },
+    setup() {
+      return { args };
+    },
+    template: `
+      <Button v-bind="args">
+        <template #icon>
+          <Icon id="user" size="regular" />
+        </template>
+      </Button>
+    `,
+  }),
 };
