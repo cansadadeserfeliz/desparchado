@@ -16,14 +16,14 @@ const meta = {
       control: 'select',
       options: ['condensed', 'balanced', 'regular'],
     },
+    radius: {
+      control: 'select',
+      options: ['squared', 'soft', 'circular'],
+    },
     link: {
       control: 'text',
       description: 'Link to transform button into anchor if provided',
     },
-  },
-  args: {
-    type: 'primary',
-    padding: 'regular',
   },
 } satisfies Meta<typeof Button>;
 

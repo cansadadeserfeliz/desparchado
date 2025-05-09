@@ -7,21 +7,26 @@
 
 .button {
   $self: &;
-
-  align-items: center;
-  background: var(--button-background);
-  border: none;
-  border-radius: toRem(60px);
-  box-sizing: border-box;
-  color: var(--button-foreground);
-  cursor: pointer;
   display: flex;
-  gap: toRem(18px);
-  justify-content: center;
-  position: relative;
+  padding: 0;
+  border: none;
+  background: transparent;
   text-decoration: none;
-  transition: $ease-out-quart 150ms background-color;
-  width: fit-content;
+
+  &__content {
+    align-items: center;
+    background: var(--button-background);
+    box-sizing: border-box;
+    color: var(--button-foreground);
+    cursor: pointer;
+    display: flex;
+    gap: toRem(18px);
+    justify-content: center;
+    position: relative;
+    transition: $ease-out-quart 500ms background-color;
+    will-change: background-color;
+    width: fit-content;  
+  }
 
   &__hover-feature {
     height: 2ex;
@@ -46,6 +51,7 @@
       right: 0;
       transform: translateY(-50%);
       transition: 300ms transform $ease-out-quart;
+      will-change: transform;
     }
 
     &::before {
@@ -93,8 +99,10 @@
   }
 
   &:focus-visible {
-    outline: toRem(2px) solid $color-layout-interactive;
-    outline-offset: toRem(2px);
+    #{$self}__content {
+      outline: toRem(2px) solid $color-layout-interactive;
+      outline-offset: toRem(2px);
+    }
   }
 
   &--padding {
@@ -103,63 +111,89 @@
       $psides: (s: 24px, l: 30px);
       $pb: (s: 12px, l: 10px);
 
-      padding:
-      #{fluid-size(
-        map.get($pt, s),
-        map.get($pt, l),
-        map.get($breakpoints, s),
-        map.get($breakpoints, l)
-      )}
-      #{fluid-size(
-        map.get($psides, s),
-        map.get($psides, l),
-        map.get($breakpoints, s),
-        map.get($breakpoints, l)
-      )}
-      #{fluid-size(
-        map.get($pb, s),
-        map.get($pb, l),
-        map.get($breakpoints, s),
-        map.get($breakpoints, l)
-      )}
+      #{$self}__content {
+        padding:
+        #{fluid-size(
+          map.get($pt, s),
+          map.get($pt, l),
+          map.get($breakpoints, s),
+          map.get($breakpoints, l)
+        )}
+        #{fluid-size(
+          map.get($psides, s),
+          map.get($psides, l),
+          map.get($breakpoints, s),
+          map.get($breakpoints, l)
+        )}
+        #{fluid-size(
+          map.get($pb, s),
+          map.get($pb, l),
+          map.get($breakpoints, s),
+          map.get($breakpoints, l)
+        )}
+      }
     }
 
     &-condensed {
       $pt: (s: 8px, l: 10px);
       $psides: (s: 24px, l: 30px);
       $pb: (s: 6px, l: 5px);
+      padding: toRem(8px) 0;
 
-      padding:
-      #{fluid-size(
-        map.get($pt, s),
-        map.get($pt, l),
-        map.get($breakpoints, s),
-        map.get($breakpoints, l)
-      )}
-      #{fluid-size(
-        map.get($psides, s),
-        map.get($psides, l),
-        map.get($breakpoints, s),
-        map.get($breakpoints, l)
-      )}
-      #{fluid-size(
-        map.get($pb, s),
-        map.get($pb, l),
-        map.get($breakpoints, s),
-        map.get($breakpoints, l)
-      )}
+      #{$self}__content {
+        padding:
+        #{fluid-size(
+          map.get($pt, s),
+          map.get($pt, l),
+          map.get($breakpoints, s),
+          map.get($breakpoints, l)
+        )}
+        #{fluid-size(
+          map.get($psides, s),
+          map.get($psides, l),
+          map.get($breakpoints, s),
+          map.get($breakpoints, l)
+        )}
+        #{fluid-size(
+          map.get($pb, s),
+          map.get($pb, l),
+          map.get($breakpoints, s),
+          map.get($breakpoints, l)
+        )}
+      }
     }
 
     &-balanced {
       $padding: (s: 10px, l: 12px);
+      #{$self}__content {
+        padding:
+        #{fluid-size(
+          map.get($padding, s),
+          map.get($padding, l),
+          map.get($breakpoints, s),
+          map.get($breakpoints, l)
+        )}
+      }
+    }
+  }
 
-      padding:
-      #{fluid-size(
-        map.get($padding, s),
-        map.get($padding, l),
-        map.get($breakpoints, s),
-        map.get($breakpoints, l)
-      )}
+  &--radius {
+    &-circular {
+      #{$self}__content {
+        border-radius: toRem(60px);
+      }
+    }
+
+    &-soft {
+      #{$self}__content {
+        border-radius: toRem(10px);
+      }
+    }
+
+    &-squared {
+      #{$self}__content {
+        border-radius: 0;
+      }
     }
   }
 
@@ -178,8 +212,10 @@
       --button-background: #{$color-layout-background};
       --button-foreground: #{$color-layout-interactive-background};
   
-      border: $hairline_regular;
-      border-color: var(--button-foreground);
+      #{$self}__content {
+        border: $hairline_regular;
+        border-color: var(--button-foreground);  
+      }
     }
   
     &-tertiary {
