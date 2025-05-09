@@ -1,24 +1,48 @@
 <template>
-  <component :is="link ? 'a' : 'button'" :href="link" :class="classes" @click="handleClick">
-    <div :class="bem('content')">
-      <slot name="icon" :class="bem('icon')"></slot>
+  <component
+    :is="link ? 'a' : 'button'"
+    :href="link"
+    :class="[
+      bem(baseClass),
+      types[props.type],
+      paddings[props.padding],
+      radiuses[props.radius],
+      props.customClass,
+    ]"
+    @click="handleClick"
+  >
+    <div
+      :class="[
+        bem(baseClass, 'content'),
+        types[props.type],
+        paddings[props.padding],
+        radiuses[props.radius],
+        props.customClass,
+      ]"
+    >
+      <slot name="icon" :class="bem(baseClass, 'icon')"></slot>
       <Typography
         v-if="label"
         tag="span"
         type="body_highlight"
         weight="medium"
-        :customClass="bem('label')"
+        :customClass="bem(baseClass, 'label')"
         :text="label"
       />
-      <div v-if="label" :class="bem('hover-feature')" role="presentation" aria-hidden="true"></div>
+      <div
+        v-if="label"
+        :class="bem(baseClass, 'hover-feature')"
+        role="presentation"
+        aria-hidden="true"
+      ></div>
     </div>
   </component>
 </template>
 
 <script lang="ts" setup>
-  import { computed } from 'vue';
   import Typography from '@presentational_components/foundation/typography/Typography.vue';
   import './styles.scss';
+  import { bem } from '../../../../scripts/utils/bem';
 
   type ButtonType = 'primary' | 'secondary' | 'tertiary';
   type ButtonPadding = 'condensed' | 'balanced' | 'regular';
@@ -58,13 +82,6 @@
       padding: 'regular',
       radius: 'circular',
     },
-  );
-
-  const bem = (suffix?: string) => (suffix ? `${baseClass}__${suffix}` : baseClass);
-  const classes = computed(() =>
-    [bem(), types[props.type], paddings[props.padding], radiuses[props.radius], props.customClass]
-      .filter(Boolean)
-      .join(' '),
   );
 
   const handleClick = () => {

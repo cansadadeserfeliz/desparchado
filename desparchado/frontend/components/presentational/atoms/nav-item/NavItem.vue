@@ -1,19 +1,23 @@
 <template>
-  <component :is="link ? 'a' : 'button'" :href="link" :class="classes">
+  <component
+    :is="link ? 'a' : 'button'"
+    :href="link"
+    :class="[bem(baseClass), props.customClass, props.active && bem(baseClass, '', 'active')]"
+  >
     <Typography
       tag="span"
       type="nav_item"
       weight="medium"
       :text="label"
-      :customClass="bem('label')"
+      :customClass="bem(baseClass, 'label')"
     />
   </component>
 </template>
 
 <script lang="ts" setup>
-  import { computed } from 'vue';
   import Typography from '@presentational_components/foundation/typography/Typography.vue';
   import './styles.scss';
+  import { bem } from '../../../../scripts/utils/bem';
 
   const baseClass = 'nav-item';
 
@@ -23,9 +27,4 @@
     active?: boolean;
     link?: string;
   }>();
-
-  const bem = (suffix?: string) => (suffix ? `${baseClass}__${suffix}` : baseClass);
-  const classes = computed(() =>
-    [bem(), props.customClass, props.active && `${baseClass}--active`].filter(Boolean).join(' '),
-  );
 </script>
