@@ -37,6 +37,15 @@ def test_future_event_list_payload(client, future_event):
     assert len(json_response['results']) == 1
     event_data = json_response['results'][0]
 
+    # Verify all serializer fields
+    assert 'formatted_hour' in event_data
+    assert 'formatted_day' in event_data
+    assert 'place' in event_data
+    assert 'name' in event_data['place']
+    assert 'slug' in event_data['place']
+    assert 'image_url' in event_data
+    assert 'truncated_description' in event_data
+    assert 'is_recurrent' in event_data
     assert event_data['title'] == future_event.title
     assert event_data['slug'] == future_event.slug
     assert event_data['url'] == future_event.get_absolute_url()
