@@ -43,6 +43,52 @@ def test_future_event_list_payload(client, future_event):
 
 
 @pytest.mark.django_db
+def test_future_event_list_ordering_by_event_date(client):
+    future_event_1 = EventFactory(
+        event_date=timezone.now() + timedelta(days=1),
+        place=PlaceFactory(
+            city=CityFactory(),
+        ),
+    )
+    future_event_2 = EventFactory(
+        event_date=timezone.now() + timedelta(days=2),
+        place=PlaceFactory(
+            city=CityFactory(),
+        ),
+    )
+
+    response = client.get(
+        reverse('events_api:future_events_list'),
+        query_params={
+            'ordering': 'event_date',
+        }
+    )
+    assert response.status_code == status.HTTP_200_OK
+    json_response = response.json()
+
+    assert 'results' in json_response
+    assert len(json_response['results']) == 2
+
+    assert json_response['results'][0]['title'] == future_event_1.title
+    assert json_response['results'][1]['title'] == future_event_2.title
+
+    response = client.get(
+        reverse('events_api:future_events_list'),
+        query_params={
+            'ordering': '-event_date',
+        }
+    )
+    assert response.status_code == status.HTTP_200_OK
+    json_response = response.json()
+
+    assert 'results' in json_response
+    assert len(json_response['results']) == 2
+
+    assert json_response['results'][0]['title'] == future_event_2.title
+    assert json_response['results'][1]['title'] == future_event_1.title
+
+
+@pytest.mark.django_db
 def test_future_event_list_filter_by_city(client):
     future_event_1 = EventFactory(
         event_date=timezone.now() + timedelta(days=1),
