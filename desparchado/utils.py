@@ -1,6 +1,6 @@
 import calendar
 import logging
-from datetime import date, datetime, timedelta
+from datetime import date, timedelta
 from html_sanitizer import Sanitizer
 
 from django.core.mail import send_mail
