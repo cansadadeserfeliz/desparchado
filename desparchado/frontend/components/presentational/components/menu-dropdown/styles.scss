@@ -1,7 +1,7 @@
 @use '@styles' as *;
 @use '@styles/variables' as *;
-@use '@styles/breakpoints' as *;
 @use '@styles/functions' as *;
+@use '@styles/breakpoints' as *;
 @use "sass:map";
 
 .menu-dropdown {
@@ -31,6 +31,14 @@
 
     #{$self}__trigger {
       transform: translateX(toRem(-5px));
+    }
+
+    .button {
+      &::before {
+        @media (min-width: map.get($breakpoints, s)) {
+          display: none;
+        }
+      }
     }
   }
 
@@ -73,14 +81,16 @@
     width: 100%;
 
     &:hover {
-      background: $color-layout-interactive-background;
       --button-foreground: #{$color-layout-background}; 
+      --button-background: #{$color-layout-interactive-background}; 
       transition: $ease-out-quart 500ms background-color;
     }
   }
 
-  .button__hover-feature {
-    display: none;
+  .button {
+    &__hover-feature {
+      display: none;
+    }
   }
 }
 

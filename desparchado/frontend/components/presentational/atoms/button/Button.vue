@@ -9,6 +9,7 @@
       radiuses[props.radius],
       props.customClass,
     ]"
+    :style="props.name && `--button-name: '${props.name}'`"
     @click="handleClick"
   >
     <div
@@ -20,7 +21,7 @@
         props.customClass,
       ]"
     >
-      <slot name="icon" :class="bem(baseClass, 'icon')"></slot>
+      <Icon v-if="props.icon" :id="props.icon" size="regular" />
       <Typography
         v-if="label"
         tag="span"
@@ -41,6 +42,7 @@
 
 <script lang="ts" setup>
   import Typography from '@presentational_components/foundation/typography/Typography.vue';
+  import Icon from '@presentational_components/foundation/icon/Icon.vue';
   import './styles.scss';
   import { bem } from '../../../../scripts/utils/bem';
 
@@ -68,21 +70,22 @@
     circular: `${baseClass}--radius-circular`,
   };
 
-  const props = withDefaults(
-    defineProps<{
-      label?: string;
-      type: ButtonType;
-      padding?: ButtonPadding;
-      radius?: ButtonRadius;
-      customClass?: string;
-      link?: string;
-      onClick?: () => void;
-    }>(),
-    {
-      padding: 'regular',
-      radius: 'circular',
-    },
-  );
+  export interface ButtonProps {
+    label?: string; // text shown on the button
+    name?: string; // labeled name of the button, use when label cannot be provided
+    icon?: string;
+    type: ButtonType;
+    padding?: ButtonPadding;
+    radius?: ButtonRadius;
+    customClass?: string;
+    link?: string;
+    onClick?: () => void;
+  }
+
+  const props = withDefaults(defineProps<ButtonProps>(), {
+    padding: 'regular',
+    radius: 'circular',
+  });
 
   const handleClick = () => {
     if (props.onClick) {

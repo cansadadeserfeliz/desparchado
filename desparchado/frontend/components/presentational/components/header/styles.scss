@@ -1,0 +1,136 @@
+@use '@styles/variables' as *;
+@use '@styles/functions' as *;
+@use '@styles/breakpoints' as *;
+@use '@styles' as *;
+@use "sass:map";
+
+.header {
+  &__wrapper,
+  &__mobile-actions {
+    background: $color-dp-orange-50;
+    padding: toRem(5px) toRem(20px) 0;
+    box-sizing: border-box;
+
+    @media (min-width: map.get($breakpoints, m)) {
+      padding: toRem(20px);
+      padding-bottom: toRem(25px);
+    }
+  }
+
+  &__wrapper {
+    display: grid;
+    grid-row-gap: toRem(10px);
+    grid-template-columns: auto auto 1fr;
+    border-bottom: $hairline_regular;
+  }
+
+  &__mobile-actions {
+    border-top: $hairline_regular;
+    display: flex;
+    align-items: center;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    padding: toRem(5px) toRem(20px);
+    justify-content: flex-end;
+  }
+
+  &__nav-group {
+    display: flex;
+    align-items: center;
+    grid-row: 2;
+    grid-column: 1 / -1; /* Span all columns */
+    justify-content: center;
+
+    @media (min-width: map.get($breakpoints, s)) {
+      justify-content: flex-start;
+    }
+
+    @media (min-width: map.get($breakpoints, m)) {
+      grid-row: 1;
+      grid-column: 1 / 3;
+    }
+  }
+
+  &__social {
+    display: flex;
+    grid-row: 1;
+    grid-column: 2;
+
+    @media (min-width: map.get($breakpoints, m)) {
+      grid-column: 3 / 4;
+      justify-content: flex-end;
+    }
+  }
+  
+  &__social-item {
+    &::before {
+      display: none;    
+    }
+  }
+
+  &__actions {
+    display: flex;
+    gap: toRem(10px);
+    grid-row: 1;
+    grid-column: 3;
+    justify-content: flex-end;
+    align-items: center;
+
+    @media (min-width: map.get($breakpoints, m)) {
+      grid-row: 2;
+      grid-column: 2 / 4;
+    }
+  }
+
+  &__logo {
+    display: flex;
+    height: toRem(50px);
+    width: toRem(50px);
+    overflow: hidden;
+    grid-row: 1;
+    grid-column: 1;
+
+    @media (min-width: map.get($breakpoints, m)) {
+      grid-row: 2;
+      grid-column: 1 / 2;
+      width: unset;
+    }
+
+    &--large {
+      @media (max-width: map.get($breakpoints, m)) {
+        display: none;
+      };
+    }
+
+    &--small {
+      @media (min-width: map.get($breakpoints, m)) {
+        display: none;
+      };
+    }
+  }
+
+  &__profile {
+    position: relative;
+
+    .menu-dropdown__trigger {
+      --button-background: #{$color-dp-orange-200};
+      --button-foreground: #{$color-layout-foreground};
+
+      &:hover {
+        --button-background: #{$color-dp-orange-300};
+        --button-foreground: #{$color-layout-foreground};
+      }
+
+      &::before {
+        @media (max-width: map.get($breakpoints, s)) {
+          top: 50%;
+          transform: translateY(-50%);
+          right: calc(100% - -10px);
+          left: unset;
+        }
+      }
+    }
+  }
+}
