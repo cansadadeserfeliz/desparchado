@@ -60,7 +60,7 @@ def _get_relative_timeframe(target: date, today: date):
         return gettext('next week')
 
     # This month
-    day_1, days_in_month = calendar.monthrange(today.year, today.month)
+    _, days_in_month = calendar.monthrange(today.year, today.month)
     end_of_month = date(today.year, today.month, days_in_month)
     if today <= target <= end_of_month:
         return gettext('this month')
