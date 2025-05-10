@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'django_vite',
     'drf_yasg',
+    'django_filters',
     'rest_framework',
 
     'dashboard',
