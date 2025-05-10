@@ -1,4 +1,5 @@
 from django.utils.formats import date_format
+from django.utils import timezone
 from django.template.defaultfilters import truncatewords_html
 from rest_framework import serializers
 
@@ -10,6 +11,7 @@ class PlaceSerializer(serializers.ModelSerializer):
         model = Place
         fields = [
             'name',
+            'slug',
         ]
 
 

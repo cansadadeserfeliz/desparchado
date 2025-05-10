@@ -6,10 +6,8 @@ from django.urls import reverse
 from django.utils import timezone
 from rest_framework import status
 
-from ...factories import SpeakerFactory
-from ....models import Event
-from ....models import Organizer
-from ....models import Speaker
+from events.tests.factories import EventFactory
+from places.tests.factories import PlaceFactory, CityFactory
 
 
 @pytest.mark.django_db
@@ -42,3 +40,53 @@ def test_future_event_list_payload(client, future_event):
     assert event_data['title'] == future_event.title
     assert event_data['slug'] == future_event.slug
     assert event_data['url'] == future_event.get_absolute_url()
+
+
+@pytest.mark.django_db
+def test_future_event_list_filter_by_city(client):
+    future_event_1 = EventFactory(
+        event_date=timezone.now() + timedelta(days=1),
+        place=PlaceFactory(
+            city=CityFactory(),
+        ),
+    )
+    future_event_2 = EventFactory(
+        event_date=timezone.now() + timedelta(days=1),
+        place=PlaceFactory(
+            city=CityFactory(),
+        ),
+    )
+
+    response = client.get(
+        reverse('events_api:future_events_list'),
+        query_params={
+            'place__city__slug': future_event_1.place.city.slug,
+        }
+    )
+    assert response.status_code == status.HTTP_200_OK
+
+    json_response = response.json()
+
+    assert 'results' in json_response
+    assert len(json_response['results']) == 1
+    event_data = json_response['results'][0]
+
+    assert event_data['title'] == future_event_1.title
+    assert event_data['slug'] == future_event_1.slug
+
+    response = client.get(
+        reverse('events_api:future_events_list'),
+        query_params={
+            'place__city__slug': future_event_2.place.city.slug,
+        }
+    )
+    assert response.status_code == status.HTTP_200_OK
+
+    json_response = response.json()
+
+    assert 'results' in json_response
+    assert len(json_response['results']) == 1
+    event_data = json_response['results'][0]
+
+    assert event_data['title'] == future_event_2.title
+    assert event_data['slug'] == future_event_2.slug
