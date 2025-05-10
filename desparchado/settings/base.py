@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'django_vite',
     'drf_yasg',
+    'django_filters',
     'rest_framework',
 
     'dashboard',
@@ -281,5 +282,5 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
     ],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
-    'PAGE_SIZE': 50
+    'PAGE_SIZE': 10,
 }
