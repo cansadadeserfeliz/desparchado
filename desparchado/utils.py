@@ -1,8 +1,11 @@
+import calendar
 import logging
+from datetime import date, datetime, timedelta
 from html_sanitizer import Sanitizer
 
 from django.core.mail import send_mail
 from django.conf import settings
+from django.utils.translation import gettext
 
 logger = logging.getLogger(__name__)
 sanitizer = Sanitizer({
@@ -10,10 +13,58 @@ sanitizer = Sanitizer({
 })
 
 
+def get_natural_day(target: date):
+    tzinfo = getattr(target, 'tzinfo', None)
+    try:
+        target = date(target.year, target.month, target.day)
+    except AttributeError:
+        # Passed target wasn't a date object
+        return target
+
+    today = datetime.now(tzinfo).date()
+    delta = target - today
+
+    if delta.days == 0:
+        return gettext('today')
+    elif delta.days == 1:
+        return gettext('tomorrow')
+    elif delta.days == -1:
+        return gettext('yesterday')
+
+    # Week boundaries
+    start_of_week = today - timedelta(days=today.weekday())
+    end_of_week = start_of_week + timedelta(days=6)
+    start_of_next_week = end_of_week + timedelta(days=1)
+    end_of_next_week = start_of_next_week + timedelta(days=6)
+
+    if start_of_week <= target <= end_of_week:
+        return gettext('this week')
+    elif start_of_next_week <= target <= end_of_next_week:
+        return gettext('next week')
+
+    # This month
+    day_1, days_in_month = calendar.monthrange(today.year, today.month)
+    end_of_month = date(today.year, today.month, days_in_month)
+    if today <= target <= end_of_month:
+        return gettext('this month')
+
+    # Next month
+    next_month_year = today.year + (today.month // 12)
+    next_month = (today.month % 12) + 1
+    day_1, days_in_next_month = calendar.monthrange(next_month_year, next_month)
+    start_of_next_month = date(next_month_year, next_month, 1)
+    end_of_next_month = date(next_month_year, next_month, days_in_next_month)
+
+    if start_of_next_month <= target <= end_of_next_month:
+        return gettext('next month')
+
+    return ''
+
+
 def send_admin_notification(request, obj, form, change):
     """
     Sends an email notification to admin users when an object is created or updated.
-    
+
     The email subject indicates whether the object was created or updated, includes the model name, object, and user, and the body contains a link to the object's detail page.
     """
     try:
@@ -36,7 +87,7 @@ def send_admin_notification(request, obj, form, change):
 def send_notification(request, obj, model_name, created):
     """
     Sends an email notification about the creation or update of an object, unless the user is a superuser.
-    
+
     Args:
         request: The HTTP request containing the user performing the action.
         obj: The object that was created or updated.
@@ -66,10 +117,10 @@ def send_notification(request, obj, model_name, created):
 def sanitize_html(html: str):
     """
     Sanitizes an HTML string by removing or altering potentially unsafe content.
-    
+
     Args:
         html: The HTML string to sanitize.
-    
+
     Returns:
         The sanitized HTML string with typographic whitespace preserved.
     """
