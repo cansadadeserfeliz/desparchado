@@ -2,7 +2,12 @@
   <component
     :is="link ? 'a' : 'button'"
     :href="link"
-    :class="[bem(baseClass), props.customClass, props.active && bem(baseClass, '', 'active')]"
+    :class="[
+      bem(baseClass),
+      props.customClass,
+      props.active && bem(baseClass, '', 'active'),
+      props.highlight && bem(baseClass, '', 'highlight'),
+    ]"
   >
     <Typography
       tag="span"
@@ -19,12 +24,14 @@
   import './styles.scss';
   import { bem } from '../../../../scripts/utils/bem';
 
-  const baseClass = 'nav-item';
-
-  const props = defineProps<{
+  export interface NavItemProps {
     label: string;
+    highlight?: boolean;
     customClass?: string;
     active?: boolean;
     link?: string;
-  }>();
+  }
+  const baseClass = 'nav-item';
+
+  const props = defineProps<NavItemProps>();
 </script>
