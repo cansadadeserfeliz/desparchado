@@ -242,6 +242,10 @@ class Event(TimeStampedModel):
             return format_currency(self.price)
         return 'Gratuito'
 
+    @property
+    def image_url(self):
+        return self.get_image_url()
+
     def get_image_url(self):
         if self.image:
             return self.image.url
