@@ -14,6 +14,17 @@ sanitizer = Sanitizer({
 
 
 def get_natural_day(target: date):
+    """
+    Converts a date to a natural language description relative to today.
+
+    Args:
+        target: A date object to convert to natural language
+    Returns:
+        A localized string describing the date (today, tomorrow, yesterday,
+        this week, next week, this month, next month) or an empty string
+        if none of these categories apply. Returns the input unchanged if
+        it's not a date object.
+    """
     tzinfo = getattr(target, 'tzinfo', None)
     try:
         target = date(target.year, target.month, target.day)
@@ -30,6 +41,12 @@ def get_natural_day(target: date):
         return gettext('tomorrow')
     elif delta.days == -1:
         return gettext('yesterday')
+
+    # Extract this to reduce complexity
+    return _get_relative_timeframe(target, today)
+
+def _get_relative_timeframe(target: date, today: date):
+    """Helper function to determine relative timeframe of a date."""
 
     # Week boundaries
     start_of_week = today - timedelta(days=today.weekday())
