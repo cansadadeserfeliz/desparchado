@@ -6,7 +6,7 @@
     "start": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "storybook": "storybook dev -p 6006 --config-dir desparchado/frontend/.storybook --ci",
+    "storybook": "storybook dev -p 6006 -h 0.0.0.0 --config-dir desparchado/frontend/.storybook --ci",
     "build-storybook": "storybook build --config-dir desparchado/frontend/.storybook",
     "lint-scripts": "npx eslint --ext .ts,.vue ."
   },

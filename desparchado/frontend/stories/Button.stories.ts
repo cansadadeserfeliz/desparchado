@@ -1,5 +1,4 @@
 import Button from '@presentational_components/atoms/button/Button.vue';
-import Icon from '@presentational_components/foundation/icon/Icon.vue';
 import type { Meta, StoryObj } from '@storybook/vue3';
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
@@ -82,18 +81,7 @@ export const OnlyIconButton: Story = {
   args: {
     type: 'primary',
     padding: 'balanced',
+    name: 'Perfil',
+    icon: 'user',
   },
-  render: (args) => ({
-    components: { Button, Icon },
-    setup() {
-      return { args };
-    },
-    template: `
-      <Button v-bind="args">
-        <template #icon>
-          <Icon id="user" size="regular" />
-        </template>
-      </Button>
-    `,
-  }),
 };

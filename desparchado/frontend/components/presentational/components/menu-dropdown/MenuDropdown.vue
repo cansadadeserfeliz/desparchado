@@ -1,16 +1,17 @@
 <template>
-  <div :class="[bem(baseClass), isOpen && bem(baseClass, '', 'open')]" ref="wrapperRef">
+  <div
+    :class="[bem(baseClass), isOpen && bem(baseClass, '', 'open'), props.customClass]"
+    ref="wrapperRef"
+  >
     <Button
       type="primary"
       padding="balanced"
       :onClick="toggleMenu"
       ref="triggerRef"
       :custom-class="bem(baseClass, 'trigger')"
-    >
-      <template #icon>
-        <Icon id="user" size="regular" />
-      </template>
-    </Button>
+      :name="props.name"
+      icon="user"
+    />
 
     <Transition name="slide-fade">
       <div
@@ -44,14 +45,20 @@
   import { ref, onMounted, onBeforeUnmount } from 'vue';
 
   import Button from '@presentational_components/atoms/button/Button.vue';
-  import Icon from '@presentational_components/foundation/icon/Icon.vue';
   import './styles.scss';
   import { bem } from '../../../../scripts/utils/bem';
 
   // -------- [Interfaces] --------
-  export interface MenuItem {
+  interface MenuItem {
     label: string;
     url: string;
+  }
+
+  export interface MenuDropdownProps {
+    items: Array<MenuItem>;
+    ariaLabel?: string;
+    customClass?: string;
+    name?: string;
   }
 
   // -------- [Class] --------
@@ -62,7 +69,7 @@
   const contentPositionY = ref('');
   const triggerRef = ref<typeof Button | null>(null);
   const wrapperRef = ref<typeof Button | null>(null);
-  const props = defineProps<{ items: Array<MenuItem>; ariaLabel?: string }>();
+  const props = defineProps<MenuDropdownProps>();
   const isOpen = ref(false);
 
   // -------- [Functions] --------

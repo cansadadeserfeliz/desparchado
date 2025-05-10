@@ -3,6 +3,7 @@
 @use '@styles/animations' as *;
 @use '@styles/mixins' as *;
 @use '@styles/breakpoints' as *;
+@use '@styles/typography' as *;
 @use "sass:map";
 
 .button {
@@ -12,6 +13,16 @@
   border: none;
   background: transparent;
   text-decoration: none;
+  position: relative;
+
+  &::before {
+    @extend .text-caption;
+    content: var(--button-name);
+    position: absolute;
+    top: calc(100% + 5px);
+    left: 50%;
+    transform: translateX(-50%);
+  }
 
   &__content {
     align-items: center;
@@ -29,18 +40,18 @@
   }
 
   &__hover-feature {
-    height: 2ex;
     position: relative;
-    width: 2ex;
+    display: none;
 
-    @media (min-width: map.get($breakpoints, s)) and (max-width: map.get($breakpoints, m-minus-1)) {
+    @media (min-width: map.get($breakpoints, s)) {
+      display: block;
       height: 1.5ex;
       width: 1.5ex;
     }
   
-    @media (max-width: map.get($breakpoints, s-minus-1)) {
-      height: 1ex;
-      width: 1ex;
+    @media (min-width: map.get($breakpoints, m)) {
+      height: 2ex;
+      width: 2ex;
     }
   
     &::before,

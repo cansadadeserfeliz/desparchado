@@ -16,7 +16,7 @@
   display: flex;
   gap: toRem(18px);
   justify-content: center;
-  padding: toRem(15px) toRem(30px) toRem(10px);
+  padding: toRem(15px) toRem(10px) toRem(10px);
   position: relative;
   text-decoration: none;
   width: fit-content;
@@ -75,6 +75,12 @@
         opacity: 1;   
         background-color: $color-layout-foreground;   
       }
+    }
+  }
+
+  &--highlight {
+    #{$self}__label {
+      color: $color-layout-interactive;
     }
   }
 }
