@@ -9,6 +9,7 @@ const meta = {
   argTypes: {
     navItems: { control: 'object' },
     social: { control: 'object' },
+    isLogged: { control: 'boolean' },
   },
   args: {},
   parameters: {

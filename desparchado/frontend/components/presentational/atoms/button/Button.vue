@@ -9,7 +9,7 @@
       radiuses[props.radius],
       props.customClass,
     ]"
-    :style="props.name && `--button-name: '${props.name}''`"
+    :style="props.name && `--button-name: '${props.name}'`"
     @click="handleClick"
   >
     <div

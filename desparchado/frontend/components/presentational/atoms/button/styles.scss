@@ -46,7 +46,7 @@
     @media (min-width: map.get($breakpoints, s)) {
       display: block;
       height: 1.5ex;
-      height: 1.5ex;
+      width: 1.5ex;
     }
   
     @media (min-width: map.get($breakpoints, m)) {

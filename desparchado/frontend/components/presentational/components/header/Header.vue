@@ -16,13 +16,13 @@
       </div>
       <div :class="bem(baseClass, 'actions')">
         <MenuDropdown
-          v-if="logged"
+          v-if="props.isLogged"
           :items="props.profileMenu.items"
           :customClass="bem(baseClass, 'profile')"
           :name="props.profileMenu.name"
         />
         <Button
-          v-if="!logged"
+          v-if="!props.isLogged"
           :type="props.login.type"
           :link="props.login.link"
           :label="props.login.label"
@@ -75,11 +75,12 @@
     profileMenu: MenuDropdownProps;
     login: ButtonProps;
     createEvent: ButtonProps;
+    isLogged?: boolean;
   }
 
-  const logged = false; // This should be replaced with a prop or a store value in the future
-
-  const props = defineProps<HeaderProps>();
+  const props = withDefaults(defineProps<HeaderProps>(), {
+    isLogged: false,
+  });
 
   // -------- [Props] --------
   const baseClass = 'header';
