@@ -6,6 +6,7 @@ from html_sanitizer import Sanitizer
 from django.core.mail import send_mail
 from django.conf import settings
 from django.utils.translation import gettext
+from django.utils import timezone
 
 logger = logging.getLogger(__name__)
 sanitizer = Sanitizer({
@@ -25,14 +26,13 @@ def get_natural_day(target: date):
         if none of these categories apply. Returns the input unchanged if
         it's not a date object.
     """
-    tzinfo = getattr(target, 'tzinfo', None)
     try:
         target = date(target.year, target.month, target.day)
     except AttributeError:
         # Passed target wasn't a date object
         return target
 
-    today = datetime.now(tzinfo).date()
+    today = timezone.now().date()
     delta = target - today
 
     if delta.days == 0:
@@ -49,6 +49,7 @@ def _get_relative_timeframe(target: date, today: date):
     """Helper function to determine relative timeframe of a date."""
 
     # Week boundaries
+    # Assuming weeks start on Monday (0) and end on Sunday (6)
     start_of_week = today - timedelta(days=today.weekday())
     end_of_week = start_of_week + timedelta(days=6)
     start_of_next_week = end_of_week + timedelta(days=1)
@@ -68,7 +69,7 @@ def _get_relative_timeframe(target: date, today: date):
     # Next month
     next_month_year = today.year + (today.month // 12)
     next_month = (today.month % 12) + 1
-    day_1, days_in_next_month = calendar.monthrange(next_month_year, next_month)
+    _, days_in_next_month = calendar.monthrange(next_month_year, next_month)
     start_of_next_month = date(next_month_year, next_month, 1)
     end_of_next_month = date(next_month_year, next_month, days_in_next_month)
 
@@ -127,8 +128,8 @@ def send_notification(request, obj, model_name, created):
             settings.EMAIL_ADMIN_USERS,
             fail_silently=True,
         )
-    except:
-        logger.error('No se pudo enviar correo electrónico')
+    except Exception as e:
+        logger.error('No se pudo enviar correo electrónico', exc_info=e)
 
 
 def sanitize_html(html: str):
