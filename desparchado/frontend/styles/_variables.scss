@@ -28,7 +28,7 @@ $color-gray-1000: #010101;
 // dp-orange
 $color-dp-orange-50: #FBF8F2;
 $color-dp-orange-100: #FCE1B1;
-$color-dp-orange-200: #FDBE71;
+$color-dp-orange-200: #EFC26A;
 $color-dp-orange-300: #F42C04;
 $color-dp-orange-400: #B32400;
 $color-dp-orange-500: #7A1600;
@@ -40,6 +40,12 @@ $color-dp-violet-300: #0D00A4;
 $color-dp-violet-400: #08007A;
 $color-dp-violet-500: #04004C;
 
+$color-black-100: rgba($color: #000000, $alpha: .1);
+$color-black-200: rgba($color: #000000, $alpha: .2);
+$color-black-300: rgba($color: #000000, $alpha: .3);
+$color-black-400: rgba($color: #000000, $alpha: .4);
+$color-black-500: rgba($color: #000000, $alpha: .5);
+
 // base
 $color-base-primary: $color-dp-orange-300;
 $color-base-secondary: $color-dp-violet-300;
@@ -48,6 +54,7 @@ $color-base-secondary: $color-dp-violet-300;
 $color-layout-background: $color-dp-orange-50;
 $color-layout-interactive-background: $color-gray-1000;
 $color-layout-foreground: $color-gray-900;
+$color-layout-lighter-foreground: $color-gray-600;
 $color-layout-interactive: $color-dp-orange-300;
 $color-layout-hairline: $color-gray-100;
 $color-layout-focus: $color-dp-violet-300;
@@ -58,3 +65,22 @@ $hairline_regular: toRem(2px) solid $color-layout-foreground;
 // timing functions
 $ease-out-quart: cubic-bezier(0.165, 0.840, 0.440, 1.000);
 $ease-in-quart: cubic-bezier(0.895, 0.030, 0.685, 0.220);
+
+// elevations
+$elev-neutral: 0;
+$elev-over-neutral: 1;
+$elev-over-main: 5;
+$elev-over-all: 10;
+
+// shadows
+$shadow-over-neutral:
+  0px 16px 16px -8px rgba(12, 12, 13, 0.1),
+  0px 4px 4px -4px rgba(12, 12, 13, 0.05);
+$shadow-over-main:
+  0px 3px 5px rgba(0, 0, 0, 0.2),
+  0px 3px 5px rgba(0, 0, 0, 0.14),
+  0px 1px 10px rgba(0, 0, 0, 0.12);
+$shadow-over-all:
+  0px 6px 10px rgba(0, 0, 0, 0.2),
+  0px 6px 10px rgba(0, 0, 0, 0.14),
+  0px 1px 18px rgba(0, 0, 0, 0.12);

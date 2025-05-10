@@ -5,8 +5,9 @@ import calendar
 import markdown
 
 from django import template
-from django.utils.translation import gettext as _
 from django.utils.safestring import mark_safe
+
+from desparchado.utils import get_natural_day
 
 register = template.Library()
 
@@ -22,21 +23,8 @@ def naturalday_no_default(value, arg=None):
 
     See from django.contrib.humanize.templatetags.humanize.naturalday
     """
-    tzinfo = getattr(value, "tzinfo", None)
-    try:
-        value = date(value.year, value.month, value.day)
-    except AttributeError:
-        # Passed value wasn't a date object
-        return value
-    today = datetime.now(tzinfo).date()
-    delta = value - today
-    if delta.days == 0:
-        return _("today")
-    elif delta.days == 1:
-        return _("tomorrow")
-    elif delta.days == -1:
-        return _("yesterday")
-    return ''
+    return get_natural_day(value)
+
 
 @register.filter()
 def format_currency(value):

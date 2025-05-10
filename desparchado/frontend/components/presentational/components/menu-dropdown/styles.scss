@@ -1,0 +1,113 @@
+@use '@styles' as *;
+@use '@styles/variables' as *;
+@use '@styles/functions' as *;
+@use '@styles/breakpoints' as *;
+@use "sass:map";
+
+.menu-dropdown {
+  $self: &;
+
+  position: relative;
+  width: fit-content;
+  height: fit-content;
+
+  &::before {
+    content: '';
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    background: transparent;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    transition: background .3s ease;
+    will-change: background;
+  }
+
+  &--open {
+    &::before {
+      background: $color-black-100;
+    }
+
+    #{$self}__trigger {
+      transform: translateX(toRem(-5px));
+    }
+
+    .button {
+      &::before {
+        @media (min-width: map.get($breakpoints, s)) {
+          display: none;
+        }
+      }
+    }
+  }
+
+  &__trigger {
+    position: relative;
+    z-index: $elev-over-main;
+    transition: transform .3s ease;
+    will-change: transform;
+  }
+
+  &__content {
+    background: $color-dp-orange-100;
+    border: $hairline_regular;
+    border-radius: toRem(20px);
+    overflow: hidden;
+    position: absolute;
+    width: max-content;
+    z-index: $elev-over-main - 1;
+    box-shadow: $shadow-over-neutral;
+
+    &--top {
+      bottom: calc(100% + toRem(10px));
+    }
+
+    &--bottom {
+      top: calc(100% + toRem(10px));
+    }
+
+    &--left {
+      right: 0;
+    }
+
+    &--right {
+      left: 0;
+    }
+  }
+
+  &__item {
+    border-radius: 0;
+    width: 100%;
+
+    &:hover {
+      --button-foreground: #{$color-layout-background}; 
+      --button-background: #{$color-layout-interactive-background}; 
+      transition: $ease-out-quart 500ms background-color;
+    }
+  }
+
+  .button {
+    &__hover-feature {
+      display: none;
+    }
+  }
+}
+
+.slide-fade-enter-active {
+  transition: 500ms $ease-out-quart;
+  transition-property: transform, opacity;
+  will-change: transform, opacity;
+}
+
+.slide-fade-leave-active {
+  transition: 500ms $ease-in-quart;
+  transition-property: transform, opacity;
+  will-change: transform, opacity;
+}
+
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+  transform: translateX(toRem(50px)) scale(0.5) translateY(toRem(-100px));
+  opacity: 0;
+}

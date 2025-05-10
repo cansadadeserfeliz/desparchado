@@ -9,22 +9,23 @@ const config: StorybookConfig = {
   },
   stories: [
     '../stories/**/*.stories.@(js|ts)',
-    "../stories/**/*.mdx",
+    '../stories/**/*.mdx',
   ],
   addons: [
-    "@storybook/addon-essentials",
-    "@chromatic-com/storybook",
-    "@storybook/experimental-addon-test"
+    '@storybook/addon-essentials',
+    '@chromatic-com/storybook',
+    '@storybook/experimental-addon-test',
+    '@storybook/addon-viewport',
   ],
   viteFinal: async (config) => {
     config.plugins = [...(config.plugins || []), vue()];
 
     config.resolve = {
       alias: {
-        "@presentational_components": resolve(__dirname, "../components/presentational"),
-        "@styles": resolve(__dirname, "../styles"),
-        "@fonts": resolve(__dirname, "../assets/fonts"),
-        "@assets": resolve(__dirname, "../assets")
+        '@presentational_components': resolve(__dirname, '../components/presentational'),
+        '@styles': resolve(__dirname, '../styles'),
+        '@fonts': resolve(__dirname, '../assets/fonts'),
+        '@assets': resolve(__dirname, '../assets')
       }
     };
     return config;

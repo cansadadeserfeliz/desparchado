@@ -11,17 +11,18 @@ const meta = {
       control: 'select',
       options: ['primary', 'secondary', 'tertiary'],
     },
-    condensed: {
-      control: 'boolean',
+    padding: {
+      control: 'select',
+      options: ['condensed', 'balanced', 'regular'],
+    },
+    radius: {
+      control: 'select',
+      options: ['squared', 'soft', 'circular'],
     },
     link: {
       control: 'text',
       description: 'Link to transform button into anchor if provided',
     },
-  },
-  args: {
-    type: 'primary',
-    condensed: false,
   },
 } satisfies Meta<typeof Button>;
 
@@ -33,7 +34,16 @@ export const CondensedButton: Story = {
   args: {
     type: 'primary',
     label: 'Leer más',
-    condensed: true,
+    padding: 'condensed',
+    link: 'google.com',
+  },
+};
+
+export const BalancedButton: Story = {
+  args: {
+    type: 'primary',
+    label: 'Leer más',
+    padding: 'balanced',
     link: 'google.com',
   },
 };
@@ -64,5 +74,14 @@ export const LinkButton: Story = {
     type: 'primary',
     label: 'Leer más',
     link: 'google.com',
+  },
+};
+
+export const OnlyIconButton: Story = {
+  args: {
+    type: 'primary',
+    padding: 'balanced',
+    name: 'Perfil',
+    icon: 'user',
   },
 };

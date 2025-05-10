@@ -45,6 +45,7 @@
       transition-duration: 500ms;
       transition-property: clip-path;
       transition-timing-function: $ease-out-quart;
+      will-change: clip-path;
       object-fit: contain;
       object-position: left;
       width: 100%;
@@ -63,6 +64,7 @@
     transition-property: background, color;
     transition-duration: 300ms;
     transition-timing-function: $ease-out-quart;
+    will-change: background, color;
   }
 
   &__location {

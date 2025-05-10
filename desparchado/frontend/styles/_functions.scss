@@ -4,7 +4,7 @@
   @return math.div($px, 16px) * 1rem;
 }
 
-@function fluid-typo($min-size, $max-size, $min-bp, $max-bp, $unit: vw) {
+@function fluid-size($min-size, $max-size, $min-bp, $max-bp, $unit: vw) {
   @if ($min-size > $max-size) {
     $temp-size: $min-size;
     $min-size: $max-size;

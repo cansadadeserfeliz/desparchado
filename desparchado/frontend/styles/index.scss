@@ -1,3 +1,4 @@
+@use '@styles/reset' as *;
 @use '@styles/breakpoints' as *;
 @use '@styles/fonts' as *;
 @use '@styles/functions' as *;
@@ -5,3 +6,24 @@
 @use '@styles/typography' as *;
 @use '@styles/variables' as *;
 @use '@styles/animations' as *;
+@use "sass:map";
+
+.excluded-from-mobile {
+  &.excluded-from-mobile {
+    display: none;
+
+    @media (min-width: map.get($breakpoints, m)) {
+      display: flex;
+    }
+  }
+}
+
+.excluded-from-desktop {
+  &.excluded-from-desktop {
+    display: flex;
+
+    @media (min-width: map.get($breakpoints, m)) {
+      display: none;
+    }
+  }
+}
