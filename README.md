@@ -2,6 +2,7 @@
 
 ![Pony powered](http://media.djangopony.com/img/small/badge.png)
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/0b2f55e0829c470396c53cedd7b8a26e)](https://app.codacy.com/gh/cansadadeserfeliz/desparchado?utm_source=github.com&utm_medium=referral&utm_content=cansadadeserfeliz/desparchado&utm_campaign=Badge_Grade)
 [![Coverage Status](https://codecov.io/gh/cansadadeserfeliz/desparchado/branch/main/graphs/badge.svg?branch=main)](https://codecov.io/github/cansadadeserfeliz/desparchado?branch=main)
 [![Codefactor](https://www.codefactor.io/repository/github/cansadadeserfeliz/desparchado/badge?style=social)](https://www.codefactor.io/repository/github/cansadadeserfeliz/desparchado)
 
