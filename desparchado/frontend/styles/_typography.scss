@@ -92,7 +92,7 @@ $font-sizes-header-item: (
 
   @include fluid-typography-styles(
     $font-tertiary,
-    1,
+    0.63,
     $font-sizes-heading-1,
     $breakpoints
   );

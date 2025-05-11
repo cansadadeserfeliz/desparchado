@@ -85,12 +85,12 @@ class VueComponentMount {
       if (match) {
         const propName = match[1];
         let value = attr.value;
-
         try {
+          // Attempt to parse JSON
           value = JSON.parse(value);
-        } catch (e) {
-          console.log(e);
-          // If JSON.parse fails, keep the original string value
+        } catch {
+          // If parsing fails, keep the original string
+          // Optionally, you could log the error or handle it differently
         }
 
         props[propName] = value;

@@ -27,3 +27,53 @@
     }
   }
 }
+
+.main-title {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: 25px 35px 0;
+  color: $color-layout-foreground;
+
+  &__wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    gap: 30px;
+  }
+
+  &__column {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  &__description {
+    max-width: 200px;
+  }
+}
+
+.featured-events {
+  display: flex;
+  height: 55vh;
+
+  &__item {
+    flex: 1;
+
+    &:not(:last-child) {
+      .featured-event-card__wrapper {
+        border-right: none;
+      }
+    }
+
+    .featured-event-card__wrapper {
+      border: $hairline_regular;
+      aspect-ratio: 2 / 1;
+
+      @media (min-width: map.get($breakpoints, m)) {
+        aspect-ratio: 3 / 1;
+      }
+    }
+  }
+}
