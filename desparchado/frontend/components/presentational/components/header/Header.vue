@@ -1,5 +1,5 @@
 <template>
-  <header :class="bem(baseClass)">
+  <div :class="bem(baseClass)">
     <div :class="bem(baseClass, 'wrapper')">
       <a href="/" :class="bem(baseClass, 'logo')" :aria-label="props.brandName">
         <Logo type="imagotype" :customClass="bem(baseClass, 'logo', 'large')" />
@@ -55,7 +55,7 @@
         customClass="excluded-from-desktop"
       />
     </div>
-  </header>
+  </div>
 </template>
 
 <script lang="ts" setup>

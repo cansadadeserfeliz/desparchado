@@ -8,8 +8,8 @@
   import { computed } from 'vue';
 
   // -------- [Types] --------
-  type HeadingTags = 'span' | 'p' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5';
-  type HeadingTypes =
+  type TypographyTags = 'span' | 'p' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5';
+  type TypographyTypes =
     | 'body_sm'
     | 'body_md'
     | 'body_lg'
@@ -30,7 +30,7 @@
     bold: 'text-bold',
   };
 
-  const types: Record<HeadingTypes, string> = {
+  const types: Record<TypographyTypes, string> = {
     body_sm: 'text-body-sm',
     body_md: 'text-body-md',
     body_lg: 'text-body-lg',
@@ -45,22 +45,21 @@
     s1: 'text-subtitle-1',
   };
 
+  export interface TypographyProps {
+    tag?: TypographyTags;
+    type?: TypographyTypes;
+    weight?: WeightValues;
+    text: string;
+    id?: string;
+    customClass?: string;
+  }
+
   // -------- [Props] --------
-  const props = withDefaults(
-    defineProps<{
-      tag?: HeadingTags;
-      type?: HeadingTypes;
-      weight?: WeightValues;
-      text: string;
-      id?: string;
-      customClass?: string;
-    }>(),
-    {
-      tag: 'p',
-      type: 'body_md',
-      weight: 'regular',
-    },
-  );
+  const props = withDefaults(defineProps<TypographyProps>(), {
+    tag: 'p',
+    type: 'body_md',
+    weight: 'regular',
+  });
   const tag = props.tag;
 
   const classes = computed(() =>

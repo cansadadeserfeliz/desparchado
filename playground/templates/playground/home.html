@@ -5,6 +5,9 @@
     <meta charset="utf-8">
     <title>Playground</title>
 
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
     {# This will add a <script> tag to include the ViteJS HMR client. #}
     {# This tag will include this script only if DJANGO_VITE_DEV_MODE is true, otherwise this will do nothing. #}
     {% vite_hmr_client %}
@@ -14,18 +17,85 @@
     {% vite_asset 'desparchado/frontend/scripts/mount-vue.ts' %}
 
   </head>
-  <body>
-    <div>
-      <div
-        data-vue-component="heading"
-        data-vue-prop-text="Cultura"
-      >
-      </div>
+  <body id="app">
+    <header 
+      data-vue-component="header" 
+      data-vue-prop-nav-items='[{"label": "Eventos", "link": "/events"}, {"label": "Archivo", "link": "/archive", "highlight": true}]'
+      data-vue-prop-social='[{"type": "tertiary", "name": "Facebook", "link": "https://www.facebook.com/", "icon": "xsocial"}, {"type": "tertiary", "padding": "balanced", "name": "Instagram", "link": "https://www.instagram.com/", "icon": "facebook"}, {"type": "tertiary", "name": "Twitter", "link": "https://twitter.com/", "icon": "instagram"}]'
+      data-vue-prop-profile-menu='{"items": [{"label": "Ver mi perfil", "url": "item1"}, {"label": "Eventos agregados", "url": "item2"}], "name": "perfil"}'
+      data-vue-prop-login='{"label": "Iniciar sesión", "link": "/login", "type": "tertiary"}'
+      data-vue-prop-create-event='{"label": "Crear evento", "link": "/events/add", "type": "primary"}'
+      data-vue-prop-brand-name="Desparchado"
+    ></header>
 
-      <div
-        data-vue-component="heading"
-        data-vue-prop-text="Parchate"
-      >
+    <div class="intro-section">
+      <div class="main-title" aria-label="Vive Cultura, Descubre y comparte cultura en tu ciudad. Párchate">
+        <div class="main-title__wrapper" aria-hidden="true">
+          <div class="main-title__column" >
+            <div
+              data-vue-component="typography"
+              data-vue-prop-text="vive"
+              data-vue-prop-type="s1"
+            >
+            </div>
+            <div
+              data-vue-component="typography"
+              data-vue-prop-text="Cultura"
+              data-vue-prop-type="h1"
+              data-vue-prop-weight="bold"
+            >
+            </div>
+          </div>
+          <div
+            data-vue-component="typography"
+            data-vue-prop-text="Descubre y comparte cultura en tu ciudad"
+            data-vue-prop-type="body_md"
+            class="main-title__description"
+          >
+          </div>
+        </div>
+    
+        <div
+          aria-hidden="true"
+          data-vue-component="typography"
+          data-vue-prop-text="Párchate"
+          data-vue-prop-type="h1"
+          data-vue-prop-weight="bold"
+        >
+        </div>
+      </div>
+  
+      <div class="featured-events">
+          <div
+            class="featured-events__item"
+            data-vue-component="featured-event-card"
+            data-vue-prop-tag="div"
+            data-vue-prop-location="Biblioteca Luis Ángel Aranjo"
+            data-vue-prop-title="No estamos solos la paz también se hace con animales"
+            data-vue-prop-day="17 Jun"
+            data-vue-prop-time="22:00"
+          >
+          </div>
+          <div
+            class="featured-events__item"
+            data-vue-component="featured-event-card"
+            data-vue-prop-tag="div"
+            data-vue-prop-location="Biblioteca Luis Ángel Aranjo"
+            data-vue-prop-title="No estamos solos la paz también se hace con animales"
+            data-vue-prop-day="17 Jun"
+            data-vue-prop-time="22:00"
+          >
+          </div>
+          <div
+            class="featured-events__item"
+            data-vue-component="featured-event-card"
+            data-vue-prop-tag="div"
+            data-vue-prop-location="Biblioteca Luis Ángel Aranjo"
+            data-vue-prop-title="No estamos solos la paz también se hace con animales"
+            data-vue-prop-day="17 Jun"
+            data-vue-prop-time="22:00"
+          >
+          </div>
       </div>
     </div>
   </body>
