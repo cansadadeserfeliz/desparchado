@@ -1,6 +1,13 @@
+@use '@styles/variables' as *;
+
 ul,
 li {
   margin: 0;
   padding: 0;
   list-style: none;
+}
+
+body {
+  margin: 0;
+  background: $color-layout-background;
 }

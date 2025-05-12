@@ -148,7 +148,7 @@ export const Caption: Story = {
 export const HeaderItem: Story = {
   args: {
     tag: 'span',
-    type: 'header_item',
+    type: 'nav_item',
     text: 'Header Item',
     id: 'headeritem',
   },

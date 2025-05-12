@@ -84,7 +84,16 @@ class VueComponentMount {
       const match = attr.name.match(/^data-vue-prop-(.+)$/);
       if (match) {
         const propName = match[1];
-        props[propName] = attr.value;
+        let value = attr.value;
+        try {
+          // Attempt to parse JSON
+          value = JSON.parse(value);
+        } catch {
+          // If parsing fails, keep the original string
+          // Optionally, you could log the error or handle it differently
+        }
+
+        props[propName] = value;
       }
     });
 
