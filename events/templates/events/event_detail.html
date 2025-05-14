@@ -114,7 +114,7 @@
           <img class="place-image" src="{{ event.place.get_image_url }}" alt="{{ event.place.name }}" />
         {% endif %}
         <h5 class="title"><a class="text-decoration-none" href="{{ event.place.get_absolute_url }}">{{ event.place.name }}</a></h5>
-        <div><b>Dirección:</b> {{ event.place.description }}</div>
+        <div><b>Dirección:</b> {{ event.place.description|safe }}</div>
 
         <div><a href="{{ event.place.get_absolute_url }}">Ver otros eventos en este sitio</a></div>
 
