@@ -1,5 +1,5 @@
 <template>
-  <div v-html="sprite" style="display: none;" aria-hidden="true"></div>
+  <div v-html="sprite" style="display: none" aria-hidden="true"></div>
   <svg :class="classes">
     <use :xlink:href="`#${props.id}`" />
   </svg>
@@ -9,8 +9,8 @@
   import { computed } from 'vue';
   import siteSvgs from '@assets/icons.svg?raw';
 
-  const spriteContent = siteSvgs
-  const sprite = computed(() => spriteContent)
+  const spriteContent = siteSvgs;
+  const sprite = computed(() => spriteContent);
 
   type IconSizeType = 'unset' | 'small' | 'regular';
 
