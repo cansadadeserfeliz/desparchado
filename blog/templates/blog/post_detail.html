@@ -1,5 +1,5 @@
 {% extends 'old_layout/base.html' %}
-{% load i18n static desparchado_tags %}
+{% load i18n static %}
 
 {% block title %}{{ post.title }}{% endblock %}
 
@@ -61,7 +61,7 @@
   <div class="post-content">
     <div class="row">
       <div class="col-lg-8 col-md-10 mx-auto">
-        {{ post.content|markdown }}
+        {{ post.content|safe }}
       </div>
     </div>
   </div>
