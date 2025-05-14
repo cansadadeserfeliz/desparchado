@@ -42,6 +42,12 @@ createsuperuser:
 django-shell:
 	docker exec -it $(web_container_name) sh -c "cd app && python3 manage.py shell"
 
+axes-reset:
+	docker exec -it $(web_container_name)  sh -c "cd app && python manage.py axes_reset"
+
+migrate-markdown-to-html:
+	docker exec -it $(web_container_name)  sh -c "cd app && python manage.py migrate_markdown_to_html"
+
 sync-filbo-events:
 	docker exec -it $(web_container_name)  sh -c "cd app && python manage.py sync_filbo_events $(spreadsheet_id)"
 
