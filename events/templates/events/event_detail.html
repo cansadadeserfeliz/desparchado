@@ -139,7 +139,7 @@
             </div>
           {% endif %}
           <h5><a class="text-decoration-none" href="{{ speaker.get_absolute_url }}">{{ speaker.name }}</a></h5>
-          <div>{{ speaker.description|safe|truncatewords_html:50|linebreaksbr }}</div>
+          <div>{{ speaker.description|safe|linebreaksbr|truncatewords_html:50 }}</div>
         </div>
       {% endfor %}
     {% endif %}
