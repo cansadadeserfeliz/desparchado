@@ -1,5 +1,5 @@
 {% extends 'games/hunting_of_snark_base.html' %}
-{% load i18n static desparchado_tags %}
+{% load i18n static %}
 
 {% block title %}La caza del Snark{% endblock %}
 
@@ -28,7 +28,7 @@
           <b>Libro #{{ forloop.counter }}:</b>
           {{ criteria.public_id }}).
           <div class="hunting-of-snark-criteria-name">
-            {{ criteria.name|markdown }}
+            {{ criteria.name|safe }}
           {% if criteria.public_id == criteria.RANDOM_LETTER_CRITERIA_ID %}
             - <b>{{ game.extra.random_letter }}</b>
           {% endif %}

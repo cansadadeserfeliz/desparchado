@@ -1,5 +1,5 @@
 {% extends 'games/hunting_of_snark_base.html' %}
-{% load i18n static desparchado_tags %}
+{% load i18n static %}
 
 {% block title %}La caza del Snark. Posibles criterios{% endblock %}
 
@@ -24,7 +24,7 @@
         <h3>{{ category.name }}</h3>
         <div>
           {% for criteria in category.criteria.all %}
-            {{ criteria.public_id }}). <div class="hunting-of-snark-criteria-name">{{ criteria.name|markdown }}</div><br>
+            {{ criteria.public_id }}). <div class="hunting-of-snark-criteria-name">{{ criteria.name|safe }}</div><br>
           {% endfor %}
         </div>
       {% endfor %}

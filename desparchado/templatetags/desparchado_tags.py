@@ -1,11 +1,8 @@
-from datetime import date, datetime
 from urllib.parse import urlparse
 
 import calendar
-import markdown
 
 from django import template
-from django.utils.safestring import mark_safe
 
 from desparchado.utils import get_natural_day
 
@@ -79,8 +76,3 @@ def user_can_edit_place(user, place):
     if user.is_authenticated:
         return place.can_edit(user)
     return False
-
-
-@register.filter(name='markdown')
-def markdown_filter(text):
-    return mark_safe(markdown.markdown(text))

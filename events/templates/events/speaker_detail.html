@@ -33,7 +33,7 @@
       <div class="image" style="background-image: url('{{ speaker.get_image_url }}');"
          title="{{ speaker.name }}"></div>
     {% endif %}
-    <div class="speaker-description">{{ speaker.description|linebreaksbr|safe }}</div>
+    <div class="speaker-description">{{ speaker.description|safe|linebreaksbr }}</div>
   </div>
 
 </section><!--/#speaker-detail-->

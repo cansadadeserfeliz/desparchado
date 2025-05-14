@@ -77,7 +77,7 @@
       {% endif %}
 
       <div class="event-description my-1" itemprop="description">
-        {{ event.description|linebreaksbr|safe }}
+        {{ event.description|safe|linebreaksbr }}
       </div>
 
       <p>
@@ -114,7 +114,7 @@
           <img class="place-image" src="{{ event.place.get_image_url }}" alt="{{ event.place.name }}" />
         {% endif %}
         <h5 class="title"><a class="text-decoration-none" href="{{ event.place.get_absolute_url }}">{{ event.place.name }}</a></h5>
-        <div><b>Dirección:</b> {{ event.place.description }}</div>
+        <div><b>Dirección:</b> {{ event.place.description|safe }}</div>
 
         <div><a href="{{ event.place.get_absolute_url }}">Ver otros eventos en este sitio</a></div>
 
@@ -139,7 +139,7 @@
             </div>
           {% endif %}
           <h5><a class="text-decoration-none" href="{{ speaker.get_absolute_url }}">{{ speaker.name }}</a></h5>
-          <div>{{ speaker.description|linebreaksbr|safe|truncatewords_html:50 }}</div>
+          <div>{{ speaker.description|safe|linebreaksbr|truncatewords_html:50 }}</div>
         </div>
       {% endfor %}
     {% endif %}
@@ -157,7 +157,7 @@
         {% endif %}
         <h5 class="text-center"><a class="text-decoration-none" href="{{ organizer.get_absolute_url }}">{{ organizer.name }}</a></h5>
         <div>
-          {{ organizer.description|linebreaksbr|safe|truncatewords_html:50 }}
+          {{ organizer.description|safe|linebreaksbr|truncatewords_html:50 }}
         </div>
       </div>
     {% endfor %}
