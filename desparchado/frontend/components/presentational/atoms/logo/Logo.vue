@@ -1,12 +1,16 @@
 <template>
+  <div v-html="sprite" style="display: none;" aria-hidden="true"></div>
   <svg :class="classes">
-    <use :xlink:href="`${siteSvgs}#${types[props.type]}`"></use>
+    <use :xlink:href="`#${types[props.type]}`" />
   </svg>
 </template>
 
 <script lang="ts" setup>
   import { computed } from 'vue';
-  import siteSvgs from '@assets/logo.svg';
+  import siteSvgs from '@assets/logo.svg?raw';
+
+  const spriteContent = siteSvgs
+  const sprite = computed(() => spriteContent)
 
   type LogoType = 'isotype' | 'imagotype' | 'isologo';
 

@@ -1,10 +1,16 @@
 import { defineConfig } from 'vite';
 import { resolve } from 'path';
 import vue from '@vitejs/plugin-vue';
+import svgLoader from 'vite-svg-loader';
 
 export default defineConfig({
   base: "/static/",
-  plugins: [vue()],
+  plugins: [
+    vue(),
+    svgLoader({
+      defaultImport: 'raw' // or 'raw'
+    })
+  ],
   server: {
     host: '0.0.0.0',
     port: 5173,

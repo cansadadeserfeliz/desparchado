@@ -1,12 +1,16 @@
 <template>
+  <div v-html="sprite" style="display: none;" aria-hidden="true"></div>
   <svg :class="classes">
-    <use :xlink:href="`${siteSvgs}#${props.id}`"></use>
+    <use :xlink:href="`#${props.id}`" />
   </svg>
 </template>
 
 <script lang="ts" setup>
   import { computed } from 'vue';
-  import siteSvgs from '@assets/icons.svg';
+  import siteSvgs from '@assets/icons.svg?raw';
+
+  const spriteContent = siteSvgs
+  const sprite = computed(() => spriteContent)
 
   type IconSizeType = 'unset' | 'small' | 'regular';
 
