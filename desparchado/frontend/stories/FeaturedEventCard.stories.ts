@@ -1,5 +1,5 @@
 import FeaturedEventCard from '@presentational_components/components/featured-event-card/FeaturedEventCard.vue';
-import type { Meta, StoryObj } from '@storybook/vue3';
+import type { Decorator, Meta, StoryObj } from '@storybook/vue3';
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
 const meta = {
@@ -29,4 +29,13 @@ export const NormalCard: Story = {
     day: '17 Jun',
     time: '22:00',
   },
+  decorators: [
+    (() => ({
+      template: `
+      <div style="height: 500px;">
+        <story />
+      </div>
+    `,
+    })) as Decorator,
+  ],
 };
