@@ -1,35 +1,70 @@
 {% extends 'layout/base.html' %}
-{% load i18n desparchado_tags %}
+{% load i18n desparchado_tags django_vite %}
+
+{% block extra_css %}
+  {% vite_asset 'desparchado/frontend/styles/pages/home.scss' %}
+{% endblock extra_css %}
+
+{% block extra_scripts %}
+  {% vite_asset 'desparchado/frontend/scripts/mount-vue.ts' %}
+  {% vite_asset 'desparchado/frontend/scripts/home.ts' %}
+{% endblock extra_scripts %}
+
 
 {% block content %}
-  {% translate 'Vive' %}
-  {% translate 'Cultura' %}
-
-  <br />
-
-  {% translate 'Descubre y comparte cultura en tu ciudad' %}
-  {% translate 'Párchate' %}
-
-  <br />
-  <br />
-
-  {% for featured_event in featured_events %}
-    <div>
-      {{ featured_event.place.name }}
-      <br />
-      {{ featured_event.event_date|naturalday_no_default }}
-      <br />
-      {{ featured_event.title }}
-      <br />
-      {# 17 Jun #}
-      {{ featured_event.event_date|date:'j M' }}
-      {# 22:00 #}
-      {{ featured_event.event_date|date:'H:i' }}
+  <div class="intro-section">
+    <div class="main-title" aria-label="Vive Cultura, Descubre y comparte cultura en tu ciudad. Párchate">
+      <div class="main-title__wrapper" aria-hidden="true">
+        <div class="main-title__column" >
+          <div
+            data-vue-component="typography"
+            data-vue-prop-text="{% translate 'vive' %}"
+            data-vue-prop-type="s1"
+          >
+          </div>
+          <div
+            data-vue-component="typography"
+            data-vue-prop-text="{% translate 'Cultura' %}"
+            data-vue-prop-type="h1"
+            data-vue-prop-weight="bold"
+          >
+          </div>
+        </div>
+        <div
+          data-vue-component="typography"
+          data-vue-prop-text="{% translate 'Descubre y comparte cultura en tu ciudad' %}"
+          data-vue-prop-type="body_md"
+          class="main-title__description"
+        >
+        </div>
+      </div>
+  
+      <div
+        aria-hidden="true"
+        data-vue-component="typography"
+        data-vue-prop-text="{% translate 'Párchate' %}"
+        data-vue-prop-type="h1"
+        data-vue-prop-weight="bold"
+      >
+      </div>
     </div>
-  {% endfor %}
 
-  <br />
-  <br />
+    <div class="featured-events">
+        {% for featured_event in featured_events %}
+          <div
+            class="featured-events__item"
+            data-vue-component="featured-event-card"
+            data-vue-prop-tag="div"
+            data-vue-prop-location="{{ featured_event.place.name }}"
+            data-vue-prop-title="{{ featured_event.title }}"
+            data-vue-prop-day="{{ featured_event.event_date|date:'j M' }}"
+            data-vue-prop-time="{{ featured_event.event_date|date:'H:i' }}"
+            data-vue-prop-image-url="{{ featured_event.get_image_url }}"
+          >
+          </div>
+        {% endfor %}
+    </div>
+  </div>
 
   {% translate '¿Buscas algo?' %}
   <br />

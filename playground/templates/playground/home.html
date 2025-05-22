@@ -7,17 +7,16 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-
     {# This will add a <script> tag to include the ViteJS HMR client. #}
     {# This tag will include this script only if DJANGO_VITE_DEV_MODE is true, otherwise this will do nothing. #}
     {% vite_hmr_client %}
 
     {% vite_asset 'desparchado/static/ts/playground.ts' %}
-    {% vite_asset 'desparchado/frontend/styles/index.scss' %}
+    {% vite_asset 'desparchado/frontend/styles/pages/home.scss' %}
     {% vite_asset 'desparchado/frontend/scripts/mount-vue.ts' %}
 
   </head>
-  <body id="app">
+  <body>
     <header
       id="header"
       data-vue-component="header" 
