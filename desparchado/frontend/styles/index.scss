@@ -28,51 +28,95 @@
   }
 }
 
+.intro-section {
+  @media (min-width: map.get($breakpoints, m)) {
+    height: calc(100vh - var(--header-height));
+    display: flex;
+    flex-direction: column;
+  }
+}
+
 .main-title {
   display: flex;
-  flex-direction: row;
-  align-items: flex-end;
-  justify-content: space-between;
-  padding: 25px 35px 0;
+  padding: toRem(25px) toRem(35px) 0;
   color: $color-layout-foreground;
+  flex-direction: column;
+  align-items: flex-end;
+
+  @media (min-width: map.get($breakpoints, m)) {
+    flex-direction: row;
+    justify-content: space-between;
+  }
 
   &__wrapper {
     display: flex;
-    flex-direction: row;
-    align-items: flex-end;
-    gap: 30px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: toRem(30px);
+    align-self: flex-start;
+
+    @media (min-width: map.get($breakpoints, m)) {
+      gap: #{fluid-size(
+        12px,
+        30px,
+        map.get($breakpoints, m),
+        map.get($breakpoints, l-minus-1)
+      )};
+      align-items: flex-end;
+      flex-direction: row;
+    }
   }
 
   &__column {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: toRem(20px);
   }
 
   &__description {
-    max-width: 200px;
+    max-width: toRem(200px);
   }
 }
 
 .featured-events {
   display: flex;
-  height: 55vh;
+  flex: 1;
+  flex-direction: column;
+  gap: toRem(20px);
+  padding: toRem(20px);
+  box-sizing: border-box;
+
+  @media (min-width: map.get($breakpoints, m)) {
+    gap: 0;
+    padding: 0;
+    flex-direction: row;
+  }
 
   &__item {
     flex: 1;
 
     &:not(:last-child) {
       .featured-event-card__wrapper {
-        border-right: none;
+        @media (min-width: map.get($breakpoints, m)) {
+          border-right: none;
+        }
       }
     }
 
     .featured-event-card__wrapper {
       border: $hairline_regular;
-      aspect-ratio: 2 / 1;
+      height: toRem(120px);
+
+      @media (min-width: map.get($breakpoints, l)) {
+        height: toRem(150px);
+      }
+    }
+
+    .featured-event-card__image {
+      display: none;
 
       @media (min-width: map.get($breakpoints, m)) {
-        aspect-ratio: 3 / 1;
+        display: flex;
       }
     }
   }

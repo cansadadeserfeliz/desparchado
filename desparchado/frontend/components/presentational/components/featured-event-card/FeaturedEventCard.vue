@@ -1,8 +1,11 @@
 <template>
-  <component :is="tag" :class="props.customClass" :id="id">
-    <div :class="bem(baseClass)" :aria-labelledby="headingId">
+  <component :is="tag" :class="[props.customClass, bem(baseClass)]" :id="id">
+    <div :class="bem(baseClass, 'container')" :aria-labelledby="headingId">
       <div :class="bem(baseClass, 'image')" role="presentation" aria-hidden="true">
-        <img :src="imageUrl" />
+        <div
+          :class="bem(baseClass, 'image-asset')"
+          :style="`--featured-event-card-img-url: url('${imageUrl}');`"
+        ></div>
       </div>
       <div :class="bem(baseClass, 'wrapper')" :aria-labelledby="headingId">
         <Typography
