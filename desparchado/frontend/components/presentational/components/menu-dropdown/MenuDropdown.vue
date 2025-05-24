@@ -33,6 +33,7 @@
               :label="item.label"
               :link="item.url"
               :custom-class="bem(baseClass, 'item')"
+              :actionId="item.actionId"
             ></Button>
           </li>
         </ul>
@@ -52,6 +53,7 @@
   interface MenuItem {
     label: string;
     url: string;
+    actionId?: string;
   }
 
   export interface MenuDropdownProps {

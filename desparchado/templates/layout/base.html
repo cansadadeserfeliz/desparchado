@@ -22,11 +22,9 @@
     {# This tag will include this script only if DJANGO_VITE_DEV_MODE is true, otherwise this will do nothing. #}
     {% vite_hmr_client %}
 
-    {% vite_asset 'desparchado/frontend/styles/index.scss' %}
-    {% vite_asset 'desparchado/frontend/scripts/mount-vue.ts' %}
-
     {# Extra CSS #}
     {% block extra_css %}{% endblock extra_css %}
+    {% block extra_scripts %}{% endblock extra_scripts %}
 
     {% block meta %}{% endblock meta %}
   </head>
