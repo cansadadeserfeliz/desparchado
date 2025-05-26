@@ -1,10 +1,6 @@
 {% extends 'layout/base.html' %}
 {% load i18n desparchado_tags django_vite %}
 
-{% block extra_css %}
-  {% vite_asset 'desparchado/frontend/styles/pages/home.scss' %}
-{% endblock extra_css %}
-
 {% block extra_scripts %}
   {% vite_asset 'desparchado/frontend/scripts/mount-vue.ts' %}
   {% vite_asset 'desparchado/frontend/scripts/home.ts' %}
@@ -38,7 +34,7 @@
         >
         </div>
       </div>
-  
+
       <div
         aria-hidden="true"
         data-vue-component="typography"
