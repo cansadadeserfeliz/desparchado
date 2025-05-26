@@ -24,10 +24,6 @@ docker run --name desparchado_frontend_build \
       --rm \
       desparchado:frontend_latest sh /build.sh
 
-# Copy files that are not referenced correctly by django-vite
-mkdir -p /srv/desparchado/static/assets/
-cp /srv/desparchado/static/dist/assets/* /srv/desparchado/static/assets/
-
 # No se va a romper si el nombre de la imagen es duplicado
 docker build \
       --tag desparchado:web_$(date +%Y%m%d-%H%M)_$(git rev-parse --short HEAD) \
@@ -53,3 +49,7 @@ docker create --name desparchado_web  \
       --network container:desparchado_db \
       desparchado:web_latest sh /run.sh
 docker start desparchado_web
+
+# Copy files that are not referenced correctly by django-vite
+mkdir -p /srv/desparchado/static/assets/
+cp /srv/desparchado/static/dist/assets/* /srv/desparchado/static/assets/
