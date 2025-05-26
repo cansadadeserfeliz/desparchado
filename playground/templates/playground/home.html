@@ -12,14 +12,13 @@
     {% vite_hmr_client %}
 
     {% vite_asset 'desparchado/static/ts/playground.ts' %}
-    {% vite_asset 'desparchado/frontend/styles/pages/home.scss' %}
     {% vite_asset 'desparchado/frontend/scripts/mount-vue.ts' %}
 
   </head>
   <body>
     <header
       id="header"
-      data-vue-component="header" 
+      data-vue-component="header"
       data-vue-prop-nav-items='[{"label": "Eventos", "link": "/events"}, {"label": "Archivo", "link": "/archive", "highlight": true}]'
       data-vue-prop-social='[{"type": "tertiary", "name": "Facebook", "link": "https://www.facebook.com/", "icon": "xsocial"}, {"type": "tertiary", "padding": "balanced", "name": "Instagram", "link": "https://www.instagram.com/", "icon": "facebook"}, {"type": "tertiary", "name": "Twitter", "link": "https://twitter.com/", "icon": "instagram"}]'
       data-vue-prop-profile-menu='{"items": [{"label": "Ver mi perfil", "url": "item1"}, {"label": "Eventos agregados", "url": "item2"}], "name": "perfil"}'
@@ -54,7 +53,7 @@
           >
           </div>
         </div>
-    
+
         <div
           aria-hidden="true"
           data-vue-component="typography"
@@ -64,7 +63,7 @@
         >
         </div>
       </div>
-  
+
       <div class="featured-events">
           <div
             class="featured-events__item"

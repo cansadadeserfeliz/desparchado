@@ -1,3 +1,5 @@
+import '../styles/pages/home.scss';
+
 document.addEventListener('DOMContentLoaded', () => {
   const updateHeaderHeight = (): void => {
     requestAnimationFrame(() => {
