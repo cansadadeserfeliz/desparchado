@@ -24,8 +24,9 @@ docker run --name desparchado_frontend_build \
       --rm \
       desparchado:frontend_latest sh /build.sh
 
-mkdir /srv/desparchado/static/assets/
-cp /srv/desparchado/static/dist/assets/*.woff* /srv/desparchado/static/assets/
+# Copy files that are not referenced correctly by django-vite
+mkdir -p /srv/desparchado/static/assets/
+cp /srv/desparchado/static/dist/assets/* /srv/desparchado/static/assets/
 
 # No se va a romper si el nombre de la imagen es duplicado
 docker build \
