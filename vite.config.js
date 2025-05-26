@@ -26,11 +26,13 @@ export default defineConfig({
     outDir: resolve("./desparchado/static/dist"),
     rollupOptions: {
       input: {
-        old_main: resolve("./desparchado/static/ts/old_main.ts"),
-        playground: resolve("./desparchado/static/ts/playground.ts"),
-        dashboard: resolve("./desparchado/static/js/dashboard.js"),
         mount_vue: resolve("./desparchado/frontend/scripts/mount-vue.ts"),
-        main_styles: resolve("./desparchado/frontend/styles/index.scss")
+        main_styles: resolve("./desparchado/frontend/styles/index.scss"),
+        home_styles: resolve("./desparchado/frontend/styles/pages/home.scss"),
+        home: resolve("./desparchado/frontend/scripts/home.ts"),
+        playground: resolve("./desparchado/static/ts/playground.ts"),
+        old_main: resolve("./desparchado/static/ts/old_main.ts"),
+        dashboard: resolve("./desparchado/static/js/dashboard.js")
       }
     }
   },
