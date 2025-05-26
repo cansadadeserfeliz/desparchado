@@ -24,6 +24,9 @@ docker run --name desparchado_frontend_build \
       --rm \
       desparchado:frontend_latest sh /build.sh
 
+mkdir /srv/desparchado/static/assets/
+cp /srv/desparchado/static/dist/assets/*.woff* /srv/desparchado/static/assets/
+
 # No se va a romper si el nombre de la imagen es duplicado
 docker build \
       --tag desparchado:web_$(date +%Y%m%d-%H%M)_$(git rev-parse --short HEAD) \

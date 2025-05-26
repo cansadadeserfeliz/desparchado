@@ -80,6 +80,7 @@
     customClass?: string;
     link?: string;
     onClick?: () => void;
+    actionId?: string;
   }
 
   const props = withDefaults(defineProps<ButtonProps>(), {
@@ -87,7 +88,14 @@
     radius: 'circular',
   });
 
-  const handleClick = () => {
+  const handleClick = (event: MouseEvent) => {
+    if (!props.link && props.actionId) {
+      const customEvent = new CustomEvent(`button:action:${props.actionId}`, {
+        detail: { event, props },
+      });
+      window.dispatchEvent(customEvent);
+    }
+
     if (props.onClick) {
       props.onClick();
     }

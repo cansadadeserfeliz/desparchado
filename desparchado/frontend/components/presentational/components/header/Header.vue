@@ -44,6 +44,7 @@
           :name="social.name"
           :customClass="bem(baseClass, 'social-item')"
           :icon="social.icon"
+          :link="social.link"
         />
       </div>
     </div>

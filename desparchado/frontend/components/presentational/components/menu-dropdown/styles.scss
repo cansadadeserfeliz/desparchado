@@ -79,6 +79,7 @@
   &__item {
     border-radius: 0;
     width: 100%;
+    justify-content: flex-start;
 
     &:hover {
       --button-foreground: #{$color-layout-background}; 

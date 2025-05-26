@@ -7,7 +7,6 @@
 .header {
   &__wrapper,
   &__mobile-actions {
-    background: $color-dp-orange-50;
     padding: toRem(5px) toRem(20px) 0;
     box-sizing: border-box;
 
@@ -22,18 +21,20 @@
     grid-row-gap: toRem(10px);
     grid-template-columns: auto auto 1fr;
     border-bottom: $hairline_regular;
+    background: $color-layout-background;
   }
 
   &__mobile-actions {
-    border-top: $hairline_regular;
     display: flex;
     align-items: center;
-    position: fixed;
-    bottom: 0;
-    right: 0;
     width: 100%;
     padding: toRem(5px) toRem(20px);
     justify-content: flex-end;
+    background: linear-gradient(
+      to bottom,
+      rgba($color-layout-background, 1),
+      rgba($color-layout-background, 0)
+    );
   }
 
   &__nav-group {

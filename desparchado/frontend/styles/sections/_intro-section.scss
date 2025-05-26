@@ -1,0 +1,128 @@
+@use '@styles/reset' as *;
+@use '@styles/breakpoints' as *;
+@use '@styles/fonts' as *;
+@use '@styles/functions' as *;
+@use '@styles/mixins' as *;
+@use '@styles/typography' as *;
+@use '@styles/variables' as *;
+@use '@styles/animations' as *;
+@use "sass:map";
+
+.intro-section {
+  @media (min-width: map.get($breakpoints, m)) {
+    height: calc(100vh - var(--header-height));
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.main-title {
+  display: flex;
+  padding: toRem(25px) toRem(35px) 0;
+  color: $color-layout-foreground;
+  flex-direction: column;
+  align-items: flex-end;
+
+  @media (min-width: map.get($breakpoints, m)) {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  &__wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: toRem(30px);
+    align-self: flex-start;
+
+    @media (min-width: map.get($breakpoints, m)) {
+      gap: #{fluid-size(
+        12px,
+        30px,
+        map.get($breakpoints, m),
+        map.get($breakpoints, l-minus-1)
+      )};
+      align-items: flex-end;
+      flex-direction: row;
+    }
+  }
+
+  &__column {
+    display: flex;
+    flex-direction: column;
+    gap: toRem(20px);
+  }
+
+  &__description {
+    max-width: toRem(200px);
+  }
+}
+
+.featured-events {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: toRem(20px);
+  padding: toRem(5px);
+  padding-top: toRem(40px);
+  box-sizing: border-box;
+
+  @media (min-width: map.get($breakpoints, m)) {
+    gap: 0;
+    padding: 0;
+    flex-direction: row;
+  }
+
+  &__item {
+    flex: 1;
+
+    &:not(:last-child) {
+      .featured-event-card__wrapper {
+        @media (min-width: map.get($breakpoints, m)) {
+          border-right: none;
+        }
+      }
+    }
+
+    &:nth-child(even) {
+      margin-right: 10vw;
+
+      @media (min-width: map.get($breakpoints, m)) {
+        margin-right: 0;
+      }
+    }
+
+    &:nth-child(odd) {
+      margin-left: 10vw;
+
+      @media (min-width: map.get($breakpoints, m)) {
+        margin-left: 0;
+      }
+    }
+
+    .featured-event-card {
+      &__wrapper {
+        border: $hairline_regular;
+        height: toRem(120px);
+
+        @media (min-width: map.get($breakpoints, l)) {
+          height: toRem(150px);
+        }
+      }
+
+      &__image {
+        display: none;
+
+        @media (min-width: map.get($breakpoints, m)) {
+          display: flex;
+        }
+      }
+
+      &__title {
+        @media (max-width: map.get($breakpoints, m)) {
+          display: flex;
+        }
+      }
+    }
+  }
+}

@@ -1,22 +1,25 @@
 {% load i18n %}
 
-desparchado
-<a href="{% url 'events:event_list' %}">{% translate 'eventos' %}</a>
--- <a href="{% url 'blog:post_list' %}">{% translate 'inspiración' %}</a>
--- <a href="{% url 'events:past_event_list' %}">{% translate 'archivo' %}</a>
+<header
+  id="header"
+  data-vue-component="header" 
 
-<a href="https://x.com/DesparchadoCo" target="_blank">{% translate 'X' %}</a>
-<a href="https://www.facebook.com/DesparchadoCo" target="_blank">{% translate 'FB' %}</a>
-<a href="https://t.me/DesparchadoCo" target="_blank">{% translate 'Telegram' %}</a>
-<a href="https://www.instagram.com/desparchado_co/" target="_blank">{% translate 'Insta' %}</a>
+  data-vue-prop-nav-items='[{"label": "{% translate 'eventos' %}", "link": "{% url 'events:event_list' %}"}, {"label": "{% translate 'archivo' %}", "link": "{% url 'events:past_event_list' %}", "highlight": true}]'
+  data-vue-prop-social='[{"type": "tertiary", "name": "Facebook", "link": "https://www.facebook.com/DesparchadoCo", "icon": "facebook"}, {"type": "tertiary", "padding": "balanced", "name": "Instagram", "link": "https://www.instagram.com/desparchado_co/", "icon": "instagram"}, {"type": "tertiary", "name": "Twitter", "link": "https://x.com/DesparchadoCo", "icon": "xsocial"}]'
+  data-vue-prop-create-event='{"label": "{% translate 'Crear evento' %}", "link": "{% url 'events:add_event' %}", "type": "primary"}'
+  data-vue-prop-brand-name="Desparchado"
+  {% if user.is_authenticated %}
+    data-vue-prop-is-logged="true"
+    data-vue-prop-profile-menu='{"items": [{"label": "{% translate 'Ver mi perfil' %}", "url": "{% url 'users:user_detail' user.username %}"}, {"label": "{% translate 'Eventos agregados' %}", "url": "{% url 'users:user_added_events_list' %}"}, {"label": "{% translate 'Salir' %}", "actionId": "logout"}], "name": "perfil"}'
+  {% else %}
+    data-vue-prop-login='{"label": "{% translate 'Iniciar sesión' %}", "link": "{% url 'users:login' %}?next={{ request.path }}", "type": "tertiary"}'
+  {% endif %}
+
+></header>
 
 {% if user.is_authenticated %}
     <form id="logout-form" method="post" action="{% url 'admin:logout' %}">
       {% csrf_token %}
-      <button type="submit">{% translate 'Salir' %}</button>
     </form>
-{% else %}
-    <a href="{% url "users:login" %}?next={{ request.path }}">{% translate 'Inicia sesión' %}</a>
 {% endif %}
 
-<a href="{% url 'events:add_event' %}">{% translate 'Crea un evento' %}</a>
