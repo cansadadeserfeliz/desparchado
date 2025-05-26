@@ -49,7 +49,3 @@ docker create --name desparchado_web  \
       --network container:desparchado_db \
       desparchado:web_latest sh /run.sh
 docker start desparchado_web
-
-# Copy files that are not referenced correctly by django-vite
-mkdir -p /srv/desparchado/static/assets/
-cp /srv/desparchado/static/dist/assets/* /srv/desparchado/static/assets/
