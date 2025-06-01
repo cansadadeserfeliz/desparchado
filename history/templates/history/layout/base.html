@@ -1,4 +1,5 @@
 {% extends 'old_layout/base.html' %}
+{% load django_vite %}
 
 {% block title %}Historia de Colombia en Desparchado.co{% endblock %}
 
@@ -25,3 +26,7 @@
 
 {% block content %}
 {% endblock content %}
+
+{% block javascript %}
+    {% vite_asset 'desparchado/static/ts/old_main.ts' %}
+{% endblock javascript %}
