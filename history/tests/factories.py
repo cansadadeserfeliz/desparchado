@@ -32,6 +32,7 @@ class HistoricalFigureFactory(factory.django.DjangoModelFactory):
 
     class Meta:
         model = HistoricalFigure
+        django_get_or_create = ('name',)
 
 
 class PostFactory(factory.django.DjangoModelFactory):
