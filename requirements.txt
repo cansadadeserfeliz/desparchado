@@ -34,8 +34,3 @@ django-webtest>=1.9.12,<1.10
 drf-yasg>=1.21.10,<1.22
 factory-boy>=3.3.3,<3.4
 pytest-django>=4.10.0,<4.11
-
-# Linters and formatting
-black>=25.1.0,<26
-isort>=6.0.1,<7
-pylint>=3.3.7,<4
