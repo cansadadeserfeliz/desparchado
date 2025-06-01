@@ -13,7 +13,7 @@ test:
 	docker exec -it $(web_container_name) sh -c "cd app && pytest"
 
 lint:
-	docker exec -it $(web_container_name) sh -c "cd app && pylint ."
+	docker exec -it $(web_container_name) sh -c "cd app && isort . && black . && pylint ."
 
 collectstatic:
 	docker exec -it $(web_container_name) sh -c "cd app && python3 manage.py collectstatic"
