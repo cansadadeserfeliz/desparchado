@@ -13,6 +13,9 @@ test:
 	docker exec -it $(web_container_name) sh -c "cd app && pytest"
 
 lint:
+	docker exec -it $(web_container_name) sh -c "cd app && isort --check --diff . && black --check --diff . && pylint ."
+
+lint-all:
 	docker exec -it $(web_container_name) sh -c "cd app && isort . && black . && pylint ."
 
 collectstatic:
