@@ -1,9 +1,7 @@
 import factory
 import factory.fuzzy
 
-from ..models import HuntingOfSnarkGame
-from ..models import HuntingOfSnarkCategory
-from ..models import HuntingOfSnarkCriteria
+from ..models import HuntingOfSnarkCategory, HuntingOfSnarkCriteria, HuntingOfSnarkGame
 
 
 class HuntingOfSnarkGameFactory(factory.django.DjangoModelFactory):

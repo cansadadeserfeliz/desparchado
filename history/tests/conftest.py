@@ -1,9 +1,6 @@
 import pytest
 
-from .factories import EventFactory
-from .factories import HistoricalFigureFactory
-from .factories import PostFactory
-from .factories import GroupFactory
+from .factories import EventFactory, GroupFactory, HistoricalFigureFactory, PostFactory
 
 
 @pytest.fixture

@@ -2,11 +2,10 @@ import factory
 import factory.fuzzy
 
 from desparchado.tests.helpers import random_future_date
-from users.tests.factories import UserFactory
 from places.tests.factories import PlaceFactory
-from ..models import Event
-from ..models import Organizer
-from ..models import Speaker
+from users.tests.factories import UserFactory
+
+from ..models import Event, Organizer, Speaker
 
 
 class SpeakerFactory(factory.django.DjangoModelFactory):

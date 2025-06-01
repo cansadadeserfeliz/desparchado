@@ -1,12 +1,13 @@
 import pytest
-
 from django.urls import reverse
 
 from ..models import HuntingOfSnarkGame
 
 
 @pytest.mark.django_db
-def test_show_main_page_and_create_new_game(django_app, hunting_of_snark_criteria_batch):
+def test_show_main_page_and_create_new_game(
+    django_app, hunting_of_snark_criteria_batch
+):
     games_count = HuntingOfSnarkGame.objects.count()
 
     response = django_app.get(reverse('games:hunting_of_snark_create'), status=200)
@@ -37,13 +38,18 @@ def test_show_criteria_list(django_app, hunting_of_snark_criteria_batch):
 
 @pytest.mark.django_db
 def test_show_games_list(django_app, hunting_of_snark_game):
-    response = django_app.get(reverse('games:games:hunting_of_snark_games_list'), status=200)
+    response = django_app.get(
+        reverse('games:games:hunting_of_snark_games_list'), status=200
+    )
     assert hunting_of_snark_game.token in response
 
 
 @pytest.mark.django_db
 def test_show_games_detail(django_app, hunting_of_snark_game):
-    django_app.get(reverse('games:hunting_of_snark_detail', args=[hunting_of_snark_game.token]), status=200)
+    django_app.get(
+        reverse('games:hunting_of_snark_detail', args=[hunting_of_snark_game.token]),
+        status=200,
+    )
 
 
 def test_show_games_list(django_app):

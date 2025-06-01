@@ -1,11 +1,9 @@
 from django.contrib.syndication.views import Feed
 from django.urls import reverse
-from django.utils.feedgenerator import Atom1Feed
 from django.utils import timezone
+from django.utils.feedgenerator import Atom1Feed
 
-from events.models import Event
-from events.models import SocialNetworkPost
-
+from events.models import Event, SocialNetworkPost
 
 
 class RssSiteEventsFeed(Feed):
@@ -14,9 +12,13 @@ class RssSiteEventsFeed(Feed):
     description = 'Futuros eventos en Desparchado.co'
 
     def items(self):
-        return Event.objects.published().filter(
-            event_date__gte=timezone.now(),
-        ).order_by('event_date')[:10]
+        return (
+            Event.objects.published()
+            .filter(
+                event_date__gte=timezone.now(),
+            )
+            .order_by('event_date')[:10]
+        )
 
 
 class SocialNetworksRssSiteEventsFeed(Feed):
@@ -52,12 +54,16 @@ class SocialNetworksRssSiteEventsFeed(Feed):
         return item.published_at
 
     def items(self):
-        return SocialNetworkPost.objects.filter(
-            event__is_published=True,
-            event__is_approved=True,
-            published_at__lte=timezone.now(),
-            published_at__gte=timezone.datetime(2019, 2, 27),
-        ).select_related('event').order_by('published_at')
+        return (
+            SocialNetworkPost.objects.filter(
+                event__is_published=True,
+                event__is_approved=True,
+                published_at__lte=timezone.now(),
+                published_at__gte=timezone.datetime(2019, 2, 27),
+            )
+            .select_related('event')
+            .order_by('published_at')
+        )
 
 
 class AtomSiteEventsFeed(RssSiteEventsFeed):

@@ -13,6 +13,8 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='special',
             name='subtitle',
-            field=models.CharField(default='', max_length=500, verbose_name='Subtítulo'),
+            field=models.CharField(
+                default='', max_length=500, verbose_name='Subtítulo'
+            ),
         ),
     ]

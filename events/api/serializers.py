@@ -1,9 +1,10 @@
-from django.utils.formats import date_format
 from django.template.defaultfilters import truncatewords_html
+from django.utils.formats import date_format
 from rest_framework import serializers
 
 from events.models import Event
 from places.models import Place
+
 
 class PlaceSerializer(serializers.ModelSerializer):
     class Meta:

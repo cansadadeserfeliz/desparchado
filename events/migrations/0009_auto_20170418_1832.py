@@ -21,7 +21,9 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='organizer',
             name='slug',
-            field=autoslug.fields.AutoSlugField(default=True, editable=False, populate_from='name', unique=True),
+            field=autoslug.fields.AutoSlugField(
+                default=True, editable=False, populate_from='name', unique=True
+            ),
             preserve_default=False,
         ),
     ]

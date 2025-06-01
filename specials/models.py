@@ -1,8 +1,7 @@
+from autoslug import AutoSlugField
 from django.db import models
 from django.urls import reverse
-
 from model_utils.models import TimeStampedModel
-from autoslug import AutoSlugField
 
 
 class Special(TimeStampedModel):
@@ -16,7 +15,8 @@ class Special(TimeStampedModel):
         max_length=500,
     )
     slug = AutoSlugField(
-        null=False, unique=True,
+        null=False,
+        unique=True,
         populate_from='title',
     )
     is_published = models.BooleanField(

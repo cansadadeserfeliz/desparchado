@@ -1,5 +1,4 @@
 import pytest
-
 from django.urls import reverse
 from rest_framework import status
 
@@ -8,6 +7,7 @@ from rest_framework import status
 def test_home_page(django_app):
     response = django_app.get(reverse('home'), status=200)
     assert response.status_code == status.HTTP_200_OK
+
 
 @pytest.mark.django_db
 def test_home_page_featured_events(
@@ -32,7 +32,9 @@ def test_home_page_featured_events(
     assert past_event not in response.context['featured_events']
     assert featured_past_event not in response.context['featured_events']
     assert featured_future_event in response.context['featured_events']
-    assert future_event in response.context['featured_events'], 'because there is not enough featured future events'
+    assert (
+        future_event in response.context['featured_events']
+    ), 'because there is not enough featured future events'
 
 
 @pytest.mark.django_db

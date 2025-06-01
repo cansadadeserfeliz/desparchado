@@ -1,11 +1,10 @@
-from django.db import models
-from django.urls import reverse
-from django.conf import settings
-from django.utils.html import format_html
-from django.templatetags.static import static
-
-from model_utils.models import TimeStampedModel
 from autoslug import AutoSlugField
+from django.conf import settings
+from django.db import models
+from django.templatetags.static import static
+from django.urls import reverse
+from django.utils.html import format_html
+from model_utils.models import TimeStampedModel
 
 
 class PostQuerySet(models.QuerySet):
@@ -31,12 +30,7 @@ class Post(TimeStampedModel):
         unique=True,
         populate_from='title',
     )
-    header_image = models.ImageField(
-        'Imagen',
-        blank=True,
-        null=True,
-        upload_to='posts'
-    )
+    header_image = models.ImageField('Imagen', blank=True, null=True, upload_to='posts')
     content = models.TextField(
         verbose_name='Contenido',
         default='',
@@ -53,7 +47,8 @@ class Post(TimeStampedModel):
         help_text='Indica si la entrada va a aparecer en la página',
     )
     is_approved = models.BooleanField(
-        'Está aprobado', default=True,
+        'Está aprobado',
+        default=True,
         help_text='Campo de uso exclusivo para el administrador del sitio',
     )
 
@@ -94,4 +89,3 @@ class Post(TimeStampedModel):
         if self.created_by_desparchado:
             return 'desparchado.co'
         return self.created_by.username
-

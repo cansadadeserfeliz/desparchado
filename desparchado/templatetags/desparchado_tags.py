@@ -1,6 +1,5 @@
-from urllib.parse import urlparse
-
 import calendar
+from urllib.parse import urlparse
 
 from django import template
 

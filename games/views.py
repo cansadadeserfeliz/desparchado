@@ -1,14 +1,10 @@
 import random
 
-from django.views.generic import DetailView
-from django.views.generic import CreateView
-from django.views.generic import ListView
 from django.urls import reverse
+from django.views.generic import CreateView, DetailView, ListView
 
 from .forms import HuntingOfSnarkGameCreateForm
-from .models import HuntingOfSnarkGame
-from .models import HuntingOfSnarkCategory
-from .models import HuntingOfSnarkCriteria
+from .models import HuntingOfSnarkCategory, HuntingOfSnarkCriteria, HuntingOfSnarkGame
 from .services import get_random_hunting_of_snark_criteria
 
 

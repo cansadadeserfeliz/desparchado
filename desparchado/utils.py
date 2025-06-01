@@ -1,17 +1,19 @@
 import calendar
 import logging
 from datetime import date, timedelta
+
+from django.conf import settings
+from django.core.mail import send_mail
+from django.utils import timezone
+from django.utils.translation import gettext
 from html_sanitizer import Sanitizer
 
-from django.core.mail import send_mail
-from django.conf import settings
-from django.utils.translation import gettext
-from django.utils import timezone
-
 logger = logging.getLogger(__name__)
-sanitizer = Sanitizer({
-    'keep_typographic_whitespace': True,
-})
+sanitizer = Sanitizer(
+    {
+        'keep_typographic_whitespace': True,
+    }
+)
 
 
 def get_natural_day(target: date):
@@ -44,6 +46,7 @@ def get_natural_day(target: date):
 
     # Extract this to reduce complexity
     return _get_relative_timeframe(target, today)
+
 
 def _get_relative_timeframe(target: date, today: date):
     """Helper function to determine relative timeframe of a date."""

@@ -1,5 +1,5 @@
-from django.core.management.base import BaseCommand, CommandError
 from django.contrib.auth import get_user_model
+from django.core.management.base import BaseCommand, CommandError
 
 from dashboard.services import sync_filbo_events
 
@@ -14,9 +14,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         spreadsheet_id = options['spreadsheet_id']
-        self.stdout.write(
-            self.style.NOTICE(f'Started sync for {spreadsheet_id}')
-        )
+        self.stdout.write(self.style.NOTICE(f'Started sync for {spreadsheet_id}'))
 
         user = User.objects.get(username='root')
 
@@ -27,6 +25,4 @@ class Command(BaseCommand):
             request_user=user,
         )
 
-        self.stdout.write(
-            self.style.SUCCESS(f'Successfully synced {spreadsheet_id}')
-        )
+        self.stdout.write(self.style.SUCCESS(f'Successfully synced {spreadsheet_id}'))

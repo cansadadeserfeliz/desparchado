@@ -5,8 +5,8 @@ from django.db import migrations
 
 def make_many_organizers(apps, schema_editor):
     """
-        Adds the Organizer object in Event.organizer to the
-        many-to-many relationship in Event.organizers
+    Adds the Organizer object in Event.organizer to the
+    many-to-many relationship in Event.organizers
     """
     Event = apps.get_model('events', 'Event')
 

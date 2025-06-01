@@ -1,20 +1,12 @@
-from django.views.generic import ListView
-from django.views.generic import DetailView
-from django.views.generic import TemplateView
-from django.core.paginator import Paginator
-from django.core.paginator import EmptyPage
-from django.core.paginator import PageNotAnInteger
-from django.http import HttpResponse
-from django.http import JsonResponse
-from django.template import loader
-from django.shortcuts import get_object_or_404
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db.models import Q
+from django.http import HttpResponse, JsonResponse
+from django.shortcuts import get_object_or_404
+from django.template import loader
+from django.views.generic import DetailView, ListView, TemplateView
 
+from .models import Event, Group, HistoricalFigure, Post
 from .services import get_posts_with_related_objects
-from .models import HistoricalFigure
-from .models import Post
-from .models import Group
-from .models import Event
 
 POST_INDEX_PAGINATE_BY = 7
 
@@ -24,7 +16,9 @@ class HistoryIndexTemplateView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        posts = get_posts_with_related_objects(Post.objects.all()).order_by('-post_date')[:POST_INDEX_PAGINATE_BY]
+        posts = get_posts_with_related_objects(Post.objects.all()).order_by(
+            '-post_date'
+        )[:POST_INDEX_PAGINATE_BY]
         context['posts'] = posts
         return context
 
@@ -61,11 +55,16 @@ class GroupDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        posts = self.object.posts.select_related(
-            'historical_figure',
-        ).prefetch_related(
-            'historical_figure_mentions',
-        ).order_by('post_date').distinct()
+        posts = (
+            self.object.posts.select_related(
+                'historical_figure',
+            )
+            .prefetch_related(
+                'historical_figure_mentions',
+            )
+            .order_by('post_date')
+            .distinct()
+        )
         context['posts'] = posts
         return context
 
@@ -87,7 +86,7 @@ class EventDetailView(DetailView):
 def api_post_list(request):
     paginator = Paginator(
         get_posts_with_related_objects(Post.objects.all()).order_by('-post_date'),
-        POST_INDEX_PAGINATE_BY
+        POST_INDEX_PAGINATE_BY,
     )
     page_number = request.GET.get('page')
 
@@ -102,8 +101,12 @@ def api_post_list(request):
         return HttpResponse('Page number must be a positive integer', status=422)
 
     return JsonResponse(
-        dict(posts=[
-            loader.render_to_string('history/_post.html', dict(post=post, show_groups=True))
-            for post in page_obj
-        ]),
+        dict(
+            posts=[
+                loader.render_to_string(
+                    'history/_post.html', dict(post=post, show_groups=True)
+                )
+                for post in page_obj
+            ]
+        ),
     )

@@ -1,21 +1,21 @@
 import json
-import re
 import logging
-from dateutil.parser import parse
+import re
 
 import gspread
+from dateutil.parser import parse
 from django.conf import settings
 from django.contrib.gis.geos import Point
-from django.core.validators import URLValidator
 from django.core.exceptions import ValidationError
+from django.core.validators import URLValidator
 
 from dashboard.data.filbo import ORGANIZERS_MAP
 from events.models import Event, Organizer, Speaker
-from places.models import Place, City
+from places.models import City, Place
 from specials.models import Special
 
-
 logger = logging.getLogger(__name__)
+
 
 def get_organizers(organizer_name, request_user):
     default_organizer = Organizer.objects.get(
@@ -38,7 +38,10 @@ def get_organizers(organizer_name, request_user):
 
     return organizers
 
-def get_speakers(participants, speakers_map, event_title, event_description, request_user):
+
+def get_speakers(
+    participants, speakers_map, event_title, event_description, request_user
+):
     speakers = []
 
     for speaker_record in speakers_map:
@@ -54,12 +57,15 @@ def get_speakers(participants, speakers_map, event_title, event_description, req
         ):
             speaker, created = Speaker.objects.get_or_create(
                 name=speaker_record['CANONICAL_NAME'],
-                defaults=dict(created_by=request_user, description=speaker_record['DESCRIPTION']),
+                defaults=dict(
+                    created_by=request_user, description=speaker_record['DESCRIPTION']
+                ),
             )
             if speaker and speaker not in speakers:
                 speakers.append(speaker)
 
     return speakers
+
 
 def get_place(place_name, request_user):
     formatted_place_name = f'{place_name} | Corferias'
@@ -106,7 +112,9 @@ def sync_filbo_event(event_data, special, speakers_map, request_user):
 
     event_start_date = parse(f'{event_date} {start_time}')
     event_end_date = parse(f'{event_date} {end_time}')
-    logger.debug(f'FILBo event ID extracted: {filbo_id}, {event_start_date} - {event_end_date}')
+    logger.debug(
+        f'FILBo event ID extracted: {filbo_id}, {event_start_date} - {event_end_date}'
+    )
 
     title = title.strip().rstrip('-')
     description = description.strip().rstrip('-')
@@ -152,14 +160,18 @@ def sync_filbo_event(event_data, special, speakers_map, request_user):
         create_defaults=dict(created_by=request_user, **defaults),
     )
 
-    event.organizers.set(get_organizers(organizer_name=organizer, request_user=request_user))
-    event.speakers.set(get_speakers(
-        participants=participants,
-        speakers_map=speakers_map,
-        event_title=title,
-        event_description=description,
-        request_user=request_user,
-    ))
+    event.organizers.set(
+        get_organizers(organizer_name=organizer, request_user=request_user)
+    )
+    event.speakers.set(
+        get_speakers(
+            participants=participants,
+            speakers_map=speakers_map,
+            event_title=title,
+            event_description=description,
+            request_user=request_user,
+        )
+    )
     event.save()
 
     special.related_events.add(event)
@@ -176,7 +188,9 @@ def sync_filbo_events(
     worksheet_range: str,
     request_user,
 ) -> None:
-    with open(settings.BASE_DIR / 'spreadsheet_credentials.json', 'r', encoding='utf-8') as file:
+    with open(
+        settings.BASE_DIR / 'spreadsheet_credentials.json', 'r', encoding='utf-8'
+    ) as file:
         credentials = json.load(file)
 
     gc = gspread.service_account_from_dict(credentials)
@@ -192,7 +206,12 @@ def sync_filbo_events(
     synced_filbo_ids = set()
 
     for event_data in results:
-        filbo_id = sync_filbo_event(event_data=event_data, special=special, speakers_map=speakers_map, request_user=request_user)
+        filbo_id = sync_filbo_event(
+            event_data=event_data,
+            special=special,
+            speakers_map=speakers_map,
+            request_user=request_user,
+        )
         if filbo_id is not None:
             synced_filbo_ids.add(filbo_id)
 

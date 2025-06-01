@@ -1,11 +1,11 @@
+from crispy_bootstrap5.bootstrap5 import Switch
+from crispy_forms.bootstrap import PrependedText
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import HTML, Div, Field, Layout, Submit
+from dal import autocomplete
 from django import forms
 from django.urls import reverse_lazy
 
-from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Submit, Layout, Div, HTML, Field
-from crispy_forms.bootstrap import PrependedText
-from crispy_bootstrap5.bootstrap5 import Switch
-from dal import autocomplete
 from desparchado.utils import sanitize_html
 
 from .models import Event, Organizer, Speaker
@@ -25,7 +25,7 @@ class EventBaseForm(forms.ModelForm):
     def clean(self):
         """
         Validates event dates and sanitizes the event description.
-        
+
         Ensures that the event end date is not earlier than the start date, adding a validation error if necessary. The event description is sanitized to remove unsafe HTML content.
         """
         cleaned_data = super().clean()
@@ -33,8 +33,10 @@ class EventBaseForm(forms.ModelForm):
         event_end_date = cleaned_data.get('event_end_date')
 
         if event_date and event_end_date and event_date >= event_end_date:
-            msg = 'Especifica una fecha de finalización igual ' \
-                  'o posterior a la fecha de inicio.'
+            msg = (
+                'Especifica una fecha de finalización igual '
+                'o posterior a la fecha de inicio.'
+            )
             self.add_error('event_end_date', msg)
 
         cleaned_data['description'] = sanitize_html(cleaned_data.get('description', ''))
@@ -80,7 +82,7 @@ class EventBaseForm(forms.ModelForm):
                     reverse_lazy('places:place_add'),
                 )
             ),
-            css_class='mb-3'
+            css_class='mb-3',
         )
 
     class Meta:
@@ -102,30 +104,27 @@ class EventBaseForm(forms.ModelForm):
             'speakers',
         ]
         widgets = {
-            'organizers':
-            autocomplete.ModelSelect2Multiple(
+            'organizers': autocomplete.ModelSelect2Multiple(
                 url='events:organizer_autocomplete',
                 attrs={
                     'data-html': True,
                     'data-theme': 'bootstrap-5',
                 },
             ),
-            'place':
-            autocomplete.ModelSelect2(
+            'place': autocomplete.ModelSelect2(
                 url='places:place_autocomplete',
                 attrs={
                     'data-html': True,
                     'data-theme': 'bootstrap-5',
                 },
             ),
-            'speakers':
-            autocomplete.ModelSelect2Multiple(
+            'speakers': autocomplete.ModelSelect2Multiple(
                 url='events:speaker_autocomplete',
                 attrs={
                     'data-html': True,
                     'data-theme': 'bootstrap-5',
                 },
-            )
+            ),
         }
 
 
@@ -217,8 +216,7 @@ class OrganizerForm(forms.ModelForm):
             Field(
                 'name',
                 css_class='show-suggestions',
-                data_suggestions_url=
-                reverse_lazy('events:organizer_suggestions'),
+                data_suggestions_url=reverse_lazy('events:organizer_suggestions'),
             ),
             'description',
             'website_url',
@@ -233,7 +231,7 @@ class OrganizerForm(forms.ModelForm):
     def clean(self):
         """
         Cleans and sanitizes the description field to remove unsafe HTML content.
-        
+
         Returns:
             The cleaned form data with a sanitized description.
         """
@@ -275,7 +273,7 @@ class SpeakerForm(forms.ModelForm):
     def clean(self):
         """
         Cleans and sanitizes the form data, ensuring the description field contains only safe HTML.
-        
+
         Returns:
             The cleaned and sanitized form data.
         """

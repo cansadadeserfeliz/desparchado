@@ -1,24 +1,21 @@
-from django.views.generic import ListView, DetailView, CreateView, UpdateView
-from django.views import View
+from dal import autocomplete
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.postgres.aggregates import StringAgg
-from django.contrib.postgres.search import SearchVector, SearchQuery
+from django.contrib.postgres.search import SearchQuery, SearchVector
 from django.db.models import Q
+from django.http import JsonResponse
 from django.urls import reverse
 from django.utils.html import format_html
 from django.utils.safestring import mark_safe
-from django.http import JsonResponse
+from django.views import View
+from django.views.generic import CreateView, DetailView, ListView, UpdateView
 
-from dal import autocomplete
-
-from desparchado.utils import send_notification
 from desparchado.mixins import EditorPermissionRequiredMixin
+from desparchado.utils import send_notification
 from places.models import City
+
+from .forms import EventCreateForm, EventUpdateForm, OrganizerForm, SpeakerForm
 from .models import Event, Organizer, Speaker
-from .forms import EventCreateForm
-from .forms import EventUpdateForm
-from .forms import OrganizerForm
-from .forms import SpeakerForm
 
 
 class EventListView(ListView):
@@ -51,30 +48,39 @@ class EventListView(ListView):
             queryset = queryset.filter(place__city=self.city)
 
         if self.q and len(self.q) > 3:
-            queryset = (queryset
-            .annotate(unaccent_title=SearchVector('title__unaccent'))
-            .annotate(unaccent_description=SearchVector('description__unaccent'))
-            .annotate(speakers_names=SearchVector(StringAgg('speakers__name', delimiter=' ')))
-            .annotate(unaccent_speakers_names=SearchVector(StringAgg('speakers__name__unaccent', delimiter=' ')))
-            .annotate(
-                search=SearchVector(
-                    'title',
-                    'unaccent_title',
-                    'description',
-                    'unaccent_description',
-                    'speakers_names',
-                    'unaccent_speakers_names',
-                ),
+            queryset = (
+                queryset.annotate(unaccent_title=SearchVector('title__unaccent'))
+                .annotate(unaccent_description=SearchVector('description__unaccent'))
+                .annotate(
+                    speakers_names=SearchVector(
+                        StringAgg('speakers__name', delimiter=' ')
+                    )
+                )
+                .annotate(
+                    unaccent_speakers_names=SearchVector(
+                        StringAgg('speakers__name__unaccent', delimiter=' ')
+                    )
+                )
+                .annotate(
+                    search=SearchVector(
+                        'title',
+                        'unaccent_title',
+                        'description',
+                        'unaccent_description',
+                        'speakers_names',
+                        'unaccent_speakers_names',
+                    ),
+                )
+                .filter(
+                    Q(title__icontains=self.q)
+                    | Q(unaccent_title__icontains=self.q)
+                    | Q(description__icontains=self.q)
+                    | Q(unaccent_description__icontains=self.q)
+                    | Q(speakers_names__icontains=self.q)
+                    | Q(unaccent_speakers_names__icontains=self.q)
+                    | Q(search=SearchQuery(self.q))
+                )
             )
-            .filter(
-                Q(title__icontains=self.q)
-                | Q(unaccent_title__icontains=self.q)
-                | Q(description__icontains=self.q)
-                | Q(unaccent_description__icontains=self.q)
-                | Q(speakers_names__icontains=self.q)
-                | Q(unaccent_speakers_names__icontains=self.q)
-                | Q(search=SearchQuery(self.q))
-            ))
         else:
             queryset = queryset
 
@@ -96,18 +102,27 @@ class EventDetailView(DetailView):
     model = Event
 
     def get_queryset(self):
-        return Event.objects.published().select_related(
-            'place',
-        ).prefetch_related(
-            'speakers',
-            'organizers',
-        ).all()
+        return (
+            Event.objects.published()
+            .select_related(
+                'place',
+            )
+            .prefetch_related(
+                'speakers',
+                'organizers',
+            )
+            .all()
+        )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['related_events'] = Event.objects.exclude(
-            id=self.object.id
-        ).published().future().select_related('place').order_by('?')[:6]
+        context['related_events'] = (
+            Event.objects.exclude(id=self.object.id)
+            .published()
+            .future()
+            .select_related('place')
+            .order_by('?')[:6]
+        )
         context['organizers'] = list(self.object.organizers.all())
         return context
 
@@ -123,10 +138,14 @@ class OrganizerDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['events'] = \
-            self.get_object().events.published().future().all()[:30]
-        context['past_events'] = \
-            self.get_object().events.published().past().order_by('-event_date').all()[:30]
+        context['events'] = self.get_object().events.published().future().all()[:30]
+        context['past_events'] = (
+            self.get_object()
+            .events.published()
+            .past()
+            .order_by('-event_date')
+            .all()[:30]
+        )
         return context
 
 
@@ -137,8 +156,9 @@ class SpeakerDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         speaker = self.get_object()
         context['events'] = speaker.events.published().future().all()[:30]
-        context['past_events'] = \
+        context['past_events'] = (
             speaker.events.published().past().order_by('-event_date').all()[:9]
+        )
         return context
 
 
@@ -157,10 +177,7 @@ class SpeakerListView(ListView):
         if self.q:
             queryset = queryset.annotate(
                 unaccent_name=SearchVector('name__unaccent')
-            ).filter(
-                Q(name__icontains=self.q)
-                | Q(unaccent_name__icontains=self.q)
-            )
+            ).filter(Q(name__icontains=self.q) | Q(unaccent_name__icontains=self.q))
         return queryset
 
     def get_context_data(self, **kwargs):
@@ -252,9 +269,7 @@ class SpeakerUpdateView(EditorPermissionRequiredMixin, UpdateView):
 class OrganizerAutocomplete(autocomplete.Select2QuerySetView):
     def get_result_label(self, item):
         return format_html(
-            '<img src="{}" height="20"> {}',
-            item.get_image_url(),
-            item.name
+            '<img src="{}" height="20"> {}', item.get_image_url(), item.name
         )
 
     def get_selected_result_label(self, item):
@@ -276,9 +291,7 @@ class OrganizerAutocomplete(autocomplete.Select2QuerySetView):
 class SpeakerAutocomplete(autocomplete.Select2QuerySetView):
     def get_result_label(self, item):
         return format_html(
-            '<img src="{}" height="30"> {}',
-            item.get_image_url(),
-            item.name
+            '<img src="{}" height="30"> {}', item.get_image_url(), item.name
         )
 
     def get_selected_result_label(self, item):
@@ -309,12 +322,15 @@ class OrganizerSuggestionsView(View):
                 suggestion = mark_safe(
                     'Advertencia para evitar agregar organizadores duplicados: '
                     'ya existe(n) organizador(es) {}.'.format(
-                        ', '.join([
-                            '<a href="{}">{}</a>'.format(
-                                organizer.get_absolute_url(),
-                                organizer.name,
-                            ) for organizer in organizers
-                        ])
+                        ', '.join(
+                            [
+                                '<a href="{}">{}</a>'.format(
+                                    organizer.get_absolute_url(),
+                                    organizer.name,
+                                )
+                                for organizer in organizers
+                            ]
+                        )
                     ),
                 )
 

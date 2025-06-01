@@ -1,2 +1,2 @@
 from .home import HomeView, OldHomeView
-from .rss import RssSiteEventsFeed, SocialNetworksRssSiteEventsFeed, AtomSiteEventsFeed
+from .rss import AtomSiteEventsFeed, RssSiteEventsFeed, SocialNetworksRssSiteEventsFeed
