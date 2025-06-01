@@ -11,6 +11,7 @@ Markdown>=3.7,<3.8
 Pillow>=11.1.0,<11.2
 psycopg2==2.9.10  # apt-get install postgis
 requests>=2.32.3,<2.33
+pylint>=3.3.7,<4
 pytest>=8.3.5,<8.4
 pytest-cov>=6.0.0,<6.1
 python-dateutil>=2.9.0,<3
