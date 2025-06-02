@@ -14,7 +14,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         historical_figure_1 = HistoricalFigureFactory(name='Simón Bolívar')
         historical_figure_2 = HistoricalFigureFactory(
-            name='Francisco de Paula Santander'
+            name='Francisco de Paula Santander',
         )
         historical_figure_3 = HistoricalFigureFactory(name='Manuela Sáenz')
 
@@ -28,5 +28,5 @@ class Command(BaseCommand):
         post.historical_figure_mentions.add(historical_figure_1, historical_figure_2)
 
         self.stdout.write(
-            self.style.SUCCESS('Successfully created random history data')
+            self.style.SUCCESS('Successfully created random history data'),
         )

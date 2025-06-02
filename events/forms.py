@@ -63,10 +63,11 @@ class EventBaseForm(forms.ModelForm):
     def get_organizer_button():
         return Div(
             HTML(
-                f'<a href="{reverse_lazy("events:organizer_add")}" class="btn btn-light" '
+                f'<a href="{reverse_lazy("events:organizer_add")}" '
+                'class="btn btn-light" '
                 'title="Añadir nuevo organizador" target="_blank">'
                 '<i class="fas fa-plus"></i> Añadir nuevo organizador'
-                '</a>'
+                '</a>',
             ),
             css_class='mb-3',
         )
@@ -78,7 +79,7 @@ class EventBaseForm(forms.ModelForm):
                 f'<a href="{reverse_lazy("places:place_add")}" class="btn btn-light" '
                 'title="Añadir nuevo lugar" target="_blank">'
                 '<i class="fas fa-plus"></i> Añadir nuevo lugar'
-                '</a>'
+                '</a>',
             ),
             css_class='mb-3',
         )
@@ -186,10 +187,11 @@ class EventUpdateForm(EventBaseForm):
             'speakers',
             Div(
                 HTML(
-                    f'<a href="{reverse_lazy("events:speaker_add")}" class="btn btn-light" '
+                    f'<a href="{reverse_lazy("events:speaker_add")}" '
+                    'class="btn btn-light" '
                     'title="Añadir nuevo presentador" target="_blank">'
                     '<i class="fas fa-plus"></i> Añadir nuevo presentador'
-                    '</a>'
+                    '</a>',
                 ),
             ),
             Div(
@@ -268,7 +270,8 @@ class SpeakerForm(forms.ModelForm):
 
     def clean(self):
         """
-        Cleans and sanitizes the form data, ensuring the description field contains only safe HTML.
+        Cleans and sanitizes the form data, ensuring the description field contains
+        only safe HTML.
 
         Returns:
             The cleaned and sanitized form data.

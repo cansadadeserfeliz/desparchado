@@ -12,7 +12,9 @@ app_name = 'games'  # pylint: disable=invalid-name
 
 urlpatterns = [
     path(
-        'snark/', HuntingOfSnarkGameCreateView.as_view(), name='hunting_of_snark_create'
+        'snark/',
+        HuntingOfSnarkGameCreateView.as_view(),
+        name='hunting_of_snark_create',
     ),
     path(
         'snark/criteria/',

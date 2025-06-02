@@ -8,7 +8,7 @@ def test_successfully_show_special(django_app, special, event):
     assert special.related_events.count() == 3
 
     response = django_app.get(
-        reverse('specials:special_detail', args=[special.slug]), status=200
+        reverse('specials:special_detail', args=[special.slug]), status=200,
     )
     assert response.context['special'] == special
 

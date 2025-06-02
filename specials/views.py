@@ -36,7 +36,7 @@ class SpecialDetailView(DetailView):
                 selected_date = event_dates[0]
 
         selected_date_events = related_events.filter(
-            event_date__date=selected_date
+            event_date__date=selected_date,
         ).order_by('event_date')
 
         # Pagination

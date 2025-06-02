@@ -136,14 +136,14 @@ class Event(TimeStampedModel):
     EVENT_SOURCE_URL_MAX_LENGTH = 500
     event_source_url = models.URLField(
         'Enlace a la página del evento',
-        null=True,
         blank=False,
         max_length=EVENT_SOURCE_URL_MAX_LENGTH,
     )
     price = models.DecimalField('Precio', default=0, decimal_places=2, max_digits=9)
     image = models.ImageField('Imagen', blank=True, null=True, upload_to='events')
     image_source_url = models.URLField(
-        'Créditos/atribución de la imagen', null=True, blank=True
+        'Créditos/atribución de la imagen',
+        blank=True,
     )
     organizers = models.ManyToManyField(
         'events.Organizer',

@@ -12,7 +12,8 @@ class Speaker(TimeStampedModel):
     description = models.TextField('Descripción', default='')
     image = models.ImageField('Imagen', blank=True, null=True, upload_to='speakers')
     image_source_url = models.URLField(
-        'Enlace a la fuente de la imagen', null=True, blank=True
+        'Enlace a la fuente de la imagen',
+        blank=True,
     )
 
     created_by = models.ForeignKey(

@@ -1,3 +1,4 @@
+# ruff: noqa: F401
 from .event import Event
 from .organizer import Organizer
 from .social_network_post import SocialNetworkPost

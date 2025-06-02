@@ -14,7 +14,7 @@ class EventFactory(factory.django.DjangoModelFactory):
     image = factory.django.ImageField()
     event_date = factory.LazyFunction(random_past_date)
     event_date_precision = factory.fuzzy.FuzzyChoice(
-        dict(DATETIME_PRECISION_CHOICES).keys()
+        dict(DATETIME_PRECISION_CHOICES).keys(),
     )
     created_by = factory.SubFactory(UserFactory)
 
@@ -30,7 +30,7 @@ class HistoricalFigureFactory(factory.django.DjangoModelFactory):
     image_source_url = factory.Faker('url')
     date_of_birth = factory.LazyFunction(random_past_date)
     date_of_birth_precision = factory.fuzzy.FuzzyChoice(
-        dict(DATETIME_PRECISION_CHOICES).keys()
+        dict(DATETIME_PRECISION_CHOICES).keys(),
     )
     created_by = factory.SubFactory(UserFactory)
 
@@ -48,7 +48,7 @@ class PostFactory(factory.django.DjangoModelFactory):
     image_source_url = factory.Faker('url')
     post_date = factory.LazyFunction(random_past_date)
     post_date_precision = factory.fuzzy.FuzzyChoice(
-        dict(DATETIME_PRECISION_CHOICES).keys()
+        dict(DATETIME_PRECISION_CHOICES).keys(),
     )
     historical_figure = factory.SubFactory(HistoricalFigureFactory)
     created_by = factory.SubFactory(UserFactory)

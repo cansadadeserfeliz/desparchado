@@ -35,7 +35,7 @@ def get_pagination(context, first_last_amount=2, before_after_amount=4):
         page_numbers.append(None)
 
         for i in range(
-            paginator.num_pages - first_last_amount + 1, paginator.num_pages + 1
+            paginator.num_pages - first_last_amount + 1, paginator.num_pages + 1,
         ):
             page_numbers.append(i)
 

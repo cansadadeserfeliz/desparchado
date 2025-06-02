@@ -30,7 +30,12 @@ class Post(TimeStampedModel):
         unique=True,
         populate_from='title',
     )
-    header_image = models.ImageField('Imagen', blank=True, null=True, upload_to='posts')
+    header_image = models.ImageField(
+        'Imagen',
+        blank=True,
+        null=True,
+        upload_to='posts',
+    )
     content = models.TextField(
         verbose_name='Contenido',
         default='',

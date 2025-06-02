@@ -15,7 +15,7 @@ def getenvvar(name, default=None):
     return v
 
 
-BASE_DIR = Path('.').parent.parent
+BASE_DIR = Path().parent.parent
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
@@ -128,7 +128,7 @@ DATABASES = {
         'TEST': {
             'NAME': 'desparchado_test',
         },
-    }
+    },
 }
 
 
@@ -137,7 +137,8 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        'NAME':
+            'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
     },
     {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
@@ -199,7 +200,7 @@ LOGGING = {
         'console': {
             'level': 'DEBUG',
             'class': 'logging.StreamHandler',
-        }
+        },
     },
 }
 
@@ -238,7 +239,7 @@ MAP_WIDGETS = {
                     "streetViewControl": True,
                 },
                 "GooglePlaceAutocompleteOptions": {
-                    "componentRestrictions": {"country": "co"}
+                    "componentRestrictions": {"country": "co"},
                 },
                 "mapCenterLocationName": "Bogota",
             },
@@ -269,14 +270,14 @@ INTERNAL_IPS = [
 DJANGO_VITE = {
     'default': {
         'dev_mode': False,
-    }
+    },
 }
 
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
     ],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 10,

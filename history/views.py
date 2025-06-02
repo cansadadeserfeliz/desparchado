@@ -17,7 +17,7 @@ class HistoryIndexTemplateView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         posts = get_posts_with_related_objects(Post.objects.all()).order_by(
-            '-post_date'
+            '-post_date',
         )[:POST_INDEX_PAGINATE_BY]
         context['posts'] = posts
         return context
@@ -36,7 +36,8 @@ class HistoricalFigureDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         posts = Post.objects.filter(
-            Q(historical_figure=self.object) | Q(historical_figure_mentions=self.object)
+            Q(historical_figure=self.object) |
+            Q(historical_figure_mentions=self.object),
         )
         posts = get_posts_with_related_objects(posts)
         context['posts'] = posts.order_by('-post_date').distinct()
@@ -104,9 +105,9 @@ def api_post_list(request):
         {
             "posts": [
                 loader.render_to_string(
-                    'history/_post.html', {"post": post, "show_groups": True}
+                    'history/_post.html', {"post": post, "show_groups": True},
                 )
                 for post in page_obj
-            ]
+            ],
         },
     )

@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 sanitizer = Sanitizer(
     {
         'keep_typographic_whitespace': True,
-    }
+    },
 )
 
 
