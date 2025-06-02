@@ -71,7 +71,8 @@ class HistoricalFigure(TimeStampedModel):
         'Imagen', blank=True, null=True, upload_to='history/historical-figures'
     )
     image_source_url = models.URLField(
-        'Enlace a la fuente de la imagen', null=True, blank=True
+        'Enlace a la fuente de la imagen',
+        blank=True
     )
 
     date_of_birth = models.DateTimeField(db_index=True)
@@ -87,7 +88,6 @@ class HistoricalFigure(TimeStampedModel):
         default=DATETIME_PRECISION_DAY,
         choices=DATETIME_PRECISION_CHOICES,
         blank=True,
-        null=True,
     )
 
     created_by = models.ForeignKey(
@@ -142,7 +142,7 @@ class Event(TimeStampedModel):
         'Imagen', blank=True, null=True, upload_to='history/events'
     )
     image_source_url = models.URLField(
-        'Enlace a la fuente de la imagen', null=True, blank=True
+        'Enlace a la fuente de la imagen', blank=True
     )
 
     event_date = models.DateTimeField(
@@ -169,7 +169,6 @@ class Event(TimeStampedModel):
         default=DATETIME_PRECISION_DAY,
         choices=DATETIME_PRECISION_CHOICES,
         blank=True,
-        null=True,
     )
 
     historical_figures = models.ManyToManyField(
@@ -228,7 +227,6 @@ class Post(TimeStampedModel):
     )
     type = models.CharField(
         max_length=15,
-        null=True,
         blank=True,
         choices=TYPES,
         db_index=True,
@@ -245,7 +243,7 @@ class Post(TimeStampedModel):
         'Imagen', blank=True, null=True, upload_to='history/posts'
     )
     image_source_url = models.URLField(
-        'Enlace a la fuente de la imagen', null=True, blank=True
+        'Enlace a la fuente de la imagen', blank=True
     )
 
     post_date = models.DateTimeField(
@@ -260,7 +258,6 @@ class Post(TimeStampedModel):
         default=DATETIME_PRECISION_DAY,
         choices=DATETIME_PRECISION_CHOICES,
         blank=True,
-        null=True,
     )
 
     historical_figure = models.ForeignKey(
@@ -339,7 +336,7 @@ class Group(TimeStampedModel):
         'Imagen', blank=True, null=True, upload_to='history/groups'
     )
     image_source_url = models.URLField(
-        'Enlace a la fuente de la imagen', null=True, blank=True
+        'Enlace a la fuente de la imagen', blank=True
     )
 
     admin_comments = models.TextField(

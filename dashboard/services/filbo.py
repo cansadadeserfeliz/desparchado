@@ -1,6 +1,7 @@
 import json
 import logging
 import re
+from pathlib import Path
 
 import gspread
 from dateutil.parser import parse
@@ -191,7 +192,7 @@ def sync_filbo_events(
     worksheet_range: str,
     request_user,
 ) -> None:
-    with open(
+    with Path.open(
         settings.BASE_DIR / 'spreadsheet_credentials.json', 'r', encoding='utf-8'
     ) as file:
         credentials = json.load(file)

@@ -2,7 +2,7 @@
 import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
 
-from .base import *  # pylint: disable=wildcard-import
+from .base import *  # noqa: F403
 
 DEBUG = False
 
@@ -18,12 +18,12 @@ AXES_IPWARE_META_PRECEDENCE_ORDER = [
     'REMOTE_ADDR',
 ]
 
-DJANGO_VITE['default']['manifest_path'] = STATIC_ROOT / 'dist' / 'manifest.json'
-DJANGO_VITE['default']['static_url_prefix'] = 'dist'
+DJANGO_VITE['default']['manifest_path'] = STATIC_ROOT / 'dist' / 'manifest.json'   # noqa: F405
+DJANGO_VITE['default']['static_url_prefix'] = 'dist'   # noqa: F405
 
 # Sentry
 sentry_sdk.init(
-    dsn=getenvvar('SENTRY_CONFIG_DNS', 'not-set'),
+    dsn=getenvvar('SENTRY_CONFIG_DNS', 'not-set'),   # noqa: F405
     integrations=[
         DjangoIntegration(),
     ],

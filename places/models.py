@@ -17,10 +17,10 @@ class Place(TimeStampedModel):
     slug = AutoSlugField(null=True, default=None, unique=True, populate_from='name')
     image = models.ImageField('Imagen', null=True, blank=True, upload_to='places')
     image_source_url = models.URLField(
-        'Enlace a la fuente de la imagen', null=True, blank=True
+        'Enlace a la fuente de la imagen', blank=True
     )
     description = models.TextField('Dirección', default='')
-    website_url = models.URLField('Página web', null=True, blank=True)
+    website_url = models.URLField('Página web', blank=True)
     location = geo_models.PointField('Ubicación', null=False)
     city = models.ForeignKey(
         'places.City',
@@ -80,7 +80,8 @@ class City(TimeStampedModel):
     slug = AutoSlugField(null=True, default=None, unique=True, populate_from='name')
     image = models.ImageField('Imagen', null=True, blank=True, upload_to='places')
     image_source_url = models.URLField(
-        'Enlace a la fuente de la imagen', null=True, blank=True
+        'Enlace a la fuente de la imagen',
+        blank=True
     )
     description = models.TextField('Descripción', blank=True, default='')
     center_location = geo_models.PointField(null=False)

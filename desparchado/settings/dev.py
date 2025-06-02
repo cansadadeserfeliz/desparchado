@@ -2,7 +2,7 @@
 import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
 
-from .base import *  # pylint: disable=wildcard-import
+from .base import *  # noqa: F403
 
 DEBUG = True
 
@@ -23,11 +23,11 @@ DEBUG_TOOLBAR_CONFIG = {
 
 # Indicates whether to serve assets via the ViteJS development server
 # or from compiled production assets
-DJANGO_VITE['default']['dev_mode'] = True
+DJANGO_VITE['default']['dev_mode'] = True   # noqa: F405
 
 # Sentry
 sentry_sdk.init(
-    dsn=getenvvar('SENTRY_CONFIG_DNS', 'not-set'),
+    dsn=getenvvar('SENTRY_CONFIG_DNS', 'not-set'),   # noqa: F405
     integrations=[
         DjangoIntegration(),
     ],
