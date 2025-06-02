@@ -12,7 +12,8 @@ User = get_user_model()
 
 
 class Command(BaseCommand):
-    help = 'Migrates Markdown Event, Place, Organizer and Speaker descriptions fields to HTML'
+    help = ('Migrates Markdown Event, Place, Organizer and Speaker descriptions '
+            'fields to HTML')
 
     def handle(self, *args, **options):
         self.stdout.write(self.style.NOTICE('Started migration'))

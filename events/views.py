@@ -316,7 +316,8 @@ class OrganizerSuggestionsView(View):
             if organizers:
                 duplicated_organizers = ', '.join(
                     [
-                        f'<a href="{organizer.get_absolute_url()}">{escape(organizer.name)}</a>'
+                        f'<a href="{organizer.get_absolute_url()}">'
+                        f'{escape(organizer.name)}</a>'
                         for organizer in organizers
                     ],
                 )

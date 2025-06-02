@@ -36,7 +36,8 @@ class HistoricalFigureDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         posts = Post.objects.filter(
-            Q(historical_figure=self.object) | Q(historical_figure_mentions=self.object),
+            Q(historical_figure=self.object) |
+            Q(historical_figure_mentions=self.object),
         )
         posts = get_posts_with_related_objects(posts)
         context['posts'] = posts.order_by('-post_date').distinct()

@@ -22,9 +22,9 @@ def test_add_event(django_app, user_admin):
     form = response.forms['event_form']
     form['title'] = 'Batalla de Boyacá'
     form['description'] = (
-        'La batalla del Puente de Boyacá fue la confrontación más importante de la guerra '
-        'de independencia de Colombia que garantizó el éxito de la Campaña Libertadora '
-        'de Nueva Granada.'
+        'La batalla del Puente de Boyacá fue la confrontación más importante '
+        'de la guerra de independencia de Colombia que garantizó el éxito '
+        'de la Campaña Libertadora de Nueva Granada.'
     )
     form['event_date_0'] = '07/08/1819'
     form['event_date_1'] = '00:00'
@@ -175,9 +175,9 @@ def test_add_group(django_app, user_admin):
     form = response.forms['group_form']
     form['title'] = 'Naturaleza'
     form['description'] = (
-        'La batalla del Puente de Boyacá fue la confrontación más importante de la guerra '
-        'de independencia de Colombia que garantizó el éxito de la Campaña Libertadora '
-        'de Nueva Granada.'
+        'La batalla del Puente de Boyacá fue la confrontación más importante '
+        'de la guerra de independencia de Colombia que garantizó el éxito '
+        'de la Campaña Libertadora de Nueva Granada.'
     )
     response = form.submit()
     assert response.status_code == 302

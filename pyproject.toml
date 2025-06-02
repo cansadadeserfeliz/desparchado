@@ -33,6 +33,8 @@ exclude = [
 line-length = 88
 target-version = "py311"
 lint.extend-select = [
+    "E",      # Pycodestyle errors (style issues)
+    "W",      # Pycodestyle warnings (style issues)
     "I",      # isort – import ordering checks
     "ASYNC",  # Flake8-async – checks async/await usage
     "S",      # Flake8-bandit – security issues
