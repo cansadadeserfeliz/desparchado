@@ -1,11 +1,12 @@
 from django import template
 
-
 register = template.Library()
 
 
 @register.inclusion_tag('includes/_pagination.html', takes_context=True)
 def get_pagination(context, first_last_amount=2, before_after_amount=4):
+    # pylint: disable=too-many-branches
+
     page_obj = context['page_obj']
     paginator = context['paginator']
     is_paginated = context['is_paginated']
@@ -27,21 +28,14 @@ def get_pagination(context, first_last_amount=2, before_after_amount=4):
             page_numbers.append(i)
 
     # Current page and pages after current page
-    if (
-        page_obj.number + first_last_amount + before_after_amount
-            < paginator.num_pages
-    ):
-        for i in range(
-            page_obj.number,
-            page_obj.number + before_after_amount + 1
-        ):
+    if page_obj.number + first_last_amount + before_after_amount < paginator.num_pages:
+        for i in range(page_obj.number, page_obj.number + before_after_amount + 1):
             page_numbers.append(i)
 
         page_numbers.append(None)
 
         for i in range(
-            paginator.num_pages - first_last_amount + 1,
-            paginator.num_pages + 1
+            paginator.num_pages - first_last_amount + 1, paginator.num_pages + 1
         ):
             page_numbers.append(i)
 
@@ -61,6 +55,7 @@ def get_pagination(context, first_last_amount=2, before_after_amount=4):
         'is_paginated': is_paginated,
         'search_query': search_query,
     }
+
 
 @register.inclusion_tag('includes/_simple_pagination.html', takes_context=True)
 def get_simple_pagination(context):

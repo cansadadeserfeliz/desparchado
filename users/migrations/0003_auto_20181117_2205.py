@@ -3,11 +3,11 @@
 from __future__ import unicode_literals
 
 import autoslug.fields
-from django.conf import settings
-from django.db import migrations, models
 import django.db.models.deletion
 import django.utils.timezone
 import model_utils.fields
+from django.conf import settings
+from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
@@ -21,11 +21,43 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Badge',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created', model_utils.fields.AutoCreatedField(default=django.utils.timezone.now, editable=False, verbose_name='created')),
-                ('modified', model_utils.fields.AutoLastModifiedField(default=django.utils.timezone.now, editable=False, verbose_name='modified')),
-                ('name', models.CharField(max_length=255, unique=True, verbose_name='Nombre')),
-                ('slug', autoslug.fields.AutoSlugField(editable=False, populate_from='name', unique=True)),
+                (
+                    'id',
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
+                (
+                    'created',
+                    model_utils.fields.AutoCreatedField(
+                        default=django.utils.timezone.now,
+                        editable=False,
+                        verbose_name='created',
+                    ),
+                ),
+                (
+                    'modified',
+                    model_utils.fields.AutoLastModifiedField(
+                        default=django.utils.timezone.now,
+                        editable=False,
+                        verbose_name='modified',
+                    ),
+                ),
+                (
+                    'name',
+                    models.CharField(
+                        max_length=255, unique=True, verbose_name='Nombre'
+                    ),
+                ),
+                (
+                    'slug',
+                    autoslug.fields.AutoSlugField(
+                        editable=False, populate_from='name', unique=True
+                    ),
+                ),
                 ('image', models.ImageField(upload_to='badges', verbose_name='Imagen')),
             ],
             options={
@@ -35,12 +67,51 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='UserBadge',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created', model_utils.fields.AutoCreatedField(default=django.utils.timezone.now, editable=False, verbose_name='created')),
-                ('modified', model_utils.fields.AutoLastModifiedField(default=django.utils.timezone.now, editable=False, verbose_name='modified')),
-                ('description', models.TextField(default='', verbose_name='Descripción')),
-                ('badge', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='user_relation', to='users.Badge')),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='badges', to=settings.AUTH_USER_MODEL)),
+                (
+                    'id',
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
+                (
+                    'created',
+                    model_utils.fields.AutoCreatedField(
+                        default=django.utils.timezone.now,
+                        editable=False,
+                        verbose_name='created',
+                    ),
+                ),
+                (
+                    'modified',
+                    model_utils.fields.AutoLastModifiedField(
+                        default=django.utils.timezone.now,
+                        editable=False,
+                        verbose_name='modified',
+                    ),
+                ),
+                (
+                    'description',
+                    models.TextField(default='', verbose_name='Descripción'),
+                ),
+                (
+                    'badge',
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name='user_relation',
+                        to='users.Badge',
+                    ),
+                ),
+                (
+                    'user',
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name='badges',
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
             options={
                 'verbose_name': 'User-Badge Relation',

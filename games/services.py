@@ -1,14 +1,14 @@
 from random import shuffle
 
-from .models import HuntingOfSnarkCategory
-from .models import HuntingOfSnarkCriteria
+from .models import HuntingOfSnarkCategory, HuntingOfSnarkCriteria
 
 
 def get_random_hunting_of_snark_criteria(total_points):
     categories_hash = {
         category.id: list(category.criteria.values_list('public_id', flat=True))
-        for category in
-        HuntingOfSnarkCategory.objects.all().prefetch_related('criteria')
+        for category in HuntingOfSnarkCategory.objects.all().prefetch_related(
+            'criteria'
+        )
     }
     selected_criteria_ids = []
     points_counter = 0

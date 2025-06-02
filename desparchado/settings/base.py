@@ -1,9 +1,8 @@
 import os
 from pathlib import Path
 
-from django.urls import reverse_lazy
 from django.core.exceptions import ImproperlyConfigured
-
+from django.urls import reverse_lazy
 from dotenv import load_dotenv
 
 load_dotenv()  # set environment variables from the .env file
@@ -12,7 +11,7 @@ load_dotenv()  # set environment variables from the .env file
 def getenvvar(name, default=None):
     v = os.environ.get(name, default)
     if not v:
-        raise ImproperlyConfigured('Set the {} environment variable'.format(name))
+        raise ImproperlyConfigured(f'Set the {name} environment variable')
     return v
 
 
@@ -29,7 +28,7 @@ DEBUG = False
 
 ALLOWED_HOSTS = []
 
-DEFAULT_AUTO_FIELD='django.db.models.AutoField'
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 # Application definition
 
@@ -37,7 +36,6 @@ INSTALLED_APPS = [
     'dal',
     'dal_select2',
     'desparchado',
-
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.sites',
@@ -49,7 +47,6 @@ INSTALLED_APPS = [
     'django.contrib.gis',
     'django.contrib.humanize',
     'django.contrib.postgres',
-
     'axes',
     'mapwidgets',
     'crispy_forms',
@@ -59,7 +56,6 @@ INSTALLED_APPS = [
     'drf_yasg',
     'django_filters',
     'rest_framework',
-
     'dashboard',
     'events',
     'places',
@@ -82,7 +78,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-
     'axes.middleware.AxesMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
@@ -93,7 +88,7 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 ABSOLUTE_URL_OVERRIDES = {
-    'users.user_detail': lambda o: "/users/%s/" % o.username,
+    'users.user_detail': lambda o: f"/users/{o.username}/",
 }
 
 ROOT_URLCONF = 'desparchado.urls'
@@ -212,7 +207,9 @@ LOGGING = {
 AXES_FAILURE_LIMIT = 5
 # defines a period of inactivity after which old failed login attempts will be cleared
 AXES_COOLOFF_TIME = 24  # hours
-AXES_IPWARE_PROXY_COUNT = 1  # The number of reverse proxies in front of Django as an integer
+AXES_IPWARE_PROXY_COUNT = (
+    1  # The number of reverse proxies in front of Django as an integer
+)
 AXES_IPWARE_META_PRECEDENCE_ORDER = [
     'HTTP_X_FORWARDED_FOR',
     'REMOTE_ADDR',
@@ -238,12 +235,12 @@ MAP_WIDGETS = {
                 "mapOptions": {
                     "zoom": 5,  # default map initial zoom,
                     "scrollwheel": False,
-                    "streetViewControl": True
+                    "streetViewControl": True,
                 },
                 "GooglePlaceAutocompleteOptions": {
                     "componentRestrictions": {"country": "co"}
                 },
-                "mapCenterLocationName": "Bogota"
+                "mapCenterLocationName": "Bogota",
             },
         },
     },
@@ -270,9 +267,9 @@ INTERNAL_IPS = [
 
 # django-vite
 DJANGO_VITE = {
-  'default': {
-    'dev_mode': False,
-  }
+    'default': {
+        'dev_mode': False,
+    }
 }
 
 REST_FRAMEWORK = {

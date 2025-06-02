@@ -1,21 +1,21 @@
 import json
-import re
 import logging
-from dateutil.parser import parse
+import re
 
 import gspread
+from dateutil.parser import parse
 from django.conf import settings
 from django.contrib.gis.geos import Point
-from django.core.validators import URLValidator
 from django.core.exceptions import ValidationError
+from django.core.validators import URLValidator
 
 from dashboard.data.filbo import ORGANIZERS_MAP
 from events.models import Event, Organizer, Speaker
-from places.models import Place, City
+from places.models import City, Place
 from specials.models import Special
 
-
 logger = logging.getLogger(__name__)
+
 
 def get_organizers(organizer_name, request_user):
     default_organizer = Organizer.objects.get(
@@ -27,10 +27,10 @@ def get_organizers(organizer_name, request_user):
     if canonical_organizer_name:
         organizer, created = Organizer.objects.get_or_create(
             name=canonical_organizer_name,
-            defaults=dict(
-                description=canonical_organizer_name,
-                created_by=request_user,
-            ),
+            defaults={
+                "description": canonical_organizer_name,
+                "created_by": request_user,
+            },
         )
         if created:
             logger.warning(f'FILBo organizer was created: {organizer}')
@@ -38,7 +38,10 @@ def get_organizers(organizer_name, request_user):
 
     return organizers
 
-def get_speakers(participants, speakers_map, event_title, event_description, request_user):
+
+def get_speakers(
+    participants, speakers_map, event_title, event_description, request_user
+):
     speakers = []
 
     for speaker_record in speakers_map:
@@ -52,14 +55,18 @@ def get_speakers(participants, speakers_map, event_title, event_description, req
             or speaker_record['CANONICAL_NAME'] in event_description
             or speaker_record['CANONICAL_NAME'] in event_title
         ):
-            speaker, created = Speaker.objects.get_or_create(
+            speaker, _ = Speaker.objects.get_or_create(
                 name=speaker_record['CANONICAL_NAME'],
-                defaults=dict(created_by=request_user, description=speaker_record['DESCRIPTION']),
+                defaults={
+                    "created_by": request_user,
+                    "description": speaker_record['DESCRIPTION'],
+                },
             )
             if speaker and speaker not in speakers:
                 speakers.append(speaker)
 
     return speakers
+
 
 def get_place(place_name, request_user):
     formatted_place_name = f'{place_name} | Corferias'
@@ -75,6 +82,7 @@ def get_place(place_name, request_user):
         )
 
 
+# pylint: disable=too-many-locals
 def sync_filbo_event(event_data, special, speakers_map, request_user):
     logger.info(f'Started sync for FILBo event: {event_data}')
 
@@ -90,10 +98,10 @@ def sync_filbo_event(event_data, special, speakers_map, request_user):
     start_time = _get_event_field('C')
     end_time = _get_event_field('D')
     place = _get_event_field('E')
-    target_audience = _get_event_field('F')
+    # target_audience = _get_event_field('F')
     category = _get_event_field('G')
     link = _get_event_field('H')
-    image_link = _get_event_field('I')
+    # image_link = _get_event_field('I')
     description = _get_event_field('J')
     organizer = _get_event_field('K')
     participants = _get_event_field('L')
@@ -106,7 +114,9 @@ def sync_filbo_event(event_data, special, speakers_map, request_user):
 
     event_start_date = parse(f'{event_date} {start_time}')
     event_end_date = parse(f'{event_date} {end_time}')
-    logger.debug(f'FILBo event ID extracted: {filbo_id}, {event_start_date} - {event_end_date}')
+    logger.debug(
+        f'FILBo event ID extracted: {filbo_id}, {event_start_date} - {event_end_date}'
+    )
 
     title = title.strip().rstrip('-')
     description = description.strip().rstrip('-')
@@ -114,11 +124,11 @@ def sync_filbo_event(event_data, special, speakers_map, request_user):
     try:
         URLValidator()(link)
     except (ValidationError,) as e:
-        logger.error(f'Invalid FILBo event URL', extra=dict(link=link), exc_info=e)
+        logger.error('Invalid FILBo event URL', extra={"link": link}, exc_info=e)
         return None
 
     if len(link) > Event.EVENT_SOURCE_URL_MAX_LENGTH:
-        logger.error(f'Invalid FILBo event URL', extra=dict(link=link))
+        logger.error('Invalid FILBo event URL', extra={"link": link})
         return None
 
     event_type = None
@@ -133,33 +143,37 @@ def sync_filbo_event(event_data, special, speakers_map, request_user):
         'FILBo Música': Event.EVENT_TOPIC_ART,
     }.get(category, None)
 
-    defaults = dict(
-        title=f'{title} | FILBo 2025',
-        description=description or title,
-        event_type=event_type,
-        topic=topic,
-        event_date=event_start_date,
-        event_end_date=event_end_date,
-        event_source_url=link,
-        place=get_place(place_name=place, request_user=request_user),
-        is_published=True,
-        is_approved=True,
-    )
+    defaults = {
+        'title': f'{title} | FILBo 2025',
+        'description': description or title,
+        'event_type': event_type,
+        'topic': topic,
+        'event_date': event_start_date,
+        'event_end_date': event_end_date,
+        'event_source_url': link,
+        'place': get_place(place_name=place, request_user=request_user),
+        'is_published': True,
+        'is_approved': True,
+    }
     logger.debug(f'FILBo event {filbo_id} defaults', extra=defaults)
     event, created = Event.objects.update_or_create(
         filbo_id=filbo_id,
         defaults=defaults,
-        create_defaults=dict(created_by=request_user, **defaults),
+        create_defaults={"created_by": request_user, **defaults},
     )
 
-    event.organizers.set(get_organizers(organizer_name=organizer, request_user=request_user))
-    event.speakers.set(get_speakers(
-        participants=participants,
-        speakers_map=speakers_map,
-        event_title=title,
-        event_description=description,
-        request_user=request_user,
-    ))
+    event.organizers.set(
+        get_organizers(organizer_name=organizer, request_user=request_user)
+    )
+    event.speakers.set(
+        get_speakers(
+            participants=participants,
+            speakers_map=speakers_map,
+            event_title=title,
+            event_description=description,
+            request_user=request_user,
+        )
+    )
     event.save()
 
     special.related_events.add(event)
@@ -170,13 +184,16 @@ def sync_filbo_event(event_data, special, speakers_map, request_user):
     return filbo_id
 
 
+# pylint: disable=too-many-locals
 def sync_filbo_events(
     spreadsheet_id: str,
     worksheet_number: int,
     worksheet_range: str,
     request_user,
 ) -> None:
-    with open(settings.BASE_DIR / 'spreadsheet_credentials.json', 'r', encoding='utf-8') as file:
+    with open(
+        settings.BASE_DIR / 'spreadsheet_credentials.json', 'r', encoding='utf-8'
+    ) as file:
         credentials = json.load(file)
 
     gc = gspread.service_account_from_dict(credentials)
@@ -192,7 +209,12 @@ def sync_filbo_events(
     synced_filbo_ids = set()
 
     for event_data in results:
-        filbo_id = sync_filbo_event(event_data=event_data, special=special, speakers_map=speakers_map, request_user=request_user)
+        filbo_id = sync_filbo_event(
+            event_data=event_data,
+            special=special,
+            speakers_map=speakers_map,
+            request_user=request_user,
+        )
         if filbo_id is not None:
             synced_filbo_ids.add(filbo_id)
 

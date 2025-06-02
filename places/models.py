@@ -1,10 +1,9 @@
-from django.db import models
-from django.conf import settings
-from django.urls import reverse
-from django.contrib.gis.db import models as geo_models
-from django.templatetags.static import static
-
 from autoslug import AutoSlugField
+from django.conf import settings
+from django.contrib.gis.db import models as geo_models
+from django.db import models
+from django.templatetags.static import static
+from django.urls import reverse
 from model_utils.models import TimeStampedModel
 
 
@@ -15,12 +14,11 @@ class Place(TimeStampedModel):
         unique=True,
         db_index=True,
     )
-    slug = AutoSlugField(
-        null=True, default=None, unique=True, populate_from='name')
-    image = models.ImageField(
-        'Imagen', null=True, blank=True, upload_to='places')
+    slug = AutoSlugField(null=True, default=None, unique=True, populate_from='name')
+    image = models.ImageField('Imagen', null=True, blank=True, upload_to='places')
     image_source_url = models.URLField(
-        'Enlace a la fuente de la imagen', null=True, blank=True)
+        'Enlace a la fuente de la imagen', null=True, blank=True
+    )
     description = models.TextField('Dirección', default='')
     website_url = models.URLField('Página web', null=True, blank=True)
     location = geo_models.PointField('Ubicación', null=False)
@@ -53,10 +51,10 @@ class Place(TimeStampedModel):
         return self.name
 
     def get_longitude_str(self):
-        return str(self.location.x)
+        return str(self.location.x)  # pylint: disable=no-member
 
     def get_latitude_str(self):
-        return str(self.location.y)
+        return str(self.location.y)  # pylint: disable=no-member
 
     def get_image_url(self):
         if self.image:
@@ -79,12 +77,11 @@ class City(TimeStampedModel):
         unique=True,
         db_index=True,
     )
-    slug = AutoSlugField(
-        null=True, default=None, unique=True, populate_from='name')
-    image = models.ImageField(
-        'Imagen', null=True, blank=True, upload_to='places')
+    slug = AutoSlugField(null=True, default=None, unique=True, populate_from='name')
+    image = models.ImageField('Imagen', null=True, blank=True, upload_to='places')
     image_source_url = models.URLField(
-        'Enlace a la fuente de la imagen', null=True, blank=True)
+        'Enlace a la fuente de la imagen', null=True, blank=True
+    )
     description = models.TextField('Descripción', blank=True, default='')
     center_location = geo_models.PointField(null=False)
 

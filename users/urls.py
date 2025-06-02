@@ -1,13 +1,8 @@
-from django.urls import path
 from django.contrib.auth import views as auth_views
-from django.urls import reverse_lazy
+from django.urls import path, reverse_lazy
 
-from .views import UserDetailView, UserCreationFormView
-from .views import UserAddedEventsListView
-from .forms import LoginForm
-from .forms import PasswordResetForm
-from .forms import SetPasswordForm
-
+from .forms import LoginForm, PasswordResetForm, SetPasswordForm
+from .views import UserAddedEventsListView, UserCreationFormView, UserDetailView
 
 app_name = 'users'
 urlpatterns = [
@@ -19,7 +14,6 @@ urlpatterns = [
         ),
         name='login',
     ),
-
     path(
         'password_reset/',
         auth_views.PasswordResetView.as_view(
@@ -54,7 +48,6 @@ urlpatterns = [
         ),
         name='password_reset_complete',
     ),
-
     path(
         'register/',
         UserCreationFormView.as_view(),

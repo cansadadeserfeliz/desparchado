@@ -13,11 +13,29 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='event',
             name='is_featured_on_homepage',
-            field=models.BooleanField(default=False, verbose_name='Está destacado en la página principal'),
+            field=models.BooleanField(
+                default=False, verbose_name='Está destacado en la página principal'
+            ),
         ),
         migrations.AlterField(
             model_name='event',
             name='topic',
-            field=models.PositiveSmallIntegerField(blank=True, choices=[(1, 'Urbanismo'), (2, 'Ciencia'), (3, 'Arte'), (4, 'Emprendimiento'), (5, 'Democracia'), (6, 'Ciencias humanas'), (7, 'Idiomas'), (8, 'Libros'), (9, 'Medio ambiente'), (10, 'Salud')], null=True, verbose_name='Tema'),
+            field=models.PositiveSmallIntegerField(
+                blank=True,
+                choices=[
+                    (1, 'Urbanismo'),
+                    (2, 'Ciencia'),
+                    (3, 'Arte'),
+                    (4, 'Emprendimiento'),
+                    (5, 'Democracia'),
+                    (6, 'Ciencias humanas'),
+                    (7, 'Idiomas'),
+                    (8, 'Libros'),
+                    (9, 'Medio ambiente'),
+                    (10, 'Salud'),
+                ],
+                null=True,
+                verbose_name='Tema',
+            ),
         ),
     ]

@@ -3,8 +3,8 @@
 from __future__ import unicode_literals
 
 import autoslug.fields
-from django.db import migrations, models
 import django.db.models.deletion
+from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
@@ -21,7 +21,13 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='place',
             name='slug',
-            field=autoslug.fields.AutoSlugField(default=None, editable=False, null=True, populate_from='name', unique=True),
+            field=autoslug.fields.AutoSlugField(
+                default=None,
+                editable=False,
+                null=True,
+                populate_from='name',
+                unique=True,
+            ),
         ),
         migrations.AlterField(
             model_name='city',
@@ -31,7 +37,11 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='place',
             name='city',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='places.City', verbose_name='Ciudad'),
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                to='places.City',
+                verbose_name='Ciudad',
+            ),
         ),
         migrations.AlterField(
             model_name='place',

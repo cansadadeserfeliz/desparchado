@@ -12,6 +12,12 @@ up:
 test:
 	docker exec -it $(web_container_name) sh -c "cd app && pytest"
 
+lint:
+	docker exec -it $(web_container_name) sh -c "cd app && isort --check --diff . && black --check --diff . && pylint . --django-settings-module=desparchado.settings.test"
+
+lint-all:
+	docker exec -it $(web_container_name) sh -c "cd app && isort . && black . && pylint . --django-settings-module=desparchado.settings.test"
+
 collectstatic:
 	docker exec -it $(web_container_name) sh -c "cd app && python3 manage.py collectstatic"
 

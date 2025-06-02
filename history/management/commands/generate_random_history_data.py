@@ -1,10 +1,10 @@
 from django.core.management.base import BaseCommand
 
 from history.tests.factories import (
-    HistoricalFigureFactory,
-    PostFactory,
     EventFactory,
     GroupFactory,
+    HistoricalFigureFactory,
+    PostFactory,
 )
 
 
@@ -13,7 +13,9 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         historical_figure_1 = HistoricalFigureFactory(name='Simón Bolívar')
-        historical_figure_2 = HistoricalFigureFactory(name='Francisco de Paula Santander')
+        historical_figure_2 = HistoricalFigureFactory(
+            name='Francisco de Paula Santander'
+        )
         historical_figure_3 = HistoricalFigureFactory(name='Manuela Sáenz')
 
         GroupFactory()

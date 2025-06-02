@@ -1,16 +1,14 @@
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Div, Layout, Submit
+from django import forms
+from django.conf import settings
+from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import PasswordResetForm as AuthPasswordResetForm
 from django.contrib.auth.forms import SetPasswordForm as AuthSetPasswordForm
-from django.contrib.auth import get_user_model
-from django import forms
-from django.template import loader
+from django.contrib.auth.forms import UserCreationForm
 from django.core.mail import EmailMultiAlternatives
-from django.conf import settings
-
-from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Submit, Layout, Div
-
+from django.template import loader
 
 User = get_user_model()
 
@@ -84,14 +82,24 @@ class PasswordResetForm(AuthPasswordResetForm):
             ),
         )
 
-    def send_mail(self, subject_template_name, email_template_name,
-                  context, from_email, to_email, html_email_template_name=None):
+    # pylint: disable=too-many-arguments,too-many-positional-arguments
+    def send_mail(
+        self,
+        subject_template_name,
+        email_template_name,
+        context,
+        from_email,
+        to_email,
+        html_email_template_name=None,
+    ):
         subject = loader.render_to_string(subject_template_name, context)
         # Email subject *must not* contain newlines
         subject = ''.join(subject.splitlines())
         body = loader.render_to_string(email_template_name, context)
 
-        email_message = EmailMultiAlternatives(subject, body, settings.EMAIL_FROM, [to_email])
+        email_message = EmailMultiAlternatives(
+            subject, body, settings.EMAIL_FROM, [to_email]
+        )
         if html_email_template_name is not None:
             html_email = loader.render_to_string(html_email_template_name, context)
             email_message.attach_alternative(html_email, 'text/html')
@@ -99,6 +107,7 @@ class PasswordResetForm(AuthPasswordResetForm):
         email_message.send()
 
     def save(self, **kwargs):
+        # pylint: disable=arguments-differ
         return super().save(domain_override='desparchado.co', **kwargs)
 
 

@@ -16,7 +16,13 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='event',
             name='slug',
-            field=autoslug.fields.AutoSlugField(default=None, editable=False, null=True, populate_from='title', unique=True),
+            field=autoslug.fields.AutoSlugField(
+                default=None,
+                editable=False,
+                null=True,
+                populate_from='title',
+                unique=True,
+            ),
         ),
         migrations.AlterField(
             model_name='speaker',

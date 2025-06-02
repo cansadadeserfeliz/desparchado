@@ -21,16 +21,26 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='city',
             name='image',
-            field=models.ImageField(blank=True, null=True, upload_to='places', verbose_name='Imagen'),
+            field=models.ImageField(
+                blank=True, null=True, upload_to='places', verbose_name='Imagen'
+            ),
         ),
         migrations.AddField(
             model_name='city',
             name='image_source_url',
-            field=models.URLField(blank=True, null=True, verbose_name='Enlace a la fuente de la imagen'),
+            field=models.URLField(
+                blank=True, null=True, verbose_name='Enlace a la fuente de la imagen'
+            ),
         ),
         migrations.AddField(
             model_name='city',
             name='slug',
-            field=autoslug.fields.AutoSlugField(default=None, editable=False, null=True, populate_from='name', unique=True),
+            field=autoslug.fields.AutoSlugField(
+                default=None,
+                editable=False,
+                null=True,
+                populate_from='name',
+                unique=True,
+            ),
         ),
     ]

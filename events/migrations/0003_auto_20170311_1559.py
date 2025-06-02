@@ -29,7 +29,18 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='event',
             name='event_type',
-            field=models.PositiveSmallIntegerField(choices=[(1, 'Public lecture'), (2, 'Debate'), (3, 'Master class'), (4, 'Tour'), (5, 'Meeting'), (6, 'Theatrical play'), (7, 'Concert'), (8, 'Seminar')]),
+            field=models.PositiveSmallIntegerField(
+                choices=[
+                    (1, 'Public lecture'),
+                    (2, 'Debate'),
+                    (3, 'Master class'),
+                    (4, 'Tour'),
+                    (5, 'Meeting'),
+                    (6, 'Theatrical play'),
+                    (7, 'Concert'),
+                    (8, 'Seminar'),
+                ]
+            ),
         ),
         migrations.AlterField(
             model_name='event',
@@ -39,6 +50,19 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='event',
             name='topic',
-            field=models.PositiveSmallIntegerField(choices=[(1, 'City'), (2, 'Science'), (3, 'Art'), (4, 'Business'), (5, 'Society'), (6, 'Human Science'), (7, 'Languages'), (8, 'Literature'), (9, 'Environment'), (10, 'Medicine')]),
+            field=models.PositiveSmallIntegerField(
+                choices=[
+                    (1, 'City'),
+                    (2, 'Science'),
+                    (3, 'Art'),
+                    (4, 'Business'),
+                    (5, 'Society'),
+                    (6, 'Human Science'),
+                    (7, 'Languages'),
+                    (8, 'Literature'),
+                    (9, 'Environment'),
+                    (10, 'Medicine'),
+                ]
+            ),
         ),
     ]

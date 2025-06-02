@@ -13,11 +13,20 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AlterModelOptions(
             name='event',
-            options={'ordering': ['-event_date'], 'verbose_name': 'Evento histórico', 'verbose_name_plural': 'Eventos históricos'},
+            options={
+                'ordering': ['-event_date'],
+                'verbose_name': 'Evento histórico',
+                'verbose_name_plural': 'Eventos históricos',
+            },
         ),
         migrations.AddField(
             model_name='historicalfigure',
             name='labels',
-            field=django.contrib.postgres.fields.ArrayField(base_field=models.CharField(max_length=15), blank=True, default=list, size=None),
+            field=django.contrib.postgres.fields.ArrayField(
+                base_field=models.CharField(max_length=15),
+                blank=True,
+                default=list,
+                size=None,
+            ),
         ),
     ]

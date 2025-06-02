@@ -1,15 +1,14 @@
 import datetime
 
-from django.db import models
-from django.urls import reverse
+from autoslug import AutoSlugField
 from django.conf import settings
-from django.templatetags.static import static
+from django.db import models
 from django.db.models import Q
+from django.templatetags.static import static
+from django.urls import reverse
 from django.utils import timezone
 from django.utils.html import format_html
-
 from model_utils.models import TimeStampedModel
-from autoslug import AutoSlugField
 
 from desparchado.templatetags.desparchado_tags import format_currency
 
@@ -20,23 +19,17 @@ class EventQuerySet(models.QuerySet):
         # Show multi-day events during only 5 days
         # after beginning
         return self.filter(
-            (
-                Q(event_date__gte=now) &
-                Q(event_end_date__isnull=True)
-            ) | (
-                Q(event_end_date__gte=now) &
-                Q(event_date__gte=now - datetime.timedelta(days=14))
+            (Q(event_date__gte=now) & Q(event_end_date__isnull=True))
+            | (
+                Q(event_end_date__gte=now)
+                & Q(event_date__gte=now - datetime.timedelta(days=14))
             ),
         )
 
     def past(self):
         return self.exclude(
-            (
-                Q(event_date__gte=timezone.now()) &
-                Q(event_end_date__isnull=True)
-            ) | (
-                Q(event_end_date__gte=timezone.now())
-            ),
+            (Q(event_date__gte=timezone.now()) & Q(event_end_date__isnull=True))
+            | (Q(event_end_date__gte=timezone.now())),
         )
 
     def published(self):
@@ -97,10 +90,12 @@ class Event(TimeStampedModel):
     )
 
     title = models.CharField(
-        'Título', max_length=255,
+        'Título',
+        max_length=255,
     )
     slug = AutoSlugField(
-        null=False, unique=True,
+        null=False,
+        unique=True,
         populate_from='title',
     )
 
@@ -145,48 +140,35 @@ class Event(TimeStampedModel):
         blank=False,
         max_length=EVENT_SOURCE_URL_MAX_LENGTH,
     )
-    price = models.DecimalField(
-        'Precio',
-        default=0,
-        decimal_places=2,
-        max_digits=9
-    )
-    image = models.ImageField(
-        'Imagen',
-        blank=True,
-        null=True,
-        upload_to='events'
-    )
+    price = models.DecimalField('Precio', default=0, decimal_places=2, max_digits=9)
+    image = models.ImageField('Imagen', blank=True, null=True, upload_to='events')
     image_source_url = models.URLField(
-        'Créditos/atribución de la imagen',
-        null=True,
-        blank=True
+        'Créditos/atribución de la imagen', null=True, blank=True
     )
     organizers = models.ManyToManyField(
         'events.Organizer',
         verbose_name='Organizadores',
         related_name='events',
-        help_text=
-        'Por favor, asegúrate de que el organizador que '
+        help_text='Por favor, asegúrate de que el organizador que '
         'quieres asignar al evento '
         'no existe en nuestro sistema, antes de crearlo.',
     )
     place = models.ForeignKey(
-        'places.Place', verbose_name='Lugar',
+        'places.Place',
+        verbose_name='Lugar',
         related_name='events',
         on_delete=models.DO_NOTHING,
         db_index=True,
-        help_text=
-        'Por favor, asegúrate de que el lugar que '
+        help_text='Por favor, asegúrate de que el lugar que '
         'quieres asignar al evento no existe en '
         'nuestro sistema, antes de crearlo.',
     )
     speakers = models.ManyToManyField(
-        'events.Speaker', verbose_name='Presentadores',
+        'events.Speaker',
+        verbose_name='Presentadores',
         related_name='events',
         blank=True,
-        help_text=
-        'Por favor, asegúrate de que el presentador/la presentadora que '
+        help_text='Por favor, asegúrate de que el presentador/la presentadora que '
         'quieres asignar al evento no existe en '
         'nuestro sistema, antes de crearlo/crearla.',
     )
@@ -202,7 +184,8 @@ class Event(TimeStampedModel):
         help_text='Indica si el evento va a aparecer en la página',
     )
     is_approved = models.BooleanField(
-        'Está aprobado', default=True,
+        'Está aprobado',
+        default=True,
         help_text='Campo de uso exclusivo para el administrador del sitio',
     )
 

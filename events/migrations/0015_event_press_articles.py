@@ -14,6 +14,11 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='event',
             name='press_articles',
-            field=models.ManyToManyField(blank=True, related_name='events', to='news.PressArticle', verbose_name='Artículos e prensa'),
+            field=models.ManyToManyField(
+                blank=True,
+                related_name='events',
+                to='news.PressArticle',
+                verbose_name='Artículos e prensa',
+            ),
         ),
     ]

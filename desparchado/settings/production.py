@@ -1,10 +1,8 @@
-import os
-
-from .base import *
-
+# pylint: disable=unused-wildcard-import
 import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
 
+from .base import *  # pylint: disable=wildcard-import
 
 DEBUG = False
 
@@ -41,5 +39,5 @@ sentry_sdk.init(
     profile_session_sample_rate=1.0,
     # Set profile_lifecycle to "trace" to automatically
     # run the profiler on when there is an active transaction
-    profile_lifecycle="trace"
+    profile_lifecycle="trace",
 )

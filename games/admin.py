@@ -1,8 +1,6 @@
 from django.contrib import admin
 
-from .models import HuntingOfSnarkGame
-from .models import HuntingOfSnarkCriteria
-from .models import HuntingOfSnarkCategory
+from .models import HuntingOfSnarkCategory, HuntingOfSnarkCriteria, HuntingOfSnarkGame
 
 
 @admin.register(HuntingOfSnarkGame)

@@ -1,12 +1,12 @@
 import markdown
-from django.core.management.base import BaseCommand
 from django.contrib.auth import get_user_model
+from django.core.management.base import BaseCommand
 
+from blog.models import Post
 from desparchado.utils import sanitize_html
 from events.models import Event, Organizer, Speaker
-from places.models import Place
 from games.models import HuntingOfSnarkCriteria
-from blog.models import Post
+from places.models import Place
 
 User = get_user_model()
 
@@ -26,7 +26,9 @@ class Command(BaseCommand):
             place.save()
 
         for organizer in Organizer.objects.all():
-            organizer.description = sanitize_html(markdown.markdown(organizer.description))
+            organizer.description = sanitize_html(
+                markdown.markdown(organizer.description)
+            )
             organizer.save()
 
         for speaker in Speaker.objects.all():
