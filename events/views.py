@@ -55,13 +55,13 @@ class EventListView(ListView):
                 .annotate(unaccent_description=SearchVector('description__unaccent'))
                 .annotate(
                     speakers_names=SearchVector(
-                        StringAgg('speakers__name', delimiter=' ')
-                    )
+                        StringAgg('speakers__name', delimiter=' '),
+                    ),
                 )
                 .annotate(
                     unaccent_speakers_names=SearchVector(
-                        StringAgg('speakers__name__unaccent', delimiter=' ')
-                    )
+                        StringAgg('speakers__name__unaccent', delimiter=' '),
+                    ),
                 )
                 .annotate(
                     search=SearchVector(
@@ -80,7 +80,7 @@ class EventListView(ListView):
                     | Q(unaccent_description__icontains=self.q)
                     | Q(speakers_names__icontains=self.q)
                     | Q(unaccent_speakers_names__icontains=self.q)
-                    | Q(search=SearchQuery(self.q))
+                    | Q(search=SearchQuery(self.q)),
                 )
             )
 
@@ -177,7 +177,7 @@ class SpeakerListView(ListView):
         queryset = super().get_queryset()
         if self.q:
             queryset = queryset.annotate(
-                unaccent_name=SearchVector('name__unaccent')
+                unaccent_name=SearchVector('name__unaccent'),
             ).filter(Q(name__icontains=self.q) | Q(unaccent_name__icontains=self.q))
         return queryset
 
@@ -289,7 +289,7 @@ class SpeakerAutocomplete(BaseAutocomplete):
 
     def get_result_label(self, result):
         return format_html(
-            '<img src="{}" height="30"> {}', result.get_image_url(), result.name
+            '<img src="{}" height="30"> {}', result.get_image_url(), result.name,
         )
 
     def get_queryset(self):
@@ -318,7 +318,7 @@ class OrganizerSuggestionsView(View):
                     [
                         f'<a href="{organizer.get_absolute_url()}">{organizer.name}</a>'
                         for organizer in organizers
-                    ]
+                    ],
                 )
                 suggestion = mark_safe(
                     'Advertencia para evitar agregar organizadores duplicados: '

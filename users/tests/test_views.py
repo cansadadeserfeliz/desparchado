@@ -61,7 +61,7 @@ def test_successfully_reset_password(django_app, user):
 @pytest.mark.django_db
 def test_successfully_shows_user_detail(django_app, user):
     response = django_app.get(
-        reverse('users:user_detail', args=[user.username]), status=200
+        reverse('users:user_detail', args=[user.username]), status=200,
     )
     assert response.context['user_object'] == user
     assert user.first_name in response
@@ -70,7 +70,7 @@ def test_successfully_shows_user_detail(django_app, user):
 @pytest.mark.django_db
 def test_successfully_shows_user_detail_for_authenticated_user(django_app, user):
     response = django_app.get(
-        reverse('users:user_detail', args=[user.username]), user=user, status=200
+        reverse('users:user_detail', args=[user.username]), user=user, status=200,
     )
     assert response.context['user_object'] == user
     assert user.first_name in response
@@ -90,7 +90,7 @@ def test_successfully_shows_user_events(django_app, user, other_user):
     other_user_event = EventFactory(created_by=other_user)
 
     response = django_app.get(
-        reverse('users:user_added_events_list'), user=user, status=200
+        reverse('users:user_added_events_list'), user=user, status=200,
     )
 
     assert user == response.context['user_object']

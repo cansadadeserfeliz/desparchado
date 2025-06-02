@@ -64,15 +64,15 @@ class HistoricalFigure(TimeStampedModel):
     labels = ArrayField(models.CharField(max_length=15), blank=True, default=list)
     sources = models.TextField('Fuentes de la información', default='', blank=True)
     admin_comments = models.TextField(
-        'Comentarios de los administradores', default='', blank=True
+        'Comentarios de los administradores', default='', blank=True,
     )
 
     image = models.ImageField(
-        'Imagen', blank=True, null=True, upload_to='history/historical-figures'
+        'Imagen', blank=True, null=True, upload_to='history/historical-figures',
     )
     image_source_url = models.URLField(
         'Enlace a la fuente de la imagen',
-        blank=True
+        blank=True,
     )
 
     date_of_birth = models.DateTimeField(db_index=True)
@@ -107,13 +107,13 @@ class HistoricalFigure(TimeStampedModel):
 
     def get_date_of_birth_display(self):
         return get_historical_date_display(
-            self.date_of_birth, self.date_of_birth_precision
+            self.date_of_birth, self.date_of_birth_precision,
         )
 
     def get_date_of_death_display(self):
         if self.date_of_death:
             return get_historical_date_display(
-                self.date_of_death, self.date_of_death_precision
+                self.date_of_death, self.date_of_death_precision,
             )
         return '-'
 
@@ -135,14 +135,14 @@ class Event(TimeStampedModel):
     description = models.TextField('Descripción', default='', blank=True)
     sources = models.TextField('Fuentes de la información', default='', blank=True)
     admin_comments = models.TextField(
-        'Comentarios de los administradores', default='', blank=True
+        'Comentarios de los administradores', default='', blank=True,
     )
 
     image = models.ImageField(
-        'Imagen', blank=True, null=True, upload_to='history/events'
+        'Imagen', blank=True, null=True, upload_to='history/events',
     )
     image_source_url = models.URLField(
-        'Enlace a la fuente de la imagen', blank=True
+        'Enlace a la fuente de la imagen', blank=True,
     )
 
     event_date = models.DateTimeField(
@@ -197,7 +197,7 @@ class Event(TimeStampedModel):
     def get_event_end_date_display(self):
         if self.event_end_date:
             return get_historical_date_display(
-                self.event_end_date, self.event_end_date_precision
+                self.event_end_date, self.event_end_date_precision,
             )
         return '-'
 
@@ -236,14 +236,14 @@ class Post(TimeStampedModel):
     location_name = models.CharField(max_length=500, default='', blank=True)
     sources = models.TextField('Fuentes de la información', default='', blank=True)
     admin_comments = models.TextField(
-        'Comentarios de los administradores', default='', blank=True
+        'Comentarios de los administradores', default='', blank=True,
     )
 
     image = models.ImageField(
-        'Imagen', blank=True, null=True, upload_to='history/posts'
+        'Imagen', blank=True, null=True, upload_to='history/posts',
     )
     image_source_url = models.URLField(
-        'Enlace a la fuente de la imagen', blank=True
+        'Enlace a la fuente de la imagen', blank=True,
     )
 
     post_date = models.DateTimeField(
@@ -333,14 +333,14 @@ class Group(TimeStampedModel):
     description = models.TextField('Descripción')
 
     image = models.ImageField(
-        'Imagen', blank=True, null=True, upload_to='history/groups'
+        'Imagen', blank=True, null=True, upload_to='history/groups',
     )
     image_source_url = models.URLField(
-        'Enlace a la fuente de la imagen', blank=True
+        'Enlace a la fuente de la imagen', blank=True,
     )
 
     admin_comments = models.TextField(
-        'Comentarios de los administradores', default='', blank=True
+        'Comentarios de los administradores', default='', blank=True,
     )
 
     members = models.ManyToManyField(

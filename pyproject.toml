@@ -38,5 +38,6 @@ lint.extend-select = [
     "DJ",     # Flake8-django – Django-specific conventions
     "PTH",    # Flake8-use-pathlib – encourages pathlib over os.path
     "RSE",    # Flake8-raise – proper raise statement usage
+    "COM",    # Flake8-commas – trailing/comma issues
     "FLY",    # Flynt – f-string conversion suggestions
 ]

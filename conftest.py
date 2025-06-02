@@ -125,5 +125,5 @@ def blog_post():
 @pytest.fixture
 def special(event, not_published_event, not_approved_event):
     return SpecialFactory(
-        related_events=[event, not_published_event, not_approved_event]
+        related_events=[event, not_published_event, not_approved_event],
     )

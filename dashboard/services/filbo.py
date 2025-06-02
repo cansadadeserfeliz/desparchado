@@ -20,7 +20,7 @@ logger = logging.getLogger(__name__)
 
 def get_organizers(organizer_name, request_user):
     default_organizer = Organizer.objects.get(
-        name='Feria Internacional del Libro de Bogotá - FILBo'
+        name='Feria Internacional del Libro de Bogotá - FILBo',
     )
     organizers = [default_organizer]
 
@@ -41,7 +41,7 @@ def get_organizers(organizer_name, request_user):
 
 
 def get_speakers(
-    participants, speakers_map, event_title, event_description, request_user
+    participants, speakers_map, event_title, event_description, request_user,
 ):
     speakers = []
 
@@ -116,7 +116,7 @@ def sync_filbo_event(event_data, special, speakers_map, request_user):
     event_start_date = parse(f'{event_date} {start_time}')
     event_end_date = parse(f'{event_date} {end_time}')
     logger.debug(
-        f'FILBo event ID extracted: {filbo_id}, {event_start_date} - {event_end_date}'
+        f'FILBo event ID extracted: {filbo_id}, {event_start_date} - {event_end_date}',
     )
 
     title = title.strip().rstrip('-')
@@ -164,7 +164,7 @@ def sync_filbo_event(event_data, special, speakers_map, request_user):
     )
 
     event.organizers.set(
-        get_organizers(organizer_name=organizer, request_user=request_user)
+        get_organizers(organizer_name=organizer, request_user=request_user),
     )
     event.speakers.set(
         get_speakers(
@@ -173,7 +173,7 @@ def sync_filbo_event(event_data, special, speakers_map, request_user):
             event_title=title,
             event_description=description,
             request_user=request_user,
-        )
+        ),
     )
     event.save()
 
@@ -193,7 +193,7 @@ def sync_filbo_events(
     request_user,
 ) -> None:
     with Path.open(
-        settings.BASE_DIR / 'spreadsheet_credentials.json', 'r', encoding='utf-8'
+        settings.BASE_DIR / 'spreadsheet_credentials.json', 'r', encoding='utf-8',
     ) as file:
         credentials = json.load(file)
 

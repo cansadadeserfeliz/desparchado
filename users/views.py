@@ -44,8 +44,8 @@ class UserCreationFormView(FormView):
         if self.request.user.is_authenticated:
             return HttpResponseRedirect(
                 reverse(
-                    'users:user_detail', kwargs={'slug': self.request.user.username}
-                )
+                    'users:user_detail', kwargs={'slug': self.request.user.username},
+                ),
             )
         return super().dispatch(*args, **kwargs)
 

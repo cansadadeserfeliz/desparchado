@@ -66,7 +66,7 @@ class HomeView(SuperuserRequiredMixin, TemplateView):
             .count()
         )
         context['speakers_without_image_count'] = Speaker.objects.filter(
-            image=''
+            image='',
         ).count()
         context['active_users_count'] = User.objects.filter(is_active=True).count()
         context['places_count'] = Place.objects.count()
@@ -112,7 +112,7 @@ def social_events_source(request):
                 'borderColor': color,
                 'url': reverse('admin:events_event_change', args=(event.id,)),
                 'imageUrl': event.get_image_url(),
-            }
+            },
         )
 
     social_posts = (
@@ -132,10 +132,10 @@ def social_events_source(request):
                 'backgroundColor': blue,
                 'borderColor': blue,
                 'url': reverse(
-                    'admin:events_event_change', args=(social_post.event.id,)
+                    'admin:events_event_change', args=(social_post.event.id,),
                 ),
                 'imageUrl': social_post.event.get_image_url(),
-            }
+            },
         )
 
     return JsonResponse(event_list, safe=False)
@@ -220,7 +220,7 @@ class EventCreateView(SuperuserRequiredMixin, CreateView):
             organizer = Organizer.objects.filter(name='Banco de la República').first()
             if self.blaa_event_json['place']:
                 place = Place.objects.filter(
-                    name__icontains=self.blaa_event_json['place']
+                    name__icontains=self.blaa_event_json['place'],
                 ).first()
             else:
                 place = None
@@ -241,7 +241,7 @@ class EventCreateView(SuperuserRequiredMixin, CreateView):
                     + self.blaa_event_json.get('notes', ''),
                     'organizers': [organizer],
                     'place': place,
-                }
+                },
             )
         return initial
 

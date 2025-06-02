@@ -41,7 +41,7 @@ def test_get_historical_date_display(precision, expected_value):
 )
 def test_get_event_day_and_month_display(precision, expected_value, history_event):
     history_event.event_date = datetime.datetime(
-        year=1803, month=4, day=5, hour=15, minute=34
+        year=1803, month=4, day=5, hour=15, minute=34,
     )
     history_event.event_date_precision = precision
     history_event.save()

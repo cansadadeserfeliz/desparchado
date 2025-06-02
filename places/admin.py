@@ -62,7 +62,7 @@ class PlaceAdmin(admin.ModelAdmin):
     raw_id_fields = ('editors',)
 
     formfield_overrides = {
-        geo_models.PointField: {'widget': mapwidgets.GoogleMapPointFieldWidget()}
+        geo_models.PointField: {'widget': mapwidgets.GoogleMapPointFieldWidget()},
     }
 
     def get_actions(self, request):
@@ -92,5 +92,5 @@ class CityAdmin(admin.ModelAdmin):
         return False
 
     formfield_overrides = {
-        geo_models.PointField: {'widget': mapwidgets.GoogleMapPointFieldWidget()}
+        geo_models.PointField: {'widget': mapwidgets.GoogleMapPointFieldWidget()},
     }

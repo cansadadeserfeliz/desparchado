@@ -6,7 +6,7 @@ from ..models import HuntingOfSnarkGame
 
 @pytest.mark.django_db
 def test_show_main_page_and_create_new_game(
-    django_app, hunting_of_snark_criteria_batch  # pylint: disable=unused-argument
+    django_app, hunting_of_snark_criteria_batch,  # pylint: disable=unused-argument
 ):
     games_count = HuntingOfSnarkGame.objects.count()
 
@@ -33,7 +33,7 @@ def test_show_main_page_and_create_new_game(
 
 @pytest.mark.django_db
 def test_show_criteria_list(
-    django_app, hunting_of_snark_criteria_batch
+    django_app, hunting_of_snark_criteria_batch,
 ):  # pylint: disable=unused-argument
     django_app.get(reverse('games:hunting_of_snark_criteria_list'), status=200)
 

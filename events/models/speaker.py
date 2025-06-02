@@ -13,7 +13,7 @@ class Speaker(TimeStampedModel):
     image = models.ImageField('Imagen', blank=True, null=True, upload_to='speakers')
     image_source_url = models.URLField(
         'Enlace a la fuente de la imagen',
-        blank=True
+        blank=True,
     )
 
     created_by = models.ForeignKey(

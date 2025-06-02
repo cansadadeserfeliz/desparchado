@@ -10,7 +10,7 @@ from .factories import SpeakerFactory
 
 @pytest.mark.django_db
 def test_events_appearance_in_event_list(
-    django_app, event, not_published_event, not_approved_event, past_event
+    django_app, event, not_published_event, not_approved_event, past_event,
 ):
     response = django_app.get(reverse('events:event_list'), status=200)
 
@@ -24,7 +24,7 @@ def test_events_appearance_in_event_list(
 def test_filter_events_by_city_in_event_list(django_app, event, other_event):
     city = event.place.city
     response = django_app.get(
-        reverse('events:event_list') + f'?city={city.slug}', status=200
+        reverse('events:event_list') + f'?city={city.slug}', status=200,
     )
     assert event in response.context['events']
     assert other_event not in response.context['events']
@@ -45,14 +45,14 @@ def test_search_events_in_event_list(django_app, event, other_event):
 @pytest.mark.django_db
 def test_show_details_of_event(django_app, event):
     response = django_app.get(
-        reverse('events:event_detail', args=[event.slug]), status=200
+        reverse('events:event_detail', args=[event.slug]), status=200,
     )
     assert event == response.context['event']
 
 
 @pytest.mark.django_db
 def test_events_appearance_in_past_event_list(
-    django_app, event, not_published_event, not_approved_event, past_event
+    django_app, event, not_published_event, not_approved_event, past_event,
 ):
     response = django_app.get(reverse('events:past_event_list'), status=200)
 
@@ -65,14 +65,14 @@ def test_events_appearance_in_past_event_list(
 @pytest.mark.django_db
 def test_show_details_of_not_published_event(django_app, not_published_event):
     django_app.get(
-        reverse('events:event_detail', args=[not_published_event.slug]), status=404
+        reverse('events:event_detail', args=[not_published_event.slug]), status=404,
     )
 
 
 @pytest.mark.django_db
 def test_show_details_of_not_approved_event(django_app, not_approved_event):
     django_app.get(
-        reverse('events:event_detail', args=[not_approved_event.slug]), status=404
+        reverse('events:event_detail', args=[not_approved_event.slug]), status=404,
     )
 
 
@@ -102,7 +102,7 @@ def test_successfully_create_event(django_app, user, organizer, place):
     )
     form['event_date'] = (timezone.now() + timedelta(days=1)).strftime('%d/%m/%Y %H:%M')
     form['event_end_date'] = (timezone.now() + timedelta(days=2)).strftime(
-        '%d/%m/%Y %H:%M'
+        '%d/%m/%Y %H:%M',
     )
     form['event_source_url'] = 'https://example.com'
     form['organizers'].force_value([organizer.id])
@@ -121,7 +121,7 @@ def test_successfully_create_event(django_app, user, organizer, place):
 @pytest.mark.django_db
 def test_does_not_allow_update_events_not_authenticated_users(django_app, event):
     response = django_app.get(
-        reverse('events:event_update', args=[event.id]), status=302
+        reverse('events:event_update', args=[event.id]), status=302,
     )
     assert reverse('users:login') in response.location
 
@@ -129,7 +129,7 @@ def test_does_not_allow_update_events_not_authenticated_users(django_app, event)
 @pytest.mark.django_db
 def test_does_not_allow_update_other_users_event(django_app, other_user, event):
     django_app.get(
-        reverse('events:event_update', args=[event.id]), user=other_user, status=403
+        reverse('events:event_update', args=[event.id]), user=other_user, status=403,
     )
 
 
@@ -138,7 +138,7 @@ def test_successfully_update_event(django_app, event_with_organizer):
     event = event_with_organizer
     user = event.created_by
     response = django_app.get(
-        reverse('events:event_update', args=[event.id]), user=user, status=200
+        reverse('events:event_update', args=[event.id]), user=user, status=200,
     )
     assert event.title in response
 
@@ -155,7 +155,7 @@ def test_successfully_update_event(django_app, event_with_organizer):
 @pytest.mark.django_db
 def test_show_details_of_organizer(django_app, organizer):
     response = django_app.get(
-        reverse('events:organizer_detail', args=[organizer.slug]), status=200
+        reverse('events:organizer_detail', args=[organizer.slug]), status=200,
     )
     assert response.context['organizer'] == organizer
     assert organizer.name in response
@@ -164,7 +164,7 @@ def test_show_details_of_organizer(django_app, organizer):
 @pytest.mark.django_db
 def test_successfully_show_details_of_speaker(django_app, speaker):
     response = django_app.get(
-        reverse('events:speaker_detail', args=[speaker.slug]), status=200
+        reverse('events:speaker_detail', args=[speaker.slug]), status=200,
     )
     assert response.context['speaker'] == speaker
 
@@ -185,7 +185,7 @@ def test_successfully_finds_speaker_by_name(django_app):
     second_speaker = SpeakerFactory(name='Django Pony')
     search_term = 'Pony'
     response = django_app.get(
-        reverse('events:speaker_list'), {'q': search_term}, status=200
+        reverse('events:speaker_list'), {'q': search_term}, status=200,
     )
     assert len(response.context['speakers']) == 1
     assert first_speaker not in response.context['speakers']
@@ -220,7 +220,7 @@ def test_non_authenticated_user_cannot_create_organizer(django_app):
 @pytest.mark.django_db
 def test_non_authenticated_user_cannot_update_organizer(django_app, organizer):
     response = django_app.get(
-        reverse('events:organizer_update', args=[organizer.slug]), status=302
+        reverse('events:organizer_update', args=[organizer.slug]), status=302,
     )
     assert reverse('users:login') in response.location
 
@@ -306,7 +306,7 @@ def test_successfully_create_speaker(django_app, user):
 @pytest.mark.django_db
 def test_non_authenticated_user_cannot_update_speaker(django_app, speaker):
     response = django_app.get(
-        reverse('events:speaker_update', args=[speaker.id]), status=302
+        reverse('events:speaker_update', args=[speaker.id]), status=302,
     )
     assert reverse('users:login') in response.location
 

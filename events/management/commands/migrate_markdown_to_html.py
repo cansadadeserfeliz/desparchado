@@ -27,7 +27,7 @@ class Command(BaseCommand):
 
         for organizer in Organizer.objects.all():
             organizer.description = sanitize_html(
-                markdown.markdown(organizer.description)
+                markdown.markdown(organizer.description),
             )
             organizer.save()
 
