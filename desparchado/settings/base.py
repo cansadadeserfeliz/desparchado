@@ -15,7 +15,7 @@ def getenvvar(name, default=None):
     return v
 
 
-BASE_DIR = Path('.').parent.parent
+BASE_DIR = Path().parent.parent
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/

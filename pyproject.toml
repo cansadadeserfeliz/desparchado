@@ -1,8 +1,42 @@
 [project]
 requires-python = "==3.11"
 
-[tool.isort]
-profile = "black"
-
-[tool.black]
-skip-string-normalization = true
+[tool.ruff]
+exclude = [
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".git-rewrite",
+    ".ipynb_checkpoints",
+    ".mypy_cache",
+    ".nox",
+    ".pants.d",
+    ".pyenv",
+    ".pytest_cache",
+    ".pytype",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    ".vscode",
+    "__pypackages__",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "node_modules",
+    "site-packages",
+    "venv",
+    "migrations",
+]
+line-length = 88
+target-version = "py310"
+lint.extend-select = [
+    "I",      # isort – import ordering checks
+    "ASYNC",  # Flake8-async – checks async/await usage
+    "DJ",     # Flake8-django – Django-specific conventions
+    "PTH",    # Flake8-use-pathlib – encourages pathlib over os.path
+    "RSE",    # Flake8-raise – proper raise statement usage
+    "FLY",    # Flynt – f-string conversion suggestions
+]
