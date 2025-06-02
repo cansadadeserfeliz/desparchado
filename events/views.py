@@ -1,4 +1,3 @@
-from dal import autocomplete
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.postgres.aggregates import StringAgg
 from django.contrib.postgres.search import SearchQuery, SearchVector
@@ -10,6 +9,7 @@ from django.utils.safestring import mark_safe
 from django.views import View
 from django.views.generic import CreateView, DetailView, ListView, UpdateView
 
+from desparchado.autocomplete import BaseAutocomplete
 from desparchado.mixins import EditorPermissionRequiredMixin
 from desparchado.utils import send_notification
 from places.models import City
@@ -23,6 +23,8 @@ class EventListView(ListView):
     context_object_name = 'events'
     paginate_by = 27
     city = None
+    q = ''
+    city_slug_filter = ''
 
     def dispatch(self, request, *args, **kwargs):
         self.q = request.GET.get('q', '')
@@ -31,7 +33,7 @@ class EventListView(ListView):
         if self.city_slug_filter:
             self.city = City.objects.filter(slug=self.city_slug_filter).first()
 
-        return super(EventListView, self).dispatch(request, *args, **kwargs)
+        return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -81,8 +83,6 @@ class EventListView(ListView):
                     | Q(search=SearchQuery(self.q))
                 )
             )
-        else:
-            queryset = queryset
 
         return queryset.select_related('place').order_by('event_date').distinct()
 
@@ -167,10 +167,11 @@ class SpeakerListView(ListView):
     context_object_name = 'speakers'
     paginate_by = 54
     ordering = 'name'
+    q = ''
 
     def dispatch(self, request, *args, **kwargs):
         self.q = request.GET.get('q', '')
-        return super(SpeakerListView, self).dispatch(request, *args, **kwargs)
+        return super().dispatch(request, *args, **kwargs)
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -193,10 +194,11 @@ class EventCreateView(LoginRequiredMixin, CreateView):
     def get_success_url(self):
         if self.object.is_published and self.object.is_approved:
             return self.object.get_absolute_url()
-        else:
-            return reverse('users:user_added_events_list')
+
+        return reverse('users:user_added_events_list')
 
     def form_valid(self, form):
+        # pylint: disable=attribute-defined-outside-init
         self.object = form.save(commit=False)
         self.object.is_approved = True
         self.object.created_by = self.request.user
@@ -214,8 +216,8 @@ class EventUpdateView(EditorPermissionRequiredMixin, UpdateView):
     def get_success_url(self):
         if self.object.is_published and self.object.is_approved:
             return self.object.get_absolute_url()
-        else:
-            return reverse('users:user_added_events_list')
+
+        return reverse('users:user_added_events_list')
 
     def form_valid(self, form):
         send_notification(self.request, self.object, 'event', False)
@@ -227,6 +229,7 @@ class OrganizerCreateView(LoginRequiredMixin, CreateView):
     form_class = OrganizerForm
 
     def form_valid(self, form):
+        # pylint: disable=attribute-defined-outside-init
         self.object = form.save(commit=False)
         self.object.created_by = self.request.user
         self.object.save()
@@ -249,6 +252,7 @@ class SpeakerCreateView(LoginRequiredMixin, CreateView):
     form_class = SpeakerForm
 
     def form_valid(self, form):
+        # pylint: disable=attribute-defined-outside-init
         self.object = form.save(commit=False)
         self.object.created_by = self.request.user
         self.object.save()
@@ -266,14 +270,7 @@ class SpeakerUpdateView(EditorPermissionRequiredMixin, UpdateView):
         return super().form_valid(form)
 
 
-class OrganizerAutocomplete(autocomplete.Select2QuerySetView):
-    def get_result_label(self, item):
-        return format_html(
-            '<img src="{}" height="20"> {}', item.get_image_url(), item.name
-        )
-
-    def get_selected_result_label(self, item):
-        return item.name
+class OrganizerAutocomplete(BaseAutocomplete):
 
     def get_queryset(self):
         # Don't forget to filter out results depending on the visitor!
@@ -288,14 +285,12 @@ class OrganizerAutocomplete(autocomplete.Select2QuerySetView):
         return qs
 
 
-class SpeakerAutocomplete(autocomplete.Select2QuerySetView):
-    def get_result_label(self, item):
-        return format_html(
-            '<img src="{}" height="30"> {}', item.get_image_url(), item.name
-        )
+class SpeakerAutocomplete(BaseAutocomplete):
 
-    def get_selected_result_label(self, item):
-        return item.name
+    def get_result_label(self, result):
+        return format_html(
+            '<img src="{}" height="30"> {}', result.get_image_url(), result.name
+        )
 
     def get_queryset(self):
         # Don't forget to filter out results depending on the visitor!
@@ -319,19 +314,15 @@ class OrganizerSuggestionsView(View):
                 name__unaccent__icontains=query,
             )[:3]
             if organizers:
+                duplicated_organizers = ', '.join(
+                    [
+                        f'<a href="{organizer.get_absolute_url()}">{organizer.name}</a>'
+                        for organizer in organizers
+                    ]
+                )
                 suggestion = mark_safe(
                     'Advertencia para evitar agregar organizadores duplicados: '
-                    'ya existe(n) organizador(es) {}.'.format(
-                        ', '.join(
-                            [
-                                '<a href="{}">{}</a>'.format(
-                                    organizer.get_absolute_url(),
-                                    organizer.name,
-                                )
-                                for organizer in organizers
-                            ]
-                        )
-                    ),
+                    f'ya existe(n) organizador(es) {duplicated_organizers}.',
                 )
 
         return JsonResponse({'suggestion': suggestion})

@@ -82,6 +82,7 @@ class PasswordResetForm(AuthPasswordResetForm):
             ),
         )
 
+    # pylint: disable=too-many-arguments,too-many-positional-arguments
     def send_mail(
         self,
         subject_template_name,
@@ -106,6 +107,7 @@ class PasswordResetForm(AuthPasswordResetForm):
         email_message.send()
 
     def save(self, **kwargs):
+        # pylint: disable=arguments-differ
         return super().save(domain_override='desparchado.co', **kwargs)
 
 

@@ -16,15 +16,15 @@ class HuntingOfSnarkGameCreateView(CreateView):
         return reverse('games:hunting_of_snark_detail', args=(self.object.token,))
 
     def form_valid(self, form):
-        self.object = form.save()
+        self.object = form.save()  # pylint: disable=attribute-defined-outside-init
         random_criteria = get_random_hunting_of_snark_criteria(self.object.total_points)
         self.object.criteria.add(*random_criteria)
         if random_criteria.filter(
             public_id=HuntingOfSnarkCriteria.RANDOM_LETTER_CRITERIA_ID
         ).exists():
-            self.object.extra = dict(
-                random_letter=random.choice('ABCDEFGHIJKLMNOPQRSTUVWXYZ')
-            )
+            self.object.extra = {
+                "random_letter": random.choice('ABCDEFGHIJKLMNOPQRSTUVWXYZ')
+            }
             self.object.save()
 
         return super().form_valid(form)
@@ -51,6 +51,7 @@ class HuntingOfSnarkGameListView(ListView):
     template_name = 'games/hunting_of_snark_game_list.html'
     context_object_name = 'games'
     paginate_by = 100
+    q = ''
 
     def dispatch(self, request, *args, **kwargs):
         self.q = request.GET.get('q', '')

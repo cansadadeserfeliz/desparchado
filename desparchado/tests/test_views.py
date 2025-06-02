@@ -10,6 +10,7 @@ def test_home_page(django_app):
 
 
 @pytest.mark.django_db
+# pylint: disable=too-many-arguments,too-many-positional-arguments
 def test_home_page_featured_events(
     django_app,
     not_published_event,
@@ -49,5 +50,5 @@ def test_about_page(django_app):
 
 
 @pytest.mark.django_db
-def test_sitemap(django_app, event):
+def test_sitemap(django_app, event):  # pylint: disable=unused-argument
     django_app.get(reverse('django.contrib.sitemaps.views.sitemap'), status=200)

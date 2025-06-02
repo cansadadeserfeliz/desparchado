@@ -15,9 +15,9 @@ def history_historical_figure():
 
 @pytest.fixture
 def history_historical_figure_without_image():
-    history_historical_figure = HistoricalFigureFactory()
-    history_historical_figure.image = None
-    return history_historical_figure
+    historical_figure = HistoricalFigureFactory()
+    historical_figure.image = None
+    return historical_figure
 
 
 @pytest.fixture

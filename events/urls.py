@@ -2,7 +2,8 @@ from django.urls import path
 
 import events.views as event_views
 
-app_name = 'events'
+app_name = 'events'  # pylint: disable=invalid-name
+
 urlpatterns = [
     # Future events list
     path('', event_views.EventListView.as_view(), name='event_list'),

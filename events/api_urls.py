@@ -2,7 +2,8 @@ from django.urls import path
 
 from events.api.views import EventListAPIView, FutureEventListAPIView
 
-app_name = 'events'
+app_name = 'events'  # pylint: disable=invalid-name
+
 urlpatterns = [
     path(route='events/', view=EventListAPIView.as_view(), name='events_list'),
     path(

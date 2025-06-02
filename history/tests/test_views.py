@@ -79,7 +79,9 @@ def test_show_post_preloaded_list(django_app, history_post):
 
 
 @pytest.mark.django_db
-def test_posts_api_retrieve_page(django_app, history_post_batch):
+def test_posts_api_retrieve_page(
+    django_app, history_post_batch
+):  # pylint: disable=unused-argument
     response = django_app.get(
         reverse('history:api_post_list'), params={'page': 2}, status=200
     )
@@ -87,13 +89,15 @@ def test_posts_api_retrieve_page(django_app, history_post_batch):
 
 
 @pytest.mark.django_db
-def test_posts_api_response_without_query_parameter(django_app, history_post_batch):
+def test_posts_api_response_without_query_parameter(
+    django_app, history_post_batch
+):  # pylint: disable=unused-argument
     django_app.get(reverse('history:api_post_list'), status=422)
 
 
 @pytest.mark.django_db
 def test_posts_api_response_when_page_number_is_not_integer(
-    django_app, history_post_batch
+    django_app, history_post_batch  # pylint: disable=unused-argument
 ):
     django_app.get(
         reverse('history:api_post_list'), params={'page': 'xdxdxd'}, status=422
@@ -101,9 +105,12 @@ def test_posts_api_response_when_page_number_is_not_integer(
 
 
 @pytest.mark.django_db
-def test_posts_api_response_with_empty_page(django_app, history_post):
+def test_posts_api_response_with_empty_page(
+    django_app, history_post
+):  # pylint: disable=unused-argument
     """
     This test verifies response status code 400 when a request to an empty page is made.
-    In this case only exists a page with one post, history_post, then test ask for a non existent page number 2
+    In this case only exists a page with one post, history_post, then test ask for
+    a non-existent page number 2
     """
     django_app.get(reverse('history:api_post_list'), params={'page': 2}, status=400)

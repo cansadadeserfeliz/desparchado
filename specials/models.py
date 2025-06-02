@@ -38,7 +38,7 @@ class Special(TimeStampedModel):
 
     @property
     def events(self):
-        return self.related_events.published().all()
+        return self.related_events.published().all()  # pylint: disable=no-member
 
     def get_absolute_url(self):
         return reverse('specials:special_detail', args=[self.slug])

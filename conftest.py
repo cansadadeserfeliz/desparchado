@@ -1,7 +1,7 @@
+# pylint: disable=redefined-outer-name
 from datetime import timedelta
 
 import pytest
-from django.template.defaultfilters import title
 from django.utils import timezone
 
 from blog.tests.factories import PostFactory as BlogPostFactory

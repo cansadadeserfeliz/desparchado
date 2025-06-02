@@ -11,7 +11,7 @@ load_dotenv()  # set environment variables from the .env file
 def getenvvar(name, default=None):
     v = os.environ.get(name, default)
     if not v:
-        raise ImproperlyConfigured('Set the {} environment variable'.format(name))
+        raise ImproperlyConfigured(f'Set the {name} environment variable')
     return v
 
 
@@ -88,7 +88,7 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 ABSOLUTE_URL_OVERRIDES = {
-    'users.user_detail': lambda o: "/users/%s/" % o.username,
+    'users.user_detail': lambda o: f"/users/{o.username}/",
 }
 
 ROOT_URLCONF = 'desparchado.urls'

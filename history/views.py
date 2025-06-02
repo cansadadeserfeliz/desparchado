@@ -101,12 +101,12 @@ def api_post_list(request):
         return HttpResponse('Page number must be a positive integer', status=422)
 
     return JsonResponse(
-        dict(
-            posts=[
+        {
+            "posts": [
                 loader.render_to_string(
-                    'history/_post.html', dict(post=post, show_groups=True)
+                    'history/_post.html', {"post": post, "show_groups": True}
                 )
                 for post in page_obj
             ]
-        ),
+        },
     )

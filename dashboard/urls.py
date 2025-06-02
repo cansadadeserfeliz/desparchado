@@ -2,7 +2,7 @@ from django.urls import path
 
 from dashboard import views as dashboard_views
 
-app_name = 'dashboard'
+app_name = 'dashboard'  # pylint: disable=invalid-name
 urlpatterns = [
     path('', dashboard_views.HomeView.as_view(), name='home'),
     path(

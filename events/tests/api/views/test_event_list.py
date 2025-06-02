@@ -10,6 +10,7 @@ from places.tests.factories import CityFactory, PlaceFactory
 
 
 @pytest.mark.django_db
+# pylint: disable=too-many-arguments,too-many-positional-arguments
 def test_events_appearance_in_future_event_list(
     client,
     future_event,

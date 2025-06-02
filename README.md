@@ -6,7 +6,6 @@
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/feeb0eb96f654c0bbad5d0418bf70ce3)](https://app.codacy.com/gh/cansadadeserfeliz/desparchado/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 [![CircleCI](https://dl.circleci.com/status-badge/img/circleci/NvxPLoiXoV6rkfeDDm6qpV/XwPU1X1KYXxadqaawbZEQD/tree/development.svg?style=shield)](https://dl.circleci.com/status-badge/redirect/circleci/NvxPLoiXoV6rkfeDDm6qpV/XwPU1X1KYXxadqaawbZEQD/tree/development)
 
-
 ## Development
 
 ### Setup

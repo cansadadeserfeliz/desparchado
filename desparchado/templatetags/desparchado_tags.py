@@ -11,7 +11,7 @@ register = template.Library()
 # Perform the comparison in the default time zone when USE_TZ = True
 # (unless a specific time zone has been applied with the |timezone filter).
 @register.filter(expects_localtime=True)
-def naturalday_no_default(value, arg=None):
+def naturalday_no_default(value):
     """
     For date values that are tomorrow, today or yesterday compared to
     present day return representing string.
@@ -29,7 +29,7 @@ def format_currency(value):
     """
     try:
         value = float(value)
-        return '${:,.0f}'.format(value)
+        return f'${value:.0f}'
     except (ValueError, TypeError):
         return value
 

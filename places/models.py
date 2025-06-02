@@ -51,10 +51,10 @@ class Place(TimeStampedModel):
         return self.name
 
     def get_longitude_str(self):
-        return str(self.location.x)
+        return str(self.location.x)  # pylint: disable=no-member
 
     def get_latitude_str(self):
-        return str(self.location.y)
+        return str(self.location.y)  # pylint: disable=no-member
 
     def get_image_url(self):
         if self.image:

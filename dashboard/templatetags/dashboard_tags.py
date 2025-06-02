@@ -5,6 +5,7 @@ register = template.Library()
 
 @register.inclusion_tag('dashboard/includes/_pagination.html', takes_context=True)
 def get_dashboard_pagination(context, first_last_amount=2, before_after_amount=4):
+    # pylint: disable=too-many-branches
     page_obj = context['page_obj']
     paginator = context['paginator']
     is_paginated = context['is_paginated']

@@ -19,5 +19,5 @@ class EventListAPIView(ListAPIView):
 class FutureEventListAPIView(EventListAPIView):
 
     def get_queryset(self):
-        queryset = super(FutureEventListAPIView, self).get_queryset()
+        queryset = super().get_queryset()
         return queryset.future().select_related('place__city')

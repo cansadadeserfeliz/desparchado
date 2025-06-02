@@ -34,6 +34,7 @@ from .views import (
     SocialNetworksRssSiteEventsFeed,
 )
 
+# pylint: disable=invalid-name
 schema_view = get_schema_view(
     openapi.Info(
         title='Desparchado API',

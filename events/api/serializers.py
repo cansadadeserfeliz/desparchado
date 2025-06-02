@@ -32,7 +32,7 @@ class EventSerializer(serializers.ModelSerializer):
     def get_url(self, obj):
         return obj.get_absolute_url()
 
-    def get_is_recurrent(self, obj):
+    def get_is_recurrent(self, obj):  # pylint: disable=unused-argument
         return False
 
     def get_truncated_description(self, obj):

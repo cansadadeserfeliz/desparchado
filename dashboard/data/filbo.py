@@ -1,3 +1,4 @@
+# pylint: disable=line-too-long
 ORGANIZERS_MAP = {
     "Programación Oficial FILBo": "Feria Internacional del Libro de Bogotá - FILBo",
     "Penguin Random House": "Penguin Random House Colombia",

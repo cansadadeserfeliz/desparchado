@@ -37,7 +37,7 @@ class HuntingOfSnarkGame(TimeStampedModel):
     @property
     def name(self):
         if self.player_name:
-            return 'La caza del Snark para {}'.format(self.player_name)
+            return f'La caza del Snark para {self.player_name}'
         return 'La caza del Snark'
 
     def get_absolute_url(self):

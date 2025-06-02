@@ -3,7 +3,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.db.models import Count
 from django.db.models.fields import DateField
-from django.db.models.functions import Cast, ExtractWeekDay
+from django.db.models.functions import Cast
 from django.http import JsonResponse
 from django.urls import reverse, reverse_lazy
 from django.utils import timezone
@@ -105,14 +105,14 @@ def social_events_source(request):
             color = muted
         local_date = timezone.localtime(event.event_date)
         event_list.append(
-            dict(
-                title=event.title,
-                start=local_date.isoformat(),
-                backgroundColor=color,
-                borderColor=color,
-                url=reverse('admin:events_event_change', args=(event.id,)),
-                imageUrl=event.get_image_url(),
-            )
+            {
+                'title': event.title,
+                'start': local_date.isoformat(),
+                'backgroundColor': color,
+                'borderColor': color,
+                'url': reverse('admin:events_event_change', args=(event.id,)),
+                'imageUrl': event.get_image_url(),
+            }
         )
 
     social_posts = (
@@ -126,14 +126,16 @@ def social_events_source(request):
     for social_post in social_posts:
         local_date = timezone.localtime(social_post.published_at)
         event_list.append(
-            dict(
-                title=social_post.event.title,
-                start=local_date.isoformat(),
-                backgroundColor=blue,
-                borderColor=blue,
-                url=reverse('admin:events_event_change', args=(social_post.event.id,)),
-                imageUrl=social_post.event.get_image_url(),
-            )
+            {
+                'title': social_post.event.title,
+                'start': local_date.isoformat(),
+                'backgroundColor': blue,
+                'borderColor': blue,
+                'url': reverse(
+                    'admin:events_event_change', args=(social_post.event.id,)
+                ),
+                'imageUrl': social_post.event.get_image_url(),
+            }
         )
 
     return JsonResponse(event_list, safe=False)
@@ -157,7 +159,7 @@ class BlaaEventsListView(SuperuserRequiredMixin, TemplateView):
         for event_data in events:
             blaa_slug = event_data.get('contenido_url', '')
             if blaa_slug:
-                event_source_url = 'http://www.banrepcultural.org{}'.format(blaa_slug)
+                event_source_url = f'http://www.banrepcultural.org{blaa_slug}'
                 event = Event.objects.filter(
                     event_source_url=event_source_url,
                 ).first()
@@ -173,6 +175,9 @@ class BlaaEventsListView(SuperuserRequiredMixin, TemplateView):
 class EventCreateView(SuperuserRequiredMixin, CreateView):
     form_class = EventCreateForm
     template_name = 'dashboard/event_form.html'
+    blaa_event_json = None
+    event_source_url = ''
+    event = None
 
     def dispatch(self, request, *args, **kwargs):
         self.event = None
@@ -181,8 +186,8 @@ class EventCreateView(SuperuserRequiredMixin, CreateView):
         if blaa_slug:
             self.blaa_event_json = get_blaa_event(event_slug=blaa_slug)
 
-            self.event_source_url = 'http://www.banrepcultural.org{}'.format(
-                self.blaa_event_json['path']
+            self.event_source_url = (
+                f"http://www.banrepcultural.org{self.blaa_event_json['path']}"
             )
             self.event = Event.objects.filter(
                 event_source_url=self.event_source_url,
@@ -190,10 +195,10 @@ class EventCreateView(SuperuserRequiredMixin, CreateView):
         else:
             self.blaa_event_json = None
 
-        return super(EventCreateView, self).dispatch(request, *args, **kwargs)
+        return super().dispatch(request, *args, **kwargs)
 
     def get_initial(self):
-        initial = super(EventCreateView, self).get_initial()
+        initial = super().get_initial()
 
         if self.blaa_event_json:
             event_type = Event.EVENT_TYPE_PUBLIC_LECTURE
@@ -221,22 +226,22 @@ class EventCreateView(SuperuserRequiredMixin, CreateView):
                 place = None
 
             initial.update(
-                dict(
-                    title=self.blaa_event_json['title'],
-                    event_type=event_type,
-                    topic=Event.EVENT_TOPIC_ART,
-                    event_source_url=self.event_source_url,
-                    event_date=start_date,
-                    description=self.blaa_event_json.get('body', '')
+                {
+                    'title': self.blaa_event_json['title'],
+                    'event_type': event_type,
+                    'topic': Event.EVENT_TOPIC_ART,
+                    'event_source_url': self.event_source_url,
+                    'event_date': start_date,
+                    'description': self.blaa_event_json.get('body', '')
                     + '\n\n'
                     + self.blaa_event_json.get('horarios', '')
                     + '\n\n'
                     + self.blaa_event_json.get('description', '')
                     + '\n\n'
                     + self.blaa_event_json.get('notes', ''),
-                    organizers=[organizer],
-                    place=place,
-                )
+                    'organizers': [organizer],
+                    'place': place,
+                }
             )
         return initial
 
@@ -249,10 +254,11 @@ class EventCreateView(SuperuserRequiredMixin, CreateView):
     def get_success_url(self):
         if self.object.is_published and self.object.is_approved:
             return self.object.get_absolute_url()
-        else:
-            return reverse('users:user_added_events_list')
+
+        return reverse('users:user_added_events_list')
 
     def form_valid(self, form):
+        # pylint: disable=attribute-defined-outside-init
         self.object = form.save(commit=False)
         self.object.is_approved = True
         self.object.created_by = self.request.user

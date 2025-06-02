@@ -8,7 +8,8 @@ from .views import (
     HuntingOfSnarkGameListView,
 )
 
-app_name = 'games'
+app_name = 'games'  # pylint: disable=invalid-name
+
 urlpatterns = [
     path(
         'snark/', HuntingOfSnarkGameCreateView.as_view(), name='hunting_of_snark_create'

@@ -30,21 +30,18 @@ class SocialNetworksRssSiteEventsFeed(Feed):
         return item.event.title
 
     def item_guid(self, item):
-        return '{}-{}'.format(
-            item.event.slug,
-            item.id,
-        )
+        return f'{item.event.slug}-{item.id}'
 
     def item_link(self, item):
         return reverse('events:event_detail', args=[item.event.slug])
 
-    def item_guid_is_permalink(self, item):
+    def item_guid_is_permalink(self, item):  # pylint: disable=unused-argument
         return False
 
     def item_description(self, item):
         return item.description
 
-    def item_author_name(self, item):
+    def item_author_name(self, item):  # pylint: disable=unused-argument
         return 'Desparchado.co'
 
     def item_pubdate(self, item):

@@ -34,7 +34,7 @@ def get_historical_date_display(historical_date, precision):
     date_str = _date(historical_date, 'Y')
     if precision != DATETIME_PRECISION_YEAR:
         date_str = _date(historical_date, 'F').lower() + ' ' + date_str
-    if precision != DATETIME_PRECISION_YEAR and precision != DATETIME_PRECISION_MONTH:
+    if precision not in (DATETIME_PRECISION_YEAR, DATETIME_PRECISION_MONTH):
         date_str = _date(historical_date, 'j') + ' de ' + date_str
     if precision == DATETIME_PRECISION_HOUR:
         date_str = date_str + ', ' + _time(historical_date, 'g a')

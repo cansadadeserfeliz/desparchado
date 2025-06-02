@@ -26,7 +26,9 @@ class EventBaseForm(forms.ModelForm):
         """
         Validates event dates and sanitizes the event description.
 
-        Ensures that the event end date is not earlier than the start date, adding a validation error if necessary. The event description is sanitized to remove unsafe HTML content.
+        Ensures that the event end date is not earlier than the start date,
+        adding a validation error if necessary.
+        The event description is sanitized to remove unsafe HTML content.
         """
         cleaned_data = super().clean()
         event_date = cleaned_data.get('event_date')
@@ -61,12 +63,10 @@ class EventBaseForm(forms.ModelForm):
     def get_organizer_button():
         return Div(
             HTML(
-                '<a href="{}" class="btn btn-light" '
+                f'<a href="{reverse_lazy("events:organizer_add")}" class="btn btn-light" '
                 'title="Añadir nuevo organizador" target="_blank">'
                 '<i class="fas fa-plus"></i> Añadir nuevo organizador'
-                '</a>'.format(
-                    reverse_lazy('events:organizer_add'),
-                )
+                '</a>'
             ),
             css_class='mb-3',
         )
@@ -75,12 +75,10 @@ class EventBaseForm(forms.ModelForm):
     def get_place_button():
         return Div(
             HTML(
-                '<a href="{}" class="btn btn-light" '
+                f'<a href="{reverse_lazy("places:place_add")}" class="btn btn-light" '
                 'title="Añadir nuevo lugar" target="_blank">'
                 '<i class="fas fa-plus"></i> Añadir nuevo lugar'
-                '</a>'.format(
-                    reverse_lazy('places:place_add'),
-                )
+                '</a>'
             ),
             css_class='mb-3',
         )
@@ -188,12 +186,10 @@ class EventUpdateForm(EventBaseForm):
             'speakers',
             Div(
                 HTML(
-                    '<a href="{}" class="btn btn-light" '
+                    f'<a href="{reverse_lazy("events:speaker_add")}" class="btn btn-light" '
                     'title="Añadir nuevo presentador" target="_blank">'
                     '<i class="fas fa-plus"></i> Añadir nuevo presentador'
-                    '</a>'.format(
-                        reverse_lazy('events:speaker_add'),
-                    )
+                    '</a>'
                 ),
             ),
             Div(

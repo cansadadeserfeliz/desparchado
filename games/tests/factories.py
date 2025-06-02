@@ -24,7 +24,7 @@ class HuntingOfSnarkGameFactory(factory.django.DjangoModelFactory):
 
 
 class HuntingOfSnarkCategoryFactory(factory.django.DjangoModelFactory):
-    name = factory.Sequence(lambda n: 'category title %d' % n)
+    name = factory.Sequence(lambda n: f'category title {n}')
 
     class Meta:
         model = HuntingOfSnarkCategory
