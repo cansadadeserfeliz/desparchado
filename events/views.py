@@ -4,7 +4,7 @@ from django.contrib.postgres.search import SearchQuery, SearchVector
 from django.db.models import Q
 from django.http import JsonResponse
 from django.urls import reverse
-from django.utils.html import format_html
+from django.utils.html import escape, format_html
 from django.utils.safestring import mark_safe
 from django.views import View
 from django.views.generic import CreateView, DetailView, ListView, UpdateView
@@ -316,11 +316,12 @@ class OrganizerSuggestionsView(View):
             if organizers:
                 duplicated_organizers = ', '.join(
                     [
-                        f'<a href="{organizer.get_absolute_url()}">{organizer.name}</a>'
+                        f'<a href="{organizer.get_absolute_url()}">{escape(organizer.name)}</a>'
                         for organizer in organizers
                     ],
                 )
-                suggestion = mark_safe(
+
+                suggestion = mark_safe(  # noqa: S308
                     'Advertencia para evitar agregar organizadores duplicados: '
                     f'ya existe(n) organizador(es) {duplicated_organizers}.',
                 )

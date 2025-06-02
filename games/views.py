@@ -23,7 +23,7 @@ class HuntingOfSnarkGameCreateView(CreateView):
             public_id=HuntingOfSnarkCriteria.RANDOM_LETTER_CRITERIA_ID,
         ).exists():
             self.object.extra = {
-                "random_letter": random.choice('ABCDEFGHIJKLMNOPQRSTUVWXYZ'),
+                "random_letter": random.choice('ABCDEFGHIJKLMNOPQRSTUVWXYZ'),  # noqa: S311
             }
             self.object.save()
 
