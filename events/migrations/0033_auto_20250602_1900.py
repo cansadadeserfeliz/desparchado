@@ -56,7 +56,7 @@ def migrate_categories(apps, schema_editor):
             EVENT_TYPE_FESTIVAL,
             EVENT_TYPE_EXHIBITION,
         ]:
-            event.category = event.category = EVENT_CATEGORY_ART
+            event.category = EVENT_CATEGORY_ART
         elif 'libro' in event.title.lower():
             event.category = EVENT_CATEGORY_LITERATURE
         elif 'literatura' in event.title.lower():
