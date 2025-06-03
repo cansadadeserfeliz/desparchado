@@ -8,6 +8,7 @@ from django.templatetags.static import static
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.html import format_html
+from django.utils.translation import gettext_lazy as _
 from model_utils.models import TimeStampedModel
 
 from desparchado.templatetags.desparchado_tags import format_currency
@@ -40,54 +41,6 @@ class EventQuerySet(models.QuerySet):
 
 
 class Event(TimeStampedModel):
-    EVENT_TYPE_PUBLIC_LECTURE = 1
-    EVENT_TYPE_DEBATE = 2
-    EVENT_TYPE_MASTER_CLASS = 3
-    EVENT_TYPE_TOUR = 4
-    EVENT_TYPE_MEETING = 5
-    EVENT_TYPE_THEATRICAL_PLAY = 6
-    EVENT_TYPE_CONCERT = 7
-    EVENT_TYPE_SEMINAR = 8
-    EVENT_TYPE_EXHIBITION = 9
-    EVENT_TYPE_FESTIVAL = 10
-    EVENT_TYPE_MOVIES = 11
-
-    EVENT_TYPES = (
-        (EVENT_TYPE_PUBLIC_LECTURE, 'Conferencia pública'),
-        (EVENT_TYPE_DEBATE, 'Debate'),
-        (EVENT_TYPE_MASTER_CLASS, 'Taller'),
-        (EVENT_TYPE_TOUR, 'Recorrido'),
-        (EVENT_TYPE_MEETING, 'Encuentro'),
-        (EVENT_TYPE_THEATRICAL_PLAY, 'Obra de teatro'),
-        (EVENT_TYPE_CONCERT, 'Concierto'),
-        (EVENT_TYPE_SEMINAR, 'Seminario'),
-        (EVENT_TYPE_EXHIBITION, 'Exposición'),
-        (EVENT_TYPE_FESTIVAL, 'Festival'),
-        (EVENT_TYPE_MOVIES, 'Cine'),
-    )
-
-    EVENT_TOPIC_CITY = 1
-    EVENT_TOPIC_SCIENCE = 2
-    EVENT_TOPIC_ART = 3
-    EVENT_TOPIC_BUSINESS = 4
-    EVENT_TOPIC_SOCIETY = 5
-    EVENT_TOPIC_HUMAN_SCIENCE = 6
-    EVENT_TOPIC_LANGUAGES = 7
-    EVENT_TOPIC_BOOKS = 8
-    EVENT_TOPIC_ENVIRONMENT = 9
-    EVENT_TOPIC_HEALTH = 10
-    EVENT_TOPICS = (
-        (EVENT_TOPIC_CITY, 'Urbanismo'),
-        (EVENT_TOPIC_SCIENCE, 'Ciencia'),
-        (EVENT_TOPIC_ART, 'Arte'),
-        (EVENT_TOPIC_BUSINESS, 'Emprendimiento'),
-        (EVENT_TOPIC_SOCIETY, 'Democracia'),
-        (EVENT_TOPIC_HUMAN_SCIENCE, 'Ciencias humanas'),
-        (EVENT_TOPIC_LANGUAGES, 'Idiomas'),
-        (EVENT_TOPIC_BOOKS, 'Libros'),
-        (EVENT_TOPIC_ENVIRONMENT, 'Medio ambiente'),
-        (EVENT_TOPIC_HEALTH, 'Salud'),
-    )
 
     title = models.CharField(
         'Título',
@@ -98,7 +51,6 @@ class Event(TimeStampedModel):
         unique=True,
         populate_from='title',
     )
-
     description = models.TextField(
         verbose_name='Descripción',
         default='',
@@ -108,17 +60,19 @@ class Event(TimeStampedModel):
             '/markdown',
         ),
     )
-    event_type = models.PositiveSmallIntegerField(
-        'Tipo del evento',
-        null=True,
+
+    class Category(models.TextChoices):
+        LITERATURE = "literature", _("Literatura")
+        SOCIETY = "society", _("Sociedad")
+        ENVIRONMENT = "environment", _("Medio ambiente")
+        SCIENCE = "science", _("Ciencia")
+        ART = "art", _("Arte")
+
+    category = models.CharField(
+        max_length=20,
+        choices=Category,
         blank=True,
-        choices=EVENT_TYPES,
-    )
-    topic = models.PositiveSmallIntegerField(
-        'Tema',
-        null=True,
-        blank=True,
-        choices=EVENT_TOPICS,
+        db_index=True,
     )
     event_date = models.DateTimeField(
         'Fecha del evento',

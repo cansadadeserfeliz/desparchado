@@ -201,19 +201,11 @@ class EventCreateView(SuperuserRequiredMixin, CreateView):
         initial = super().get_initial()
 
         if self.blaa_event_json:
-            event_type = Event.EVENT_TYPE_PUBLIC_LECTURE
-            if self.blaa_event_json['type_activity'] == 'Taller':
-                event_type = Event.EVENT_TYPE_MASTER_CLASS
-            elif self.blaa_event_json['type_activity'] == 'Visita guiada':
-                event_type = Event.EVENT_TYPE_TOUR
-            elif self.blaa_event_json['type_activity'] == 'Club de Lectura':
-                event_type = Event.EVENT_TYPE_MEETING
-            elif self.blaa_event_json['type_activity'] == 'Exposición':
-                event_type = Event.EVENT_TYPE_EXHIBITION
+            event_category = ''
+            if self.blaa_event_json['type_activity'] == 'Club de Lectura':
+                event_category = Event.Category.LITERATURE
             elif self.blaa_event_json['type_activity'] == 'Concierto':
-                event_type = Event.EVENT_TYPE_CONCERT
-            elif self.blaa_event_json['type_activity'] == 'Charla previa':
-                event_type = Event.EVENT_TYPE_MEETING
+                event_category = Event.Category.ART
 
             start_date = parse(self.blaa_event_json.get('date'))
 
@@ -228,8 +220,7 @@ class EventCreateView(SuperuserRequiredMixin, CreateView):
             initial.update(
                 {
                     'title': self.blaa_event_json['title'],
-                    'event_type': event_type,
-                    'topic': Event.EVENT_TOPIC_ART,
+                    'category': event_category,
                     'event_source_url': self.event_source_url,
                     'event_date': start_date,
                     'description': self.blaa_event_json.get('body', '')

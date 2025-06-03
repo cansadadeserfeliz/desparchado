@@ -46,8 +46,7 @@ class EventAdmin(admin.ModelAdmin):
         'title',
         'is_published',
         'is_approved',
-        'event_type',
-        'topic',
+        'category',
         'filbo_id',
         'event_date',
         'event_source_url',
@@ -82,7 +81,7 @@ class EventAdmin(admin.ModelAdmin):
                     'event_source_url',
                     'image',
                     'image_source_url',
-                    ('event_type', 'topic'),
+                    ('category',),
                     ('event_date', 'event_end_date'),
                     'price',
                     'organizers',
@@ -94,7 +93,7 @@ class EventAdmin(admin.ModelAdmin):
         ),
     )
 
-    list_filter = ('is_featured_on_homepage', 'is_published', 'is_approved')
+    list_filter = ('category', 'is_featured_on_homepage', 'is_published', 'is_approved')
 
     ordering = ('-created', '-is_published')
 

@@ -100,7 +100,7 @@ def sync_filbo_event(event_data, special, speakers_map, request_user):
     end_time = _get_event_field('D')
     place = _get_event_field('E')
     # target_audience = _get_event_field('F')
-    category = _get_event_field('G')
+    filbo_category = _get_event_field('G')
     link = _get_event_field('H')
     # image_link = _get_event_field('I')
     description = _get_event_field('J')
@@ -132,23 +132,21 @@ def sync_filbo_event(event_data, special, speakers_map, request_user):
         logger.error('Invalid FILBo event URL', extra={"link": link})
         return None
 
-    event_type = None
-    topic = {
-        'Firma de Libros': Event.EVENT_TOPIC_BOOKS,
-        'Presentaciones de libros': Event.EVENT_TOPIC_BOOKS,
-        'FILBo Literatura': Event.EVENT_TOPIC_BOOKS,
-        'FILBo Poesía': Event.EVENT_TOPIC_BOOKS,
-        'FILBo Medio Ambiente': Event.EVENT_TOPIC_ENVIRONMENT,
-        'FILBo Ciencia': Event.EVENT_TOPIC_SCIENCE,
-        'FILBo Ilustrada': Event.EVENT_TOPIC_ART,
-        'FILBo Música': Event.EVENT_TOPIC_ART,
-    }.get(category, None)
+    category = {
+        'Firma de Libros': Event.Category.LITERATURE,
+        'Presentaciones de libros': Event.Category.LITERATURE,
+        'FILBo Literatura': Event.Category.LITERATURE,
+        'FILBo Poesía': Event.Category.LITERATURE,
+        'FILBo Medio Ambiente': Event.Category.ENVIRONMENT,
+        'FILBo Ciencia': Event.Category.SCIENCE,
+        'FILBo Ilustrada': Event.Category.ART,
+        'FILBo Música': Event.Category.ART,
+    }.get(filbo_category, '')
 
     defaults = {
         'title': f'{title} | FILBo 2025',
         'description': description or title,
-        'event_type': event_type,
-        'topic': topic,
+        'category': category,
         'event_date': event_start_date,
         'event_end_date': event_end_date,
         'event_source_url': link,
