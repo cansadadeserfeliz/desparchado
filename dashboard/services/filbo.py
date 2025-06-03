@@ -100,7 +100,7 @@ def sync_filbo_event(event_data, special, speakers_map, request_user):
     end_time = _get_event_field('D')
     place = _get_event_field('E')
     # target_audience = _get_event_field('F')
-    event_category = _get_event_field('G')
+    filbo_category = _get_event_field('G')
     link = _get_event_field('H')
     # image_link = _get_event_field('I')
     description = _get_event_field('J')
@@ -141,7 +141,7 @@ def sync_filbo_event(event_data, special, speakers_map, request_user):
         'FILBo Ciencia': Event.Category.SCIENCE,
         'FILBo Ilustrada': Event.Category.ART,
         'FILBo Música': Event.Category.ART,
-    }.get(event_category, None)
+    }.get(filbo_category, '')
 
     defaults = {
         'title': f'{title} | FILBo 2025',
