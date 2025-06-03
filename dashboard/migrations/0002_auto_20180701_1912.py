@@ -15,6 +15,13 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='eventsource',
             name='source_type',
-            field=models.PositiveSmallIntegerField(choices=[(None, 'Unknown'), (2, 'Custom website'), (1, 'Facebook events page')], verbose_name='Tipo del recurso'),
+            field=models.PositiveSmallIntegerField(
+                choices=[
+                    (None, 'Unknown'),
+                    (2, 'Custom website'),
+                    (1, 'Facebook events page'),
+                ],
+                verbose_name='Tipo del recurso',
+            ),
         ),
     ]

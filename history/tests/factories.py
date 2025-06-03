@@ -3,8 +3,8 @@ import factory.fuzzy
 
 from desparchado.tests.helpers import random_past_date
 from users.tests.factories import UserFactory
-from ..models import Event, HistoricalFigure, Post, Group
-from ..models import DATETIME_PRECISION_CHOICES
+
+from ..models import DATETIME_PRECISION_CHOICES, Event, Group, HistoricalFigure, Post
 
 
 class EventFactory(factory.django.DjangoModelFactory):
@@ -13,7 +13,9 @@ class EventFactory(factory.django.DjangoModelFactory):
     description = factory.Faker('text')
     image = factory.django.ImageField()
     event_date = factory.LazyFunction(random_past_date)
-    event_date_precision = factory.fuzzy.FuzzyChoice(dict(DATETIME_PRECISION_CHOICES).keys())
+    event_date_precision = factory.fuzzy.FuzzyChoice(
+        dict(DATETIME_PRECISION_CHOICES).keys(),
+    )
     created_by = factory.SubFactory(UserFactory)
 
     class Meta:
@@ -27,11 +29,14 @@ class HistoricalFigureFactory(factory.django.DjangoModelFactory):
     image = factory.django.ImageField()
     image_source_url = factory.Faker('url')
     date_of_birth = factory.LazyFunction(random_past_date)
-    date_of_birth_precision = factory.fuzzy.FuzzyChoice(dict(DATETIME_PRECISION_CHOICES).keys())
+    date_of_birth_precision = factory.fuzzy.FuzzyChoice(
+        dict(DATETIME_PRECISION_CHOICES).keys(),
+    )
     created_by = factory.SubFactory(UserFactory)
 
     class Meta:
         model = HistoricalFigure
+        django_get_or_create = ('name',)
 
 
 class PostFactory(factory.django.DjangoModelFactory):
@@ -42,7 +47,9 @@ class PostFactory(factory.django.DjangoModelFactory):
     image = factory.django.ImageField()
     image_source_url = factory.Faker('url')
     post_date = factory.LazyFunction(random_past_date)
-    post_date_precision = factory.fuzzy.FuzzyChoice(dict(DATETIME_PRECISION_CHOICES).keys())
+    post_date_precision = factory.fuzzy.FuzzyChoice(
+        dict(DATETIME_PRECISION_CHOICES).keys(),
+    )
     historical_figure = factory.SubFactory(HistoricalFigureFactory)
     created_by = factory.SubFactory(UserFactory)
 

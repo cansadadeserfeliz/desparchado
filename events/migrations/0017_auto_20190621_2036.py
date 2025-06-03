@@ -18,6 +18,8 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='event',
             name='event_end_date',
-            field=models.DateTimeField(blank=True, db_index=True, null=True, verbose_name='Fecha final'),
+            field=models.DateTimeField(
+                blank=True, db_index=True, null=True, verbose_name='Fecha final'
+            ),
         ),
     ]

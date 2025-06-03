@@ -2,6 +2,7 @@ import factory
 import factory.fuzzy
 
 from users.tests.factories import UserFactory
+
 from ..models import Post
 
 

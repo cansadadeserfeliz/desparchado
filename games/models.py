@@ -1,10 +1,9 @@
 import uuid
 
-from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
+from django.db import models
 from django.db.models import JSONField
 from django.urls import reverse
-
 from model_utils.models import TimeStampedModel
 
 
@@ -22,7 +21,7 @@ class HuntingOfSnarkGame(TimeStampedModel):
         verbose_name='Juego para',
         max_length=255,
         blank=True,
-        help_text='Tu nombre o el nombre del amigo con el que quieres jugar'
+        help_text='Tu nombre o el nombre del amigo con el que quieres jugar',
     )
     total_points = models.IntegerField(
         verbose_name='Cantidad de criterios',
@@ -38,7 +37,7 @@ class HuntingOfSnarkGame(TimeStampedModel):
     @property
     def name(self):
         if self.player_name:
-            return 'La caza del Snark para {}'.format(self.player_name)
+            return f'La caza del Snark para {self.player_name}'
         return 'La caza del Snark'
 
     def get_absolute_url(self):

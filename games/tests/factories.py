@@ -1,9 +1,7 @@
 import factory
 import factory.fuzzy
 
-from ..models import HuntingOfSnarkGame
-from ..models import HuntingOfSnarkCategory
-from ..models import HuntingOfSnarkCriteria
+from ..models import HuntingOfSnarkCategory, HuntingOfSnarkCriteria, HuntingOfSnarkGame
 
 
 class HuntingOfSnarkGameFactory(factory.django.DjangoModelFactory):
@@ -26,7 +24,7 @@ class HuntingOfSnarkGameFactory(factory.django.DjangoModelFactory):
 
 
 class HuntingOfSnarkCategoryFactory(factory.django.DjangoModelFactory):
-    name = factory.Sequence(lambda n: 'category title %d' % n)
+    name = factory.Sequence(lambda n: f'category title {n}')
 
     class Meta:
         model = HuntingOfSnarkCategory

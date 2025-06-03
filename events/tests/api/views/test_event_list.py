@@ -1,17 +1,24 @@
 from datetime import timedelta
 
 import pytest
-
 from django.urls import reverse
 from django.utils import timezone
 from rest_framework import status
 
 from events.tests.factories import EventFactory
-from places.tests.factories import PlaceFactory, CityFactory
+from places.tests.factories import CityFactory, PlaceFactory
 
 
 @pytest.mark.django_db
-def test_events_appearance_in_future_event_list(client, future_event, featured_future_event, not_published_event, not_approved_event, past_event):
+# pylint: disable=too-many-arguments,too-many-positional-arguments
+def test_events_appearance_in_future_event_list(
+    client,
+    future_event,
+    featured_future_event,
+    not_published_event,
+    not_approved_event,
+    past_event,
+):
     response = client.get(reverse('events_api:future_events_list'))
     assert response.status_code == status.HTTP_200_OK
 
@@ -70,7 +77,7 @@ def test_future_event_list_ordering_by_event_date(client):
         reverse('events_api:future_events_list'),
         query_params={
             'ordering': 'event_date',
-        }
+        },
     )
     assert response.status_code == status.HTTP_200_OK
     json_response = response.json()
@@ -85,7 +92,7 @@ def test_future_event_list_ordering_by_event_date(client):
         reverse('events_api:future_events_list'),
         query_params={
             'ordering': '-event_date',
-        }
+        },
     )
     assert response.status_code == status.HTTP_200_OK
     json_response = response.json()
@@ -116,7 +123,7 @@ def test_future_event_list_filter_by_city(client):
         reverse('events_api:future_events_list'),
         query_params={
             'place__city__slug': future_event_1.place.city.slug,
-        }
+        },
     )
     assert response.status_code == status.HTTP_200_OK
 
@@ -133,7 +140,7 @@ def test_future_event_list_filter_by_city(client):
         reverse('events_api:future_events_list'),
         query_params={
             'place__city__slug': future_event_2.place.city.slug,
-        }
+        },
     )
     assert response.status_code == status.HTTP_200_OK
 

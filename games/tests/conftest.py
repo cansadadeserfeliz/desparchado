@@ -1,7 +1,6 @@
 import pytest
 
-from .factories import HuntingOfSnarkGameFactory
-from .factories import HuntingOfSnarkCriteriaFactory
+from .factories import HuntingOfSnarkCriteriaFactory, HuntingOfSnarkGameFactory
 
 
 @pytest.fixture

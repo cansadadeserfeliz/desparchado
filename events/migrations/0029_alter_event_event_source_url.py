@@ -13,6 +13,8 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='event',
             name='event_source_url',
-            field=models.URLField(max_length=500, null=True, verbose_name='Enlace a la página del evento'),
+            field=models.URLField(
+                max_length=500, null=True, verbose_name='Enlace a la página del evento'
+            ),
         ),
     ]

@@ -13,6 +13,12 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='event',
             name='filbo_id',
-            field=models.CharField(blank=True, max_length=10, null=True, unique=True, verbose_name='ID del FILBo'),
+            field=models.CharField(
+                blank=True,
+                max_length=10,
+                null=True,
+                unique=True,
+                verbose_name='ID del FILBo',
+            ),
         ),
     ]

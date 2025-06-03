@@ -14,7 +14,8 @@ ORGANIZERS_MAP = {
     "GRUPO EDITORIAL INFINITO SAS": "Infinito Editorial",
     "PROMOLIBRO COLOMBIA SAS": "Promolibro",
     "EDICIONES AURORA": "Ediciones Aurora",
-    "Ministerio de las Culturas, las Artes y los Saberes de Colombia": "Ministerio de Cultura",
+    "Ministerio de las Culturas, las Artes y los Saberes de Colombia":
+        "Ministerio de Cultura",
     "Editorial Circulo Cultural": "Editorial Círculo Cultural",
     "Editorial Eafit": "Editorial EAFIT",
     "PENGUIN RANDOM HOUSE": "Penguin Random House Colombia",
@@ -38,8 +39,10 @@ ORGANIZERS_MAP = {
     "Editorial Escarabajo SAS": "Escarabajo Editorial",
     "Sincronía Casa Editorial": "Sincronía Casa Editorial",
     "Icono Editorial": "Icono Editorial",
-    "Siglo Editorial y Facultad de Derecho de la Universidad de los Andes": "Siglo Editorial",
-    "Universidad Escuela Colombiana de Ingeniería Julio Garavito": "Escuela Colombiana de Ingeniería Julio Garavito",
+    "Siglo Editorial y Facultad de Derecho de la Universidad de los Andes":
+        "Siglo Editorial",
+    "Universidad Escuela Colombiana de Ingeniería Julio Garavito":
+        "Escuela Colombiana de Ingeniería Julio Garavito",
     "Panamericana Editorial": "Panamericana Editorial",
     "DISTRIBUIDORA PENGUIN RANDOM HOUSE S.A.S.": "Penguin Random House Colombia",
     "Círculo de Lectores": "Círculo de Lectores",
@@ -50,9 +53,12 @@ ORGANIZERS_MAP = {
     "Cohete Cómics": "Cohete Cómics",
     "Editorial Monarca": "Editorial Monarca",
     "Centauro Ediciones Colombia": "Centauro Editores",
-    "UNIVERSIDAD PEDAGÓGICA NACIONAL - UNIVERSIDAD DISTRITAL FRANCISCO JOSÉ DE CALDAS": "Universidad Distrital Francisco José de Caldas",
+    "UNIVERSIDAD PEDAGÓGICA NACIONAL - "
+    "UNIVERSIDAD DISTRITAL FRANCISCO JOSÉ DE CALDAS":
+        "Universidad Distrital Francisco José de Caldas",
     "Escuela Superior de Guerra": "Escuela Superior de Guerra",
-    "UNIVERSIDAD PEDAGÓGICA Y TECNOLÓGICA DE COLOMBIA": "Universidad Pedagógica y Tecnológica de Colombia",
+    "UNIVERSIDAD PEDAGÓGICA Y TECNOLÓGICA DE COLOMBIA":
+        "Universidad Pedagógica y Tecnológica de Colombia",
     "GRUPO EDITORIAL MNEMÓSINE SAS": "Ediciones Mnemosyne",
     "Universidad Surcolombiana": "Universidad Surcolombiana",
     "UNIVERSIDAD MILITAR NUEVA GRANADA": "Universidad Militar Nueva Granada",
@@ -70,22 +76,26 @@ ORGANIZERS_MAP = {
     "Tertulía Literaria Gloria Luz": "Tertulia Literaria Gloria Luz",
     "Grupo Editorial Ibañez": "Grupo Editorial Ibañez",
     "TAIKA EDITORIAL S.A.S": "Taika Editorial",
-    "INSTITUTO COLOMBIANO DE ANTROPOLOGÍA E HISTORIA - ICANH": "ICANH - Instituto Colombiano de Antropología e Historia",
-    "Escuela Superior de Administración Pública": "Escuela Superior de Administración Pública - ESAP",
+    "INSTITUTO COLOMBIANO DE ANTROPOLOGÍA E HISTORIA - ICANH":
+        "ICANH - Instituto Colombiano de Antropología e Historia",
+    "Escuela Superior de Administración Pública":
+        "Escuela Superior de Administración Pública - ESAP",
     "Universidad de La Salle": "Universidad de La Salle",
     "Universidad Antonio Nariño": "Universidad Antonio Nariño (UAN)",
     "Universidad Católica de Colombia": "Universidad Católica de Colombia",
     "Universidad de Antioquia": "Universidad de Antioquia",
     "Gobernación del Tolima": "Gobernación del Tolima",
     "EDICIONES EL SILENCIO S.A.S.": "Ediciones El Silencio",
-    "Universidad Distrital Francisco José de Caldas": "Universidad Distrital Francisco José de Caldas",
+    "Universidad Distrital Francisco José de Caldas":
+        "Universidad Distrital Francisco José de Caldas",
     "UNIVERSIDAD LA GRAN COLOMBIA": "Universidad La Gran Colombia (UGC)",
     "UNIVERSIDAD DEL ROSARIO": "Universidad del Rosario",
     "POLITECNICO GRANCOLOMBIANO": "Politécnico Grancolombiano",
     "Quillango Editores": "Quillango Editores",
     "SELLO EDITORIAL UNIPAMPLONA": "Editorial Unipamplona",
     "El Malpensante": "Revista El Malpensante",
-    "Ediciones USTA (Universidad Santo Tomás)": "Ediciones USTA (Universidad Santo Tomás)",
+    "Ediciones USTA (Universidad Santo Tomás)":
+        "Ediciones USTA (Universidad Santo Tomás)",
     "Luna Libros": "Luna Libros",
     "Pontificia Universidad Javeriana": "Pontificia Universidad Javeriana",
     "GEEK ATTACK COMICS": "GEEK ATTACK COMICS",
@@ -103,10 +113,14 @@ ORGANIZERS_MAP = {
     "Escarabajo Editorial SAS": "Escarabajo Editorial",
     "LUABOOKS SAS": "LuaBooks",
     "Sílaba Editores": "Sílaba Editores",
-    "Gobernación de Norte de Santander y Biblioteca Pública Julio Pérez Ferrero": "Biblioteca Pública Julio Pérez Ferrero",
-    "Universidad Industrial de Santander. Maestría en Derechos Humanos": "Universidad Industrial de Santander (UIS)",
+    "Gobernación de Norte de Santander y "
+    "Biblioteca Pública Julio Pérez Ferrero":
+        "Biblioteca Pública Julio Pérez Ferrero",
+    "Universidad Industrial de Santander. "
+    "Maestría en Derechos Humanos": "Universidad Industrial de Santander (UIS)",
     "Editorial Nueva Legislación SAS": "Grupo Editorial Nueva Legislación",
-    "Universidad Tecnológica de Pereira - UTP": "Universidad Tecnológica de Pereira - UTP",
+    "Universidad Tecnológica de Pereira - UTP":
+        "Universidad Tecnológica de Pereira - UTP",
     "SIGLO DEL HOMBRE EDITORES": "Siglo Editorial",
     "Siglo Editorial": "Siglo Editorial",
 }

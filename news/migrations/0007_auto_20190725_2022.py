@@ -14,6 +14,8 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='pressarticle',
             name='slug',
-            field=autoslug.fields.AutoSlugField(editable=False, populate_from='title', unique=True),
+            field=autoslug.fields.AutoSlugField(
+                editable=False, populate_from='title', unique=True
+            ),
         ),
     ]

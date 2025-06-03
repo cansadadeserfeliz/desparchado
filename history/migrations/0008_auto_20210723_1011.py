@@ -13,6 +13,12 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='post',
             name='type',
-            field=models.CharField(blank=True, choices=[('quote', 'Cita'), ('Travel', 'Viaje')], db_index=True, max_length=15, null=True),
+            field=models.CharField(
+                blank=True,
+                choices=[('quote', 'Cita'), ('Travel', 'Viaje')],
+                db_index=True,
+                max_length=15,
+                null=True,
+            ),
         ),
     ]

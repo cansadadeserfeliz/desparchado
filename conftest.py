@@ -1,18 +1,14 @@
+# pylint: disable=redefined-outer-name
 from datetime import timedelta
 
 import pytest
-from django.template.defaultfilters import title
-
 from django.utils import timezone
 
-from users.tests.factories import UserFactory
-from events.tests.factories import EventFactory
-from events.tests.factories import OrganizerFactory
-from events.tests.factories import SpeakerFactory
-from places.tests.factories import PlaceFactory
-from places.tests.factories import CityFactory
 from blog.tests.factories import PostFactory as BlogPostFactory
+from events.tests.factories import EventFactory, OrganizerFactory, SpeakerFactory
+from places.tests.factories import CityFactory, PlaceFactory
 from specials.tests.factories import SpecialFactory
+from users.tests.factories import UserFactory
 
 
 @pytest.fixture
@@ -82,9 +78,8 @@ def featured_not_approved_event(not_approved_event):
 
 @pytest.fixture
 def past_event():
-    return EventFactory(
-        event_date=timezone.now() - timedelta(days=1)
-    )
+    return EventFactory(event_date=timezone.now() - timedelta(days=1))
+
 
 @pytest.fixture
 def featured_past_event(past_event):
@@ -96,9 +91,8 @@ def featured_past_event(past_event):
 
 @pytest.fixture
 def future_event():
-    return EventFactory(
-        event_date=timezone.now() + timedelta(days=1)
-    )
+    return EventFactory(event_date=timezone.now() + timedelta(days=1))
+
 
 @pytest.fixture
 def featured_future_event(future_event):
@@ -130,4 +124,6 @@ def blog_post():
 
 @pytest.fixture
 def special(event, not_published_event, not_approved_event):
-    return SpecialFactory(related_events=[event, not_published_event, not_approved_event])
+    return SpecialFactory(
+        related_events=[event, not_published_event, not_approved_event],
+    )

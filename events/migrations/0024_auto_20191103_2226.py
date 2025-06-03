@@ -13,26 +13,42 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='organizer',
             name='facebook_url',
-            field=models.URLField(blank=True, null=True, verbose_name='Página en Facebook'),
+            field=models.URLField(
+                blank=True, null=True, verbose_name='Página en Facebook'
+            ),
         ),
         migrations.AddField(
             model_name='organizer',
             name='instagram_url',
-            field=models.URLField(blank=True, null=True, verbose_name='Página en Instagram'),
+            field=models.URLField(
+                blank=True, null=True, verbose_name='Página en Instagram'
+            ),
         ),
         migrations.AddField(
             model_name='organizer',
             name='twitter_url',
-            field=models.URLField(blank=True, null=True, verbose_name='Página en Twitter'),
+            field=models.URLField(
+                blank=True, null=True, verbose_name='Página en Twitter'
+            ),
         ),
         migrations.AlterField(
             model_name='event',
             name='event_date',
-            field=models.DateTimeField(db_index=True, help_text='p. ej. 23/11/2019 16:40', verbose_name='Fecha del evento'),
+            field=models.DateTimeField(
+                db_index=True,
+                help_text='p. ej. 23/11/2019 16:40',
+                verbose_name='Fecha del evento',
+            ),
         ),
         migrations.AlterField(
             model_name='event',
             name='event_end_date',
-            field=models.DateTimeField(blank=True, db_index=True, help_text='p. ej. 23/11/2019 18:00 (opcional)', null=True, verbose_name='Fecha final'),
+            field=models.DateTimeField(
+                blank=True,
+                db_index=True,
+                help_text='p. ej. 23/11/2019 18:00 (opcional)',
+                null=True,
+                verbose_name='Fecha final',
+            ),
         ),
     ]

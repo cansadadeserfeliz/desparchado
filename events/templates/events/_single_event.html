@@ -7,9 +7,9 @@
       <h5 class="card-title">{{ event.title }}</h5>
     </a>
     <div class="card-text">
-      {% if event.event_type %}
+      {% if event.category %}
         <div class="card-subtitle">
-          <div class="event-type">{{ event.get_event_type_display }}</div>
+          <div class="event-type">{{ event.get_category_display }}</div>
         </div>
       {% endif %}
       <div class="event-date">

@@ -15,11 +15,31 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='event',
             name='event_type',
-            field=models.PositiveSmallIntegerField(choices=[(1, 'Conferencia pública'), (2, 'Debate'), (3, 'Taller'), (4, 'Recorrido'), (5, 'Encuentro'), (6, 'Obra de teatro'), (7, 'Concierto'), (8, 'Seminario'), (9, 'Exposición'), (10, 'Festival'), (11, 'Cine')], verbose_name='Tipo del evento'),
+            field=models.PositiveSmallIntegerField(
+                choices=[
+                    (1, 'Conferencia pública'),
+                    (2, 'Debate'),
+                    (3, 'Taller'),
+                    (4, 'Recorrido'),
+                    (5, 'Encuentro'),
+                    (6, 'Obra de teatro'),
+                    (7, 'Concierto'),
+                    (8, 'Seminario'),
+                    (9, 'Exposición'),
+                    (10, 'Festival'),
+                    (11, 'Cine'),
+                ],
+                verbose_name='Tipo del evento',
+            ),
         ),
         migrations.AlterField(
             model_name='event',
             name='speakers',
-            field=models.ManyToManyField(blank=True, related_name='events', to='events.Speaker', verbose_name='Presentadores'),
+            field=models.ManyToManyField(
+                blank=True,
+                related_name='events',
+                to='events.Speaker',
+                verbose_name='Presentadores',
+            ),
         ),
     ]

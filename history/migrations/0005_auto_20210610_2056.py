@@ -12,7 +12,10 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AlterModelOptions(
             name='group',
-            options={'verbose_name': 'Grupo histórico', 'verbose_name_plural': 'Grupos históricos'},
+            options={
+                'verbose_name': 'Grupo histórico',
+                'verbose_name_plural': 'Grupos históricos',
+            },
         ),
         migrations.AddField(
             model_name='historicalfigure',

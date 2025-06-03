@@ -1,17 +1,19 @@
 import calendar
 import logging
 from datetime import date, timedelta
+
+from django.conf import settings
+from django.core.mail import send_mail
+from django.utils import timezone
+from django.utils.translation import gettext
 from html_sanitizer import Sanitizer
 
-from django.core.mail import send_mail
-from django.conf import settings
-from django.utils.translation import gettext
-from django.utils import timezone
-
 logger = logging.getLogger(__name__)
-sanitizer = Sanitizer({
-    'keep_typographic_whitespace': True,
-})
+sanitizer = Sanitizer(
+    {
+        'keep_typographic_whitespace': True,
+    },
+)
 
 
 def get_natural_day(target: date):
@@ -37,13 +39,16 @@ def get_natural_day(target: date):
 
     if delta.days == 0:
         return gettext('today')
-    elif delta.days == 1:
+
+    if delta.days == 1:
         return gettext('tomorrow')
-    elif delta.days == -1:
+
+    if delta.days == -1:
         return gettext('yesterday')
 
     # Extract this to reduce complexity
     return _get_relative_timeframe(target, today)
+
 
 def _get_relative_timeframe(target: date, today: date):
     """Helper function to determine relative timeframe of a date."""
@@ -57,7 +62,8 @@ def _get_relative_timeframe(target: date, today: date):
 
     if start_of_week <= target <= end_of_week:
         return gettext('this week')
-    elif start_of_next_week <= target <= end_of_next_week:
+
+    if start_of_next_week <= target <= end_of_next_week:
         return gettext('next week')
 
     # This month
@@ -83,28 +89,28 @@ def send_admin_notification(request, obj, form, change):
     """
     Sends an email notification to admin users when an object is created or updated.
 
-    The email subject indicates whether the object was created or updated, includes the model name, object, and user, and the body contains a link to the object's detail page.
+    The email subject indicates whether the object was created or updated,
+    includes the model name, object, and user, and the body contains a link
+    to the object's detail page.
     """
     try:
+        purpose = 'Updated' if change else 'Created new'
+        model = form.Meta.model._meta.model_name
         send_mail(
-            '{purpose} {model} "{obj}" by {user}'.format(
-                purpose='Updated' if change else 'Created new',
-                model=form.Meta.model._meta.model_name,
-                obj=str(obj),
-                user=str(request.user),
-            ),
-            'https://desparchado.co{}'.format(obj.get_absolute_url()),
+            f'{purpose} {model} "{obj}" by {request.user}',
+            f'https://desparchado.co{obj.get_absolute_url()}',
             settings.EMAIL_FROM,
             settings.EMAIL_ADMIN_USERS,
             fail_silently=True,
         )
-    except Exception as e:
+    except Exception as e:  # pylint: disable=broad-exception-caught
         logger.error('No se pudo enviar correo electrónico', exc_info=e)
 
 
 def send_notification(request, obj, model_name, created):
     """
-    Sends an email notification about the creation or update of an object, unless the user is a superuser.
+    Sends an email notification about the creation or update of an object,
+    unless the user is a superuser.
 
     Args:
         request: The HTTP request containing the user performing the action.
@@ -116,20 +122,16 @@ def send_notification(request, obj, model_name, created):
         return
 
     try:
+        purpose = 'Created new' if created else 'Updated'
         send_mail(
-            '{purpose} {model} "{obj}" by {user}'.format(
-                purpose='Created new' if created else 'Updated',
-                model=model_name,
-                obj=str(obj),
-                user=str(request.user),
-            ),
-            'https://desparchado.co{}'.format(obj.get_absolute_url()),
+            f'{purpose} {model_name} "{obj}" by {request.user}',
+            f'https://desparchado.co{obj.get_absolute_url()}',
             settings.EMAIL_FROM,
             settings.EMAIL_ADMIN_USERS,
             fail_silently=True,
         )
-    except Exception as e:
-        logger.error('No se pudo enviar correo electrónico', exc_info=e)
+    except Exception as e:  # pylint: disable=broad-exception-caught
+        logger.exception('No se pudo enviar correo electrónico', exc_info=e)
 
 
 def sanitize_html(html: str):

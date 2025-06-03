@@ -1,5 +1,4 @@
 import pytest
-
 from django.urls import reverse
 from rest_framework import status
 
@@ -9,7 +8,9 @@ def test_home_page(django_app):
     response = django_app.get(reverse('home'), status=200)
     assert response.status_code == status.HTTP_200_OK
 
+
 @pytest.mark.django_db
+# pylint: disable=too-many-arguments,too-many-positional-arguments
 def test_home_page_featured_events(
     django_app,
     not_published_event,
@@ -32,7 +33,9 @@ def test_home_page_featured_events(
     assert past_event not in response.context['featured_events']
     assert featured_past_event not in response.context['featured_events']
     assert featured_future_event in response.context['featured_events']
-    assert future_event in response.context['featured_events'], 'because there is not enough featured future events'
+    assert (
+        future_event in response.context['featured_events']
+    ), 'because there is not enough featured future events'
 
 
 @pytest.mark.django_db
@@ -47,5 +50,5 @@ def test_about_page(django_app):
 
 
 @pytest.mark.django_db
-def test_sitemap(django_app, event):
+def test_sitemap(django_app, event):  # pylint: disable=unused-argument
     django_app.get(reverse('django.contrib.sitemaps.views.sitemap'), status=200)

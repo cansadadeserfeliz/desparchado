@@ -1,7 +1,6 @@
-from django import forms
-
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Submit, Layout, Div, HTML, Field
+from crispy_forms.layout import Div, Layout, Submit
+from django import forms
 
 
 class FilboEventCreateForm(forms.Form):

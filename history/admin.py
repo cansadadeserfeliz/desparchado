@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import HistoricalFigure, Event, Post, Group
+from .models import Event, Group, HistoricalFigure, Post
 
 
 @admin.register(Event)
@@ -13,41 +13,52 @@ class EventAdmin(admin.ModelAdmin):
         'get_event_date_display',
         'get_event_end_date_display',
         'created_by',
-        'modified'
+        'modified',
     ]
     date_hierarchy = 'event_date'
 
     fieldsets = (
-        (None, {
-            'fields': (
-                'title',
-            ),
-        }),
-        ('Details', {
-            'fields': (
-                'description',
-                'sources',
-                'admin_comments',
-            ),
-        }),
-        ('Image', {
-            'fields': (
-                'image',
-                'image_source_url',
-            ),
-        }),
-        ('Time and Place', {
-            'fields': (
-                ('event_date', 'event_date_precision'),
-                ('event_end_date', 'event_end_date_precision'),
-                'location_name',
-            ),
-        }),
-        ('Historical Figures', {
-            'fields': (
-                'historical_figures',
-            ),
-        }),
+        (
+            None,
+            {
+                'fields': ('title',),
+            },
+        ),
+        (
+            'Details',
+            {
+                'fields': (
+                    'description',
+                    'sources',
+                    'admin_comments',
+                ),
+            },
+        ),
+        (
+            'Image',
+            {
+                'fields': (
+                    'image',
+                    'image_source_url',
+                ),
+            },
+        ),
+        (
+            'Time and Place',
+            {
+                'fields': (
+                    ('event_date', 'event_date_precision'),
+                    ('event_end_date', 'event_end_date_precision'),
+                    'location_name',
+                ),
+            },
+        ),
+        (
+            'Historical Figures',
+            {
+                'fields': ('historical_figures',),
+            },
+        ),
     )
     autocomplete_fields = ['historical_figures']
     readonly_fields = ['created_by']
@@ -90,28 +101,37 @@ class HistoricalFigureAdmin(admin.ModelAdmin):
     date_hierarchy = 'date_of_birth'
 
     fieldsets = (
-        ('Basic info', {
-            'fields': (
-                'name',
-                'full_name',
-                'description',
-                'labels',
-                'image',
-                'image_source_url',
-            ),
-        }),
-        ('Lifespan', {
-            'fields': (
-                ('date_of_birth', 'date_of_birth_precision'),
-                ('date_of_death', 'date_of_death_precision'),
-            ),
-        }),
-        ('Notes', {
-            'fields': (
-                'sources',
-                'admin_comments',
-            ),
-        }),
+        (
+            'Basic info',
+            {
+                'fields': (
+                    'name',
+                    'full_name',
+                    'description',
+                    'labels',
+                    'image',
+                    'image_source_url',
+                ),
+            },
+        ),
+        (
+            'Lifespan',
+            {
+                'fields': (
+                    ('date_of_birth', 'date_of_birth_precision'),
+                    ('date_of_death', 'date_of_death_precision'),
+                ),
+            },
+        ),
+        (
+            'Notes',
+            {
+                'fields': (
+                    'sources',
+                    'admin_comments',
+                ),
+            },
+        ),
     )
     readonly_fields = ['created_by']
     inlines = [PostInline]
@@ -148,33 +168,43 @@ class PostAdmin(admin.ModelAdmin):
     date_hierarchy = 'post_date'
 
     fieldsets = (
-        ('Post Info', {
-            'fields': (
-                'historical_figure',
-                'type',
-                'text',
-                'location_name',
-                'image',
-                'image_source_url',
-            ),
-        }),
-        ('Post Date', {
-            'fields': (
-                ('post_date', 'post_date_precision'),
-            ),
-        }),
-        ('Meta', {
-            'fields': (
-                'historical_figure_mentions',
-                'published_in_groups',
-            ),
-        }),
-        ('Notes', {
-            'fields': (
-                'sources',
-                'admin_comments',
-            ),
-        }),
+        (
+            'Post Info',
+            {
+                'fields': (
+                    'historical_figure',
+                    'type',
+                    'text',
+                    'location_name',
+                    'image',
+                    'image_source_url',
+                ),
+            },
+        ),
+        (
+            'Post Date',
+            {
+                'fields': (('post_date', 'post_date_precision'),),
+            },
+        ),
+        (
+            'Meta',
+            {
+                'fields': (
+                    'historical_figure_mentions',
+                    'published_in_groups',
+                ),
+            },
+        ),
+        (
+            'Notes',
+            {
+                'fields': (
+                    'sources',
+                    'admin_comments',
+                ),
+            },
+        ),
     )
     autocomplete_fields = [
         'historical_figure',

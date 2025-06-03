@@ -1,10 +1,8 @@
-from django import forms
-
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Submit
-from crispy_forms.layout import Layout
-from crispy_forms.layout import Div
+from crispy_forms.layout import Div, Layout, Submit
+from django import forms
 from mapwidgets import GoogleMapPointFieldWidget
+
 from desparchado.utils import sanitize_html
 
 from .models import Place
@@ -36,7 +34,7 @@ class PlaceForm(forms.ModelForm):
     def clean(self):
         """
         Cleans and sanitizes form data, ensuring the description field is safe for use.
-        
+
         Returns:
             The cleaned and sanitized form data as a dictionary.
         """

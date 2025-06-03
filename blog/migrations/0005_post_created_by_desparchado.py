@@ -13,6 +13,8 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='post',
             name='created_by_desparchado',
-            field=models.BooleanField(default=False, verbose_name='Está publicado a nombre de la plataforma'),
+            field=models.BooleanField(
+                default=False, verbose_name='Está publicado a nombre de la plataforma'
+            ),
         ),
     ]

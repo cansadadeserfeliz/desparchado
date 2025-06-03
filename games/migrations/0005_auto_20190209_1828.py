@@ -20,6 +20,13 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='huntingofsnarkgame',
             name='total_points',
-            field=models.IntegerField(help_text='Número de libros por leer', validators=[django.core.validators.MinValueValidator(1), django.core.validators.MaxValueValidator(50)], verbose_name='Cantidad de criterios'),
+            field=models.IntegerField(
+                help_text='Número de libros por leer',
+                validators=[
+                    django.core.validators.MinValueValidator(1),
+                    django.core.validators.MaxValueValidator(50),
+                ],
+                verbose_name='Cantidad de criterios',
+            ),
         ),
     ]

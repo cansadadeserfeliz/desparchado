@@ -1,8 +1,8 @@
-from django.db.models.functions import TruncDate
-from django.views.generic import DetailView
-from django.utils.timezone import now
 from django.core.paginator import Paginator
+from django.db.models.functions import TruncDate
 from django.utils.dateparse import parse_date
+from django.utils.timezone import now
+from django.views.generic import DetailView
 
 from .models import Special
 
@@ -18,9 +18,12 @@ class SpecialDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         related_events = self.object.events.published().all()
 
-        event_dates = related_events.annotate(
-            event_date_only=TruncDate('event_date')
-        ).values_list('event_date_only', flat=True).order_by('event_date_only').distinct()
+        event_dates = (
+            related_events.annotate(event_date_only=TruncDate('event_date'))
+            .values_list('event_date_only', flat=True)
+            .order_by('event_date_only')
+            .distinct()
+        )
 
         today = now().date()
 
@@ -32,7 +35,9 @@ class SpecialDetailView(DetailView):
             else:
                 selected_date = event_dates[0]
 
-        selected_date_events = related_events.filter(event_date__date=selected_date).order_by('event_date')
+        selected_date_events = related_events.filter(
+            event_date__date=selected_date,
+        ).order_by('event_date')
 
         # Pagination
         page_number = self.request.GET.get('page', 1)

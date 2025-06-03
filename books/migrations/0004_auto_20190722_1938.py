@@ -13,11 +13,15 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='author',
             name='name',
-            field=models.CharField(db_index=True, max_length=255, verbose_name='Nombre completo'),
+            field=models.CharField(
+                db_index=True, max_length=255, verbose_name='Nombre completo'
+            ),
         ),
         migrations.AlterField(
             model_name='book',
             name='title',
-            field=models.CharField(db_index=True, max_length=255, verbose_name='Título'),
+            field=models.CharField(
+                db_index=True, max_length=255, verbose_name='Título'
+            ),
         ),
     ]

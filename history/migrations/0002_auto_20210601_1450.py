@@ -12,11 +12,20 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AlterModelOptions(
             name='historicalfigure',
-            options={'ordering': ['name'], 'verbose_name': 'Personaje histórico', 'verbose_name_plural': 'Personajes históricos'},
+            options={
+                'ordering': ['name'],
+                'verbose_name': 'Personaje histórico',
+                'verbose_name_plural': 'Personajes históricos',
+            },
         ),
         migrations.AlterField(
             model_name='historicalfigure',
             name='name',
-            field=models.CharField(db_index=True, help_text='Por ejemplo, "Simón Bolívar"', max_length=255, verbose_name='Nombre corto'),
+            field=models.CharField(
+                db_index=True,
+                help_text='Por ejemplo, "Simón Bolívar"',
+                max_length=255,
+                verbose_name='Nombre corto',
+            ),
         ),
     ]

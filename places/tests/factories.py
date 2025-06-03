@@ -1,19 +1,17 @@
 import random
 
 import factory
+from django.contrib.gis.geos import Point
 from factory.fuzzy import BaseFuzzyAttribute
 
-from django.contrib.gis.geos import Point
-
 from users.tests.factories import UserFactory
-from ..models import Place
-from ..models import City
+
+from ..models import City, Place
 
 
 class FuzzyPoint(BaseFuzzyAttribute):
     def fuzz(self):
-        return Point(random.uniform(-180.0, 180.0),
-                     random.uniform(-90.0, 90.0))
+        return Point(random.uniform(-180.0, 180.0), random.uniform(-90.0, 90.0))
 
 
 class CityFactory(factory.django.DjangoModelFactory):
