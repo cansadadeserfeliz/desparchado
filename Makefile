@@ -12,6 +12,12 @@ up:
 test:
 	docker exec -it $(web_container_name) sh -c "cd app && pytest"
 
+lint:
+	docker exec -it $(web_container_name) sh -c "cd app && ruff check --fix"
+
+lint-all:
+	docker exec -it $(web_container_name) sh -c "cd app && ruff check --fix"
+
 collectstatic:
 	docker exec -it $(web_container_name) sh -c "cd app && python3 manage.py collectstatic"
 
@@ -51,5 +57,5 @@ migrate-markdown-to-html:
 sync-filbo-events:
 	docker exec -it $(web_container_name)  sh -c "cd app && python manage.py sync_filbo_events $(spreadsheet_id)"
 
-prod-sync-filbo-events:
-	docker exec -it $(prod_web_container_name)  sh -c "cd app && python manage.py sync_filbo_events $(spreadsheet_id)"
+generate-random-history-data:
+	docker exec -it $(web_container_name)  sh -c "cd app && python manage.py generate_random_history_data"

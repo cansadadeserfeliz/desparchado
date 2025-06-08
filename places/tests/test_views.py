@@ -1,5 +1,4 @@
 import pytest
-
 from django.urls import reverse
 
 from ..models import Place
@@ -9,8 +8,7 @@ from .factories import PlaceFactory
 @pytest.mark.django_db
 def test_show_details_of_place(django_app, place):
     response = django_app.get(
-        reverse('places:place_detail', args=[place.slug]),
-        status=200
+        reverse('places:place_detail', args=[place.slug]), status=200,
     )
     assert response.context['place'] == place
     assert place.name in response
@@ -18,10 +16,7 @@ def test_show_details_of_place(django_app, place):
 
 @pytest.mark.django_db
 def test_show_list_of_places(django_app, place):
-    response = django_app.get(
-        reverse('places:place_list'),
-        status=200
-    )
+    response = django_app.get(reverse('places:place_list'), status=200)
     assert place in response.context['places']
     assert place.name in response
 
@@ -30,8 +25,7 @@ def test_show_list_of_places(django_app, place):
 def test_show_details_of_city(django_app, event):
     city = event.place.city
     response = django_app.get(
-        reverse('places:city_detail', args=[city.slug]),
-        status=200
+        reverse('places:city_detail', args=[city.slug]), status=200,
     )
     assert city.name in response
     assert event.title in response
@@ -70,7 +64,9 @@ def test_successfully_create_place(django_app, user, city):
 
 @pytest.mark.django_db
 def test_non_authenticated_user_cannot_update_place(django_app, place):
-    response = django_app.get(reverse('places:place_update', args=[place.id]), status=302)
+    response = django_app.get(
+        reverse('places:place_update', args=[place.id]), status=302,
+    )
     assert reverse('users:login') in response.location
 
 

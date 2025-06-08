@@ -2,11 +2,10 @@ import factory
 import factory.fuzzy
 
 from desparchado.tests.helpers import random_future_date
-from users.tests.factories import UserFactory
 from places.tests.factories import PlaceFactory
-from ..models import Event
-from ..models import Organizer
-from ..models import Speaker
+from users.tests.factories import UserFactory
+
+from ..models import Event, Organizer, Speaker
 
 
 class SpeakerFactory(factory.django.DjangoModelFactory):
@@ -31,12 +30,11 @@ class OrganizerFactory(factory.django.DjangoModelFactory):
 class EventFactory(factory.django.DjangoModelFactory):
     title = factory.Faker('sentence')
     event_date = factory.LazyFunction(random_future_date)
-    event_type = factory.fuzzy.FuzzyChoice(dict(Event.EVENT_TYPES).keys())
+    category = factory.fuzzy.FuzzyChoice(dict(Event.Category.choices).keys())
     description = factory.Faker('text')
     image = factory.django.ImageField()
     price = factory.fuzzy.FuzzyDecimal(0, high=500_000, precision=2)
     event_source_url = factory.Faker('url')
-    topic = factory.fuzzy.FuzzyChoice(dict(Event.EVENT_TOPICS).keys())
     place = factory.SubFactory(PlaceFactory)
     created_by = factory.SubFactory(UserFactory)
     is_featured_on_homepage = True

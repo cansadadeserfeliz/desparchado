@@ -1,9 +1,6 @@
-from django.db import models
 from django.conf import settings
+from django.db import models
 from django.utils.translation import gettext_lazy as _
-
-from autoslug import AutoSlugField
-
 from model_utils.models import TimeStampedModel
 
 

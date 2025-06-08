@@ -14,7 +14,9 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='pressarticle',
             name='publication_date',
-            field=models.DateTimeField(default=timezone.now, verbose_name='Fecha de publicación'),
+            field=models.DateTimeField(
+                default=timezone.now, verbose_name='Fecha de publicación'
+            ),
             preserve_default=False,
         ),
     ]

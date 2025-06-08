@@ -1,25 +1,24 @@
-from django.db import models
-from django.urls import reverse
-from django.conf import settings
-from django.templatetags.static import static
-
-from model_utils.models import TimeStampedModel
 from autoslug import AutoSlugField
+from django.conf import settings
+from django.db import models
+from django.templatetags.static import static
+from django.urls import reverse
+from model_utils.models import TimeStampedModel
 
 
 class Organizer(TimeStampedModel):
     name = models.CharField('Nombre', max_length=255, unique=True)
-    slug = AutoSlugField(
-        null=False, unique=True, populate_from='name')
+    slug = AutoSlugField(null=False, unique=True, populate_from='name')
     description = models.TextField('Descripción', default='')
-    website_url = models.URLField('Página web', null=True, blank=True)
-    facebook_url = models.URLField('Página en Facebook', null=True, blank=True)
-    twitter_url = models.URLField('Página en Twitter', null=True, blank=True)
-    instagram_url = models.URLField('Página en Instagram', null=True, blank=True)
-    image = models.ImageField(
-        'Imagen', blank=True, null=True, upload_to='organizers')
+    website_url = models.URLField('Página web', blank=True)
+    facebook_url = models.URLField('Página en Facebook', blank=True)
+    twitter_url = models.URLField('Página en Twitter', blank=True)
+    instagram_url = models.URLField('Página en Instagram', blank=True)
+    image = models.ImageField('Imagen', blank=True, null=True, upload_to='organizers')
     image_source_url = models.URLField(
-        'Enlace a la fuente de la imagen', null=True, blank=True)
+        'Enlace a la fuente de la imagen',
+        blank=True,
+    )
 
     created_by = models.ForeignKey(
         settings.AUTH_USER_MODEL,

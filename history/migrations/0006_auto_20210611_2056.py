@@ -13,6 +13,12 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='historicalfigure',
             name='full_name',
-            field=models.CharField(blank=True, default='', help_text='Por ejemplo, "Simón José Antonio de la Santísima Trinidad Bolívar de la Concepción y Ponte Palacios y Blanco"', max_length=500, verbose_name='Nombre completo'),
+            field=models.CharField(
+                blank=True,
+                default='',
+                help_text='Por ejemplo, "Simón José Antonio de la Santísima Trinidad Bolívar de la Concepción y Ponte Palacios y Blanco"',
+                max_length=500,
+                verbose_name='Nombre completo',
+            ),
         ),
     ]

@@ -15,6 +15,8 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='post',
             name='subtitle',
-            field=models.CharField(default='', max_length=255, verbose_name='Título secundario'),
+            field=models.CharField(
+                default='', max_length=255, verbose_name='Título secundario'
+            ),
         ),
     ]

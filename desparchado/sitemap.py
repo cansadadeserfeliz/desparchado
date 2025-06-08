@@ -1,13 +1,11 @@
 from django.contrib import sitemaps
 from django.urls import reverse
 
-from events.models import Event
-from events.models import Speaker
-from events.models import Organizer
-from places.models import Place
 from blog.models import Post
-from history.models import Post as HistoryPost
+from events.models import Event, Organizer, Speaker
 from history.models import HistoricalFigure
+from history.models import Post as HistoryPost
+from places.models import Place
 
 
 class StaticViewSitemap(sitemaps.Sitemap):

@@ -1,14 +1,13 @@
-from django.views.generic import DetailView, FormView
-from django.views.generic import ListView
-from django.contrib.auth import get_user_model
+from django.contrib.auth import authenticate, get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.utils import timezone
-from django.contrib.auth import authenticate
+from django.views.generic import DetailView, FormView, ListView
+
+from events.models import Event
 
 from .forms import RegisterForm
-from events.models import Event
 
 User = get_user_model()
 
@@ -27,9 +26,9 @@ class UserDetailView(DetailView):
         context = super().get_context_data(**kwargs)
 
         if self.request.user.is_authenticated:
-            added_events_count = Event.objects.filter(
-                created_by=self.object
-            ).published().count()
+            added_events_count = (
+                Event.objects.filter(created_by=self.object).published().count()
+            )
             context['added_events_count'] = added_events_count
             days_on_page = (timezone.now() - self.object.date_joined).days
             context['days_on_page'] = days_on_page
@@ -43,10 +42,11 @@ class UserCreationFormView(FormView):
 
     def dispatch(self, *args, **kwargs):
         if self.request.user.is_authenticated:
-            return HttpResponseRedirect(reverse(
-                'users:user_detail',
-                kwargs={'slug': self.request.user.username}
-            ))
+            return HttpResponseRedirect(
+                reverse(
+                    'users:user_detail', kwargs={'slug': self.request.user.username},
+                ),
+            )
         return super().dispatch(*args, **kwargs)
 
     def form_valid(self, form):

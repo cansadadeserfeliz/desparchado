@@ -1,14 +1,10 @@
 import random
 
-from django.views.generic import DetailView
-from django.views.generic import CreateView
-from django.views.generic import ListView
 from django.urls import reverse
+from django.views.generic import CreateView, DetailView, ListView
 
 from .forms import HuntingOfSnarkGameCreateForm
-from .models import HuntingOfSnarkGame
-from .models import HuntingOfSnarkCategory
-from .models import HuntingOfSnarkCriteria
+from .models import HuntingOfSnarkCategory, HuntingOfSnarkCriteria, HuntingOfSnarkGame
 from .services import get_random_hunting_of_snark_criteria
 
 
@@ -20,15 +16,15 @@ class HuntingOfSnarkGameCreateView(CreateView):
         return reverse('games:hunting_of_snark_detail', args=(self.object.token,))
 
     def form_valid(self, form):
-        self.object = form.save()
+        self.object = form.save()  # pylint: disable=attribute-defined-outside-init
         random_criteria = get_random_hunting_of_snark_criteria(self.object.total_points)
         self.object.criteria.add(*random_criteria)
         if random_criteria.filter(
-            public_id=HuntingOfSnarkCriteria.RANDOM_LETTER_CRITERIA_ID
+            public_id=HuntingOfSnarkCriteria.RANDOM_LETTER_CRITERIA_ID,
         ).exists():
-            self.object.extra = dict(
-                random_letter=random.choice('ABCDEFGHIJKLMNOPQRSTUVWXYZ')
-            )
+            self.object.extra = {
+                "random_letter": random.choice('ABCDEFGHIJKLMNOPQRSTUVWXYZ'),  # noqa: S311
+            }
             self.object.save()
 
         return super().form_valid(form)
@@ -55,6 +51,7 @@ class HuntingOfSnarkGameListView(ListView):
     template_name = 'games/hunting_of_snark_game_list.html'
     context_object_name = 'games'
     paginate_by = 100
+    q = ''
 
     def dispatch(self, request, *args, **kwargs):
         self.q = request.GET.get('q', '')

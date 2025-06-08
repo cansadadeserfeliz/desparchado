@@ -2,8 +2,9 @@ from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
 
 from desparchado.utils import send_admin_notification
-from .models import Event, Organizer, Speaker, SocialNetworkPost
 from specials.models import Special
+
+from .models import Event, Organizer, SocialNetworkPost, Speaker
 
 
 @admin.register(SocialNetworkPost)
@@ -30,6 +31,7 @@ class SocialNetworkPostInline(admin.TabularInline):
         'published_at',
     )
 
+
 class SpecialInline(admin.TabularInline):
     model = Special.related_events.through
     extra = 0
@@ -44,8 +46,7 @@ class EventAdmin(admin.ModelAdmin):
         'title',
         'is_published',
         'is_approved',
-        'event_type',
-        'topic',
+        'category',
         'filbo_id',
         'event_date',
         'event_source_url',
@@ -56,30 +57,43 @@ class EventAdmin(admin.ModelAdmin):
     inlines = [SocialNetworkPostInline, SpecialInline]
 
     fieldsets = (
-        (None, {
-            'fields': [
-                ('title', 'is_published', 'is_featured_on_homepage',),
-                ('slug', 'is_approved',),
-            ],
-        }),
-        (_('Information'), {
-            'fields': (
-                'description',
-                'event_source_url',
-                'image',
-                'image_source_url',
-                ('event_type', 'topic'),
-                ('event_date', 'event_end_date'),
-                'price',
-                'organizers',
-                'place',
-                'speakers',
-                'editors',
-            ),
-        }),
+        (
+            None,
+            {
+                'fields': [
+                    (
+                        'title',
+                        'is_published',
+                        'is_featured_on_homepage',
+                    ),
+                    (
+                        'slug',
+                        'is_approved',
+                    ),
+                ],
+            },
+        ),
+        (
+            _('Information'),
+            {
+                'fields': (
+                    'description',
+                    'event_source_url',
+                    'image',
+                    'image_source_url',
+                    ('category',),
+                    ('event_date', 'event_end_date'),
+                    'price',
+                    'organizers',
+                    'place',
+                    'speakers',
+                    'editors',
+                ),
+            },
+        ),
     )
 
-    list_filter = ('is_featured_on_homepage', 'is_published', 'is_approved')
+    list_filter = ('category', 'is_featured_on_homepage', 'is_published', 'is_approved')
 
     ordering = ('-created', '-is_published')
 
@@ -123,9 +137,7 @@ class OrganizerAdmin(admin.ModelAdmin):
 
     exclude = ('created_by',)
 
-    raw_id_fields = (
-        'editors',
-    )
+    raw_id_fields = ('editors',)
 
     def save_model(self, request, obj, form, change):
         if not obj.id:
@@ -142,29 +154,34 @@ class SpeakerAdmin(admin.ModelAdmin):
     readonly_fields = ('slug',)
 
     fieldsets = (
-        (None, {
-            'fields': (
-                'name',
-                'slug',
-                'description',
-            ),
-        }),
-        ('Image', {
-            'fields': (
-                'image',
-                'image_source_url',
-            ),
-        }),
-        ('Related', {
-            'fields': (
-                'editors',
-            ),
-        }),
+        (
+            None,
+            {
+                'fields': (
+                    'name',
+                    'slug',
+                    'description',
+                ),
+            },
+        ),
+        (
+            'Image',
+            {
+                'fields': (
+                    'image',
+                    'image_source_url',
+                ),
+            },
+        ),
+        (
+            'Related',
+            {
+                'fields': ('editors',),
+            },
+        ),
     )
 
-    raw_id_fields = (
-        'editors',
-    )
+    raw_id_fields = ('editors',)
 
     def save_model(self, request, obj, form, change):
         if not obj.id:

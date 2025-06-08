@@ -14,11 +14,17 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AlterModelOptions(
             name='place',
-            options={'ordering': ['name'], 'verbose_name': 'Lugar', 'verbose_name_plural': 'Lugares'},
+            options={
+                'ordering': ['name'],
+                'verbose_name': 'Lugar',
+                'verbose_name_plural': 'Lugares',
+            },
         ),
         migrations.AlterField(
             model_name='place',
             name='editors',
-            field=models.ManyToManyField(blank=True, related_name='can_edit_places', to=settings.AUTH_USER_MODEL),
+            field=models.ManyToManyField(
+                blank=True, related_name='can_edit_places', to=settings.AUTH_USER_MODEL
+            ),
         ),
     ]

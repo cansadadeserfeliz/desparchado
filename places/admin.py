@@ -1,9 +1,8 @@
-from django.contrib.gis.db import models as geo_models
-from django.contrib import admin
-
 import mapwidgets
+from django.contrib import admin
+from django.contrib.gis.db import models as geo_models
 
-from .models import Place, City
+from .models import City, Place
 
 BOGOTA_LAT = 4.5930632
 BOGOTA_LON = -74.0757637
@@ -16,8 +15,14 @@ class PlaceAdmin(admin.ModelAdmin):
     default_zoom = 6
 
     list_display = (
-        'name', 'slug', 'location', 'description', 'city', 'created_by',
-        'created', 'modified',
+        'name',
+        'slug',
+        'location',
+        'description',
+        'city',
+        'created_by',
+        'created',
+        'modified',
     )
 
     readonly_fields = ('slug',)
@@ -25,34 +30,39 @@ class PlaceAdmin(admin.ModelAdmin):
     search_fields = ('name',)
 
     fieldsets = (
-        (None, {
-            'fields': (
-                'name',
-                'slug',
-                'description',
-                'city',
-                'location',
-            ),
-        }),
-        ('Image', {
-            'fields': (
-                'image',
-                'image_source_url',
-            ),
-        }),
-        ('Related', {
-            'fields': (
-                'editors',
-            ),
-        }),
+        (
+            None,
+            {
+                'fields': (
+                    'name',
+                    'slug',
+                    'description',
+                    'city',
+                    'location',
+                ),
+            },
+        ),
+        (
+            'Image',
+            {
+                'fields': (
+                    'image',
+                    'image_source_url',
+                ),
+            },
+        ),
+        (
+            'Related',
+            {
+                'fields': ('editors',),
+            },
+        ),
     )
 
-    raw_id_fields = (
-        'editors',
-    )
+    raw_id_fields = ('editors',)
 
     formfield_overrides = {
-        geo_models.PointField: {'widget': mapwidgets.GoogleMapPointFieldWidget()}
+        geo_models.PointField: {'widget': mapwidgets.GoogleMapPointFieldWidget()},
     }
 
     def get_actions(self, request):
@@ -82,5 +92,5 @@ class CityAdmin(admin.ModelAdmin):
         return False
 
     formfield_overrides = {
-        geo_models.PointField: {'widget': mapwidgets.GoogleMapPointFieldWidget()}
+        geo_models.PointField: {'widget': mapwidgets.GoogleMapPointFieldWidget()},
     }

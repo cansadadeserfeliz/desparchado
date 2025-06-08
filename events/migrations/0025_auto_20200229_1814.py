@@ -15,16 +15,26 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='event',
             name='editors',
-            field=models.ManyToManyField(blank=True, related_name='can_edit_events', to=settings.AUTH_USER_MODEL),
+            field=models.ManyToManyField(
+                blank=True, related_name='can_edit_events', to=settings.AUTH_USER_MODEL
+            ),
         ),
         migrations.AddField(
             model_name='organizer',
             name='editors',
-            field=models.ManyToManyField(blank=True, related_name='can_edit_organizers', to=settings.AUTH_USER_MODEL),
+            field=models.ManyToManyField(
+                blank=True,
+                related_name='can_edit_organizers',
+                to=settings.AUTH_USER_MODEL,
+            ),
         ),
         migrations.AddField(
             model_name='speaker',
             name='editors',
-            field=models.ManyToManyField(blank=True, related_name='can_edit_speakers', to=settings.AUTH_USER_MODEL),
+            field=models.ManyToManyField(
+                blank=True,
+                related_name='can_edit_speakers',
+                to=settings.AUTH_USER_MODEL,
+            ),
         ),
     ]

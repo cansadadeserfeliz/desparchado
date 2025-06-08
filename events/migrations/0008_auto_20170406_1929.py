@@ -16,27 +16,65 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='organizer',
             name='slug',
-            field=autoslug.fields.AutoSlugField(default=None, null=True, editable=False, populate_from='name', unique=True),
+            field=autoslug.fields.AutoSlugField(
+                default=None,
+                null=True,
+                editable=False,
+                populate_from='name',
+                unique=True,
+            ),
             preserve_default=False,
         ),
         migrations.AddField(
             model_name='speaker',
             name='slug',
-            field=autoslug.fields.AutoSlugField(default=None, editable=False, null=True, populate_from='name', unique=True),
+            field=autoslug.fields.AutoSlugField(
+                default=None,
+                editable=False,
+                null=True,
+                populate_from='name',
+                unique=True,
+            ),
         ),
         migrations.AlterField(
             model_name='event',
             name='event_type',
-            field=models.PositiveSmallIntegerField(choices=[(1, 'Conferencia pública'), (2, 'Debate'), (3, 'Taller'), (4, 'Recorrido'), (5, 'Encuentro'), (6, 'Obra de teatro'), (7, 'Concierto'), (8, 'Seminario')]),
+            field=models.PositiveSmallIntegerField(
+                choices=[
+                    (1, 'Conferencia pública'),
+                    (2, 'Debate'),
+                    (3, 'Taller'),
+                    (4, 'Recorrido'),
+                    (5, 'Encuentro'),
+                    (6, 'Obra de teatro'),
+                    (7, 'Concierto'),
+                    (8, 'Seminario'),
+                ]
+            ),
         ),
         migrations.AlterField(
             model_name='event',
             name='slug',
-            field=autoslug.fields.AutoSlugField(editable=False, populate_from='title', unique=True),
+            field=autoslug.fields.AutoSlugField(
+                editable=False, populate_from='title', unique=True
+            ),
         ),
         migrations.AlterField(
             model_name='event',
             name='topic',
-            field=models.PositiveSmallIntegerField(choices=[(1, 'Urbanismo'), (2, 'Ciencias exactas'), (3, 'Arte'), (4, 'Emprendimiento'), (5, 'Democracia'), (6, 'Ciencias humanas'), (7, 'Idiomas'), (8, 'Literatura'), (9, 'Medioambiente'), (10, 'Medicina')]),
+            field=models.PositiveSmallIntegerField(
+                choices=[
+                    (1, 'Urbanismo'),
+                    (2, 'Ciencias exactas'),
+                    (3, 'Arte'),
+                    (4, 'Emprendimiento'),
+                    (5, 'Democracia'),
+                    (6, 'Ciencias humanas'),
+                    (7, 'Idiomas'),
+                    (8, 'Literatura'),
+                    (9, 'Medioambiente'),
+                    (10, 'Medicina'),
+                ]
+            ),
         ),
     ]

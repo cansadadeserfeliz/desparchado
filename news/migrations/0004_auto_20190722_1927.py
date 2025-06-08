@@ -12,11 +12,27 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AlterModelOptions(
             name='pressarticle',
-            options={'ordering': ('-publication_date',), 'verbose_name': 'Press article', 'verbose_name_plural': 'Press articles'},
+            options={
+                'ordering': ('-publication_date',),
+                'verbose_name': 'Press article',
+                'verbose_name_plural': 'Press articles',
+            },
         ),
         migrations.AddField(
             model_name='mediasource',
             name='source_type',
-            field=models.CharField(blank=True, choices=[('blog', 'blog'), ('booktube', 'booktube'), ('podcast', 'podcast'), ('magazine', 'magazine')], db_index=True, max_length=50, null=True, verbose_name='Tipo del recurso'),
+            field=models.CharField(
+                blank=True,
+                choices=[
+                    ('blog', 'blog'),
+                    ('booktube', 'booktube'),
+                    ('podcast', 'podcast'),
+                    ('magazine', 'magazine'),
+                ],
+                db_index=True,
+                max_length=50,
+                null=True,
+                verbose_name='Tipo del recurso',
+            ),
         ),
     ]
