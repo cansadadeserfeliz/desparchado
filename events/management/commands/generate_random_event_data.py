@@ -58,7 +58,7 @@ class Command(BaseCommand):
         speakers = [speaker_1, speaker_2, speaker_3]
 
         def _create_random_event(event_date):
-            event = EventFactory(
+            EventFactory(
                 event_date=event_date,
                 is_featured_on_homepage=True,
                 place=random.choice(places),
