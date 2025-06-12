@@ -57,5 +57,8 @@ migrate-markdown-to-html:
 sync-filbo-events:
 	docker exec -it $(web_container_name)  sh -c "cd app && python manage.py sync_filbo_events $(spreadsheet_id)"
 
+generate-random-event-data:
+	docker exec -it $(web_container_name)  sh -c "cd app && python manage.py generate_random_event_data"
+
 generate-random-history-data:
 	docker exec -it $(web_container_name)  sh -c "cd app && python manage.py generate_random_history_data"
