@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
     headerToolbar: {
       left: 'prev,next today refreshButton',
       center: 'title',
-      right: 'dayGridMonth,timeGridWeek,timeGridDay'
+      right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
     },
     customButtons: {
       refreshButton: {
@@ -18,24 +18,22 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       }
     },
-    buttonText: {
-      today: 'today',
-      month: 'month',
-      week: 'week',
-      day: 'day'
-    },
     eventSources: [
       {
         url: '/dashboard/social-posts/source'
       }
     ],
     eventDidMount: function(info) {
-      if (info.event.extendedProps.imageUrl) {
+      const eventTimeEl = info.el.querySelector('.fc-event-time');
+      if (info.event.extendedProps.imageUrl && eventTimeEl) {
         const img = document.createElement('img');
         img.src = info.event.extendedProps.imageUrl;
-        img.width = 70;
-        info.el.querySelector('.fc-event-title').appendChild(document.createElement('br'));
-        info.el.querySelector('.fc-event-title').appendChild(img);
+
+        const container = document.createElement('div');
+        container.className = 'fc-image';
+        container.appendChild(img)
+
+        eventTimeEl.before(container);
       }
     },
     slotLabelFormat: {
