@@ -223,7 +223,7 @@ CRISPY_TEMPLATE_PACK = 'bootstrap5'
 
 GOOGLE_MAPS_API_KEY = getenvvar('GOOGLE_MAPS_API_KEY', 'not-set')
 MAPBOX_TOKEN = getenvvar('MAPBOX_TOKEN', 'not-set')
-print('MAPBOX_TOKEN', MAPBOX_TOKEN)
+
 MAP_WIDGETS = {
     "GoogleMap": {
         "apiKey": GOOGLE_MAPS_API_KEY,
