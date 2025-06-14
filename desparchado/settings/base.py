@@ -252,10 +252,10 @@ MAP_WIDGETS = {
             "interactive": {
                 "mapOptions": {
                     "zoom": 12,
-                    "center": (-74.083655, 4.653411)
+                    "center": (-74.083655, 4.653411),
                 },
                 "markerFitZoom": 14,
-            }
+            },
         },
     },
     "Leaflet": {
@@ -263,12 +263,12 @@ MAP_WIDGETS = {
             "interactive": {
                 "mapOptions": {
                     "zoom": 5,
-                    "scrollWheelZoom": False
-                }
-            }
+                    "scrollWheelZoom": False,
+                },
+            },
         },
         "markerFitZoom": 14,
-    }
+    },
 }
 
 
