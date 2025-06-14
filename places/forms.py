@@ -1,7 +1,7 @@
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Div, Layout, Submit
 from django import forms
-from mapwidgets import GoogleMapPointFieldWidget
+from mapwidgets import LeafletPointFieldWidget
 
 from desparchado.utils import sanitize_html
 
@@ -54,5 +54,5 @@ class PlaceForm(forms.ModelForm):
             'location',
         )
         widgets = {
-            'location': GoogleMapPointFieldWidget,
+            'location': LeafletPointFieldWidget,
         }
