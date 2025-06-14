@@ -222,6 +222,8 @@ CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap5'
 CRISPY_TEMPLATE_PACK = 'bootstrap5'
 
 GOOGLE_MAPS_API_KEY = getenvvar('GOOGLE_MAPS_API_KEY', 'not-set')
+MAPBOX_TOKEN = getenvvar('MAPBOX_TOKEN', 'not-set')
+print('MAPBOX_TOKEN', MAPBOX_TOKEN)
 MAP_WIDGETS = {
     "GoogleMap": {
         "apiKey": GOOGLE_MAPS_API_KEY,
@@ -241,10 +243,32 @@ MAP_WIDGETS = {
                 "GooglePlaceAutocompleteOptions": {
                     "componentRestrictions": {"country": "co"},
                 },
-                "mapCenterLocationName": "Bogota",
             },
         },
     },
+    "Mapbox": {
+        "accessToken": MAPBOX_TOKEN,
+        "PointField": {
+            "interactive": {
+                "mapOptions": {
+                    "zoom": 12,
+                    "center": (-74.083655, 4.653411)
+                },
+                "markerFitZoom": 14,
+            }
+        },
+    },
+    "Leaflet": {
+        "PointField": {
+            "interactive": {
+                "mapOptions": {
+                    "zoom": 5,
+                    "scrollWheelZoom": False
+                }
+            }
+        },
+        "markerFitZoom": 14,
+    }
 }
 
 
