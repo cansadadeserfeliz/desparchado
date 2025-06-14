@@ -24,16 +24,16 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     ],
     eventDidMount: function(info) {
-      let event_time = info.el.querySelectorAll('.fc-event-time')[0]
-      if (info.event.extendedProps.imageUrl && event_time) {
-        let image_el = document.createElement("img");
-        image_el.setAttribute('src', info.event.extendedProps.imageUrl);
+      const eventTimeEl = info.el.querySelector('.fc-event-time');
+      if (info.event.extendedProps.imageUrl && eventTimeEl) {
+        const img = document.createElement('img');
+        img.src = info.event.extendedProps.imageUrl;
 
-        let div_el = document.createElement("div");
-        div_el.setAttribute('class', 'fc-image');
-        div_el.appendChild(image_el)
+        const container = document.createElement('div');
+        container.className = 'fc-image';
+        container.appendChild(img)
 
-        event_time.before(div_el);
+        eventTimeEl.before(container);
       }
     },
     slotLabelFormat: {
