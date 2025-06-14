@@ -10,21 +10,23 @@ from ..models import Event, Organizer, Speaker
 
 class SpeakerFactory(factory.django.DjangoModelFactory):
     name = factory.Faker('name')
-    description = factory.fuzzy.FuzzyText(length=255)
+    description = factory.Faker('text')
     created_by = factory.SubFactory(UserFactory)
 
     class Meta:
         model = Speaker
+        django_get_or_create = ("name",)
 
 
 class OrganizerFactory(factory.django.DjangoModelFactory):
     name = factory.Faker('company')
-    description = factory.fuzzy.FuzzyText(length=255)
+    description = factory.Faker('text')
     website_url = 'https://example.com'
     created_by = factory.SubFactory(UserFactory)
 
     class Meta:
         model = Organizer
+        django_get_or_create = ('name',)
 
 
 class EventFactory(factory.django.DjangoModelFactory):
@@ -51,6 +53,17 @@ class EventFactory(factory.django.DjangoModelFactory):
             # A list of groups were passed in, use them
             for organizer in extracted:
                 self.organizers.add(organizer)
+
+    @factory.post_generation
+    def speakers(self, create, extracted, **kwargs):
+        if not create:
+            # Simple build, do nothing.
+            return
+
+        if extracted:
+            # A list of groups were passed in, use them
+            for speaker in extracted:
+                self.speakers.add(speaker)
 
     class Meta:
         model = Event

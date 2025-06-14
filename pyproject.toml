@@ -42,6 +42,7 @@ lint.extend-select = [
     "PTH",    # Flake8-use-pathlib – encourages pathlib over os.path
     "RSE",    # Flake8-raise – proper raise statement usage
     "COM",    # Flake8-commas – trailing/comma issues
+    "T20",    # Flake8-print – check for Print statements
     "FLY",    # Flynt – f-string conversion suggestions
 ]
 
