@@ -111,7 +111,7 @@ def social_events_source(request):
                 'backgroundColor': color,
                 'borderColor': color,
                 'url': reverse('admin:events_event_change', args=(event.id,)),
-                'imageUrl': event.get_image_url(),
+                'extendedProps': {'imageUrl': event.get_image_url()},
             },
         )
 
@@ -134,7 +134,7 @@ def social_events_source(request):
                 'url': reverse(
                     'admin:events_event_change', args=(social_post.event.id,),
                 ),
-                'imageUrl': social_post.event.get_image_url(),
+                'extendedProps': {'imageUrl': social_post.event.get_image_url()},
             },
         )
 

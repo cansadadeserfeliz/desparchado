@@ -4,6 +4,24 @@
 {% block page_title %}Social posts{% endblock %}
 {% block page_subtitle %}today {% now 'j b y H:i' %}{% endblock %}
 
+{% block extra_css %}
+<style>
+    .fc-image {
+        display: block;
+        height: 50px;
+        overflow: hidden;
+        position: relative;
+        width: 100%;
+    }
+    .fc-image img {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%,-50%);
+    }
+</style>
+{% endblock extra_css %}
+
 {% block content %}
   <div id='social_posts_calendar'></div>
 {% endblock content %}
