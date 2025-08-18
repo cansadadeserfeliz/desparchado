@@ -1,0 +1,103 @@
+@use '@styles/variables' as *;
+@use '@styles/breakpoints' as *;
+@use '@styles/functions' as *;
+@use '@styles/animations' as *;
+@use '@styles/mixins' as *;
+@use "sass:map";
+
+// main old_layout
+.event-card {
+  $self: &;
+
+  color: $color-layout-foreground;
+
+  &__location {
+    place-self: baseline baseline;
+  }
+
+  &__date-copy {
+    place-self: baseline end;
+  }
+
+  &__title {
+    place-self: baseline;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+  }
+
+  &__date {
+    place-self: end;  
+    color: $color-layout-interactive;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__cta {
+    align-self: flex-end;
+  }
+
+  &__details {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__image {
+    align-items: center;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: toRem(90px);
+
+    @media (min-width: map.get($breakpoints, m)) {
+      height: toRem(193px);
+    }
+  }
+
+  &__image-asset {
+    background-image: var(--featured-event-card-img-url);
+    background-size: cover;
+    background-position: center;
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+  }
+
+  &__description {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+
+    @media (min-width: map.get($breakpoints, m)) {
+      -webkit-line-clamp: 3;
+      line-clamp: 3;
+    }
+  }
+
+  &__wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: toRem(12px) toRem(14px);
+    padding-bottom: 0;
+
+    @media (min-width: map.get($breakpoints, m)) {
+      padding: toRem(30px) toRem(20px);
+    }
+  }
+
+  &__container {
+    background: $color-layout-background;
+    border-top-right-radius: toRem(50px);
+    border-top-left-radius: toRem(50px);
+    border: toRem(2px) solid $color-layout-hairline;
+    overflow: hidden;
+  }
+}

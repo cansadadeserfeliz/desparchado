@@ -14,5 +14,9 @@
       "@styles/*": ["./desparchado/frontend/styles/*"]
     },
   },
-  "include": ["desparchado/frontend/**/*"]
+  "include": [
+    "desparchado/frontend/**/*.ts",
+    "desparchado/frontend/**/*.tsx",
+    "desparchado/frontend/**/*.vue"
+  ],
 }
