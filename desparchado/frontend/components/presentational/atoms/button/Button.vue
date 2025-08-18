@@ -47,7 +47,7 @@
   import { bem } from '../../../../scripts/utils/bem';
 
   type ButtonType = 'primary' | 'secondary' | 'tertiary';
-  type ButtonPadding = 'condensed' | 'balanced' | 'regular';
+  type ButtonPadding = 'balanced-sm' | 'condensed' | 'balanced' | 'regular';
   type ButtonRadius = 'squared' | 'soft' | 'circular';
 
   const baseClass = 'button';
@@ -59,6 +59,7 @@
   };
 
   const paddings: Record<ButtonPadding, string> = {
+    'balanced-sm': `${baseClass}--padding-balanced-sm`,
     condensed: `${baseClass}--padding-condensed`,
     balanced: `${baseClass}--padding-balanced`,
     regular: `${baseClass}--padding-regular`,
