@@ -1,0 +1,99 @@
+@use '@styles/reset' as *;
+@use '@styles/breakpoints' as *;
+@use '@styles/fonts' as *;
+@use '@styles/functions' as *;
+@use '@styles/mixins' as *;
+@use '@styles/typography' as *;
+@use '@styles/variables' as *;
+@use '@styles/animations' as *;
+@use "sass:map";
+
+.footer {
+  &__wrapper {
+    background: $color-layout-foreground;
+    color: $color-layout-background;
+    padding: toRem(30px) toRem(20px);
+    display: flex;
+    flex-direction: column;
+
+    gap: toRem(40px);
+    justify-content: space-between;
+
+    @media (min-width: map.get($breakpoints, m)) {
+      flex-direction: row;
+      gap: toRem(75px);
+    }
+  }
+
+  &__section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: toRem(16px);
+
+    @media (min-width: map.get($breakpoints, m)) {
+      gap: toRem(40px);
+    }
+  }
+
+  &__section-title {
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  &__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 30px;  
+  }
+
+  &__link {
+    @extend .text-body-sm;
+
+    text-decoration: none;
+    color: inherit;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    display: inline-block;
+  }
+
+  &__item {
+    &:not(:last-child)::after {
+      content: '—';
+      margin-left: 20px;
+    }
+
+    &:hover {
+      &::after {
+        transform: translateX(-0.5rem);
+      }
+    }
+  }
+
+  &__footnote {
+    color: $color-layout-foreground;
+    background: $color-dp-orange-100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 toRem(20px);
+  }
+
+  &__brand {
+    display: flex;
+    align-items: center;
+    gap: toRem(10px);
+  }
+
+  &__logo {
+    height: toRem(40px);
+    width: toRem(40px);
+  }
+
+  &__slogan {
+    font-family: $font-secondary;
+    font-style: italic;
+    font-size: toRem(20px);
+  }
+}

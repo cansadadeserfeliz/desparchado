@@ -1,46 +1,44 @@
 {% load i18n %}
+<footer class="footer">
+  <div class="footer__wrapper">
+    <div class="footer__section" aria-labelledby="links-title-id">
+      <span class="footer__section-title text-body-highlight" id="links-title-id">{% translate '¿Buscas algo?' %}</span>
+      <ul class="footer__links">
+        <li class="footer__item"><a class="footer__link" href="{% url 'blog:post_list' %}">{% translate 'Inspiración' %}</a></li>
+        <li class="footer__item"><a class="footer__link" href="{% url 'places:place_list' %}">{% translate 'Lugares' %}</a></li>
+        <li class="footer__item"><a class="footer__link" href="{% url 'events:speaker_list' %}">{% translate 'Presentadores' %}</a></li>
+        <li class="footer__item"><a class="footer__link" href="{% url 'events:organizer_list' %}">{% translate 'Organizadores' %}</a></li>
+      </ul>
+    </div>
+    
+    <div class="footer__section" aria-labelledby="questions-title-id">
+      <span class="footer__section-title text-body-highlight" id="questions-title-id">{% translate 'Consultas y sugerencias' %}</span>
+      <ul class="footer__links">
+        <li class="footer__item"><a class="footer__link" href="https://forms.gle/jumYbpstoyqUUr878" target="_blank">{% translate 'Escríbenos' %}</a></li>
+        <li class="footer__item"><a class="footer__link" href="https://www.instagram.com/desparchado_co/" target="_blank">{% translate 'Instagram' %}</a></li>
+        <li class="footer__item"><a class="footer__link" href="https://x.com/DesparchadoCo" target="_blank">{% translate 'X' %}</a></li>
+        <li class="footer__item"><a class="footer__link" href="https://www.facebook.com/DesparchadoCo" target="_blank">{% translate 'Facebook' %}</a></li>
+      </ul>
+    </div>
+    
+    <div class="footer__section" aria-labelledby="events-title-id">
+      <span class="footer__section-title text-body-highlight" id="events-title-id">{% translate 'Sobre los eventos' %}</span>
+      <ul class="footer__links">
+        <li class="footer__item"><a class="footer__link" href="{% url 'events:event_list' %}">{% translate 'Eventos Activos' %}</a></li>
+        <li class="footer__item"><a class="footer__link" href="{% url 'events:past_event_list' %}">{% translate 'Archivo de Eventos' %}</a></li>
+        <li class="footer__item"><a class="footer__link" href="{% url 'events:add_event' %}">{% translate 'Publica un Evento' %}</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
 
-{% translate '¿Buscas algo?' %}
+<div class="footer__footnote">
+  <div class="footer__brand">
+    <div data-vue-component="logo" data-vue-prop-type="isotype" data-vue-prop-custom-class="footer__logo">
+    </div>
+    <p class="footer__slogan"><span>{% translate 'tu guía' %}&nbsp;</span><span class="text-bold">{% translate 'cultural' %}</span></p>
+  </div>
 
-<br />
 
-<a href="{% url 'blog:post_list' %}">{% translate 'inspiración' %}</a>
--- <a href="{% url 'places:place_list' %}">{% translate 'lugares' %}</a>
--- <a href="{% url 'events:speaker_list' %}">{% translate 'presentadores' %}</a>
--- <a href="{% url 'events:organizer_list' %}">{% translate 'organizadores' %}</a>
-
-<br />
-
-{% translate 'Consultas y sugerencias' %}
-
-<br />
-
-<a href="https://forms.gle/jumYbpstoyqUUr878" target="_blank">{% translate 'Escríbenos' %}</a>
--- <a href="https://www.instagram.com/desparchado_co/" target="_blank">{% translate 'Instagram' %}</a>
--- <a href="https://x.com/DesparchadoCo" target="_blank">{% translate 'X' %}</a>
--- <a href="https://www.facebook.com/DesparchadoCo" target="_blank">{% translate 'Facebook' %}</a>
-
-<br />
-
-{% translate 'Sobre los eventos' %}
-
-<br />
-
-<a href="{% url 'events:event_list' %}">{% translate 'eventos activos' %}</a>
--- <a href="{% url 'events:past_event_list' %}">{% translate 'archivo de eventos' %}</a>
--- <a href="{% url 'events:add_event' %}">{% translate 'publica un evento' %}</a>
-
-<br />
-
-<a href="https://www.instagram.com/desparchado_co/" target="_blank">{% translate 'Instagram' %}</a>
-<a href="https://x.com/DesparchadoCo" target="_blank">{% translate 'X' %}</a>
-<a href="https://www.facebook.com/DesparchadoCo" target="_blank">{% translate 'Facebook' %}</a>
-<a href="https://t.me/DesparchadoCo" target="_blank">{% translate 'Telegram' %}</a>
-
-<br />
-
-{% translate 'tu guía cultural' %}
-
-<br />
-
-<a href="{% url 'terms_and_conditions' %}">{% translate 'Términos y condiciones' %}</a>
+  <a class="footer__link text-bold" href="{% url 'terms_and_conditions' %}">{% translate 'Términos y condiciones' %}</a>
+</div>
