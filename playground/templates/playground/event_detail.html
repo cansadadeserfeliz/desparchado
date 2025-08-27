@@ -3,7 +3,7 @@
 <html lang="es">
   <head>
     <meta charset="utf-8">
-    <title>Playground | Event</title>
+    <title>Playground | {{ event.title }}</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
@@ -14,8 +14,7 @@
     {% vite_asset 'desparchado/static/ts/playground.ts' %}
     {% vite_asset 'desparchado/frontend/scripts/mount-vue.ts' %}
 
-    {{ event }}
-
+    <img alt="{{ event.title }}" src="{{ event.get_image_url }}" />
   </head>
   <body>
   </body>
