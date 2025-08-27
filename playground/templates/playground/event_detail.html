@@ -1,0 +1,21 @@
+{% load django_vite %}
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <title>Playground | {{ event.title }}</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    {# This will add a <script> tag to include the ViteJS HMR client. #}
+    {# This tag will include this script only if DJANGO_VITE_DEV_MODE is true, otherwise this will do nothing. #}
+    {% vite_hmr_client %}
+
+    {% vite_asset 'desparchado/static/ts/playground.ts' %}
+    {% vite_asset 'desparchado/frontend/scripts/mount-vue.ts' %}
+
+    <img alt="{{ event.title }}" src="{{ event.get_image_url }}" />
+  </head>
+  <body>
+  </body>
+</html>
