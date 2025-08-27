@@ -1,3 +1,4 @@
+# ruff: noqa: S311
 from random import randint
 
 from django.contrib.auth.mixins import UserPassesTestMixin
