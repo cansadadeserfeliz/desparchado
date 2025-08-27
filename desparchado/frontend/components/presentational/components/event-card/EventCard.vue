@@ -67,20 +67,22 @@
   import Button from '@presentational_components/atoms/button/Button.vue';
 
   // -------- [Types] --------
-  type FeaturedEventTags = 'div' | 'li' | 'section' | 'article';
+  export type FeaturedEventTags = 'div' | 'li' | 'section' | 'article';
+
+  export interface EventCardProps {
+    tag?: FeaturedEventTags;
+    customClass?: string;
+    location: string;
+    title: string;
+    description: string;
+    day: string;
+    time: string;
+    imageUrl?: string;
+  }
 
   // -------- [Props] --------
   const props = withDefaults(
-    defineProps<{
-      tag?: FeaturedEventTags;
-      customClass?: string;
-      location: string;
-      title: string;
-      description: string;
-      day: string;
-      time: string;
-      imageUrl?: string;
-    }>(),
+    defineProps<EventCardProps>(),
     {
       tag: 'div',
       imageUrl: 'https://desparchado.co/media/events/images_6.jpeg',
