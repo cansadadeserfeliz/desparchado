@@ -1,3 +1,6 @@
+# ruff: noqa: S311
+from random import randint
+
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.views.generic import TemplateView
 
@@ -20,5 +23,6 @@ class EventDetailView(TemplateView, UserPassesTestMixin):
 
     def get_context_data(self, **kwargs):
         context = super(EventDetailView, self).get_context_data(**kwargs)
-        context['event'] = Event.objects.order_by('?').first()
+        count = Event.objects.count()
+        context['event'] = Event.objects.all()[randint(0, count - 1)] if count else None
         return context

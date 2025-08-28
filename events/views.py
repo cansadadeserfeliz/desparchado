@@ -98,8 +98,9 @@ class PastEventListView(ListView):
         return queryset.select_related('place')
 
 
-class EventDetailView(DetailView):
+class OldEventDetailView(DetailView):
     model = Event
+    template_name = 'events/event_detail_old.html'
 
     def get_queryset(self):
         return (
@@ -124,6 +125,20 @@ class EventDetailView(DetailView):
             .order_by('?')[:6]
         )
         context['organizers'] = list(self.object.organizers.all())
+        return context
+
+
+class EventDetailView(OldEventDetailView):
+    template_name = 'events/event_detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['related_events'] = (
+            Event.objects.exclude(id=self.object.id)
+            .published()
+            .select_related('place')
+            .order_by('?')[:3]
+        )
         return context
 
 
