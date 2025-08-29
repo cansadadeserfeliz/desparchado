@@ -65,6 +65,11 @@
       will-change: transform;
     }
 
+    &::after {
+      transition-property: transform, opacity;
+      will-change: transform, opacity;
+    }
+
     &::before {
       border: toRem(2px) solid var(--button-foreground);
       border-radius: 50%;
@@ -86,6 +91,7 @@
       background: var(--button-foreground);
       height: toRem(2px);
       width: toRem(2px);
+      opacity: 0;
     }
   }
 
@@ -100,6 +106,7 @@
         transform: translateY(-50%) translateX(4px);
       }
       &::after {
+        opacity: 1;
         transform: translateY(-50%) translateX(13px);
       }
     }

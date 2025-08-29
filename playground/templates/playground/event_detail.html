@@ -12,10 +12,165 @@
     {% vite_hmr_client %}
 
     {% vite_asset 'desparchado/static/ts/playground.ts' %}
+    {% vite_asset 'desparchado/static/ts/home.ts' %}
     {% vite_asset 'desparchado/frontend/scripts/mount-vue.ts' %}
-
-    <img alt="{{ event.title }}" src="{{ event.get_image_url }}" />
   </head>
   <body>
+    <header
+      id="header"
+      data-vue-component="header"
+      data-vue-prop-nav-items='[{"label": "Eventos", "link": "/events"}, {"label": "Archivo", "link": "/archive", "highlight": true}]'
+      data-vue-prop-social='[{"type": "tertiary", "name": "Facebook", "link": "https://www.facebook.com/", "icon": "xsocial"}, {"type": "tertiary", "padding": "balanced", "name": "Instagram", "link": "https://www.instagram.com/", "icon": "facebook"}, {"type": "tertiary", "name": "Twitter", "link": "https://twitter.com/", "icon": "instagram"}]'
+      data-vue-prop-profile-menu='{"items": [{"label": "Ver mi perfil", "url": "item1"}, {"label": "Eventos agregados", "url": "item2"}], "name": "perfil"}'
+      data-vue-prop-login='{"label": "Iniciar sesión", "link": "/login", "type": "tertiary"}'
+      data-vue-prop-create-event='{"label": "Crear evento", "link": "/events/add", "type": "primary"}'
+      data-vue-prop-brand-name="Desparchado"
+    ></header>
+    <section class="event-details">
+      <div class="event-details__image">
+        <img class="event-details__image" src="https://desparchado.co/media/events/534813496_18054178421431602_4690907923777245572_n.webp" />    
+      </div>
+      <div class="event-details__container">
+        <div class="event-details__details">
+          <div class="event-details__info excluded-from-mobile">
+            <span class="event-details__info-item text-body-md">
+              Alianza Française - sede chicó / 
+            </span>
+            <span class="event-details__info-item text-body-md">
+              Corferias - Carrera 24 # 14 - 54 - Bogota /
+            </span>
+            <span class="event-details__info-item text-body-md">
+              Éste sábado
+            </span>
+            <span class="event-details__info-item text-bold text-body-md">
+              Miércoles, 23 Nov. 05:00 
+            </span>
+          </div>
+
+
+          <div class="event-details__header">
+            <div class="event-details__title-section">
+              <p class="text-heading-3">Rodrigo Orejuela y Juan Manuel Benitez en la defensa ambiental</p>
+              <div class="event-details__date excluded-from-desktop">
+                <span class="text-body-highlight text-bold">
+                  23 Nov
+                </span>
+                <span class="text-body-highlight text-medium">
+                  05:00
+                </span>
+              </div>
+            </div>
+            <span class="text-heading-5 excluded-from-desktop">Corferias - Carrera 24 # 14 - 54 - Bogota</span>
+            <div class="event-details__mobile-actions excluded-from-desktop">
+              <div
+                data-vue-component="button"
+                data-vue-prop-type="secondary"
+                data-vue-prop-label="Ir al sitio del evento"
+                data-vue-prop-icon="world-40"
+                data-vue-prop-link="#"
+              >
+              </div>
+            </div>
+          </div>
+          <div class="event-details__content">
+            <div class="speakers">
+              <div class="speakers__avatar-container">
+                <img class="speakers__avatar" src="https://desparchado.co/media/events/images_6.jpeg" />
+                <img class="speakers__avatar" src="https://desparchado.co/media/events/images_6.jpeg" />
+              </div>
+              <p class="text-heading-5">Rodrigo Orejuela y Juan Manuel Benitez</p>
+            </div>
+
+            <p class="text-body-md event-details__description">
+              <span class="text-body-md text-bold">
+                Sobre el evento:
+                </br></br>
+              </span>
+
+              <a href="#" target="_blank" title="Comprar" rel="noopener">Comprar boletas en línea</a>
+              </br></br> 
+              La bella durmiente, <a href="#" target="_blank" title="Comprar" rel="noopener">La bella y la bestia</a> y Pulgarcito nunca habían estado juntos hasta este momento. La actriz y narradora Ana Hernández-Sanchiz viene desde España para narrar estas y otras historias, de la mano del compositor francés Maurice Ravel, quien este año cumpliría 150 años. A través de juegos, poesía y el humor como protagonista, estos personajes nos contarán sus historias menos conocidas y más divertidas. ProgramaMaurice Ravel: Mi madre la oca; Pavana para una infanta difunta  Conoce más acerca de la artistaPágina web »Canal en YouTube »Página en Facebook »Página en Instagram »PULEP: VPK568 Domingo, 11:00 am - 1:00 pm
+              </br></br>Boletería Compra en línea TaquillaBiblioteca Luis Ángel ArangoCalle 11 # 4 - 14 · Bogotá D. C.</br>Lunes a sábado: 11:00 a. m. a 7:00 p. m.</br>Domingos: 9:00 a. m. a 4:00 p. m. </br>Horario extendido los días de concierto:</br>Miércoles: 11:00 a. m. a 8:00 p. m.</br>Jueves: 11:00 a. m. a 7:30 p. m. </br>Teléfono: 601 381 2929 Servicio ofrecido por:  </br>Conoce las tarifas y descuentos »
+              </br></br>Edad mínima recomendada: siete (7) años. Por disposiciones de la Secretaría Distrital de Gobierno no se permite el acceso de menores de cinco (5) años.
+              </br></br>Programa tu visita a la Sala de Conciertos »
+            </p>
+          </div>
+        </div>
+        </div>
+        <div class="event-details__actions excluded-from-mobile">
+          <div class="event-details__actions-image">
+            <img src="https://desparchado.co/media/organizers/logo_editorial.jpg" />    
+          </div>
+          <div
+            class="event-details__action"
+            data-vue-component="button"
+            data-vue-prop-type="tertiary"
+            data-vue-prop-name="Ver mapa"
+            data-vue-prop-icon="pin-40"
+            data-vue-prop-padding="balanced"
+            data-vue-prop-link="#"
+          >
+          </div>
+          <div
+            class="event-details__action"
+            data-vue-component="button"
+            data-vue-prop-type="tertiary"
+            data-vue-prop-name="Ir al sitio del evento"
+            data-vue-prop-icon="world-40"
+            data-vue-prop-padding="balanced"
+            data-vue-prop-link="#"
+          >
+          </div>
+        </div>
+      </div>
+    </section>
+    <section>
+      <div class="intro-section">
+        <div class="main-title">
+          <div
+            data-vue-component="typography"
+            data-vue-prop-text="Otros parecidos"
+            data-vue-prop-type="h2"
+          >
+          </div>
+        </div>
+        <div class="featured-events">
+          <div
+            class="featured-events__item"
+            data-vue-component="featured-event-card"
+            data-vue-prop-tag="div"
+            data-vue-prop-location="Nombre"
+            data-vue-prop-title="titulo"
+            data-vue-prop-day="23Nov"
+            data-vue-prop-time="10:00"
+            data-vue-prop-image-url="https://desparchado.co/media/events/images_6.jpeg"
+          >
+          </div>
+          <div
+            class="featured-events__item"
+            data-vue-component="featured-event-card"
+            data-vue-prop-tag="div"
+            data-vue-prop-location="Nombre"
+            data-vue-prop-title="titulo"
+            data-vue-prop-day="23Nov"
+            data-vue-prop-time="10:00"
+            data-vue-prop-image-url="https://desparchado.co/media/events/images_6.jpeg"
+          >
+          </div>
+          <div
+            class="featured-events__item"
+            data-vue-component="featured-event-card"
+            data-vue-prop-tag="div"
+            data-vue-prop-location="Nombre"
+            data-vue-prop-title="titulo"
+            data-vue-prop-day="23Nov"
+            data-vue-prop-time="10:00"
+            data-vue-prop-image-url="https://desparchado.co/media/events/images_6.jpeg"
+          >
+          </div>
+        </div>
+      </div>
+    </section>
+    {% include 'layout/_footer.html' %}
   </body>
 </html>
