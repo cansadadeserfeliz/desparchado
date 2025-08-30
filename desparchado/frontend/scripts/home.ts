@@ -1,4 +1,8 @@
 import '../styles/pages/home.scss';
+import { EventContainer } from './event-container';
+import { initComponents } from './init-components';
+
+const registry = new Map([['event-container', EventContainer]]);
 
 document.addEventListener('DOMContentLoaded', () => {
   const updateHeaderHeight = (): void => {
@@ -23,4 +27,6 @@ document.addEventListener('DOMContentLoaded', () => {
       form.submit();
     }
   });
+
+  initComponents(document, registry);
 });
