@@ -57,6 +57,7 @@
             / {{ event.place.description|safe }}
           </span>
           {% if event.place.city.name %}
+          {% if event.place.city and event.place.city.name %}
             <span class="event-details__info-item text-body-md">
               / {{ event.place.city.name }}
             </span>
