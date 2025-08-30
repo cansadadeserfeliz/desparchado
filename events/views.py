@@ -1,3 +1,5 @@
+from urllib.parse import urlencode
+
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.postgres.search import SearchQuery, SearchVector
 from django.db.models import Q
@@ -56,16 +58,14 @@ class EventListView(ListView):
         context['category_choices'] = Event.Category.choices
         context['cities'] = City.objects.all()
 
-        context['pagination_query_params'] = ''
+        params = {}
         if self.search_query_value:
-            context['pagination_query_params'] += \
-                f'&{self.search_query_name}={escape(self.search_query_value)}'
+            params[self.search_query_name] = self.search_query_value
         if self.city_filter_value:
-            context['pagination_query_params'] += \
-                f'&{self.city_filter_name}={escape(self.city_filter_value)}'
+            params[self.city_filter_name] = self.city_filter_value
         if self.category_filter_value:
-            context['pagination_query_params'] += \
-                f'&{self.category_filter_name}={self.category_filter_value}'
+            params[self.category_filter_name] = self.category_filter_value
+        context['pagination_query_params'] = f"&{urlencode(params)}" if params else ''
 
         return context
 
