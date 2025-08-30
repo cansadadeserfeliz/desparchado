@@ -28,7 +28,7 @@ class CityFactory(factory.django.DjangoModelFactory):
 
 class PlaceFactory(factory.django.DjangoModelFactory):
     name = factory.Faker('company')
-    address = factory.Faker('address')
+    address = factory.Faker('street_address')
     city = factory.SubFactory(CityFactory)
     location = FuzzyPoint()
     created_by = factory.SubFactory(UserFactory)
