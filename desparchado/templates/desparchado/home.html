@@ -1,10 +1,11 @@
 {% extends 'layout/base.html' %}
 {% load i18n humanize desparchado_tags django_vite %}
 
+{% block bootstrap_css %}{% endblock %}
+
 {% block extra_scripts %}
   {% vite_asset 'desparchado/frontend/scripts/home.ts' %}
 {% endblock extra_scripts %}
-
 
 {% block content %}
   <div class="intro-section">
