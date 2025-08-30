@@ -78,7 +78,7 @@
                href="?page={{ page_obj.previous_page_number }}{{ pagination_query_params }}"
              {% endif %}
             >
-              <span aria-hidden="true">&larr;</span> Anterior
+              <span aria-hidden="true">&larr;</span> {% translate 'Anterior' %}
             </a>
           </li>
           <li class="page-item {% if not page_obj.has_next %}disabled{% endif %}">
@@ -87,7 +87,7 @@
                href="?page={{ page_obj.next_page_number }}{{ pagination_query_params }}"
              {% endif %}
             >
-              Siguiente <span aria-hidden="true">&rarr;</span>
+              {% translate 'Siguiente' %} <span aria-hidden="true">&rarr;</span>
             </a>
           </li>
         </ul>
