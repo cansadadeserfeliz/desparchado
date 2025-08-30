@@ -23,7 +23,7 @@ class Command(BaseCommand):
             event.save()
 
         for place in Place.objects.all():
-            place.description = sanitize_html(markdown.markdown(place.description))
+            place.address = sanitize_html(markdown.markdown(place.address))
             place.save()
 
         for organizer in Organizer.objects.all():

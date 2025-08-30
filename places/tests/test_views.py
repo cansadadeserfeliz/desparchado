@@ -48,7 +48,7 @@ def test_successfully_create_place(django_app, user, city):
 
     form = response.forms['place_form']
     form['name'] = 'Librería LERNER'
-    form['description'] = 'Librería LERNER'
+    form['address'] = 'Cra 11 93'
     form['city'].force_value(city.id)
     form['location'] = 'POINT (36.04387479687501 -84.49382484631549)'
 

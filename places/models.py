@@ -19,7 +19,7 @@ class Place(TimeStampedModel):
     image_source_url = models.URLField(
         'Enlace a la fuente de la imagen', blank=True,
     )
-    description = models.TextField('Dirección', default='')
+    address = models.CharField('Dirección', max_length=100)
     website_url = models.URLField('Página web', blank=True)
     location = geo_models.PointField('Ubicación', null=False)
     city = models.ForeignKey(

@@ -10,7 +10,7 @@
   "@context" : "http://schema.org",
   "@type" : "Place",
   "name" : "{{ place.name }}",
-  "address" : "{{ place.description }}",
+  "address" : "{{ place.address }}",
   "geo": {
     "@type": "GeoCoordinates",
     "latitude": "{{ place.get_latitude_str }}",
@@ -30,7 +30,7 @@
       <img class="place-image" src="{{ place.get_image_url }}" alt="{{ place.name }}" />
     {% endif %}
 
-    <div class="place-description">{{ place.description|safe|linebreaksbr }}</div>
+    <div class="place-description">{{ place.address }}</div>
 
   {% if user|user_can_edit_place:place %}
     <div class="event-edit text-center">

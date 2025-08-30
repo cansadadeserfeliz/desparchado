@@ -18,7 +18,7 @@ class PlaceAdmin(admin.ModelAdmin):
         'name',
         'slug',
         'location',
-        'description',
+        'address',
         'city',
         'created_by',
         'created',

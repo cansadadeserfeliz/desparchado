@@ -40,7 +40,7 @@ lint-scripts:
 	docker exec -it $(frontend_container_name) sh -c "npm run lint-scripts"
 
 sh-web:
-	docker exec -it $(web_container_name) sh
+	docker exec -it $(web_container_name) bash
 
 createsuperuser:
 	docker exec -it $(web_container_name) sh -c "cd app && python3 manage.py createsuperuser"

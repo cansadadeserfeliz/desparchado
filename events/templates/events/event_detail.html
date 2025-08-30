@@ -23,7 +23,7 @@
   "location" : {
     "@type" : "Place",
     "name" : "{{ event.place.name }}",
-    "address" : "{{ event.place.description }}"
+    "address" : "{{ event.place.address }}"
   },
   "image" : "https://desparchado.co{{ event.get_image_url }}"
 }
@@ -54,7 +54,7 @@
             </span>
           {% endif %}
           <span class="event-details__info-item text-body-md">
-            / {{ event.place.description|safe }}
+            / {{ event.place.address }}
           </span>
           {% if event.place.city and event.place.city.name %}
             <span class="event-details__info-item text-body-md">
@@ -87,7 +87,7 @@
               </span>
             </div>
           </div>
-          <span class="text-heading-5 excluded-from-desktop">{{ event.place.name }}, {{ event.place.description|safe }}, {{ event.place.city.name }}</span>
+          <span class="text-heading-5 excluded-from-desktop">{{ event.place.name }}, {{ event.place.address }}, {{ event.place.city.name }}</span>
           {% if event.price %}
             <span class="text-heading-5 excluded-from-desktop">
               {{ event.get_price_display }}
@@ -220,7 +220,7 @@
       </div>
 
       <div class="event-details__map-details">
-        <span class="text-heading-5">{{ event.place.description|safe }}</span>
+        <span class="text-heading-5">{{ event.place.address }}</span>
         <span class="text-heading-4 text-bold">{{ event.place.name }}</span>
         <div
           data-vue-component="button"

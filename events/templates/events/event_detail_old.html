@@ -23,7 +23,7 @@
   "location" : {
     "@type" : "Place",
     "name" : "{{ event.place.name }}",
-    "address" : "{{ event.place.description }}"
+    "address" : "{{ event.place.address }}"
   },
   "image" : "https://desparchado.co{{ event.get_image_url }}"
 }
@@ -113,7 +113,7 @@
           <img class="place-image" src="{{ event.place.get_image_url }}" alt="{{ event.place.name }}" />
         {% endif %}
         <h5 class="title"><a class="text-decoration-none" href="{{ event.place.get_absolute_url }}">{{ event.place.name }}</a></h5>
-        <div><b>Dirección:</b> {{ event.place.description|safe }}</div>
+        <div><b>Dirección:</b> {{ event.place.address }}</div>
 
         <div><a href="{{ event.place.get_absolute_url }}">Ver otros eventos en este sitio</a></div>
 
