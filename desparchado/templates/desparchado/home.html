@@ -56,6 +56,7 @@
             data-vue-prop-day="{{ featured_event.event_date|date:'j M' }}"
             data-vue-prop-time="{{ featured_event.event_date|date:'H:i' }}"
             data-vue-prop-image-url="{{ featured_event.get_image_url }}"
+            data-vue-prop-link="{{ featured_event.get_absolute_url }}"
           >
           </div>
         {% endfor %}

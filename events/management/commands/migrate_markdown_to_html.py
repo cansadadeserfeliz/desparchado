@@ -12,7 +12,7 @@ User = get_user_model()
 
 
 class Command(BaseCommand):
-    help = ('Migrates Markdown Event, Place, Organizer and Speaker descriptions '
+    help = ('Migrates Markdown Event, Organizer and Speaker descriptions '
             'fields to HTML')
 
     def handle(self, *args, **options):
@@ -21,10 +21,6 @@ class Command(BaseCommand):
         for event in Event.objects.all():
             event.description = sanitize_html(markdown.markdown(event.description))
             event.save()
-
-        for place in Place.objects.all():
-            place.address = sanitize_html(markdown.markdown(place.address))
-            place.save()
 
         for organizer in Organizer.objects.all():
             organizer.description = sanitize_html(

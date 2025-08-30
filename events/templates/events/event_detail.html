@@ -87,7 +87,9 @@
               </span>
             </div>
           </div>
-          <span class="text-heading-5 excluded-from-desktop">{{ event.place.name }}, {{ event.place.address }}, {{ event.place.city.name }}</span>
+          <div class="text-heading-5 excluded-from-desktop event-details__address-section">
+            <span>{{ event.place.name }}</span>, {{ event.place.address }} {% if event.place.city.name %}, {{ event.place.city.name }}.{% endif %}
+          </div>
           {% if event.price %}
             <span class="text-heading-5 excluded-from-desktop">
               {{ event.get_price_display }}
@@ -125,13 +127,13 @@
             </div>
           {% endif %}
 
-          <p class="text-body-md event-details__description">
+          <div class="text-body-md event-details__description">
             <span class="text-body-md text-bold">
               {% translate 'Sobre el evento' %}:
               </br></br>
             </span>
             {{ event.description|safe|linebreaksbr }}
-          </p>
+          </div>
 
           {% if event.speakers.exists %}
             <div class="event-details__item-list">
@@ -144,7 +146,7 @@
                     </a>
                     <div class="event-details__item-list-item-details">
                       <p class="text-heading-4">{{ speaker.name }}</p>
-                      <p class="text-caption">{{ speaker.description|safe|linebreaksbr|truncatewords_html:50 }}</p>
+                      <div class="text-caption">{{ speaker.description|safe|linebreaksbr|truncatewords_html:50 }}</div>
                     </div>
                   </div>
                 {% endfor %}
@@ -162,7 +164,7 @@
                   </a>
                   <div class="event-details__item-list-item-details">
                     <p class="text-heading-4">{{ organizer.name }}</p>
-                    <p class="text-caption">{{ organizer.description|safe|linebreaksbr|truncatewords_html:50 }}</p>
+                    <div class="text-caption">{{ organizer.description|safe|linebreaksbr|truncatewords_html:50 }}</div>
                   </div>
                 </div>
               {% endfor %}
@@ -220,7 +222,7 @@
       </div>
 
       <div class="event-details__map-details">
-        <span class="text-heading-5">{{ event.place.address }}</span>
+        <span class="text-heading-5 event-details__map-address">{{ event.place.description|safe }}</span>
         <span class="text-heading-4 text-bold">{{ event.place.name }}</span>
         <div
           data-vue-component="button"
@@ -233,20 +235,19 @@
     </div>
   </div>
 
-  <div class="event-details__additional event-details__additional--stroke">
-    <div class="event-details__additional-children">
-      {# Grupo del evento #}
+  {% if event.specials.all %}
+    <div class="event-details__additional event-details__additional--stroke">
       {% for special in event.specials.all %}
-      <div>
-        <div style="color: red">{% translate 'Este evento pertenece a:' %}</div>
-        <div>{{ special.title }}</div>
-        <img src="{{ special.get_image_url }}" height="50" alt="{{ special.title }}"></a>
-        <div>{{ special.subtitle }}</div>
-        <div><a href="{{ special.get_absolute_url }}">{% translate 'Ver evento' %}</a></div>
-      </div>
+        <div class="event-details__additional-children event-details__specials">
+          <div class="event-details__special-item">
+            <a class="event-details__special-banner-anchor" href="{{ special.get_absolute_url }}" aria-label="{% translate 'Ir al evento al que pertenece' %}: {{ special.title }}, {{ special.subtitle }}">
+              <img class="event-details__special-banner" src="{{ special.get_image_url }}" aria-hidden="true" role="presentation">
+            </a>
+          </div>
+        </div>
       {% endfor %}
     </div>
-  </div>
+  {% endif %}
 
   {% if related_events %}
     <section>
@@ -270,6 +271,7 @@
             data-vue-prop-day="{{ related_event.event_date|date:'j M' }}"
             data-vue-prop-time="{{ related_event.event_date|date:'H:i' }}"
             data-vue-prop-image-url="{{ related_event.get_image_url }}"
+            data-vue-prop-link="{{ related_event.get_absolute_url }}"
           >
           </div>
         {% endfor %}
@@ -283,5 +285,3 @@
   {% if event.image_source_url %}{{ event.image_source_url }}{% endif %}
 
 {% endblock content %}
-
-
