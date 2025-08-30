@@ -35,7 +35,6 @@
 {% endblock %}
 
 {% block extra_scripts %}
-  {% vite_asset 'desparchado/frontend/scripts/mount-vue.ts' %}
   {% vite_asset 'desparchado/frontend/scripts/home.ts' %}
 
   <script
@@ -126,10 +125,10 @@
             </div>
           {% endif %}
 
-          {% if event.speakers.exists %}
+          {% if speakers %}
             <div class="speakers">
               <div class="speakers__avatar-container">
-                {% for speaker in event.speakers.all %}
+                {% for speaker in speakers %}
                   <a href="{{ speaker.get_absolute_url }}">
                     <img class="speakers__avatar"
                          src="{{ speaker.get_image_url }}"
@@ -139,7 +138,7 @@
                 {% endfor %}
               </div>
               <p class="text-heading-5">
-                {% for speaker in event.speakers.all %}
+                {% for speaker in speakers %}
                   {{ speaker.name }}{% if not forloop.last %}{% if forloop.revcounter == 2 %} {% translate 'y' %} {% else %}, {% endif %}{% endif %}
                 {% endfor %}
               </p>
@@ -170,11 +169,11 @@
               {% endblocktranslate %}
             </p>
           </div>
-          {% if event.speakers.exists %}
+          {% if speakers %}
             <div class="event-details__item-list">
               <h2 class="text-heading-4">Presentadores</h2>
               <div class="event-details__item-list-list">
-                {% for speaker in event.speakers.all %}
+                {% for speaker in speakers %}
                   <div class="event-details__item-list-item">
                     <a href="{{ speaker.get_absolute_url }}">
                       <img class="event-details__item-list-item-image" height="170" src="{{ speaker.get_image_url }}" alt="{{ speaker.name }}">

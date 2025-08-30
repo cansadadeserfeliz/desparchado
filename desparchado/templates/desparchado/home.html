@@ -2,7 +2,6 @@
 {% load i18n humanize desparchado_tags django_vite %}
 
 {% block extra_scripts %}
-  {% vite_asset 'desparchado/frontend/scripts/mount-vue.ts' %}
   {% vite_asset 'desparchado/frontend/scripts/home.ts' %}
 {% endblock extra_scripts %}
 
@@ -108,7 +107,7 @@
         data-vue-prop-type="h2"
       >
       </div>
-      <div data-component="event-container" data-url="{% url 'events_api:future_events_list' %}">    
+      <div data-component="event-container" data-url="{% url 'events_api:future_events_list' %}">
       </div>
     </div>
   </div>

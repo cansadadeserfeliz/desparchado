@@ -38,13 +38,6 @@ def test_home_page_featured_events(
     ), 'because there is not enough featured future events'
 
 
-@pytest.mark.django_db
-def test_old_home_page(django_app, event):
-    response = django_app.get(reverse('old-home'), status=200)
-
-    assert event.title in response
-
-
 def test_about_page(django_app):
     django_app.get(reverse('about'), status=200)
 

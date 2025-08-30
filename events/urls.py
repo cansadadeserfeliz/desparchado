@@ -61,12 +61,7 @@ urlpatterns = [
     # Event detail views
     path(
         '<slug:slug>/',
-        event_views.OldEventDetailView.as_view(),
-        name='event_detail',
-    ),
-    path(
-        'redesign/<slug:slug>/',
         event_views.EventDetailView.as_view(),
-        name='redesign_event_detail',
+        name='event_detail',
     ),
 ]
