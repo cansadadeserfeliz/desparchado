@@ -58,7 +58,7 @@
   const props = withDefaults(defineProps<TypographyProps>(), {
     tag: 'p',
     type: 'body_md',
-    weight: 'regular',
+    weight: 'medium',
   });
   const tag = props.tag;
 
