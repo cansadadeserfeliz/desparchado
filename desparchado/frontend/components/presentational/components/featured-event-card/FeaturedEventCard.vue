@@ -1,5 +1,5 @@
 <template>
-  <component :is="tag" :class="[props.customClass, bem(baseClass)]" :id="id">
+  <component :is="link ? 'a' : tag" :href="link" :class="[props.customClass, bem(baseClass)]" :id="id">
     <div :class="bem(baseClass, 'container')" :aria-labelledby="headingId">
       <div :class="bem(baseClass, 'image')" role="presentation" aria-hidden="true">
         <div
@@ -68,6 +68,7 @@
       day: string;
       time: string;
       imageUrl?: string;
+      link?: string;
     }>(),
     {
       tag: 'div',
