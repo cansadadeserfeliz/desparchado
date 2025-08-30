@@ -69,6 +69,7 @@
       time: string;
       imageUrl?: string;
       link?: string;
+      dateCopy?: string;
     }>(),
     {
       tag: 'div',
@@ -81,5 +82,4 @@
   const baseClass = 'featured-event-card';
 
   const headingId = [id, 'title'].join('-');
-  const dateCopy = 'Proximo mes';
 </script>
