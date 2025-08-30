@@ -24,7 +24,7 @@ def test_events_appearance_in_event_list(
 def test_filter_events_by_city_in_event_list(django_app, event, other_event):
     city_filter = event.place.city.slug
     response = django_app.get(
-        reverse('events:event_list') + f'?city={city_filter}', status=200,
+        reverse('events:event_list'), {'city': city_filter}, status=200,
     )
     assert event in response.context['events']
     assert other_event not in response.context['events']
@@ -37,7 +37,7 @@ def test_search_events_by_title(django_app, event, other_event):
     )
     event.save()
 
-    response = django_app.get(reverse('events:event_list') + '?q=despues', status=200)
+    response = django_app.get(reverse('events:event_list'), {'q': 'despues'}, status=200)
     assert event in response.context['events']
     assert other_event not in response.context['events']
 
@@ -48,7 +48,7 @@ def test_search_events_speaker_name(django_app, event, speaker, other_event):
     speaker.save()
     event.speakers.add(speaker)
 
-    response = django_app.get(reverse('events:event_list') + '?q=inaki', status=200)
+    response = django_app.get(reverse('events:event_list'), {'q': 'inaki'}, status=200)
     assert event in response.context['events']
     assert other_event not in response.context['events']
 
