@@ -1,5 +1,4 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.postgres.aggregates import StringAgg
 from django.contrib.postgres.search import SearchQuery, SearchVector
 from django.db.models import Q
 from django.http import JsonResponse
@@ -24,6 +23,7 @@ class EventListView(ListView):
     paginate_by = 15
     search_query_name = 'q'
     search_query_value = ''
+    search_query_max_length = 3
     city_filter_name = 'city'
     city_filter_value = ''
     city = None
@@ -78,37 +78,18 @@ class EventListView(ListView):
         if self.category_filter_value:
             queryset = queryset.filter(category=self.category_filter_value)
 
-        if self.search_query_value and len(self.search_query_value) > 3:
+        if (
+            self.search_query_value
+            and len(self.search_query_value) > self.search_query_max_length
+        ):
             queryset = (
-                queryset.annotate(unaccent_title=SearchVector('title__unaccent'))
-                .annotate(unaccent_description=SearchVector('description__unaccent'))
-                .annotate(
-                    speakers_names=SearchVector(
-                        StringAgg('speakers__name', delimiter=' '),
-                    ),
-                )
-                .annotate(
-                    unaccent_speakers_names=SearchVector(
-                        StringAgg('speakers__name__unaccent', delimiter=' '),
-                    ),
-                )
-                .annotate(
-                    search=SearchVector(
-                        'title',
-                        'unaccent_title',
-                        'description',
-                        'unaccent_description',
-                        'speakers_names',
-                        'unaccent_speakers_names',
-                    ),
+                queryset.annotate(
+                    search=SearchVector('title', 'description', 'speakers__name'),
                 )
                 .filter(
-                    Q(title__icontains=self.search_query_value)
-                    | Q(unaccent_title__icontains=self.search_query_value)
-                    | Q(description__icontains=self.search_query_value)
-                    | Q(unaccent_description__icontains=self.search_query_value)
-                    | Q(speakers_names__icontains=self.search_query_value)
-                    | Q(unaccent_speakers_names__icontains=self.search_query_value)
+                    Q(title__unaccent__icontains=self.search_query_value)
+                    | Q(description__unaccent__icontains=self.search_query_value)
+                    | Q(speakers__name__unaccent__icontains=self.search_query_value)
                     | Q(search=SearchQuery(self.search_query_value)),
                 )
             )
