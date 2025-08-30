@@ -56,7 +56,6 @@
           <span class="event-details__info-item text-body-md">
             / {{ event.place.description|safe }}
           </span>
-          {% if event.place.city.name %}
           {% if event.place.city and event.place.city.name %}
             <span class="event-details__info-item text-body-md">
               / {{ event.place.city.name }}
@@ -93,7 +92,7 @@
             <span class="text-heading-5 excluded-from-desktop">
               {{ event.get_price_display }}
             </span>
-          {% endif %}          
+          {% endif %}
           <div class="event-details__mobile-actions excluded-from-desktop">
             <div
               data-vue-component="button"
@@ -203,7 +202,7 @@
       </div>
     </div>
   </section>
-  
+
   <div class="event-details__additional event-details__additional--stroke">
     <div class="event-details__additional-children event-details__map">
       <div style="width: 513px; width: 100%" class="event-details__map-widget">
@@ -219,7 +218,7 @@
           ></gmp-advanced-marker>
         </gmp-map>
       </div>
-    
+
       <div class="event-details__map-details">
         <span class="text-heading-5">{{ event.place.description|safe }}</span>
         <span class="text-heading-4 text-bold">{{ event.place.name }}</span>
