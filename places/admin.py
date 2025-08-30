@@ -36,7 +36,7 @@ class PlaceAdmin(admin.ModelAdmin):
                 'fields': (
                     'name',
                     'slug',
-                    'description',
+                    'address',
                     'city',
                     'location',
                 ),
