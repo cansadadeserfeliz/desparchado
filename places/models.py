@@ -4,6 +4,7 @@ from django.contrib.gis.db import models as geo_models
 from django.db import models
 from django.templatetags.static import static
 from django.urls import reverse
+from django.core.validators import MinLengthValidator
 from model_utils.models import TimeStampedModel
 
 
@@ -19,7 +20,7 @@ class Place(TimeStampedModel):
     image_source_url = models.URLField(
         'Enlace a la fuente de la imagen', blank=True,
     )
-    address = models.CharField('Dirección', max_length=100)
+    address = models.CharField('Dirección', max_length=100, validators=[MinLengthValidator(5)])
     website_url = models.URLField('Página web', blank=True)
     location = geo_models.PointField('Ubicación', null=False)
     city = models.ForeignKey(
