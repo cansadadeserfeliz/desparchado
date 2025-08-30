@@ -40,16 +40,15 @@
           :text="title"
           :id="headingId"
         />
-        <Typography
-          tag="p"
-          :customClass="bem(baseClass, 'description')"
-          type="body_sm"
-          weight="regular"
-          :text="description"
-        />
+        <div :class="bem(baseClass, 'description')">
+          <div
+            class="text-body-sm rich-text-description"
+            v-html="description"
+          />
+        </div>
         <Button
           type="secondary"
-          link="#"
+          :link="link"
           label="Leer más"
           padding="condensed"
           :customClass="bem(baseClass, 'cta')"
@@ -65,7 +64,7 @@
   import './styles.scss';
   import { bem } from '../../../../scripts/utils/bem';
   import Button from '@presentational_components/atoms/button/Button.vue';
-
+  
   // -------- [Types] --------
   export type FeaturedEventTags = 'div' | 'li' | 'section' | 'article';
 
@@ -78,6 +77,7 @@
     day: string;
     time: string;
     imageUrl?: string;
+    link?: string;
   }
 
   // -------- [Props] --------
@@ -90,8 +90,6 @@
   );
   const tag = props.tag;
   const id = ['event-card', generateUID()].join('-');
-
   const baseClass = 'event-card';
-
   const headingId = [id, 'title'].join('-');
 </script>

@@ -120,7 +120,7 @@
 
       &__title {
         @media (max-width: map.get($breakpoints, m)) {
-          display: flex;
+          display: -webkit-box;
         }
       }
     }

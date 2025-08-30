@@ -28,6 +28,7 @@ export const NormalCard: Story = {
     title: 'No estamos solos la paz también se hace con animales',
     day: '17 Jun',
     time: '22:00',
+    link: '/event-card',
   },
   decorators: [
     (() => ({
