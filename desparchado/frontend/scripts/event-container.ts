@@ -35,6 +35,7 @@ function mapEventToCardProps(events: IEvent[]): EventCardProps[] {
     day: event.formatted_day,
     time: event.formatted_hour,
     imageUrl: event.image_url,
+    link: event.url,
   }));
 }
 

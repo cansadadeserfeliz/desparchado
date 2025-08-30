@@ -33,3 +33,25 @@ header {
   top: 0;
   z-index: $elev-over-main;
 }
+
+.rich-text-description {
+  a {
+    padding: 0.375rem 0.625rem;
+    background-color: $color-gray-00;
+    border: 0.0625rem solid $color-gray-100;
+    border-radius: 0.25rem;
+    transition: border-color 150ms $ease-out-quart, background-color 150ms $ease-out-quart;
+    color: inherit;
+
+    &::after {
+      content: '🔗';
+      margin-left: 0.25rem;
+      text-decoration: none;
+    }
+
+    &:hover {
+      background-color: $color-dp-orange-10;
+      border-color: $color-dp-orange-200;
+    }
+  }
+}

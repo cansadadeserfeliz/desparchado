@@ -7,6 +7,7 @@
 .featured-event-card {
   $self: &;
   height: 100%;
+  text-decoration: none;
 
   --featured-event-card-background: #{$color-layout-background};
   --featured-event-card-color: #{$color-layout-foreground};
