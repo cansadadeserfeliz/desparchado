@@ -6,7 +6,6 @@ from blog.models import Post
 from desparchado.utils import sanitize_html
 from events.models import Event, Organizer, Speaker
 from games.models import HuntingOfSnarkCriteria
-from places.models import Place
 
 User = get_user_model()
 
