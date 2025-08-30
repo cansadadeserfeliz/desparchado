@@ -45,8 +45,7 @@ schema_view = get_schema_view(
 )
 
 urlpatterns = [
-    path('', OldHomeView.as_view(), name='old-home'),
-    path('redesign/', HomeView.as_view(), name='home'),
+    path('', HomeView.as_view(), name='home'),
     path(
         'about/',
         TemplateView.as_view(template_name='desparchado/about.html'),
