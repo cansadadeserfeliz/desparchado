@@ -30,7 +30,6 @@ from .sitemap import sitemaps
 from .views import (
     AtomSiteEventsFeed,
     HomeView,
-    OldHomeView,
     SocialNetworksRssSiteEventsFeed,
 )
 
