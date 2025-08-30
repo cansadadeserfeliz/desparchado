@@ -16,13 +16,13 @@
       <select name="{{ category_filter_name }}">
         <option value="">------</option>
       {% for value, label in category_choices %}
-        <option value="{{ value }}" {% if value == category_filter_value %}selected{% endif %}>{{ label }}</option>
+        <option value="{{ value }}"{% if value == category_filter_value %} selected{% endif %}>{{ label }}</option>
       {% endfor %}
       </select>
       <select name="{{ city_filter_name }}">
         <option value="">------</option>
       {% for city in cities %}
-        <option value="{{ city.slug }}" {% if city.slug == city_filter_value %}selected{% endif %}>{{ city.name }}</option>
+        <option value="{{ city.slug }}"{% if city.slug == city_filter_value %} selected{% endif %}>{{ city.name }}</option>
       {% endfor %}
       </select>
       <button class="btn btn-default" type="submit">{% translate 'Buscar' %}</button>
