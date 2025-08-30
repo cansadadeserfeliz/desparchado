@@ -22,22 +22,35 @@ def test_events_appearance_in_event_list(
 
 @pytest.mark.django_db
 def test_filter_events_by_city_in_event_list(django_app, event, other_event):
-    city = event.place.city
+    city_filter = event.place.city.slug
     response = django_app.get(
-        reverse('events:event_list') + f'?city={city.slug}', status=200,
+        reverse('events:event_list'), {'city': city_filter}, status=200,
     )
     assert event in response.context['events']
     assert other_event not in response.context['events']
 
 
 @pytest.mark.django_db
-def test_search_events_in_event_list(django_app, event, other_event):
+def test_search_events_by_title(django_app, event, other_event):
     event.title = (
         'Después de la siesta, despertó con el rostro abuhado y los sueños revueltos'
     )
     event.save()
 
-    response = django_app.get(reverse('events:event_list') + '?q=abuhado', status=200)
+    response = django_app.get(
+        reverse('events:event_list'), {'q': 'despues'}, status=200,
+    )
+    assert event in response.context['events']
+    assert other_event not in response.context['events']
+
+
+@pytest.mark.django_db
+def test_search_events_speaker_name(django_app, event, speaker, other_event):
+    speaker.name = 'Iñaki Rojas'
+    speaker.save()
+    event.speakers.add(speaker)
+
+    response = django_app.get(reverse('events:event_list'), {'q': 'inaki'}, status=200)
     assert event in response.context['events']
     assert other_event not in response.context['events']
 
@@ -65,7 +78,8 @@ def test_events_appearance_in_past_event_list(
 @pytest.mark.django_db
 def test_show_details_of_not_published_event(django_app, not_published_event):
     django_app.get(
-        reverse('events:event_detail', args=[not_published_event.slug]), status=404,
+        reverse('events:event_detail', args=[not_published_event.slug]),
+        status=404,
     )
 
 

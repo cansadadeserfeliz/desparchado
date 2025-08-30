@@ -1,5 +1,6 @@
+from urllib.parse import urlencode
+
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.postgres.aggregates import StringAgg
 from django.contrib.postgres.search import SearchQuery, SearchVector
 from django.db.models import Q
 from django.http import JsonResponse
@@ -21,25 +22,50 @@ from .models import Event, Organizer, Speaker
 class EventListView(ListView):
     model = Event
     context_object_name = 'events'
-    paginate_by = 27
+    paginate_by = 15
+    search_query_name = 'q'
+    search_query_value = ''
+    search_query_max_length = 3
+    city_filter_name = 'city'
+    city_filter_value = ''
     city = None
-    q = ''
-    city_slug_filter = ''
+    category_filter_name = 'category'
+    category_filter_value = ''
 
     def dispatch(self, request, *args, **kwargs):
-        self.q = request.GET.get('q', '')
-        self.city_slug_filter = request.GET.get('city')
+        self.search_query_value = request.GET.get(self.search_query_name, '')
+        self.city_filter_value = request.GET.get(self.city_filter_name)
+        self.category_filter_value = request.GET.get(self.category_filter_name)
 
-        if self.city_slug_filter:
-            self.city = City.objects.filter(slug=self.city_slug_filter).first()
+        if self.city_filter_value:
+            self.city = City.objects.filter(slug=self.city_filter_value).first()
+
+        if self.category_filter_value not in Event.Category:
+            self.category_filter_value = ''
 
         return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        context['search_string'] = self.q
-        context['city_filter'] = self.city
+        # For search form rendering
+        context['search_query_name'] = self.search_query_name
+        context['search_query_value'] = self.search_query_value
+        context['city_filter_name'] = self.city_filter_name
+        context['city_filter_value'] = self.city_filter_value
+        context['category_filter_name'] = self.category_filter_name
+        context['category_filter_value'] = self.category_filter_value
+        context['category_choices'] = Event.Category.choices
+        context['cities'] = City.objects.all()
+
+        params = {}
+        if self.search_query_value:
+            params[self.search_query_name] = self.search_query_value
+        if self.city_filter_value:
+            params[self.city_filter_name] = self.city_filter_value
+        if self.category_filter_value:
+            params[self.category_filter_name] = self.category_filter_value
+        context['pagination_query_params'] = f"&{urlencode(params)}" if params else ''
 
         return context
 
@@ -49,42 +75,30 @@ class EventListView(ListView):
         if self.city:
             queryset = queryset.filter(place__city=self.city)
 
-        if self.q and len(self.q) > 3:
+        if self.category_filter_value:
+            queryset = queryset.filter(category=self.category_filter_value)
+
+        if (
+            self.search_query_value
+            and len(self.search_query_value) > self.search_query_max_length
+        ):
             queryset = (
-                queryset.annotate(unaccent_title=SearchVector('title__unaccent'))
-                .annotate(unaccent_description=SearchVector('description__unaccent'))
-                .annotate(
-                    speakers_names=SearchVector(
-                        StringAgg('speakers__name', delimiter=' '),
-                    ),
-                )
-                .annotate(
-                    unaccent_speakers_names=SearchVector(
-                        StringAgg('speakers__name__unaccent', delimiter=' '),
-                    ),
-                )
-                .annotate(
-                    search=SearchVector(
-                        'title',
-                        'unaccent_title',
-                        'description',
-                        'unaccent_description',
-                        'speakers_names',
-                        'unaccent_speakers_names',
-                    ),
+                queryset.annotate(
+                    search=SearchVector('title', 'description', 'speakers__name'),
                 )
                 .filter(
-                    Q(title__icontains=self.q)
-                    | Q(unaccent_title__icontains=self.q)
-                    | Q(description__icontains=self.q)
-                    | Q(unaccent_description__icontains=self.q)
-                    | Q(speakers_names__icontains=self.q)
-                    | Q(unaccent_speakers_names__icontains=self.q)
-                    | Q(search=SearchQuery(self.q)),
+                    Q(title__unaccent__icontains=self.search_query_value)
+                    | Q(description__unaccent__icontains=self.search_query_value)
+                    | Q(speakers__name__unaccent__icontains=self.search_query_value)
+                    | Q(search=SearchQuery(self.search_query_value)),
                 )
             )
 
-        return queryset.select_related('place').order_by('event_date').distinct()
+        return (queryset
+                .select_related('place')
+                .prefetch_related('speakers')
+                .order_by('event_date')
+                .distinct())
 
 
 class PastEventListView(ListView):
