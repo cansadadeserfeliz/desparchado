@@ -23,10 +23,10 @@ class MLStripper(HTMLParser):
 
 
 def update_description(apps, schema_editor):
-    # Strip HTML from description and reduce length to 500 characters
+    # Strip HTML from description and truncate to 100 characters
     Place = apps.get_model("places", "Place")
     for place in Place.objects.all():
-        if place.address:
+        if place.description:
             s = MLStripper()
             s.feed(place.address)
 
