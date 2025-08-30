@@ -42,8 +42,15 @@
 
 {% block content %}
   <section class="event-details">
-    <div class="event-details__image">
-      <img class="event-details__image" alt="{{ event.title }}" src="{{ event.get_image_url }}" />
+    <div class="event-details__image" style="--">
+      <img alt="{{ event.title }}" src="{{ event.get_image_url }}" />
+      {% if event.image_source_url %}
+        <div class="event-details__image-source text-caption">
+          {% translate 'Fuente de la imágen' %}: <a href="{{ event.image_source_url }}" target="_blank">
+            {{ event.image_source_url|shorten_url }}
+          </a>
+        </div>
+      {% endif %}
     </div>
     <div class="event-details__container">
       <div class="event-details__details">
@@ -99,7 +106,7 @@
             <div
               data-vue-component="button"
               data-vue-prop-type="secondary"
-              data-vue-prop-label=" {% translate 'Ir al sitio del evento' %}"
+              data-vue-prop-label="{% translate 'Ir al sitio del evento' %}"
               data-vue-prop-icon="world-40"
               data-vue-prop-link="{{ event.get_absolute_url }}"
             >
@@ -107,6 +114,16 @@
           </div>
         </div>
         <div class="event-details__content">
+          {% if user|user_can_edit_event:event %}
+            <div
+              data-vue-component="button"
+              data-vue-prop-type="secondary"
+              data-vue-prop-label="{% translate 'Editar Evento' %}"
+              data-vue-prop-link="{% url 'events:event_update' event.pk %}"
+            >
+            </div>
+          {% endif %}
+
           {% if event.speakers.exists %}
             <div class="speakers">
               <div class="speakers__avatar-container">
@@ -134,7 +151,23 @@
             </span>
             {{ event.description|safe|linebreaksbr }}
           </div>
-
+          <div class="event-details__disclaimer">
+            <div
+              class="event-details__disclaimer-icon"
+              data-vue-component="icon"
+              data-vue-prop-id="info"
+              data-vue-prop-size="large"
+            >
+            </div>
+            <p class="text-caption event-details__disclaimer-text" >
+              {% blocktranslate %}
+                Desparchado.co no organiza los eventos que se muestran en la plataforma.
+                Somos un servicio de divulgación que recopila eventos culturales de diversas fuentes y
+                las vuelve accesibles para ti. Si necesitas información o confirmación te recomendamos
+                que contactes directamente a los organizadores.
+              {% endblocktranslate %}
+            </p>
+          </div>
           {% if event.speakers.exists %}
             <div class="event-details__item-list">
               <h2 class="text-heading-4">Presentadores</h2>
@@ -147,6 +180,7 @@
                     <div class="event-details__item-list-item-details">
                       <p class="text-heading-4">{{ speaker.name }}</p>
                       <div class="text-caption">{{ speaker.description|safe|linebreaksbr|truncatewords_html:50 }}</div>
+                      <a class="text-body-md" href="{{ speaker.get_absolute_url }}">Leer más</a>
                     </div>
                   </div>
                 {% endfor %}
@@ -165,6 +199,7 @@
                   <div class="event-details__item-list-item-details">
                     <p class="text-heading-4">{{ organizer.name }}</p>
                     <div class="text-caption">{{ organizer.description|safe|linebreaksbr|truncatewords_html:50 }}</div>
+                    <a class="text-body-md" href="{{ organizer.get_absolute_url }}">Leer más</a>
                   </div>
                 </div>
               {% endfor %}
@@ -251,7 +286,7 @@
 
   {% if related_events %}
     <section>
-      <div class="intro-section">
+      <div class="intro-section event-details__featured-events">
         <div class="main-title">
           <div
             data-vue-component="typography"
@@ -272,6 +307,7 @@
             data-vue-prop-time="{{ related_event.event_date|date:'H:i' }}"
             data-vue-prop-image-url="{{ related_event.get_image_url }}"
             data-vue-prop-link="{{ related_event.get_absolute_url }}"
+            data-vue-prop-date-copy="{{ related_event.event_date|naturalday }}"
           >
           </div>
         {% endfor %}
@@ -280,8 +316,6 @@
     </section>
   {% endif %}
 
-  {# Dónde lo ponemos? #}
-  {# No sabría donde poner esto, no sé que es #}
-  {% if event.image_source_url %}{{ event.image_source_url }}{% endif %}
+
 
 {% endblock content %}

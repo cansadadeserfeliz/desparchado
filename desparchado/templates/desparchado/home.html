@@ -1,5 +1,5 @@
 {% extends 'layout/base.html' %}
-{% load i18n desparchado_tags django_vite %}
+{% load i18n humanize desparchado_tags django_vite %}
 
 {% block extra_scripts %}
   {% vite_asset 'desparchado/frontend/scripts/mount-vue.ts' %}
@@ -57,6 +57,7 @@
             data-vue-prop-time="{{ featured_event.event_date|date:'H:i' }}"
             data-vue-prop-image-url="{{ featured_event.get_image_url }}"
             data-vue-prop-link="{{ featured_event.get_absolute_url }}"
+            data-vue-prop-date-copy="{{ featured_event.event_date|naturalday }}"
           >
           </div>
         {% endfor %}
