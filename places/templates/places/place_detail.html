@@ -10,7 +10,12 @@
   "@context" : "http://schema.org",
   "@type" : "Place",
   "name" : "{{ place.name }}",
-  "address" : "{{ place.address }}",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "{{ place.address }}",
+    "addressLocality": "{{ place.city.name }}",
+    "addressCountry": "CO"
+  },
   "geo": {
     "@type": "GeoCoordinates",
     "latitude": "{{ place.get_latitude_str }}",
