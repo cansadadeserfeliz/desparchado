@@ -23,7 +23,11 @@
   "location" : {
     "@type" : "Place",
     "name" : "{{ event.place.name }}",
-    "address" : "{{ event.place.description }}"
+    "address": {
+      "@type" : "PostalAddress",
+      "streetAddress": "{{ event.place.address }}",
+      "addressLocality": "{{ event.place.city.name }}"
+    }
   },
   "image" : "https://desparchado.co{{ event.get_image_url }}"
 }
@@ -47,7 +51,7 @@
       {% if event.image_source_url %}
         <div class="event-details__image-source text-caption">
           {% translate 'Fuente de la imágen' %}: <a href="{{ event.image_source_url }}" target="_blank">
-            {{ event.image_source_url|shorten_url }}
+            {{ event.image_source_url|shorten_url }}
           </a>
         </div>
       {% endif %}
@@ -55,15 +59,13 @@
     <div class="event-details__container">
       <div class="event-details__details">
         <div class="event-details__info excluded-from-mobile">
-          {% if event.place.name %}
-            <span class="event-details__info-item text-body-md">
-              {{ event.place.name }}
-            </span>
-          {% endif %}
           <span class="event-details__info-item text-body-md">
-            / {{ event.place.description|safe }}
+            {{ event.place.name }}
           </span>
-          {% if event.place.city and event.place.city.name %}
+          <span class="event-details__info-item text-body-md">
+            / {{ event.place.address }}
+          </span>
+          {% if event.place.city %}
             <span class="event-details__info-item text-body-md">
               / {{ event.place.city.name }}
             </span>
@@ -95,7 +97,7 @@
             </div>
           </div>
           <div class="text-heading-5 excluded-from-desktop event-details__address-section">
-            <span>{{ event.place.name }}</span>, {{ event.place.description|safe }} {% if event.place.city.name %}, {{ event.place.city.name }}.{% endif %}  
+            <span>{{ event.place.name }}</span>, {{ event.place.address }} {% if event.place.city.name %}, {{ event.place.city.name }}.{% endif %}
           </div>
           {% if event.price %}
             <span class="text-heading-5 excluded-from-desktop">
