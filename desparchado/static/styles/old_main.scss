@@ -1,8 +1,9 @@
 @use 'old_variables';
 
-.container {
-  max-width: 800px;
+.container, .container-fluid {
+  margin: 25px 0 25px 0;
 }
+
 .btn {
   border-radius: 0;
 }
@@ -229,6 +230,8 @@
   background-attachment: fixed;
 }
 .special-detail {
+   margin: 20px;
+
   .accordion-button {
     background: old_variables.$secondary-color;
   }
