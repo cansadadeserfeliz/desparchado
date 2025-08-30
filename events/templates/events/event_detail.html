@@ -111,12 +111,17 @@
               <div class="speakers__avatar-container">
                 {% for speaker in event.speakers.all %}
                   <a href="{{ speaker.get_absolute_url }}">
-                    <img class="speakers__avatar" src="{{ speaker.get_image_url }}" alt="{{ speaker.name }}" />
+                    <img class="speakers__avatar"
+                         src="{{ speaker.get_image_url }}"
+                         alt="{{ speaker.name }}"
+                         loading="lazy" />
                   </a>
                 {% endfor %}
               </div>
               <p class="text-heading-5">
-                {{ speaker.name }}{% if not forloop.last %}{% if forloop.revcounter == 2 %} {% translate 'y' %} {% else %}, {% endif %}{% else %}{% endif %}
+                {% for speaker in event.speakers.all %}
+                  {{ speaker.name }}{% if not forloop.last %}{% if forloop.revcounter == 2 %} {% translate 'y' %} {% else %}, {% endif %}{% endif %}
+                {% endfor %}
               </p>
             </div>
           {% endif %}
