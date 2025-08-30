@@ -37,7 +37,9 @@ def test_search_events_by_title(django_app, event, other_event):
     )
     event.save()
 
-    response = django_app.get(reverse('events:event_list'), {'q': 'despues'}, status=200)
+    response = django_app.get(
+        reverse('events:event_list'), {'q': 'despues'}, status=200,
+    )
     assert event in response.context['events']
     assert other_event not in response.context['events']
 
@@ -76,7 +78,8 @@ def test_events_appearance_in_past_event_list(
 @pytest.mark.django_db
 def test_show_details_of_not_published_event(django_app, not_published_event):
     django_app.get(
-        reverse('events:event_detail', args=[not_published_event.slug]), status=404,
+        reverse('events:event_detail', args=[not_published_event.slug]),
+        status=404,
     )
 
 
