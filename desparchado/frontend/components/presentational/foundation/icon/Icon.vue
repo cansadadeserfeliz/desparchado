@@ -12,12 +12,13 @@
   const spriteContent = siteSvgs;
   const sprite = computed(() => spriteContent);
 
-  type IconSizeType = 'unset' | 'small' | 'regular';
+  type IconSizeType = 'unset' | 'small' | 'regular' | 'large';
 
   const sizes: Record<IconSizeType, string> = {
     unset: '',
     small: 'icon--small',
     regular: 'icon--regular',
+    large: 'icon--large',
   };
 
   // Props
@@ -44,5 +45,10 @@
   .icon--regular {
     height: 24px;
     width: 24px;
+  }
+
+  .icon--large {
+    height: 40px;
+    width: 40px;
   }
 </style>
