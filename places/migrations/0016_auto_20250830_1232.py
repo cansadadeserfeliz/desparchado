@@ -28,7 +28,7 @@ def update_description(apps, schema_editor):
     for place in Place.objects.all():
         if place.description:
             s = MLStripper()
-            s.feed(place.address)
+            s.feed(place.description)
 
             place.description = s.get_data()[:100]
             place.save()
