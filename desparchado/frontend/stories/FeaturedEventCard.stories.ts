@@ -29,6 +29,7 @@ export const NormalCard: Story = {
     day: '17 Jun',
     time: '22:00',
     link: '/event-card',
+    dateCopy: 'Próximo mes',
   },
   decorators: [
     (() => ({
