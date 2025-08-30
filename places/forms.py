@@ -3,8 +3,6 @@ from crispy_forms.layout import Div, Layout, Submit
 from django import forms
 from mapwidgets import LeafletPointFieldWidget
 
-from desparchado.utils import sanitize_html
-
 from .models import Place
 
 
