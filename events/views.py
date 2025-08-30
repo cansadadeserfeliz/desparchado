@@ -47,6 +47,8 @@ class EventListView(ListView):
         context = super().get_context_data(**kwargs)
 
         # For search form rendering
+        context['search_query_name'] = self.search_query_name
+        context['search_query_value'] = self.search_query_value
         context['city_filter_name'] = self.city_filter_name
         context['city_filter_value'] = self.city_filter_value
         context['category_filter_name'] = self.category_filter_name
