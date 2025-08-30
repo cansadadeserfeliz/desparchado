@@ -23,7 +23,11 @@
   "location" : {
     "@type" : "Place",
     "name" : "{{ event.place.name }}",
-    "address" : "{{ event.place.address }}"
+    "address": {
+      "@type" : "PostalAddress",
+      "streetAddress": "{{ event.place.address }}",
+      "addressLocality": "{{ event.place.city.name }}"
+    }
   },
   "image" : "https://desparchado.co{{ event.get_image_url }}"
 }
@@ -48,15 +52,13 @@
     <div class="event-details__container">
       <div class="event-details__details">
         <div class="event-details__info excluded-from-mobile">
-          {% if event.place.name %}
-            <span class="event-details__info-item text-body-md">
-              {{ event.place.name }}
-            </span>
-          {% endif %}
+          <span class="event-details__info-item text-body-md">
+            {{ event.place.name }}
+          </span>
           <span class="event-details__info-item text-body-md">
             / {{ event.place.address }}
           </span>
-          {% if event.place.city and event.place.city.name %}
+          {% if event.place.city %}
             <span class="event-details__info-item text-body-md">
               / {{ event.place.city.name }}
             </span>

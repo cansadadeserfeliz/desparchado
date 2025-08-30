@@ -60,6 +60,7 @@ def test_successfully_create_place(django_app, user, city):
     place = Place.objects.first()
     assert place.created_by == user
     assert place.get_absolute_url() in response.location
+    assert place.address == 'Cra 11 93'
 
 
 @pytest.mark.django_db

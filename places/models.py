@@ -12,6 +12,7 @@ class Place(TimeStampedModel):
     name = models.CharField(
         'Nombre',
         max_length=255,
+        validators=[MinLengthValidator(5)],
         unique=True,
         db_index=True,
     )
