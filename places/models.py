@@ -98,6 +98,7 @@ class City(TimeStampedModel):
     class Meta:
         verbose_name = 'Ciudad'
         verbose_name_plural = 'Ciudades'
+        ordering = ('name',)
 
     def get_absolute_url(self):
         return reverse('places:city_detail', args=[self.slug])

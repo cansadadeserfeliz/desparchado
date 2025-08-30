@@ -7,14 +7,23 @@
   <h1>{% translate 'Eventos' %}</h1>
 
     <form>
-      <input type="text" class="form-control" name="{{ search_query_name }}" placeholder="Busca algo" value="{{ search_string }}">
-      <select class="form-control" name="{{ category_filter_name }}">
+      <input
+        type="text"
+        name="{{ search_query_name }}"
+        placeholder="Busca algo"
+        aria-label="{% translate 'Buscar eventos' %}"
+        value="{{ search_query_value }}">
+      <select name="{{ category_filter_name }}">
+        <option value="">------</option>
       {% for value, label in category_choices %}
         <option value="{{ value }}">{{ label }}</option>
       {% endfor %}
       </select>
-      <select class="form-control" name="{{ city_filter_name }}">
-        <option value="bogota">{% translate 'Bogotá' %}</option>
+      <select name="{{ city_filter_name }}">
+        <option value="">------</option>
+      {% for city in cities %}
+        <option value="{{ city.slug }}">{{ city.name }}</option>
+      {% endfor %}
       </select>
       <button class="btn btn-default" type="submit">{% translate 'Buscar' %}</button>
     </form>
@@ -51,7 +60,7 @@
         <div>{{ event.title }}</div>
         <div>{{ event.event_date|date:'j M' }}</div>
         <div>{{ event.event_date|date:'H:i' }}</div>
-        <img src="{{ event.get_image_url }}" height="200" alt="{{ event.event_name }}" />
+        <img src="{{ event.get_image_url }}" height="200" alt="{{ event.title }}" />
       </div>
     {% empty %}
         <div>{% translate 'No encontramos resultados para su búsqueda' %}</div>

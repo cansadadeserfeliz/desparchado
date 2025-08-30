@@ -38,16 +38,21 @@ class EventListView(ListView):
         if self.city_filter_value:
             self.city = City.objects.filter(slug=self.city_filter_value).first()
 
+        if self.category_filter_value not in Event.Category:
+            self.category_filter_value = ''
+
         return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
+        # For search form rendering
         context['city_filter_name'] = self.city_filter_name
         context['city_filter_value'] = self.city_filter_value
         context['category_filter_name'] = self.category_filter_name
         context['category_filter_value'] = self.category_filter_value
         context['category_choices'] = Event.Category.choices
+        context['cities'] = City.objects.all()
 
         context['pagination_query_params'] = ''
         if self.search_query_value:
@@ -55,7 +60,7 @@ class EventListView(ListView):
                 f'&{self.search_query_name}={escape(self.search_query_value)}'
         if self.city_filter_value:
             context['pagination_query_params'] += \
-                f'&{self.category_filter_name}={escape(self.city_filter_value)}'
+                f'&{self.city_filter_name}={escape(self.city_filter_value)}'
         if self.category_filter_value:
             context['pagination_query_params'] += \
                 f'&{self.category_filter_name}={self.category_filter_value}'
@@ -67,6 +72,9 @@ class EventListView(ListView):
 
         if self.city:
             queryset = queryset.filter(place__city=self.city)
+
+        if self.category_filter_value:
+            queryset = queryset.filter(category=self.category_filter_value)
 
         if self.search_query_value and len(self.search_query_value) > 3:
             queryset = (
