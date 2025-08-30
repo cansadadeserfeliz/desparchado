@@ -1,0 +1,375 @@
+@use '@styles/variables' as *;
+@use '@styles/functions' as *;
+@use '@styles/animations' as *;
+@use '@styles/mixins' as *;
+@use '@styles/breakpoints' as *;
+@use '@styles/typography' as *;
+@use "sass:map";
+
+$mobile-actions-overlap: -3.75rem;
+
+.event-details {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-end;
+  color: $color-layout-foreground;
+  margin-top: -3.1875rem;
+  border-bottom: $hairline_regular;
+
+  @media (min-width: map.get($breakpoints, m)) {
+    flex-direction: row;
+    padding-left: 1rem;
+    gap: 1rem;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  @media (min-width: map.get($breakpoints, ml)) {
+    gap: 4rem;
+    padding-left: 4rem;
+  }
+
+  &__image {
+    flex-grow: 1;
+    width: 100%;
+    max-height: 30rem;
+    position: relative;
+    display: flex;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 50%;
+      background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.5) 100%);
+    }
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+
+      @media (min-width: map.get($breakpoints, m)) {
+        object-position: right;
+      }
+    }
+
+    @media (min-width: map.get($breakpoints, m)) {
+      position: sticky;
+      top: calc(var(--header-height) + 1rem);
+      max-width: 18rem;
+
+      &::after {
+        content: none;
+      }
+    }
+
+    @media (min-width: map.get($breakpoints, ml)) {
+      max-height: calc(100vh - var(--header-height) - 2rem);
+    }
+
+    @media (min-width: map.get($breakpoints, l)) {
+      max-width: 32rem;
+    }
+
+    @media (min-width: map.get($breakpoints, xl)) {
+      max-width: 40rem;
+    }
+  }
+
+  &__container {
+    display: flex;
+    flex-direction: row;
+    gap: 5rem;
+    align-items: flex-start;
+    height: -webkit-fill-available;
+  }
+
+  &__details {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+    align-self: flex-end;
+    padding: 0;
+    height: -webkit-fill-available;
+    justify-content: flex-end;
+
+    @media (min-width: map.get($breakpoints, m)) {
+      padding: 5rem 0 0 5vw;
+      gap: 2rem;
+      margin-left: -5vw;
+      border-left: $hairline_regular;
+      max-width: 46.25rem;
+    }
+
+    @media (min-width: map.get($breakpoints, ml)) {
+      padding-left: 17vw;
+      margin-left: -17vw;
+      gap: 5rem;
+    }
+  }
+
+  &__info {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  &__info-item {
+    display: inline;
+  }
+
+  &__header {
+    padding: 2rem 1rem;
+    background: $color-dp-orange-10;
+    border-top: $hairline_regular;
+    border-bottom: $hairline_regular;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    width: 100%;
+    box-sizing: border-box;
+
+    @media (min-width: map.get($breakpoints, m)) {
+      background: transparent;
+      padding: 0;
+      border: none;
+    }
+  }
+  
+  &__mobile-actions {
+    margin-bottom: $mobile-actions-overlap;
+  }
+
+  &__title-section {
+    display: flex;
+    flex-direction: row;
+    gap: 1.5rem;
+    margin-left: 0.5rem;
+
+    @media (min-width: map.get($breakpoints, m)) {
+      display: initial;
+      margin-left: 0;
+    }
+  }
+
+  &__title {
+    flex: 1;
+  }
+
+  &__date {
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+
+    .text-body-highlight {
+      @media (max-width: map.get($breakpoints, m)) {
+        font-size: 1.25rem;
+      }
+    }
+  }
+
+  &__content {
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 1rem;
+    padding-top: 4rem;
+
+    @media (min-width: map.get($breakpoints, m)) {
+      padding: 0 0 2rem;
+    }
+  }
+
+  &__actions {
+    border-left: $hairline_regular;
+    flex-shrink: 0;
+    max-width: 10rem;
+    height: calc(100vh - var(--header-height));
+    position: sticky;
+    top: var(--header-height);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    mix-blend-mode: multiply;
+  }
+
+  &__actions-image {
+    padding: 0.75rem;
+
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  &__action {
+    .button {
+      flex-direction: column-reverse;
+      align-items: center;
+      color: var(--button-foreground);
+
+      &::before {
+        @extend .text-body-lg;
+
+        position: initial;
+        transform: none;
+        text-align: center;
+      }
+
+      .icon--regular {
+        width: 2.5rem;
+        height: 2.5rem;
+      }
+    }
+  }
+
+  &__description {
+    a {
+      padding: 0.375rem 0.625rem;
+      background-color: $color-gray-00;
+      border: 0.0625rem solid $color-gray-100;
+      border-radius: 0.25rem;
+      transition: border-color 150ms $ease-out-quart, background-color 150ms $ease-out-quart;
+      color: inherit;
+
+      &::after {
+        content: '🔗';
+        margin-left: 0.25rem;
+        text-decoration: none;
+      }
+
+      &:hover {
+        background-color: $color-dp-orange-10;
+        border-color: $color-dp-orange-200;
+      }
+    }
+  }
+
+  &__additional {
+    color: $color-layout-foreground;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+
+    @media (min-width: map.get($breakpoints, ml)) {
+      margin-right: 10rem;
+    }
+
+    &--stroke { 
+      @media (min-width: map.get($breakpoints, m)) {
+        border: $hairline_regular;
+        border-top: none;
+      }
+    }
+  }
+
+  &__additional-children {
+    width: 100%;
+
+    @media (min-width: map.get($breakpoints, ml)) {
+      margin-right: 5rem;
+      max-width: calc(46.25rem + 17vw);
+    }
+  }
+
+  &__item-list {
+    padding: 2rem 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  &__item-list-list {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  &__item-list-item {
+    display: flex;
+    flex-direction: row;
+    gap: 1.5rem;
+    align-items: flex-end;
+  }
+
+  &__item-list-item-image {
+    width: 100%;
+    object-fit: contain;
+    object-position: bottom;
+    height: auto;
+    max-width: 10.625rem;
+    min-width: 4.375rem;
+  }
+
+  &__item-list-item-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    justify-content: flex-end;
+    max-width: 15rem;
+
+    .text-caption {
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 4;
+      line-clamp: 4;
+      overflow: hidden;
+    }
+  }
+
+  &__map {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+
+    @media (min-width: map.get($breakpoints, m)) {
+      flex-direction: row;
+      align-items: flex-end;
+    }
+  }
+
+  &__map-widget {
+    width: 100%;
+    border-left: $hairline_regular;
+    border-right: $hairline_regular;
+  }
+
+  &__map-details {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    gap: 1rem;
+
+    @media (min-width: map.get($breakpoints, m)) {
+      padding-left: 0;
+    }
+  }
+}
+
+.speakers {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+
+  &__avatar {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  &__avatar-container {
+    display: flex;
+    gap: 0.5rem;
+  }
+}

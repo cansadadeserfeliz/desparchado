@@ -13,7 +13,7 @@ const meta = {
     },
     padding: {
       control: 'select',
-      options: ['condensed', 'balanced', 'regular'],
+      options: ['condensed', 'balanced', 'balanced-sm', 'regular'],
     },
     radius: {
       control: 'select',

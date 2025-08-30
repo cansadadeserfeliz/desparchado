@@ -61,38 +61,54 @@
         {% endfor %}
     </div>
   </div>
-
-  {% translate '¿Buscas algo?' %}
-  <br />
-  {% translate '¡Llenemos la ciudad de buenos parches!' %}
-  <br />
-  {% translate 'Regístrate y publica tu evento' %}
-
-  <br />
-
-  {% blocktranslate %}
-    ¿Tienes un evento? Súbelo y conviértelo en el próximo gran plan.
-    Súmate a nuestra comunidad, comparte tu evento y deja que más personas lo descubran.
-    ¡Las buenas experiencias merecen ser vividas!
-    Publica tu evento y arma el parche
-  {% endblocktranslate %}
-
-  <br />
-
-  <a href="{% url 'events:add_event' %}">{% translate 'Publica tu evento' %}</a>
-
-  <br />
-  <br />
-
-  <div data-url="{% url 'events_api:future_events_list' %}">
-    {% translate 'agéndate' %}
-
-    {% translate 'agéndate' %}
-    {% translate 'Temática' %}
-    {# TODO: get list of topics #}
-    {% translate 'Cuándo' %}
-    {# TODO: get list of dates #}
-    {% translate 'Limpiar filtros' %}
+  <div class="events-list-section">
+    <div class="events-list-section__intro">
+      <div class="events-list-section__heading">
+        <div
+          class="events-list-section__title"
+          data-vue-component="typography"
+          data-vue-prop-text="{% translate '¡Llenemos la ciudad de buenos parches!' %}"
+          data-vue-prop-type="h3"
+        >
+        </div>
+        <div
+          class="events-list-section__title events-list-section__title--emphasis"
+          data-vue-component="typography"
+          data-vue-prop-text="{% translate 'Regístrate y publica tu evento' %}"
+          data-vue-prop-type="h3"
+        >
+        </div>
+      </div>
+      <hr />
+      <div
+        data-vue-component="typography"
+        data-vue-prop-text="{% blocktranslate %}
+          ¿Tienes un evento? Súbelo y conviértelo en el próximo gran plan.
+          Súmate a nuestra comunidad, comparte tu evento y deja que más personas lo descubran.
+          ¡Las buenas experiencias merecen ser vividas!
+          Publica tu evento y arma el parche
+        {% endblocktranslate %}"
+        data-vue-prop-type="body_lg"
+      >
+      </div>
+      <div
+        data-vue-component="button"
+        data-vue-prop-type="primary"
+        data-vue-prop-label="{% translate 'Publica tu evento' %}"
+        data-vue-prop-link="{% url 'events:add_event' %}"
+      >
+      </div>
+    </div>
+    <div class="events-list-section__wrapper">
+      <div
+        data-vue-component="typography"
+        data-vue-prop-text="{% translate 'Agéndate' %}"
+        data-vue-prop-type="h2"
+      >
+      </div>
+      <div data-component="event-container" data-url="{% url 'events_api:future_events_list' %}">    
+      </div>
+    </div>
   </div>
 
 {% endblock content %}

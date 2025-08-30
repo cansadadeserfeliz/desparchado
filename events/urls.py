@@ -59,6 +59,14 @@ urlpatterns = [
         name='organizer_update',
     ),
     # Event detail views
-    path('<int:pk>/', event_views.EventDetailView.as_view(), name='event_detail'),
-    path('<slug:slug>/', event_views.EventDetailView.as_view(), name='event_detail'),
+    path(
+        '<slug:slug>/',
+        event_views.OldEventDetailView.as_view(),
+        name='event_detail',
+    ),
+    path(
+        'redesign/<slug:slug>/',
+        event_views.EventDetailView.as_view(),
+        name='redesign_event_detail',
+    ),
 ]

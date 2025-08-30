@@ -1,0 +1,119 @@
+@use '@styles/reset' as *;
+@use '@styles/breakpoints' as *;
+@use '@styles/fonts' as *;
+@use '@styles/functions' as *;
+@use '@styles/mixins' as *;
+@use '@styles/typography' as *;
+@use '@styles/variables' as *;
+@use '@styles/animations' as *;
+@use "sass:map";
+
+.events-list-section {
+  color: $color-layout-foreground;
+  display: flex;
+  flex-direction: column;
+
+  @media (min-width: map.get($breakpoints, m)) {
+    flex-direction: row;
+  }
+
+  &__title {
+    display: inline;
+
+    &--emphasis {
+      color: $color-layout-interactive;
+    }
+
+    & > * {
+      display: inline;
+    }
+  }
+
+  &__intro {
+    display: flex;
+    flex-direction: column;
+    gap: toRem(12px);
+    justify-content: center;
+    padding: toRem(30px) toRem(20px);
+    box-sizing: border-box;
+    border-bottom: $hairline_regular;
+
+    @media (min-width: map.get($breakpoints, m)) {
+      position: sticky;
+      gap: toRem(20px);
+      padding: 0 toRem(60px);
+      padding-top: toRem(150px);
+      top: 0;
+      height: 100vh;
+      max-width: toRem(430px);
+      border-right: $hairline_regular;
+      border-bottom: none;
+    }
+
+    @media (min-width: map.get($breakpoints, l)) {
+      padding-top: 0;
+      max-width: toRem(530px);
+    }
+  }
+  
+  &__wrapper {
+    padding: toRem(20px);
+    width: 100%;
+    box-sizing: border-box;
+
+    @media (min-width: map.get($breakpoints, m)) {
+      padding: toRem(20px) toRem(30px);
+    }
+  }
+}
+
+.events-list {
+  display: flex;
+  width: 100%;
+  justify-self: center;
+  flex-direction: column;
+  gap: toRem(20px);
+
+  @media (min-width: map.get($breakpoints, ml)) {
+    width: fit-content;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (min-width: map.get($breakpoints, l)) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (min-width: map.get($breakpoints, xl)) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  &__card {
+    max-width: toRem(300px);
+
+    @media (min-width: map.get($breakpoints, s)) {
+      max-width: toRem(400px);
+    }
+
+    @media (min-width: map.get($breakpoints, m)) {
+      max-width: toRem(450px);
+    }
+
+    &:nth-child(odd) {
+      align-self: flex-end;
+
+      .event-card {
+        &__details {
+          flex-direction: row-reverse;
+        }
+
+        &__container {
+          border-radius: 0 0 toRem(50px) toRem(50px);
+          display: flex;
+          flex-direction: column-reverse;
+        }
+      }
+    }
+    
+  }
+}
