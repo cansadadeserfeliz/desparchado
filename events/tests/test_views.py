@@ -22,9 +22,9 @@ def test_events_appearance_in_event_list(
 
 @pytest.mark.django_db
 def test_filter_events_by_city_in_event_list(django_app, event, other_event):
-    city = event.place.city
+    city_filter = event.place.city.slug
     response = django_app.get(
-        reverse('events:event_list') + f'?city={city.slug}', status=200,
+        reverse('events:event_list') + f'?city={city_filter}', status=200,
     )
     assert event in response.context['events']
     assert other_event not in response.context['events']

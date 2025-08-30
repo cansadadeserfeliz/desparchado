@@ -21,25 +21,44 @@ from .models import Event, Organizer, Speaker
 class EventListView(ListView):
     model = Event
     context_object_name = 'events'
-    paginate_by = 27
+    paginate_by = 15
+    search_query_name = 'q'
+    search_query_value = ''
+    city_filter_name = 'city'
+    city_filter_value = ''
     city = None
-    q = ''
-    city_slug_filter = ''
+    category_filter_name = 'category'
+    category_filter_value = ''
 
     def dispatch(self, request, *args, **kwargs):
-        self.q = request.GET.get('q', '')
-        self.city_slug_filter = request.GET.get('city')
+        self.search_query_value = request.GET.get(self.search_query_name, '')
+        self.city_filter_value = request.GET.get(self.city_filter_name)
+        self.category_filter_value = request.GET.get(self.category_filter_name)
 
-        if self.city_slug_filter:
-            self.city = City.objects.filter(slug=self.city_slug_filter).first()
+        if self.city_filter_value:
+            self.city = City.objects.filter(slug=self.city_filter_value).first()
 
         return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        context['search_string'] = self.q
-        context['city_filter'] = self.city
+        context['city_filter_name'] = self.city_filter_name
+        context['city_filter_value'] = self.city_filter_value
+        context['category_filter_name'] = self.category_filter_name
+        context['category_filter_value'] = self.category_filter_value
+        context['category_choices'] = Event.Category.choices
+
+        context['pagination_query_params'] = ''
+        if self.search_query_value:
+            context['pagination_query_params'] += \
+                f'&{self.search_query_name}={escape(self.search_query_value)}'
+        if self.city_filter_value:
+            context['pagination_query_params'] += \
+                f'&{self.category_filter_name}={escape(self.city_filter_value)}'
+        if self.category_filter_value:
+            context['pagination_query_params'] += \
+                f'&{self.category_filter_name}={self.category_filter_value}'
 
         return context
 
@@ -49,7 +68,7 @@ class EventListView(ListView):
         if self.city:
             queryset = queryset.filter(place__city=self.city)
 
-        if self.q and len(self.q) > 3:
+        if self.search_query_value and len(self.search_query_value) > 3:
             queryset = (
                 queryset.annotate(unaccent_title=SearchVector('title__unaccent'))
                 .annotate(unaccent_description=SearchVector('description__unaccent'))
@@ -74,17 +93,21 @@ class EventListView(ListView):
                     ),
                 )
                 .filter(
-                    Q(title__icontains=self.q)
-                    | Q(unaccent_title__icontains=self.q)
-                    | Q(description__icontains=self.q)
-                    | Q(unaccent_description__icontains=self.q)
-                    | Q(speakers_names__icontains=self.q)
-                    | Q(unaccent_speakers_names__icontains=self.q)
-                    | Q(search=SearchQuery(self.q)),
+                    Q(title__icontains=self.search_query_value)
+                    | Q(unaccent_title__icontains=self.search_query_value)
+                    | Q(description__icontains=self.search_query_value)
+                    | Q(unaccent_description__icontains=self.search_query_value)
+                    | Q(speakers_names__icontains=self.search_query_value)
+                    | Q(unaccent_speakers_names__icontains=self.search_query_value)
+                    | Q(search=SearchQuery(self.search_query_value)),
                 )
             )
 
-        return queryset.select_related('place').order_by('event_date').distinct()
+        return (queryset
+                .select_related('place')
+                .prefetch_related('speakers')
+                .order_by('event_date')
+                .distinct())
 
 
 class PastEventListView(ListView):
