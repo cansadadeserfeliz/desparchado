@@ -41,5 +41,5 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunPython(update_description),
+        migrations.RunPython(update_description, reverse_code=migrations.RunPython.noop),
     ]
