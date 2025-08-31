@@ -77,9 +77,9 @@ class Event(TimeStampedModel):
         'events.Organizer',
         verbose_name='Organizadores',
         related_name='events',
-        help_text='Por favor asegúrate de que el organizador '
+        help_text='Por , asegúrate de que el/la organizador/a '
                   'que deseas asignar al evento no exista en nuestro sistema '
-                  'antes de crearlo',
+                  'antes de crearlo/a.',
     )
     place = models.ForeignKey(
         'places.Place',
@@ -87,16 +87,16 @@ class Event(TimeStampedModel):
         related_name='events',
         on_delete=models.DO_NOTHING,
         db_index=True,
-        help_text='Por favor asegúrate de que el lugar '
+        help_text='Por favor, asegúrate de que el lugar '
                   'que deseas asignar al evento no exista en nuestro sistema '
-                  'antes de crearlo',
+                  'antes de crearlo.',
     )
     speakers = models.ManyToManyField(
         'events.Speaker',
         verbose_name='Presentadores',
         related_name='events',
         blank=True,
-        help_text='Por favor asegúrate de que el presentador/a '
+        help_text='Por favor, asegúrate de que el/la presentador/a '
                   'que deseas asignar al evento no exista en nuestro sistema '
                   'antes de crearlo/a.',
     )
