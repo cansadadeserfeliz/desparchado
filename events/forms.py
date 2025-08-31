@@ -31,33 +31,10 @@ class EventBaseForm(forms.ModelForm):
         The event description is sanitized to remove unsafe HTML content.
         """
         cleaned_data = super().clean()
-        event_date = cleaned_data.get('event_date')
-        event_end_date = cleaned_data.get('event_end_date')
-
-        if event_date and event_end_date and event_date >= event_end_date:
-            msg = (
-                'Especifica una fecha de finalización igual '
-                'o posterior a la fecha de inicio.'
-            )
-            self.add_error('event_end_date', msg)
 
         cleaned_data['description'] = sanitize_html(cleaned_data.get('description', ''))
 
         return cleaned_data
-
-    @staticmethod
-    def get_dates_div():
-        return Div(
-            Div(
-                'event_date',
-                css_class='input-group date col-md',
-            ),
-            Div(
-                'event_end_date',
-                css_class='input-group date col-md',
-            ),
-            css_class='row',
-        )
 
     @staticmethod
     def get_organizer_button():
@@ -95,7 +72,6 @@ class EventBaseForm(forms.ModelForm):
             'image_source_url',
             'category',
             'event_date',
-            'event_end_date',
             'price',
             'organizers',
             'place',
@@ -136,7 +112,7 @@ class EventCreateForm(EventBaseForm):
             'description',
             'event_source_url',
             'image',
-            self.get_dates_div(),
+            'event_date',
             'organizers',
             self.get_organizer_button(),
             'place',
@@ -149,14 +125,14 @@ class EventCreateForm(EventBaseForm):
 
     class Meta(EventBaseForm.Meta):
         fields = [
-            'title',
-            'description',
-            'event_source_url',
-            'image',
-            'event_date',
-            'event_end_date',
-            'organizers',
-            'place',
+            "title",
+            "description",
+            "event_source_url",
+            "image",
+            "category",
+            "event_date",
+            "organizers",
+            "place",
         ]
 
 
@@ -173,7 +149,7 @@ class EventUpdateForm(EventBaseForm):
             'image',
             'image_source_url',
             'category',
-            self.get_dates_div(),
+            'event_date',
             PrependedText('price', '$'),
             'organizers',
             self.get_organizer_button(),

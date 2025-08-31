@@ -1,13 +1,10 @@
-import datetime
 
 from autoslug import AutoSlugField
 from django.conf import settings
 from django.db import models
-from django.db.models import Q
 from django.templatetags.static import static
 from django.urls import reverse
 from django.utils import timezone
-from django.utils.html import format_html
 from django.utils.translation import gettext_lazy as _
 from model_utils.models import TimeStampedModel
 
@@ -17,21 +14,10 @@ from desparchado.templatetags.desparchado_tags import format_currency
 class EventQuerySet(models.QuerySet):
     def future(self):
         now = timezone.now()
-        # Show multi-day events during only 5 days
-        # after beginning
-        return self.filter(
-            (Q(event_date__gte=now) & Q(event_end_date__isnull=True))
-            | (
-                Q(event_end_date__gte=now)
-                & Q(event_date__gte=now - datetime.timedelta(days=14))
-            ),
-        )
+        return self.filter(event_date__gte=now)
 
     def past(self):
-        return self.exclude(
-            (Q(event_date__gte=timezone.now()) & Q(event_end_date__isnull=True))
-            | (Q(event_end_date__gte=timezone.now())),
-        )
+        return self.exclude(event_date__gte=timezone.now())
 
     def published(self):
         return self.filter(
@@ -54,11 +40,6 @@ class Event(TimeStampedModel):
     description = models.TextField(
         verbose_name='Descripción',
         default='',
-        help_text=format_html(
-            'Puedes usar <a href="{}" target="_blank">Markdown</a> '
-            'para dar formato al texto.',
-            '/markdown',
-        ),
     )
 
     class Category(models.TextChoices):
@@ -79,13 +60,6 @@ class Event(TimeStampedModel):
         db_index=True,
         help_text='p. ej. 23/11/2019 16:40',
     )
-    event_end_date = models.DateTimeField(
-        'Fecha final',
-        null=True,
-        blank=True,
-        db_index=True,
-        help_text='p. ej. 23/11/2019 18:00 (opcional)',
-    )
 
     EVENT_SOURCE_URL_MAX_LENGTH = 500
     event_source_url = models.URLField(
@@ -103,9 +77,9 @@ class Event(TimeStampedModel):
         'events.Organizer',
         verbose_name='Organizadores',
         related_name='events',
-        help_text='Por favor, asegúrate de que el organizador que '
-        'quieres asignar al evento '
-        'no existe en nuestro sistema, antes de crearlo.',
+        help_text='Por favor asegúrate de que el organizador '
+                  'que deseas asignar al evento no exista en nuestro sistema '
+                  'antes de crearlo',
     )
     place = models.ForeignKey(
         'places.Place',
@@ -113,18 +87,18 @@ class Event(TimeStampedModel):
         related_name='events',
         on_delete=models.DO_NOTHING,
         db_index=True,
-        help_text='Por favor, asegúrate de que el lugar que '
-        'quieres asignar al evento no existe en '
-        'nuestro sistema, antes de crearlo.',
+        help_text='Por favor asegúrate de que el lugar '
+                  'que deseas asignar al evento no exista en nuestro sistema '
+                  'antes de crearlo',
     )
     speakers = models.ManyToManyField(
         'events.Speaker',
         verbose_name='Presentadores',
         related_name='events',
         blank=True,
-        help_text='Por favor, asegúrate de que el presentador/la presentadora que '
-        'quieres asignar al evento no existe en '
-        'nuestro sistema, antes de crearlo/crearla.',
+        help_text='Por favor asegúrate de que el presentador/a '
+                  'que deseas asignar al evento no exista en nuestro sistema '
+                  'antes de crearlo/a.',
     )
 
     is_featured_on_homepage = models.BooleanField(

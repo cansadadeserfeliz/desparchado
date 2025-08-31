@@ -1,0 +1,36 @@
+import pytest
+from django.urls import reverse
+
+from events.models import Organizer
+
+VIEW_NAME = 'events:organizer_add'
+
+
+def test_non_authenticated_user_cannot_create_organizer(django_app):
+    response = django_app.get(reverse(VIEW_NAME), status=302)
+    assert reverse('users:login') in response.location
+
+
+@pytest.mark.django_db
+def test_successfully_create_organizer(django_app, user):
+    organizers_count = Organizer.objects.count()
+
+    response = django_app.get(
+        reverse(VIEW_NAME),
+        user=user,
+        status=200,
+    )
+
+    form = response.forms['organizer_form']
+    form['name'] = 'Librería LERNER'
+    form['description'] = 'Librería LERNER'
+    form['website_url'] = 'https://www.librerialerner.com.co/'
+
+    response = form.submit()
+    assert response.status_code == 302
+
+    assert Organizer.objects.count() == organizers_count + 1
+
+    organizer = Organizer.objects.first()
+    assert organizer.created_by == user
+    assert organizer.get_absolute_url() in response.location

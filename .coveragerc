@@ -1,7 +1,8 @@
 [report]
 omit =
-    *migrations*
-    *tests*
+    */migrations/*
+    */tests/*
+    */management/commands/*
     manage.py
     desparchado/wsgi.py
     desparchado/settings/*
