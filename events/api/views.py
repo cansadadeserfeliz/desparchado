@@ -1,9 +1,11 @@
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import OrderingFilter
-from rest_framework.generics import ListAPIView
+from rest_framework.generics import CreateAPIView, ListAPIView
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.renderers import TemplateHTMLRenderer
 
 from ..models import Event
-from .serializers import EventSerializer
+from .serializers import EventCreateSerializer, EventSerializer
 
 
 class EventListAPIView(ListAPIView):
@@ -21,3 +23,8 @@ class FutureEventListAPIView(EventListAPIView):
     def get_queryset(self):
         queryset = super().get_queryset()
         return queryset.future().select_related('place__city')
+
+
+class EventCreateAPIView(CreateAPIView):
+    serializer_class = EventCreateSerializer
+    permission_classes = [IsAuthenticated]

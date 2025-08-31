@@ -53,3 +53,18 @@ class EventSerializer(serializers.ModelSerializer):
             'truncated_description',
             'is_recurrent',
         ]
+
+
+class EventCreateSerializer(serializers.ModelSerializer):
+    created_by = serializers.HiddenField(default=serializers.CurrentUserDefault())
+
+    class Meta:
+        model = Event
+        fields = [
+            'title',
+            'description',
+            'event_source_url',
+            'image',
+            'event_date',
+            'created_by',
+        ]
