@@ -13,11 +13,10 @@ from desparchado.templatetags.desparchado_tags import format_currency
 
 class EventQuerySet(models.QuerySet):
     def future(self):
-        now = timezone.now()
-        return self.filter(event_date__gte=now)
+        return self.filter(event_date__gte=timezone.now())
 
     def past(self):
-        return self.exclude(event_date__gte=timezone.now())
+        return self.filter(event_date__lt=timezone.now())
 
     def published(self):
         return self.filter(
