@@ -112,6 +112,7 @@ class EventCreateForm(EventBaseForm):
             'description',
             'event_source_url',
             'image',
+            'category',
             'event_date',
             'organizers',
             self.get_organizer_button(),
