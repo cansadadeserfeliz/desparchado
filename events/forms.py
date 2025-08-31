@@ -24,11 +24,7 @@ class EventBaseForm(forms.ModelForm):
 
     def clean(self):
         """
-        Validates event dates and sanitizes the event description.
-
-        Ensures that the event end date is not earlier than the start date,
-        adding a validation error if necessary.
-        The event description is sanitized to remove unsafe HTML content.
+        Sanitizes the event description and returns cleaned data.
         """
         cleaned_data = super().clean()
 
