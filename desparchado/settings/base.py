@@ -84,13 +84,9 @@ MIDDLEWARE = [
 
 AUTHENTICATION_BACKENDS = [
     "axes.backends.AxesBackend",
-    "desparchado.backends.EmailBackend",
     "django.contrib.auth.backends.ModelBackend",
+    "desparchado.backends.EmailBackend",
 ]
-
-ABSOLUTE_URL_OVERRIDES = {
-    'users.user_detail': lambda o: f"/users/{o.username}/",
-}
 
 ROOT_URLCONF = 'desparchado.urls'
 
