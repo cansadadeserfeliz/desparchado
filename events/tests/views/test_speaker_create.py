@@ -22,14 +22,15 @@ def test_successfully_create_speaker(django_app, user):
     form['description'] = 'English writer'
 
     response = form.submit()
-    assert response.status_code == 302
 
     assert Speaker.objects.count() == speakers_count + 1
+    speaker = Speaker.objects.order_by('-id').first()
 
-    speaker = Speaker.objects.first()
-    assert speaker.created_by == user
-
+    assert response.status_code == 302
     assert speaker.get_absolute_url() in response.location
 
     response = response.follow()
-    assert speaker.name in response
+    assert response.status_code == 200
+
+    assert speaker.name in response.text
+    assert speaker.created_by == user

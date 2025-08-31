@@ -27,11 +27,14 @@ def test_successfully_create_organizer(django_app, user):
     form['website_url'] = 'https://www.librerialerner.com.co/'
 
     response = form.submit()
-    assert response.status_code == 302
 
     assert Organizer.objects.count() == organizers_count + 1
-
     organizer = Organizer.objects.order_by('-id').first()
-    assert organizer.name == "Librería LERNER"
-    assert organizer.created_by == user
+
+    assert response.status_code == 302
     assert organizer.get_absolute_url() in response.location
+    response = response.follow()
+    assert response.status_code == 200
+
+    assert organizer.name == 'Librería LERNER'
+    assert organizer.created_by == user
