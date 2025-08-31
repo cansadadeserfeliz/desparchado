@@ -71,13 +71,15 @@
               / {{ event.place.city.name }}
             </span>
           {% endif %}
-          {% if event.event_date|natural_day != event.event_date|date %}
+        {% with natural_day=event.event_date|natural_day_no_default %}
+          {% if natural_day %}
             <span class="event-details__info-item text-body-md">
-               / {{ event.event_date|natural_day }}
+               / {{ natural_day }}
             </span>
           {% endif %}
+        {% endwith %}
           <span class="event-details__info-item text-bold text-body-md">
-            / {{ event.event_date|date:"l, d M H:i" }}
+            / {{ event.event_date|date:"l, d M H:i, Y" }}
           </span>
           {% if event.price %}
             <span class="event-details__info-item text-body-md text-bold">
