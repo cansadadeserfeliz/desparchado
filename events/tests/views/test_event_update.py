@@ -29,7 +29,10 @@ def test_successfully_update_event(django_app, event_with_organizer):
 
     form = response.forms['event_form']
     form['title'] = 'Presentación del libro de Julian Barnes'
-    form.submit().follow()
+    response = form.submit()
+    assert response.status_code == 302
+    response = response.follow()
+    assert response.status_code == 200
 
     event.refresh_from_db()
 
