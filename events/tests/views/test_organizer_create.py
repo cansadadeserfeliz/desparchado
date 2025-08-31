@@ -31,6 +31,7 @@ def test_successfully_create_organizer(django_app, user):
 
     assert Organizer.objects.count() == organizers_count + 1
 
-    organizer = Organizer.objects.first()
+    organizer = Organizer.objects.order_by('-id').first()
+    assert organizer.name == "Librería LERNER"
     assert organizer.created_by == user
     assert organizer.get_absolute_url() in response.location
