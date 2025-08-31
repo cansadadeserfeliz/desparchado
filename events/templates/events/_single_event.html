@@ -15,16 +15,6 @@
       <div class="event-date">
         {{ event.event_date|date:'j M Y' }},
         {{ event.event_date|date:'h:i a' }}
-        {% if event.event_end_date %}
-          {% if event.event_date|date:"j-M-Y" == event.event_end_date|date:"j-M-Y" %}
-            &ndash;
-            {{ event.event_end_date|date:'h:i a' }}
-          {% else %}
-            &ndash;
-            {{ event.event_end_date|date:'j M Y' }},
-            {{ event.event_end_date|date:'h:i a' }}
-          {% endif %}
-        {% endif %}
       </div>
       <div class="event-place">
         <a class="text-decoration-none" href="{{ event.place.get_absolute_url }}">{{ event.place }}</a>
