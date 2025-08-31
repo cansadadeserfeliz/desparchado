@@ -84,8 +84,8 @@ MIDDLEWARE = [
 
 AUTHENTICATION_BACKENDS = [
     "axes.backends.AxesBackend",
-    "django.contrib.auth.backends.ModelBackend",
     "desparchado.backends.EmailBackend",
+    "django.contrib.auth.backends.ModelBackend",
 ]
 
 ROOT_URLCONF = 'desparchado.urls'

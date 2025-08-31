@@ -30,6 +30,6 @@ class EmailBackend(ModelBackend):
         except Exception:
             user = None
 
-        if user.check_password(password) and self.user_can_authenticate(user):
+        if user and user.check_password(password) and self.user_can_authenticate(user):
             return user
         return None
