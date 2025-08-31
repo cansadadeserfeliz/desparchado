@@ -58,5 +58,5 @@ urlpatterns = [
         UserAddedEventsListView.as_view(),
         name='user_added_events_list',
     ),
-    path('<slug:slug>/', UserDetailView.as_view(), name='user_detail'),
+    path('profile/', UserDetailView.as_view(), name='user_detail'),
 ]
