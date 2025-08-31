@@ -29,6 +29,7 @@ def test_successfully_create_event(django_app, user, organizer, place):
         'pero que vamos aplazando año tras año '
         'sin ningún motivo concreto.'
     )
+    form['category'] = Event.Category.LITERATURE
     form['event_date'] = (timezone.now() + timedelta(days=1)).strftime('%d/%m/%Y %H:%M')
     form['event_source_url'] = 'https://example.com'
     form['organizers'].force_value([organizer.id])
@@ -40,5 +41,6 @@ def test_successfully_create_event(django_app, user, organizer, place):
     assert Event.objects.count() == events_count + 1
     event = Event.objects.first()
     assert event.created_by == user
+    assert event.category == Event.Category.LITERATURE
 
     assert event.get_absolute_url() in response.location
