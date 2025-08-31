@@ -56,6 +56,8 @@ class EventAdmin(admin.ModelAdmin):
 
     inlines = [SocialNetworkPostInline, SpecialInline]
 
+    save_as = True
+
     fieldsets = (
         (
             None,
