@@ -7,7 +7,7 @@ VIEW_NAME = 'events:speaker_update'
 @pytest.mark.django_db
 def test_non_authenticated_user_cannot_update_speaker(django_app, speaker):
     response = django_app.get(
-        reverse(VIEW_NAME, args=[speaker.id]), status=302,
+        reverse(VIEW_NAME, args=[speaker.slug]), status=302,
     )
     assert reverse('users:login') in response.location
 
