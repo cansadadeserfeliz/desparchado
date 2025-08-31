@@ -1,9 +1,9 @@
 {% load i18n %}
 
 <header
+  style="view-transition-name: header"
   id="header"
   data-vue-component="header"
-
   data-vue-prop-nav-items='[{"label": "{% translate 'eventos' %}", "link": "{% url 'events:event_list' %}"}, {"label": "{% translate 'archivo' %}", "link": "{% url 'events:past_event_list' %}", "highlight": true}]'
   data-vue-prop-social='[{"type": "tertiary", "name": "Facebook", "link": "https://www.facebook.com/DesparchadoCo", "icon": "facebook"}, {"type": "tertiary", "padding": "balanced", "name": "Instagram", "link": "https://www.instagram.com/desparchado_co/", "icon": "instagram"}, {"type": "tertiary", "name": "Twitter", "link": "https://x.com/DesparchadoCo", "icon": "xsocial"}]'
   data-vue-prop-create-event='{"label": "{% translate 'Crear evento' %}", "link": "{% url 'events:add_event' %}", "type": "primary"}'

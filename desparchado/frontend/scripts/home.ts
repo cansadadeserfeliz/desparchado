@@ -29,4 +29,6 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   initComponents(document, registry);
+
+  document.body.classList.remove('css-wait');
 });
