@@ -83,8 +83,9 @@ MIDDLEWARE = [
 ]
 
 AUTHENTICATION_BACKENDS = [
-    'axes.backends.AxesBackend',
-    'django.contrib.auth.backends.ModelBackend',
+    "axes.backends.AxesBackend",
+    "desparchado.backends.EmailBackend",
+    "django.contrib.auth.backends.ModelBackend",
 ]
 
 ABSOLUTE_URL_OVERRIDES = {

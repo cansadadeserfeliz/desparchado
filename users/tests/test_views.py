@@ -8,13 +8,26 @@ User = get_user_model()
 
 
 @pytest.mark.django_db
-def test_successfully_login(django_app, user):
+def test_successfully_login_with_username(django_app, user):
     user.set_password('acbCDE123$')
     user.save()
 
     response = django_app.get(reverse('users:login'), status=200)
     form = response.forms['login_form']
     form['username'] = user.username
+    form['password'] = 'acbCDE123$'
+    response = form.submit()
+    assert response.status_code == 302
+
+
+@pytest.mark.django_db
+def test_successfully_login_with_email(django_app, user):
+    user.set_password('acbCDE123$')
+    user.save()
+
+    response = django_app.get(reverse('users:login'), status=200)
+    form = response.forms['login_form']
+    form['username'] = user.email
     form['password'] = 'acbCDE123$'
     response = form.submit()
     assert response.status_code == 302
