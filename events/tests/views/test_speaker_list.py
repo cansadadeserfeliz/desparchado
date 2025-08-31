@@ -28,7 +28,7 @@ def test_successfully_finds_speaker_by_name(django_app):
     assert first_speaker not in response.context['speakers']
     assert second_speaker in response.context['speakers']
     assert response.context['search_string'] == search_term
-    assert search_term in response
+    assert search_term in response.text
 
 
 @pytest.mark.django_db
@@ -46,4 +46,4 @@ def test_successfully_finds_speaker_by_name_via_search_form(django_app):
     assert first_speaker not in response.context['speakers']
     assert second_speaker in response.context['speakers']
     assert response.context['search_string'] == search_term
-    assert search_term in response
+    assert search_term in response.text
