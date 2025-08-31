@@ -41,7 +41,7 @@ def format_currency(value):
     """
     try:
         value = float(value)
-        return f'${value:.0f}'
+        return f'${value:,.0f}'
     except (ValueError, TypeError):
         return value
 
