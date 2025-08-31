@@ -57,7 +57,7 @@
             data-vue-prop-time="{{ featured_event.event_date|date:'H:i' }}"
             data-vue-prop-image-url="{{ featured_event.get_image_url }}"
             data-vue-prop-link="{{ featured_event.get_absolute_url }}"
-            data-vue-prop-date-copy="{{ featured_event.event_date|naturalday }}"
+            data-vue-prop-date-copy="{{ featured_event.event_date|natural_day }}"
           >
           </div>
         {% endfor %}

@@ -1,5 +1,5 @@
 {% extends 'layout/base.html' %}
-{% load i18n humanize desparchado_tags django_vite %}
+{% load i18n desparchado_tags django_vite %}
 
 {% block title %}{{ event.title }}{% endblock %}
 
@@ -71,13 +71,15 @@
               / {{ event.place.city.name }}
             </span>
           {% endif %}
-          {% if event.event_date|naturalday != event.event_date|date %}
+        {% with natural_day=event.event_date|natural_day_no_default %}
+          {% if natural_day %}
             <span class="event-details__info-item text-body-md">
-               / {{ event.event_date|naturalday }}
+               / {{ natural_day }}
             </span>
           {% endif %}
+        {% endwith %}
           <span class="event-details__info-item text-bold text-body-md">
-            / {{ event.event_date|date:"l, d M H:i" }}
+            / {{ event.event_date|date:"l, d M H:i, Y" }}
           </span>
           {% if event.price %}
             <span class="event-details__info-item text-body-md text-bold">
@@ -310,7 +312,7 @@
             data-vue-prop-time="{{ related_event.event_date|date:'H:i' }}"
             data-vue-prop-image-url="{{ related_event.get_image_url }}"
             data-vue-prop-link="{{ related_event.get_absolute_url }}"
-            data-vue-prop-date-copy="{{ related_event.event_date|naturalday }}"
+            data-vue-prop-date-copy="{{ related_event.event_date|natural_day }}"
           >
           </div>
         {% endfor %}
