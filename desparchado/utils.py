@@ -38,13 +38,13 @@ def get_natural_day(target: date):
     delta = target - today
 
     if delta.days == 0:
-        return gettext('today')
+        return gettext('hoy')
 
     if delta.days == 1:
-        return gettext('tomorrow')
+        return gettext('mañana')
 
     if delta.days == -1:
-        return gettext('yesterday')
+        return gettext('ayer')
 
     # Extract this to reduce complexity
     return _get_relative_timeframe(target, today)
@@ -61,16 +61,16 @@ def _get_relative_timeframe(target: date, today: date):
     end_of_next_week = start_of_next_week + timedelta(days=6)
 
     if start_of_week <= target <= end_of_week:
-        return gettext('this week')
+        return gettext('esta semana')
 
     if start_of_next_week <= target <= end_of_next_week:
-        return gettext('next week')
+        return gettext('próxima semana')
 
     # This month
     _, days_in_month = calendar.monthrange(today.year, today.month)
     end_of_month = date(today.year, today.month, days_in_month)
     if today <= target <= end_of_month:
-        return gettext('this month')
+        return gettext('este mes')
 
     # Next month
     next_month_year = today.year + (today.month // 12)
@@ -80,7 +80,7 @@ def _get_relative_timeframe(target: date, today: date):
     end_of_next_month = date(next_month_year, next_month, days_in_next_month)
 
     if start_of_next_month <= target <= end_of_next_month:
-        return gettext('next month')
+        return gettext('próximo mes')
 
     return ''
 

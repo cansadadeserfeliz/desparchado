@@ -11,7 +11,7 @@ register = template.Library()
 # Perform the comparison in the default time zone when USE_TZ = True
 # (unless a specific time zone has been applied with the |timezone filter).
 @register.filter(expects_localtime=True)
-def naturalday_no_default(value):
+def natural_day_no_default(value):
     """
     For date values that are tomorrow, today or yesterday compared to
     present day return representing string.
@@ -20,6 +20,18 @@ def naturalday_no_default(value):
     See from django.contrib.humanize.templatetags.humanize.naturalday
     """
     return get_natural_day(value)
+
+
+@register.filter(expects_localtime=True)
+def natural_day(value):
+    """
+    For date values that are tomorrow, today or yesterday compared to
+    present day return representing string.
+    Otherwise, return the original date.
+
+    See from django.contrib.humanize.templatetags.humanize.naturalday
+    """
+    return get_natural_day(value) or value
 
 
 @register.filter()
