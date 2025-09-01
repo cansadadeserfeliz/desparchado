@@ -1,5 +1,7 @@
 import pytest
+
 from django.urls import reverse
+from django.core.files.base import ContentFile
 
 from events.models import Organizer
 
@@ -12,7 +14,7 @@ def test_non_authenticated_user_cannot_create_organizer(django_app):
 
 
 @pytest.mark.django_db
-def test_successfully_create_organizer(django_app, user):
+def test_successfully_create_organizer(django_app, user, image):
     organizers_count = Organizer.objects.count()
 
     response = django_app.get(
@@ -23,6 +25,7 @@ def test_successfully_create_organizer(django_app, user):
 
     form = response.forms['organizer_form']
     form['name'] = 'Librería LERNER'
+    form['image'] = image
     form['description'] = 'Librería LERNER'
     form['website_url'] = 'https://www.librerialerner.com.co/'
 

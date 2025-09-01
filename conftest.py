@@ -1,8 +1,11 @@
 # pylint: disable=redefined-outer-name
 from datetime import timedelta
+from io import BytesIO
 
+from PIL import Image
 import pytest
 from django.utils import timezone
+from django.core.files.uploadedfile import SimpleUploadedFile
 
 from blog.tests.factories import PostFactory as BlogPostFactory
 from events.tests.factories import EventFactory, OrganizerFactory, SpeakerFactory
@@ -127,3 +130,14 @@ def special(event, not_published_event, not_approved_event):
     return SpecialFactory(
         related_events=[event, not_published_event, not_approved_event],
     )
+
+
+@pytest.fixture
+def image():
+    """Return a mock uploaded PNG image for tests."""
+    img = Image.new("RGBA", size=(50, 50), color=(155, 0, 0))
+    buffer = BytesIO()
+    img.save(buffer, format="PNG")
+    buffer.seek(0)
+
+    return ('test.png', buffer.read(), 'image/png')

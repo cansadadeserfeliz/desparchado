@@ -174,6 +174,8 @@ class OrganizerForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
+        self.fields["image"].required = True
+
         self.helper = FormHelper()
         self.helper.form_id = 'organizer_form'
         self.helper.form_method = 'post'
