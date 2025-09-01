@@ -1,5 +1,9 @@
 {% extends 'layout/base.html' %}
-{% load i18n paginator_tags %}
+{% load i18n humanize desparchado_tags django_vite paginator_tags %}
+
+{% block extra_scripts %}
+  {% vite_asset 'desparchado/frontend/scripts/events.ts' %}
+{% endblock extra_scripts %}
 
 {% block content %}
   <section class="container clearfix" itemscope itemtype="http://schema.org/CollectionPage">

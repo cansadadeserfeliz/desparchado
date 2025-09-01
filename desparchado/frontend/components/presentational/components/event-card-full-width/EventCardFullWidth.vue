@@ -7,7 +7,7 @@
           :customClass="bem(baseClass, 'natural-day')"
           type="body_highlight"
           weight="bold"
-          :text="natualLangDate"
+          :text="dateCopy"
         />
         <Typography
           tag="span"
@@ -82,7 +82,7 @@
     description: string;
     day: string;
     time: string;
-    natualLangDate?: string;
+    dateCopy?: string;
     imageUrl?: string;
     link?: string;
   }
@@ -91,7 +91,7 @@
   const props = withDefaults(defineProps<EventCardProps>(), {
     tag: 'div',
     imageUrl: 'https://desparchado.co/media/events/images_6.jpeg',
-    natualLangDate: 'Mañana',
+    dateCopy: 'Mañana',
   });
   const tag = props.tag;
   const id = ['event-card-full-width', generateUID()].join('-');

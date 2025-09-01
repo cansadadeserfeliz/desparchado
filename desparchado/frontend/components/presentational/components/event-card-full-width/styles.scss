@@ -10,10 +10,19 @@
   color: $color-layout-foreground;
   position: relative;
   border-top: $hairline_regular;
-  padding: 1.25rem 1rem 0;
+  padding: 1.25rem 1rem;
+  padding-top: 5.625rem;
+  margin-top: 3rem;
   
   @media (min-width: map.get($breakpoints, m)) {
-    padding: 3rem 3vw 0;
+    padding: 3rem 3vw;
+    margin-top: 3.125rem;
+  }
+
+  &:hover {
+    #{$self}__image {
+      opacity: 1;
+    }
   }
 
   .event-card-full-width {
@@ -82,15 +91,17 @@
       height: 195px;
       position: absolute;
       top: 0;
-      transform: translateY(calc(-100% + 3.5rem));
+      transform: translateY(calc(-100% + 8.5rem));
       right: 2rem;
-      margin-top: -70px;
 
       @media (min-width: map.get($breakpoints, m)) {
         min-width: 300px;
         height: 180px;
         position: initial;
         transform: none;
+        margin-top: -5.625rem;
+        opacity: 0;
+        transition: opacity .3s ease;
       }
     }
 

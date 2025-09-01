@@ -234,6 +234,7 @@ $mobile-actions-overlap: -3.75rem;
     mix-blend-mode: multiply;
     padding: 0.75rem;
     box-sizing: border-box;
+    overflow: auto;
   }
 
   &__actions-image {

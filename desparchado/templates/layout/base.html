@@ -26,6 +26,19 @@
       .css-wait { visibility: hidden; }
     </style>
 
+     <script>
+      // Reveal ASAP and also on DOMContentLoaded as a fallback
+      if (document.readyState !== 'loading') {
+        document.addEventListener('readystatechange', () => {
+          if (document.body) document.body.classList.remove('css-wait');
+        }, { once: true });
+      } else {
+        document.addEventListener('DOMContentLoaded', () => {
+          document.body.classList.remove('css-wait');
+        }, { once: true });
+      }
+    </script>
+    <noscript><style>.css-wait { visibility: visible !important; }</style></noscript>
     <meta name="news_keywords" content="Eventos" />
     <meta name="google-site-verification" content="fzaFpFH8Q6VYOrIz3z98OPuzP8J99Cty7ic_jb9ApJo" />
 

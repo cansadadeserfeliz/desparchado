@@ -1,0 +1,17 @@
+@use '@styles/variables' as *;
+@use '@styles/functions' as *;
+@use '@styles/animations' as *;
+@use '@styles/typography' as *;
+@use '@styles/mixins' as *;
+@use '@styles/breakpoints' as *;
+@use '@styles/typography' as *;
+@use "sass:map";
+
+.text-input {
+  @extend .text-body-highlight;
+
+  border: 0.125rem solid $color-gray-500;
+  padding: 0 1rem;
+  min-height: 2.5rem;
+  border-radius: 100rem;
+}
