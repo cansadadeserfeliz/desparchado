@@ -77,7 +77,7 @@ class Event(TimeStampedModel):
         'events.Organizer',
         verbose_name='Organizadores',
         related_name='events',
-        help_text='Por , asegúrate de que el/la organizador/a '
+        help_text='Por favor, asegúrate de que el/la organizador/a '
                   'que deseas asignar al evento no exista en nuestro sistema '
                   'antes de crearlo/a.',
     )

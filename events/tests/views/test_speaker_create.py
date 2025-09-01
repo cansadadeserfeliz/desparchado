@@ -12,7 +12,7 @@ def test_non_authenticated_user_cannot_create_speaker(django_app):
 
 
 @pytest.mark.django_db
-def test_successfully_create_speaker(django_app, user):
+def test_successfully_create_speaker(django_app, user, image):
     speakers_count = Speaker.objects.count()
 
     response = django_app.get(reverse(VIEW_NAME), user=user, status=200)
@@ -20,6 +20,7 @@ def test_successfully_create_speaker(django_app, user):
     form = response.forms['speaker_form']
     form['name'] = 'Julian Barnes'
     form['description'] = 'English writer'
+    form['image'] = image
 
     response = form.submit()
 

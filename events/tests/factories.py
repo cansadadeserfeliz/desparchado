@@ -11,6 +11,7 @@ from ..models import Event, Organizer, Speaker
 class SpeakerFactory(factory.django.DjangoModelFactory):
     name = factory.Faker('name')
     description = factory.Faker('text')
+    image = factory.django.ImageField()
     created_by = factory.SubFactory(UserFactory)
 
     class Meta:
@@ -21,6 +22,7 @@ class SpeakerFactory(factory.django.DjangoModelFactory):
 class OrganizerFactory(factory.django.DjangoModelFactory):
     name = factory.Faker('company')
     description = factory.Faker('text')
+    image = factory.django.ImageField()
     website_url = 'https://example.com'
     created_by = factory.SubFactory(UserFactory)
 
