@@ -1,4 +1,8 @@
 @use '@styles/variables' as *;
+@use '@styles/breakpoints' as *;
+@use '@styles/typography' as *;
+@use '@styles/mixins' as *;
+@use '@styles/sections/intro-section';
 
 $primary-color: $color-layout-foreground;
 $secondary-color: $color-dp-orange-200;
@@ -357,7 +361,14 @@ a:hover {
 }
 #speaker-detail {
   .speaker-title {
-    margin: 10px;
+    font-style: italic;
+
+    @include fluid-typography-styles(
+      $font-secondary,
+      1,
+      $font-sizes-heading-3,
+      $breakpoints
+    );
   }
   .image {
     width: 100px;
@@ -451,10 +462,21 @@ a:hover {
 
 .page-img-title {
   .title {
-    font-weight: 800;
+    text-transform: uppercase;
+
+    @include fluid-typography-styles(
+      $font-tertiary,
+      1,
+      $font-sizes-heading-2,
+      $breakpoints
+    );
   }
 }
 .posts-grid-item {
+  margin: 60px auto 25px;
+  max-width: 1000px;
+  border-bottom: $hairline_regular;
+
   .title,
   .subtitle {
     color: $primary-color;
@@ -473,6 +495,8 @@ a:hover {
   }
 }
 .post-content {
+  margin-top: 60px;
+  margin-bottom: 25px;
   line-height: 1.5;
   font-size: 20px;
   overflow-wrap: break-word;
@@ -497,6 +521,7 @@ a:hover {
 .hunting-of-snark {
   margin-left: auto;
   margin-right: auto;
+  max-width: 1000px;
 
   h1,
   h2,

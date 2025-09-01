@@ -1,5 +1,5 @@
 {% extends 'layout/base.html' %}
-{% load desparchado_tags %}
+{% load i18n desparchado_tags %}
 
 {% block title %}Eventos en {{ place.name }}{% endblock %}
 
@@ -53,19 +53,11 @@
 <div class="clearfix"></div>
 
 {% if events %}
-
-  <h4 >Próximos eventos en {{ place.name }}</h4>
-
-  {% include 'events/_events_grid.html' %}
-
+  {% include 'events/_featured_events.html' with title=_('Próximos eventos') events=events %}
 {% endif %}
 
 {% if past_events %}
-
-  <h4>Eventos pasados en {{ place.name }}</h4>
-
-  {% include 'events/_events_grid.html' with events=past_events %}
-
+  {% include 'events/_featured_events.html' with title=_('Eventos pasados') events=past_events %}
 {% endif %}
 
 {% endblock content %}

@@ -66,10 +66,8 @@
     </div>
   </div>
 
-  {% if post.related_events.exists %}
-    <h4>Eventos relacionados</h4>
-    {% include 'events/_events_grid.html' with events=post.related_events.all %}
-  {% endif %}
-
+{% if post.related_events.exists %}
+  {% include 'events/_featured_events.html' with title=_('Eventos relacionados') events=post.related_events.all %}
+{% endif %}
 
 {% endblock content %}

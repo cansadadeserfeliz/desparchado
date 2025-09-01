@@ -87,3 +87,11 @@ def user_can_edit_place(user, place):
     if user.is_authenticated:
         return place.can_edit(user)
     return False
+
+@register.filter()
+def group_events(events, n=3):
+    """
+    Groups list into chunks of size n.
+    Keeps the last chunk even if it has fewer items.
+    """
+    return [events[i:i+n] for i in range(0, len(events), n)]

@@ -1,29 +1,35 @@
+{% load i18n desparchado_tags %}
+{% trans "Otros parecidos" as default_title %}
+{% now "U" as now_ts %}
+
 <section>
   <div class="intro-section event-details__featured-events">
     <div class="main-title">
       <div
         data-vue-component="typography"
-        data-vue-prop-text="{% translate 'Otros parecidos' %}"
+        data-vue-prop-text="{{ title|default:default_title }}"
         data-vue-prop-type="h2"
       >
       </div>
     </div>
+  {% for group in events|group_events %}
     <div class="featured-events">
-    {% for related_event in related_events %}
+    {% for event in group %}
       <div
         class="featured-events__item"
         data-vue-component="featured-event-card"
         data-vue-prop-tag="div"
-        data-vue-prop-location="{{ related_event.place.name }}"
-        data-vue-prop-title="{{ related_event.title }}"
-        data-vue-prop-day="{{ related_event.event_date|date:'j M' }}"
-        data-vue-prop-time="{{ related_event.event_date|date:'H:i' }}"
-        data-vue-prop-image-url="{{ related_event.get_image_url }}"
-        data-vue-prop-link="{{ related_event.get_absolute_url }}"
-        data-vue-prop-date-copy="{{ related_event.event_date|natural_day }}"
+        data-vue-prop-location="{{ event.place.name }}"
+        data-vue-prop-title="{{ event.title }}"
+        data-vue-prop-day="{{ event.event_date|date:'j M' }}"
+        data-vue-prop-time="{{ event.event_date|date:'H:i' }}"
+        data-vue-prop-image-url="{{ event.get_image_url }}"
+        data-vue-prop-link="{{ event.get_absolute_url }}"
+        data-vue-prop-date-copy="{% if event.event_date|date:'U' > now_ts %}{{ event.event_date|natural_day }}{% else %}{{ event.event_date|date:'Y' }}{% endif %}"
       >
       </div>
     {% endfor %}
     </div>
+  {% endfor %}
   </div>
 </section>
