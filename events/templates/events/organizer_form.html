@@ -4,7 +4,7 @@
 {% block title %}{% if organizer %}Editar organizador{% else %}Añadir organizador{% endif %}{% endblock %}
 
 {% block content %}
-<h2 class="text-center">{% if organizer %}Editar organizador{% else %}Añadir nuevo organizador{% endif %}:</h2>
+<h2 class="text-center mt-4">{% if organizer %}Editar organizador{% else %}Añadir nuevo organizador{% endif %}:</h2>
 
 <section id="organizer_form_container" class="container">
   {% crispy form %}

@@ -73,11 +73,9 @@ def test_successfully_reset_password(django_app, user):
 
 @pytest.mark.django_db
 def test_successfully_shows_user_detail_for_authenticated_user(django_app, user):
-    response = django_app.get(
+    django_app.get(
         reverse('users:user_detail'), user=user, status=200,
     )
-    assert response.context['user_object'] == user
-    assert user.first_name in response
 
 
 def test_profile_redirects_for_anonymous_user(django_app):

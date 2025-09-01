@@ -59,6 +59,9 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.1.1/dist/select2-bootstrap-5-theme.min.css" />
 
     {% vite_asset 'desparchado/static/ts/old_main.ts' %}
+    {# Force rebooot styles override #}
+    {% vite_asset 'desparchado/frontend/styles/index.scss' %}
+    {% vite_asset 'desparchado/frontend/scripts/base.ts' %}
   {% endblock %}
 
     {# Extra CSS #}

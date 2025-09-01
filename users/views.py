@@ -13,7 +13,7 @@ User = get_user_model()
 
 
 class UserDetailView(LoginRequiredMixin, DetailView):
-    context_object_name = 'user_object'
+    context_object_name = 'user'
     model = User
     template_name = 'auth/user_detail.html'
 
