@@ -1,5 +1,5 @@
 {% extends 'layout/base.html' %}
-{% load desparchado_tags %}
+{% load i18n desparchado_tags %}
 
 {% block title %}{{ speaker.name }}{% endblock %}
 
@@ -39,21 +39,23 @@
 </section><!--/#speaker-detail-->
 
 {% if user|user_can_edit_speaker:speaker %}
-<div class="event-edit text-center">
-  <a class="btn btn-primary" href="{% url 'events:speaker_update' speaker.slug %}">
-    EDITAR
-  </a>
+<div
+    data-vue-component="button"
+    data-vue-prop-type="primary"
+    data-vue-prop-label="{% translate 'Editar' %}"
+    data-vue-prop-link="{% url 'events:speaker_update' speaker.slug %}"
+>
 </div>
 {% endif %}
 
 <div class="clearfix"></div>
 
 {% if events %}
-  {% include 'events/_featured_events.html' with title=_('Próximos eventos') events=events %}
+  {% include 'events/_featured_events.html' with title=_('Pronto presentará') events=events %}
 {% endif %}
 
 {% if past_events %}
-  {% include 'events/_featured_events.html' with title=_('Eventos pasados') events=past_events %}
+  {% include 'events/_featured_events.html' with title=_('Archivo') events=past_events %}
 {% endif %}
 
 {% endblock content %}
