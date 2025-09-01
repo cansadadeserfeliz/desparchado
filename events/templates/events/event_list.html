@@ -51,7 +51,7 @@
                  data-vue-prop-type="secondary"
                  data-vue-prop-padding="condensed"
                  data-vue-prop-label="{% translate 'Limpiar búsqueda' %}"
-                 data-vue-prop-link="{% url 'events:event_list' %}"
+                 data-vue-prop-link="{{ request.path }}"
                >
                </div>
                <div
@@ -110,7 +110,7 @@
   {% empty %}
     <div class="events-section__empty text-heading-5">
       <p>{% translate 'No encontramos resultados para su búsqueda' %}</p>
-      <a href="{% url 'events:event_list' %}">{% translate 'Limpiar búsqueda' %}</a>
+      <a href="{{ request.path }}">{% translate 'Limpiar búsqueda' %}</a>
     </div>
   {% endfor %}
 
