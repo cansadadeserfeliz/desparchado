@@ -90,8 +90,6 @@
   // -------- [Props] --------
   const props = withDefaults(defineProps<EventCardProps>(), {
     tag: 'div',
-    imageUrl: 'https://desparchado.co/media/events/images_6.jpeg',
-    dateCopy: 'Mañana',
   });
   const tag = props.tag;
   const id = ['event-card-full-width', generateUID()].join('-');
