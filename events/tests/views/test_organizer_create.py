@@ -1,7 +1,5 @@
 import pytest
-
 from django.urls import reverse
-from django.core.files.base import ContentFile
 
 from events.models import Organizer
 

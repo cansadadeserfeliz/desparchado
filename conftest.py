@@ -2,10 +2,9 @@
 from datetime import timedelta
 from io import BytesIO
 
-from PIL import Image
 import pytest
 from django.utils import timezone
-from django.core.files.uploadedfile import SimpleUploadedFile
+from PIL import Image
 
 from blog.tests.factories import PostFactory as BlogPostFactory
 from events.tests.factories import EventFactory, OrganizerFactory, SpeakerFactory
