@@ -29,7 +29,7 @@
                  </div>
                  <div class="select-group__item">
                    <select name="{{ city_filter_name }}" aria-label="{% translate 'Busca por lugar' %}">
-                     <option disabled {% if not category_filter_value %}selected{% endif %} value="">{% translate 'Lugar' %}</option>
+                     <option disabled {% if not city_filter_value %}selected{% endif %} value="">{% translate 'Lugar' %}</option>
                      {% for city in cities %}
                        <option value="{{ city.slug }}"{% if city.slug == city_filter_value %} selected{% endif %}>{{ city.name }}</option>
                      {% endfor %}
