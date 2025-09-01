@@ -447,7 +447,8 @@ a:hover {
       filter: blur(2px);
     }
   }
-}/* for touch screen devices*/
+}
+/* for touch screen devices*/
 @media (hover: none) {
   .image-gallery-container {
     .image-gallery-title {
@@ -457,7 +458,7 @@ a:hover {
       filter: blur(2px);
     }
   }
-};
+}
 /* Pages */
 
 .page-img-title {

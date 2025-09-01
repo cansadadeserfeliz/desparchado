@@ -154,7 +154,7 @@
               {% translate 'Sobre el evento' %}:
               </br></br>
             </span>
-            {{ event.description|safe }}
+            {{ event.description|linebreaksbr|safe }}
           </div>
           <div class="event-details__disclaimer">
             <div
