@@ -1,0 +1,29 @@
+<section>
+  <div class="intro-section event-details__featured-events">
+    <div class="main-title">
+      <div
+        data-vue-component="typography"
+        data-vue-prop-text="{% translate 'Otros parecidos' %}"
+        data-vue-prop-type="h2"
+      >
+      </div>
+    </div>
+    <div class="featured-events">
+    {% for related_event in related_events %}
+      <div
+        class="featured-events__item"
+        data-vue-component="featured-event-card"
+        data-vue-prop-tag="div"
+        data-vue-prop-location="{{ related_event.place.name }}"
+        data-vue-prop-title="{{ related_event.title }}"
+        data-vue-prop-day="{{ related_event.event_date|date:'j M' }}"
+        data-vue-prop-time="{{ related_event.event_date|date:'H:i' }}"
+        data-vue-prop-image-url="{{ related_event.get_image_url }}"
+        data-vue-prop-link="{{ related_event.get_absolute_url }}"
+        data-vue-prop-date-copy="{{ related_event.event_date|natural_day }}"
+      >
+      </div>
+    {% endfor %}
+    </div>
+  </div>
+</section>
