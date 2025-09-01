@@ -154,7 +154,7 @@
               {% translate 'Sobre el evento' %}:
               </br></br>
             </span>
-            {{ event.description|safe|linebreaksbr }}
+            {{ event.description|safe }}
           </div>
           <div class="event-details__disclaimer">
             <div
@@ -184,7 +184,7 @@
                     </a>
                     <div class="event-details__item-list-item-details">
                       <p class="text-heading-4">{{ speaker.name }}</p>
-                      <div class="text-caption">{{ speaker.description|safe|linebreaksbr|truncatewords_html:50 }}</div>
+                      <div class="text-caption">{{ speaker.description|safe|truncatewords_html:50 }}</div>
                       <a class="text-body-md" href="{{ speaker.get_absolute_url }}">Leer más</a>
                     </div>
                   </div>
@@ -203,7 +203,7 @@
                   </a>
                   <div class="event-details__item-list-item-details">
                     <p class="text-heading-4">{{ organizer.name }}</p>
-                    <div class="text-caption">{{ organizer.description|safe|linebreaksbr|truncatewords_html:50 }}</div>
+                    <div class="text-caption">{{ organizer.description|safe|truncatewords_html:50 }}</div>
                     <a class="text-body-md" href="{{ organizer.get_absolute_url }}">Leer más</a>
                   </div>
                 </div>
