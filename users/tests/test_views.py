@@ -8,7 +8,7 @@ User = get_user_model()
 
 
 @pytest.mark.django_db
-def test_successfully_login_with_username(django_app, user):
+def test_successfuflly_login_with_username(django_app, user):
     user.set_password('acbCDE123$')
     user.save()
 
