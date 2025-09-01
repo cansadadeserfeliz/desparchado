@@ -7,12 +7,12 @@
 
     {# Ensure proper rendering and touch zooming for all devices #}
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="view-transition" content="same-origin" />
 
     <meta name="description" content="Eventos culturales y educativos en Colombia: programación de conciertos, festivales, ferias, congresos, teatro, arte, conferencias, cine alternativo">
     <meta name="keywords" content="Eventos Bogotá, Eventos Cali, Eventos Medellín, Eventos Cartagena, Conciertos, Talleres, Cursos, agenda cultural, programación, cine arte, libros">
     <meta name="news_keywords" content="Eventos" />
     <link rel="icon" href="https://desparchado.co/favicon.ico">
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css?family=Grand+Hotel" rel="stylesheet">
@@ -22,6 +22,23 @@
 
     <title>{% block title %}Desparchado.co{% endblock %}</title>
 
+    <style>
+      .css-wait { visibility: hidden; }
+    </style>
+
+     <script>
+      // Reveal ASAP and also on DOMContentLoaded as a fallback
+      if (document.readyState !== 'loading') {
+        document.addEventListener('readystatechange', () => {
+          if (document.body) document.body.classList.remove('css-wait');
+        }, { once: true });
+      } else {
+        document.addEventListener('DOMContentLoaded', () => {
+          document.body.classList.remove('css-wait');
+        }, { once: true });
+      }
+    </script>
+    <noscript><style>.css-wait { visibility: visible !important; }</style></noscript>
     <meta name="news_keywords" content="Eventos" />
     <meta name="google-site-verification" content="fzaFpFH8Q6VYOrIz3z98OPuzP8J99Cty7ic_jb9ApJo" />
 
@@ -57,7 +74,7 @@
 
   {% block google-structured-markup %}{% endblock %}
 
-  <body>
+  <body class="css-wait">
   {% block body %}
 
     {% include 'layout/_header.html' %}
