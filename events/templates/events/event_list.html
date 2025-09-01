@@ -1,5 +1,5 @@
 {% extends 'layout/base.html' %}
-{% load i18n humanize desparchado_tags django_vite %}
+{% load i18n desparchado_tags django_vite %}
 
 {% block extra_scripts %}
   {% vite_asset 'desparchado/frontend/scripts/events.ts' %}
@@ -98,7 +98,7 @@
       data-vue-component="event-card-full-width"
       data-vue-prop-tag="div"
       data-vue-prop-location="{{ event.place.name }}"
-      data-vue-prop-description="{{ event.description|safe|linebreaksbr }}"
+      data-vue-prop-description="{{ event.description|linebreaksbr }}"
       data-vue-prop-title="{{ event.title }}"
       data-vue-prop-day="{{ event.event_date|date:'j M' }}"
       data-vue-prop-time="{{ event.event_date|date:'H:i' }}"

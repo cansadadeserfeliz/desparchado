@@ -49,7 +49,7 @@ class Event(TimeStampedModel):
         ART = "art", _("Arte")
 
     category = models.CharField(
-        verbose_name="Categoría",
+        verbose_name="Temática",
         max_length=20,
         choices=Category,
         blank=True,

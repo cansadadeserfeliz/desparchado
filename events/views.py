@@ -8,6 +8,7 @@ from django.urls import reverse
 from django.utils.html import escape, format_html
 from django.utils.safestring import mark_safe
 from django.views import View
+from django.utils.timezone import now
 from django.views.generic import CreateView, DetailView, ListView, UpdateView
 
 from desparchado.autocomplete import BaseAutocomplete
@@ -102,14 +103,47 @@ class EventListBaseView(ListView):
 
 
 class EventListView(EventListBaseView):
+    template_name = 'events/event_list.html'
 
     def get_queryset(self):
         return super().get_queryset().future()
 
 class PastEventListView(EventListBaseView):
+    template_name = "events/past_event_list.html"
+    year_filter_name = 'year'
+    year_filter_value = ''
+    year_range = []
+
+    def dispatch(self, request, *args, **kwargs):
+        self.year_filter_value = request.GET.get(self.year_filter_name, '')
+        self.year_range = list(map(str, range(2017, now().year + 1)))
+
+        if self.year_filter_value not in self.year_range:
+            self.year_filter_value = ''
+
+        return super().dispatch(request, *args, **kwargs)
 
     def get_queryset(self):
-        return super().get_queryset().past()
+        queryset = super().get_queryset().past()
+
+        if self.year_filter_value:
+            queryset = queryset.filter(event_date__year=self.year_filter_value)
+
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        # For search form rendering
+        context['year_filter_name'] = self.year_filter_name
+        context['year_filter_value'] = self.year_filter_value
+        context['year_range'] = self.year_range
+
+        if self.year_filter_value:
+            params = {self.category_filter_name: self.category_filter_value}
+            context['pagination_query_params'] += f"&{urlencode(params)}"
+
+        return context
 
 
 class EventDetailView(DetailView):
