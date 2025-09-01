@@ -1,4 +1,4 @@
-import '../styles/playground.scss';
+import '../../frontend/styles/playground.scss';
   document.addEventListener('DOMContentLoaded', () => {
     requestAnimationFrame(() => {
       const header = document.getElementById('header');

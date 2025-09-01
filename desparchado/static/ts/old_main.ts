@@ -1,4 +1,4 @@
-import '../styles/old_main.scss';
+import '../../frontend/styles/legacy_styles.scss';
 
 
 document.addEventListener('DOMContentLoaded', () => {
