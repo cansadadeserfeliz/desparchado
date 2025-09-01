@@ -16,10 +16,10 @@ from desparchado.utils import send_notification
 from places.models import City
 
 from .forms import EventCreateForm, EventUpdateForm, OrganizerForm, SpeakerForm
-from .models import Event, Organizer, Speaker
+from .models import Event, Organizer, Speaker, event
 
 
-class EventListView(ListView):
+class EventListBaseView(ListView):
     model = Event
     context_object_name = 'events'
     paginate_by = 15
@@ -70,7 +70,7 @@ class EventListView(ListView):
         return context
 
     def get_queryset(self):
-        queryset = Event.objects.published().future()
+        queryset = Event.objects.published()
 
         if self.city:
             queryset = queryset.filter(place__city=self.city)
@@ -101,15 +101,15 @@ class EventListView(ListView):
                 .distinct())
 
 
-class PastEventListView(ListView):
-    model = Event
-    context_object_name = 'events'
-    template_name = 'events/past_event_list.html'
-    paginate_by = 18
+class EventListView(EventListBaseView):
 
     def get_queryset(self):
-        queryset = Event.objects.published().past().order_by('-event_date')
-        return queryset.select_related('place')
+        return super().get_queryset().future()
+
+class PastEventListView(EventListBaseView):
+
+    def get_queryset(self):
+        return super().get_queryset().past()
 
 
 class EventDetailView(DetailView):
