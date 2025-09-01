@@ -81,7 +81,7 @@ class EventListBaseView(ListView):
 
         if (
             self.search_query_value
-            and len(self.search_query_value) > self.search_query_min_length
+            and len(self.search_query_value) >= self.search_query_min_length
         ):
             queryset = (
                 queryset.annotate(
