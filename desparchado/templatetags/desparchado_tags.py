@@ -91,6 +91,7 @@ def user_can_edit_place(user, place):
 @register.filter()
 def group_events(events, n=3):
     """
-    Groups every n items together in list
+    Groups list into chunks of size n.
+    Keeps the last chunk even if it has fewer items.
     """
-    return list(zip(*[iter(events)]*n))
+    return [events[i:i+n] for i in range(0, len(events), n)]
