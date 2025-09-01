@@ -43,6 +43,13 @@
         EDITAR LUGAR
       </a>
     </div>
+    <div
+      data-vue-component="button"
+      data-vue-prop-type="secondary"
+      data-vue-prop-label="{% translate 'Editar' %}"
+      data-vue-prop-link="{% url 'places:place_update' place.pk %}"
+    >
+    </div>`
   {% endif %}
   </div>
 

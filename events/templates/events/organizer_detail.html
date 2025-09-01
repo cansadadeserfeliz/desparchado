@@ -61,7 +61,7 @@
   {% if user|user_can_edit_organizer:organizer %}
     <div
         data-vue-component="button"
-        data-vue-prop-type="primary"
+        data-vue-prop-type="secondary"
         data-vue-prop-label="{% translate 'Editar' %}"
         data-vue-prop-link="{% url 'events:organizer_update' organizer.slug %}"
     >
