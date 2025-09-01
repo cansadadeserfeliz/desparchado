@@ -63,7 +63,7 @@
   {% if paginator.count > 9 %}
     {% include 'events/_events_list.html' with events=events %}
   {% else %}
-    {% include 'events/_events_grid.html' with events=events %}
+    {% include 'events/_featured_events.html' with title=_('Eventos') events=events %}
   {% endif %}
 
   <section class="container justify-content-center">

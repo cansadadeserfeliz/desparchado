@@ -87,3 +87,10 @@ def user_can_edit_place(user, place):
     if user.is_authenticated:
         return place.can_edit(user)
     return False
+
+@register.filter()
+def group_events(events, n=3):
+    """
+    Groups every n items together in list
+    """
+    return list(zip(*[iter(events)]*n))

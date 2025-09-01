@@ -49,19 +49,11 @@
 <div class="clearfix"></div>
 
 {% if events %}
-<section class="my-2">
-  <h4>Próximos eventos con {{ speaker.name }}</h4>
-
-  {% include 'events/_events_grid.html' %}
-</section>
+  {% include 'events/_featured_events.html' with title=_('Próximos eventos') events=events %}
 {% endif %}
 
 {% if past_events %}
-<section class="my-2">
-  <h4>Eventos pasados con {{ speaker.name }}</h4>
-
-  {% include 'events/_events_grid.html' with events=past_events %}
-</section>
+  {% include 'events/_featured_events.html' with title=_('Eventos pasados') events=past_events %}
 {% endif %}
 
 {% endblock content %}
