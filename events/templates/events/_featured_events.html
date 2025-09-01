@@ -1,5 +1,7 @@
 {% load i18n desparchado_tags %}
 {% trans "Otros parecidos" as default_title %}
+{% now "U" as now_ts %}
+
 <section>
   <div class="intro-section event-details__featured-events">
     <div class="main-title">
@@ -23,7 +25,7 @@
         data-vue-prop-time="{{ event.event_date|date:'H:i' }}"
         data-vue-prop-image-url="{{ event.get_image_url }}"
         data-vue-prop-link="{{ event.get_absolute_url }}"
-        data-vue-prop-date-copy="{% if event.date > now %}{{ event.event_date|natural_day }}{% else %}{{ event.event_date|date:'Y' }}{% endif %}"
+        data-vue-prop-date-copy="{% if event.event_date|date:'U' > now_ts %}{{ event.event_date|natural_day }}{% else %}{{ event.event_date|date:'Y' }}{% endif %}"
       >
       </div>
     {% endfor %}
