@@ -7,6 +7,7 @@ from django.http import JsonResponse
 from django.urls import reverse
 from django.utils.html import escape, format_html
 from django.utils.safestring import mark_safe
+from django.utils.timezone import now
 from django.views import View
 from django.views.generic import CreateView, DetailView, ListView, UpdateView
 
@@ -19,13 +20,13 @@ from .forms import EventCreateForm, EventUpdateForm, OrganizerForm, SpeakerForm
 from .models import Event, Organizer, Speaker
 
 
-class EventListView(ListView):
+class EventListBaseView(ListView):
     model = Event
     context_object_name = 'events'
     paginate_by = 15
     search_query_name = 'q'
     search_query_value = ''
-    search_query_max_length = 3
+    search_query_min_length = 3
     city_filter_name = 'city'
     city_filter_value = ''
     city = None
@@ -70,7 +71,7 @@ class EventListView(ListView):
         return context
 
     def get_queryset(self):
-        queryset = Event.objects.published().future()
+        queryset = Event.objects.published()
 
         if self.city:
             queryset = queryset.filter(place__city=self.city)
@@ -80,7 +81,7 @@ class EventListView(ListView):
 
         if (
             self.search_query_value
-            and len(self.search_query_value) > self.search_query_max_length
+            and len(self.search_query_value) >= self.search_query_min_length
         ):
             queryset = (
                 queryset.annotate(
@@ -101,15 +102,52 @@ class EventListView(ListView):
                 .distinct())
 
 
-class PastEventListView(ListView):
-    model = Event
-    context_object_name = 'events'
-    template_name = 'events/past_event_list.html'
-    paginate_by = 18
+class EventListView(EventListBaseView):
+    template_name = 'events/event_list.html'
 
     def get_queryset(self):
-        queryset = Event.objects.published().past().order_by('-event_date')
-        return queryset.select_related('place')
+        return super().get_queryset().future()
+
+class PastEventListView(EventListBaseView):
+    template_name = "events/past_event_list.html"
+    year_filter_name = 'year'
+    year_filter_value = None
+    year_range = []
+
+    def dispatch(self, request, *args, **kwargs):
+        self.year_filter_value = request.GET.get(self.year_filter_name, None)
+        self.year_range = list(map(str, range(2017, now().year + 1)))
+
+        if self.year_filter_value not in self.year_range:
+            self.year_filter_value = None
+        try:
+            self.year_filter_value = int(self.year_filter_value)
+        except (ValueError, TypeError):
+            self.year_filter_value = None
+
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_queryset(self):
+        queryset = super().get_queryset().past()
+
+        if self.year_filter_value:
+            queryset = queryset.filter(event_date__year=self.year_filter_value)
+
+        return queryset.order_by('-event_date')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        # For search form rendering
+        context['year_filter_name'] = self.year_filter_name
+        context['year_filter_value'] = self.year_filter_value
+        context['year_range'] = self.year_range
+
+        if self.year_filter_value:
+            params = {self.year_filter_name: self.year_filter_value}
+            context['pagination_query_params'] += f"&{urlencode(params)}"
+
+        return context
 
 
 class EventDetailView(DetailView):

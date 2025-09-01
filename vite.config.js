@@ -28,6 +28,7 @@ export default defineConfig({
       input: {
         mount_vue: resolve("./desparchado/frontend/scripts/mount-vue.ts"),
         main_styles: resolve("./desparchado/frontend/styles/index.scss"),
+        base: resolve("./desparchado/frontend/scripts/base.ts"),
         home: resolve("./desparchado/frontend/scripts/home.ts"),
         playground: resolve("./desparchado/static/ts/playground.ts"),
         old_main: resolve("./desparchado/static/ts/old_main.ts"),
