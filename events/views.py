@@ -111,15 +111,19 @@ class EventListView(EventListBaseView):
 class PastEventListView(EventListBaseView):
     template_name = "events/past_event_list.html"
     year_filter_name = 'year'
-    year_filter_value = ''
+    year_filter_value = None
     year_range = []
 
     def dispatch(self, request, *args, **kwargs):
-        self.year_filter_value = request.GET.get(self.year_filter_name, '')
+        self.year_filter_value = request.GET.get(self.year_filter_name, None)
         self.year_range = list(map(str, range(2017, now().year + 1)))
 
         if self.year_filter_value not in self.year_range:
-            self.year_filter_value = ''
+            self.year_filter_value = None
+        try:
+            self.year_filter_value = int(self.year_filter_value)
+        except (ValueError, TypeError):
+            self.year_filter_value = None
 
         return super().dispatch(request, *args, **kwargs)
 
@@ -129,7 +133,7 @@ class PastEventListView(EventListBaseView):
         if self.year_filter_value:
             queryset = queryset.filter(event_date__year=self.year_filter_value)
 
-        return queryset
+        return queryset.order_by('-event_date')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
