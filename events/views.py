@@ -7,8 +7,8 @@ from django.http import JsonResponse
 from django.urls import reverse
 from django.utils.html import escape, format_html
 from django.utils.safestring import mark_safe
-from django.views import View
 from django.utils.timezone import now
+from django.views import View
 from django.views.generic import CreateView, DetailView, ListView, UpdateView
 
 from desparchado.autocomplete import BaseAutocomplete
@@ -17,7 +17,7 @@ from desparchado.utils import send_notification
 from places.models import City
 
 from .forms import EventCreateForm, EventUpdateForm, OrganizerForm, SpeakerForm
-from .models import Event, Organizer, Speaker, event
+from .models import Event, Organizer, Speaker
 
 
 class EventListBaseView(ListView):
