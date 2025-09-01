@@ -1,10 +1,11 @@
 {% load i18n desparchado_tags %}
+{% trans "Otros parecidos" as default_title %}
 <section>
   <div class="intro-section event-details__featured-events">
     <div class="main-title">
       <div
         data-vue-component="typography"
-        data-vue-prop-text="{{ title|default:_('Otros parecidos') }}"
+        data-vue-prop-text="{{ title|default:default_title }}"
         data-vue-prop-type="h2"
       >
       </div>
