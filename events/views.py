@@ -140,7 +140,7 @@ class PastEventListView(EventListBaseView):
         context['year_range'] = self.year_range
 
         if self.year_filter_value:
-            params = {self.category_filter_name: self.category_filter_value}
+            params = {self.year_filter_name: self.year_filter_value}
             context['pagination_query_params'] += f"&{urlencode(params)}"
 
         return context
