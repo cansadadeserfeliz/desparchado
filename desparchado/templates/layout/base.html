@@ -42,6 +42,13 @@
     <meta name="news_keywords" content="Eventos" />
     <meta name="google-site-verification" content="fzaFpFH8Q6VYOrIz3z98OPuzP8J99Cty7ic_jb9ApJo" />
 
+    {# This will add a <script> tag to include the ViteJS HMR client. #}
+    {# This tag will include this script only if DJANGO_VITE_DEV_MODE is true, otherwise this will do nothing. #}
+    {% vite_hmr_client %}
+
+    {% vite_asset 'desparchado/frontend/scripts/mount-vue.ts' %}
+    {% vite_asset 'desparchado/frontend/scripts/base.ts' %}
+
   {% block bootstrap_css %}
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
@@ -53,13 +60,6 @@
 
     {% vite_asset 'desparchado/static/ts/old_main.ts' %}
   {% endblock %}
-
-    {# This will add a <script> tag to include the ViteJS HMR client. #}
-    {# This tag will include this script only if DJANGO_VITE_DEV_MODE is true, otherwise this will do nothing. #}
-    {% vite_hmr_client %}
-
-    {% vite_asset 'desparchado/frontend/scripts/mount-vue.ts' %}
-    {% vite_asset 'desparchado/frontend/scripts/base.ts' %}
 
     {# Extra CSS #}
     {% block extra_css %}{% endblock extra_css %}
