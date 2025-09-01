@@ -26,7 +26,7 @@ class EventListBaseView(ListView):
     paginate_by = 15
     search_query_name = 'q'
     search_query_value = ''
-    search_query_max_length = 3
+    search_query_min_length = 3
     city_filter_name = 'city'
     city_filter_value = ''
     city = None
@@ -81,7 +81,7 @@ class EventListBaseView(ListView):
 
         if (
             self.search_query_value
-            and len(self.search_query_value) > self.search_query_max_length
+            and len(self.search_query_value) > self.search_query_min_length
         ):
             queryset = (
                 queryset.annotate(
