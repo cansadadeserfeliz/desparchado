@@ -280,12 +280,11 @@ msgstr "View map"
 
 #: events/templates/events/event_detail.html:270
 msgid "Ver otros eventos en este sitio"
-msgstr ""
+msgstr "See other events at this venue"
 
 #: events/templates/events/event_detail.html:283
 msgid "Ir al evento al que pertenece"
-msgstr ""
-
+msgstr "Go to the parent event"
 #: events/templates/events/event_list.html:10
 #: events/templates/events/event_list.html:15
 msgid "Eventos"
