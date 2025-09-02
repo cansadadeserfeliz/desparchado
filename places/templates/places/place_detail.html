@@ -1,5 +1,5 @@
 {% extends 'layout/base.html' %}
-{% load desparchado_tags %}
+{% load i18n desparchado_tags %}
 
 {% block title %}Eventos en {{ place.name }}{% endblock %}
 
@@ -38,10 +38,12 @@
     <div class="place-description">{{ place.address }}</div>
 
   {% if user|user_can_edit_place:place %}
-    <div class="event-edit text-center">
-      <a class="btn btn-primary" href="{% url 'places:place_update' place.pk %}" class="hover-color list-inline-item">
-        EDITAR LUGAR
-      </a>
+    <div
+      data-vue-component="button"
+      data-vue-prop-type="secondary"
+      data-vue-prop-label="{% translate 'Editar' %}"
+      data-vue-prop-link="{% url 'places:place_update' place.pk %}"
+    >
     </div>
   {% endif %}
   </div>
@@ -53,19 +55,11 @@
 <div class="clearfix"></div>
 
 {% if events %}
-
-  <h4 >Próximos eventos en {{ place.name }}</h4>
-
-  {% include 'events/_events_grid.html' %}
-
+  {% include 'events/_featured_events.html' with title=_('Pronto se presentará aquí') events=events %}
 {% endif %}
 
 {% if past_events %}
-
-  <h4>Eventos pasados en {{ place.name }}</h4>
-
-  {% include 'events/_events_grid.html' with events=past_events %}
-
+  {% include 'events/_featured_events.html' with title=_('Archivo') events=past_events %}
 {% endif %}
 
 {% endblock content %}

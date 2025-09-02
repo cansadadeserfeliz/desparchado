@@ -3,61 +3,56 @@
 
 {% block content %}
 <section class="container">
-  <h2 class="text-center">{{ user_object.first_name }}</h2>
+  <div class="table-responsive">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>Título</th>
+          <th>Fecha del evento</th>
+          <th>Está publicado</th>
+          <th>Está aprobado por un moderador</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for event in events %}
+        <tr>
+          <td>
+            <a href="{{ event.get_absolute_url }}" title="Ver evento">
+              <b>{{ event.title }}</b>
+            </a>
+          </td>
+          <td>{{ event.event_date }}</td>
+          <td>
+            <span class="badge {% if event.is_published %}bg-success{% else %}bg-danger{% endif %}">
+              {{ event.is_published|yesno }}
+            </span>
+          </td>
+          <td>
+            <span class="badge {% if event.is_approved %}bg-success{% else %}bg-danger{% endif %}">
+              {{ event.is_approved|yesno }}
+            </span>
+          </td>
+          <td>
+          {% if event.is_visible %}
+            <a href="{{ event.get_absolute_url }}" class="btn btn-primary btn-sm m-1" title="Ver evento">
+              <i class="fa fa-eye"></i> Ver
+            </a>
+          {% endif %}
+            <a href="{% url 'events:event_update' event.pk %}" class="btn btn-primary btn-sm m-1" title="Editar evento">
+              <i class="fa fa-edit"></i> Editar
+            </a>
+          </td>
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="100">Aún no ha agregado ningún evento.</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
 </section>
-
-<div class="table-responsive">
-  <table class="table table-hover">
-    <thead>
-      <tr>
-        <th>Título</th>
-        <th>Fecha del evento</th>
-        <th>Está publicado</th>
-        <th>Está aprobado por un moderador</th>
-        <th>Acciones</th>
-      </tr>
-    </thead>
-    <tbody>
-    {% for event in events %}
-      <tr>
-        <td>
-          <a href="{{ event.get_absolute_url }}" title="Ver evento">
-            <div>
-              <img style="max-width: 200px; max-height: 100px" src="{{ event.get_image_url }}" />
-            </div>
-            <b>{{ event.title }}</b>
-          </a>
-        </td>
-        <td>{{ event.event_date }}</td>
-        <td>
-          <span class="badge {% if event.is_published %}bg-success{% else %}bg-danger{% endif %}">
-            {{ event.is_published|yesno }}
-          </span>
-        </td>
-        <td>
-          <span class="badge {% if event.is_approved %}bg-success{% else %}bg-danger{% endif %}">
-            {{ event.is_approved|yesno }}
-          </span>
-        </td>
-        <td>
-        {% if event.is_visible %}
-          <a href="{{ event.get_absolute_url }}" class="btn btn-default btn-sm" title="Ver evento">
-            <i class="fa fa-eye"></i> Ver
-          </a>
-        {% endif %}
-          <a href="{% url 'events:event_update' event.pk %}" class="btn btn-default btn-sm" title="Editar evento">
-            <i class="fa fa-edit"></i> Editar
-          </a>
-        </td>
-      </tr>
-    {% empty %}
-      <tr>
-        <td colspan="100">Aún no ha agregado ningún evento.</td>
-      </tr>
-    {% endfor %}
-    </tbody>
-  </table>
-</div>
 
 <section class="container">
   {% get_simple_pagination %}

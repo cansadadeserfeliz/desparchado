@@ -1,27 +1,86 @@
-@use 'old_variables';
+@use '@styles/variables' as *;
+@use '@styles/breakpoints' as *;
+@use '@styles/typography' as *;
+@use '@styles/mixins' as *;
+@use '@styles/sections/intro-section';
+
+$primary-color: $color-layout-foreground;
+$secondary-color: $color-dp-orange-200;
+$dark-gray: $color-gray-700;
+$bg-color: $color-dp-orange-50;
+$city-label-color: $color-layout-foreground;
+
+/* Override Bootstrap reboot */
+body {
+  font-family: $font-primary;
+}
 
 .container, .container-fluid {
-  margin: 25px 0 25px 0;
+  margin-top: 25px;
+  margin-bottom: 25px;
+}
+
+a {
+  color: $color-layout-foreground;
+}
+a:hover {
+  color: $color-layout-foreground;
+}
+/* Solve footer override */
+.footer a:hover {
+  color: $color-layout-background;
+}
+
+.bg-success {
+  background-color: #0e793c !important;
+}
+
+.bg-danger {
+  background-color: $color-dp-orange-300 !important;
+}
+
+.page-link {
+  color: $color-layout-foreground;
+}
+.page-link:hover {
+  color: $color-layout-foreground;
 }
 
 .btn {
   border-radius: 0;
 }
 .btn-primary {
-  border-color: old_variables.$secondary-color;
-  background-color: old_variables.$secondary-color;
-  color: old_variables.$primary-color;
+  border-color: $secondary-color;
+  background-color: $secondary-color;
+  color: $primary-color;
   word-spacing: 3px;
   &:hover {
-    color: old_variables.$secondary-color;
-    border-color: old_variables.$primary-color;
-    background-color: old_variables.$primary-color;
+    color: $secondary-color;
+    border-color: $primary-color;
+    background-color: $primary-color;
   }
 }
+
+.btn-light {
+    color: $primary-color;
+    background-color: $color-dp-orange-50;
+    border-color: $color-dp-orange-50;
+    &:hover {
+      color: $secondary-color;
+      border-color: $primary-color;
+      background-color: $primary-color;
+    }
+}
+
+.form-control {
+    color: $primary-color;
+}
+
 .text-lg {
   line-height: 1.5;
   font-size: 20px;
 }
+
 #logout-form {
   display: inline;
 
@@ -31,6 +90,7 @@
     cursor: pointer;
   }
 }
+
 .card {
   border-radius: 0;
   height: 100%;
@@ -41,7 +101,7 @@
     font-size: 16px;
     font-weight: 700;
     line-height: 19px;
-    color: old_variables.$primary-color;
+    color: $primary-color;
   }
   .card-subtitle {
     margin-top: 6px;
@@ -49,7 +109,7 @@
     text-transform: uppercase;
     font-size: 11px;
     line-height: 1;
-    color: old_variables.$dark-gray;
+    color: $dark-gray;
   }
   .card-body {
     padding: 0 1rem 1rem;
@@ -60,7 +120,7 @@
   }
   .blockquote-footer {
     margin-top: 0;
-    color: old_variables.$dark-gray;
+    color: $dark-gray;
     font-size: 14px;
 
     &:before {
@@ -78,14 +138,14 @@
       margin: 12px -1px -6px;
       font-size: 13px;
       line-height: 21px;
-      color: old_variables.$dark-gray;
+      color: $dark-gray;
     }
     .event-place {
       margin: 12px -1px -6px;
       font-size: 13px;
       line-height: 21px;
       a {
-        color: old_variables.$primary-color;
+        color: $primary-color;
       }
     }
   }
@@ -130,7 +190,7 @@
       border-top: 0;
     }
     .year {
-      color: old_variables.$primary-color;
+      color: $primary-color;
       font-weight: 800;
       font-size: 22px;
     }
@@ -153,7 +213,7 @@
     height: 1px;
     bottom: 0;
     left: 0;
-    border-bottom: 3px solid old_variables.$secondary-color;
+    border-bottom: 3px solid $secondary-color;
   }
 }
 .event-date-label {
@@ -164,7 +224,7 @@
   line-height: 28px;
   width: auto;
   color: white;
-  background: old_variables.$city-label-color;
+  background: $city-label-color;
   font-weight: 600;
   letter-spacing: 1px;
 }
@@ -175,7 +235,7 @@
   font-size: 14px;
   line-height: 28px;
   color: white;
-  background: old_variables.$city-label-color;
+  background: $city-label-color;
   position: absolute;
   display: block;
   z-index: 4;
@@ -190,8 +250,8 @@
   white-space: nowrap;
   font-size: 14px;
   line-height: 28px;
-  color: old_variables.$primary-color;
-  background: old_variables.$secondary-color;
+  color: $primary-color;
+  background: $secondary-color;
   position: absolute;
   display: block;
   z-index: 4;
@@ -233,7 +293,7 @@
    margin: 20px;
 
   .accordion-button {
-    background: old_variables.$secondary-color;
+    background: $secondary-color;
   }
 }
 .historical-figure-mask {
@@ -305,7 +365,14 @@
 }
 #speaker-detail {
   .speaker-title {
-    margin: 10px;
+    font-style: italic;
+
+    @include fluid-typography-styles(
+      $font-secondary,
+      1,
+      $font-sizes-heading-3,
+      $breakpoints
+    );
   }
   .image {
     width: 100px;
@@ -384,7 +451,8 @@
       filter: blur(2px);
     }
   }
-}/* for touch screen devices*/
+}
+/* for touch screen devices*/
 @media (hover: none) {
   .image-gallery-container {
     .image-gallery-title {
@@ -394,18 +462,29 @@
       filter: blur(2px);
     }
   }
-};
+}
 /* Pages */
 
 .page-img-title {
   .title {
-    font-weight: 800;
+    text-transform: uppercase;
+
+    @include fluid-typography-styles(
+      $font-tertiary,
+      1,
+      $font-sizes-heading-2,
+      $breakpoints
+    );
   }
 }
 .posts-grid-item {
+  margin: 60px auto 25px;
+  max-width: 1000px;
+  border-bottom: $hairline_regular;
+
   .title,
   .subtitle {
-    color: old_variables.$primary-color;
+    color: $primary-color;
   }
   .title {
     margin-top: 30px;
@@ -417,10 +496,12 @@
     font-size: 18px;
   }
   .details {
-    color: old_variables.$dark-gray;
+    color: $dark-gray;
   }
 }
 .post-content {
+  margin-top: 60px;
+  margin-bottom: 25px;
   line-height: 1.5;
   font-size: 20px;
   overflow-wrap: break-word;
@@ -445,6 +526,7 @@
 .hunting-of-snark {
   margin-left: auto;
   margin-right: auto;
+  max-width: 1000px;
 
   h1,
   h2,
@@ -470,51 +552,6 @@
     max-width: 300px;
     margin: auto;
   }
-}/* Footer */
-
-.footer {
-  background-color: #171a1d;
-  color: #b3b3b3;
-
-  h5 {
-    font-size: 15px;
-    font-weight: 700;
-    text-transform: uppercase;
-    color: #fff;
-    margin-bottom: 30px;
-    letter-spacing: 2px;
-  }
-  .logo {
-    color: #ffffff;
-    font-family: 'Grand Hotel', cursive;
-    font-size: 36px;
-  }
-  ul li a.link-secondary {
-    text-transform: uppercase;
-    color: #b3b3b3;
-    font-weight: 500;
-    font-size: 14px;
-    display: block;
-    padding: 8px 0;
-    border-bottom: 1px solid #444;
-  }
-  .footer-social-icons {
-    margin-top: 25px;
-    a {
-      display: inline-block;
-      width: 35px;
-      height: 35px;
-      cursor: pointer;
-      background-color: #33383b;
-      border-radius: 2px;
-      font-size: 20px;
-      color: #ffffff;
-      text-align: center;
-      line-height: 35px;
-      margin-right: 3px;
-      margin-bottom: 5px;
-    }
-  }
 }
 
 /* Organizer detail */
@@ -523,7 +560,18 @@
   .organizer-heading {
     padding: 30px;
     text-align: center;
-    background-color: old_variables.$bg-color;
+    background-color: $bg-color;
+
+    .organizer-title {
+      font-style: italic;
+
+      @include fluid-typography-styles(
+        $font-secondary,
+        1,
+        $font-sizes-heading-3,
+        $breakpoints
+      );
+    }
   }
   .organizer-image {
     height: 100px;
@@ -576,7 +624,18 @@
   .place-heading {
     padding: 30px;
     text-align: center;
-    background-color: old_variables.$bg-color;
+    background-color: $bg-color;
+
+    .place-title {
+      font-style: italic;
+
+      @include fluid-typography-styles(
+        $font-secondary,
+        1,
+        $font-sizes-heading-3,
+        $breakpoints
+      );
+    }
   }
   .place-image {
     height: 100px;
@@ -588,6 +647,7 @@
     margin-top: 20px;
     margin-bottom: 20px;
     width: 100%;
+    border: $hairline_regular;
   }
 }
 
@@ -636,4 +696,9 @@
       }
     }
   }
+}
+
+.simple-pagination {
+  margin-top: 20px;
+  margin-bottom: 20px;
 }

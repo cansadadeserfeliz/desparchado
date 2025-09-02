@@ -1,5 +1,5 @@
 {% extends 'layout/base.html' %}
-{% load desparchado_tags %}
+{% load i18n desparchado_tags %}
 
 {% block title %}{{ speaker.name }}{% endblock %}
 
@@ -33,35 +33,29 @@
       <div class="image" style="background-image: url('{{ speaker.get_image_url }}');"
          title="{{ speaker.name }}"></div>
     {% endif %}
-    <div class="speaker-description">{{ speaker.description|safe|linebreaksbr }}</div>
+    <div class="speaker-description">{{ speaker.description|safe }}</div>
   </div>
 
 </section><!--/#speaker-detail-->
 
 {% if user|user_can_edit_speaker:speaker %}
-<div class="event-edit text-center">
-  <a class="btn btn-primary" href="{% url 'events:speaker_update' speaker.slug %}">
-    EDITAR
-  </a>
+<div
+    data-vue-component="button"
+    data-vue-prop-type="secondary"
+    data-vue-prop-label="{% translate 'Editar' %}"
+    data-vue-prop-link="{% url 'events:speaker_update' speaker.slug %}"
+>
 </div>
 {% endif %}
 
 <div class="clearfix"></div>
 
 {% if events %}
-<section class="my-2">
-  <h4>Próximos eventos con {{ speaker.name }}</h4>
-
-  {% include 'events/_events_grid.html' %}
-</section>
+  {% include 'events/_featured_events.html' with title=_('Pronto presentará') events=events %}
 {% endif %}
 
 {% if past_events %}
-<section class="my-2">
-  <h4>Eventos pasados con {{ speaker.name }}</h4>
-
-  {% include 'events/_events_grid.html' with events=past_events %}
-</section>
+  {% include 'events/_featured_events.html' with title=_('Archivo') events=past_events %}
 {% endif %}
 
 {% endblock content %}

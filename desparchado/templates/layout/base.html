@@ -7,12 +7,12 @@
 
     {# Ensure proper rendering and touch zooming for all devices #}
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="view-transition" content="same-origin" />
 
     <meta name="description" content="Eventos culturales y educativos en Colombia: programación de conciertos, festivales, ferias, congresos, teatro, arte, conferencias, cine alternativo">
     <meta name="keywords" content="Eventos Bogotá, Eventos Cali, Eventos Medellín, Eventos Cartagena, Conciertos, Talleres, Cursos, agenda cultural, programación, cine arte, libros">
     <meta name="news_keywords" content="Eventos" />
     <link rel="icon" href="https://desparchado.co/favicon.ico">
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css?family=Grand+Hotel" rel="stylesheet">
@@ -22,24 +22,47 @@
 
     <title>{% block title %}Desparchado.co{% endblock %}</title>
 
+    <style>
+      .css-wait { visibility: hidden; }
+    </style>
+
+     <script>
+      // Reveal ASAP and also on DOMContentLoaded as a fallback
+      if (document.readyState !== 'loading') {
+        document.addEventListener('readystatechange', () => {
+          if (document.body) document.body.classList.remove('css-wait');
+        }, { once: true });
+      } else {
+        document.addEventListener('DOMContentLoaded', () => {
+          document.body.classList.remove('css-wait');
+        }, { once: true });
+      }
+    </script>
+    <noscript><style>.css-wait { visibility: visible !important; }</style></noscript>
     <meta name="news_keywords" content="Eventos" />
     <meta name="google-site-verification" content="fzaFpFH8Q6VYOrIz3z98OPuzP8J99Cty7ic_jb9ApJo" />
-
-  {% block bootstrap_css %}
-    <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <!-- Fortawesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  {% endblock %}
 
     {# This will add a <script> tag to include the ViteJS HMR client. #}
     {# This tag will include this script only if DJANGO_VITE_DEV_MODE is true, otherwise this will do nothing. #}
     {% vite_hmr_client %}
 
     {% vite_asset 'desparchado/frontend/scripts/mount-vue.ts' %}
+    {% vite_asset 'desparchado/frontend/scripts/base.ts' %}
+
+  {% block bootstrap_css %}
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <!-- Fortawesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <!-- Select 2 Bootstrap 5 theme-->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.1.1/dist/select2-bootstrap-5-theme.min.css" />
+
+    {% vite_asset 'desparchado/static/ts/old_main.ts' %}
+    {# Force rebooot styles override #}
+    {% vite_asset 'desparchado/frontend/styles/index.scss' %}
+    {% vite_asset 'desparchado/frontend/scripts/base.ts' %}
+  {% endblock %}
 
     {# Extra CSS #}
     {% block extra_css %}{% endblock extra_css %}
@@ -57,10 +80,12 @@
 
   {% block google-structured-markup %}{% endblock %}
 
-  <body>
+  <body class="css-wait">
   {% block body %}
 
     {% include 'layout/_header.html' %}
+
+    {% block subheader %}{% endblock %}
 
     {% block content %}{% endblock content %}
 
@@ -76,16 +101,6 @@
 
     {# Extra JS #}
     {% block javascript %}{% endblock javascript %}
-
-    {# Global site tag (gtag.js) - Google Analytics #}
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-3N7JDK8B9C"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', 'G-3N7JDK8B9C');
-    </script>
 
     {# Umami Open Source Analytics #}
     <script defer src="https://cloud.umami.is/script.js" data-website-id="1ccee07e-d5e4-4c95-a986-3b1569f29d9b"></script>

@@ -7,8 +7,8 @@
           :style="`--featured-event-card-img-url: url('${imageUrl}');`"
         ></div>
       </div>
-      <div :class="bem(baseClass, 'wrapper')" :aria-labelledby="headingId">
-        <div :class="bem(baseClass, 'details')" :aria-labelledby="headingId">
+      <div :class="bem(baseClass, 'wrapper')">
+        <div :class="bem(baseClass, 'details')">
           <Typography
             tag="span"
             :customClass="bem(baseClass, 'location')"
@@ -41,10 +41,7 @@
           :id="headingId"
         />
         <div :class="bem(baseClass, 'description')">
-          <div
-            class="text-body-sm rich-text-description"
-            v-html="description"
-          />
+          <div class="text-body-sm rich-text-description" v-html="description" />
         </div>
         <Button
           type="secondary"
@@ -64,7 +61,7 @@
   import './styles.scss';
   import { bem } from '../../../../scripts/utils/bem';
   import Button from '@presentational_components/atoms/button/Button.vue';
-  
+
   // -------- [Types] --------
   export type FeaturedEventTags = 'div' | 'li' | 'section' | 'article';
 
@@ -81,13 +78,10 @@
   }
 
   // -------- [Props] --------
-  const props = withDefaults(
-    defineProps<EventCardProps>(),
-    {
-      tag: 'div',
-      imageUrl: 'https://desparchado.co/media/events/images_6.jpeg',
-    },
-  );
+  const props = withDefaults(defineProps<EventCardProps>(), {
+    tag: 'div',
+    imageUrl: 'https://desparchado.co/media/events/images_6.jpeg',
+  });
   const tag = props.tag;
   const id = ['event-card', generateUID()].join('-');
   const baseClass = 'event-card';

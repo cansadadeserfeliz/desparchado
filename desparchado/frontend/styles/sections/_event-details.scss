@@ -232,11 +232,12 @@ $mobile-actions-overlap: -3.75rem;
     flex-direction: column;
     justify-content: flex-end;
     mix-blend-mode: multiply;
+    padding: 0.75rem;
+    box-sizing: border-box;
+    overflow: auto;
   }
 
   &__actions-image {
-    padding: 0.75rem;
-
     img {
       width: 100%;
       height: 100%;
@@ -326,14 +327,12 @@ $mobile-actions-overlap: -3.75rem;
     flex-direction: column;
 
     @media (min-width: map.get($breakpoints, ml)) {
-      margin-right: 10rem;
+      margin-right: 9.9rem;
     }
 
     &--stroke { 
       @media (min-width: map.get($breakpoints, m)) {
-        border: $hairline_regular;
-        border-top: none;
-        border-bottom: none;
+        border-right: $hairline_regular;
       }
     }
   }
@@ -371,12 +370,14 @@ $mobile-actions-overlap: -3.75rem;
   }
 
   &__item-list-item-image {
-    width: 100%;
+    width: 4.375rem;
     object-fit: contain;
     object-position: bottom;
     height: auto;
-    max-width: 10.625rem;
-    min-width: 4.375rem;
+
+    @media (min-width: map.get($breakpoints, m)) {
+      width: 8.125rem;
+    }
   }
 
   &__item-list-item-details {

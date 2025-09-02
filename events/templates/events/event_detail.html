@@ -37,7 +37,7 @@
 {% endblock %}
 
 {% block extra_scripts %}
-  {% vite_asset 'desparchado/frontend/scripts/home.ts' %}
+  {% vite_asset 'desparchado/frontend/scripts/event-details.ts' %}
 
   <script
       src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_MAPS_API_KEY }}&libraries=maps,marker"
@@ -51,7 +51,7 @@
       <img alt="{{ event.title }}" src="{{ event.get_image_url }}" />
       {% if event.image_source_url %}
         <div class="event-details__image-source text-caption">
-          {% translate 'Fuente de la imágen' %}: <a href="{{ event.image_source_url }}" target="_blank">
+          {% translate 'Fuente de la imagen' %}: <a href="{{ event.image_source_url }}" target="_blank">
             {{ event.image_source_url|shorten_url }}
           </a>
         </div>
@@ -154,7 +154,7 @@
               {% translate 'Sobre el evento' %}:
               </br></br>
             </span>
-            {{ event.description|safe|linebreaksbr }}
+            {{ event.description|linebreaksbr|safe }}
           </div>
           <div class="event-details__disclaimer">
             <div
@@ -184,7 +184,7 @@
                     </a>
                     <div class="event-details__item-list-item-details">
                       <p class="text-heading-4">{{ speaker.name }}</p>
-                      <div class="text-caption">{{ speaker.description|safe|linebreaksbr|truncatewords_html:50 }}</div>
+                      <div class="text-caption">{{ speaker.description|safe|truncatewords_html:50 }}</div>
                       <a class="text-body-md" href="{{ speaker.get_absolute_url }}">Leer más</a>
                     </div>
                   </div>
@@ -203,7 +203,7 @@
                   </a>
                   <div class="event-details__item-list-item-details">
                     <p class="text-heading-4">{{ organizer.name }}</p>
-                    <div class="text-caption">{{ organizer.description|safe|linebreaksbr|truncatewords_html:50 }}</div>
+                    <div class="text-caption">{{ organizer.description|safe|truncatewords_html:50 }}</div>
                     <a class="text-body-md" href="{{ organizer.get_absolute_url }}">Leer más</a>
                   </div>
                 </div>
@@ -267,7 +267,7 @@
         <div
           data-vue-component="button"
           data-vue-prop-type="secondary"
-          data-vue-prop-label=" {% translate 'Ver otros eventos en este sitio' %}"
+          data-vue-prop-label="{% translate 'Ver otros eventos en este sitio' %}"
           data-vue-prop-link="{{ event.place.get_absolute_url }}"
         >
         </div>

@@ -41,17 +41,16 @@
     @media (min-width: map.get($breakpoints, m)) {
       position: sticky;
       gap: toRem(20px);
-      padding: 0 toRem(60px);
-      padding-top: toRem(150px);
+      padding: var(--header-height) toRem(60px) toRem(20px);
       top: 0;
       height: 100vh;
       max-width: toRem(430px);
       border-right: $hairline_regular;
       border-bottom: none;
+      overflow: auto;
     }
 
     @media (min-width: map.get($breakpoints, l)) {
-      padding-top: 0;
       max-width: toRem(530px);
     }
   }

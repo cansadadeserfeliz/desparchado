@@ -10,7 +10,7 @@ up:
 	docker-compose up
 
 test:
-	docker exec -it $(web_container_name) sh -c "cd app && pytest"
+	docker exec -it $(web_container_name) sh -c "cd app && pytest --cov-report=html"
 
 lint:
 	docker exec -it $(web_container_name) sh -c "cd app && ruff check --fix"

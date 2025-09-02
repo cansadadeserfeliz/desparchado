@@ -2,6 +2,8 @@
   <component
     :is="link ? 'a' : 'button'"
     :href="link"
+    :type="link ? undefined : isActionSubmit ? 'submit' : ''"
+    :aria-label="!label && props.name ? props.name : undefined"
     :class="[
       bem(baseClass),
       types[props.type],
@@ -82,6 +84,7 @@
     link?: string;
     onClick?: () => void;
     actionId?: string;
+    isActionSubmit?: boolean;
   }
 
   const props = withDefaults(defineProps<ButtonProps>(), {

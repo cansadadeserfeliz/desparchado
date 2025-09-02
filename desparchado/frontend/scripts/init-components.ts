@@ -3,11 +3,11 @@
  * @param {ParentNode} root
  */
 // Add a constructor type for components
-type ComponentCtor = new (el: HTMLElement) => unknown;
+export type ComponentCtor = new (el: HTMLElement) => unknown;
 
 export function initComponents(
   root: ParentNode = document,
-  registry: Map<string, ComponentCtor>
+  registry: Map<string, ComponentCtor>,
 ): void {
   const nodes = root.querySelectorAll<HTMLElement>('[data-component]');
   nodes.forEach((el: HTMLElement) => {
