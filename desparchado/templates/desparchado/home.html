@@ -110,6 +110,14 @@
       </div>
       <div data-component="event-container" data-url="{% url 'events_api:future_events_list' %}">
       </div>
+      <div
+        class="events-list-section__main-cta"
+        data-vue-component="button"
+        data-vue-prop-type="primary"
+        data-vue-prop-label="{% translate 'Ver todos los eventos' %}"
+        data-vue-prop-link="{% url 'events:event_list' %}"
+      >
+      </div>
     </div>
   </div>
 

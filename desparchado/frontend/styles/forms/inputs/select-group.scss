@@ -15,8 +15,6 @@
   display: flex;
 
   &__item {
-    @extend .text-body-highlight;
-
     border-radius: 100rem;
     position: relative;
 
@@ -41,6 +39,8 @@
     }
 
     select {
+      @extend .text-body-highlight;
+
       font-weight: $f-weight-semibold;
       background: none;
       border: none;
