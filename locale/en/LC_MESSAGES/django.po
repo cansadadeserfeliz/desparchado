@@ -349,8 +349,7 @@ msgstr ""
 
 #: events/templates/events/organizer_detail.html:75
 msgid "Organizará"
-msgstr ""
-
+msgstr "Will organize"
 #: events/templates/events/organizer_detail.html:79
 #: events/templates/events/past_event_list.html:10
 #: events/templates/events/past_event_list.html:15
