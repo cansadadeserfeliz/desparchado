@@ -289,60 +289,59 @@ msgstr ""
 #: events/templates/events/event_list.html:10
 #: events/templates/events/event_list.html:15
 msgid "Eventos"
-msgstr ""
+msgstr "Events"
 
 #: events/templates/events/event_list.html:18
 #: events/templates/events/past_event_list.html:18
 msgid "Busca un evento por:"
-msgstr ""
+msgstr "Search for an event by:"
 
 #: events/templates/events/event_list.html:23
 #: events/templates/events/past_event_list.html:23
 msgid "Busca por temática"
-msgstr ""
+msgstr "Search by topic"
 
 #: events/templates/events/event_list.html:24
 #: events/templates/events/past_event_list.html:24
 msgid "Temática"
-msgstr ""
+msgstr "Topic"
 
 #: events/templates/events/event_list.html:31
 #: events/templates/events/past_event_list.html:31
 msgid "Busca por lugar"
-msgstr ""
+msgstr "Search by place"
 
 #: events/templates/events/event_list.html:32
 #: events/templates/events/past_event_list.html:32
 msgid "Lugar"
-msgstr ""
+msgstr "Place"
 
 #: events/templates/events/event_list.html:43
 #: events/templates/events/past_event_list.html:51
 msgid "Busca aquí por nombre, presentador..."
-msgstr ""
+msgstr "Search by name, speaker..."
 
 #: events/templates/events/event_list.html:44
 #: events/templates/events/past_event_list.html:52
 msgid "Buscar eventos"
-msgstr ""
+msgstr "Search events"
 
 #: events/templates/events/event_list.html:53
 #: events/templates/events/event_list.html:113
 #: events/templates/events/past_event_list.html:61
 #: events/templates/events/past_event_list.html:121
 msgid "Limpiar búsqueda"
-msgstr ""
+msgstr "Clear search"
 
 #: events/templates/events/event_list.html:62
 #: events/templates/events/past_event_list.html:70
 msgid "Buscar"
-msgstr ""
+msgstr "Search"
 
 #: events/templates/events/event_list.html:112
 #: events/templates/events/past_event_list.html:120
 msgid "No encontramos resultados para su búsqueda"
-msgstr ""
-
+msgstr "No results found for your search"
 #: events/templates/events/organizer_detail.html:64
 #: events/templates/events/speaker_detail.html:45
 #: places/templates/places/place_detail.html:44
