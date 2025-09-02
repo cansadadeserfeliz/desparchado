@@ -561,6 +561,17 @@ a:hover {
     padding: 30px;
     text-align: center;
     background-color: $bg-color;
+
+    .organizer-title {
+      font-style: italic;
+
+      @include fluid-typography-styles(
+        $font-secondary,
+        1,
+        $font-sizes-heading-3,
+        $breakpoints
+      );
+    }
   }
   .organizer-image {
     height: 100px;
