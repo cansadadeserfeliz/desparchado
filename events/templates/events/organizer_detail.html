@@ -27,7 +27,6 @@
 
 {% block content %}
 <section id="organizer-detail" class="container">
-
   <div class="organizer-heading">
     <h1 class="organizer-title">{{ organizer.name }}</h1>
 
@@ -68,34 +67,16 @@
     </div>
   {% endif %}
   </div>
-
 </section><!--/#organizer-detail-->
-
-<section class="container my-3">
-  <div class="card card-body bg-light promo">
-    <div class="container">
-      <p class="text-center">
-        ¿Conoces más eventos organizados por «{{ organizer.name }}» o eres su representante? <br>
-        Regístrate en <b>Desparchado.co</b> y agrégalos.
-      </p>
-
-      <div class="text-center">
-        <a href="{% url 'events:add_event' %}" class="btn btn-sm btn-primary">
-          AÑADIR EVENTO
-        </a>
-      </div>
-    </div>
-  </div>
-</section>
 
 <div class="clearfix"></div>
 
 {% if events %}
-  {% include 'events/_featured_events.html' with title=_('Próximos eventos') events=events %}
+  {% include 'events/_featured_events.html' with title=_('Organizará') events=events %}
 {% endif %}
 
 {% if past_events %}
-  {% include 'events/_featured_events.html' with title=_('Eventos pasados') events=past_events %}
+  {% include 'events/_featured_events.html' with title=_('Archivo') events=past_events %}
 {% endif %}
 
 {% endblock content %}
