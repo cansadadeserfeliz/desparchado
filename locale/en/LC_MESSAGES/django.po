@@ -367,20 +367,19 @@ msgstr ""
 
 #: events/templates/events/speaker_detail.html:54
 msgid "Pronto presentará"
-msgstr ""
+msgstr "Presenting soon"
 
 #: places/templates/places/city_detail.html:44
 msgid "Próximos eventos"
-msgstr ""
+msgstr "Upcoming events"
 
 #: places/templates/places/city_detail.html:48
 msgid "Eventos pasados"
-msgstr ""
+msgstr "Past events"
 
 #: places/templates/places/place_detail.html:58
 msgid "Pronto se presentará aquí"
-msgstr ""
-
+msgstr "Coming soon here"
 #: users/models.py:22
 msgid "User-Event Relation"
 msgstr ""
