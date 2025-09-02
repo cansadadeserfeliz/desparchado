@@ -38,18 +38,13 @@
     <div class="place-description">{{ place.address }}</div>
 
   {% if user|user_can_edit_place:place %}
-    <div class="event-edit text-center">
-      <a class="btn btn-primary" href="{% url 'places:place_update' place.pk %}" class="hover-color list-inline-item">
-        EDITAR LUGAR
-      </a>
-    </div>
     <div
       data-vue-component="button"
       data-vue-prop-type="secondary"
       data-vue-prop-label="{% translate 'Editar' %}"
       data-vue-prop-link="{% url 'places:place_update' place.pk %}"
     >
-    </div>`
+    </div>
   {% endif %}
   </div>
 

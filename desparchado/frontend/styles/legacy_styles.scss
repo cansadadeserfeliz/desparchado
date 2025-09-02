@@ -614,6 +614,17 @@ a:hover {
     padding: 30px;
     text-align: center;
     background-color: $bg-color;
+
+    .place-title {
+      font-style: italic;
+
+      @include fluid-typography-styles(
+        $font-secondary,
+        1,
+        $font-sizes-heading-3,
+        $breakpoints
+      );
+    }
   }
   .place-image {
     height: 100px;
@@ -625,6 +636,7 @@ a:hover {
     margin-top: 20px;
     margin-bottom: 20px;
     width: 100%;
+    border: $hairline_regular;
   }
 }
 
