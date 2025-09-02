@@ -390,12 +390,11 @@ msgstr ""
 
 #: users/templates/registration/login.html:23
 msgid "Regístrate aquí"
-msgstr ""
+msgstr "Sign up here"
 
 #: users/templates/registration/login.html:37
 msgid "Recupera tu contraseña aquí"
-msgstr ""
-
+msgstr "Reset your password here"
 #: venv/lib/python3.11/site-packages/_pytest/config/argparsing.py:474
 #, python-format
 msgid "ambiguous option: %(option)s could match %(matches)s"
