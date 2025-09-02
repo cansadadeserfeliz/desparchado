@@ -24,7 +24,11 @@ a {
   color: $color-layout-foreground;
 }
 a:hover {
-    color: $color-layout-foreground;
+  color: $color-layout-foreground;
+}
+/* Solve footer override */
+.footer a:hover {
+  color: $color-layout-background;
 }
 
 .bg-success {
@@ -447,7 +451,8 @@ a:hover {
       filter: blur(2px);
     }
   }
-}/* for touch screen devices*/
+}
+/* for touch screen devices*/
 @media (hover: none) {
   .image-gallery-container {
     .image-gallery-title {
@@ -457,7 +462,7 @@ a:hover {
       filter: blur(2px);
     }
   }
-};
+}
 /* Pages */
 
 .page-img-title {
@@ -547,51 +552,6 @@ a:hover {
     max-width: 300px;
     margin: auto;
   }
-}/* Footer */
-
-.footer {
-  background-color: #171a1d;
-  color: #b3b3b3;
-
-  h5 {
-    font-size: 15px;
-    font-weight: 700;
-    text-transform: uppercase;
-    color: #fff;
-    margin-bottom: 30px;
-    letter-spacing: 2px;
-  }
-  .logo {
-    color: #ffffff;
-    font-family: 'Grand Hotel', cursive;
-    font-size: 36px;
-  }
-  ul li a.link-secondary {
-    text-transform: uppercase;
-    color: #b3b3b3;
-    font-weight: 500;
-    font-size: 14px;
-    display: block;
-    padding: 8px 0;
-    border-bottom: 1px solid #444;
-  }
-  .footer-social-icons {
-    margin-top: 25px;
-    a {
-      display: inline-block;
-      width: 35px;
-      height: 35px;
-      cursor: pointer;
-      background-color: #33383b;
-      border-radius: 2px;
-      font-size: 20px;
-      color: #ffffff;
-      text-align: center;
-      line-height: 35px;
-      margin-right: 3px;
-      margin-bottom: 5px;
-    }
-  }
 }
 
 /* Organizer detail */
@@ -654,6 +614,17 @@ a:hover {
     padding: 30px;
     text-align: center;
     background-color: $bg-color;
+
+    .place-title {
+      font-style: italic;
+
+      @include fluid-typography-styles(
+        $font-secondary,
+        1,
+        $font-sizes-heading-3,
+        $breakpoints
+      );
+    }
   }
   .place-image {
     height: 100px;
@@ -665,6 +636,7 @@ a:hover {
     margin-top: 20px;
     margin-bottom: 20px;
     width: 100%;
+    border: $hairline_regular;
   }
 }
 
@@ -713,4 +685,9 @@ a:hover {
       }
     }
   }
+}
+
+.simple-pagination {
+  margin-top: 20px;
+  margin-bottom: 20px;
 }

@@ -25,7 +25,7 @@ class LoginForm(AuthenticationForm):
             'username',
             'password',
             Div(
-                Submit('submit', 'INGRESAR', css_class='btn-primary'),
+                Submit('submit', 'Ingresar', css_class='btn-primary'),
                 css_class='form-group',
             ),
         )
@@ -49,7 +49,7 @@ class RegisterForm(UserCreationForm):
             'password1',
             'password2',
             Div(
-                Submit('submit', 'REGISTRARME', css_class='btn-primary'),
+                Submit('submit', 'Registrarme', css_class='btn-primary'),
                 css_class='form-group',
             ),
         )
@@ -76,7 +76,7 @@ class PasswordResetForm(AuthPasswordResetForm):
         self.helper.layout = Layout(
             'email',
             Div(
-                Submit('submit', 'RESTABLECER CONTRASEÑA', css_class='btn-primary'),
+                Submit('submit', 'Restablecer contraseña', css_class='btn-primary'),
                 css_class='form-group',
             ),
         )
