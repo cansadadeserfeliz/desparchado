@@ -345,8 +345,7 @@ msgstr "No results found for your search"
 #: events/templates/events/speaker_detail.html:45
 #: places/templates/places/place_detail.html:44
 msgid "Editar"
-msgstr ""
-
+msgstr "Edit"
 #: events/templates/events/organizer_detail.html:75
 msgid "Organizará"
 msgstr "Will organize"
