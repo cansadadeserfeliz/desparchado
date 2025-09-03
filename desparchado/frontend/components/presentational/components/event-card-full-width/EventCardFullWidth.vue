@@ -7,7 +7,7 @@
           :customClass="bem(baseClass, 'natural-day')"
           type="body_highlight"
           weight="bold"
-          :text="dateCopy + ''"
+          :text="dateCopyText"
         />
         <Typography
           tag="span"
@@ -34,7 +34,7 @@
         <div :class="bem(baseClass, 'speakers')">
           <a
             :class="bem(baseClass, 'speaker-item')"
-            v-for="(speaker, index) in props.speakers"
+            v-for="(speaker, index) in normalizedSpeakers"
             :key="index"
             :href="speaker.link"
           >
@@ -93,6 +93,7 @@
   import './styles.scss';
   import { bem } from '../../../../scripts/utils/bem';
   import Button from '@presentational_components/atoms/button/Button.vue';
+  import { computed } from 'vue';
 
   // -------- [Types] --------
   export type EventCardFullWidthTags = 'div' | 'li' | 'section' | 'article';
@@ -121,10 +122,15 @@
   // -------- [Props] --------
   const props = withDefaults(defineProps<EventCardProps>(), {
     tag: 'div',
+    speakers: () => [],
   });
 
   const tag = props.tag;
   const id = ['event-card-full-width', generateUID()].join('-');
   const baseClass = 'event-card-full-width';
   const headingId = [id, 'title'].join('-');
+  const dateCopyText = computed(() => (props.dateCopy != null ? String(props.dateCopy) : ''));
+  const normalizedSpeakers = computed<Speaker[]>(() =>
+    Array.isArray(props.speakers) ? props.speakers : [],
+  );
 </script>
