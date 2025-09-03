@@ -186,6 +186,13 @@ STATICFILES_FINDERS = (
 
 SITE_ID = 1
 
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+        "LOCATION": "unique-snowflake",
+    }
+}
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
