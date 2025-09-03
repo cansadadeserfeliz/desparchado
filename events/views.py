@@ -114,7 +114,7 @@ class EventListView(EventListBaseView):
         if 'city_filter_ids' in cache:
             city_ids = cache.get('city_filter_ids')
         else:
-            events = context[self.context_object_name]
+            events = self.get_queryset()
             city_ids = events.values_list("place__city_id", flat=True)
             cache.set('city_filter_ids', city_ids, 24 * 60 * 60)
 
