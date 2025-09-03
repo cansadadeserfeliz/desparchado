@@ -2,6 +2,7 @@ from urllib.parse import urlencode
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.postgres.search import SearchQuery, SearchVector
+from django.core.cache import cache
 from django.db.models import Q
 from django.http import JsonResponse
 from django.urls import reverse
@@ -57,7 +58,6 @@ class EventListBaseView(ListView):
         context['category_filter_name'] = self.category_filter_name
         context['category_filter_value'] = self.category_filter_value
         context['category_choices'] = Event.Category.choices
-        context['cities'] = City.objects.all()
 
         params = {}
         if self.search_query_value:
@@ -108,6 +108,20 @@ class EventListView(EventListBaseView):
     def get_queryset(self):
         return super().get_queryset().future()
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        if 'city_filter_ids' in cache:
+            city_ids = cache.get('city_filter_ids')
+        else:
+            events = self.get_queryset()
+            city_ids = events.values_list("place__city_id", flat=True)
+            cache.set('city_filter_ids', city_ids, 24 * 60 * 60)
+
+        context['cities'] = City.objects.filter(id__in=city_ids)
+
+        return context
+
 class PastEventListView(EventListBaseView):
     template_name = "events/past_event_list.html"
     year_filter_name = 'year'
@@ -139,6 +153,7 @@ class PastEventListView(EventListBaseView):
         context = super().get_context_data(**kwargs)
 
         # For search form rendering
+        context["cities"] = City.objects.all()
         context['year_filter_name'] = self.year_filter_name
         context['year_filter_value'] = self.year_filter_value
         context['year_range'] = self.year_range
