@@ -2,6 +2,7 @@
   <component
     :is="link ? 'a' : 'button'"
     :href="link"
+    :target="link && props.target ? props.target : undefined"
     :type="link ? undefined : isActionSubmit ? 'submit' : ''"
     :aria-label="!label && props.name ? props.name : undefined"
     :class="[
@@ -82,6 +83,7 @@
     radius?: ButtonRadius;
     customClass?: string;
     link?: string;
+    target?: '_blank' | '_self' | '_parent' | '_top';
     onClick?: () => void;
     actionId?: string;
     isActionSubmit?: boolean;
