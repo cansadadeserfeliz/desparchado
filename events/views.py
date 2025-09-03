@@ -1,8 +1,8 @@
 from urllib.parse import urlencode
 
-from django.core.cache import cache
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.postgres.search import SearchQuery, SearchVector
+from django.core.cache import cache
 from django.db.models import Q
 from django.http import JsonResponse
 from django.urls import reverse

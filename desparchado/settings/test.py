@@ -8,7 +8,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.locmem.EmailBackend'
 CACHES = {
     "default": {
         "BACKEND": "django.core.cache.backends.dummy.DummyCache",
-    }
+    },
 }
 
 LOGGING['root']['handlers'] = ['console']   # noqa: F405
