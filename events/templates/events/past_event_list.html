@@ -90,6 +90,7 @@
         data-vue-prop-link="{{ event.get_absolute_url }}"
         data-vue-prop-date-copy="{{ event.event_date|date:'Y' }}"
         data-vue-prop-speakers='[{% with speakers=event.speakers.all %}{% if speakers %}{% for speaker in speakers %}{"imageUrl": "{{ speaker.get_image_url|escapejs }}", "link": "{{ speaker.get_absolute_url|escapejs }}", "name": "{{ speaker.name|escapejs }}" }{% if not forloop.last %}, {% endif %}{% endfor %}{% endif %}{% endwith %}]'
+      >
       </div>
     {% empty %}
       <div class="events-section__empty text-heading-5">
