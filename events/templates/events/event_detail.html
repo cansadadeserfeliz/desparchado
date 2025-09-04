@@ -113,7 +113,8 @@
               data-vue-prop-type="secondary"
               data-vue-prop-label="{% translate 'Ir al sitio del evento' %}"
               data-vue-prop-icon="world-40"
-              data-vue-prop-link="{{ event.get_absolute_url }}"
+              data-vue-prop-link="{{ event.event_source_url }}"
+              data-vue-prop-target="_blank"
             >
             </div>
           </div>
@@ -238,7 +239,8 @@
           data-vue-prop-name="Ir al sitio del evento"
           data-vue-prop-icon="world-40"
           data-vue-prop-padding="balanced"
-          data-vue-prop-link="{{ event.get_absolute_url }}"
+          data-vue-prop-link="{{ event.event_source_url }}"
+          data-vue-prop-target="_blank"
         >
         </div>
       </div>
