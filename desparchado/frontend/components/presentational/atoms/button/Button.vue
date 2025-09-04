@@ -10,7 +10,7 @@
       bem(baseClass),
       types[props.type],
       paddings[props.padding],
-      radiuses[props.radius],fv
+      radiuses[props.radius],
       props.customClass,
     ]"
     :style="props.name && `--button-name: '${props.name}'`"
