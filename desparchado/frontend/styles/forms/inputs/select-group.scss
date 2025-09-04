@@ -49,6 +49,7 @@
       align-items: center;
       justify-content: center;
       font-family: cursive;
+      pointer-events: none;
 
       @media (min-width: map.get($breakpoints, m)) {
         padding: 0.75rem 1.5rem;
