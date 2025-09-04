@@ -1,7 +1,9 @@
 {% extends 'layout/base.html' %}
-{% load i18n humanize desparchado_tags django_vite %}
+{% load i18n desparchado_tags django_vite %}
 
 {% block title %}{{ event.title }}{% endblock %}
+
+{% block bootstrap_css %}{% endblock %}
 
 {% block meta %}
   <meta property="og:title" content="{{ event.title }}">
@@ -35,8 +37,7 @@
 {% endblock %}
 
 {% block extra_scripts %}
-  {% vite_asset 'desparchado/frontend/scripts/mount-vue.ts' %}
-  {% vite_asset 'desparchado/frontend/scripts/home.ts' %}
+  {% vite_asset 'desparchado/frontend/scripts/event-details.ts' %}
 
   <script
       src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_MAPS_API_KEY }}&libraries=maps,marker"
@@ -50,7 +51,7 @@
       <img alt="{{ event.title }}" src="{{ event.get_image_url }}" />
       {% if event.image_source_url %}
         <div class="event-details__image-source text-caption">
-          {% translate 'Fuente de la imágen' %}: <a href="{{ event.image_source_url }}" target="_blank">
+          {% translate 'Fuente de la imagen' %}: <a href="{{ event.image_source_url }}" target="_blank">
             {{ event.image_source_url|shorten_url }}
           </a>
         </div>
@@ -70,13 +71,15 @@
               / {{ event.place.city.name }}
             </span>
           {% endif %}
-          {% if event.event_date|naturalday != event.event_date|date %}
+        {% with natural_day=event.event_date|natural_day_no_default %}
+          {% if natural_day %}
             <span class="event-details__info-item text-body-md">
-               / {{ event.event_date|naturalday }}
+               / {{ natural_day }}
             </span>
           {% endif %}
+        {% endwith %}
           <span class="event-details__info-item text-bold text-body-md">
-            / {{ event.event_date|date:"l, d M H:i" }}
+            / {{ event.event_date|date:"l, d M H:i, Y" }}
           </span>
           {% if event.price %}
             <span class="event-details__info-item text-body-md text-bold">
@@ -110,7 +113,8 @@
               data-vue-prop-type="secondary"
               data-vue-prop-label="{% translate 'Ir al sitio del evento' %}"
               data-vue-prop-icon="world-40"
-              data-vue-prop-link="{{ event.get_absolute_url }}"
+              data-vue-prop-link="{{ event.event_source_url }}"
+              data-vue-prop-target="_blank"
             >
             </div>
           </div>
@@ -126,10 +130,10 @@
             </div>
           {% endif %}
 
-          {% if event.speakers.exists %}
+          {% if speakers %}
             <div class="speakers">
               <div class="speakers__avatar-container">
-                {% for speaker in event.speakers.all %}
+                {% for speaker in speakers %}
                   <a href="{{ speaker.get_absolute_url }}">
                     <img class="speakers__avatar"
                          src="{{ speaker.get_image_url }}"
@@ -139,7 +143,7 @@
                 {% endfor %}
               </div>
               <p class="text-heading-5">
-                {% for speaker in event.speakers.all %}
+                {% for speaker in speakers %}
                   {{ speaker.name }}{% if not forloop.last %}{% if forloop.revcounter == 2 %} {% translate 'y' %} {% else %}, {% endif %}{% endif %}
                 {% endfor %}
               </p>
@@ -151,7 +155,7 @@
               {% translate 'Sobre el evento' %}:
               </br></br>
             </span>
-            {{ event.description|safe|linebreaksbr }}
+            {{ event.description|linebreaksbr|safe }}
           </div>
           <div class="event-details__disclaimer">
             <div
@@ -170,18 +174,18 @@
               {% endblocktranslate %}
             </p>
           </div>
-          {% if event.speakers.exists %}
+          {% if speakers %}
             <div class="event-details__item-list">
               <h2 class="text-heading-4">Presentadores</h2>
               <div class="event-details__item-list-list">
-                {% for speaker in event.speakers.all %}
+                {% for speaker in speakers %}
                   <div class="event-details__item-list-item">
                     <a href="{{ speaker.get_absolute_url }}">
                       <img class="event-details__item-list-item-image" height="170" src="{{ speaker.get_image_url }}" alt="{{ speaker.name }}">
                     </a>
                     <div class="event-details__item-list-item-details">
                       <p class="text-heading-4">{{ speaker.name }}</p>
-                      <div class="text-caption">{{ speaker.description|safe|linebreaksbr|truncatewords_html:50 }}</div>
+                      <div class="text-caption">{{ speaker.description|safe|truncatewords_html:50 }}</div>
                       <a class="text-body-md" href="{{ speaker.get_absolute_url }}">Leer más</a>
                     </div>
                   </div>
@@ -200,7 +204,7 @@
                   </a>
                   <div class="event-details__item-list-item-details">
                     <p class="text-heading-4">{{ organizer.name }}</p>
-                    <div class="text-caption">{{ organizer.description|safe|linebreaksbr|truncatewords_html:50 }}</div>
+                    <div class="text-caption">{{ organizer.description|safe|truncatewords_html:50 }}</div>
                     <a class="text-body-md" href="{{ organizer.get_absolute_url }}">Leer más</a>
                   </div>
                 </div>
@@ -235,7 +239,8 @@
           data-vue-prop-name="Ir al sitio del evento"
           data-vue-prop-icon="world-40"
           data-vue-prop-padding="balanced"
-          data-vue-prop-link="{{ event.get_absolute_url }}"
+          data-vue-prop-link="{{ event.event_source_url }}"
+          data-vue-prop-target="_blank"
         >
         </div>
       </div>
@@ -264,7 +269,7 @@
         <div
           data-vue-component="button"
           data-vue-prop-type="secondary"
-          data-vue-prop-label=" {% translate 'Ver otros eventos en este sitio' %}"
+          data-vue-prop-label="{% translate 'Ver otros eventos en este sitio' %}"
           data-vue-prop-link="{{ event.place.get_absolute_url }}"
         >
         </div>
@@ -309,7 +314,7 @@
             data-vue-prop-time="{{ related_event.event_date|date:'H:i' }}"
             data-vue-prop-image-url="{{ related_event.get_image_url }}"
             data-vue-prop-link="{{ related_event.get_absolute_url }}"
-            data-vue-prop-date-copy="{{ related_event.event_date|naturalday }}"
+            data-vue-prop-date-copy="{{ related_event.event_date|natural_day }}"
           >
           </div>
         {% endfor %}

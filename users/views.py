@@ -12,26 +12,23 @@ from .forms import RegisterForm
 User = get_user_model()
 
 
-class UserDetailView(DetailView):
-    context_object_name = 'user_object'
-    slug_field = 'username'
+class UserDetailView(LoginRequiredMixin, DetailView):
+    context_object_name = 'user_obj'
     model = User
+    template_name = 'auth/user_detail.html'
 
-    def get_template_names(self):
-        if self.request.user.is_authenticated:
-            return ['auth/user_detail.html']
-        return ['auth/public_user_detail.html']
+    def get_object(self):
+        return self.request.user
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        if self.request.user.is_authenticated:
-            added_events_count = (
-                Event.objects.filter(created_by=self.object).published().count()
-            )
-            context['added_events_count'] = added_events_count
-            days_on_page = (timezone.now() - self.object.date_joined).days
-            context['days_on_page'] = days_on_page
+        added_events_count = (
+            Event.objects.filter(created_by=self.object).published().count()
+        )
+        context['added_events_count'] = added_events_count
+        days_on_page = (timezone.now() - self.object.date_joined).days
+        context['days_on_page'] = days_on_page
 
         return context
 
@@ -44,7 +41,7 @@ class UserCreationFormView(FormView):
         if self.request.user.is_authenticated:
             return HttpResponseRedirect(
                 reverse(
-                    'users:user_detail', kwargs={'slug': self.request.user.username},
+                    'users:user_detail',
                 ),
             )
         return super().dispatch(*args, **kwargs)

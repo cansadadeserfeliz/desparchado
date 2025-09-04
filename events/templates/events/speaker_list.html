@@ -1,11 +1,16 @@
-{% extends 'old_layout/base.html' %}
-{% load paginator_tags %}
+{% extends 'layout/base.html' %}
+{% load i18n paginator_tags %}
 
 {% block title %}Presentadores{% endblock %}
 
 {% block content %}
-<section id="speaker-list" class="container">
-  <h2 class="text-justify text-center">Presentadores</h2>
+<div class="container">
+  <div
+    data-vue-component="typography"
+    data-vue-prop-text="{% translate 'Presentadores' %}"
+    data-vue-prop-type="h2"
+  >
+  </div>
 
   <div class="row justify-content-center align-items-center">
     <form id="speaker_search_form" method="get">
@@ -17,7 +22,7 @@
       </div>
     </form>
   </div><!-- /.row -->
-
+</div>
 {% if speakers.exists %}
 
   <div class="row text-center text-lg-left image-gallery-container">
@@ -47,6 +52,5 @@
 {% endif %}
 
 {% get_simple_pagination %}
-</section><!--/#speaker-list-->
 
 {% endblock content %}

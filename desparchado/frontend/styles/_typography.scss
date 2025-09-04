@@ -18,7 +18,7 @@ $font-sizes-subtitle-1: (
 );
 $font-sizes-heading-2: (
   xs: 50px,
-  s: 50px,
+  s: 82px,
   m: 115px,
   l: 150px,
   xl: 150px,
@@ -45,11 +45,11 @@ $font-sizes-heading-5: (
   xl: 20px
 );
 $font-sizes-body-sm: (
-  xs: 12px,
-  s: 12px,
-  m: 14px,
-  l: 14px,
-  xl: 14px,
+  xs: 13px,
+  s: 13px,
+  m: 15px,
+  l: 15px,
+  xl: 15px,
 );
 $font-sizes-body-md: (
   xs: 14px,
@@ -132,6 +132,9 @@ $font-sizes-header-item: (
 }
 
 .text-heading-4 {
+  font-weight: $f-weight-semibold;
+  letter-spacing: -0.06em;
+
   @include fluid-typography-styles(
     $font-primary,
     1,
@@ -152,6 +155,9 @@ $font-sizes-header-item: (
 }
 
 .text-body-sm {
+  font-weight: $f-weight-medium;
+  letter-spacing: -0.04em;
+
   @include fluid-typography-styles(
     $font-primary,
     1.8,
@@ -161,6 +167,9 @@ $font-sizes-header-item: (
 }
 
 .text-body-md {
+  font-weight: $f-weight-medium;
+  letter-spacing: -0.03em;
+
   @include fluid-typography-styles(
     $font-primary,
     1.5,
@@ -170,6 +179,8 @@ $font-sizes-header-item: (
 }
 
 .text-body-lg {
+  letter-spacing: -0.05em;
+
   @include fluid-typography-styles(
     $font-primary,
     1.5,
@@ -179,6 +190,8 @@ $font-sizes-header-item: (
 }
 
 .text-body-highlight {
+  letter-spacing: -0.03em;
+
   @include fluid-typography-styles(
     $font-primary,
     1,
@@ -188,6 +201,8 @@ $font-sizes-header-item: (
 }
 
 .text-caption {
+  letter-spacing: -0.02em;
+
   @include fluid-typography-styles(
     $font-primary,
     1,

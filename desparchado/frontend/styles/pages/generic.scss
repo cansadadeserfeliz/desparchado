@@ -1,0 +1,201 @@
+@use '@styles/variables' as *;
+@use '@styles/functions' as *;
+@use '@styles/animations' as *;
+@use '@styles/mixins' as *;
+@use '@styles/breakpoints' as *;
+@use '@styles/typography' as *;
+@use "sass:map";
+
+.generic-detail {
+  color: $color-layout-foreground;
+
+  &__section {
+    padding: 2rem 0;
+
+    @media (min-width: map.get($breakpoints, m)) {
+      padding: 4rem 0;
+    }
+  }
+
+  &__map {
+    max-width: 50rem;
+    margin: 1rem auto;
+  }
+
+  &__section-header {
+    padding: 0 2rem;
+
+    &--padding {
+      &-sm {
+        margin-bottom: 1rem;
+
+        @media (min-width: map.get($breakpoints, m)) {
+          margin-bottom: 2rem;
+        }
+      }
+
+      &-md {
+        margin-bottom: 2rem;
+
+        @media (min-width: map.get($breakpoints, m)) {
+          margin-bottom: 3rem;
+        }
+      }
+
+      &-lg {
+        margin-bottom: 4rem;
+
+        @media (min-width: map.get($breakpoints, m)) {
+          margin-bottom: 3rem;
+        }
+      }
+    }
+  }
+
+  &__main {
+    display: flex;
+    flex-direction: column;
+    padding-top: 1rem;
+
+    @media (min-width: map.get($breakpoints, m)) {
+      flex-direction: row;
+      padding-top: 0;
+    }
+  }
+
+  &__main-asset {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 6.25rem;
+    max-height: 6.25rem;
+    margin: auto;
+
+    @media (min-width: map.get($breakpoints, m)) {
+      flex-shrink: 0;
+      max-width: 12.5rem;
+      max-height: 12.5rem;
+
+    }
+
+    @media (min-width: map.get($breakpoints, ml)) {
+      padding-left: 2vw;
+      margin-right: 0;
+    }
+  }
+
+  &__main-heading {
+    $image-mobile-overlap: 5.5rem;
+
+    background: $color-dp-orange-10;
+    padding: 3rem 2rem;
+    display: flex;
+    gap: 0.5rem;
+    flex-direction: column;
+    border-top: $hairline_regular;
+    margin-top: -$image-mobile-overlap;
+    padding-top: calc(2rem + $image-mobile-overlap);
+
+    @media (min-width: map.get($breakpoints, m)) {
+      padding-top: 2rem;
+      margin-top: 0;
+      padding-left: calc(2rem + $image-mobile-overlap);
+      margin-left: -$image-mobile-overlap;
+      border-top: none;
+      justify-content: flex-end;
+      border-bottom: $hairline_regular;
+      border-left: $hairline_regular;
+      height: -webkit-fill-available;
+      max-width: 50rem;
+    }
+  }
+
+  &__main-side {
+    border-top: $hairline_regular;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 3rem 2rem 1rem;
+
+    @media (min-width: map.get($breakpoints, m)) {
+      border-top: none;
+      border-bottom: $hairline_regular;
+      border-left: $hairline_regular;
+      max-width: 30rem;
+    }
+  }
+
+  &__main-side-title {
+    &--emphasis {
+      color: $color-layout-interactive;
+    }
+  }
+
+  .events-list {
+    $scroll-button-size: 2.5rem;
+
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    width: 100%;
+    scroll-behavior: smooth;
+    padding: 0 2rem;
+    margin-bottom: 20px;
+    scroll-snap-type: x mandatory;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    &::scroll-button(right),
+    &::scroll-button(left) {
+      content: '→';
+      border: none;
+      background-color: $color-layout-interactive;
+      font-family: Consolas;
+      font-size: 1.5rem;
+      color: $color-layout-background;
+      height: $scroll-button-size;
+      width: $scroll-button-size;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      right: 1rem;
+    }
+
+    &::scroll-button(left) {
+      content: '←';
+      right: calc(2rem + $scroll-button-size);
+    }
+    
+    &::scroll-button(right):disabled,
+    &::scroll-button(left):disabled {
+      opacity: 0.5;
+      cursor: initial;
+    }
+
+    &__card {
+      scroll-snap-align: start;
+      flex-shrink: 0;
+      display: flex;
+      align-items: flex-end;
+      flex-basis: 100vw;
+
+      @media (min-width: map.get($breakpoints, s)) {
+        flex-basis: 20rem;
+
+        &:first-child {
+          flex-basis: 22rem;
+
+          .event-card {
+            padding-left: 2rem;
+          }
+        }
+      }
+    }
+  }
+}

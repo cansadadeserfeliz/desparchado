@@ -234,6 +234,11 @@
       --button-foreground: #{$color-layout-background};
       fill: var(--button-foreground);
   
+      #{$self}__content {
+        border: $hairline_regular;
+        border-color: var(--button-foreground);  
+      }
+      
       &:hover {
         --button-background: #{$color-layout-foreground};
       }

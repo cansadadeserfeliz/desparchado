@@ -1,5 +1,5 @@
-{% extends 'old_layout/base.html' %}
-{% load paginator_tags %}
+{% extends 'layout/base.html' %}
+{% load i18n paginator_tags %}
 
 {% block title %}Lugares{% endblock %}
 
@@ -7,8 +7,12 @@
 <section id="place-list" class="container">
   <div class="row text-center justify-content-md-center clearfix">
     <div class="col-sm-8 col-sm-offset-2">
-      <h2 class="title-one">Lugares</h2>
-      <p class="event-heading">Bogotá</p>
+        <div
+          data-vue-component="typography"
+          data-vue-prop-text="{% translate 'Lugares' %}"
+          data-vue-prop-type="h2"
+        >
+        </div>
     </div>
   </div>
 

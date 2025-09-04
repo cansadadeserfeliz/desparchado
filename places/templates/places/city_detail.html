@@ -1,5 +1,5 @@
-{% extends 'old_layout/base.html' %}
-{% load paginator_tags %}
+{% extends 'layout/base.html' %}
+{% load i18n paginator_tags %}
 
 {% block title %}Eventos culturales y educativos en {{ city.name }}{% endblock %}
 
@@ -40,29 +40,13 @@
       </div>
     </section>
 
-    {% if events %}
+  {% if events %}
+    {% include 'events/_featured_events.html' with title=_('Próximos eventos') events=events %}
+  {% endif %}
 
-      <h4>Próximos eventos en {{ city.name }}</h4>
-
-      {% include 'events/_events_grid.html' %}
-
-      <section classd="container">
-        <div class="text-center">
-          <a href="{% url 'events:event_list' %}?city={{ city.slug }}" class="btn btn-sm btn-primary">VER TODOS LOS EVENTOS</a>
-        </div>
-
-        <hr>
-      </section>
-
-    {% endif %}
-
-    {% if past_events %}
-
-      <h4>Eventos pasados en {{ city.name }}</h4>
-
-      {% include 'events/_events_grid.html' with events=past_events %}
-
-    {% endif %}
+  {% if past_events %}
+    {% include 'events/_featured_events.html' with title=_('Eventos pasados') events=past_events %}
+  {% endif %}
 
   </section>
 

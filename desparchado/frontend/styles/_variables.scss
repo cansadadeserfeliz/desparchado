@@ -5,13 +5,19 @@ $font-nohemi: 'Nohemi', sans-serif;
 $font-geist: 'Geist', sans-serif;
 $font-newsreader: 'Newsreader', serif;
 
-$font-primary: $font-nohemi;
+$font-primary: $font-geist;
 $font-secondary: $font-newsreader;
 $font-tertiary: $font-humane;
 
+$f-weight-thin: 100;
+$f-weight-extralight: 200;
+$f-weight-light: 300;
 $f-weight-regular: 400;
 $f-weight-medium: 500;
+$f-weight-semibold: 600;
 $f-weight-bold: 700;
+$f-weight-extrabold: 800;
+$f-weight-black: 900;
 
 // gray
 $color-gray-00: #FFF;

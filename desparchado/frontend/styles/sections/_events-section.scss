@@ -1,0 +1,65 @@
+@use '@styles/variables' as *;
+@use '@styles/functions' as *;
+@use '@styles/animations' as *;
+@use '@styles/mixins' as *;
+@use '@styles/breakpoints' as *;
+@use '@styles/typography' as *;
+@use "sass:map";
+
+.events-section {
+  &__header {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-end;
+    padding: 0 2vw 1rem;
+    flex-wrap: wrap;
+
+    @media (min-width: map.get($breakpoints, m)) {
+      padding: 5rem 2vw 2rem;
+    }
+  }
+
+  &__title {
+    &--emphasis {
+      color: $color-dp-orange-300;
+    }
+  }
+
+  &__filters {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  &__filter-actions {
+    display: flex;
+    gap: 1rem;
+  }
+
+  &__filter-inputs {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+
+    .text-input {
+      flex: 1;
+    }
+  }
+
+  &__filter-wrapper {
+    display: flex;
+    flex-direction: column;
+
+    @media (min-width: map.get($breakpoints, m)) {
+      flex-direction: column-reverse;
+    }
+  }
+
+  &__empty {
+    padding: 5rem 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+}

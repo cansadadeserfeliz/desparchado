@@ -1,0 +1,173 @@
+@use '@styles/variables' as *;
+@use '@styles/breakpoints' as *;
+@use '@styles/functions' as *;
+@use '@styles/animations' as *;
+@use '@styles/mixins' as *;
+@use "sass:map";
+
+.event-card-full-width {
+  $self: &;
+  color: $color-layout-foreground;
+  position: relative;
+  border-top: $hairline_regular;
+  padding: 1.25rem 1rem;
+  padding-top: 5.625rem;
+  margin-top: 3rem;
+  
+  @media (min-width: map.get($breakpoints, m)) {
+    padding: 3rem 3vw;
+    margin-top: 3.125rem;
+  }
+
+  &:hover {
+    #{$self}__image {
+      opacity: 1;
+    }
+  }
+
+  .event-card-full-width {
+    &__container {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      align-items: flex-start;
+
+      @media (min-width: map.get($breakpoints, m)) {
+        flex-direction: row;
+        gap: 4vw;
+
+      }
+    }
+
+    &__wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    &__title {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    &__date {
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+    }
+
+    &__natural-day {
+      width: 8ch;
+
+      @media (min-width: map.get($breakpoints, s)) {
+        width: 13ch;
+      }
+
+      @media (min-width: map.get($breakpoints, m)) {
+        width: unset;
+      }
+    }
+
+    &__day,
+    &__time {
+      font-weight: $f-weight-black;
+      color: $color-layout-interactive;
+      font-size: 20px;
+
+      @media (min-width: map.get($breakpoints, m)) {
+        font-size: #{fluid-size(
+          30px,
+          50px,
+          map.get($breakpoints, m),
+          map.get($breakpoints, l-minus-1)
+        )};
+      }
+    }
+
+    &__speakers {
+      display: flex;
+      gap:0.5rem;
+    }
+
+    &__speaker-item {
+      position: relative;
+      color: inherit;
+
+      &:hover {
+        #{$self}__speaker-name {
+          opacity: 1;
+        }
+      }
+    }
+
+    &__speaker-avatar {
+      width: 1.875rem;
+      height: 1.875rem;
+      border-radius: 100%;
+    }
+
+    &__speaker-name {
+      position: absolute;
+      width: max-content;
+      top: -0.5rem;
+      left: 50%;
+      transform: translate(-50%, -100%);
+      color: $color-layout-background;
+      background-color: $color-layout-foreground;
+      padding: 0.25rem 0.5rem;
+      border-radius: 0.25rem;
+      opacity: 0;
+      transition: opacity 0.5s $ease-out-quart;
+    }
+
+    &__image {
+      min-width: 55vw;
+      height: 195px;
+      position: absolute;
+      top: 0;
+      transform: translateY(calc(-100% + 8.5rem));
+      right: 2rem;
+
+      @media (min-width: map.get($breakpoints, m)) {
+        min-width: 300px;
+        height: 180px;
+        position: initial;
+        transform: none;
+        margin-top: -5.625rem;
+        opacity: 0;
+        transition: opacity 0.5s $ease-out-quart;
+      }
+    }
+
+    &__image-asset {
+      background-image: var(--featured-event-card-img-url);
+      background-repeat: no-repeat;
+      background-size: contain;
+      background-position: bottom;
+      height: 100%;
+      width: 100%;
+
+      @media (min-width: map.get($breakpoints, m)) {
+        background-position: top;
+      }
+    }
+
+    &__description {
+      padding-top: 0.5rem;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 3;
+      line-clamp: 3;
+      overflow: hidden;
+    }
+
+    &__actions {
+      @media (min-width: map.get($breakpoints, m)) {
+        position: absolute;
+        top: 0;
+        right: 1rem;
+      }
+    }
+  }
+}

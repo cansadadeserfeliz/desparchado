@@ -1,11 +1,11 @@
 {% extends 'layout/base.html' %}
 {% load i18n humanize desparchado_tags django_vite %}
 
+{% block bootstrap_css %}{% endblock %}
+
 {% block extra_scripts %}
-  {% vite_asset 'desparchado/frontend/scripts/mount-vue.ts' %}
   {% vite_asset 'desparchado/frontend/scripts/home.ts' %}
 {% endblock extra_scripts %}
-
 
 {% block content %}
   <div class="intro-section">
@@ -57,7 +57,7 @@
             data-vue-prop-time="{{ featured_event.event_date|date:'H:i' }}"
             data-vue-prop-image-url="{{ featured_event.get_image_url }}"
             data-vue-prop-link="{{ featured_event.get_absolute_url }}"
-            data-vue-prop-date-copy="{{ featured_event.event_date|naturalday }}"
+            data-vue-prop-date-copy="{{ featured_event.event_date|natural_day }}"
           >
           </div>
         {% endfor %}
@@ -108,7 +108,15 @@
         data-vue-prop-type="h2"
       >
       </div>
-      <div data-component="event-container" data-url="{% url 'events_api:future_events_list' %}">    
+      <div data-component="event-container" data-url="{% url 'events_api:future_events_list' %}">
+      </div>
+      <div
+        class="events-list-section__main-cta"
+        data-vue-component="button"
+        data-vue-prop-type="primary"
+        data-vue-prop-label="{% translate 'Ver todos los eventos' %}"
+        data-vue-prop-link="{% url 'events:event_list' %}"
+      >
       </div>
     </div>
   </div>

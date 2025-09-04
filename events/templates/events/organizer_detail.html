@@ -1,7 +1,11 @@
-{% extends 'old_layout/base.html' %}
-{% load desparchado_tags %}
+{% extends 'layout/base.html' %}
+{% load i18n desparchado_tags django_vite %}
 
 {% block title %}{{ organizer.name }}{% endblock %}
+
+{% block extra_scripts %}
+  {% vite_asset 'desparchado/frontend/scripts/generic.ts' %}
+{% endblock extra_scripts %}
 
 {% block meta %}
   <meta property="og:title" content="{{ organizer.name }}">
@@ -26,82 +30,139 @@
 {% endblock %}
 
 {% block content %}
-<section id="organizer-detail" class="container">
+  <div class="generic-detail">
+    <section class="generic-detail__main">
+      {% if organizer.image  %}
+        <div class="generic-detail__main-asset">
+          <img src="{{ organizer.get_image_url }}" role="presentation" aria-hidden="true" width="200"/>
+        </div>
+      {% endif %}
 
-  <div class="organizer-heading">
-    <h1 class="organizer-title">{{ organizer.name }}</h1>
+      <div class="generic-detail__main-heading">
+        <h1 class="text-subtitle-1">{{ organizer.name }}</h1>
+        <div class="text-body-lg">{{ organizer.description|safe|linebreaksbr }}</div>
+        {% if organizer.website_url %}
+          <a href="{{ organizer.website_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-just-icon btn-website">
+            <i class="fas fa-globe"></i>
+          </a>
+        {% endif %}
+        {% if organizer.facebook_url %}
+          <a href="{{ organizer.facebook_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-just-icon btn-facebook">
+            <i class="fab fa-facebook-square"></i>
+          </a>
+        {% endif %}
+        {% if organizer.twitter_url %}
+          <a href="{{ organizer.twitter_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-just-icon btn-twitter">
+            <i class="fab fa-twitter"></i>
+          </a>
+        {% endif %}
+        {% if organizer.instagram_url %}
+          <a href="{{ organizer.instagram_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-just-icon btn-instagram">
+            <i class="fab fa-instagram"></i>
+          </a>
+        {% endif %}
 
-    {% if organizer.image %}
-      <img class="organizer-image" src="{{ organizer.get_image_url }}" alt="{{ organizer.name }}" />
-    {% endif %}
-
-    <div class="organizer-description">{{ organizer.description|safe|linebreaksbr }}</div>
-
-    {% if organizer.website_url %}
-      <a href="{{ organizer.website_url }}" target="_blank" class="btn btn-just-icon btn-website">
-        <i class="fas fa-globe"></i>
-      </a>
-    {% endif %}
-    {% if organizer.facebook_url %}
-      <a href="{{ organizer.facebook_url }}" target="_blank" class="btn btn-just-icon btn-facebook">
-        <i class="fab fa-facebook-square"></i>
-      </a>
-    {% endif %}
-    {% if organizer.twitter_url %}
-      <a href="{{ organizer.twitter_url }}" target="_blank" class="btn btn-just-icon btn-twitter">
-        <i class="fab fa-twitter"></i>
-      </a>
-    {% endif %}
-    {% if organizer.instagram_url %}
-      <a href="{{ organizer.instagram_url }}" target="_blank" class="btn btn-just-icon btn-instagram">
-        <i class="fab fa-instagram"></i>
-      </a>
-    {% endif %}
-
-  {% if user|user_can_edit_organizer:organizer %}
-    <div class="event-edit text-center">
-      <a class="btn btn-primary" href="{% url 'events:organizer_update' organizer.slug %}" class="hover-color list-inline-item">
-        EDITAR
-      </a>
-    </div>
-  {% endif %}
-  </div>
-
-</section><!--/#organizer-detail-->
-
-<section class="container my-3">
-  <div class="card card-body bg-light promo">
-    <div class="container">
-      <p class="text-center">
-        ¿Conoces más eventos organizados por «{{ organizer.name }}» o eres su representante? <br>
-        Regístrate en <b>Desparchado.co</b> y agrégalos.
-      </p>
-
-      <div class="text-center">
-        <a href="{% url 'events:add_event' %}" class="btn btn-sm btn-primary">
-          AÑADIR EVENTO
-        </a>
+        {% if user|user_can_edit_organizer:organizer %}
+          <div
+              data-vue-component="button"
+              data-vue-prop-type="secondary"
+              data-vue-prop-label="{% translate 'Editar' %}"
+              data-vue-prop-link="{% url 'events:organizer_update' organizer.slug %}"
+          >
+          </div>
+        {% endif %}
       </div>
-    </div>
+
+      <div class="generic-detail__main-side">
+        <p class="generic-detail__main-side-title text-heading-3">
+          {% translate 'La ciudad está llena de' %}
+          <span class="generic-detail__main-side-title--emphasis">
+            {% translate 'nuevos parches' %}
+          </span>
+        </p>
+        <hr />
+        <p class="text-body-lg">
+          {% translate 'Encuentra alguno que te interese. Busca en nuestros eventos' %}&nbsp;
+        </p>
+        <div
+          data-vue-component="button"
+          data-vue-prop-type="primary"
+          data-vue-prop-label="{% translate 'Busca eventos cerca' %}"
+          data-vue-prop-link="{% url 'events:event_list' %}"
+        >
+        </div>
+      </div>
+    </section>
+    
+    {% if events %}
+      <section class="generic-detail__section">
+        <div class="generic-detail__section-header generic-detail__section-header--padding-sm">
+          <div
+            class="generic-detail__section-title"
+            data-vue-component="typography"
+            data-vue-prop-text="Pronto presentará"
+            data-vue-prop-type="h2"
+          >
+          </div>
+        </div>
+        <div class="events-list">
+          {% for event in events %}
+            <div
+              class="events-list__card"
+              data-vue-component="event-card"
+              data-vue-prop-tag="div"
+              data-vue-prop-location="{{ event.place.name }}"
+              data-vue-prop-description="{{ event.description }}"
+              data-vue-prop-title="{{ event.title }}"
+              data-vue-prop-day="{{ event.event_date|date:'j M' }}"
+              data-vue-prop-time="{{ event.event_date|date:'H:i' }}"
+              data-vue-prop-image-url="{{ event.get_image_url }}"
+              data-vue-prop-link="{{ event.get_absolute_url }}"
+              data-vue-prop-date-copy="{{ event.event_date|date:'l' }}"
+              data-vue-prop-speakers='[{% with speakers=event.speakers.all %}{% if speakers %}{% for speaker in speakers %}{"imageUrl": "{{ speaker.get_image_url|escapejs }}", "link": "{{ speaker.get_absolute_url|escapejs }}", "name": "{{ speaker.name|escapejs }}" }{% if not forloop.last %}, {% endif %}{% endfor %}{% endif %}{% endwith %}]'
+            >
+            </div>
+          {% endfor %}
+        </div>
+      </section>
+    {% endif %}
+    
+    {% if past_events %}
+      <section class="generic-detail__section">
+        <div class="generic-detail__section-header generic-detail__section-header--padding-lg">
+          <div
+            class="generic-detail__section-title"
+            data-vue-component="typography"
+            data-vue-prop-text="Archivo"
+            data-vue-prop-type="h2"
+          >
+          </div>
+          <div
+            data-vue-component="typography"
+            data-vue-prop-text="Otros eventos que ha presentado {{ organizer.name }}"
+            data-vue-prop-type="body_lg"
+          >
+          </div>
+        </div>
+        <div class="generic-detail__events-list-full-width">
+          {% for event in past_events %}
+            <div
+              data-vue-component="event-card-full-width"
+              data-vue-prop-tag="div"
+              data-vue-prop-location="{{ event.place.name }}"
+              data-vue-prop-description="{{ event.description }}"
+              data-vue-prop-title="{{ event.title }}"
+              data-vue-prop-day="{{ event.event_date|date:'j M' }}"
+              data-vue-prop-time="{{ event.event_date|date:'H:i' }}"
+              data-vue-prop-image-url="{{ event.get_image_url }}"
+              data-vue-prop-link="{{ event.get_absolute_url }}"
+              data-vue-prop-date-copy="{{ event.event_date|date:'Y' }}"
+              data-vue-prop-speakers='[{% with speakers=event.speakers.all %}{% if speakers %}{% for speaker in speakers %}{"imageUrl": "{{ speaker.get_image_url|escapejs }}", "link": "{{ speaker.get_absolute_url|escapejs }}", "name": "{{ speaker.name|escapejs }}" }{% if not forloop.last %}, {% endif %}{% endfor %}{% endif %}{% endwith %}]'
+            >
+            </div>
+          {% endfor %}
+        </div>
+      </section>
+    {% endif %}
   </div>
-</section>
-
-<div class="clearfix"></div>
-
-{% if events %}
-
-  <h4>Próximos eventos</h4>
-
-  {% include 'events/_events_grid.html' %}
-
-{% endif %}
-
-{% if past_events %}
-
-  <h4>Eventos pasados</h4>
-
-  {% include 'events/_events_grid.html' with events=past_events %}
-
-{% endif %}
-
 {% endblock content %}

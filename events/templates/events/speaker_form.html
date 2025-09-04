@@ -1,10 +1,10 @@
-{% extends 'old_layout/base.html' %}
+{% extends 'layout/base.html' %}
 {% load crispy_forms_tags %}
 
 {% block title %}{% if speaker %}Editar presentador{% else %}Añadir presentador{% endif %}{% endblock %}
 
 {% block content %}
-<h1>{% if speaker %}Editar presentador{% else %}Añadir nuevo presentador{% endif %}:</h1>
+<h1 class="text-center mt-4">{% if speaker %}Editar presentador{% else %}Añadir nuevo presentador{% endif %}:</h1>
 
 <section id="organizer_form_container" class="container">
   {% crispy form %}

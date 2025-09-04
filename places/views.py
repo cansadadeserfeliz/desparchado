@@ -22,12 +22,19 @@ class PlaceDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['events'] = self.get_object().events.published().future().all()[:30]
-        context['past_events'] = (
+        context['events'] = (
+            self.get_object()
+            .events.published()
+            .future()
+            .select_related('place')
+            .all()[:15]
+        )
+        context["past_events"] = (
             self.get_object()
             .events.published()
             .past()
-            .order_by('-event_date')
+            .order_by("-event_date")
+            .select_related("place")
             .all()[:9]
         )
         return context
@@ -94,6 +101,7 @@ class CityDetailView(DetailView):
                 place__city=self.object,
             )
             .future()
+            .select_related("place")
             .all()[:9]
         )
         context['events'] = events
@@ -103,13 +111,14 @@ class CityDetailView(DetailView):
         else:
             past_events_limit = 3
 
-        context['past_events'] = (
+        context["past_events"] = (
             Event.objects.published()
             .filter(
                 place__city=self.object,
             )
             .past()
-            .order_by('-event_date')
+            .order_by("-event_date")
+            .select_related("place")
             .all()[:past_events_limit]
         )
 

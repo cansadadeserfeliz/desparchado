@@ -56,6 +56,8 @@ class EventAdmin(admin.ModelAdmin):
 
     inlines = [SocialNetworkPostInline, SpecialInline]
 
+    save_as = True
+
     fieldsets = (
         (
             None,
@@ -81,8 +83,7 @@ class EventAdmin(admin.ModelAdmin):
                     'event_source_url',
                     'image',
                     'image_source_url',
-                    ('category',),
-                    ('event_date', 'event_end_date'),
+                    ('event_date', 'category'),
                     'price',
                     'organizers',
                     'place',

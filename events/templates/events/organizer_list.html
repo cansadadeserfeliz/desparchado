@@ -1,11 +1,16 @@
-{% extends 'old_layout/base.html' %}
-{% load paginator_tags %}
+{% extends 'layout/base.html' %}
+{% load i18n paginator_tags %}
 
 {% block title %}Organizadores{% endblock %}
 
 {% block content %}
 <section id="organizer-list" class="container">
-  <h2 class="text-justify text-center">Organizadores</h2>
+  <div
+    data-vue-component="typography"
+    data-vue-prop-text="{% translate 'Organizadores' %}"
+    data-vue-prop-type="h2"
+  >
+  </div>
 
 {% for organizer in organizers %}
   <div class="row organizer-card">
@@ -25,7 +30,7 @@
   </div>
 {% endfor %}
 
-  {% get_pagination 2 1 %}
+  {% get_simple_pagination %}
 </section><!--/#organizer-list-->
 
 {% endblock content %}

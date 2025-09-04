@@ -1,5 +1,5 @@
-{% extends 'old_layout/base.html' %}
-{% load crispy_forms_tags %}
+{% extends 'layout/base.html' %}
+{% load i18n crispy_forms_tags %}
 
 {% block content %}
 
@@ -15,11 +15,15 @@
     <div class="text-center">
       <b>¿No tienes una cuenta?</b> ¡No hay problema!
       <br />
-      El registro es muy fácil:
+      El registro es muy fácil
       <br />
-      <a class="btn btn-primary" href="{% url "users:register" %}" class="hover-color list-inline-item">
-        REGÍSTRATE AQUÍ
-      </a>
+      <div
+          data-vue-component="button"
+          data-vue-prop-type="secondary"
+          data-vue-prop-label="{% translate 'Regístrate aquí' %}"
+          data-vue-prop-link="{% url "users:register" %}"
+      >
+      </div>
     </div>
 
     <br />
@@ -27,9 +31,13 @@
     <div class="text-center">
       ¿Olvidaste tu contraseña?
       <br />
-      <a class="btn btn-primary" href="{% url "users:password_reset" %}" class="hover-color list-inline-item">
-        RECUPERA TU CONTRASEÑA AQUÍ
-      </a>
+      <div
+          data-vue-component="button"
+          data-vue-prop-type="secondary"
+          data-vue-prop-label="{% translate 'Recupera tu contraseña aquí' %}"
+          data-vue-prop-link="{% url "users:password_reset" %}"
+      >
+      </div>
     </div>
   </div>
 

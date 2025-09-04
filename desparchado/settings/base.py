@@ -83,13 +83,10 @@ MIDDLEWARE = [
 ]
 
 AUTHENTICATION_BACKENDS = [
-    'axes.backends.AxesBackend',
-    'django.contrib.auth.backends.ModelBackend',
+    "axes.backends.AxesBackend",
+    "desparchado.backends.EmailBackend",
+    "django.contrib.auth.backends.ModelBackend",
 ]
-
-ABSOLUTE_URL_OVERRIDES = {
-    'users.user_detail': lambda o: f"/users/{o.username}/",
-}
 
 ROOT_URLCONF = 'desparchado.urls'
 
@@ -188,6 +185,13 @@ STATICFILES_FINDERS = (
 )
 
 SITE_ID = 1
+
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+        "LOCATION": "unique-snowflake",
+    },
+}
 
 LOGGING = {
     'version': 1,

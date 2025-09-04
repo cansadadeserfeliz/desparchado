@@ -1,0 +1,68 @@
+{% load i18n %}
+{% if is_paginated %}
+<nav class="pagination" aria-label="Pagination">
+  <ul class="pagination__list">
+    {# Ellipsis Left #}
+    {% if page_obj.number|add:'-4' > 1 %}
+      <li class="pagination__item pagination__item--ellipsis">
+        <a
+          class="pagination__link"
+          href="?page={{ page_obj.number|add:'-5' }}{{ pagination_query_params }}"
+          aria-label="{% translate 'Saltar hacia atrás' %}"
+        >
+          &hellip;
+        </a>
+      </li>
+    {% endif %}
+
+    {# Shown range of pages #}
+    {% for i in page_obj.paginator.page_range %}
+        {% if page_obj.number == i %}
+          <li class="pagination__item">
+            <span class="pagination__link pagination__link--active" aria-current="page">
+              {{ i }}
+            </span>
+          </li>
+        {% elif i > page_obj.number|add:'-5' and i < page_obj.number|add:'5' %}
+          <li class="pagination__item">
+            <a class="pagination__link" href="?page={{ i }}{{ pagination_query_params }}">
+              {{ i }}
+            </a>
+          </li>
+        {% endif %}
+    {% endfor %}
+
+    {# Ellipsis Right #}
+    {% if page_obj.paginator.num_pages > page_obj.number|add:'4' %}
+      <li class="pagination__item pagination__item--ellipsis">
+        <a
+          class="pagination__link"
+          href="?page={{ page_obj.number|add:'5' }}{{ pagination_query_params }}"
+          aria-label="{% translate 'Saltar hacia adelante' %}"
+        >
+          &hellip;
+        </a>
+      </li>
+    {% endif %}
+  </ul>
+  <div class="pagination__actions">
+    {# Previous #}
+    <a class="pagination__link {% if not page_obj.has_previous %}pagination__link--disabled{% endif %}"
+      {% if page_obj.has_previous %}
+        href="?page={{ page_obj.previous_page_number }}{{ pagination_query_params }}"
+      {% endif %}
+    >
+      {% translate 'Anterior' %}
+    </a>
+
+    {# Next #}
+    <a class="pagination__link {% if not page_obj.has_next %}pagination__link--disabled{% endif %}"
+      {% if page_obj.has_next %}
+        href="?page={{ page_obj.next_page_number }}{{ pagination_query_params }}"
+      {% endif %}
+    >
+      {% translate 'Siguiente' %}
+    </a>
+  </div>
+</nav>
+{% endif %}

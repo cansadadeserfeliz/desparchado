@@ -1,57 +1,97 @@
-{% extends 'old_layout/base.html' %}
-{% load i18n paginator_tags %}
+{% extends 'layout/base.html' %}
+{% load i18n desparchado_tags django_vite %}
 
-{% block title %}Eventos{% endblock %}
+{% block extra_scripts %}
+  {% vite_asset 'desparchado/frontend/scripts/events.ts' %}
+{% endblock extra_scripts %}
+
+{% block bootstrap_css %}{% endblock %}
+
+{% block title %}{% translate 'Eventos' %}{% endblock %}
 
 {% block content %}
-  <section class="container clearfix" itemscope itemtype="http://schema.org/CollectionPage">
-    <h2 class="text-justify text-center">
-      Eventos
-      {% if city_filter %}
-        en <a href="{{ city_filter.get_absolute_url }}">{{ city_filter.name }}</a>
-      {% endif %}
-    </h2>
-  </section>
-
-  <div class="row justify-content-center align-items-center">
-    <form id="event_search_form" method="get">
-      <div class="input-group mb-3">
-        <input type="text" class="form-control" name="q" placeholder="Buscar eventos..." value="{{ search_string }}">
-        <span class="input-group-btn">
-          <button class="btn btn-default" type="submit"><i class="fa fa-search"></i></button>
-        </span>
-      </div>
-    </form>
-  </div><!-- /.row -->
-
-  {% include 'events/_events_grid.html' %}
-
-  {% if city_filter and not events %}
-    <div class="row card card-body bg-light text-center clearfix promo">
-      <h4>
-        No se encontraron eventos en <a href="{{ city_filter.get_absolute_url }}">{{ city_filter.name }}</a>.
-        <br>
-        <a href="{% url 'events:event_list' %}">Ver eventos en otras ciudades.</a>
-      </h4>
+  <div class="events-section">
+    <div class="events-section__header">
+      <h1 class="text-heading-1 events-section__title">{% translate 'Eventos' %}</h1>
+      <form>
+        <fieldset class="events-section__filters">
+          <legend class="text-heading-4">{% translate 'Busca un evento por:' %}</legend>
+           <div class="events-section__filter-wrapper">
+             <div class="events-section__filter-inputs">
+               <div class="select-group">
+                 <div class="select-group__item select-group__item--emphasis">
+                   <select name="{{ category_filter_name }}" aria-label="{% translate 'Busca por temática' %}">
+                     <option disabled {% if not category_filter_value %}selected{% endif %} value="">{% translate 'Temática' %}</option>
+                     {% for value, label in category_choices %}
+                       <option value="{{ value }}"{% if value == category_filter_value %} selected{% endif %}>{{ label }}</option>
+                     {% endfor %}
+                   </select>
+                 </div>
+                 <div class="select-group__item">
+                   <select name="{{ city_filter_name }}" aria-label="{% translate 'Busca por lugar' %}">
+                     <option disabled {% if not city_filter_value %}selected{% endif %} value="">{% translate 'Lugar' %}</option>
+                     {% for city in cities %}
+                       <option value="{{ city.slug }}"{% if city.slug == city_filter_value %} selected{% endif %}>{{ city.name }}</option>
+                     {% endfor %}
+                   </select>
+                 </div>
+               </div>
+               <input
+                 class="text-input"
+                 type="text"
+                 name="{{ search_query_name }}"
+                 placeholder="{% translate 'Busca aquí por nombre, presentador...' %}"
+                 aria-label="{% translate 'Buscar eventos' %}"
+                 value="{{ search_query_value }}" />
+             </div>
+             <div class="events-section__filter-actions">
+               <div
+                 class="events-section__filter-action-item"
+                 data-vue-component="button"
+                 data-vue-prop-type="secondary"
+                 data-vue-prop-padding="condensed"
+                 data-vue-prop-label="{% translate 'Limpiar búsqueda' %}"
+                 data-vue-prop-link="{{ request.path }}"
+               >
+               </div>
+               <div
+                 class="events-section__filter-action-item"
+                 data-vue-component="button"
+                 data-vue-prop-type="secondary"
+                 data-vue-prop-padding="condensed"
+                 data-vue-prop-label="{% translate 'Buscar' %}"
+                 data-vue-prop-is-action-submit="true"
+               >
+               </div>
+             </div>
+           </div>
+        </fieldset>
+      </form>
     </div>
+    {% include 'events/_event_list_pagination.html' with is_paginated=is_paginated page_obj=page_obj pagination_query_params=pagination_query_params %}
 
-    <section class="container">
-      <div class="text-center">
-        <a href="{% url 'events:add_event' %}" class="btn btn-sm btn-primary"><i class="fas fa-plus"></i>&nbsp;AÑADIR EVENTO</a>
+    {% for event in events %}
+      <div
+        data-vue-component="event-card-full-width"
+        data-vue-prop-tag="div"
+        data-vue-prop-location="{{ event.place.name }}"
+        data-vue-prop-description="{{ event.description }}"
+        data-vue-prop-title="{{ event.title }}"
+        data-vue-prop-day="{{ event.event_date|date:'j M' }}"
+        data-vue-prop-time="{{ event.event_date|date:'H:i' }}"
+        data-vue-prop-image-url="{{ event.get_image_url }}"
+        data-vue-prop-link="{{ event.get_absolute_url }}"
+        data-vue-prop-date-copy="{{ event.event_date|date:'l' }}"
+        data-vue-prop-speakers='[{% with speakers=event.speakers.all %}{% if speakers %}{% for speaker in speakers %}{"imageUrl": "{{ speaker.get_image_url|escapejs }}", "link": "{{ speaker.get_absolute_url|escapejs }}", "name": "{{ speaker.name|escapejs }}" }{% if not forloop.last %}, {% endif %}{% endfor %}{% endif %}{% endwith %}]'
+      >
       </div>
-    </section>
-  {% elif search_string and not events %}
-    <div class="row card card-body bg-light text-center clearfix promo">
-      <div>
-        No encontramos resultados para la búsqueda: "{{ search_string }}".
-        <br>
-        <a href="{% url 'events:event_list' %}">Ver todos los eventos.</a>
+    {% empty %}
+      <div class="events-section__empty text-heading-5">
+        <p>{% translate 'No encontramos resultados para su búsqueda' %}</p>
+        <a href="{{ request.path }}">{% translate 'Limpiar búsqueda' %}</a>
       </div>
-    </div>
-  {% endif %}
+    {% endfor %}
+  </div>
 
-<section class="container">
-  {% get_simple_pagination %}
-</section>
 
 {% endblock content %}
