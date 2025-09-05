@@ -98,5 +98,6 @@
         <a href="{{ request.path }}">{% translate 'Limpiar búsqueda' %}</a>
       </div>
     {% endfor %}
+    {% include 'events/_event_list_pagination.html' with is_paginated=is_paginated page_obj=page_obj pagination_query_params=pagination_query_params %}
   </div>
 {% endblock content %}
