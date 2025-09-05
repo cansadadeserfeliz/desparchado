@@ -1,5 +1,6 @@
 from django.template.defaultfilters import truncatewords_html
 from django.utils.formats import date_format
+from django.utils import timezone
 from rest_framework import serializers
 
 from events.models import Event
@@ -24,10 +25,10 @@ class EventSerializer(serializers.ModelSerializer):
     truncated_description = serializers.SerializerMethodField()
 
     def get_formatted_hour(self, obj):
-        return date_format(obj.event_date, 'H:i')
+        return date_format(timezone.localtime(obj.event_date), 'H:i')
 
     def get_formatted_day(self, obj):
-        return date_format(obj.event_date, 'j M')
+        return date_format(timezone.localtime(obj.event_date), 'j M')
 
     def get_url(self, obj):
         return obj.get_absolute_url()
