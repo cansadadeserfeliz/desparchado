@@ -1,6 +1,6 @@
 from django.template.defaultfilters import truncatewords_html
-from django.utils.formats import date_format
 from django.utils import timezone
+from django.utils.formats import date_format
 from rest_framework import serializers
 
 from events.models import Event
