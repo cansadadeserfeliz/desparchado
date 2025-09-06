@@ -6,7 +6,7 @@
   <div class="col-md-12">
     <div class="box">
       <div class="box-header with-border">
-        <h3 class="box-title">Places</h3>
+        <h3 class="box-title">Lugares</h3>
       </div>
       <!-- /.box-header -->
 
@@ -32,7 +32,8 @@
               <th>ID</th>
               <th>Nombre</th>
               <th>Ubicación</th>
-              <th>Created by</th>
+              <th>Creado por</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -42,6 +43,7 @@
               <td>{{ place.name }}</td>
               <td>{{ place.city }}</td>
               <td>{{ place.created_by }}</td>
+              <td><a href="{% url 'admin:places_place_change' place.pk %}">{% translate 'Editar' %}</a></td>
             </tr>
           {% endfor %}
           </tbody>

@@ -24,11 +24,9 @@ class PlaceAdmin(admin.ModelAdmin):
         'created',
         'modified',
     )
-
+    list_filter = ("created_by__is_superuser",)
     readonly_fields = ('slug',)
-
     search_fields = ('name',)
-
     fieldsets = (
         (
             None,
