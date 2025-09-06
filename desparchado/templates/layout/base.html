@@ -102,8 +102,9 @@
     {# Extra JS #}
     {% block javascript %}{% endblock javascript %}
 
+  {% if ANALYTICS_ENABLED %}
     {# Umami Open Source Analytics #}
     <script defer src="https://cloud.umami.is/script.js" data-website-id="1ccee07e-d5e4-4c95-a986-3b1569f29d9b"></script>
-
+  {% endif %}
   </body>
 </html>
