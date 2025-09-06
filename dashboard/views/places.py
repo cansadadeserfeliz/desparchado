@@ -11,5 +11,5 @@ class PlacesListView(SuperuserRequiredMixin, ListView):
     template_name = 'dashboard/places.html'
 
     def get_queryset(self):
-        queryset = super().get_queryset()
+        queryset = super().get_queryset().select_related('created_by', 'city')
         return queryset.filter(created_by__is_superuser=False)

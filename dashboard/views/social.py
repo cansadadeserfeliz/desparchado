@@ -1,4 +1,5 @@
 from dateutil.parser import parse
+from django.contrib.auth.decorators import user_passes_test
 from django.http import JsonResponse
 from django.urls import reverse
 from django.utils import timezone
@@ -12,10 +13,8 @@ class SocialPostsListView(SuperuserRequiredMixin, TemplateView):
     template_name = 'dashboard/social_posts.html'
 
 
+@user_passes_test(lambda u: u.is_superuser)
 def social_events_source(request):
-    if not request.user.is_authenticated or not request.user.is_superuser:
-        return JsonResponse({'error': 'You are not authorized'})
-
     start_date = request.GET.get('start')
     end_date = request.GET.get('end')
     event_list = []
@@ -37,10 +36,7 @@ def social_events_source(request):
         .all()
     )
     for event in events:
-        if event.social_posts.exists():
-            color = green
-        else:
-            color = muted
+        color = green if event.social_posts.exists() else muted
         local_date = timezone.localtime(event.event_date)
         event_list.append(
             {
