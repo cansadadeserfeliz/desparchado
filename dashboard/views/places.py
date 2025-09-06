@@ -9,3 +9,7 @@ class PlacesListView(SuperuserRequiredMixin, ListView):
     paginate_by = 300
     context_object_name = 'places'
     template_name = 'dashboard/places.html'
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return queryset.filter(created_by__is_superuser=False)

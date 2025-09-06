@@ -14,7 +14,7 @@
 
       <div>
         <div style='overflow:hidden;height:400px;width:auto;'>
-          <div id='map_canvas' style='height:400px;'></div>
+          <div id='map_canvas' style='height:300px;'></div>
           <style>
             #map_canvas img {
               width: auto;
@@ -41,9 +41,7 @@
               <td>{{ place.id }}</td>
               <td>{{ place.name }}</td>
               <td>{{ place.city }}</td>
-              <td class="{% if not place.created_by.is_superuser %}bg-yellow disabled color-palette{% endif %}">
-                {{ place.created_by }}
-              </td>
+              <td>{{ place.created_by }}</td>
             </tr>
           {% endfor %}
           </tbody>
