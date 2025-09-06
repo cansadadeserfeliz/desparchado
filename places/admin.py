@@ -73,7 +73,7 @@ class PlaceAdmin(admin.ModelAdmin):
         super().save_model(request, obj, form, change)
 
     def has_delete_permission(self, request, obj=None):
-        return False
+        return request.user.is_superuser
 
 
 @admin.register(City)
@@ -88,7 +88,7 @@ class CityAdmin(admin.ModelAdmin):
         return []
 
     def has_delete_permission(self, request, obj=None):
-        return False
+        return request.user.is_superuser
 
     formfield_overrides = {
         geo_models.PointField: {'widget': mapwidgets.GoogleMapPointFieldWidget()},
