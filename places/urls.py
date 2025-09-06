@@ -23,7 +23,6 @@ urlpatterns = [
         PlaceCreateView.as_view(),
         name='place_add',
     ),
-    path('<int:pk>/', PlaceDetailView.as_view(), name='place_detail'),
     path('<slug:slug>/', PlaceDetailView.as_view(), name='place_detail'),
     path('<int:pk>/edit/', PlaceUpdateView.as_view(), name='place_update'),
 ]
