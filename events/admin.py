@@ -9,13 +9,11 @@ from .models import Event, Organizer, SocialNetworkPost, Speaker
 
 @admin.register(SocialNetworkPost)
 class SocialNetworkPostAdmin(admin.ModelAdmin):
-
     list_display = [
         'event',
         'description',
         'published_at',
     ]
-
     date_hierarchy = 'published_at'
 
     def save_model(self, request, obj, form, change):
@@ -51,6 +49,7 @@ class EventAdmin(admin.ModelAdmin):
         'created_by',
         'created',
     ]
+    date_hierarchy = "event_date"
     inlines = [SocialNetworkPostInline, SpecialInline]
     save_as = True
     fieldsets = (
