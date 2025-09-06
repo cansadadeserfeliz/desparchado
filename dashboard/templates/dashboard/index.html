@@ -9,12 +9,6 @@
     {% include 'dashboard/includes/_stats_card.html' with value=future_events_count|intcomma title='Eventos futuros' icon='event' color='orange' %}
   </div>
   <div class="col-sm-6 col-lg-3">
-    {% include 'dashboard/includes/_stats_card.html' with value=all_filbo_2025_events_count|intcomma title='Eventos FILBo 2025 (TODOS)' icon='event' color='grey' %}
-  </div>
-  <div class="col-sm-6 col-lg-3">
-    {% include 'dashboard/includes/_stats_card.html' with value=published_filbo_2025_events_count|intcomma title='Eventos FILBo 2025 (PUBLICADOS)' icon='event' color='red' %}
-  </div>
-  <div class="col-sm-6 col-lg-3">
     {% include 'dashboard/includes/_stats_card.html' with value=active_users_count|intcomma title='Usuarios activos' icon='user' color='green' %}
   </div>
   <div class="col-sm-6 col-lg-3">
@@ -22,9 +16,6 @@
   </div>
   <div class="col-sm-6 col-lg-3">
     {% include 'dashboard/includes/_stats_card.html' with value=speakers_count|intcomma title='Presentadores' icon='speaker' color='pink' %}
-  </div>
-  <div class="col-sm-6 col-lg-3">
-    {% include 'dashboard/includes/_stats_card.html' with value=speakers_filbo_2025_count|intcomma title='Presentadores FILBo 2025' icon='speaker' color='red' %}
   </div>
   <div class="col-sm-6 col-lg-3">
     {% include 'dashboard/includes/_stats_card.html' with value=speakers_without_image_count|intcomma title='Presentadores sin foto' icon='speaker' color='purple' %}

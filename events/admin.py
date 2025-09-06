@@ -9,13 +9,11 @@ from .models import Event, Organizer, SocialNetworkPost, Speaker
 
 @admin.register(SocialNetworkPost)
 class SocialNetworkPostAdmin(admin.ModelAdmin):
-
     list_display = [
         'event',
         'description',
         'published_at',
     ]
-
     date_hierarchy = 'published_at'
 
     def save_model(self, request, obj, form, change):
@@ -39,9 +37,7 @@ class SpecialInline(admin.TabularInline):
 
 @admin.register(Event)
 class EventAdmin(admin.ModelAdmin):
-
-    search_fields = ('title',)
-
+    search_fields = ('title', 'description')
     list_display = [
         'title',
         'is_published',
@@ -53,11 +49,9 @@ class EventAdmin(admin.ModelAdmin):
         'created_by',
         'created',
     ]
-
+    date_hierarchy = "event_date"
     inlines = [SocialNetworkPostInline, SpecialInline]
-
     save_as = True
-
     fieldsets = (
         (
             None,
@@ -93,11 +87,14 @@ class EventAdmin(admin.ModelAdmin):
             },
         ),
     )
-
-    list_filter = ('category', 'is_featured_on_homepage', 'is_published', 'is_approved')
-
+    list_filter = (
+        'category',
+        'is_featured_on_homepage',
+        'is_published',
+        'is_approved',
+        'created_by__is_superuser',
+    )
     ordering = ('-created', '-is_published')
-
     raw_id_fields = (
         'place',
         'speakers',
@@ -131,13 +128,10 @@ class EventAdmin(admin.ModelAdmin):
 @admin.register(Organizer)
 class OrganizerAdmin(admin.ModelAdmin):
     list_display = ('name', 'slug', 'description', 'created_by', 'created', 'modified')
-
-    search_fields = ('name',)
-
+    list_filter = ('created_by__is_superuser',)
+    search_fields = ('name', 'description')
     readonly_fields = ('slug',)
-
     exclude = ('created_by',)
-
     raw_id_fields = ('editors',)
 
     def save_model(self, request, obj, form, change):
@@ -148,12 +142,18 @@ class OrganizerAdmin(admin.ModelAdmin):
 
 @admin.register(Speaker)
 class SpeakerAdmin(admin.ModelAdmin):
-    list_display = ('name', 'slug', 'description', 'created_by', 'created', 'modified')
-
+    list_display = (
+        'name',
+        'slug',
+        'description',
+        'image',
+        'created_by',
+        'created',
+        'modified',
+    )
+    list_filter = ("created_by__is_superuser",)
     search_fields = ('name',)
-
     readonly_fields = ('slug',)
-
     fieldsets = (
         (
             None,
@@ -181,7 +181,6 @@ class SpeakerAdmin(admin.ModelAdmin):
             },
         ),
     )
-
     raw_id_fields = ('editors',)
 
     def save_model(self, request, obj, form, change):
