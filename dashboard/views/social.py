@@ -13,6 +13,9 @@ class SocialPostsListView(SuperuserRequiredMixin, TemplateView):
 
 
 def social_events_source(request):
+    if not request.user.is_authenticated or not request.user.is_superuser:
+        return JsonResponse({'error': 'You are not authorized'})
+
     start_date = request.GET.get('start')
     end_date = request.GET.get('end')
     event_list = []
