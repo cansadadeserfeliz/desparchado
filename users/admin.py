@@ -26,6 +26,8 @@ admin.site.unregister(User)
 
 @admin.register(User)
 class MyUserAdmin(UserAdmin):
+    date_hierarchy = "last_login"
+    ordering = ("date_joined",)
 
     list_display = [
         'username',
@@ -35,5 +37,6 @@ class MyUserAdmin(UserAdmin):
         'is_active',
         'is_staff',
         'is_superuser',
+        'date_joined',
         'last_login',
     ]
