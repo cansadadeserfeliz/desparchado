@@ -41,30 +41,8 @@ class HomeView(SuperuserRequiredMixin, TemplateView):
             .values('day', 'count')
             .order_by('day')
         )
-
-        context['all_filbo_2025_events_count'] = Event.objects.filter(
-            filbo_id__isnull=False,
-            event_date__year=2025,
-        ).count()
-        context['published_filbo_2025_events_count'] = (
-            Event.objects.published()
-            .filter(
-                filbo_id__isnull=False,
-                event_date__year=2025,
-            )
-            .count()
-        )
-
         context['organizers_count'] = Organizer.objects.count()
         context['speakers_count'] = Speaker.objects.count()
-        context['speakers_filbo_2025_count'] = (
-            Speaker.objects.filter(
-                events__filbo_id__isnull=False,
-                events__event_date__year=2025,
-            )
-            .distinct()
-            .count()
-        )
         context['speakers_without_image_count'] = Speaker.objects.filter(
             image='',
         ).count()
