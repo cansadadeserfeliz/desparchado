@@ -122,7 +122,7 @@ class EventAdmin(admin.ModelAdmin):
         return readonly_fields
 
     def has_delete_permission(self, request, obj=None):
-        return False
+        return request.user.is_superuser
 
 
 @admin.register(Organizer)
@@ -198,4 +198,4 @@ class SpeakerAdmin(admin.ModelAdmin):
         return True
 
     def has_delete_permission(self, request, obj=None):
-        return False
+        return request.user.is_superuser

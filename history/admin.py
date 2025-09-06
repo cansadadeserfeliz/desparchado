@@ -72,7 +72,7 @@ class EventAdmin(admin.ModelAdmin):
         return []
 
     def has_delete_permission(self, request, obj=None):
-        return False
+        return request.user.is_superuser
 
 
 class PostInline(admin.TabularInline):
@@ -152,7 +152,7 @@ class HistoricalFigureAdmin(admin.ModelAdmin):
         return []
 
     def has_delete_permission(self, request, obj=None):
-        return False
+        return request.user.is_superuser
 
 
 @admin.register(Post)
@@ -222,7 +222,7 @@ class PostAdmin(admin.ModelAdmin):
         return []
 
     def has_delete_permission(self, request, obj=None):
-        return False
+        return request.user.is_superuser
 
 
 @admin.register(Group)
@@ -246,4 +246,4 @@ class GroupAdmin(admin.ModelAdmin):
         return []
 
     def has_delete_permission(self, request, obj=None):
-        return False
+        return request.user.is_superuser
