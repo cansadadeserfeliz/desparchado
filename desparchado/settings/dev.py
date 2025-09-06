@@ -1,6 +1,4 @@
 # pylint: disable=unused-wildcard-import
-import sentry_sdk
-from sentry_sdk.integrations.django import DjangoIntegration
 
 from .base import *  # noqa: F403
 
