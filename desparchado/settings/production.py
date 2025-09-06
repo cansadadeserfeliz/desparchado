@@ -42,3 +42,5 @@ sentry_sdk.init(
     # run the profiler on when there is an active transaction
     profile_lifecycle="trace",
 )
+
+ANALYTICS_ENABLED = True
