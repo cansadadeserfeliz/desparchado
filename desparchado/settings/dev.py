@@ -24,6 +24,6 @@ DEBUG_TOOLBAR_CONFIG = {
 DJANGO_VITE['default']['dev_mode'] = True   # noqa: F405
 
 try:
-    from local import *
+    from local import *  # noqa: F403
 except ImportError:
     pass

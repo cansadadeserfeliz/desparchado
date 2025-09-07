@@ -3,7 +3,6 @@ import logging
 import mimetypes
 from pathlib import Path
 from typing import Any
-from urllib.parse import urlparse
 
 import gspread
 import requests
