@@ -78,7 +78,11 @@ def sync_events(
         description_html = _get_cell_data(event_data, 'F')
         event_source_url = _get_cell_data(event_data, 'G')
         image_url = _get_cell_data(event_data, 'H')
-        organizer_names = _get_cell_data(event_data, 'I')
+        organizer_names = set(
+            n.strip()
+            for n in _get_cell_data(event_data, "I").split(",")
+            if n.strip()
+        )
         # speakers = _get_cell_data(event_data, 'J')
 
         try:
@@ -106,18 +110,13 @@ def sync_events(
             continue
 
         organizers = []
-        for organizer_name in organizer_names.split(","):
+        organizer_errors = []
+        for organizer_name in organizer_names:
             try:
                 organizer = Organizer.objects.get(name__iexact=organizer_name.strip())
                 organizers.append(organizer)
             except Organizer.DoesNotExist:
-                synced_events_data.append(
-                    dict(
-                        data=event_data,
-                        error=f'Organizer "{organizer_name}" not found',
-                    ),
-                )
-                continue
+                organizer_errors.append(f'Organizer "{organizer_name}" not found')
 
         defaults = {
             "title": title,
@@ -142,7 +141,11 @@ def sync_events(
 
         if image_url:
             save_image(event, image_url)
-        synced_events_data.append(dict(data=event_data, event=event, created=created))
+
+        row_result = dict(data=event_data, event=event, created=created)
+        if organizer_errors:
+            row_result["warnings"] = organizer_errors
+        synced_events_data.append(row_result)
 
     return synced_events_data
 
