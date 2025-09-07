@@ -107,17 +107,31 @@ def sync_events(
 
 
 def save_image(event, url):
-    response = requests.get(url, timeout=5)
-    if response.status_code == 200:
+    try:
+        response = requests.get(url, timeout=10)
+        if response.status_code != 200:
+            logger.warning(
+                "Image fetch failed",
+                extra={"url": url, "status": response.status_code},
+            )
+            return
         # Get content type from response
-        content_type = response.headers.get("Content-Type", "")
-        ext = mimetypes.guess_extension(content_type.split(";")[0])
+        content_type = (response.headers.get("Content-Type") or "").split(";")[0]
+        if not content_type.startswith("image/"):
+            logger.warning(
+                "Non-image content-type",
+                extra={"url": url, "content_type": content_type},
+            )
+            return
 
-        filename = event.slug + ext
+        ext = mimetypes.guess_extension(content_type) or ".jpg"
+        filename = f"{event.slug}{ext}"
 
         # Save file
         file_content = ContentFile(response.content)
         event.image.save(filename, file_content, save=True)
+    except requests.RequestException as e:
+        logger.error("Image download error", extra={"url": url}, exc_info=e)
 
 
 def _get_cell_data(row, col_letter):
