@@ -25,5 +25,5 @@ DJANGO_VITE['default']['dev_mode'] = True   # noqa: F405
 
 try:
     from local import *  # noqa: F403
-except ImportError:
+except ModuleNotFoundError as e:
     pass
