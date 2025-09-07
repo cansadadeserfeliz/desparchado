@@ -25,6 +25,31 @@ def sync_events(
     request_user,
     event_id_field: str = "event_source_url",
 ) -> list[dict[str, Any]]:
+    """Sync events from a Google Sheets worksheet into the Django Event model.
+
+    Reads rows from the given spreadsheet range, parses the event data. For new Events
+    the function sets created_by to the provided request_user.
+
+    Parameters:
+        spreadsheet_id (str): Google Sheets spreadsheet key.
+        worksheet_number (int): Zero-based worksheet index to open.
+        worksheet_range (str): Range string to read (e.g., "B2:H100").
+        request_user: User used as created_by for newly created Event records.
+        event_id_field (str): Event model field used to identify records.
+
+    Returns:
+        list[dict]: Per-row result dictionaries. For successful rows each item contains:
+            - data: original row data (list of cell values)
+            - event: the Event instance
+            - created: boolean indicating whether the Event was created
+          For rows that failed validation (invalid date, missing Place), items contain:
+            - data: original row data (when available)
+            - error: human-readable error message
+
+    Side effects:
+        - Returns early with a single error dict if spreadsheet credentials
+        cannot be loaded.
+    """
     try:
         with Path.open(
             settings.BASE_DIR / "spreadsheet_credentials.json",
@@ -107,6 +132,13 @@ def sync_events(
 
 
 def save_image(event, url):
+    """Download an image from a URL and attach it to the given Event's image field.
+
+    If the HTTP response status is not 200 or the Content-Type is not an image,
+    the function returns without modifying the event.
+    The filename is constructed as "{event.slug}{ext}", where the extension is inferred
+    from the response Content-Type (falls back to ".jpg").
+    """
     try:
         response = requests.get(url, timeout=10)
         if response.status_code != 200:
@@ -135,6 +167,19 @@ def save_image(event, url):
 
 
 def _get_cell_data(row, col_letter):
+    """Return the stripped string value from a worksheet row
+    for the given Excel-style column letter.
+
+    Parameters:
+        row: Sequence of cell values (e.g., list or tuple)
+            representing one worksheet row.
+        col_letter (str): Uppercase column letter ("A", "B", ...).
+            Only ASCII uppercase letters A–Z are supported.
+
+    Returns:
+        str: The cell value with surrounding whitespace removed,
+            or an empty string if the column index is out of range.
+    """
     zero_based_index = ord(col_letter) - ord("A")
     try:
         return row[zero_based_index].strip()

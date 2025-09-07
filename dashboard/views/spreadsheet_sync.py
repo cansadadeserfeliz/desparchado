@@ -10,6 +10,9 @@ class SpreadsheetSyncFormView(SuperuserRequiredMixin, FormView):
     template_name = "dashboard/spreadsheet_sync/form.html"
 
     def form_valid(self, form):
+        """Handle a valid SpreadsheetSyncForm submission, run the spreadsheet sync
+        and render the response with sync results.
+        """
         synced_events_data = sync_events(
             spreadsheet_id=form.cleaned_data['spreadsheet_id'],
             worksheet_number=form.cleaned_data['worksheet_number'],

@@ -14,6 +14,8 @@ class SpreadsheetSyncForm(forms.Form):
     )
 
     def __init__(self, *args, **kwargs):
+        """Initialize the form and configure a Crispy-Forms FormHelper for rendering.
+        """
         super().__init__(*args, **kwargs)
 
         self.helper = FormHelper()

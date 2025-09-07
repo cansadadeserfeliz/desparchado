@@ -194,6 +194,7 @@
             </div>
           {% endif %}
 
+          {% if organizers %}
           <div class="event-details__item-list">
             <h2 class="text-heading-4">Organizador{{ organizers|pluralize:'es' }}</h2>
             <div class="event-details__item-list-list">
@@ -211,6 +212,7 @@
               {% endfor %}
             </div>
           </div>
+          {% endif %}
 
         </div>
       </div>
@@ -229,7 +231,7 @@
           data-vue-prop-name="{% translate 'Ver mapa' %}"
           data-vue-prop-icon="pin-40"
           data-vue-prop-padding="balanced"
-          data-vue-prop-link="#event-place-map"
+          data-vue-prop-link="{{ event.place.get_absolute_url }}"
         >
         </div>
         <div
