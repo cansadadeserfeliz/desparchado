@@ -22,6 +22,7 @@ django-autocomplete-light>=3.12.1,<3.13
 django-autoslug>=1.9.9,<1.10
 django-axes>=7.0.2,<7.1
 crispy-bootstrap5==2024.10
+django-cleanup>=9.0.0,<10.0
 django-crispy-forms>=2.3,<2.4
 django-filter>=25.1,<26
 django-debug-toolbar>=5.0.1,<5.1

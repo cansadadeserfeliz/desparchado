@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'mapwidgets',
     'crispy_forms',
     'crispy_bootstrap5',
+    'django_cleanup.apps.CleanupConfig',
     'debug_toolbar',
     'django_vite',
     'drf_yasg',
@@ -168,6 +169,15 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
+
+STORAGES = {
+    "default": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+    },
+}
 
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
