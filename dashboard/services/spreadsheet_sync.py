@@ -24,12 +24,16 @@ def sync_events(
     request_user,
     event_id_field: str = "event_source_url",
 ) -> list[dict[str, Any]]:
-    with Path.open(
-        settings.BASE_DIR / "spreadsheet_credentials.json",
-        "r",
-        encoding="utf-8",
-    ) as file:
-        credentials = json.load(file)
+    try:
+        with Path.open(
+            settings.BASE_DIR / "spreadsheet_credentials.json",
+            "r",
+            encoding="utf-8",
+        ) as file:
+            credentials = json.load(file)
+    except (FileNotFoundError, json.JSONDecodeError) as e:
+        logger.error("Failed to load spreadsheet credentials", exc_info=e)
+        return [dict(error="Spreadsheet credentials could not be loaded")]
 
     gc = gspread.service_account_from_dict(credentials)
     spreadsheet = gc.open_by_key(spreadsheet_id)
