@@ -11,6 +11,8 @@ CACHES = {
     },
 }
 
+STORAGES['default']['BACKEND'] = 'django.core.files.storage.InMemoryStorage'  # noqa: F405
+
 LOGGING['root']['handlers'] = ['console']   # noqa: F405
 
 # Indicates whether to serve assets via the ViteJS development server
