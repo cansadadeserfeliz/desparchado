@@ -9,6 +9,7 @@ import requests
 from dateutil.parser import parse
 from django.conf import settings
 from django.core.files.base import ContentFile
+from django.utils import timezone
 
 from desparchado.utils import sanitize_html
 from events.models import Event
@@ -56,6 +57,21 @@ def sync_events(
         # speakers = _get_cell_data(event_data, 'J')
 
         try:
+            parsed_dt = parse(event_date)
+            if getattr(settings, "USE_TZ", False):
+                if timezone.is_naive(parsed_dt):
+                    parsed_dt = timezone.make_aware(
+                        parsed_dt,
+                        timezone.get_current_timezone(),
+                    )
+        except Exception:
+            synced_events_data.append(dict(
+                data=event_data,
+                error=f'Invalid event_date: "{event_date}"',
+            ))
+            continue
+
+        try:
             place = Place.objects.get(name__iexact=place_name.strip())
         except Place.DoesNotExist:
             synced_events_data.append(dict(
@@ -68,7 +84,7 @@ def sync_events(
             "title": title,
             "description": sanitize_html(description_html),
             "category": category,
-            "event_date": parse(event_date),
+            "event_date": parsed_dt,
             "place": place,
             "is_published": True,
             "is_approved": True,
@@ -83,7 +99,8 @@ def sync_events(
                 **defaults,
             },
         )
-        save_image(event, image_url)
+        if image_url:
+            save_image(event, image_url)
         synced_events_data.append(dict(data=event_data, event=event, created=created))
 
     return synced_events_data
