@@ -1,23 +1,19 @@
 import io
 import json
-from types import SimpleNamespace
 from datetime import datetime, timezone as dt_timezone
+from types import SimpleNamespace
+from unittest.mock import MagicMock, call, patch
 
-import pytest
-
-from unittest.mock import MagicMock, patch, call
-
-from django.utils import timezone
 from django.conf import settings
-
-# Import models; tests assume these apps exist
-from events.models import Event, Organizer
-from places.models import Place
+from django.utils import timezone
+import pytest
 
 # Import module under test
 # If the module path differs, adjust this import accordingly.
 from dashboard import spreadsheet_sync as ss
-
+# Import models; tests assume these apps exist
+from events.models import Event, Organizer
+from places.models import Place
 
 # ------------------------------------------------------------------------------
 # Test framework note:
@@ -43,7 +39,6 @@ def credentials_file_ok(monkeypatch, tmp_path):
     # simply returning a normal open works because file exists at that exact path.
     return p
 
-
 @pytest.fixture
 def gspread_mocks():
     """
@@ -57,11 +52,9 @@ def gspread_mocks():
     gc.open_by_key.return_value = spreadsheet
     return {"gc": gc, "spreadsheet": spreadsheet, "sheet": sheet}
 
-
 @pytest.fixture
 def fake_request_user(db, django_user_model):
     return django_user_model.objects.create(username="importer")
-
 
 def _mk_row(
     title="My Event",
@@ -77,7 +70,6 @@ def _mk_row(
     # B: title, C: date, D: place, E: category, F: html, G: url, H: image, I: organizers
     return ["IGNORED-A", title, date_str, place, category, description, url, image, organizers]
 
-
 # -----------------------------
 # _get_cell_data
 # -----------------------------
@@ -89,7 +81,6 @@ def test_get_cell_data_trims_and_maps_letters():
     assert ss._get_cell_data(row, "C") == "C"
     assert ss._get_cell_data(row, "D") == ""  # empty string preserved
     assert ss._get_cell_data(row, "Z") == ""  # out of range returns empty
-
 
 # -----------------------------
 # save_image
@@ -104,14 +95,11 @@ class DummyImageField:
         self.saved_as = name
         self.saved_content = content.read() if hasattr(content, "read") else content
 
-
 class DummyEvent(SimpleNamespace):
     pass
 
-
 def _mk_dummy_event(slug="my-event"):
     return DummyEvent(slug=slug, image=DummyImageField())
-
 
 @patch("dashboard.spreadsheet_sync.requests.get")
 def test_save_image_logs_and_returns_on_status_not_200(mock_get, caplog):
@@ -127,7 +115,6 @@ def test_save_image_logs_and_returns_on_status_not_200(mock_get, caplog):
     assert ev.image.saved_as is None
     mock_get.assert_called_once_with("http://x/y.png", timeout=10)
 
-
 @patch("dashboard.spreadsheet_sync.requests.get")
 def test_save_image_rejects_non_image_content_type(mock_get, caplog):
     mock_get.return_value.status_code = 200
@@ -139,7 +126,6 @@ def test_save_image_rejects_non_image_content_type(mock_get, caplog):
 
     assert any("Non-image content-type" in rec.message for rec in caplog.records)
     assert ev.image.saved_as is None
-
 
 @patch("dashboard.spreadsheet_sync.requests.get")
 def test_save_image_ok_png_extension_and_saves(mock_get):
@@ -154,14 +140,12 @@ def test_save_image_ok_png_extension_and_saves(mock_get):
     assert ev.image.saved_as == "great-event.png"
     assert ev.image.saved_content == b"\x89PNG...."
 
-
 @patch("dashboard.spreadsheet_sync.requests.get", side_effect=Exception("net down"))
 def test_save_image_request_exception_is_logged(mock_get, caplog):
     ev = _mk_dummy_event()
     ss.save_image(ev, "http://x/broken")
     assert any("Image download error" in rec.message for rec in caplog.records)
     assert ev.image.saved_as is None
-
 
 # -----------------------------
 # sync_events
@@ -172,10 +156,8 @@ def _install_gspread(monkeypatch, gspread_mocks):
     monkeypatch.setattr(ss.gspread, "service_account_from_dict", lambda creds: gspread_mocks["gc"])
     return gspread_mocks
 
-
 def _wire_sheet_rows(gspread_mocks, rows):
-    gspread_mocks["sheet"].get.return_value = rows
-
+    gpread_mocks["sheet"].get.return_value = rows
 
 def _assert_event_basics(ev, title, category, place_obj, dt_expected):
     assert ev.title == title
@@ -185,13 +167,11 @@ def _assert_event_basics(ev, title, category, place_obj, dt_expected):
     assert ev.is_published is True
     assert ev.is_approved is True
 
-
 def test_sync_events_returns_error_when_credentials_missing(monkeypatch, tmp_path):
     # No credentials file present
     monkeypatch.setattr(settings, "BASE_DIR", tmp_path, raising=False)
     res = ss.sync_events("sheet", 0, "B2:I2", request_user=None)
     assert res == [dict(error="Spreadsheet credentials could not be loaded")]
-
 
 def test_sync_events_returns_error_when_credentials_bad_json(monkeypatch, tmp_path):
     creds_path = tmp_path / "spreadsheet_credentials.json"
@@ -199,7 +179,6 @@ def test_sync_events_returns_error_when_credentials_bad_json(monkeypatch, tmp_pa
     monkeypatch.setattr(settings, "BASE_DIR", tmp_path, raising=False)
     res = ss.sync_events("sheet", 0, "B2:I2", request_user=None)
     assert res == [dict(error="Spreadsheet credentials could not be loaded")]
-
 
 @pytest.mark.django_db
 def test_sync_events_invalid_event_date_is_reported(credentials_file_ok, monkeypatch, gspread_mocks, fake_request_user):
@@ -213,7 +192,6 @@ def test_sync_events_invalid_event_date_is_reported(credentials_file_ok, monkeyp
     assert res[0]["data"] == bad_row
     assert res[0]["error"] == 'Invalid event_date: "not-a-date"'
 
-
 @pytest.mark.django_db
 def test_sync_events_place_not_found_error(credentials_file_ok, monkeypatch, gspread_mocks, fake_request_user):
     _install_gspread(monkeypatch, gspread_mocks)
@@ -221,7 +199,6 @@ def test_sync_events_place_not_found_error(credentials_file_ok, monkeypatch, gsp
 
     res = ss.sync_events("sheet", 0, "B2:I2", request_user=fake_request_user)
     assert 'Place "Unknown Venue" not found' in res[0]["error"]
-
 
 @pytest.mark.django_db
 def test_sync_events_organizer_missing_yields_error_and_event_created(
@@ -255,7 +232,6 @@ def test_sync_events_organizer_missing_yields_error_and_event_created(
     # Image helper called
     mock_save_img.assert_called_once()
 
-
 @pytest.mark.django_db
 def test_sync_events_success_create_sets_created_by_and_updates_on_second_run(
     credentials_file_ok, monkeypatch, gspread_mocks, fake_request_user
@@ -287,7 +263,6 @@ def test_sync_events_success_create_sets_created_by_and_updates_on_second_run(
     assert ev2.title == "Updated Title"
     mock_save_img2.assert_called_once()
 
-
 @pytest.mark.django_db
 def test_sync_events_naive_datetime_made_aware_when_USE_TZ_true(
     settings, credentials_file_ok, monkeypatch, gspread_mocks, fake_request_user
@@ -306,13 +281,12 @@ def test_sync_events_naive_datetime_made_aware_when_USE_TZ_true(
     ev = res[0]["event"]
     assert timezone.is_aware(ev.event_date), "Expected timezone-aware datetime when USE_TZ=True"
 
-
 @pytest.mark.django_db
-def test_sync_events_calls_gspread_with_provided_identifiers(
+def test_sync_events_calls_gpread_with_provided_identifiers(
     credentials_file_ok, monkeypatch, gspread_mocks, fake_request_user
 ):
-    gc = _install_gspread(monkeypatch, gspread_mocks)["gc"]
-    _wire_sheet_rows(gspread_mocks, [_mk_row(organizers="Org A")])
+    gc = _install_gspread(monkeypatch, gpread_mocks)["gc"]
+    _wire_sheet_rows(gpread_mocks, [_mk_row(organizers="Org A")])
 
     # Prepare required data
     Place.objects.create(name="The Venue")
