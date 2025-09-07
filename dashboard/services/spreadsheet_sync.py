@@ -70,8 +70,9 @@ def sync_events(
             "is_approved": True,
         }
 
+        lookup = {event_id_field: event_source_url}
         event, created = Event.objects.update_or_create(
-            event_source_url=event_source_url,
+            **lookup,
             defaults=defaults,
             create_defaults={
                 "created_by": request_user,
