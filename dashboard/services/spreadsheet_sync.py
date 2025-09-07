@@ -35,7 +35,7 @@ def sync_events(
     spreadsheet = gc.open_by_key(spreadsheet_id)
     sheet = spreadsheet.get_worksheet(worksheet_number)
     results = sheet.get(worksheet_range)
-    logger.info(results)
+    logger.debug(results)
 
     synced_events_data = []
 
@@ -52,7 +52,7 @@ def sync_events(
         # speakers = _get_cell_data(event_data, 'J')
 
         try:
-            place = Place.objects.get(name=place_name)
+            place = Place.objects.get(name__iexact=place_name.strip())
         except Place.DoesNotExist:
             synced_events_data.append(dict(
                 data=event_data,
