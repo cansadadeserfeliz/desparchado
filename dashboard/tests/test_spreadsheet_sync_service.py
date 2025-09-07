@@ -8,7 +8,8 @@ import pytest
 
 # Framework note:
 # These tests are written for pytest (with pytest-django if Django is present).
-# We mock Django ORM interactions and external services (gspread, requests) to isolate pure logic.
+# We mock Django ORM interactions and external services (gspread, requests)
+# to isolate pure logic.
 
 # Target module under test
 # The implementation appears under dashboard/tests/test_services_spreadsheet_sync.py per PR context.
@@ -173,6 +174,7 @@ def test_get_cell_data_happy_path():
     row = ["id", "  Title  ", "2025-01-02", "Place", "Cat", " <p>desc</p> ", "url", "", "Org A, Org B"]
     assert impl._get_cell_data(row, "B") == "Title"
     assert impl._get_cell_data(row, "F") == "<p>desc</p>"
+
 
 def test_get_cell_data_out_of_range_returns_empty():
     row = ["A"]
