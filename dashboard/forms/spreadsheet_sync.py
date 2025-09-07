@@ -14,10 +14,7 @@ class SpreadsheetSyncForm(forms.Form):
     )
 
     def __init__(self, *args, **kwargs):
-        """
-        Initialize the form and configure a Crispy-Forms FormHelper for rendering.
-        
-        Creates a FormHelper, sets the form id to 'spreadsheet_sync_form' and method to POST, and defines the layout to render the fields in this order: spreadsheet_id, worksheet_number, worksheet_range, event_id_field. Adds a submit button labeled _('Sincronizar') with CSS class 'btn-primary' wrapped in a div with class 'form-group'. All constructor args and kwargs are passed through to the base Form initializer.
+        """Initialize the form and configure a Crispy-Forms FormHelper for rendering.
         """
         super().__init__(*args, **kwargs)
 

@@ -11,7 +11,7 @@ CACHES = {
     },
 }
 
-STORAGES['default']['BACKEND'] = 'django.core.files.storage.InMemoryStorage'
+STORAGES['default']['BACKEND'] = 'django.core.files.storage.InMemoryStorage'  # noqa: F405
 
 LOGGING['root']['handlers'] = ['console']   # noqa: F405
 
