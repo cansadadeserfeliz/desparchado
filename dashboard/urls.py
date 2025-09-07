@@ -41,4 +41,10 @@ urlpatterns = [
         dashboard_views.FilboEventFormView.as_view(),
         name='filbo_event_form',
     ),
+    # Spreadsheet Sync
+    path(
+        'spreadsheet-sync/',
+        dashboard_views.SpreadsheetSyncFormView.as_view(),
+        name='spreadsheet_sync_form',
+    ),
 ]
