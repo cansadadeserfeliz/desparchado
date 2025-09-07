@@ -12,7 +12,7 @@ from django.core.files.base import ContentFile
 from django.utils import timezone
 
 from desparchado.utils import sanitize_html
-from events.models import Event
+from events.models import Event, Organizer
 from places.models import Place
 
 logger = logging.getLogger(__name__)
@@ -78,7 +78,7 @@ def sync_events(
         description_html = _get_cell_data(event_data, 'F')
         event_source_url = _get_cell_data(event_data, 'G')
         image_url = _get_cell_data(event_data, 'H')
-        # organizers = _get_cell_data(event_data, 'I')
+        organizer_names = _get_cell_data(event_data, 'I')
         # speakers = _get_cell_data(event_data, 'J')
 
         try:
@@ -105,6 +105,20 @@ def sync_events(
             )
             continue
 
+        organizers = []
+        for organizer_name in organizer_names.split(","):
+            try:
+                organizer = Organizer.objects.get(name__iexact=organizer_name.strip())
+                organizers.append(organizer)
+            except Organizer.DoesNotExist:
+                synced_events_data.append(
+                    dict(
+                        data=event_data,
+                        error=f'Organizer "{organizer_name}" not found',
+                    ),
+                )
+                continue
+
         defaults = {
             "title": title,
             "description": sanitize_html(description_html),
@@ -124,6 +138,8 @@ def sync_events(
                 **defaults,
             },
         )
+        event.organizers.set(organizers)
+
         if image_url:
             save_image(event, image_url)
         synced_events_data.append(dict(data=event_data, event=event, created=created))
