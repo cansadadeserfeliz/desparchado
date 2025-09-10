@@ -93,7 +93,7 @@
         </div>
       </div>
     </section>
-    
+
     {% if events %}
       <section class="generic-detail__section">
         <div class="generic-detail__section-header generic-detail__section-header--padding-sm">
@@ -119,14 +119,14 @@
               data-vue-prop-image-url="{{ event.get_image_url }}"
               data-vue-prop-link="{{ event.get_absolute_url }}"
               data-vue-prop-date-copy="{{ event.event_date|date:'l' }}"
-              data-vue-prop-speakers='[{% with speakers=event.speakers.all %}{% if speakers %}{% for speaker in speakers %}{"imageUrl": "{{ speaker.get_image_url|escapejs }}", "link": "{{ speaker.get_absolute_url|escapejs }}", "name": "{{ speaker.name|escapejs }}" }{% if not forloop.last %}, {% endif %}{% endfor %}{% endif %}{% endwith %}]'
+              data-vue-prop-speakers='[]'  {# speakers are not shown in the event-card view #}
             >
             </div>
           {% endfor %}
         </div>
       </section>
     {% endif %}
-    
+
     {% if past_events %}
       <section class="generic-detail__section">
         <div class="generic-detail__section-header generic-detail__section-header--padding-lg">

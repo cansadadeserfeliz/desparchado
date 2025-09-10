@@ -215,6 +215,7 @@ class OrganizerDetailView(DetailView):
             .past()
             .order_by("-event_date")
             .select_related("place")
+            .prefetch_related("speakers")
             .all()[:30]
         )
         return context
