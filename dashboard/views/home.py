@@ -17,7 +17,7 @@ class HomeView(SuperuserRequiredMixin, TemplateView):
         context = super().get_context_data(**kwargs)
         context['future_events'] = (Event.objects.published()
                                     .future()
-                                    .select_related('place').all())
+                                    .select_related('place'))
         context['future_events_count'] = Event.objects.published().future().count()
 
         context['future_events_by_date'] = (
