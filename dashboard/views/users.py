@@ -5,10 +5,12 @@ from django.db.models import Count
 from django.utils import timezone
 from django.views.generic import TemplateView
 
+from dashboard.mixins import SuperuserRequiredMixin
+
 User = get_user_model()
 
 
-class UsersView(TemplateView):
+class UsersView(SuperuserRequiredMixin, TemplateView):
     template_name = "dashboard/users.html"
 
     def get_context_data(self, **kwargs):
