@@ -44,14 +44,19 @@
               <td>
               {% if event_data.event %}
                 <a href="{{ event_data.event.get_absolute_url }}" target="_blank" rel="noopener noreferrer">{{ event_data.event }}</a>
+              {% else %}
+                {{ event_data.title }}
               {% endif %}
+              {% if event_data.source_id %} // {{ event_data.source_id }}{% endif %}
               </td>
               <td>
+              {% if event_data.event %}
                 {% if event_data.created %}
                   {% translate 'Creado' %}
                 {% else %}
                   {% translate 'Actualizado' %}
                 {% endif %}
+              {% endif %}
               </td>
               <td>{{ event_data.error }}</td>
               <td>{{ event_data.warnings|join:" // " }}</td>
