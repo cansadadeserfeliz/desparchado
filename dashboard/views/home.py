@@ -3,8 +3,8 @@ from datetime import timedelta
 from django.contrib.auth import get_user_model
 from django.db.models import Count, DateField
 from django.db.models.functions import Cast
-from django.views.generic import TemplateView
 from django.utils import timezone
+from django.views.generic import TemplateView
 
 from dashboard.mixins import SuperuserRequiredMixin
 from events.models import Event, Organizer, Speaker
