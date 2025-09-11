@@ -116,6 +116,11 @@ class Event(TimeStampedModel):
         default=True,
         help_text='Campo de uso exclusivo para el administrador del sitio',
     )
+    is_hidden = models.BooleanField(
+        'Hidden from home and future events',
+        default=False,
+        help_text='Used for bulk event syncs for book fairs and festivals',
+    )
 
     created_by = models.ForeignKey(
         settings.AUTH_USER_MODEL,

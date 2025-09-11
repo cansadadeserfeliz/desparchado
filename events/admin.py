@@ -42,6 +42,7 @@ class EventAdmin(admin.ModelAdmin):
         'title',
         'is_published',
         'is_approved',
+        'is_hidden',
         'category',
         'filbo_id',
         'event_date',
@@ -65,6 +66,7 @@ class EventAdmin(admin.ModelAdmin):
                     (
                         'slug',
                         'is_approved',
+                        'is_hidden',
                     ),
                 ],
             },
@@ -92,6 +94,7 @@ class EventAdmin(admin.ModelAdmin):
         'is_featured_on_homepage',
         'is_published',
         'is_approved',
+        'is_hidden',
         'created_by__is_superuser',
     )
     ordering = ('-created', '-is_published')

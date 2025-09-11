@@ -18,6 +18,7 @@ class SpreadsheetSyncForm(forms.Form):
         initial='event_source_url',
     )
     special = forms.ModelChoiceField(queryset=Special.objects.all(), required=False)
+    is_hidden = forms.BooleanField(required=False)
 
     def __init__(self, *args, **kwargs):
         """Initialize the form and configure a Crispy-Forms FormHelper for rendering.
@@ -34,6 +35,7 @@ class SpreadsheetSyncForm(forms.Form):
             'worksheet_range',
             'event_id_field',
             'special',
+            'is_hidden',
             Div(
                 Submit('submit', _('Sincronizar'), css_class='btn-primary'),
                 css_class='form-group',
