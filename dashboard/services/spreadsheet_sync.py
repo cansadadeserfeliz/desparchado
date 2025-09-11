@@ -13,8 +13,8 @@ from django.utils import timezone
 
 from desparchado.utils import sanitize_html
 from events.models import Event, Organizer
-from specials.models import Special
 from places.models import Place
+from specials.models import Special
 
 logger = logging.getLogger(__name__)
 
@@ -136,7 +136,7 @@ def sync_events(
         if event_id_field == 'source_id':
             if not source_id:
                 synced_events_data.append(
-                    dict(data=event_data, error=f'source_id is empty'),
+                    dict(data=event_data, error='source_id is empty'),
                 )
                 continue
             lookup_value = source_id
