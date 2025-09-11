@@ -160,7 +160,7 @@ def sync_events(
             },
         )
         event.organizers.set(organizers)
-        if special and event not in special.related_events.all():
+        if special and not special.related_events.filter(pk=event.pk).exists():
             special.related_events.add(event)
 
         if image_url:
