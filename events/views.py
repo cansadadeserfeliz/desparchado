@@ -206,8 +206,7 @@ class OrganizerDetailView(DetailView):
         context['events'] = (
             self.get_object().events.published()
             .future()
-            .select_related('place')
-            .all()[:30]
+            .select_related('place')[:30]
         )
         context["past_events"] = (
             self.get_object()
@@ -215,7 +214,7 @@ class OrganizerDetailView(DetailView):
             .past()
             .order_by("-event_date")
             .select_related("place")
-            .all()[:30]
+            .prefetch_related("speakers")[:30]
         )
         return context
 
@@ -230,8 +229,7 @@ class SpeakerDetailView(DetailView):
             speaker.events.published()
             .future()
             .select_related("place")
-            .prefetch_related("speakers")
-            .all()[:30]
+            .prefetch_related("speakers")[:30]
         )
         context['past_events'] = (
             speaker.events.published()
