@@ -23,7 +23,7 @@ class UsersView(SuperuserRequiredMixin, TemplateView):
 
         recently_registered_users = User.objects.filter(
             date_joined__gte=timezone.now() - timedelta(days=90),
-        )
+        ).order_by('-date_joined')
         context['recently_registered_users'] = recently_registered_users
 
         duplicated_emails = (
