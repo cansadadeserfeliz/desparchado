@@ -129,17 +129,27 @@ def sync_events(
             "place": place,
             "is_published": True,
             "is_approved": True,
+            "event_source_url": event_source_url,
+            "source_id": source_id,
         }
 
         if event_id_field == 'event_source_url':
             lookup_value = event_source_url
-        if event_id_field == 'source_id':
+        elif event_id_field == 'source_id':
             if not source_id:
                 synced_events_data.append(
                     dict(data=event_data, error='source_id is empty'),
                 )
                 continue
             lookup_value = source_id
+        else:
+            synced_events_data.append(dict(
+                data=event_data,
+                title=title,
+                error=f'Unknown event_id_field: {event_id_field}',
+            ))
+            return synced_events_data
+
         lookup = {event_id_field: lookup_value}
         event, created = Event.objects.update_or_create(
             **lookup,
