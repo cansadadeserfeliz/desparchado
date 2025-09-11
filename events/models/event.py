@@ -136,6 +136,13 @@ class Event(TimeStampedModel):
         blank=True,
         unique=True,
     )
+    source_id = models.CharField(
+        verbose_name='Event source ID',
+        max_length=30,
+        null=True,
+        blank=True,
+        unique=True,
+    )
 
     objects = EventQuerySet().as_manager()
 
@@ -161,6 +168,9 @@ class Event(TimeStampedModel):
         if self.image:
             return self.image.url
 
+        if self.source_id and self.source_id.startswith('FLCM2025_'):
+            # Fiesta del Libro y la Cultura de Medellín 2025
+            return static("images/fiesta-del-libro-y-la-cultura-2025.webp")
         if self.filbo_id and self.event_date.year == 2025:
             return static('images/filbo-2025.jpg')
         return static('images/default_event_image.jpg')
