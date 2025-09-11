@@ -24,6 +24,11 @@ urlpatterns = [
         dashboard_views.PlacesListView.as_view(),
         name='places',
     ),
+    path(
+        'users/',
+        dashboard_views.UsersView.as_view(),
+        name='users',
+    ),
     # BLAA
     path(
         'blaa/events-list/',

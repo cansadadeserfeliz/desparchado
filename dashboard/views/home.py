@@ -1,6 +1,9 @@
+from datetime import timedelta
+
 from django.contrib.auth import get_user_model
 from django.db.models import Count, DateField
 from django.db.models.functions import Cast
+from django.utils import timezone
 from django.views.generic import TemplateView
 
 from dashboard.mixins import SuperuserRequiredMixin
@@ -34,6 +37,9 @@ class HomeView(SuperuserRequiredMixin, TemplateView):
         context['speakers_without_image_count'] = Speaker.objects.filter(
             image='',
         ).count()
-        context['active_users_count'] = User.objects.filter(is_active=True).count()
+        context['active_users_count'] = User.objects.filter(
+            is_active=True,
+            last_login__gt=timezone.now() - timedelta(days=60),
+        ).count()
         context['places_count'] = Place.objects.count()
         return context
