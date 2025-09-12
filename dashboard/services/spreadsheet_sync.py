@@ -14,6 +14,7 @@ from django.utils import timezone
 from desparchado.utils import sanitize_html
 from events.models import Event, Organizer
 from places.models import Place
+from specials.models import Special
 
 logger = logging.getLogger(__name__)
 
@@ -22,8 +23,10 @@ def sync_events(
     spreadsheet_id: str,
     worksheet_number: int,
     worksheet_range: str,
+    special: Special,
     request_user,
-    event_id_field: str = "event_source_url",
+    event_id_field: str,
+    is_hidden: bool = True,
 ) -> list[dict[str, Any]]:
     """Sync events from a Google Sheets worksheet into the Django Event model.
 
@@ -34,8 +37,10 @@ def sync_events(
         spreadsheet_id (str): Google Sheets spreadsheet key.
         worksheet_number (int): Zero-based worksheet index to open.
         worksheet_range (str): Range string to read (e.g., "B2:H100").
+        special: Special that will be assigned to the events.
         request_user: User used as created_by for newly created Event records.
         event_id_field (str): Event model field used to identify records.
+        is_hidden (bool): If the event will be hidden on home and future events page.
 
     Returns:
         list[dict]: Per-row result dictionaries. For successful rows each item contains:
@@ -70,7 +75,7 @@ def sync_events(
     synced_events_data = []
 
     for event_data in results:
-        # id = _get_cell_data(event_data, 'A')
+        source_id = _get_cell_data(event_data, 'A')
         title = _get_cell_data(event_data, 'B')
         event_date = _get_cell_data(event_data, 'C')
         place_name = _get_cell_data(event_data, 'D')
@@ -126,9 +131,29 @@ def sync_events(
             "place": place,
             "is_published": True,
             "is_approved": True,
+            "event_source_url": event_source_url,
+            "source_id": source_id,
+            "is_hidden": is_hidden,
         }
 
-        lookup = {event_id_field: event_source_url}
+        if event_id_field == 'event_source_url':
+            lookup_value = event_source_url
+        elif event_id_field == 'source_id':
+            if not source_id:
+                synced_events_data.append(
+                    dict(data=event_data, error='source_id is empty'),
+                )
+                continue
+            lookup_value = source_id
+        else:
+            synced_events_data.append(dict(
+                data=event_data,
+                title=title,
+                error=f'Unknown event_id_field: {event_id_field}',
+            ))
+            return synced_events_data
+
+        lookup = {event_id_field: lookup_value}
         event, created = Event.objects.update_or_create(
             **lookup,
             defaults=defaults,
@@ -138,6 +163,8 @@ def sync_events(
             },
         )
         event.organizers.set(organizers)
+        if special and not special.related_events.filter(pk=event.pk).exists():
+            special.related_events.add(event)
 
         if image_url:
             save_image(event, image_url)

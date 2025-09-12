@@ -24,7 +24,7 @@ class HomeView(TemplateView):
         # choose random future events
         if featured_events_count < self.featured_events_limit:
             featured_events |= (
-                future_events.filter(is_featured_on_homepage=False)
+                future_events.filter(is_featured_on_homepage=False, is_hidden=False)
                 .order_by('?')
                 .all()[: self.featured_events_limit - featured_events_count]
             )
