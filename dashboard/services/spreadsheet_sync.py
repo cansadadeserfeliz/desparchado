@@ -90,6 +90,15 @@ def sync_events(
         )
         # speakers = _get_cell_data(event_data, 'J')
 
+        if not title:
+            synced_events_data.append(
+                dict(
+                    data=event_data,
+                    error='Title is empty',
+                ),
+            )
+            continue
+
         try:
             parsed_dt = parse(event_date)
             if getattr(settings, "USE_TZ", False):
