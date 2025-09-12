@@ -1,7 +1,6 @@
-import types
 from unittest import mock
+import types
 
-import pytest
 from django.contrib import admin
 from django.contrib.admin.sites import AdminSite
 from django.contrib.auth import get_user_model
@@ -9,10 +8,11 @@ from django.http import HttpRequest, QueryDict
 from django.test import RequestFactory, TestCase
 from django.urls import reverse
 from django.utils.datastructures import MultiValueDict
+import pytest
 
-from events.models import Event, Organizer, SocialNetworkPost, Speaker
 # Import the ModelAdmin classes from events.admin
 from events import admin as events_admin
+from events.models import Event, Organizer, SocialNetworkPost, Speaker
 
 
 class DummySite(AdminSite):
@@ -146,7 +146,7 @@ class TestEventAdmin(AdminTestMixin, TestCase):
         qs = Event.objects.filter(id=self.event1.id)
         resp = self.admin.update_category(req, qs)
         self.assertEqual(resp.status_code, 200)
-        self.assertIn(b"name=\"category\"", resp.content)
+        self.assertIn(b'name="category"', resp.content)
 
     def test_save_formset_sets_created_by_on_inline_instances_and_calls_save_m2m(self):
         req = self.rf_as(self.staff, "post")
@@ -156,9 +156,11 @@ class TestEventAdmin(AdminTestMixin, TestCase):
 
         # Fake formset with the API used in save_formset
         fake_formset = types.SimpleNamespace()
+
         def save(commit=False):
             assert commit is False
             return [inst1, inst2]
+
         fake_formset.save = save
         fake_formset.save_m2m = mock.MagicMock()
 
