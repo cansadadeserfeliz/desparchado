@@ -37,7 +37,7 @@ class SpecialInline(admin.TabularInline):
 
 @admin.register(Event)
 class EventAdmin(admin.ModelAdmin):
-    search_fields = ('title', 'description', 'source_id')
+    search_fields = ('title', 'description', '^source_id')
     list_display = [
         'title',
         'is_published',
