@@ -13,13 +13,13 @@ from django.contrib import admin
 from django.contrib.auth import get_user_model
 from django.test import RequestFactory, TestCase
 
-import events.admin as events_admin
 from events.admin import (
     EventAdmin,
     OrganizerAdmin,
     SpeakerAdmin,
     SocialNetworkPostAdmin,
 )
+import events.admin as events_admin
 from events.models import Event, Speaker, Organizer, SocialNetworkPost
 
 
