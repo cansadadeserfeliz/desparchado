@@ -6,6 +6,7 @@ from events.models import Event, Organizer, Speaker
 from history.models import HistoricalFigure
 from history.models import Post as HistoryPost
 from places.models import Place
+from specials.models import Special
 
 
 class StaticViewSitemap(sitemaps.Sitemap):
@@ -39,7 +40,7 @@ class EventSitemap(sitemaps.Sitemap):
 
 
 class OrganizerSitemap(sitemaps.Sitemap):
-    changefreq = 'hourly'
+    changefreq = 'weekly'
     priority = 1.0
 
     def items(self):
@@ -50,7 +51,7 @@ class OrganizerSitemap(sitemaps.Sitemap):
 
 
 class PlaceSitemap(sitemaps.Sitemap):
-    changefreq = 'hourly'
+    changefreq = 'weekly'
     priority = 0.9
 
     def items(self):
@@ -61,7 +62,7 @@ class PlaceSitemap(sitemaps.Sitemap):
 
 
 class PostSitemap(sitemaps.Sitemap):
-    changefreq = 'hourly'
+    changefreq = 'weekly'
     priority = 0.9
 
     def items(self):
@@ -72,7 +73,7 @@ class PostSitemap(sitemaps.Sitemap):
 
 
 class SpeakerSitemap(sitemaps.Sitemap):
-    changefreq = 'daily'
+    changefreq = 'weekly'
     priority = 0.9
 
     def items(self):
@@ -82,8 +83,17 @@ class SpeakerSitemap(sitemaps.Sitemap):
         return item.modified
 
 
-class HistoryPostSitemap(sitemaps.Sitemap):
+class SpecialSitemap(sitemaps.Sitemap):
     changefreq = 'daily'
+    priority = 0.9
+
+    def items(self):
+        return Special.objects.filter(is_published=True)
+
+    def lastmod(self, item):
+        return item.modified
+class HistoryPostSitemap(sitemaps.Sitemap):
+    changefreq = 'monthly'
     priority = 1
 
     def items(self):
@@ -94,7 +104,7 @@ class HistoryPostSitemap(sitemaps.Sitemap):
 
 
 class HistoricalFigureSitemap(sitemaps.Sitemap):
-    changefreq = 'daily'
+    changefreq = 'monthly'
     priority = 0.9
 
     def items(self):
@@ -110,6 +120,7 @@ sitemaps = {
     'places': PlaceSitemap,
     'posts': PostSitemap,
     'speakers': SpeakerSitemap,
+    'specials': SpecialSitemap,
     'history_posts': HistoryPostSitemap,
     'history_figure': HistoricalFigureSitemap,
 }

@@ -1,0 +1,22 @@
+{% extends "admin/base_site.html" %}
+{% load i18n %}
+
+{% block content %}
+  <h2>{% trans "Actualizar la temática para los eventos seleccionados" %}</h2>
+
+  <p>{% blocktrans count counter=events|length %}1 evento seleccionado{% plural %}{{ counter }} eventos seleccionados{% endblocktrans %}</p>
+  <ul>
+    {% for e in events|slice:":20" %}
+      <li>{{ e }}</li>
+    {% endfor %}
+    {% if events|length > 20 %}<li>…</li>{% endif %}
+  </ul>
+
+  <form method="post">{% csrf_token %}
+    {{ form.as_p }}
+    <input type="hidden" name="action" value="update_category">
+
+    <input type="submit" name="apply" value="{% trans 'Actualizar' %}">
+    <a class="button cancel" href="{% url 'admin:events_event_changelist' %}">{% trans "Cancelar" %}</a>
+  </form>
+{% endblock %}

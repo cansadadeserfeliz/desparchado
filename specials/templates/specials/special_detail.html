@@ -60,7 +60,24 @@
     </form>
   </div>
 
-  {% include 'events/_events_list.html' with events=events %}
+  <div class="generic-detail__events-list-full-width">
+  {% for event in events %}
+    <div
+      data-vue-component="event-card-full-width"
+      data-vue-prop-tag="div"
+      data-vue-prop-location="{{ event.place.name }}"
+      data-vue-prop-description="{{ event.description }}"
+      data-vue-prop-title="{{ event.title }}"
+      data-vue-prop-day="{{ event.event_date|date:'j M' }}"
+      data-vue-prop-time="{{ event.event_date|date:'H:i' }}"
+      data-vue-prop-image-url="{{ event.get_image_url }}"
+      data-vue-prop-link="{{ event.get_absolute_url }}"
+      data-vue-prop-date-copy="{% if today.year == event.event_date.year %}{{ event.event_date|natural_day }}{% else %}{{ event.event_date|date:'Y' }}{% endif %}"
+      data-vue-prop-speakers='[{% with speakers=event.speakers.all %}{% if speakers %}{% for speaker in speakers %}{"imageUrl": "{{ speaker.get_image_url|escapejs }}", "link": "{{ speaker.get_absolute_url|escapejs }}", "name": "{{ speaker.name|escapejs }}" }{% if not forloop.last %}, {% endif %}{% endfor %}{% endif %}{% endwith %}]'
+    >
+    </div>
+  {% endfor %}
+  </div>
 
   <section class="container justify-content-center">
     {% get_simple_pagination %}
