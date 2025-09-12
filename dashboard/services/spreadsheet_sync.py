@@ -26,6 +26,7 @@ def sync_events(
     special: Special,
     request_user,
     event_id_field: str,
+    is_hidden: bool = True,
 ) -> list[dict[str, Any]]:
     """Sync events from a Google Sheets worksheet into the Django Event model.
 
@@ -39,6 +40,7 @@ def sync_events(
         special: Special that will be assigned to the events.
         request_user: User used as created_by for newly created Event records.
         event_id_field (str): Event model field used to identify records.
+        is_hidden (bool): If the event will be hidden on home and future events page.
 
     Returns:
         list[dict]: Per-row result dictionaries. For successful rows each item contains:
@@ -131,6 +133,7 @@ def sync_events(
             "is_approved": True,
             "event_source_url": event_source_url,
             "source_id": source_id,
+            "is_hidden": is_hidden,
         }
 
         if event_id_field == 'event_source_url':

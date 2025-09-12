@@ -19,6 +19,7 @@ class SpreadsheetSyncFormView(SuperuserRequiredMixin, FormView):
             worksheet_range=form.cleaned_data['worksheet_range'],
             event_id_field=form.cleaned_data['event_id_field'],
             special=form.cleaned_data['special'],
+            is_hidden=form.cleaned_data['is_hidden'],
             request_user=self.request.user,
         )
 
