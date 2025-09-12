@@ -98,6 +98,8 @@ def sync_events(
                 ),
             )
             continue
+        if len(title) > 255:
+            title = title[:(255 - 3)] + '...'
 
         try:
             parsed_dt = parse(event_date)
