@@ -37,14 +37,14 @@ class SpecialInline(admin.TabularInline):
 
 @admin.register(Event)
 class EventAdmin(admin.ModelAdmin):
-    search_fields = ('title', 'description')
+    search_fields = ('title', 'description', '^source_id')
     list_display = [
         'title',
         'is_published',
         'is_approved',
         'is_hidden',
         'category',
-        'filbo_id',
+        'source_id',
         'event_date',
         'event_source_url',
         'created_by',
@@ -76,7 +76,7 @@ class EventAdmin(admin.ModelAdmin):
             {
                 'fields': (
                     'description',
-                    'event_source_url',
+                    ('event_source_url', 'source_id'),
                     'image',
                     'image_source_url',
                     ('event_date', 'category'),
