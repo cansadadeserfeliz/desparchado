@@ -1,12 +1,12 @@
 import types
 from unittest.mock import MagicMock, patch
 
-import pytest
 from django.contrib.admin.sites import AdminSite
 from django.contrib.auth import get_user_model
 from django.http import HttpResponse
 from django.test import RequestFactory
 from django.utils import timezone
+import pytest
 
 # Import admin classes and models under test
 import events.admin as events_admin
@@ -63,6 +63,7 @@ def event(db, superuser):
 
 class _ReqObj(types.SimpleNamespace):
     """Helper to mimic request with POST/GET and user."""
+
 
 def _make_request(rf, user, method="get", data=None, path="/admin/events/event/"):
     req = getattr(rf, method.lower())(path, data=data or {})
