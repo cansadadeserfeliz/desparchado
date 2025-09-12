@@ -134,13 +134,6 @@ class Event(TimeStampedModel):
         related_name='can_edit_events',
     )
 
-    filbo_id = models.CharField(
-        verbose_name='ID del FILBo',
-        max_length=10,
-        null=True,
-        blank=True,
-        unique=True,
-    )
     source_id = models.CharField(
         verbose_name='Event source ID',
         max_length=30,
@@ -176,7 +169,7 @@ class Event(TimeStampedModel):
         if self.source_id and self.source_id.startswith('FLCM2025_'):
             # Fiesta del Libro y la Cultura de Medellín 2025
             return static("images/fiesta-del-libro-y-la-cultura-2025.webp")
-        if self.filbo_id and self.event_date.year == 2025:
+        if self.source_id and self.source_id.startswith('FILBO2025_'):
             return static('images/filbo-2025.jpg')
         return static('images/default_event_image.jpg')
 

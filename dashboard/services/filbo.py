@@ -112,6 +112,8 @@ def sync_filbo_event(event_data, special, speakers_map, request_user):
 
     if filbo_id is None:
         logger.warning(f'FILBo ID was not found for {link}')
+    else:
+        filbo_id = 'FILBO2025_' + filbo_id
 
     event_start_date = parse(f'{event_date} {start_time}')
     event_end_date = parse(f'{event_date} {end_time}')
@@ -156,7 +158,7 @@ def sync_filbo_event(event_data, special, speakers_map, request_user):
     }
     logger.debug(f'FILBo event {filbo_id} defaults', extra=defaults)
     event, created = Event.objects.update_or_create(
-        filbo_id=filbo_id,
+        source_id=filbo_id,
         defaults=defaults,
         create_defaults={"created_by": request_user, **defaults},
     )
@@ -218,8 +220,7 @@ def sync_filbo_events(
             synced_filbo_ids.add(filbo_id)
 
     all_events = Event.objects.filter(
-        filbo_id__isnull=False,
-        event_date__year=2025,
+        source_id__startswith='FILBO2025_',
     )
     logger.info(f'>>> ALL FILBo events: {all_events.count()}')
     unpublished_events = all_events.exclude(filbo_id__in=synced_filbo_ids)
