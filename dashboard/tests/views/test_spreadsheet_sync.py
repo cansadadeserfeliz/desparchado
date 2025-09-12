@@ -29,6 +29,14 @@ def _get_mock_gc(mocker, fake_rows: list[list]):
 
     return mock_gc
 
+def _set_valid_form_data(form):
+    form['spreadsheet_id'] = '1A7_fmZS1QuCt4s9SEVr2D1tq3rRaQjiVNI8vIGBhFEI'
+    form['worksheet_number'] = 0
+    form['worksheet_range'] = 'A2:L10'
+    form['event_id_field'] = 'source_id'
+    form['special'].force_value(None)
+    form['is_hidden'] = False
+
 
 def test_successfully_create_event_with_source_id(
     django_app, admin_user, mocker, special,
@@ -58,11 +66,8 @@ def test_successfully_create_event_with_source_id(
     response = django_app.get(reverse(VIEW_NAME), user=admin_user, status=200)
     form = response.forms["spreadsheet_sync_form"]
 
-    form['spreadsheet_id'] = '1A7_fmZS1QuCt4s9SEVr2D1tq3rRaQjiVNI8vIGBhFEI'
-    form['worksheet_number'] = 0
-    form['worksheet_range'] = 'A2:L10'
-    form['event_id_field'] = 'source_id'
-    form['special'].force_value(special.id)
+    _set_valid_form_data(form)
+    form["special"].force_value(special.id)
     form['is_hidden'] = True
 
     response = form.submit()
@@ -82,6 +87,7 @@ def test_successfully_create_event_with_source_id(
     assert event.place == place
     assert organizer in event.organizers.all()
     assert special.related_events.filter(pk=event.pk).exists()
+    assert event.is_hidden is True
 
 
 def test_successfully_update_event_with_source_id(
@@ -114,10 +120,7 @@ def test_successfully_update_event_with_source_id(
     response = django_app.get(reverse(VIEW_NAME), user=admin_user, status=200)
     form = response.forms["spreadsheet_sync_form"]
 
-    form['spreadsheet_id'] = '1A7_fmZS1QuCt4s9SEVr2D1tq3rRaQjiVNI8vIGBhFEI'
-    form['worksheet_number'] = 0
-    form['worksheet_range'] = 'A2:L10'
-    form['event_id_field'] = 'source_id'
+    _set_valid_form_data(form)
     form['special'].force_value(special.id)
     form['is_hidden'] = True
 
@@ -138,6 +141,7 @@ def test_successfully_update_event_with_source_id(
     assert event.place == place
     assert organizer in event.organizers.all()
     assert special.related_events.filter(pk=event.pk).exists()
+    assert event.is_hidden is True
 
 
 def test_no_title(django_app, admin_user, mocker):
@@ -153,12 +157,7 @@ def test_no_title(django_app, admin_user, mocker):
 
     response = django_app.get(reverse(VIEW_NAME), user=admin_user, status=200)
     form = response.forms["spreadsheet_sync_form"]
-
-    form['spreadsheet_id'] = '1A7_fmZS1QuCt4s9SEVr2D1tq3rRaQjiVNI8vIGBhFEI'
-    form['worksheet_number'] = 0
-    form['worksheet_range'] = 'A2:L10'
-    form['event_id_field'] = 'source_id'
-    form['is_hidden'] = True
+    _set_valid_form_data(form)
 
     response = form.submit()
     assert response.status_code == 200
@@ -187,12 +186,7 @@ def test_invalid_event_date(django_app, admin_user, mocker):
 
     response = django_app.get(reverse(VIEW_NAME), user=admin_user, status=200)
     form = response.forms["spreadsheet_sync_form"]
-
-    form['spreadsheet_id'] = '1A7_fmZS1QuCt4s9SEVr2D1tq3rRaQjiVNI8vIGBhFEI'
-    form['worksheet_number'] = 0
-    form['worksheet_range'] = 'A2:L10'
-    form['event_id_field'] = 'source_id'
-    form['is_hidden'] = True
+    _set_valid_form_data(form)
 
     response = form.submit()
     assert response.status_code == 200
