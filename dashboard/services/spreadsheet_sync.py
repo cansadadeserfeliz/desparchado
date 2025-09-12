@@ -70,7 +70,7 @@ def sync_events(
 
     try:
         spreadsheet = gc.open_by_key(spreadsheet_id)
-    except gspread.exceptions.WorksheetNotFound as e:
+    except gspread.exceptions.SpreadsheetNotFound as e:
         logger.error("Spreadsheet not found", exc_info=e)
         return [dict(error="Spreadsheet not found")]
     except PermissionError as e:
@@ -81,6 +81,10 @@ def sync_events(
         return [dict(error="Spreadsheets API error")]
 
     sheet = spreadsheet.get_worksheet(worksheet_number)
+    if sheet is None:
+        logger.error("Worksheet index %s not found", worksheet_number)
+        return [dict(error="Worksheet not found")]
+
     results = sheet.get(worksheet_range)
     logger.debug("Fetched %d rows from sheet", len(results))
 
