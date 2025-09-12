@@ -67,7 +67,19 @@ def sync_events(
         return [dict(error="Spreadsheet credentials could not be loaded")]
 
     gc = gspread.service_account_from_dict(credentials)
-    spreadsheet = gc.open_by_key(spreadsheet_id)
+
+    try:
+        spreadsheet = gc.open_by_key(spreadsheet_id)
+    except gspread.exceptions.WorksheetNotFound as e:
+        logger.error("Spreadsheet not found", exc_info=e)
+        return [dict(error="Spreadsheet not found")]
+    except PermissionError as e:
+        logger.error("Could not access the spreadsheet", exc_info=e)
+        return [dict(error="Could not access the spreadsheet")]
+    except gspread.exceptions.APIError as e:
+        logger.error("Spreadsheets API error", exc_info=e)
+        return [dict(error="Spreadsheets API error")]
+
     sheet = spreadsheet.get_worksheet(worksheet_number)
     results = sheet.get(worksheet_range)
     logger.debug("Fetched %d rows from sheet", len(results))
@@ -80,7 +92,7 @@ def sync_events(
         event_date = _get_cell_data(event_data, 'C')
         place_name = _get_cell_data(event_data, 'D')
         category = _get_cell_data(event_data, 'E')
-        description_html = _get_cell_data(event_data, 'F')
+        description_html = sanitize_html(_get_cell_data(event_data, 'F'))
         event_source_url = _get_cell_data(event_data, 'G')
         image_url = _get_cell_data(event_data, 'H')
         organizer_names = set(
@@ -90,7 +102,7 @@ def sync_events(
         )
         # speakers = _get_cell_data(event_data, 'J')
 
-        if not title:
+        if not title.strip():
             synced_events_data.append(
                 dict(
                     data=event_data,
@@ -116,6 +128,24 @@ def sync_events(
             ))
             continue
 
+        if category not in Event.Category.values:
+            synced_events_data.append(
+                dict(
+                    data=event_data,
+                    error=f'Invalid category: "{category}"',
+                ),
+            )
+            continue
+
+        if not description_html.strip():
+            synced_events_data.append(
+                dict(
+                    data=event_data,
+                    error='Description is empty',
+                ),
+            )
+            continue
+
         try:
             place = Place.objects.get(name__iexact=place_name.strip())
         except Place.DoesNotExist:
@@ -136,7 +166,7 @@ def sync_events(
 
         defaults = {
             "title": title,
-            "description": sanitize_html(description_html),
+            "description": description_html,
             "category": category,
             "event_date": parsed_dt,
             "place": place,
