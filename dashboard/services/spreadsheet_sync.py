@@ -70,7 +70,7 @@ def sync_events(
     spreadsheet = gc.open_by_key(spreadsheet_id)
     sheet = spreadsheet.get_worksheet(worksheet_number)
     results = sheet.get(worksheet_range)
-    logger.debug(results)
+    logger.debug("Fetched %d rows from sheet", len(results))
 
     synced_events_data = []
 

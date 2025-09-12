@@ -1,3 +1,4 @@
+import io
 from django.urls import reverse
 
 from events.models import Event
@@ -8,6 +9,13 @@ VIEW_NAME = 'dashboard:spreadsheet_sync_form'
 
 
 def _get_mock_gc(mocker, fake_rows: list[list]):
+    mocker.patch(
+        "dashboard.services.spreadsheet_sync.Path.open",
+        return_value=io.StringIO(
+            '{"type":"service_account","client_email":"x","private_key":"y"}'
+        ),
+    )
+
     # mock gspread chain
     mock_sheet = mocker.Mock()
     mock_sheet.get.return_value = fake_rows
