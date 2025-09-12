@@ -1,4 +1,6 @@
+from django import forms
 from django.contrib import admin
+from django.shortcuts import redirect, render
 from django.utils.translation import gettext_lazy as _
 
 from desparchado.utils import send_admin_notification
@@ -33,6 +35,11 @@ class SocialNetworkPostInline(admin.TabularInline):
 class SpecialInline(admin.TabularInline):
     model = Special.related_events.through
     extra = 0
+
+
+class CategoryUpdateForm(forms.Form):
+    _selected_action = forms.CharField(widget=forms.MultipleHiddenInput)
+    category = forms.ChoiceField(choices=Event.Category.choices)
 
 
 @admin.register(Event)
@@ -104,9 +111,36 @@ class EventAdmin(admin.ModelAdmin):
         'organizers',
         'editors',
     )
+    actions = ['update_category']
 
-    def get_actions(self, request):
-        return []
+    # def get_actions(self, request):
+    #     actions = super().get_actions(request)
+    #     actions.append('update_category')
+    #     return actions
+
+    def update_category(self, request, queryset):
+        form = None
+
+        if "apply" in request.POST:
+            form = CategoryUpdateForm(request.POST)
+
+            if form.is_valid():
+                category = form.cleaned_data["category"]
+                count = queryset.update(category=category)
+                self.message_user(request, f"{count} events updated")
+                return redirect(request.get_full_path())
+        else:
+            form = CategoryUpdateForm(
+                initial={"_selected_action": queryset.values_list("id", flat=True)},
+            )
+
+        return render(
+            request,
+            "events/admin/update_category.html",
+            {"events": queryset, "form": form, "title": "Update category"},
+        )
+
+    update_category.short_description = "Update category of selected events"
 
     def save_formset(self, request, form, formset, change):
         instances = formset.save(commit=False)
