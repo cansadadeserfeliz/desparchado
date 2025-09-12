@@ -223,7 +223,7 @@ def sync_filbo_events(
         source_id__startswith='FILBO2025_',
     )
     logger.info(f'>>> ALL FILBo events: {all_events.count()}')
-    unpublished_events = all_events.exclude(filbo_id__in=synced_filbo_ids)
+    unpublished_events = all_events.exclude(source_id__in=synced_filbo_ids)
     logger.info(f'>>> UNPUBLISHED FILBo events: {unpublished_events.count()}')
 
     unpublished_events.update(is_published=False)
