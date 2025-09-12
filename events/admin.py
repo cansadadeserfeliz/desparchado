@@ -51,6 +51,7 @@ class EventAdmin(admin.ModelAdmin):
         'is_approved',
         'is_hidden',
         'category',
+        'description',
         'source_id',
         'event_date',
         'event_source_url',
