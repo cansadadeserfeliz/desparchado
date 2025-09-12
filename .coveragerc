@@ -6,7 +6,6 @@ omit =
     manage.py
     desparchado/wsgi.py
     desparchado/settings/*
-    dashboard/*
     *apps.py
 # Regexes for lines to exclude from consideration
 exclude_lines =
