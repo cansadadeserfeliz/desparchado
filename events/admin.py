@@ -39,7 +39,7 @@ class SpecialInline(admin.TabularInline):
 
 class CategoryUpdateForm(forms.Form):
     _selected_action = forms.CharField(widget=forms.MultipleHiddenInput)
-    category = forms.ChoiceField(choices=Event.Category.choices)
+    category = forms.ChoiceField(label=_("Temática"), choices=Event.Category.choices)
 
 
 @admin.register(Event)
@@ -144,7 +144,8 @@ class EventAdmin(admin.ModelAdmin):
         context.update(self.admin_site.each_context(request))
         return render(request, "events/admin/update_category.html", context)
 
-    update_category.short_description = "Update category of selected events"
+    update_category.short_description = (
+        _('Actualizar la temática de los eventos seleccionados'))
 
     def save_formset(self, request, form, formset, change):
         instances = formset.save(commit=False)
