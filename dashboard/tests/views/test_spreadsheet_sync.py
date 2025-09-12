@@ -1,4 +1,5 @@
 import io
+
 from django.urls import reverse
 
 from events.models import Event
@@ -12,7 +13,7 @@ def _get_mock_gc(mocker, fake_rows: list[list]):
     mocker.patch(
         "dashboard.services.spreadsheet_sync.Path.open",
         return_value=io.StringIO(
-            '{"type":"service_account","client_email":"x","private_key":"y"}'
+            '{"type":"service_account","client_email":"x","private_key":"y"}',
         ),
     )
 
@@ -80,6 +81,7 @@ def test_successfully_create_event_with_source_id(
     assert event.title == "Lanzamiento del libro"
     assert event.place == place
     assert organizer in event.organizers.all()
+    assert special.related_events.filter(pk=event.pk).exists()
 
 
 def test_successfully_update_event_with_source_id(
@@ -135,6 +137,7 @@ def test_successfully_update_event_with_source_id(
     assert event.title == "Lanzamiento del libro"
     assert event.place == place
     assert organizer in event.organizers.all()
+    assert special.related_events.filter(pk=event.pk).exists()
 
 
 def test_no_title(django_app, admin_user, mocker):
