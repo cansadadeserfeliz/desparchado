@@ -88,12 +88,10 @@ class SpecialSitemap(sitemaps.Sitemap):
     priority = 0.9
 
     def items(self):
-        return Special.objects.all()
+        return Special.objects.filter(is_published=True)
 
     def lastmod(self, item):
         return item.modified
-
-
 class HistoryPostSitemap(sitemaps.Sitemap):
     changefreq = 'daily'
     priority = 1
