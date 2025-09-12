@@ -132,11 +132,33 @@ def sync_events(
             ))
             continue
 
+        category = (category or "").strip().lower()
         if category not in Event.Category.values:
             synced_events_data.append(
                 dict(
                     data=event_data,
                     error=f'Invalid category: "{category}"',
+                ),
+            )
+            continue
+
+        event_source_url = event_source_url.strip()
+        if not event_source_url:
+            synced_events_data.append(
+                dict(
+                    data=event_data,
+                    error='Empty event_source_url',
+                ),
+            )
+            continue
+        if len(event_source_url) > Event.EVENT_SOURCE_URL_MAX_LENGTH:
+            synced_events_data.append(
+                dict(
+                    data=event_data,
+                    error=(
+                        f'event_source_url exceeds maximum length '
+                        f'({len(event_source_url)}>{Event.EVENT_SOURCE_URL_MAX_LENGTH})'
+                    ),
                 ),
             )
             continue
