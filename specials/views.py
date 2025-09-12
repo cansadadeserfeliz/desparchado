@@ -37,7 +37,7 @@ class SpecialDetailView(DetailView):
 
         selected_date_events = related_events.filter(
             event_date__date=selected_date,
-        ).order_by('event_date')
+        ).select_related('place').prefetch_related('speakers').order_by('event_date')
 
         # Pagination
         page_number = self.request.GET.get('page', 1)

@@ -12,10 +12,16 @@ class SpreadsheetSyncForm(forms.Form):
     worksheet_range = forms.CharField(initial='A2:L100')
     event_id_field = forms.ChoiceField(
         choices=[
-            ('event_source_url', 'event_source_url'),
-            ('source_id', 'source_id'),
+            ("", "-------"),
+            ("event_source_url", "event_source_url"),
+            ("source_id", "source_id"),
         ],
-        initial='event_source_url',
+        required=True,
+        initial="",
+        help_text=_(
+            "Campo utilizado para encontrar eventos existentes "
+            "durante la sincronización",
+        ),
     )
     special = forms.ModelChoiceField(queryset=Special.objects.all(), required=False)
     is_hidden = forms.BooleanField(required=False)
