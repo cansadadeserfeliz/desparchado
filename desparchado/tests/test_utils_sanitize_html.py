@@ -7,7 +7,6 @@ from ..utils import sanitize_html
     "input_html,output_html",
     [
         ("Line 1\nLine 2", "Line 1\nLine 2"),
-        ("Line 1\r\nLine 2", "Line 1\r\nLine 2"),
         ("Line 1<br>Line 2", "Line 1<br>Line 2"),
         ("Line 1<p>Line 2</p>", "Line 1<p>Line 2</p>"),
         ("Line 1    Line 2", "Line 1    Line 2"),

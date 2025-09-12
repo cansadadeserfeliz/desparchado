@@ -40,7 +40,7 @@ class EventSitemap(sitemaps.Sitemap):
 
 
 class OrganizerSitemap(sitemaps.Sitemap):
-    changefreq = 'daily'
+    changefreq = 'weekly'
     priority = 1.0
 
     def items(self):
@@ -51,7 +51,7 @@ class OrganizerSitemap(sitemaps.Sitemap):
 
 
 class PlaceSitemap(sitemaps.Sitemap):
-    changefreq = 'daily'
+    changefreq = 'weekly'
     priority = 0.9
 
     def items(self):
@@ -62,7 +62,7 @@ class PlaceSitemap(sitemaps.Sitemap):
 
 
 class PostSitemap(sitemaps.Sitemap):
-    changefreq = 'hourly'
+    changefreq = 'weekly'
     priority = 0.9
 
     def items(self):
@@ -73,7 +73,7 @@ class PostSitemap(sitemaps.Sitemap):
 
 
 class SpeakerSitemap(sitemaps.Sitemap):
-    changefreq = 'daily'
+    changefreq = 'weekly'
     priority = 0.9
 
     def items(self):
@@ -84,7 +84,7 @@ class SpeakerSitemap(sitemaps.Sitemap):
 
 
 class SpecialSitemap(sitemaps.Sitemap):
-    changefreq = 'hourly'
+    changefreq = 'daily'
     priority = 0.9
 
     def items(self):
@@ -95,7 +95,7 @@ class SpecialSitemap(sitemaps.Sitemap):
 
 
 class HistoryPostSitemap(sitemaps.Sitemap):
-    changefreq = 'daily'
+    changefreq = 'monthly'
     priority = 1
 
     def items(self):
@@ -106,7 +106,7 @@ class HistoryPostSitemap(sitemaps.Sitemap):
 
 
 class HistoricalFigureSitemap(sitemaps.Sitemap):
-    changefreq = 'daily'
+    changefreq = 'monthly'
     priority = 0.9
 
     def items(self):
