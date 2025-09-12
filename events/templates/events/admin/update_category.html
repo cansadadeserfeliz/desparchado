@@ -1,9 +1,13 @@
 {% extends "admin/base_site.html" %}
+{% load i18n %}
+
 {% block content %}
-  <h2>Update category for selected events</h2>
+  <h2>{% trans "Actualizar la temática para los eventos seleccionados" %}</h2>
   <form method="post">{% csrf_token %}
     {{ form.as_p }}
     <input type="hidden" name="action" value="update_category">
-    <input type="submit" name="apply" value="Apply">
+
+    <input type="submit" name="apply" value="{% trans 'Actualizar' %}">
+    <a class="button cancel" href="{% url 'admin:events_event_changelist' %}">{% trans "Cancelar" %}</a>
   </form>
 {% endblock %}
