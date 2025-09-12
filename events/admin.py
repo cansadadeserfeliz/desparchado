@@ -135,11 +135,14 @@ class EventAdmin(admin.ModelAdmin):
                 initial={"_selected_action": queryset.values_list("id", flat=True)},
             )
 
-        return render(
-            request,
-            "events/admin/update_category.html",
-            {"events": queryset, "form": form, "title": "Update category"},
-        )
+        context = {
+            "events": queryset,
+            "form": form,
+            "title": _("Actualizar temática"),
+            "opts": self.model._meta,
+        }
+        context.update(self.admin_site.each_context(request))
+        return render(request, "events/admin/update_category.html", context)
 
     update_category.short_description = "Update category of selected events"
 
