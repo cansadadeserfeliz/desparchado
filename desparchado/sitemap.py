@@ -120,7 +120,7 @@ sitemaps = {
     'places': PlaceSitemap,
     'posts': PostSitemap,
     'speakers': SpeakerSitemap,
-    'specials': SpeakerSitemap,
+    'specials': SpecialSitemap,
     'history_posts': HistoryPostSitemap,
     'history_figure': HistoricalFigureSitemap,
 }
