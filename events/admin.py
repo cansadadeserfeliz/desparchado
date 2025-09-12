@@ -116,7 +116,7 @@ class EventAdmin(admin.ModelAdmin):
     def get_actions(self, request):
         # Disable delete
         actions = super().get_actions(request)
-        del actions['delete_selected']
+        actions.pop('delete_selected', None)
         return actions
 
     def update_category(self, request, queryset):
