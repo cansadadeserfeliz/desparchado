@@ -70,7 +70,7 @@ def sync_events(
     spreadsheet = gc.open_by_key(spreadsheet_id)
     sheet = spreadsheet.get_worksheet(worksheet_number)
     results = sheet.get(worksheet_range)
-    logger.debug(results)
+    logger.debug("Fetched %d rows from sheet", len(results))
 
     synced_events_data = []
 
@@ -89,6 +89,15 @@ def sync_events(
             if n.strip()
         )
         # speakers = _get_cell_data(event_data, 'J')
+
+        if not title:
+            synced_events_data.append(
+                dict(
+                    data=event_data,
+                    error='Title is empty',
+                ),
+            )
+            continue
 
         try:
             parsed_dt = parse(event_date)

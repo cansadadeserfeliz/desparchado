@@ -29,17 +29,6 @@ urlpatterns = [
         dashboard_views.UsersView.as_view(),
         name='users',
     ),
-    # BLAA
-    path(
-        'blaa/events-list/',
-        dashboard_views.BlaaEventsListView.as_view(),
-        name='blaa_events_list',
-    ),
-    path(
-        'events/add/',
-        dashboard_views.BlaaEventCreateView.as_view(),
-        name='event_add',
-    ),
     # FILBo
     path(
         'filbo/events/create/',

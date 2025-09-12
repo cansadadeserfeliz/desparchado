@@ -207,12 +207,12 @@ LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
     'root': {
-        'level': 'DEBUG',
+        'level': 'INFO',
         'handlers': ['console'],
     },
     'handlers': {
         'console': {
-            'level': 'DEBUG',
+            'level': 'INFO',
             'class': 'logging.StreamHandler',
         },
     },
