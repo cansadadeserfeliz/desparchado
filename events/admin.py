@@ -113,10 +113,11 @@ class EventAdmin(admin.ModelAdmin):
     )
     actions = ['update_category']
 
-    # def get_actions(self, request):
-    #     actions = super().get_actions(request)
-    #     actions.append('update_category')
-    #     return actions
+    def get_actions(self, request):
+        # Disable delete
+        actions = super().get_actions(request)
+        del actions['delete_selected']
+        return actions
 
     def update_category(self, request, queryset):
         form = None
