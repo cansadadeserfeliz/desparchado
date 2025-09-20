@@ -178,7 +178,7 @@ def test_successfully_update_event_with_event_source_url(
     assert Event.objects.count() == initial_event_count
     event.refresh_from_db()
 
-    assert event.source_id == None, 'source_id was not set'
+    assert event.source_id is None, 'source_id was not set'
     assert event.title == row[1]
     assert event.place == place
     assert organizer in event.organizers.all()
