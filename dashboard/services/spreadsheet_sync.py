@@ -91,7 +91,7 @@ def sync_events(
     synced_events_data = []
 
     for event_data in results:
-        source_id = _get_cell_data(event_data, 'A')
+        source_id = _get_cell_data(event_data, 'A') or None
         title = _get_cell_data(event_data, 'B')
         event_date = _get_cell_data(event_data, 'C')
         place_name = _get_cell_data(event_data, 'D')

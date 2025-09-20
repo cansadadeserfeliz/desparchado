@@ -36,6 +36,7 @@
               <th>{% translate 'Creado' %}</th>
               <th>{% translate 'Error' %}</th>
               <th>{% translate 'Advertencias' %}</th>
+              <th>{% translate 'Data' %}</th>
             </tr>
           </thead>
           <tbody>
@@ -60,6 +61,7 @@
               </td>
               <td>{{ event_data.error }}</td>
               <td>{{ event_data.warnings|join:" // " }}</td>
+              <td>{{ event_data.data }}</td>
             </tr>
           {% endfor %}
           </tbody>
