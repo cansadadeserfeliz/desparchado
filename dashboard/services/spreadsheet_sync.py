@@ -23,11 +23,11 @@ logger = logging.getLogger(__name__)
 @dataclass
 class RowProcessingResult:
     """Class for keeping track of sync status for each spreadsheet row."""
-    data: list
+    data: list[str]
     event: Optional[Event] = None
-    created: bool = None
+    created: Optional[bool] = None
     error: str = ''
-    warnings: list = field(default_factory=list)
+    warnings: list[str] = field(default_factory=list)
 
 
 def sync_events(
