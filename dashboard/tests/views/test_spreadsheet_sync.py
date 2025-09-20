@@ -80,8 +80,9 @@ def test_successfully_create_event_with_source_id(
     assert 'synced_events_data' in response.context
     assert len(response.context['synced_events_data']) == 1, \
         'one event should be synced'
-    assert 'error' not in response.context['synced_events_data'][0]
-    assert 'event' in response.context['synced_events_data'][0]
+    assert response.context['synced_events_data'][0].error == ''
+    assert response.context['synced_events_data'][0].event is not None
+    assert response.context['synced_events_data'][0].created is True
 
     assert Event.objects.count() == initial_event_count + 1
     event = Event.objects.order_by('-id')[0]
@@ -92,6 +93,7 @@ def test_successfully_create_event_with_source_id(
     assert organizer in event.organizers.all()
     assert special.related_events.filter(pk=event.pk).exists()
     assert event.is_hidden is True
+    assert event.created_by == admin_user
 
 
 @pytest.mark.django_db
@@ -125,8 +127,9 @@ def test_successfully_update_event_with_source_id(
     assert 'synced_events_data' in response.context
     assert len(response.context['synced_events_data']) == 1, \
         'one event should be synced'
-    assert 'error' not in response.context['synced_events_data'][0]
-    assert 'event' in response.context['synced_events_data'][0]
+    assert response.context['synced_events_data'][0].error == ''
+    assert response.context['synced_events_data'][0].event is not None
+    assert response.context["synced_events_data"][0].created is False
 
     assert Event.objects.count() == initial_event_count
     event.refresh_from_db()
@@ -172,8 +175,8 @@ def test_successfully_update_event_with_event_source_url(
     assert 'synced_events_data' in response.context
     assert len(response.context['synced_events_data']) == 1, \
         'one event should be synced'
-    assert 'error' not in response.context['synced_events_data'][0]
-    assert 'event' in response.context['synced_events_data'][0]
+    assert response.context['synced_events_data'][0].error == ''
+    assert response.context['synced_events_data'][0].event is not None
 
     assert Event.objects.count() == initial_event_count
     event.refresh_from_db()
@@ -190,11 +193,14 @@ def test_successfully_update_event_with_event_source_url(
 @pytest.mark.parametrize(
     'column_index,value,error_message',
     [
+        [0, '', 'source_id is empty'],
         [1, '', 'Title is empty'],
         [2, 'invalid_date', 'Invalid event_date: "invalid_date"'],
         [3, 'invalid_place', 'Place "invalid_place" not found'],
         [4, 'invalid_category', 'Invalid category: "invalid_category"'],
         [5, '', 'Description is empty'],
+        [6, '', 'Empty event_source_url'],
+        [6, 'X'*501, 'event_source_url exceeds maximum length (501>500)'],
     ],
 )
 def test_validation(
@@ -223,7 +229,39 @@ def test_validation(
     assert 'synced_events_data' in response.context
     assert len(response.context['synced_events_data']) == 1, \
         'one row has an error'
-    assert 'error' in response.context['synced_events_data'][0]
-    assert 'event' not in response.context['synced_events_data'][0]
+    assert response.context['synced_events_data'][0].event is None
+    assert response.context['synced_events_data'][0].error == error_message
 
-    assert (response.context['synced_events_data'][0]['error'] == error_message)
+
+@pytest.mark.django_db
+def test_successfully_create_event_with_non_existing_organizer(
+        django_app, admin_user, mocker,
+):
+    initial_event_count = Event.objects.count()
+    place = PlaceFactory(name='Gran Salón D | Corferias')
+    organizer_1 = OrganizerFactory(name='FILBo')
+    organizer_2 = OrganizerFactory(name='Idartes')
+    row = _get_valid_row(place=place, organizers=[organizer_1, organizer_2])
+    organizer_2.delete()
+
+    mocker.patch(
+        'dashboard.services.spreadsheet_sync.gspread.service_account_from_dict',
+        return_value=_get_mock_gc(mocker, [row]),
+    )
+
+    response = django_app.get(reverse(VIEW_NAME), user=admin_user, status=200)
+    form = response.forms["spreadsheet_sync_form"]
+
+    _set_valid_form_data(form)
+    response = form.submit()
+    assert response.status_code == 200
+
+    assert 'synced_events_data' in response.context
+    assert len(response.context['synced_events_data']) == 1, \
+        'one event should be synced'
+    assert response.context['synced_events_data'][0].error == ''
+    assert response.context['synced_events_data'][0].event is not None
+    assert ('Organizer "Idartes" not found' in
+            response.context['synced_events_data'][0].warnings)
+
+    assert Event.objects.count() == initial_event_count + 1
