@@ -200,10 +200,6 @@ def sync_events(
                 synced_events_data.append(row_result)
                 continue
             lookup_value = source_id
-        else:
-            row_result.error = f'Unknown event_id_field: {event_id_field}'
-            synced_events_data.append(row_result)
-            return synced_events_data
 
         lookup = {event_id_field: lookup_value}
         try:
