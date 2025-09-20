@@ -36,6 +36,15 @@
               <th>{% translate 'Creado' %}</th>
               <th>{% translate 'Error' %}</th>
               <th>{% translate 'Advertencias' %}</th>
+              <th>{% translate 'ID' %}</th>
+              <th>{% translate 'Title' %}</th>
+              <th>{% translate 'Date' %}</th>
+              <th>{% translate 'Place' %}</th>
+              <th>{% translate 'Category' %}</th>
+              <th>{% translate 'Description' %}</th>
+              <th>{% translate 'URL' %}</th>
+              <th>{% translate 'Image URL' %}</th>
+              <th>{% translate 'Organizers' %}</th>
             </tr>
           </thead>
           <tbody>
@@ -45,21 +54,32 @@
               {% if event_data.event %}
                 <a href="{{ event_data.event.get_absolute_url }}" target="_blank" rel="noopener noreferrer">{{ event_data.event }}</a>
               {% else %}
-                {{ event_data.title }}
+                {{ event_data.data.1 }}
               {% endif %}
               {% if event_data.source_id %} // {{ event_data.source_id }}{% endif %}
               </td>
               <td>
               {% if event_data.event %}
                 {% if event_data.created %}
-                  {% translate 'Creado' %}
+                  <span class="badge bg-success-lt">{% translate 'Creado' %}</span>
                 {% else %}
-                  {% translate 'Actualizado' %}
+                  <span class="badge bg-success-lt">{% translate 'Actualizado' %}</span>
                 {% endif %}
+              {% else %}
+                <span class="badge bg-danger-lt">{% translate 'Error' %}</span>
               {% endif %}
               </td>
-              <td>{{ event_data.error }}</td>
-              <td>{{ event_data.warnings|join:" // " }}</td>
+              <td  class="text-red">{{ event_data.error }}</td>
+              <td class="text-yellow">{{ event_data.warnings|join:" // " }}</td>
+              <td>{{ event_data.data.0 }}</td>
+              <td>{{ event_data.data.1 }}</td>
+              <td>{{ event_data.data.2 }}</td>
+              <td>{{ event_data.data.3 }}</td>
+              <td>{{ event_data.data.4 }}</td>
+              <td>{{ event_data.data.5 }}</td>
+              <td>{{ event_data.data.6 }}</td>
+              <td>{{ event_data.data.7 }}</td>
+              <td>{{ event_data.data.8 }}</td>
             </tr>
           {% endfor %}
           </tbody>
