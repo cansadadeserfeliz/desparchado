@@ -54,13 +54,12 @@ def sync_events(
         is_hidden (bool): If the event will be hidden on home and future events page.
 
     Returns:
-        list[dict]: Per-row result dictionaries. For successful rows each item contains:
-            - data: original row data (list of cell values)
-            - event: the Event instance
-            - created: boolean indicating whether the Event was created
-          For rows that failed validation (invalid date, missing Place), items contain:
-            - data: original row data (when available)
-            - error: human-readable error message
+        list[RowProcessingResult]: One entry per row containing:
+            - data: original row data
+            - event: Event instance (or None on error)
+            - created: True on create, False on update, None on error
+            - error: error message ('' on success)
+            - warnings: list of non-fatal issues
 
     Side effects:
         - Returns early with a single error dict if spreadsheet credentials
