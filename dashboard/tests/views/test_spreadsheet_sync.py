@@ -60,11 +60,11 @@ def test_successfully_create_event_with_source_id(
     initial_event_count = Event.objects.count()
     place = PlaceFactory(name='Gran Salón D | Corferias')
     organizer = OrganizerFactory(name='FILBo')
+    row = _get_valid_row(place=place, organizers=[organizer])
 
-    fake_rows = [_get_valid_row(place=place, organizers=[organizer])]
     mocker.patch(
         'dashboard.services.spreadsheet_sync.gspread.service_account_from_dict',
-        return_value=_get_mock_gc(mocker, fake_rows),
+        return_value=_get_mock_gc(mocker, [row]),
     )
 
     response = django_app.get(reverse(VIEW_NAME), user=admin_user, status=200)
@@ -86,8 +86,8 @@ def test_successfully_create_event_with_source_id(
     assert Event.objects.count() == initial_event_count + 1
     event = Event.objects.order_by('-id')[0]
 
-    assert event.source_id == 'FILBO2025_142381'
-    assert event.title == "Lanzamiento del libro"
+    assert event.source_id == row[0]
+    assert event.title == row[1]
     assert event.place == place
     assert organizer in event.organizers.all()
     assert special.related_events.filter(pk=event.pk).exists()
@@ -100,18 +100,20 @@ def test_successfully_update_event_with_source_id(
 ):
     place = PlaceFactory(name='Gran Salón D | Corferias')
     organizer = OrganizerFactory(name='FILBo')
-    event = EventFactory(source_id='FILBO2025_142381')
+    row = _get_valid_row(place=place, organizers=[organizer])
+
+    event = EventFactory(source_id=row[0])
 
     initial_event_count = Event.objects.count()
 
-    fake_rows = [_get_valid_row(place=place, organizers=[organizer])]
+    fake_rows = [row]
     mocker.patch(
         'dashboard.services.spreadsheet_sync.gspread.service_account_from_dict',
         return_value=_get_mock_gc(mocker, fake_rows),
     )
 
     response = django_app.get(reverse(VIEW_NAME), user=admin_user, status=200)
-    form = response.forms["spreadsheet_sync_form"]
+    form = response.forms['spreadsheet_sync_form']
 
     _set_valid_form_data(form)
     form['special'].force_value(special.id)
@@ -129,8 +131,55 @@ def test_successfully_update_event_with_source_id(
     assert Event.objects.count() == initial_event_count
     event.refresh_from_db()
 
-    assert event.source_id == 'FILBO2025_142381'
-    assert event.title == "Lanzamiento del libro"
+    assert event.source_id == row[0]
+    assert event.title == row[1]
+    assert event.place == place
+    assert organizer in event.organizers.all()
+    assert special.related_events.filter(pk=event.pk).exists()
+    assert event.is_hidden is True
+
+
+@pytest.mark.django_db
+def test_successfully_update_event_with_event_source_url(
+    django_app, admin_user, mocker, special,
+):
+    place = PlaceFactory(name='Gran Salón D | Corferias')
+    organizer = OrganizerFactory(name='FILBo')
+    row = _get_valid_row(place=place, organizers=[organizer])
+    row[0] = ''
+
+    event = EventFactory(event_source_url=row[6])
+
+    initial_event_count = Event.objects.count()
+
+    fake_rows = [row]
+    mocker.patch(
+        'dashboard.services.spreadsheet_sync.gspread.service_account_from_dict',
+        return_value=_get_mock_gc(mocker, fake_rows),
+    )
+
+    response = django_app.get(reverse(VIEW_NAME), user=admin_user, status=200)
+    form = response.forms['spreadsheet_sync_form']
+
+    _set_valid_form_data(form)
+    form['event_id_field'] = 'event_source_url'
+    form['special'].force_value(special.id)
+    form['is_hidden'] = True
+
+    response = form.submit()
+    assert response.status_code == 200
+
+    assert 'synced_events_data' in response.context
+    assert len(response.context['synced_events_data']) == 1, \
+        'one event should be synced'
+    assert 'error' not in response.context['synced_events_data'][0]
+    assert 'event' in response.context['synced_events_data'][0]
+
+    assert Event.objects.count() == initial_event_count
+    event.refresh_from_db()
+
+    assert event.source_id == None, 'source_id was not set'
+    assert event.title == row[1]
     assert event.place == place
     assert organizer in event.organizers.all()
     assert special.related_events.filter(pk=event.pk).exists()
