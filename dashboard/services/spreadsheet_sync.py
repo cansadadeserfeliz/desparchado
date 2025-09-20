@@ -286,6 +286,9 @@ def _get_cell_data(row, col_letter):
     """
     zero_based_index = ord(col_letter) - ord("A")
     try:
-        return row[zero_based_index].strip()
+        value = row[zero_based_index]
+        if value is None:
+            return ""
+        return str(value).strip()
     except IndexError:
         return ""
