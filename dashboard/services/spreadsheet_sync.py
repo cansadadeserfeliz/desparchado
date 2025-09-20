@@ -1,8 +1,9 @@
 import json
 import logging
 import mimetypes
+from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any
+from typing import Optional
 
 import gspread
 import requests
@@ -19,6 +20,16 @@ from specials.models import Special
 logger = logging.getLogger(__name__)
 
 
+@dataclass
+class RowProcessingResult:
+    """Class for keeping track of sync status for each spreadsheet row."""
+    data: list
+    event: Optional[Event] = None
+    created: bool = None
+    error: str = ''
+    warnings: list = field(default_factory=list)
+
+
 def sync_events(
     spreadsheet_id: str,
     worksheet_number: int,
@@ -27,7 +38,7 @@ def sync_events(
     request_user,
     event_id_field: str,
     is_hidden: bool = True,
-) -> list[dict[str, Any]]:
+) -> list[RowProcessingResult]:
     """Sync events from a Google Sheets worksheet into the Django Event model.
 
     Reads rows from the given spreadsheet range, parses the event data. For new Events
@@ -64,7 +75,10 @@ def sync_events(
             credentials = json.load(file)
     except (FileNotFoundError, json.JSONDecodeError) as e:
         logger.error("Failed to load spreadsheet credentials", exc_info=e)
-        return [dict(error="Spreadsheet credentials could not be loaded")]
+        return [RowProcessingResult(
+            data=[],
+            error="Spreadsheet credentials could not be loaded",
+        )]
 
     gc = gspread.service_account_from_dict(credentials)
 
@@ -72,18 +86,18 @@ def sync_events(
         spreadsheet = gc.open_by_key(spreadsheet_id)
     except gspread.exceptions.SpreadsheetNotFound as e:
         logger.error("Spreadsheet not found", exc_info=e)
-        return [dict(error="Spreadsheet not found")]
+        return [RowProcessingResult(data=[], error="Spreadsheet not found")]
     except PermissionError as e:
         logger.error("Could not access the spreadsheet", exc_info=e)
-        return [dict(error="Could not access the spreadsheet")]
+        return [RowProcessingResult(data=[], error="Could not access the spreadsheet")]
     except gspread.exceptions.APIError as e:
         logger.error("Spreadsheets API error", exc_info=e)
-        return [dict(error="Spreadsheets API error")]
+        return [RowProcessingResult(data=[], error="Spreadsheets API error")]
 
     sheet = spreadsheet.get_worksheet(worksheet_number)
     if sheet is None:
         logger.error("Worksheet index %s not found", worksheet_number)
-        return [dict(error="Worksheet not found")]
+        return [RowProcessingResult(data=[], error="Worksheet not found")]
 
     results = sheet.get(worksheet_range)
     logger.debug("Fetched %d rows from sheet", len(results))
@@ -105,14 +119,11 @@ def sync_events(
             if n.strip()
         )
         # speakers = _get_cell_data(event_data, 'J')
+        row_result = RowProcessingResult(data=event_data)
 
         if not title.strip():
-            synced_events_data.append(
-                dict(
-                    data=event_data,
-                    error='Title is empty',
-                ),
-            )
+            row_result.error = 'Title is empty'
+            synced_events_data.append(row_result)
             continue
         if len(title) > 255:
             title = title[:(255 - 3)] + '...'
@@ -126,69 +137,48 @@ def sync_events(
                         timezone.get_current_timezone(),
                     )
         except Exception:
-            synced_events_data.append(dict(
-                data=event_data,
-                error=f'Invalid event_date: "{event_date}"',
-            ))
+            row_result.error = f'Invalid event_date: "{event_date}"'
+            synced_events_data.append(row_result)
             continue
 
         category = (category or "").strip().lower()
         if category not in Event.Category.values:
-            synced_events_data.append(
-                dict(
-                    data=event_data,
-                    error=f'Invalid category: "{category}"',
-                ),
-            )
+            row_result.error = f'Invalid category: "{category}"'
+            synced_events_data.append(row_result)
             continue
 
         event_source_url = event_source_url.strip()
         if not event_source_url:
-            synced_events_data.append(
-                dict(
-                    data=event_data,
-                    error='Empty event_source_url',
-                ),
-            )
+            row_result.error = 'Empty event_source_url'
+            synced_events_data.append(row_result)
             continue
         if len(event_source_url) > Event.EVENT_SOURCE_URL_MAX_LENGTH:
-            synced_events_data.append(
-                dict(
-                    data=event_data,
-                    error=(
-                        f'event_source_url exceeds maximum length '
-                        f'({len(event_source_url)}>{Event.EVENT_SOURCE_URL_MAX_LENGTH})'
-                    ),
-                ),
+            row_result.error = (
+                f'event_source_url exceeds maximum length '
+                f'({len(event_source_url)}>{Event.EVENT_SOURCE_URL_MAX_LENGTH})'
             )
+            synced_events_data.append(row_result)
             continue
 
         if not description_html.strip():
-            synced_events_data.append(
-                dict(
-                    data=event_data,
-                    error='Description is empty',
-                ),
-            )
+            row_result.error = 'Description is empty'
+            synced_events_data.append(row_result)
             continue
 
         try:
             place = Place.objects.get(name__iexact=place_name.strip())
         except Place.DoesNotExist:
-            synced_events_data.append(dict(
-                data=event_data,
-                error=f'Place "{place_name}" not found'),
-            )
+            row_result.error = f'Place "{place_name}" not found'
+            synced_events_data.append(row_result)
             continue
 
         organizers = []
-        organizer_errors = []
         for organizer_name in organizer_names:
             try:
                 organizer = Organizer.objects.get(name__iexact=organizer_name.strip())
                 organizers.append(organizer)
             except Organizer.DoesNotExist:
-                organizer_errors.append(f'Organizer "{organizer_name}" not found')
+                row_result.warnings.append(f'Organizer "{organizer_name}" not found')
 
         defaults = {
             "title": title,
@@ -207,28 +197,31 @@ def sync_events(
             lookup_value = event_source_url
         elif event_id_field == 'source_id':
             if not source_id:
-                synced_events_data.append(
-                    dict(data=event_data, error='source_id is empty'),
-                )
+                row_result.error = 'source_id is empty'
+                synced_events_data.append(row_result)
                 continue
             lookup_value = source_id
         else:
-            synced_events_data.append(dict(
-                data=event_data,
-                title=title,
-                error=f'Unknown event_id_field: {event_id_field}',
-            ))
+            row_result.error = f'Unknown event_id_field: {event_id_field}'
+            synced_events_data.append(row_result)
             return synced_events_data
 
         lookup = {event_id_field: lookup_value}
-        event, created = Event.objects.update_or_create(
-            **lookup,
-            defaults=defaults,
-            create_defaults={
-                "created_by": request_user,
-                **defaults,
-            },
-        )
+        try:
+            event, created = Event.objects.update_or_create(
+                **lookup,
+                defaults=defaults,
+                create_defaults={
+                    "created_by": request_user,
+                    **defaults,
+                },
+            )
+        except Event.MultipleObjectsReturned:
+            row_result.error = (f'MultipleObjectsReturned for {event_id_field} field '
+                                f'with "{lookup_value}" value')
+            synced_events_data.append(row_result)
+            return synced_events_data
+
         event.organizers.set(organizers)
         if special and not special.related_events.filter(pk=event.pk).exists():
             special.related_events.add(event)
@@ -236,9 +229,8 @@ def sync_events(
         if image_url:
             save_image(event, image_url)
 
-        row_result = dict(data=event_data, event=event, created=created)
-        if organizer_errors:
-            row_result["warnings"] = organizer_errors
+        row_result.event = event
+        row_result.created = created
         synced_events_data.append(row_result)
 
     return synced_events_data
