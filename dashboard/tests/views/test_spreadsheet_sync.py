@@ -82,6 +82,7 @@ def test_successfully_create_event_with_source_id(
         'one event should be synced'
     assert response.context['synced_events_data'][0].error == ''
     assert response.context['synced_events_data'][0].event is not None
+    assert response.context['synced_events_data'][0].created is True
 
     assert Event.objects.count() == initial_event_count + 1
     event = Event.objects.order_by('-id')[0]
@@ -92,6 +93,7 @@ def test_successfully_create_event_with_source_id(
     assert organizer in event.organizers.all()
     assert special.related_events.filter(pk=event.pk).exists()
     assert event.is_hidden is True
+    assert event.created_by == admin_user
 
 
 @pytest.mark.django_db
@@ -127,6 +129,7 @@ def test_successfully_update_event_with_source_id(
         'one event should be synced'
     assert response.context['synced_events_data'][0].error == ''
     assert response.context['synced_events_data'][0].event is not None
+    assert response.context["synced_events_data"][0].created is False
 
     assert Event.objects.count() == initial_event_count
     event.refresh_from_db()
