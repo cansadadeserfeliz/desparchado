@@ -14,12 +14,8 @@ class SpreadsheetSyncFormView(SuperuserRequiredMixin, FormView):
         and render the response with sync results.
         """
         synced_events_data = sync_events(
-            spreadsheet_id=form.cleaned_data['spreadsheet_id'],
-            worksheet_number=form.cleaned_data['worksheet_number'],
+            spreadsheet_sync=form.cleaned_data['spreadsheet_sync'],
             worksheet_range=form.cleaned_data['worksheet_range'],
-            event_id_field=form.cleaned_data['event_id_field'],
-            special=form.cleaned_data['special'],
-            is_hidden=form.cleaned_data['is_hidden'],
             request_user=self.request.user,
         )
 

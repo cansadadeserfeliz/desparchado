@@ -3,6 +3,8 @@ import io
 import pytest
 from django.urls import reverse
 
+from dashboard.models import SpreadsheetSync
+from dashboard.tests.factories import SpreadsheetSyncFactory
 from events.models import Event
 from events.tests.factories import EventFactory, OrganizerFactory
 from places.tests.factories import PlaceFactory
@@ -30,14 +32,6 @@ def _get_mock_gc(mocker, fake_rows: list[list]):
 
     return mock_gc
 
-def _set_valid_form_data(form):
-    form['spreadsheet_id'] = '1A7_fmZS1QuCt4s9SEVr2D1tq3rRaQjiVNI8vIGBhFEI'
-    form['worksheet_number'] = 0
-    form['worksheet_range'] = 'A2:L10'
-    form['event_id_field'] = 'source_id'
-    form['special'].force_value(None)
-    form['is_hidden'] = False
-
 
 def _get_valid_row(place, organizers):
     return [
@@ -55,7 +49,7 @@ def _get_valid_row(place, organizers):
 
 @pytest.mark.django_db
 def test_successfully_create_event_with_source_id(
-    django_app, admin_user, mocker, special,
+    django_app, admin_user, mocker,
 ):
     initial_event_count = Event.objects.count()
     place = PlaceFactory(name='Gran Salón D | Corferias')
@@ -70,9 +64,12 @@ def test_successfully_create_event_with_source_id(
     response = django_app.get(reverse(VIEW_NAME), user=admin_user, status=200)
     form = response.forms["spreadsheet_sync_form"]
 
-    _set_valid_form_data(form)
-    form["special"].force_value(special.id)
-    form['is_hidden'] = True
+    spreadsheet_sync = SpreadsheetSyncFactory(
+        event_id_field=SpreadsheetSync.EventIdField.SOURCE_ID,
+        is_hidden=True,
+    )
+    form["spreadsheet_sync"].force_value(spreadsheet_sync.id)
+    form["worksheet_range"] = "A2:L10"
 
     response = form.submit()
     assert response.status_code == 200
@@ -91,15 +88,13 @@ def test_successfully_create_event_with_source_id(
     assert event.title == row[1]
     assert event.place == place
     assert organizer in event.organizers.all()
-    assert special.related_events.filter(pk=event.pk).exists()
-    assert event.is_hidden is True
+    assert spreadsheet_sync.special.related_events.filter(pk=event.pk).exists()
+    assert event.is_hidden == spreadsheet_sync.is_hidden
     assert event.created_by == admin_user
 
 
 @pytest.mark.django_db
-def test_successfully_update_event_with_source_id(
-    django_app, admin_user, mocker, special,
-):
+def test_successfully_update_event_with_source_id(django_app, admin_user, mocker):
     place = PlaceFactory(name='Gran Salón D | Corferias')
     organizer = OrganizerFactory(name='FILBo')
     row = _get_valid_row(place=place, organizers=[organizer])
@@ -117,9 +112,12 @@ def test_successfully_update_event_with_source_id(
     response = django_app.get(reverse(VIEW_NAME), user=admin_user, status=200)
     form = response.forms['spreadsheet_sync_form']
 
-    _set_valid_form_data(form)
-    form['special'].force_value(special.id)
-    form['is_hidden'] = True
+    spreadsheet_sync = SpreadsheetSyncFactory(
+        event_id_field=SpreadsheetSync.EventIdField.SOURCE_ID,
+        is_hidden=True,
+    )
+    form["spreadsheet_sync"].force_value(spreadsheet_sync.id)
+    form["worksheet_range"] = "A2:L10"
 
     response = form.submit()
     assert response.status_code == 200
@@ -138,13 +136,13 @@ def test_successfully_update_event_with_source_id(
     assert event.title == row[1]
     assert event.place == place
     assert organizer in event.organizers.all()
-    assert special.related_events.filter(pk=event.pk).exists()
-    assert event.is_hidden is True
+    assert spreadsheet_sync.special.related_events.filter(pk=event.pk).exists()
+    assert event.is_hidden == spreadsheet_sync.is_hidden
 
 
 @pytest.mark.django_db
 def test_successfully_update_event_with_event_source_url(
-    django_app, admin_user, mocker, special,
+    django_app, admin_user, mocker,
 ):
     place = PlaceFactory(name='Gran Salón D | Corferias')
     organizer = OrganizerFactory(name='FILBo')
@@ -164,10 +162,12 @@ def test_successfully_update_event_with_event_source_url(
     response = django_app.get(reverse(VIEW_NAME), user=admin_user, status=200)
     form = response.forms['spreadsheet_sync_form']
 
-    _set_valid_form_data(form)
-    form['event_id_field'] = 'event_source_url'
-    form['special'].force_value(special.id)
-    form['is_hidden'] = True
+    spreadsheet_sync = SpreadsheetSyncFactory(
+        event_id_field=SpreadsheetSync.EventIdField.EVENT_SOURCE_URL,
+        is_hidden=True,
+    )
+    form["spreadsheet_sync"].force_value(spreadsheet_sync.id)
+    form["worksheet_range"] = "A2:L10"
 
     response = form.submit()
     assert response.status_code == 200
@@ -185,7 +185,7 @@ def test_successfully_update_event_with_event_source_url(
     assert event.title == row[1]
     assert event.place == place
     assert organizer in event.organizers.all()
-    assert special.related_events.filter(pk=event.pk).exists()
+    assert spreadsheet_sync.special.related_events.filter(pk=event.pk).exists()
     assert event.is_hidden is True
 
 
@@ -219,7 +219,12 @@ def test_validation(
 
     response = django_app.get(reverse(VIEW_NAME), user=admin_user, status=200)
     form = response.forms["spreadsheet_sync_form"]
-    _set_valid_form_data(form)
+
+    spreadsheet_sync = SpreadsheetSyncFactory(
+        event_id_field=SpreadsheetSync.EventIdField.SOURCE_ID,
+    )
+    form["spreadsheet_sync"].force_value(spreadsheet_sync.id)
+    form["worksheet_range"] = "A2:L10"
 
     response = form.submit()
     assert response.status_code == 200
@@ -252,7 +257,12 @@ def test_successfully_create_event_with_non_existing_organizer(
     response = django_app.get(reverse(VIEW_NAME), user=admin_user, status=200)
     form = response.forms["spreadsheet_sync_form"]
 
-    _set_valid_form_data(form)
+    spreadsheet_sync = SpreadsheetSyncFactory(
+        event_id_field=SpreadsheetSync.EventIdField.SOURCE_ID,
+    )
+    form["spreadsheet_sync"].force_value(spreadsheet_sync.id)
+    form["worksheet_range"] = "A2:L10"
+
     response = form.submit()
     assert response.status_code == 200
 
