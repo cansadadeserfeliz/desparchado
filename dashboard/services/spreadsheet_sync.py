@@ -12,10 +12,10 @@ from django.conf import settings
 from django.core.files.base import ContentFile
 from django.utils import timezone
 
+from dashboard.models import SpreadsheetSync
 from desparchado.utils import sanitize_html
 from events.models import Event, Organizer
 from places.models import Place
-from specials.models import Special
 
 logger = logging.getLogger(__name__)
 
@@ -31,13 +31,9 @@ class RowProcessingResult:
 
 
 def sync_events(
-    spreadsheet_id: str,
-    worksheet_number: int,
+    spreadsheet_sync: SpreadsheetSync,
     worksheet_range: str,
-    special: Special,
     request_user,
-    event_id_field: str,
-    is_hidden: bool = True,
 ) -> list[RowProcessingResult]:
     """Sync events from a Google Sheets worksheet into the Django Event model.
 
@@ -45,13 +41,9 @@ def sync_events(
     the function sets created_by to the provided request_user.
 
     Parameters:
-        spreadsheet_id (str): Google Sheets spreadsheet key.
-        worksheet_number (int): Zero-based worksheet index to open.
+        spreadsheet_sync (SpreadsheetSync): Base configuration for the spreadsheet sync.
         worksheet_range (str): Range string to read (e.g., "B2:H100").
-        special: Special that will be assigned to the events.
         request_user: User used as created_by for newly created Event records.
-        event_id_field (str): Event model field used to identify records.
-        is_hidden (bool): If the event will be hidden on home and future events page.
 
     Returns:
         list[RowProcessingResult]: One entry per row containing:
@@ -82,7 +74,7 @@ def sync_events(
     gc = gspread.service_account_from_dict(credentials)
 
     try:
-        spreadsheet = gc.open_by_key(spreadsheet_id)
+        spreadsheet = gc.open_by_key(spreadsheet_sync.spreadsheet_id)
     except gspread.exceptions.SpreadsheetNotFound as e:
         logger.error("Spreadsheet not found", exc_info=e)
         return [RowProcessingResult(data=[], error="Spreadsheet not found")]
@@ -93,9 +85,9 @@ def sync_events(
         logger.error("Spreadsheets API error", exc_info=e)
         return [RowProcessingResult(data=[], error="Spreadsheets API error")]
 
-    sheet = spreadsheet.get_worksheet(worksheet_number)
+    sheet = spreadsheet.get_worksheet(spreadsheet_sync.worksheet_number)
     if sheet is None:
-        logger.error("Worksheet index %s not found", worksheet_number)
+        logger.error("Worksheet index %s not found", spreadsheet_sync.worksheet_number)
         return [RowProcessingResult(data=[], error="Worksheet not found")]
 
     results = sheet.get(worksheet_range)
@@ -189,12 +181,13 @@ def sync_events(
             "is_approved": True,
             "event_source_url": event_source_url,
             "source_id": source_id,
-            "is_hidden": is_hidden,
+            "is_hidden": spreadsheet_sync.is_hidden,
         }
 
-        if event_id_field == 'event_source_url':
+        event_id_field = spreadsheet_sync.event_id_field
+        if event_id_field == SpreadsheetSync.EventIdField.EVENT_SOURCE_URL:
             lookup_value = event_source_url
-        elif event_id_field == 'source_id':
+        elif event_id_field == SpreadsheetSync.EventIdField.SOURCE_ID:
             if not source_id:
                 row_result.error = 'source_id is empty'
                 synced_events_data.append(row_result)
@@ -218,6 +211,8 @@ def sync_events(
             return synced_events_data
 
         event.organizers.set(organizers)
+
+        special = spreadsheet_sync.special
         if special and not special.related_events.filter(pk=event.pk).exists():
             special.related_events.add(event)
 
