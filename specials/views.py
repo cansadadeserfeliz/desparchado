@@ -32,7 +32,7 @@ class SpecialDetailView(DetailView):
         if not selected_date:
             if today in event_dates:
                 selected_date = today
-            else:
+            elif event_dates:
                 selected_date = event_dates[0]
 
         selected_date_events = related_events.filter(

@@ -104,6 +104,7 @@ class EventAdmin(admin.ModelAdmin):
         'is_approved',
         'is_hidden',
         'created_by__is_superuser',
+        'specials',
     )
     ordering = ('-created', '-is_published')
     raw_id_fields = (
@@ -113,12 +114,6 @@ class EventAdmin(admin.ModelAdmin):
         'editors',
     )
     actions = ['update_category']
-
-    def get_actions(self, request):
-        # Disable delete
-        actions = super().get_actions(request)
-        actions.pop('delete_selected', None)
-        return actions
 
     def update_category(self, request, queryset):
         form = None
