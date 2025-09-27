@@ -24,7 +24,7 @@ class PlaceAdmin(admin.ModelAdmin):
         'created',
         'modified',
     )
-    list_filter = ('created_by__is_superuser', 'city',)
+    list_filter = ('created_by__is_superuser', 'city')
     readonly_fields = ('slug',)
     search_fields = ('name',)
     list_select_related = ("city", "created_by")
