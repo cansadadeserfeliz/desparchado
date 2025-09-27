@@ -124,12 +124,17 @@ class EventAdmin(admin.ModelAdmin):
 
     @admin.display(description='Imagen')
     def image_preview(self, obj):
-        return format_html(f'<img height="100" src="{obj.get_image_url()}" />')
+        return format_html(
+            '<img height="100" src="{}" />',
+            obj.get_image_url()
+        )
 
     @admin.display(description="URL")
     def source_url_display(self, obj):
-        return format_html(f'<a target="_blank" href="{obj.event_source_url}">URL</a>')
-
+        return format_html(
+            '<a target="_blank" href="{}">URL</a>',
+            obj.event_source_url
+        )
     @admin.display(description="Organizadores")
     def get_organizers(self, obj):
         return "\n".join([o.name for o in obj.organizers.all()])
