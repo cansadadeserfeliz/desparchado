@@ -14,7 +14,7 @@ from django.utils import timezone
 
 from dashboard.models import SpreadsheetSync
 from desparchado.utils import sanitize_html
-from events.models import Event, Organizer
+from events.models import Event, Organizer, Speaker
 from places.models import Place
 
 logger = logging.getLogger(__name__)
@@ -109,7 +109,11 @@ def sync_events(
             for n in _get_cell_data(event_data, "I").split(",")
             if n.strip()
         )
-        # speakers = _get_cell_data(event_data, 'J')
+        speaker_names = set(
+            n.strip()
+            for n in _get_cell_data(event_data, "J").split(",")
+            if n.strip()
+        )
         row_result = RowProcessingResult(data=event_data)
 
         if not title.strip():
@@ -170,6 +174,18 @@ def sync_events(
                 organizers.append(organizer)
             except Organizer.DoesNotExist:
                 row_result.warnings.append(f'Organizer "{organizer_name}" not found')
+            except Organizer.MultipleObjectsReturned:
+                row_result.warnings.append(f'Duplicated organizer "{organizer_name}"')
+
+        speakers = []
+        for speaker_name in speaker_names:
+            try:
+                speaker = Speaker.objects.get(name__iexact=speaker_name.strip())
+                speakers.append(speaker)
+            except Speaker.DoesNotExist:
+                row_result.warnings.append(f'Speaker "{speaker_name}" not found')
+            except Speaker.MultipleObjectsReturned:
+                row_result.warnings.append(f'Duplicated speaker "{speaker_name}"')
 
         defaults = {
             "title": title,
@@ -210,7 +226,10 @@ def sync_events(
             synced_events_data.append(row_result)
             return synced_events_data
 
-        event.organizers.set(organizers)
+        if organizers:
+            event.organizers.set(organizers)
+        if speakers:
+            event.speakers.set(speakers)
 
         special = spreadsheet_sync.special
         if special and not special.related_events.filter(pk=event.pk).exists():
