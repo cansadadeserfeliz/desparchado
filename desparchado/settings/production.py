@@ -12,9 +12,6 @@ EMAIL_USE_TLS = True
 EMAIL_ADMIN_USERS = ['desparchado.co@gmail.com']
 EMAIL_FROM = 'no-reply@desparchado.co'
 
-AXES_IPWARE_PROXY_COUNT = (
-    1  # The number of reverse proxies in front of Django as an integer
-)
 AXES_IPWARE_META_PRECEDENCE_ORDER = [
     'X-Real-IP',
     'HTTP_X_FORWARDED_FOR',
