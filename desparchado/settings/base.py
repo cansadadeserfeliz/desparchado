@@ -236,7 +236,7 @@ CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap5'
 CRISPY_TEMPLATE_PACK = 'bootstrap5'
 
 GOOGLE_MAPS_API_KEY = getenvvar('GOOGLE_MAPS_API_KEY', 'not-set')
-MAPBOX_TOKEN = getenvvar('MAPBOX_TOKEN', 'not-set')
+MAPBOX_ACCESS_TOKEN = getenvvar('MAPBOX_ACCESS_TOKEN', 'not-set')
 
 MAP_WIDGETS = {
     "GoogleMap": {
@@ -257,11 +257,12 @@ MAP_WIDGETS = {
                 "GooglePlaceAutocompleteOptions": {
                     "componentRestrictions": {"country": "co"},
                 },
+                "mapCenterLocationName": "colombia",
             },
         },
     },
     "Mapbox": {
-        "accessToken": MAPBOX_TOKEN,
+        "accessToken": MAPBOX_ACCESS_TOKEN,
         "PointField": {
             "interactive": {
                 "mapOptions": {
