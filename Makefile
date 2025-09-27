@@ -18,6 +18,9 @@ lint:
 lint-all:
 	docker exec -it $(web_container_name) sh -c "cd app && ruff check --fix"
 
+pip-install:
+	docker exec -it $(web_container_name) sh -c "cd app && pip install -r requirements.txt"
+
 collectstatic:
 	docker exec -it $(web_container_name) sh -c "cd app && python3 manage.py collectstatic"
 

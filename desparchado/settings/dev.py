@@ -9,6 +9,9 @@ ALLOWED_HOSTS = ['*']
 EMAIL_USE_TLS = True
 EMAIL_ADMIN_USERS = ['desparchado.co@gmail.com']
 
+AXES_IPWARE_PROXY_COUNT = (
+    1  # The number of reverse proxies in front of Django as an integer
+)
 
 # django-debug-toolbar
 def show_debug_toolbar(request):
