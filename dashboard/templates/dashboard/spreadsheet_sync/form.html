@@ -58,7 +58,11 @@
                 {% else %}
                   {{ event_data.data.1 }}
                 {% endif %}
-                {% if event_data.source_id %} // {{ event_data.source_id }}{% endif %}
+                {% if event_data.event and event_data.event.source_id %}
+                  // {{ event_data.event.source_id }}
+                {% elif event_data.data.0 %}
+                  // {{ event_data.data.0 }}
+                {% endif %}
                 </td>
                 <td>
                 {% if event_data.event %}
