@@ -102,7 +102,7 @@ class Event(TimeStampedModel):
     )
 
     is_featured_on_homepage = models.BooleanField(
-        'Está destacado en la página principal',
+        'Está destacado en home',
         default=False,
     )
 
@@ -117,7 +117,7 @@ class Event(TimeStampedModel):
         help_text='Campo de uso exclusivo para el administrador del sitio',
     )
     is_hidden = models.BooleanField(
-        'Hidden from home and future events',
+        'Está oculto en home',
         default=False,
         help_text='Used for bulk event syncs for book fairs and festivals',
     )
