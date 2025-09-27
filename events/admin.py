@@ -265,7 +265,7 @@ class SpeakerAdmin(admin.ModelAdmin):
     raw_id_fields = ('editors',)
 
     def image_preview(self, obj):
-        return format_html(f'<img height="70" src="{obj.get_image_url()}" />')
+        return format_html('<img height="70" src="{}" />', obj.get_image_url())
     image_preview.short_description = 'Image'
 
     def save_model(self, request, obj, form, change):
