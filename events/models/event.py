@@ -171,6 +171,8 @@ class Event(TimeStampedModel):
             return static("images/fiesta-del-libro-y-la-cultura-2025.webp")
         if self.source_id and self.source_id.startswith('FILBO2025_'):
             return static('images/filbo-2025.jpg')
+        if self.source_id and self.source_id.startswith('PEREIRAFIL_25'):
+            return static("images/pereirafil-2025.jpg")
         return static('images/default_event_image.jpg')
 
     def get_absolute_url(self):
