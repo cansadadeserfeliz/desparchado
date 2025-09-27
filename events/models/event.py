@@ -136,7 +136,7 @@ class Event(TimeStampedModel):
 
     source_id = models.CharField(
         verbose_name='Event source ID',
-        max_length=30,
+        max_length=50,
         null=True,
         blank=True,
         unique=True,
