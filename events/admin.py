@@ -2,6 +2,7 @@ from django import forms
 from django.contrib import admin
 from django.shortcuts import redirect, render
 from django.utils.translation import gettext_lazy as _
+from django.utils.html import format_html
 
 from desparchado.utils import send_admin_notification
 from specials.models import Special
@@ -50,6 +51,7 @@ class EventAdmin(admin.ModelAdmin):
         'is_published',
         'is_approved',
         'is_hidden',
+        'image_preview',
         'category',
         'description',
         'source_id',
@@ -115,6 +117,10 @@ class EventAdmin(admin.ModelAdmin):
     )
     actions = ['update_category']
 
+    def image_preview(self, obj):
+        return format_html(f'<img height="100" src="{obj.get_image_url()}" />')
+    image_preview.short_description = 'Image'
+
     def update_category(self, request, queryset):
         form = None
 
@@ -165,12 +171,24 @@ class EventAdmin(admin.ModelAdmin):
 
 @admin.register(Organizer)
 class OrganizerAdmin(admin.ModelAdmin):
-    list_display = ('name', 'slug', 'description', 'created_by', 'created', 'modified')
+    list_display = (
+        'name',
+        'slug',
+        'image_preview',
+        'description',
+        'created_by',
+        'created',
+        'modified'
+    )
     list_filter = ('created_by__is_superuser',)
     search_fields = ('name', 'description')
     readonly_fields = ('slug',)
     exclude = ('created_by',)
     raw_id_fields = ('editors',)
+
+    def image_preview(self, obj):
+        return format_html(f'<img height="70" src="{obj.get_image_url()}" />')
+    image_preview.short_description = 'Image'
 
     def save_model(self, request, obj, form, change):
         if not obj.id:
@@ -181,13 +199,13 @@ class OrganizerAdmin(admin.ModelAdmin):
 @admin.register(Speaker)
 class SpeakerAdmin(admin.ModelAdmin):
     list_display = (
-        'name',
-        'slug',
-        'description',
-        'image',
-        'created_by',
-        'created',
-        'modified',
+        "name",
+        "slug",
+        "description",
+        "image_preview",
+        "created_by",
+        "created",
+        "modified",
     )
     list_filter = ("created_by__is_superuser",)
     search_fields = ('name',)
@@ -220,6 +238,10 @@ class SpeakerAdmin(admin.ModelAdmin):
         ),
     )
     raw_id_fields = ('editors',)
+
+    def image_preview(self, obj):
+        return format_html(f'<img height="70" src="{obj.get_image_url()}" />')
+    image_preview.short_description = 'Image'
 
     def save_model(self, request, obj, form, change):
         if not obj.id:
