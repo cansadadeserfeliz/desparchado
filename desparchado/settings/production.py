@@ -6,7 +6,7 @@ from .base import *  # noqa: F403
 
 DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['desparchado.co']
 
 EMAIL_USE_TLS = True
 EMAIL_ADMIN_USERS = ['desparchado.co@gmail.com']
