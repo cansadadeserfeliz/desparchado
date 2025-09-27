@@ -1,8 +1,8 @@
 from django import forms
 from django.contrib import admin
 from django.shortcuts import redirect, render
-from django.utils.translation import gettext_lazy as _
 from django.utils.html import format_html
+from django.utils.translation import gettext_lazy as _
 
 from desparchado.utils import send_admin_notification
 from specials.models import Special
@@ -56,9 +56,13 @@ class EventAdmin(admin.ModelAdmin):
         'description',
         'source_id',
         'event_date',
-        'event_source_url',
+        'place',
+        'get_organizers',
+        'get_speakers',
+        'source_url_display',
         'created_by',
         'created',
+        'modified',
     ]
     date_hierarchy = "event_date"
     inlines = [SocialNetworkPostInline, SpecialInline]
@@ -70,13 +74,13 @@ class EventAdmin(admin.ModelAdmin):
                 'fields': [
                     (
                         'title',
-                        'is_published',
+                        'is_hidden',
                         'is_featured_on_homepage',
                     ),
                     (
                         'slug',
                         'is_approved',
-                        'is_hidden',
+                        'is_published',
                     ),
                 ],
             },
@@ -116,10 +120,26 @@ class EventAdmin(admin.ModelAdmin):
         'editors',
     )
     actions = ['update_category']
+    list_select_related = ('place', 'created_by')
 
+    @admin.display(description='Imagen')
     def image_preview(self, obj):
         return format_html(f'<img height="100" src="{obj.get_image_url()}" />')
-    image_preview.short_description = 'Image'
+
+    @admin.display(description="URL")
+    def source_url_display(self, obj):
+        return format_html(f'<a target="_blank" href="{obj.event_source_url}">URL</a>')
+
+    @admin.display(description="Organizadores")
+    def get_organizers(self, obj):
+        return "\n".join([o.name for o in obj.organizers.all()])
+
+    @admin.display(description="Presentadores")
+    def get_speakers(self, obj):
+        return "\n".join([s.name for s in obj.speakers.all()])
+
+    def get_queryset(self, request):
+        return super().get_queryset(request).prefetch_related('organizers', 'speakers')
 
     def update_category(self, request, queryset):
         form = None
@@ -178,7 +198,7 @@ class OrganizerAdmin(admin.ModelAdmin):
         'description',
         'created_by',
         'created',
-        'modified'
+        'modified',
     )
     list_filter = ('created_by__is_superuser',)
     search_fields = ('name', 'description')
