@@ -84,9 +84,9 @@ class UserSettingsAdmin(admin.ModelAdmin):
         seconds = obj.quota_period_seconds
         if seconds % 86400 == 0:  # divisible by days
             return f"{seconds // 86400} days"
-        elif seconds % 3600 == 0:  # divisible by hours
+        if seconds % 3600 == 0:  # divisible by hours
             return f"{seconds // 3600} hours"
-        elif seconds % 60 == 0:  # divisible by minutes
+        if seconds % 60 == 0:  # divisible by minutes
             return f"{seconds // 60} minutes"
         return f"{seconds} seconds"
 
