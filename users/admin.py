@@ -46,13 +46,13 @@ class MyUserAdmin(UserAdmin):
 @admin.register(UserSettings)
 class UserSettingsAdmin(admin.ModelAdmin):
     """
-    Displays users with their event creation quota, the quota period in a
-    human-readable format, the current number of events created within
+    Displays users with their record creation quota, the quota period in a
+    human-readable format, the current number of records created within
     that period and whether the quota has been exceeded.
     """
     list_display = (
         "user",
-        "user__is_superuser",
+        "user_is_superuser",
         "event_creation_quota",
         "organizer_creation_quota",
         "speaker_creation_quota",
@@ -73,6 +73,10 @@ class UserSettingsAdmin(admin.ModelAdmin):
         actions = super().get_actions(request)
         actions.pop('delete_selected', None)
         return actions
+
+    @admin.display(description="Superuser", boolean=True)
+    def user_is_superuser(self, obj):
+        return obj.user.is_superuser
 
     @admin.display(description="Quota Period")
     def quota_period_human(self, obj):
