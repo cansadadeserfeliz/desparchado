@@ -276,11 +276,12 @@ class EventCreateView(LoginRequiredMixin, CreateView):
         Check event creation quota before showing the form.
         If exceeded, show an error message and redirect.
         """
-        user_settings = request.user.settings
-        reached_quota = user_settings.reached_event_creation_quota()
+        if self.request.user.is_authenticated:
+            user_settings = request.user.settings
+            reached_quota = user_settings.reached_event_creation_quota()
 
-        if reached_quota:
-            return HttpResponseRedirect(reverse("users:user_detail"))
+            if reached_quota:
+                return HttpResponseRedirect(reverse("users:user_detail"))
 
         return super().dispatch(request, *args, **kwargs)
 
