@@ -47,6 +47,7 @@ def test_successfully_register_user(django_app):
 
     user = User.objects.get(username='pepito')
     assert user.is_active is True
+    assert user.settings is not None, 'UserSettings were created'
 
 
 @pytest.mark.django_db
