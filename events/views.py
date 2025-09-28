@@ -1,3 +1,4 @@
+import logging
 from urllib.parse import urlencode
 
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -19,6 +20,8 @@ from places.models import City
 
 from .forms import EventCreateForm, EventUpdateForm, OrganizerForm, SpeakerForm
 from .models import Event, Organizer, Speaker
+
+logger = logging.getLogger(__name__)
 
 
 class EventListBaseView(ListView):
@@ -281,9 +284,11 @@ class EventCreateView(LoginRequiredMixin, CreateView):
             reached_quota = user_settings.reached_event_creation_quota()
 
             if reached_quota:
+                logger.warning('Quota reached for event creation')
                 return HttpResponseRedirect(reverse("users:user_detail"))
 
         return super().dispatch(request, *args, **kwargs)
+
     def get_success_url(self):
         if self.object.is_published and self.object.is_approved:
             return self.object.get_absolute_url()
