@@ -62,7 +62,7 @@ class UserSettingsAdmin(admin.ModelAdmin):
         "event_quota_exceeded",
     )
     search_fields = ("user__username", "user__email")
-    select_related = ("user",)
+    list_select_related = ("user",)
     ordering = ("user__last_login",)
 
     def has_delete_permission(self, request, obj=None):
