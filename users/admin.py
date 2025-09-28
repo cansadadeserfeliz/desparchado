@@ -101,7 +101,7 @@ class UserSettingsAdmin(admin.ModelAdmin):
     @admin.display(description="Events Quota Status")
     def event_quota_exceeded(self, obj):
         """Indicate whether the user's event creation quota has been exceeded."""
-        can_create, _ = obj.can_create_event()
-        color = "red" if not can_create else "green"
-        label = "Exceeded" if not can_create else "OK"
+        reached_quota = obj.reached_event_creation_quota()
+        color = "red" if reached_quota else "green"
+        label = "Exceeded" if reached_quota else "OK"
         return format_html('<b style="color:{}">{}</b>', color, label)

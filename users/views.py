@@ -26,7 +26,12 @@ class UserDetailView(LoginRequiredMixin, DetailView):
         added_events_count = (
             Event.objects.filter(created_by=self.object).published().count()
         )
-        context['added_events_count'] = added_events_count
+        context["added_events_count"] = added_events_count
+
+        user_settings = self.object.settings
+        context["reached_event_creation_quota"] = (
+            user_settings.reached_event_creation_quota())
+
         days_on_page = (timezone.now() - self.object.date_joined).days
         context['days_on_page'] = days_on_page
 

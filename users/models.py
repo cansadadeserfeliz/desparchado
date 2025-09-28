@@ -49,17 +49,14 @@ class UserSettings(models.Model):
         since = now() - timedelta(seconds=self.quota_period_seconds)
         return self.user.created_events.filter(created__gte=since).count()
 
-    def can_create_event(self):
+    def reached_event_creation_quota(self) ->  bool:
         if self.user.is_superuser:
-            return True, None
+            return False
 
         count = self.events_created_in_quota_period()
         if count >= self.event_creation_quota:
-            return False, (
-                f"Quota reached: {self.event_creation_quota} events "
-                f"every {self.quota_period_seconds} seconds."
-            )
-        return True, None
+            return True
+        return False
 
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)

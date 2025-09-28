@@ -1,10 +1,11 @@
+import logging
 from urllib.parse import urlencode
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.postgres.search import SearchQuery, SearchVector
 from django.core.cache import cache
 from django.db.models import Q
-from django.http import JsonResponse
+from django.http import HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 from django.utils.html import escape, format_html
 from django.utils.safestring import mark_safe
@@ -19,6 +20,8 @@ from places.models import City
 
 from .forms import EventCreateForm, EventUpdateForm, OrganizerForm, SpeakerForm
 from .models import Event, Organizer, Speaker
+
+logger = logging.getLogger(__name__)
 
 
 class EventListBaseView(ListView):
@@ -270,6 +273,21 @@ class SpeakerListView(ListView):
 class EventCreateView(LoginRequiredMixin, CreateView):
     form_class = EventCreateForm
     model = Event
+
+    def dispatch(self, request, *args, **kwargs):
+        """
+        Check event creation quota before showing the form.
+        If exceeded, show an error message and redirect.
+        """
+        if request.user.is_authenticated:
+            user_settings = request.user.settings
+            reached_quota = user_settings.reached_event_creation_quota()
+
+            if reached_quota:
+                logger.warning('Quota reached for event creation')
+                return HttpResponseRedirect(reverse("users:user_detail"))
+
+        return super().dispatch(request, *args, **kwargs)
 
     def get_success_url(self):
         if self.object.is_published and self.object.is_approved:
