@@ -276,7 +276,7 @@ class EventCreateView(LoginRequiredMixin, CreateView):
         Check event creation quota before showing the form.
         If exceeded, show an error message and redirect.
         """
-        if self.request.user.is_authenticated:
+        if request.user.is_authenticated:
             user_settings = request.user.settings
             reached_quota = user_settings.reached_event_creation_quota()
 
@@ -284,7 +284,6 @@ class EventCreateView(LoginRequiredMixin, CreateView):
                 return HttpResponseRedirect(reverse("users:user_detail"))
 
         return super().dispatch(request, *args, **kwargs)
-
     def get_success_url(self):
         if self.object.is_published and self.object.is_approved:
             return self.object.get_absolute_url()
