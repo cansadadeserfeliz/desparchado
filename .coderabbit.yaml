@@ -9,6 +9,7 @@ reviews:
     drafts: false
 code_generation:
   docstrings:
+    path_instructions:
       - path: "**/*.py"
         instructions: |
             Respect max line length defined in the pyproject.toml file.
