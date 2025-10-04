@@ -21,6 +21,18 @@ class UserDetailView(LoginRequiredMixin, DetailView):
         return self.request.user
 
     def get_context_data(self, **kwargs):
+        """
+        Extend the template context with user-specific statistics and quota flags.
+        
+        Adds the following keys to the context:
+        - 'added_events_count': number of published events created by the user.
+        - 'reached_event_creation_quota': `True` if the user has reached their event creation quota, `False` otherwise.
+        - 'reached_place_creation_quota': `True` if the user has reached their place creation quota, `False` otherwise.
+        - 'days_on_page': integer number of days since the user joined.
+        
+        Returns:
+            context (dict): The updated context dictionary for the view.
+        """
         context = super().get_context_data(**kwargs)
 
         added_events_count = (
