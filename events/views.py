@@ -277,7 +277,7 @@ class EventCreateView(LoginRequiredMixin, CreateView):
     def dispatch(self, request, *args, **kwargs):
         """
         Check event creation quota before showing the form.
-        If exceeded, show an error message and redirect.
+        If exceeded, redirect to user profile page that will show an error message.
         """
         if request.user.is_authenticated:
             user_settings = request.user.settings

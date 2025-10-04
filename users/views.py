@@ -31,6 +31,9 @@ class UserDetailView(LoginRequiredMixin, DetailView):
         user_settings = self.object.settings
         context["reached_event_creation_quota"] = (
             user_settings.reached_event_creation_quota())
+        context["reached_place_creation_quota"] = (
+            user_settings.reached_place_creation_quota()
+        )
 
         days_on_page = (timezone.now() - self.object.date_joined).days
         context['days_on_page'] = days_on_page

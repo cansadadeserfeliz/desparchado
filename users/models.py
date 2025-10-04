@@ -49,12 +49,25 @@ class UserSettings(models.Model):
         since = now() - timedelta(seconds=self.quota_period_seconds)
         return self.user.created_events.filter(created__gte=since).count()
 
+    def places_created_in_quota_period(self):
+        since = now() - timedelta(seconds=self.quota_period_seconds)
+        return self.user.created_places.filter(created__gte=since).count()
+
     def reached_event_creation_quota(self) ->  bool:
         if self.user.is_superuser:
             return False
 
         count = self.events_created_in_quota_period()
         if count >= self.event_creation_quota:
+            return True
+        return False
+
+    def reached_place_creation_quota(self) ->  bool:
+        if self.user.is_superuser:
+            return False
+
+        count = self.places_created_in_quota_period()
+        if count >= self.place_creation_quota:
             return True
         return False
 

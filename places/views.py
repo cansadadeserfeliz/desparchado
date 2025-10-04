@@ -1,4 +1,8 @@
+import logging
+
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 from django.views.generic import CreateView, DetailView, ListView, UpdateView
 
 from desparchado.autocomplete import BaseAutocomplete
@@ -8,6 +12,8 @@ from events.models import Event
 
 from .forms import PlaceForm
 from .models import City, Place
+
+logger = logging.getLogger(__name__)
 
 
 class PlaceListView(ListView):
@@ -60,6 +66,21 @@ class PlaceAutocomplete(BaseAutocomplete):
 class PlaceCreateView(LoginRequiredMixin, CreateView):
     model = Place
     form_class = PlaceForm
+
+    def dispatch(self, request, *args, **kwargs):
+        """
+        Check place creation quota before showing the form.
+        If exceeded, redirect to user profile page that will show an error message.
+        """
+        if request.user.is_authenticated:
+            user_settings = request.user.settings
+            reached_quota = user_settings.reached_place_creation_quota()
+
+            if reached_quota:
+                logger.warning('Quota reached for place creation')
+                return HttpResponseRedirect(reverse("users:user_detail"))
+
+        return super().dispatch(request, *args, **kwargs)
 
     def get_success_url(self):
         """
