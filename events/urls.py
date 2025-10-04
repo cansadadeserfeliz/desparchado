@@ -1,67 +1,81 @@
 from django.urls import path
 
-import events.views as event_views
+from events.views.event_create import EventCreateView
+from events.views.event_detail import EventDetailView
+from events.views.event_list import EventListView, PastEventListView
+from events.views.event_update import EventUpdateView
+from events.views.organizer_autocomplete import OrganizerAutocompleteView
+from events.views.organizer_create import OrganizerCreateView
+from events.views.organizer_detail import OrganizerDetailView
+from events.views.organizer_list import OrganizerListView
+from events.views.organizer_suggestion import OrganizerSuggestionsView
+from events.views.organizer_update import OrganizerUpdateView
+from events.views.speaker_autocomplete import SpeakerAutocomplete
+from events.views.speaker_create import SpeakerCreateView
+from events.views.speaker_detail import SpeakerDetailView
+from events.views.speaker_list import SpeakerListView
+from events.views.speaker_update import SpeakerUpdateView
 
 app_name = 'events'  # pylint: disable=invalid-name
 
 urlpatterns = [
     # Future events list
-    path('', event_views.EventListView.as_view(), name='event_list'),
+    path('', EventListView.as_view(), name='event_list'),
     # Past events list
-    path('past/', event_views.PastEventListView.as_view(), name='past_event_list'),
+    path('past/', PastEventListView.as_view(), name='past_event_list'),
     # Add event
-    path('add/', event_views.EventCreateView.as_view(), name='add_event'),
+    path('add/', EventCreateView.as_view(), name='add_event'),
     # Update event
-    path('<int:pk>/edit/', event_views.EventUpdateView.as_view(), name='event_update'),
+    path('<int:pk>/edit/', EventUpdateView.as_view(), name='event_update'),
     # Speakers
-    path('speakers/', event_views.SpeakerListView.as_view(), name='speaker_list'),
-    path('speakers/add/', event_views.SpeakerCreateView.as_view(), name='speaker_add'),
+    path('speakers/', SpeakerListView.as_view(), name='speaker_list'),
+    path('speakers/add/', SpeakerCreateView.as_view(), name='speaker_add'),
     path(
         'speaker-autocomplete/',
-        event_views.SpeakerAutocomplete.as_view(),
+        SpeakerAutocomplete.as_view(),
         name='speaker_autocomplete',
     ),
     path(
         'speaker/<slug:slug>/',
-        event_views.SpeakerDetailView.as_view(),
+        SpeakerDetailView.as_view(),
         name='speaker_detail',
     ),
     path(
         'speaker/<slug:slug>/edit/',
-        event_views.SpeakerUpdateView.as_view(),
+        SpeakerUpdateView.as_view(),
         name='speaker_update',
     ),
     # Organizations
-    path('organizers/', event_views.OrganizerListView.as_view(), name='organizer_list'),
+    path('organizers/', OrganizerListView.as_view(), name='organizer_list'),
     path(
         'organizers/add/',
-        event_views.OrganizerCreateView.as_view(),
+        OrganizerCreateView.as_view(),
         name='organizer_add',
     ),
     path(
         'organizers-autocomplete/',
-        event_views.OrganizerAutocomplete.as_view(),
+        OrganizerAutocompleteView.as_view(),
         name='organizer_autocomplete',
     ),
     path(
         'organizers-suggestions/',
-        event_views.OrganizerSuggestionsView.as_view(),
+        OrganizerSuggestionsView.as_view(),
         name='organizer_suggestions',
     ),
     path(
         'organizers/<slug:slug>/',
-        event_views.OrganizerDetailView.as_view(),
+        OrganizerDetailView.as_view(),
         name='organizer_detail',
     ),
     path(
         'organizers/<slug:slug>/edit/',
-        event_views.OrganizerUpdateView.as_view(),
+        OrganizerUpdateView.as_view(),
         name='organizer_update',
     ),
     # Event detail views
     path(
         '<slug:slug>/',
-        event_views.EventDetailView.as_view(),
+        EventDetailView.as_view(),
         name='event_detail',
     ),
 ]
