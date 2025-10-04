@@ -54,13 +54,14 @@ class UserSettingsAdmin(admin.ModelAdmin):
         "user",
         "user_is_superuser",
         "event_creation_quota",
+        "event_current_count",
         "event_quota_exceeded",
+        "place_creation_quota",
+        "place_current_count",
+        "place_quota_exceeded",
         "organizer_creation_quota",
         "speaker_creation_quota",
-        "place_creation_quota",
-        "place_quota_exceeded",
         "quota_period_human",
-        "event_current_count",
     )
     search_fields = ("user__username", "user__email")
     list_select_related = ("user",)
@@ -99,6 +100,14 @@ class UserSettingsAdmin(admin.ModelAdmin):
         the current quota period.
         """
         return obj.events_created_in_quota_period()
+
+    @admin.display(description="Places in Period")
+    def place_current_count(self, obj):
+        """
+        Return the number of places the user has created within
+        the current quota period.
+        """
+        return obj.places_created_in_quota_period()
 
     @staticmethod
     def _get_quota_label(reached_quota: bool) -> str:
