@@ -11,6 +11,16 @@ class SpeakerDetailView(DetailView):
     model = Speaker
 
     def get_context_data(self, **kwargs):
+        """
+        Populate the template context with the speaker and two event querysets: upcoming and past.
+        
+        Adds the following keys to the returned context dictionary:
+        - "events": QuerySet of the speaker's published future events limited to 30 items.
+        - "past_events": QuerySet of the speaker's published past events ordered by event_date descending limited to 9 items.
+        
+        Returns:
+            dict: The original context augmented with "events" and "past_events".
+        """
         context = super().get_context_data(**kwargs)
         speaker = self.get_object()
         context["events"] = (

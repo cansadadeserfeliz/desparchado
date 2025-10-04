@@ -69,12 +69,17 @@ class PlaceCreateView(LoginRequiredMixin, CreateView):
 
     def dispatch(self, request, *args, **kwargs):
         """
-        Enforce the user's place creation quota and redirect to
-        the user's detail page if the quota is reached.
-
+        Enforce the requesting user's place-creation quota and redirect to the user's detail page if the quota is reached.
+        
+        If the user is authenticated and has reached their place creation quota, logs a warning and returns an HttpResponseRedirect to the user's detail page. Otherwise returns the response produced by the superclass dispatch.
+        
+        Parameters:
+            request: The HttpRequest for the current request.
+            *args: Positional arguments forwarded to the base dispatch.
+            **kwargs: Keyword arguments forwarded to the base dispatch.
+        
         Returns:
-            HttpResponse: A redirect to the user's detail page when the quota is reached
-            or the standard dispatch response otherwise.
+            HttpResponse: An HttpResponseRedirect to the user's detail page when the quota is reached, otherwise the superclass dispatch response.
         """
         if request.user.is_authenticated:
             user_settings = request.user.settings

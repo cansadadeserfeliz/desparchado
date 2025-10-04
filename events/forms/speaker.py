@@ -9,6 +9,11 @@ from events.models import Speaker
 class SpeakerForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
+        """
+        Initialize the SpeakerForm, require the `image` field, and configure the Crispy Forms helper and layout.
+        
+        Sets `image` to required, creates a FormHelper with form_id "speaker_form" and method "post", and defines a layout containing the fields `name`, `description`, `image`, `image_source_url` plus a submit button labeled "GUARDAR".
+        """
         super().__init__(*args, **kwargs)
 
         self.fields["image"].required = True
@@ -30,11 +35,12 @@ class SpeakerForm(forms.ModelForm):
 
     def clean(self):
         """
-        Cleans and sanitizes the form data, ensuring the description field contains
-        only safe HTML.
-
+        Sanitizes the form's cleaned data so the 'description' field contains only safe HTML.
+        
+        The sanitized 'description' value replaces the original in the cleaned data.
+        
         Returns:
-            The cleaned and sanitized form data.
+            dict: Mapping of field names to cleaned values with 'description' sanitized.
         """
         cleaned_data = super().clean()
         cleaned_data['description'] = sanitize_html(cleaned_data.get('description', ''))

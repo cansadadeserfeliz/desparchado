@@ -135,6 +135,11 @@ class EventCreateForm(EventBaseForm):
 class EventUpdateForm(EventBaseForm):
 
     def __init__(self, *args, **kwargs):
+        """
+        Initialize the update form and build the Crispy FormHelper layout used for editing an Event.
+        
+        The layout includes fields for title, publication toggle, description, source URLs, image fields, category, event date, price (with a leading '$'), organizers and place (each accompanied by an "add" button that opens the respective creation page in a new tab), speakers (with an "add speaker" link that opens in a new tab), and a submit button labeled "GUARDAR".
+        """
         super().__init__(*args, **kwargs)
 
         self.helper.layout = Layout(

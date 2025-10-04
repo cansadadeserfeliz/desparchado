@@ -18,12 +18,12 @@ class EventCreateView(LoginRequiredMixin, CreateView):
 
     def dispatch(self, request, *args, **kwargs):
         """
-        Enforce the user's event creation quota and redirect to
-        the user's detail page if the quota is reached.
-
+        Enforce the requesting user's event creation quota and redirect if the quota is reached.
+        
+        If the authenticated user has reached their event creation quota, returns an HttpResponseRedirect to the user's detail page; otherwise proceeds with the standard dispatch response.
+        
         Returns:
-            HttpResponse: A redirect to the user's detail page when the quota is reached
-            or the standard dispatch response otherwise.
+            HttpResponse: Redirect to the user's detail page when the quota is reached, otherwise the response returned by the superclass dispatch.
         """
         if request.user.is_authenticated:
             user_settings = request.user.settings
@@ -36,6 +36,12 @@ class EventCreateView(LoginRequiredMixin, CreateView):
         return super().dispatch(request, *args, **kwargs)
 
     def get_success_url(self):
+        """
+        Determine the redirect URL after successfully creating an event.
+        
+        Returns:
+            str: The event's absolute URL if the created event is published and approved, otherwise the URL for the current user's added events list.
+        """
         if self.object.is_published and self.object.is_approved:
             return self.object.get_absolute_url()
 
@@ -43,6 +49,15 @@ class EventCreateView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         # pylint: disable=attribute-defined-outside-init
+        """
+        Handle a valid form by creating and saving the Event, sending a notification, and continuing normal success processing.
+        
+        Parameters:
+            form (django.forms.ModelForm): Valid form for the Event being created.
+        
+        Returns:
+            django.http.HttpResponse: Response produced by the superclass `form_valid`, typically a redirect to the success URL.
+        """
         self.object = form.save(commit=False)
         self.object.is_approved = True
         self.object.created_by = self.request.user

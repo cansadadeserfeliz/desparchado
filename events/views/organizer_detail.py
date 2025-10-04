@@ -11,6 +11,16 @@ class OrganizerDetailView(DetailView):
     model = Organizer
 
     def get_context_data(self, **kwargs):
+        """
+        Add the organizer's upcoming and past published events to the template context.
+        
+        The returned context is the base context augmented with:
+        - 'events': up to 30 published future events for the organizer with related 'place' selected.
+        - 'past_events': up to 30 published past events for the organizer, ordered by descending event_date, with related 'place' selected and 'speakers' prefetched.
+        
+        Returns:
+            dict: Template context including the added 'events' and 'past_events' querysets.
+        """
         context = super().get_context_data(**kwargs)
         context['events'] = (
             self.get_object().events.published()

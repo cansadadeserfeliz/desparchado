@@ -18,12 +18,10 @@ class OrganizerCreateView(LoginRequiredMixin, CreateView):
 
     def dispatch(self, request, *args, **kwargs):
         """
-        Enforce the user's organizer creation quota and redirect to
-        the user's detail page if the quota is reached.
-
+        Redirect to the user's detail page when the requester has reached their organizer creation quota; otherwise continue with the standard dispatch.
+        
         Returns:
-            HttpResponse: A redirect to the user's detail page when the quota is reached
-            or the standard dispatch response otherwise.
+            HttpResponse: A redirect to the user's detail page if the quota is reached, otherwise the response returned by the superclass dispatch.
         """
         if request.user.is_authenticated:
             user_settings = request.user.settings
@@ -37,6 +35,12 @@ class OrganizerCreateView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         # pylint: disable=attribute-defined-outside-init
+        """
+        Save a new Organizer instance with the current user as its creator, send a creation notification, and continue standard successful-form processing.
+        
+        Returns:
+            The HTTP response produced by the view after successful form processing.
+        """
         self.object = form.save(commit=False)
         self.object.created_by = self.request.user
         self.object.save()

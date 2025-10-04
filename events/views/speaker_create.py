@@ -18,12 +18,10 @@ class SpeakerCreateView(LoginRequiredMixin, CreateView):
 
     def dispatch(self, request, *args, **kwargs):
         """
-        Enforce the user's speaker creation quota and redirect to
-        the user's detail page if the quota is reached.
-
+        Check the user's speaker creation quota and redirect to the user's detail page if the quota is reached.
+        
         Returns:
-            HttpResponse: A redirect to the user's detail page when the quota is reached
-            or the standard dispatch response otherwise.
+            HttpResponse: A redirect to the users:user_detail URL when the quota is reached, or the superclass dispatch response otherwise.
         """
         if request.user.is_authenticated:
             user_settings = request.user.settings
@@ -37,6 +35,14 @@ class SpeakerCreateView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         # pylint: disable=attribute-defined-outside-init
+        """
+        Handle a valid speaker form by saving the speaker, recording its creator, and sending a notification before continuing the standard success flow.
+        
+        Saves the form instance with the current user set as `created_by`, sends a `'speaker'` notification for the created object, and then delegates to the superclass to produce the final response.
+        
+        Returns:
+            HttpResponse: The response produced by the standard `form_valid` handling (typically a redirect to the created object's page).
+        """
         self.object = form.save(commit=False)
         self.object.created_by = self.request.user
         self.object.save()

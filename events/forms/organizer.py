@@ -10,6 +10,11 @@ from events.models import Organizer
 class OrganizerForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
+        """
+        Initialize the OrganizerForm: require an image and configure Crispy FormHelper and layout.
+        
+        Sets the image field as required, creates and configures a FormHelper (form id 'organizer_form', POST method) and assigns a layout that includes the name field (with suggestion support via the organizer_suggestions URL), description, website URL, image, image source URL, and a submit button labeled "GUARDAR".
+        """
         super().__init__(*args, **kwargs)
 
         self.fields["image"].required = True
@@ -36,10 +41,12 @@ class OrganizerForm(forms.ModelForm):
 
     def clean(self):
         """
-        Cleans and sanitizes the description field to remove unsafe HTML content.
-
+        Sanitizes the form's cleaned 'description' value to remove unsafe HTML.
+        
+        Replaces the 'description' entry in the form's cleaned_data with the result of sanitize_html (uses an empty string if no description was provided) and returns the cleaned_data.
+        
         Returns:
-            The cleaned form data with a sanitized description.
+            dict: The form's cleaned_data with a sanitized 'description' value.
         """
         cleaned_data = super().clean()
         cleaned_data['description'] = sanitize_html(cleaned_data.get('description', ''))
