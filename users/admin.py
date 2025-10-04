@@ -102,13 +102,8 @@ class UserSettingsAdmin(admin.ModelAdmin):
     @admin.display(description="Events in Period")
     def event_current_count(self, obj):
         """
-        Determines how many events the related user has created within the current quota period.
-
-        Parameters:
-            obj (UserSettings): The UserSettings instance whose user's events are counted.
-
-        Returns:
-            int: Number of events created by the user during the current quota period.
+        Return the number of events the user has created within
+        the current quota period.
         """
         return obj.events_created_in_quota_period()
 

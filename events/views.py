@@ -276,12 +276,12 @@ class EventCreateView(LoginRequiredMixin, CreateView):
 
     def dispatch(self, request, *args, **kwargs):
         """
-        Check the user's event-creation quota and redirect if the quota is reached.
-        
-        If the authenticated user's event creation quota has been reached, redirect to the user's profile page; otherwise proceed with the normal dispatch handling.
-        
+        Enforce the user's event creation quota and redirect to
+        the user's detail page if the quota is reached.
+
         Returns:
-            An HttpResponseRedirect to the user's profile when the quota is reached, otherwise the response returned by the superclass dispatch.
+            HttpResponse: A redirect to the user's detail page when the quota is reached
+            or the standard dispatch response otherwise.
         """
         if request.user.is_authenticated:
             user_settings = request.user.settings
