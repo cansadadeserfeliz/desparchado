@@ -3,8 +3,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.utils import timezone
-from django.views.generic import DetailView, FormView, ListView
 from django.utils.translation import gettext as _
+from django.views.generic import DetailView, FormView, ListView
 
 from events.models import Event
 
