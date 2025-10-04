@@ -9,12 +9,23 @@ VIEW_NAME = 'places:place_add'
 
 
 def test_non_authenticated_user_cannot_create_place(django_app):
+    """
+    Ensure an unauthenticated user is redirected to the login
+    page when requesting the place creation view.
+    """
     response = django_app.get(reverse(VIEW_NAME), status=status.HTTP_302_FOUND)
     assert reverse('users:login') in response.location
 
 
 @pytest.mark.django_db
 def test_successfully_create_place(django_app, user, city):
+    """
+    Verifies that an authenticated user can create a Place via the HTML form
+    and is redirected after submission.
+
+    Asserts that a new Place is created
+    and that the response redirects the Place's detail page.
+    """
     places_count = Place.objects.count()
 
     response = django_app.get(reverse(VIEW_NAME), user=user, status=status.HTTP_200_OK)

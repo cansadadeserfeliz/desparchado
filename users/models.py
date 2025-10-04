@@ -46,14 +46,35 @@ class UserSettings(models.Model):
         return f'{self.user.email} settings'
 
     def events_created_in_quota_period(self):
+        """
+        Return the number of events the user has created within
+        the configured quota period.
+
+        Returns:
+            int: Number of events the user created since (now - quota_period_seconds).
+        """
         since = now() - timedelta(seconds=self.quota_period_seconds)
         return self.user.created_events.filter(created__gte=since).count()
 
     def places_created_in_quota_period(self):
+        """
+        Return the number of places the user has created within
+        the configured quota period.
+
+        Returns:
+            int: Number of places the user created since (now - quota_period_seconds).
+        """
         since = now() - timedelta(seconds=self.quota_period_seconds)
         return self.user.created_places.filter(created__gte=since).count()
 
     def reached_event_creation_quota(self) ->  bool:
+        """
+        Determine whether the user has reached their event creation quota.
+
+        Returns:
+            True if the user has reached their quota; `False` otherwise.
+            Superusers always bypass the quota and will return `False`.
+        """
         if self.user.is_superuser:
             return False
 
@@ -63,6 +84,13 @@ class UserSettings(models.Model):
         return False
 
     def reached_place_creation_quota(self) ->  bool:
+        """
+        Determine whether the user has reached their place creation quota.
+
+        Returns:
+            True if the user has reached their quota; `False` otherwise.
+            Superusers always bypass the quota and will return `False`.
+        """
         if self.user.is_superuser:
             return False
 
@@ -75,7 +103,13 @@ class UserSettings(models.Model):
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def create_user_profile(sender, instance, created, **kwargs):
     """
-    Signal to create a UserSettings automatically when a new User is created.
+    Create a UserSettings record when a new User is created.
+
+    Parameters:
+        sender (type): The model class sending the signal (User).
+        instance (User): The User instance that was saved.
+        created (bool): True if the instance was created or updated.
+        **kwargs: Additional keyword arguments passed by the signal.
     """
     if created:
         UserSettings.objects.get_or_create(user=instance)

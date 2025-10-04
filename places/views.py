@@ -69,8 +69,12 @@ class PlaceCreateView(LoginRequiredMixin, CreateView):
 
     def dispatch(self, request, *args, **kwargs):
         """
-        Check place creation quota before showing the form.
-        If exceeded, redirect to user profile page that will show an error message.
+        Enforce the user's place creation quota and redirect to
+        the user's detail page if the quota is reached.
+
+        Returns:
+            HttpResponse: A redirect to the user's detail page when the quota is reached
+            or the standard dispatch response otherwise.
         """
         if request.user.is_authenticated:
             user_settings = request.user.settings
@@ -84,7 +88,10 @@ class PlaceCreateView(LoginRequiredMixin, CreateView):
 
     def get_success_url(self):
         """
-        Returns the supplied URL.
+        Provide the absolute URL of the saved object.
+
+        Returns:
+            url (str): The absolute URL for the instance represented by `self.object`.
         """
         return self.object.get_absolute_url()
 

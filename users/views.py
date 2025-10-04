@@ -21,6 +21,7 @@ class UserDetailView(LoginRequiredMixin, DetailView):
         return self.request.user
 
     def get_context_data(self, **kwargs):
+        """Extend the template context."""
         context = super().get_context_data(**kwargs)
 
         added_events_count = (

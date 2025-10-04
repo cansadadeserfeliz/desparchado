@@ -4,6 +4,10 @@ from django.urls import reverse
 
 @pytest.mark.django_db
 def test_non_authenticated_user_cannot_update_place(django_app, place):
+    """
+    Ensure that unauthenticated requests to the place update page are redirected
+    to the login page.
+    """
     response = django_app.get(
         reverse('places:place_update', args=[place.id]), status=302,
     )
@@ -12,6 +16,10 @@ def test_non_authenticated_user_cannot_update_place(django_app, place):
 
 @pytest.mark.django_db
 def test_successfully_update_place(django_app, user, place):
+    """
+    Verifies that an authenticated user can update a place's name via the update form
+    and is redirected to the place's page.
+    """
     place.created_by = user
     place.save()
 
