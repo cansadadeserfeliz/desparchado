@@ -5,7 +5,7 @@ from places.tests.factories import PlaceFactory
 
 
 @pytest.mark.django_db
-def test_successfully_get_place_wia_autocomplete(django_app, user):
+def test_successfully_get_place_via_autocomplete(django_app, user):
     place = PlaceFactory(name='Librería Nacional')
     # Create a place that won't appear in search results
     PlaceFactory(name='Museo de Arte Moderno')
@@ -27,7 +27,7 @@ def test_successfully_get_place_wia_autocomplete(django_app, user):
 
 
 @pytest.mark.django_db
-def test_non_authenticated_user_cannot_get_place_wia_autocomplete(django_app):
+def test_non_authenticated_user_cannot_get_place_via_autocomplete(django_app):
     PlaceFactory(name='Librería Nacional')
     search_term = 'Nacional'
     response = django_app.get(
