@@ -54,18 +54,27 @@ class UserSettingsAdmin(admin.ModelAdmin):
         "user",
         "user_is_superuser",
         "event_creation_quota",
-        "organizer_creation_quota",
-        "speaker_creation_quota",
-        "place_creation_quota",
-        "quota_period_human",
         "event_current_count",
         "event_quota_exceeded",
+        "place_creation_quota",
+        "place_current_count",
+        "place_quota_exceeded",
+        "organizer_creation_quota",
+        "speaker_creation_quota",
+        "quota_period_human",
     )
     search_fields = ("user__username", "user__email")
     list_select_related = ("user",)
     ordering = ("user__last_login",)
+    list_per_page = 30
 
     def has_delete_permission(self, request, obj=None):
+        """
+        Disable deletion of objects from the admin interface.
+
+        Returns:
+            bool: `False` to prevent deletion of the object via the admin interface.
+        """
         return False
 
     def get_actions(self, request):
@@ -98,10 +107,51 @@ class UserSettingsAdmin(admin.ModelAdmin):
         """
         return obj.events_created_in_quota_period()
 
-    @admin.display(description="Events Quota Status")
-    def event_quota_exceeded(self, obj):
-        """Indicate whether the user's event creation quota has been exceeded."""
-        reached_quota = obj.reached_event_creation_quota()
+    @admin.display(description="Places in Period")
+    def place_current_count(self, obj):
+        """
+        Return the number of places the user has created within
+        the current quota period.
+        """
+        return obj.places_created_in_quota_period()
+
+    @staticmethod
+    def _get_quota_label(reached_quota: bool) -> str:
+        """
+        Render an HTML label indicating whether a quota has been reached.
+
+        Returns:
+            An HTML-safe string containing a bold, colored label: "Exceeded" in red
+            if `reached_quota` is True, "OK" in green otherwise.
+        """
         color = "red" if reached_quota else "green"
         label = "Exceeded" if reached_quota else "OK"
         return format_html('<b style="color:{}">{}</b>', color, label)
+
+    @admin.display(description="Events Quota Status")
+    def event_quota_exceeded(self, obj):
+        """
+        Show quota status for the user's event-creation quota as a colored HTML label.
+
+        Parameters:
+            obj (UserSettings): The UserSettings instance to evaluate.
+
+        Returns:
+            str: HTML string containing a colored label.
+        """
+        reached_quota = obj.reached_event_creation_quota()
+        return self._get_quota_label(reached_quota)
+
+    @admin.display(description="Places Quota Status")
+    def place_quota_exceeded(self, obj):
+        """
+        Show quota status for the user's place-creation quota as a colored HTML label.
+
+        Parameters:
+            obj (UserSettings): The UserSettings instance to evaluate.
+
+        Returns:
+            str: HTML string containing a colored label.
+        """
+        reached_quota = obj.reached_place_creation_quota()
+        return self._get_quota_label(reached_quota)
