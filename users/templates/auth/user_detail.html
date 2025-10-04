@@ -14,14 +14,10 @@
     </div>
   </div>
 </section>
-{% if reached_event_creation_quota or reached_place_creation_quota or reached_organizer_creation_quota or reached_speaker_creation_quota %}
+{% if creation_quota_error_message %}
 <section class="container text-center">
   <div class="alert alert-danger" role="alert">
-    Has alcanzado tu cuota de creación de
-    {% if reached_event_creation_quota %}<strong>eventos</strong>{% endif %}
-    {% if reached_place_creation_quota %}<strong>lugares</strong>{% endif %}
-    {% if reached_organizer_creation_quota %}<strong>organizadores</strong>{% endif %}
-    {% if reached_speaker_creation_quota %}<strong>presentadores</strong>{% endif %}.
+    {{ creation_quota_error_message }}
     Por favor espera hasta que se restablezca tu cuota, o contacta al equipo de Desparchado
     a través del
     <a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSc7zdXbavBNmMQI69wE9T1Bxt2KVBPg46P11DsVIvQy6vImSg/viewform">formulario de contacto</a>

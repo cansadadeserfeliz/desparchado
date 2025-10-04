@@ -4,6 +4,7 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.utils import timezone
 from django.views.generic import DetailView, FormView, ListView
+from django.utils.translation import gettext as _
 
 from events.models import Event
 
@@ -29,18 +30,25 @@ class UserDetailView(LoginRequiredMixin, DetailView):
         )
         context["added_events_count"] = added_events_count
 
+        creation_quota_error_message = None
+        quota_reached_model_names = []
+
         user_settings = self.object.settings
-        context["reached_event_creation_quota"] = (
-            user_settings.reached_event_creation_quota())
-        context["reached_place_creation_quota"] = (
-            user_settings.reached_place_creation_quota()
-        )
-        context["reached_organizer_creation_quota"] = (
-            user_settings.reached_organizer_creation_quota()
-        )
-        context["reached_speaker_creation_quota"] = (
-            user_settings.reached_speaker_creation_quota()
-        )
+        if user_settings.reached_event_creation_quota():
+            quota_reached_model_names.append(_("eventos"))
+        if user_settings.reached_place_creation_quota():
+            quota_reached_model_names.append(_("lugares"))
+        if user_settings.reached_organizer_creation_quota():
+            quota_reached_model_names.append(_("organizadores"))
+        if user_settings.reached_speaker_creation_quota():
+            quota_reached_model_names.append(_("presentadores"))
+
+        if quota_reached_model_names:
+            creation_quota_error_message = _("Has alcanzado tu cuota de creación de ")
+            creation_quota_error_message += ", ".join(quota_reached_model_names)
+            creation_quota_error_message += "."
+
+        context["creation_quota_error_message"] = creation_quota_error_message
 
         days_on_page = (timezone.now() - self.object.date_joined).days
         context['days_on_page'] = days_on_page
