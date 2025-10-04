@@ -9,7 +9,6 @@ DEBUG = False
 ALLOWED_HOSTS = ['desparchado.co']
 
 EMAIL_USE_TLS = True
-EMAIL_ADMIN_USERS = ['desparchado.co@gmail.com']
 EMAIL_FROM = 'no-reply@desparchado.co'
 
 AXES_IPWARE_META_PRECEDENCE_ORDER = [
