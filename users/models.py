@@ -47,10 +47,9 @@ class UserSettings(models.Model):
 
     def events_created_in_quota_period(self):
         """
-        Count events created by the user within the current quota period.
-        
-        The quota period is defined by `self.quota_period_seconds` measured backward from the current time.
-        
+        Return the number of events the user has created within
+        the configured quota period.
+
         Returns:
             int: Number of events the user created since (now - quota_period_seconds).
         """
@@ -59,20 +58,22 @@ class UserSettings(models.Model):
 
     def places_created_in_quota_period(self):
         """
-        Return the number of places the user has created within the configured quota period.
-        
+        Return the number of places the user has created within
+        the configured quota period.
+
         Returns:
-            int: Count of places created by the user since now() minus `quota_period_seconds`.
+            int: Number of places the user created since (now - quota_period_seconds).
         """
         since = now() - timedelta(seconds=self.quota_period_seconds)
         return self.user.created_places.filter(created__gte=since).count()
 
     def reached_event_creation_quota(self) ->  bool:
         """
-        Determine whether the user has reached their allowed number of event creations within the configured quota period.
-        
+        Determine whether the user has reached their event creation quota.
+
         Returns:
-            True if the user has created greater than or equal to `event_creation_quota` events during the quota period; `False` otherwise. Superusers always bypass the quota and will return `False`.
+            True if the user has reached their quota; `False` otherwise.
+            Superusers always bypass the quota and will return `False`.
         """
         if self.user.is_superuser:
             return False
@@ -85,11 +86,10 @@ class UserSettings(models.Model):
     def reached_place_creation_quota(self) ->  bool:
         """
         Determine whether the user has reached their place creation quota.
-        
-        Superusers are exempt and always considered not to have reached the quota.
-        
+
         Returns:
-            True if the user has reached the place creation quota, False otherwise.
+            True if the user has reached their quota; `False` otherwise.
+            Superusers always bypass the quota and will return `False`.
         """
         if self.user.is_superuser:
             return False
@@ -104,11 +104,11 @@ class UserSettings(models.Model):
 def create_user_profile(sender, instance, created, **kwargs):
     """
     Create a UserSettings record when a new User is created.
-    
+
     Parameters:
         sender (type): The model class sending the signal (User).
         instance (User): The User instance that was saved.
-        created (bool): True if the instance was created (not just updated).
+        created (bool): True if the instance was created or updated.
         **kwargs: Additional keyword arguments passed by the signal.
     """
     if created:
