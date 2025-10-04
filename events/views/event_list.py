@@ -156,4 +156,3 @@ class PastEventListView(EventListBaseView):
             context['pagination_query_params'] += f"&{urlencode(params)}"
 
         return context
-
