@@ -7,3 +7,12 @@ reviews:
   auto_review:
     enabled: true
     drafts: false
+code_generation:
+  docstrings:
+      - path: "**/*.py"
+        instructions: |
+            Respect max line length defined in the pyproject.toml file.
+            Use Google-style docstrings with Args and Returns sections.
+      - path: "views/**/*.py"
+        instructions: |
+            Do not add Args and Returns sections for Django overrides.
