@@ -14,29 +14,14 @@
     </div>
   </div>
 </section>
-{% if reached_event_creation_quota %}
+{% if creation_quota_error_message %}
 <section class="container text-center">
   <div class="alert alert-danger" role="alert">
-  {% blocktranslate %}
-    Has alcanzado tu cuota de creación de eventos.
+    {{ creation_quota_error_message }}
     Por favor espera hasta que se restablezca tu cuota, o contacta al equipo de Desparchado
     a través del
     <a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSc7zdXbavBNmMQI69wE9T1Bxt2KVBPg46P11DsVIvQy6vImSg/viewform">formulario de contacto</a>
     si necesitas asistencia o aumentar tu cuota.
-  {% endblocktranslate %}
-  </div>
-</section>
-{% endif %}
-{% if reached_place_creation_quota %}
-<section class="container text-center">
-  <div class="alert alert-danger" role="alert">
-  {% blocktranslate %}
-    Has alcanzado tu cuota de creación de lugares.
-    Por favor espera hasta que se restablezca tu cuota, o contacta al equipo de Desparchado
-    a través del
-    <a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSc7zdXbavBNmMQI69wE9T1Bxt2KVBPg46P11DsVIvQy6vImSg/viewform">formulario de contacto</a>
-    si necesitas asistencia o aumentar tu cuota.
-  {% endblocktranslate %}
   </div>
 </section>
 {% endif %}

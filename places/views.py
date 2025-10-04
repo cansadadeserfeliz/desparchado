@@ -76,13 +76,12 @@ class PlaceCreateView(LoginRequiredMixin, CreateView):
             HttpResponse: A redirect to the user's detail page when the quota is reached
             or the standard dispatch response otherwise.
         """
-        if request.user.is_authenticated:
-            user_settings = request.user.settings
-            reached_quota = user_settings.reached_place_creation_quota()
+        user_settings = request.user.settings
+        reached_quota = user_settings.reached_place_creation_quota()
 
-            if reached_quota:
-                logger.warning('Quota reached for place creation')
-                return HttpResponseRedirect(reverse("users:user_detail"))
+        if reached_quota:
+            logger.warning('Quota reached for place creation')
+            return HttpResponseRedirect(reverse("users:user_detail"))
 
         return super().dispatch(request, *args, **kwargs)
 

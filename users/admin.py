@@ -54,10 +54,8 @@ class UserSettingsAdmin(admin.ModelAdmin):
         "user",
         "user_is_superuser",
         "event_creation_quota",
-        "event_current_count",
         "event_quota_exceeded",
         "place_creation_quota",
-        "place_current_count",
         "place_quota_exceeded",
         "organizer_creation_quota",
         "speaker_creation_quota",
@@ -66,6 +64,12 @@ class UserSettingsAdmin(admin.ModelAdmin):
     search_fields = ("user__username", "user__email")
     list_select_related = ("user",)
     ordering = ("user__last_login",)
+    readonly_fields = (
+        "event_current_count",
+        "event_quota_exceeded",
+        "place_current_count",
+        "place_quota_exceeded",
+    )
     list_per_page = 30
 
     def has_delete_permission(self, request, obj=None):
@@ -100,19 +104,25 @@ class UserSettingsAdmin(admin.ModelAdmin):
         return f"{seconds} seconds"
 
     @admin.display(description="Events in Period")
-    def event_current_count(self, obj):
+    def event_current_count(self, obj) -> int:
         """
         Return the number of events the user has created within
         the current quota period.
         """
+        if not obj.pk:  # when adding a new object
+            return 0
+
         return obj.events_created_in_quota_period()
 
     @admin.display(description="Places in Period")
-    def place_current_count(self, obj):
+    def place_current_count(self, obj) -> int:
         """
         Return the number of places the user has created within
         the current quota period.
         """
+        if not obj.pk:  # when adding a new object
+            return 0
+
         return obj.places_created_in_quota_period()
 
     @staticmethod
