@@ -8,6 +8,18 @@ class CityDetailView(DetailView):
     model = City
 
     def get_context_data(self, **kwargs):
+        """
+        Provide template context for the city detail page containing upcoming and past events
+        associated with the city's places.
+        
+        The context will include:
+        - 'events': a queryset of up to 9 published future events linked to places in this city.
+        - 'past_events': a queryset of published past events linked to places in this city,
+          limited to 9 when 'events' contains 3 or fewer items, otherwise limited to 3.
+        
+        Returns:
+            dict: Template context containing the 'events' and 'past_events' querysets.
+        """
         context = super().get_context_data(**kwargs)
 
         events = (

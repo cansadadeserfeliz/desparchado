@@ -7,6 +7,22 @@ class PlaceDetailView(DetailView):
     model = Place
 
     def get_context_data(self, **kwargs):
+        """
+        Add Place-related event lists to the template context.
+        
+        Args:
+            **kwargs: Additional keyword arguments passed through to the superclass.
+        
+        Returns:
+            dict: The updated context mapping including:
+                - "events": up to 15 upcoming published events for this place, optimized with
+                  select_related("place") and prefetch_related("speakers"); useful for showing
+                  future events and their speakers/organizers associated with the place.
+                - "past_events": up to 9 past published events for this place ordered by
+                  most recent `event_date`, also optimized with select_related("place") and
+                  prefetch_related("speakers"); useful for displaying historical events and
+                  their speakers/organizers.
+        """
         context = super().get_context_data(**kwargs)
         context["events"] = (
             self.get_object()

@@ -18,12 +18,19 @@ class PlaceCreateView(LoginRequiredMixin, CreateView):
 
     def dispatch(self, request, *args, **kwargs):
         """
-        Enforce the user's place creation quota and redirect to
-        the user's detail page if the quota is reached.
-
+        Prevent creating a new Place when the current user has reached their place creation quota.
+        
+        Checks the authenticated user's settings for a reached place-creation quota and, if reached,
+        logs a warning and redirects to the user's detail page; otherwise continues normal dispatch.
+        
+        Args:
+            request (HttpRequest): The incoming request used to access the current user.
+            *args: Additional positional arguments forwarded to the base dispatch.
+            **kwargs: Additional keyword arguments forwarded to the base dispatch.
+        
         Returns:
-            HttpResponse: A redirect to the user's detail page when the quota is reached
-            or the standard dispatch response otherwise.
+            HttpResponse: A redirect to the user's detail page when the quota is reached,
+            or the response returned by the standard dispatch otherwise.
         """
         if request.user.is_authenticated:
             user_settings = request.user.settings
@@ -37,15 +44,28 @@ class PlaceCreateView(LoginRequiredMixin, CreateView):
 
     def get_success_url(self):
         """
-        Provide the absolute URL of the saved object.
-
+        Return the absolute URL of the created Place instance's detail page.
+        
         Returns:
-            url (str): The absolute URL for the instance represented by `self.object`.
+            str: The absolute URL of the created Place instance's detail page.
         """
         return self.object.get_absolute_url()
 
     def form_valid(self, form):
         # pylint: disable=attribute-defined-outside-init
+        """
+        Save a new Place instance as created by the current user and send a creation notification.
+        
+        The method binds the created Place to the requesting user, persists it, triggers a
+        notification linking the user and place within the event management context, and then
+        continues the standard successful-form handling.
+        
+        Args:
+            form: A valid Django form for creating a Place instance.
+        
+        Returns:
+            HttpResponse: A redirect response to the place's success URL.
+        """
         self.object = form.save(commit=False)
         self.object.created_by = self.request.user
         self.object.save()
