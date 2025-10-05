@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (suggestionInput) {
       const feedback = document.createElement('span');
       feedback.className = 'suggestions-feedback text-warning';
-      feedback.textContent = suggestionMessage;
+      feedback.innerHTML = suggestionMessage;
       suggestionInput.insertAdjacentElement('afterend', feedback);
     }
   }
