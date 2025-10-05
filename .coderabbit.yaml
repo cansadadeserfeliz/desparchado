@@ -11,15 +11,15 @@ code_generation:
     path_instructions:
       - path: "**/*.py"
         instructions: |
-            Respect max line length defined in the pyproject.toml file.
+            Max line length is 88 characters.
             Use Google-style docstrings with Args and Returns sections
             unless a more specific path instruction overrides this requirement.
             Keep explanations concise and focused on the cultural event management domain.
             Mention connections between users, events, organizers, places and speakers when relevant.
-      - path: "views/**/*.py"
+      - path: "**/views/**/*.py"
         instructions: |
             Do not add Args and Returns sections for Django overrides.
-      - path: "tests/**/*.py"
+      - path: "**/tests/**/*.py"
         instructions: |
             Do not add Args and Returns sections for methods that start with test_.
             Mention the expected outcome.
