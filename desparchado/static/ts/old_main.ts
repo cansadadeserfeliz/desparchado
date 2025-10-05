@@ -40,16 +40,11 @@ document.addEventListener('DOMContentLoaded', () => {
       const url = showSuggestionInput.dataset.suggestionsUrl;
       const query = showSuggestionInput.value;
 
-      console.log(showSuggestionInput);
-      console.log(url);
-      console.log(query);
-
       if (!url) return;
 
       fetch(`${url}?query=${encodeURIComponent(query)}`)
         .then(response => response.json())
         .then((data: { suggestion?: string }) => {
-          console.log(data.suggestion);
           hideSuggestions();
           if (data.suggestion) {
             showSuggestion(data.suggestion);
