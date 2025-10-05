@@ -287,6 +287,7 @@ MAP_WIDGETS = {
 EMAIL_USE_TLS = True
 EMAIL_BACKEND = 'django_ses.SESBackend'
 EMAIL_FROM = 'no-reply@desparchado.co'
+EMAIL_ADMIN_USERS = ['desparchado.co@gmail.com']
 
 AWS_SES_ACCESS_KEY_ID = getenvvar('AWS_SES_ACCESS_KEY_ID', 'not-set')
 AWS_SES_SECRET_ACCESS_KEY = getenvvar('AWS_SES_SECRET_ACCESS_KEY', 'not-set')
