@@ -1,5 +1,4 @@
 language: "en-US"
-
 early_access: true
 reviews:
   profile: "chill"
@@ -7,3 +6,27 @@ reviews:
   auto_review:
     enabled: true
     drafts: false
+code_generation:
+  docstrings:
+    path_instructions:
+      - path: "**/*.py"
+        instructions: |
+            Respect max line length defined in the pyproject.toml file.
+            Use Google-style docstrings with Args and Returns sections
+            unless a more specific path instruction overrides this requirement.
+            Mention connections between users, events, organizers, places and speakers when relevant.
+      - path: "views/**/*.py"
+        instructions: |
+            Do not add Args and Returns sections for Django overrides.
+context: |
+  This project is for desparchado.co — a website that allows users to add cultural events in Colombia
+  so others can see them, giving the events more visibility and promotion.
+
+  Authenticated users can add and edit events, while anyone can view published and approved events.
+  Each event includes:
+    - Organizers: people or organizations (such as libraries, museums or cultural centers) that run the event.
+    - Place: a physical location in Colombia where the event happens.
+    - Speakers: people who talk or present during the event.
+
+  The code uses Django and includes models, views, and forms to manage events and their related data.
+  The dashboard app is available only to admin users and is used for monitoring, administration, and bulk event imports from spreadsheets.
