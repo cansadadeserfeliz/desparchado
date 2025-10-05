@@ -45,9 +45,7 @@ class PlaceCreateView(LoginRequiredMixin, CreateView):
         return self.object.get_absolute_url()
 
     def form_valid(self, form):
-        # pylint: disable=attribute-defined-outside-init
-        self.object = form.save(commit=False)
-        self.object.created_by = self.request.user
-        self.object.save()
+        form.instance.created_by = self.request.user
+        response = super().form_valid(form)
         send_notification(self.request, self.object, 'place', True)
-        return super().form_valid(form)
+        return response

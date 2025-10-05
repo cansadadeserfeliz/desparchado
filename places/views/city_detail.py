@@ -17,7 +17,7 @@ class CityDetailView(DetailView):
             )
             .future()
             .select_related("place")
-            .all()[:9]
+            .all()[:9],
         )
         context['events'] = events
 

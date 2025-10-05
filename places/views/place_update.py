@@ -17,5 +17,6 @@ class PlaceUpdateView(EditorPermissionRequiredMixin, UpdateView):
         return self.object.get_absolute_url()
 
     def form_valid(self, form):
+        response = super().form_valid(form)
         send_notification(self.request, self.object, 'place', False)
-        return super().form_valid(form)
+        return response
