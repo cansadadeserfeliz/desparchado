@@ -1,4 +1,5 @@
 site_name: Desparchado
+docs_dir: .
 nav:
   - Home: index.md
 theme: readthedocs
