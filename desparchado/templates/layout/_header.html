@@ -10,16 +10,9 @@
   data-vue-prop-brand-name="Desparchado"
   {% if user.is_authenticated %}
     data-vue-prop-is-logged="true"
-    data-vue-prop-profile-menu='{"items": [{"label": "{% translate 'Ver mi perfil' %}", "url": "{% url 'users:user_detail' %}"}, {"label": "{% translate 'Eventos agregados' %}", "url": "{% url 'users:user_added_events_list' %}"}, {"label": "{% translate 'Salir' %}", "actionId": "logout"}], "name": "perfil"}'
+    data-vue-prop-profile-menu='{"items": [{"label": "{% translate 'Ver mi perfil' %}", "url": "{% url 'users:user_detail' %}"}, {"label": "{% translate 'Eventos agregados' %}", "url": "{% url 'users:user_added_events_list' %}"}, {"label": "{% translate 'Salir' %}", "url": "{% url 'account_logout' %}"}], "name": "perfil"}'
   {% else %}
     data-vue-prop-login='{"label": "{% translate 'Iniciar sesión' %}", "link": "{% url 'account_login' %}?next={{ request.path }}", "type": "tertiary"}'
   {% endif %}
 
 ></header>
-
-{% if user.is_authenticated %}
-    <form id="logout-form" method="post" action="{% url 'admin:logout' %}">
-      {% csrf_token %}
-    </form>
-{% endif %}
-
