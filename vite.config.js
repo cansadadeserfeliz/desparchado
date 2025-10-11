@@ -33,6 +33,7 @@ export default defineConfig({
         events_details: resolve("./desparchado/frontend/scripts/event-details.ts"),
         generic: resolve("./desparchado/frontend/scripts/generic.ts"),
         home: resolve("./desparchado/frontend/scripts/home.ts"),
+        allauth: resolve("./desparchado/frontend/scripts/allauth.js"),
         playground: resolve("./desparchado/static/ts/playground.ts"),
         old_main: resolve("./desparchado/static/ts/old_main.ts"),
         posts_pagination_initializer: resolve("./desparchado/static/ts/posts_pagination_initializer.ts"),

@@ -1,0 +1,7 @@
+{% extends 'layout/base.html' %}
+{% load django_vite %}
+
+{% block extra_css %}
+  {% vite_asset 'desparchado/frontend/scripts/allauth.js' %}
+  {% block extra_head %}{% endblock extra_head %}
+{% endblock %}

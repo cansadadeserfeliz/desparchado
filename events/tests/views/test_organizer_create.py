@@ -8,7 +8,7 @@ VIEW_NAME = 'events:organizer_add'
 
 def test_non_authenticated_user_cannot_create_organizer(django_app):
     response = django_app.get(reverse(VIEW_NAME), status=302)
-    assert reverse('users:login') in response.location
+    assert reverse('account_login') in response.location
 
 
 @pytest.mark.django_db
