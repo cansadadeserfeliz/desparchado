@@ -5,7 +5,7 @@ $color-input-bg: $color-gray-200;
 $color-input-focus: $color-gray-300;
 
 // 🧩 Title section
-h1 {
+h1, h2 {
   margin-top: 26px;
   text-align: center;
   font-size: 1.8rem;
@@ -31,11 +31,17 @@ h1 {
   }
 }
 
+h2 {
+  font-size: 1.4rem;
+  margin-top: 4rem;
+  margin-bottom: 1.5rem;
+}
+
 // 📝 Login form
 form {
   max-width: 480px;
-  margin: 0 auto;
-  padding: 2rem;
+  margin: 0 auto 2rem;
+  padding: 0 2rem;
   background-color: $color-layout-background;
 
   p {
@@ -81,6 +87,30 @@ form {
     }
   }
 
+  p {
+    margin-bottom: 1.5rem;
+
+    label {
+      display: inline-block;
+      font-size: 1rem;
+      font-weight: 600;
+      margin-left: 0.5rem;
+      color: $color-layout-interactive-background;
+
+      strong {
+        font-weight: 700;
+        margin-left: 0.3rem;
+      }
+    }
+
+    input[type="radio"] {
+      accent-color: $color-layout-interactive-background;
+      vertical-align: middle;
+      width: 1rem;
+      height: 1rem;
+    }
+  }
+
   .helptext {
     display: block;
     margin-top: 0.5rem;
@@ -99,6 +129,7 @@ form {
   button[type="submit"] {
     display: block;
     width: 100%;
+    margin-bottom: 0.9rem;
     padding: 1rem 1.25rem;
     background-color: $color-layout-interactive-background;
     color: $color-layout-background;
