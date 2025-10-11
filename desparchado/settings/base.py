@@ -2,7 +2,6 @@ import os
 from pathlib import Path
 
 from django.core.exceptions import ImproperlyConfigured
-from django.urls import reverse_lazy
 from dotenv import load_dotenv
 
 load_dotenv()  # set environment variables from the .env file
@@ -33,60 +32,85 @@ DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 # Application definition
 
 INSTALLED_APPS = [
-    'dal',
-    'dal_select2',
-    'desparchado',
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.sites',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'django.contrib.sitemaps',
-    'django.contrib.gis',
-    'django.contrib.humanize',
-    'django.contrib.postgres',
-    'axes',
-    'mapwidgets',
-    'crispy_forms',
-    'crispy_bootstrap5',
-    'django_cleanup.apps.CleanupConfig',
-    'debug_toolbar',
-    'django_vite',
-    'drf_yasg',
-    'django_filters',
-    'rest_framework',
-    'dashboard',
-    'events',
-    'places',
-    'users',
-    'blog',
-    'games',
-    'specials',
-    'books',
-    'news',
-    'history',
-    'playground',
+    "dal",
+    "dal_select2",
+    "desparchado",
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.sites",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
+    "django.contrib.sitemaps",
+    "django.contrib.gis",
+    "django.contrib.humanize",
+    "django.contrib.postgres",
+
+    "axes",
+    "mapwidgets",
+    "crispy_forms",
+    "crispy_bootstrap5",
+    "django_cleanup.apps.CleanupConfig",
+    "debug_toolbar",
+    "django_vite",
+    "drf_yasg",
+    "django_filters",
+    "rest_framework",
+
+    "dashboard",
+    "events",
+    "places",
+    "blog",
+    "games",
+    "specials",
+    "books",
+    "news",
+    "history",
+    "playground",
+    "users",
+    # `allauth` is placed after the `users` app,
+    # which overrides some of the `allauth` templates
+    "allauth",
+    "allauth.account",
 ]
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.locale.LocaleMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'axes.middleware.AxesMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
+    "django.middleware.security.SecurityMiddleware",
+    "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.locale.LocaleMiddleware",
+    "django.middleware.common.CommonMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
+    "django.contrib.messages.middleware.MessageMiddleware",
+    "django.middleware.clickjacking.XFrameOptionsMiddleware",
+
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "allauth.account.middleware.AccountMiddleware",
+
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
+
+    # AxesMiddleware should be the last middleware in the MIDDLEWARE list.
+    # It only formats user lockout messages and renders Axes lockout responses
+    # on failed user authentication attempts from login views.
+    # If you do not want Axes to override the authentication response
+    # you can skip installing the middleware and use your own views.
+    "axes.middleware.AxesMiddleware",
+]
+
+LOCALE_PATHS = [
+    BASE_DIR / "locale",
 ]
 
 AUTHENTICATION_BACKENDS = [
-    "axes.backends.AxesBackend",
+    # AxesStandaloneBackend should be the first backend in the AUTHENTICATION_BACKENDS
+    # list.
+    "axes.backends.AxesStandaloneBackend",
+    # TODO: review if still needed after installing `allauth`
     "desparchado.backends.EmailBackend",
+    # Needed to login by username in Django admin, regardless of `allauth`
     "django.contrib.auth.backends.ModelBackend",
+    # `allauth` specific authentication methods, such as login by email
+    "allauth.account.auth_backends.AuthenticationBackend",
 ]
 
 ROOT_URLCONF = 'desparchado.urls'
@@ -99,7 +123,7 @@ TEMPLATES = [
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
-                'django.template.context_processors.request',
+                'django.template.context_processors.request',  # required by `allauth`
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'django.template.context_processors.i18n',
@@ -149,18 +173,14 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-LOGIN_URL = reverse_lazy('users:login')
-LOGIN_REDIRECT_URL = 'home'
-LOGOUT_REDIRECT_URL = 'home'
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
 
 USE_I18N = True
-LANGUAGE_CODE = 'es-CO'
+LANGUAGE_CODE = 'es'
 LANGUAGES = [
-    ('es-CO', 'Español'),
+    ('es', 'Español'),
 ]
 
 TIME_ZONE = 'America/Bogota'
@@ -218,14 +238,26 @@ LOGGING = {
     },
 }
 
+# LOGIN_URL = reverse_lazy('users:login')
+LOGIN_REDIRECT_URL = 'home'
+LOGOUT_REDIRECT_URL = 'home'
+
+# django-axes:
 # Brute force login attacks: django-axes
 AXES_FAILURE_LIMIT = 5
-# defines a period of inactivity after which old failed login attempts will be cleared
+# Defines a period of inactivity after which old failed login attempts will be cleared
 AXES_COOLOFF_TIME = 24  # hours
 AXES_IPWARE_META_PRECEDENCE_ORDER = [
     'HTTP_X_FORWARDED_FOR',
     'REMOTE_ADDR',
 ]
+
+# allauth:
+ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+ACCOUNT_SIGNUP_FIELDS = ["email*", "password1*", "password2*"]
+ACCOUNT_LOGIN_METHODS = {
+    "email",
+}
 
 # crispy forms with bootstrap 5:
 # https://github.com/django-crispy-forms/crispy-bootstrap5
@@ -286,7 +318,7 @@ MAP_WIDGETS = {
 
 EMAIL_USE_TLS = True
 EMAIL_BACKEND = 'django_ses.SESBackend'
-EMAIL_FROM = 'no-reply@desparchado.co'
+DEFAULT_FROM_EMAIL = 'no-reply@desparchado.co'
 EMAIL_ADMIN_USERS = ['desparchado.co@gmail.com']
 
 AWS_SES_ACCESS_KEY_ID = getenvvar('AWS_SES_ACCESS_KEY_ID', 'not-set')

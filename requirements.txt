@@ -18,6 +18,7 @@ python-dotenv>=1.0.1,<1.1
 sentry-sdk>=2.22.0,<2.23
 
 # Django Libs
+django-allauth>=65.12.0,<65.13
 django-autocomplete-light>=3.12.1,<3.13
 django-autoslug>=1.9.9,<1.10
 django-axes[ipware]>=7.0.2,<7.1

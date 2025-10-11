@@ -18,7 +18,6 @@ from django.conf import settings
 from django.conf.urls import include
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.contrib.auth.views import LogoutView
 from django.contrib.sitemaps.views import sitemap
 from django.urls import path
 from django.views.generic import TemplateView
@@ -71,20 +70,25 @@ urlpatterns = [
         name='rss_social_networks',
     ),
     path('atom/', AtomSiteEventsFeed(), name='atom'),
+
     path('events/', include('events.urls', namespace='events')),
     path('events/api/v1/', include('events.api_urls', namespace='events_api')),
     path('places/', include('places.urls', namespace='places')),
-    path('users/', include('users.urls', namespace='users')),
     path('blog/', include('blog.urls', namespace='blog')),
     path('games/', include('games.urls', namespace='games')),
     path('specials/', include('specials.urls', namespace='specials')),
     path('historia/', include('history.urls', namespace='history')),
     path('dashboard/', include('dashboard.urls', namespace='dashboard')),
     path('playground/', include('playground.urls', namespace='playground')),
-    path('i18n/', include('django.conf.urls.i18n')),
-    path('logout/', LogoutView.as_view(), name='logout'),
+
+    path('users/', include('users.urls', namespace='users')),
+    path('accounts/', include('allauth.urls')),
+    #path('logout/', LogoutView.as_view(), name='logout'),
+
     path('admin/', admin.site.urls),
+
     path('api-auth/', include('rest_framework.urls')),
+
     path(
         'swagger.<format>/',
         schema_view.without_ui(cache_timeout=0),
@@ -96,6 +100,7 @@ urlpatterns = [
         name='schema-swagger-ui',
     ),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
+
     path(
         'sitemap.xml',
         sitemap,

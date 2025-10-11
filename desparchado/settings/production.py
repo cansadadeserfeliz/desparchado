@@ -9,7 +9,7 @@ DEBUG = False
 ALLOWED_HOSTS = ['desparchado.co']
 
 EMAIL_USE_TLS = True
-EMAIL_FROM = 'no-reply@desparchado.co'
+DEFAULT_FROM_EMAIL = 'no-reply@desparchado.co'
 
 AXES_IPWARE_META_PRECEDENCE_ORDER = [
     'X-Real-IP',

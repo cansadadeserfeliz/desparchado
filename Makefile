@@ -27,6 +27,9 @@ collectstatic:
 migrate:
 	docker exec -it $(web_container_name) sh -c "cd app && python3 manage.py migrate"
 
+compilemessages:
+	docker exec -it $(web_container_name) sh -c "cd app && django-admin compilemessages -l es"
+
 sh-frontend:
 	docker exec -it $(frontend_container_name) sh
 

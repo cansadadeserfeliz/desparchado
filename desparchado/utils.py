@@ -99,7 +99,7 @@ def send_admin_notification(request, obj, form, change):
         send_mail(
             f'{purpose} {model} "{obj}" by {request.user}',
             f'https://desparchado.co{obj.get_absolute_url()}',
-            settings.EMAIL_FROM,
+            settings.DEFAULT_FROM_EMAIL,
             settings.EMAIL_ADMIN_USERS,
             fail_silently=True,
         )
@@ -126,7 +126,7 @@ def send_notification(request, obj, model_name, created):
         send_mail(
             f'{purpose} {model_name} "{obj}" by {request.user}',
             f'https://desparchado.co{obj.get_absolute_url()}',
-            settings.EMAIL_FROM,
+            settings.DEFAULT_FROM_EMAIL,
             settings.EMAIL_ADMIN_USERS,
             fail_silently=True,
         )
