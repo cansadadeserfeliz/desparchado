@@ -4,7 +4,6 @@
 *.swp
 *.swn
 *.log
-*.mo
 
 # Coverage reports
 htmlcov/

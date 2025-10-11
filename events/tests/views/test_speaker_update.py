@@ -9,7 +9,7 @@ def test_non_authenticated_user_cannot_update_speaker(django_app, speaker):
     response = django_app.get(
         reverse(VIEW_NAME, args=[speaker.slug]), status=302,
     )
-    assert reverse('users:login') in response.location
+    assert reverse('account_login') in response.location
 
 
 @pytest.mark.django_db
