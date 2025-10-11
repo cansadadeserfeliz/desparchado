@@ -18,13 +18,6 @@ export const attachOnLoadListener = (registry: Map<string, ComponentCtor>): void
     // Update on resize
     window.addEventListener('resize', updateHeaderHeight);
 
-    window.addEventListener('button:action:logout', () => {
-      const form = document.getElementById('logout-form');
-      if (form instanceof HTMLFormElement) {
-        form.submit();
-      }
-    });
-
     initComponents(document, registry);
   });
 };
