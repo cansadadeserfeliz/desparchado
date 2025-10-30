@@ -31,7 +31,8 @@ class HomeView(TemplateView):
             )
 
         context['featured_events'] = featured_events.select_related('place')
-        context['featured_specials'] = Special.objects.filter(
+        context["featured_specials"] = Special.objects.filter(
             is_featured_on_homepage=True,
+            is_published=True,
         )
         return context
