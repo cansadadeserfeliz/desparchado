@@ -9,6 +9,7 @@ class SpecialAdmin(admin.ModelAdmin):
         'title',
         'slug',
         'is_published',
+        'is_featured_on_homepage',
     ]
 
     raw_id_fields = ('related_events',)

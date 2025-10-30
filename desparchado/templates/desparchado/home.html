@@ -120,5 +120,12 @@
       </div>
     </div>
   </div>
+{% for featured_special in featured_specials %}
+  <div>
+    <a href="{{ featured_special.get_absolute_url }}" aria-label="{{ featured_special.title }}, {{ featured_special.subtitle }}">
+      <img src="{{ featured_special.get_image_url }}" aria-hidden="true" role="presentation">
+    </a>
+  </div>
+{% endfor %}
 
 {% endblock content %}

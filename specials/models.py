@@ -23,6 +23,10 @@ class Special(TimeStampedModel):
         'Está publicado',
         default=True,
     )
+    is_featured_on_homepage = models.BooleanField(
+        'Está destacado en home',
+        default=False,
+    )
     image = models.ImageField(
         'Background Image',
         blank=True,
