@@ -1,6 +1,7 @@
 from django.views.generic import TemplateView
 
 from events.models import Event
+from specials.models import Special
 
 
 class HomeView(TemplateView):
@@ -30,4 +31,7 @@ class HomeView(TemplateView):
             )
 
         context['featured_events'] = featured_events.select_related('place')
+        context['featured_specials'] = Special.objects.filter(
+            is_featured_on_homepage=True,
+        )
         return context
