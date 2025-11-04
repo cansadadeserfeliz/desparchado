@@ -6,7 +6,7 @@ from .base import *  # noqa: F403
 
 DEBUG = False
 
-ALLOWED_HOSTS = ['desparchado.co']
+ALLOWED_HOSTS = ['desparchado.co', '143.244.159.42']
 
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'no-reply@desparchado.co'
