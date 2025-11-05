@@ -16,6 +16,10 @@ theme:
     - navigation.instant
     - navigation.sections
     - content.code.annotate
+  custom_dir: docs/overrides
+extra:
+  analytics:
+    provider: custom
 repo_url: https://github.com/cansadadeserfeliz/desparchado
 nav:
   - Home: index.md
