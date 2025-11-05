@@ -1,5 +1,5 @@
 site_name: Desparchado
-docs_dir: .
+docs_dir: docs
 theme:
   name: material
   palette:
