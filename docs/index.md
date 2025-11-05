@@ -6,7 +6,7 @@ This documentation follows the [Diátaxis framework](https://diataxis.fr/) — d
 
 ---
 
-### Quick Links
+## Quick Links
 
 - [Tutorials](tutorials/index.md)
 - [How-To Guides](how-to-guides/index.md)

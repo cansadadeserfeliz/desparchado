@@ -2,12 +2,18 @@ site_name: Desparchado
 docs_dir: docs
 theme:
   name: material
+  logo: assets/logo.svg
+  favicon: assets/logo.svg
+  language: en
   palette:
     scheme: slate
-    primary: deep purple
+    primary: orange
     accent: amber
+  font:
+    text: Roboto
+    code: Roboto Mono
   features:
-    - navigation.tabs
+    - navigation.instant
     - navigation.sections
     - content.code.annotate
 nav:
@@ -17,6 +23,6 @@ nav:
   - How-To Guides:
       - Overview: how-to-guides/index.md
   - Reference:
-      - Overview: reference/index.md
+      - Overview: references/index.md
   - Explanations:
       - Overview: explanations/index.md
