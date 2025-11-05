@@ -88,7 +88,7 @@
       <p class="event-details__title text-heading-1">{% translate 'Agéndate' %}</p>
       <form id="event_search_form" method="get" action="{{ request.path }}">
         <div class="event-details__event-list-search">
-          <input class="text-input" type="text" class="form-control" name="q" placeholder="Buscar eventos..." value="{{ search_string }}">
+          <input class="text-input" type="text" name="q" placeholder="Buscar eventos..." value="{{ search_string }}">
           <div
             class="event-details__filter-action-item"
             data-vue-component="button"
