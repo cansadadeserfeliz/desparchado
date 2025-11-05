@@ -86,7 +86,7 @@
   <section class="event-details__event-list">
     <div class="event-details__event-list-actions">
       <p class="event-details__title text-heading-1">{% translate 'Agéndate' %}</p>
-      <form id="event_search_form" method="get" action="{% url 'events:event_list' %}">
+      <form id="event_search_form" method="get" action="{{ request.path }}">
         <div class="event-details__event-list-search">
           <input class="text-input" type="text" class="form-control" name="q" placeholder="Buscar eventos..." value="{{ search_string }}">
           <div
