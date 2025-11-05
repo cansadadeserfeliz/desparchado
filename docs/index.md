@@ -2,7 +2,7 @@
 
 **Desparchado** is a Django-based cultural discovery platform for literary, artistic and social events in Colombia.
 
-This documentation follows the [Diátaxis framework](https://diataxis.fr/) — divided into **Tutorials**, **How-to Guides**, **Reference** and **Explanations**.
+This documentation follows the [Diátaxis framework](https://diataxis.fr/) — divided into **Tutorials**, **How-to Guides**, **References** and **Explanations**.
 
 ---
 
