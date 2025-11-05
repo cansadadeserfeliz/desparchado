@@ -1,5 +1,22 @@
 site_name: Desparchado
 docs_dir: .
+theme:
+  name: material
+  palette:
+    scheme: slate
+    primary: deep purple
+    accent: amber
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - content.code.annotate
 nav:
   - Home: index.md
-theme: readthedocs
+  - Tutorials:
+      - Overview: tutorials/index.md
+  - How-To Guides:
+      - Overview: how-to-guides/index.md
+  - Reference:
+      - Overview: reference/index.md
+  - Explanations:
+      - Overview: explanations/index.md
