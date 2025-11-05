@@ -41,4 +41,8 @@ def search_events(
         | Q(search=SearchQuery(search_str)),
     )
 
-    return queryset
+    # Ensure search results are unique:
+    # Including speakers__name in the search vector causes PostgreSQL
+    # to emit one row per matching speaker.
+    # Without .distinct() the service now returns duplicated Event rows.
+    return queryset.distinct()
