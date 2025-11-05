@@ -1,14 +1,7 @@
 {% extends 'layout/base.html' %}
-{% load i18n static paginator_tags desparchado_tags django_vite %}
+{% load i18n static paginator_tags desparchado_tags %}
 
 {% block title %}{{ special.title }} en Desparchado.co{% endblock %}
-
-{% block bootstrap_css %}{% endblock %}
-
-{% block extra_scripts %}
-  {% vite_asset 'desparchado/frontend/scripts/event-details.ts' %}
-{% endblock extra_scripts %}
-
 
 {% block meta %}
   <meta property="og:title" content="{{ special.title }} en Desparchado.co">
@@ -19,122 +12,76 @@
   <meta name="twitter:description" content="{{ special.subtitle }}">
 {% endblock %}
 
-{% block content %}
-  <div class="event-details__additional event-details__additional--main-image" aria-hidden="true" role="presentation">
-    <div class="event-details__additional-children event-details__specials">
-      <div class="event-details__special-item">
-        <a class="event-details__special-banner-anchor">
-          <img class="event-details__special-banner" src="{{ special.get_image_url }}" aria-hidden="true" role="presentation">
-        </a>
+{% block subheader %}
+<section
+  class="p-5 text-center bg-image page-img-title"
+  style="
+    background-image: url('{{ special.get_image_url }}');
+    height: 400px;
+  "
+>
+  <div class="mask" style="background-color: rgba(0, 0, 0, 0.4);">
+    <div class="d-flex justify-content-center align-items-center h-100">
+      <div class="text-white">
+        <h1 class="mb-3 display-3 title">{{ special.title }}</h1>
+        <h4 class="mb-3 subtitle">{{ special.subtitle }}</h4>
       </div>
     </div>
   </div>
+</section>
+{% endblock subheader %}
 
-  <section class="event-details">
-    <div class="event-details__container">
-      <div class="event-details__details">
-        <div class="event-details__header">
-          <div class="event-details__title-section">
-            <div>
-              <p class="event-details__title text-heading-3">{{ special.title }}</p>
-              <p class="event-details__title text-heading-5">{{ special.subtitle }}</p>
-            </div>
-          </div>
-        </div>
-        <div class="event-details__content">
-          <div class="text-body-md event-details__description">
-            <span class="text-body-md text-bold">
-              {% translate 'Sobre el evento' %}:
-              </br></br>
-            </span>
-            {{ special.description|safe }}
-          </div>
-          <div class="event-details__disclaimer">
-            <div
-              class="event-details__disclaimer-icon"
-              data-vue-component="icon"
-              data-vue-prop-id="info"
-              data-vue-prop-size="large"
-            >
-            </div>
-            <p class="text-caption event-details__disclaimer-text" >
-              {% blocktranslate %}
-                Desparchado.co no organiza los eventos que se muestran en la plataforma.
-                Somos un servicio de divulgación que recopila eventos culturales de diversas fuentes y
-                las vuelve accesibles para ti. Si necesitas información o confirmación te recomendamos
-                que contactes directamente a los organizadores.
-              {% endblocktranslate %}
-            </p>
-          </div>
-        </div>
-      </div>
-      <div class="event-details__actions excluded-from-mobile">
-        <div
-          class="event-details__action"
-          data-vue-component="button"
-          data-vue-prop-type="tertiary"
-          data-vue-prop-name="{% translate 'Ver mapa' %}"
-          data-vue-prop-icon="pin-40"
-          data-vue-prop-padding="balanced"
-          data-vue-prop-link="#event-place-map"
-        >
-        </div>
-      </div>
+{% block content %}
+
+  <section class="special-detail" id="special_detail">
+
+    <div class="text">
+      {{ special.description|safe }}
     </div>
-  </section>
 
-  <section class="event-details__event-list">
-    <div class="event-details__event-list-actions">
-      <p class="event-details__title text-heading-1">{% translate 'Agéndate' %}</p>
-      <form id="event_search_form" method="get" action="{% url 'events:event_list' %}">
-        <div class="event-details__event-list-search">
-          <input class="text-input" type="text" class="form-control" name="q" placeholder="Buscar eventos..." value="{{ search_string }}">
-          <div
-            class="event-details__filter-action-item"
-            data-vue-component="button"
-            data-vue-prop-type="secondary"
-            data-vue-prop-padding="condensed"
-            data-vue-prop-label="{% translate 'Buscar' %}"
-            data-vue-prop-is-action-submit="true"
-          >
-          </div>
-        </div>
-      </form>
-      <div class="chip-group">
-      {% for event_date in event_dates %}
-        <a class="chip {% if event_date == selected_date %}chip--selected{% endif %}" role="button" href="?{{ selected_date_param }}={{ event_date|date:"Y-m-d" }}">
+    <div class="d-flex justify-content-start flex-wrap gap-2 my-2">
+    {% for event_date in event_dates %}
+      <div>
+        <a class="btn {% if event_date == selected_date %}btn-primary{% else %}btn-secondary{% endif %}" role="button" href="?{{ selected_date_param }}={{ event_date|date:"Y-m-d" }}">
           {{ event_date|date:'D, b j' }}{% if today.year != event_date.year %} {{ event_date|date:'Y' }}{% endif %}
         </a>
-      {% endfor %}
-      </div>
-    </div>
-
-
-    {% for event in events %}
-      <div
-        data-vue-component="event-card-full-width"
-        data-vue-prop-tag="div"
-        data-vue-prop-location="{{ event.place.name }}"
-        data-vue-prop-description="{{ event.description }}"
-        data-vue-prop-title="{{ event.title }}"
-        data-vue-prop-day="{{ event.event_date|date:'j M' }}"
-        data-vue-prop-time="{{ event.event_date|date:'H:i' }}"
-        data-vue-prop-image-url="{{ event.get_image_url }}"
-        data-vue-prop-link="{{ event.get_absolute_url }}"
-        data-vue-prop-date-copy="{{ event.event_date|date:'l' }}"
-        data-vue-prop-speakers='[{% with speakers=event.speakers.all %}{% if speakers %}{% for speaker in speakers %}{"imageUrl": "{{ speaker.get_image_url|escapejs }}", "link": "{{ speaker.get_absolute_url|escapejs }}", "name": "{{ speaker.name|escapejs }}" }{% if not forloop.last %}, {% endif %}{% endfor %}{% endif %}{% endwith %}]'
-      >
-      </div>
-    {% empty %}
-      <div class="events-section__empty text-heading-5">
-        <p>{% translate 'No encontramos resultados para su búsqueda' %}</p>
-        <a href="{{ request.path }}">{% translate 'Limpiar búsqueda' %}</a>
       </div>
     {% endfor %}
+    </div>
 
-    <section class="container justify-content-center">
-      {% get_simple_pagination %}
-    </section>
+  <div class="row justify-content-center align-items-center my-3">
+    <form id="event_search_form" method="get" action="{% url 'events:event_list' %}">
+      <div class="input-group mb-3">
+        <input type="text" class="form-control" name="q" placeholder="Buscar eventos..." value="{{ search_string }}">
+        <span class="input-group-btn">
+          <button class="btn btn-default" type="submit"><i class="fa fa-search"></i></button>
+        </span>
+      </div>
+    </form>
+  </div>
+
+  <div class="generic-detail__events-list-full-width">
+  {% for event in events %}
+    <div
+      data-vue-component="event-card-full-width"
+      data-vue-prop-tag="div"
+      data-vue-prop-location="{{ event.place.name }}"
+      data-vue-prop-description="{{ event.description }}"
+      data-vue-prop-title="{{ event.title }}"
+      data-vue-prop-day="{{ event.event_date|date:'j M' }}"
+      data-vue-prop-time="{{ event.event_date|date:'H:i' }}"
+      data-vue-prop-image-url="{{ event.get_image_url }}"
+      data-vue-prop-link="{{ event.get_absolute_url }}"
+      data-vue-prop-date-copy="{% if today.year == event.event_date.year %}{{ event.event_date|natural_day }}{% else %}{{ event.event_date|date:'Y' }}{% endif %}"
+      data-vue-prop-speakers='[{% with speakers=event.speakers.all %}{% if speakers %}{% for speaker in speakers %}{"imageUrl": "{{ speaker.get_image_url|escapejs }}", "link": "{{ speaker.get_absolute_url|escapejs }}", "name": "{{ speaker.name|escapejs }}" }{% if not forloop.last %}, {% endif %}{% endfor %}{% endif %}{% endwith %}]'
+    >
+    </div>
+  {% endfor %}
+  </div>
+
+  <section class="container justify-content-center">
+    {% get_simple_pagination %}
+  </section>
 
   </section>
 
