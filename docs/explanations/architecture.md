@@ -17,7 +17,7 @@ El servidor [NGINX](https://nginx.org/) es el punto de entrada de todas las soli
 
 ## 🐳 Contenedores
 
-La aplicación se organiza en varios **contenedores de Docker**, cada une con una función específica:
+La aplicación se organiza en varios **contenedores de Docker**, cada uno con una función específica:
 
 1. Contenedor de la aplicación web ([**Django**](https://www.djangoproject.com/) + [UWSGI](https://en.wikipedia.org/wiki/UWSGI))
     * Ejecuta el servidor Django.
