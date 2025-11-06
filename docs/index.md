@@ -12,6 +12,6 @@ Esta documentación sigue el marco [Diátaxis](https://diataxis.fr/), dividido e
 
  **Explicaciones** — comprenda el porqué de las decisiones y la arquitectura.
 
-## Enlaces Rápidas
+## Enlaces Rápidos
 
 - [Crear y publicar un evento](tutorials/create-event.md)
