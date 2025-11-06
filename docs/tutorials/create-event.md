@@ -67,8 +67,8 @@ Después de crear el evento:
 - Escriba una descripción amigable, breve e inclusiva.
 - Evita subir imágenes con texto o logotipos difíciles de leer.
 - Verifica los enlaces externos antes de publicar.
-  Si el evento pertenece a un **festival** o **feria**, puedes contactar al equipo administrador a través del *
-  *formulario de contacto** del sitio.
+  Si el evento pertenece a un **festival** o **feria**, puedes contactar al equipo administrador a través del
+  **formulario de contacto** del sitio.
   Elles pueden ayudarte a **crear un “evento especial”** que agrupe varios eventos relacionados dentro del mismo
   festival o actividad principal.
   Así, todos los eventos individuales aparecerán conectados a un mismo evento grande.
