@@ -1,4 +1,4 @@
-## Bienvenides a Desparchado
+# Desparchado
 
 Desparchado es una plataforma de descubrimiento cultural, basada en Django, que conecta a las personas con eventos literarios, artísticos y sociales en Colombia.
 
