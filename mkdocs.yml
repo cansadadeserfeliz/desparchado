@@ -1,10 +1,11 @@
 site_name: Desparchado
+repo_url: https://github.com/cansadadeserfeliz/desparchado
 docs_dir: docs
 theme:
   name: material
   logo: assets/logo.svg
   favicon: assets/logo.svg
-  language: en
+  language: es
   palette:
     scheme: slate
     primary: orange
@@ -17,17 +18,20 @@ theme:
     - navigation.sections
     - content.code.annotate
   custom_dir: docs/overrides
+nav:
+  - Inicio: index.md
+  - Eventos:
+      - Tutoriales:
+          - tutorials/create-event.md
+  - Desarrolladores:
+      - Explicaciones:
+          - explanations/architecture.md
+markdown_extensions:
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
 extra:
   analytics:
     provider: custom
-repo_url: https://github.com/cansadadeserfeliz/desparchado
-nav:
-  - Home: index.md
-  - Tutorials:
-      - Overview: tutorials/index.md
-  - How-To Guides:
-      - Overview: how-to-guides/index.md
-  - Reference:
-      - Overview: references/index.md
-  - Explanations:
-      - Overview: explanations/index.md
