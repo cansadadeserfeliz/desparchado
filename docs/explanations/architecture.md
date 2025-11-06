@@ -19,7 +19,7 @@ El servidor [NGINX](https://nginx.org/) es el punto de entrada de todas las soli
 
 La aplicación se organiza en varios **contenedores de Docker**, cada une con una función específica:
 
-1. Contenedor de la aplicación web ([**Django**](https://www.djangoproject.com/) + https://en.wikipedia.org/wiki/UWSGI)
+1. Contenedor de la aplicación web ([**Django**](https://www.djangoproject.com/) + [UWSGI](https://en.wikipedia.org/wiki/UWSGI))
     * Ejecuta el servidor Django.
     * Usa **django-vite** para integrar Vite en las plantillas Django.
     * Maneja **el ruteo (URLs)**, lógica del servidor y renderiza vistas con **plantillas HTML**.
