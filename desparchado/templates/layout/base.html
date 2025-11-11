@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-{% load i18n django_vite %}
+{% load i18n django_vite static %}
 <html lang="es">
   <head>
     <meta charset="utf-8">
@@ -12,7 +12,12 @@
     <meta name="description" content="Eventos culturales y educativos en Colombia: programación de conciertos, festivales, ferias, congresos, teatro, arte, conferencias, cine alternativo">
     <meta name="keywords" content="Eventos Bogotá, Eventos Cali, Eventos Medellín, Eventos Cartagena, Conciertos, Talleres, Cursos, agenda cultural, programación, cine arte, libros">
     <meta name="news_keywords" content="Eventos" />
-    <link rel="icon" href="https://desparchado.co/favicon.ico">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="icon" type="image/png" href="{% static 'images/favicon-96x96.png' %}" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="{% static 'images/favicon.svg' %}" />
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'images/apple-touch-icon.png' %}" />
+    <link rel="manifest" href="{% static 'images/site.webmanifest' %}" />
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css?family=Grand+Hotel" rel="stylesheet">
@@ -65,7 +70,7 @@
   {% endblock %}
 
     {# Extra CSS #}
-    {% block extra_css %}{% endblock extra_css %}
+    {% block extra_css %}{% endblock %}
 
     <!-- jQuery -->
     <script
@@ -102,8 +107,9 @@
     {# Extra JS #}
     {% block javascript %}{% endblock javascript %}
 
+  {% if ANALYTICS_ENABLED %}
     {# Umami Open Source Analytics #}
     <script defer src="https://cloud.umami.is/script.js" data-website-id="1ccee07e-d5e4-4c95-a986-3b1569f29d9b"></script>
-
+  {% endif %}
   </body>
 </html>

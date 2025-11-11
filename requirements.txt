@@ -15,13 +15,15 @@ pytest>=8.3.5,<8.4
 pytest-cov>=6.0.0,<6.1
 python-dateutil>=2.9.0,<3
 python-dotenv>=1.0.1,<1.1
-sentry-sdk>=2.22.0,<2.23
+sentry-sdk[django]>=2.35.0,<3
 
 # Django Libs
+django-allauth>=65.12.0,<65.13
 django-autocomplete-light>=3.12.1,<3.13
 django-autoslug>=1.9.9,<1.10
-django-axes>=7.0.2,<7.1
+django-axes[ipware]>=7.0.2,<7.1
 crispy-bootstrap5==2024.10
+django-cleanup>=9.0.0,<10.0
 django-crispy-forms>=2.3,<2.4
 django-filter>=25.1,<26
 django-debug-toolbar>=5.0.1,<5.1

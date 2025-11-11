@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (suggestionInput) {
       const feedback = document.createElement('span');
       feedback.className = 'suggestions-feedback text-warning';
-      feedback.textContent = suggestionMessage;
+      feedback.innerHTML = suggestionMessage;
       suggestionInput.insertAdjacentElement('afterend', feedback);
     }
   }
@@ -40,16 +40,11 @@ document.addEventListener('DOMContentLoaded', () => {
       const url = showSuggestionInput.dataset.suggestionsUrl;
       const query = showSuggestionInput.value;
 
-      console.log(showSuggestionInput);
-      console.log(url);
-      console.log(query);
-
       if (!url) return;
 
       fetch(`${url}?query=${encodeURIComponent(query)}`)
         .then(response => response.json())
         .then((data: { suggestion?: string }) => {
-          console.log(data.suggestion);
           hideSuggestions();
           if (data.suggestion) {
             showSuggestion(data.suggestion);

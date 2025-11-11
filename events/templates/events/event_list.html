@@ -68,52 +68,32 @@
         </fieldset>
       </form>
     </div>
+    {% include 'events/_event_list_pagination.html' with is_paginated=is_paginated page_obj=page_obj pagination_query_params=pagination_query_params %}
+
+    {% for event in events %}
+      <div
+        data-vue-component="event-card-full-width"
+        data-vue-prop-tag="div"
+        data-vue-prop-location="{{ event.place.name }}"
+        data-vue-prop-description="{{ event.description }}"
+        data-vue-prop-title="{{ event.title }}"
+        data-vue-prop-day="{{ event.event_date|date:'j M' }}"
+        data-vue-prop-time="{{ event.event_date|date:'H:i' }}"
+        data-vue-prop-image-url="{{ event.get_image_url }}"
+        data-vue-prop-link="{{ event.get_absolute_url }}"
+        data-vue-prop-date-copy="{{ event.event_date|date:'l' }}"
+        data-vue-prop-speakers='[{% with speakers=event.speakers.all %}{% if speakers %}{% for speaker in speakers %}{"imageUrl": "{{ speaker.get_image_url|escapejs }}", "link": "{{ speaker.get_absolute_url|escapejs }}", "name": "{{ speaker.name|escapejs }}" }{% if not forloop.last %}, {% endif %}{% endfor %}{% endif %}{% endwith %}]'
+      >
+      </div>
+    {% empty %}
+      <div class="events-section__empty text-heading-5">
+        <p>{% translate 'No encontramos resultados para su búsqueda' %}</p>
+        <a href="{{ request.path }}">{% translate 'Limpiar búsqueda' %}</a>
+      </div>
+    {% endfor %}
+
+    {% include 'events/_event_list_pagination.html' with is_paginated=is_paginated page_obj=page_obj pagination_query_params=pagination_query_params %}
   </div>
 
-
-  {% for event in events %}
-    {% with speakers=event.speakers.all %}
-      {% if speakers %}
-        <div class="speakers">
-          <div class="speakers__avatar-container">
-            {% for speaker in speakers %}
-              <a href="{{ speaker.get_absolute_url }}">
-                <img class="speakers__avatar"
-                      src="{{ speaker.get_image_url }}"
-                      alt="{{ speaker.name }}"
-                      loading="lazy" />
-              </a>
-            {% endfor %}
-          </div>
-          <p class="text-heading-5">
-            {% for speaker in speakers %}
-              {{ speaker.name }}{% if not forloop.last %}{% if forloop.revcounter == 2 %} {% translate 'y' %} {% else %}, {% endif %}{% endif %}
-            {% endfor %}
-          </p>
-        </div>
-      {% endif %}
-    {% endwith %}
-
-    <div
-      data-vue-component="event-card-full-width"
-      data-vue-prop-tag="div"
-      data-vue-prop-location="{{ event.place.name }}"
-      data-vue-prop-description="{{ event.description }}"
-      data-vue-prop-title="{{ event.title }}"
-      data-vue-prop-day="{{ event.event_date|date:'j M' }}"
-      data-vue-prop-time="{{ event.event_date|date:'H:i' }}"
-      data-vue-prop-image-url="{{ event.get_image_url }}"
-      data-vue-prop-link="{{ event.get_absolute_url }}"
-      data-vue-prop-date-copy="{{ event.event_date|date:'l' }}"
-    >
-    </div>
-  {% empty %}
-    <div class="events-section__empty text-heading-5">
-      <p>{% translate 'No encontramos resultados para su búsqueda' %}</p>
-      <a href="{{ request.path }}">{% translate 'Limpiar búsqueda' %}</a>
-    </div>
-  {% endfor %}
-
-  {% include 'events/_event_list_pagination.html' with is_paginated=is_paginated page_obj=page_obj pagination_query_params=pagination_query_params %}
 
 {% endblock content %}

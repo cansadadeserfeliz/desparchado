@@ -4,7 +4,6 @@
 *.swp
 *.swn
 *.log
-*.mo
 
 # Coverage reports
 htmlcov/
@@ -21,6 +20,7 @@ environment.json
 .tags_sorted_by_file
 .env
 .vite
+desparchado/settings/local.py
 
 # Folders
 .docker_pip_cache

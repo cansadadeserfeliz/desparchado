@@ -9,7 +9,7 @@ def test_does_not_allow_update_events_not_authenticated_users(django_app, event)
     response = django_app.get(
         reverse(VIEW_NAME, args=[event.id]), status=302,
     )
-    assert reverse('users:login') in response.location
+    assert reverse('account_login') in response.location
 
 
 @pytest.mark.django_db

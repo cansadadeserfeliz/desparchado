@@ -1,0 +1,151 @@
+@use '@styles/forms';
+@use '@styles/variables' as *;
+
+$color-input-bg: $color-gray-200;
+$color-input-focus: $color-gray-300;
+
+// 🧩 Title section
+h1, h2 {
+  margin-top: 26px;
+  text-align: center;
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+  color: $color-layout-interactive-background;
+
+  + p {
+    text-align: center;
+    font-size: 1rem;
+    color: $color-layout-foreground;
+    margin-bottom: 2.5rem;
+
+    a {
+      color: $color-layout-interactive-background;
+      text-decoration: underline;
+      font-weight: 500;
+
+      &:hover {
+        text-decoration: none;
+      }
+    }
+  }
+}
+
+h2 {
+  font-size: 1.4rem;
+  margin-top: 4rem;
+  margin-bottom: 1.5rem;
+}
+
+// 📝 Login form
+form {
+  max-width: 480px;
+  margin: 0 auto 2rem;
+  padding: 0 2rem;
+  background-color: $color-layout-background;
+
+  p {
+    margin-bottom: 2rem;
+  }
+
+  label {
+    display: block;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.6rem;
+  }
+
+  input {
+    &[type="text"],
+    &[type="email"],
+    &[type="password"] {
+      width: 100%;
+      font-size: 1rem;
+      padding: 1rem 1.25rem;
+      border: none;
+      border-radius: 0.3rem;
+      background-color: $color-input-bg;
+      color: $color-layout-foreground;
+      outline: none;
+      transition: background-color 0.2s ease;
+
+      &::placeholder {
+        color: $color-layout-lighter-foreground;
+      }
+
+      &:focus {
+        background-color: $color-input-focus;
+      }
+    }
+
+    &[type="checkbox"] {
+      width: 1rem;
+      height: 1rem;
+      accent-color: $color-layout-interactive-background;
+      margin-right: 0.4rem;
+      vertical-align: middle;
+    }
+  }
+
+  p {
+    margin-bottom: 1.5rem;
+
+    label {
+      display: inline-block;
+      font-size: 1rem;
+      font-weight: 600;
+      margin-left: 0.5rem;
+      color: $color-layout-interactive-background;
+
+      strong {
+        font-weight: 700;
+        margin-left: 0.3rem;
+      }
+    }
+
+    input[type="radio"] {
+      accent-color: $color-layout-interactive-background;
+      vertical-align: middle;
+      width: 1rem;
+      height: 1rem;
+    }
+  }
+
+  .helptext {
+    display: block;
+    margin-top: 0.5rem;
+    font-size: 0.95rem;
+
+    a {
+      color: $color-layout-foreground;
+      text-decoration: underline;
+
+      &:hover {
+        text-decoration: none;
+      }
+    }
+  }
+
+  button[type="submit"] {
+    display: block;
+    width: 100%;
+    margin-bottom: 0.9rem;
+    padding: 1rem 1.25rem;
+    background-color: $color-layout-interactive-background;
+    color: $color-layout-background;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 0.3rem;
+    cursor: pointer;
+    transition: background-color 0.25s ease;
+
+    &:hover {
+      background-color: $color-layout-foreground;
+    }
+  }
+
+  @media (max-width: 500px) {
+    padding: 1.5rem;
+  }
+}

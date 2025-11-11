@@ -6,11 +6,10 @@ from .base import *  # noqa: F403
 
 DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['desparchado.co', '143.244.159.42']
 
 EMAIL_USE_TLS = True
-EMAIL_ADMIN_USERS = ['desparchado.co@gmail.com']
-EMAIL_FROM = 'no-reply@desparchado.co'
+DEFAULT_FROM_EMAIL = 'no-reply@desparchado.co'
 
 AXES_IPWARE_META_PRECEDENCE_ORDER = [
     'X-Real-IP',
@@ -41,4 +40,8 @@ sentry_sdk.init(
     # Set profile_lifecycle to "trace" to automatically
     # run the profiler on when there is an active transaction
     profile_lifecycle="trace",
+    # Enable logs to be sent to Sentry
+    enable_logs=True,
 )
+
+ANALYTICS_ENABLED = True

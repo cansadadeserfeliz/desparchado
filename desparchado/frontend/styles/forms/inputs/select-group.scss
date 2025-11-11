@@ -15,8 +15,6 @@
   display: flex;
 
   &__item {
-    @extend .text-body-highlight;
-
     border-radius: 100rem;
     position: relative;
 
@@ -40,18 +38,43 @@
       }
     }
 
+    &::before {
+      content: "v";
+      color: inherit;
+      position: absolute;
+      top: 50%;
+      right: 1rem;
+      transform: translateY(-50%) scaleX(1.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: cursive;
+      pointer-events: none;
+
+      @media (min-width: map.get($breakpoints, m)) {
+        padding: 0.75rem 1.5rem;
+      }
+    }
+
     select {
+      @extend .text-body-highlight;
+
       font-weight: $f-weight-semibold;
       background: none;
       border: none;
-      padding: 0.75rem 1.5rem;
-      padding-right: 2rem;
+      padding: 0.5rem 1rem;
+      padding-right: 1.3rem;
       -moz-appearance:none;
       -webkit-appearance:none;
       appearance:none;
       border-radius: 100rem;
       cursor: pointer;
       min-height: 2.75rem;
+
+      @media (min-width: map.get($breakpoints, m)) {
+        padding: 0.75rem 1.5rem;
+        min-width: 9ch;
+      }
 
       &:focus-visible {
         outline: 0.125rem solid $color-dp-orange-300;
@@ -61,6 +84,10 @@
 
     &--emphasis {
       background: $color-layout-interactive-background;
+
+      &::before {
+         color: $color-layout-background; 
+      }
 
       select {
         color: $color-layout-background;

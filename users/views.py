@@ -1,13 +1,10 @@
-from django.contrib.auth import authenticate, get_user_model
+from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpResponseRedirect
-from django.urls import reverse
 from django.utils import timezone
-from django.views.generic import DetailView, FormView, ListView
+from django.utils.translation import gettext as _
+from django.views.generic import DetailView, ListView
 
 from events.models import Event
-
-from .forms import RegisterForm
 
 User = get_user_model()
 
@@ -21,45 +18,38 @@ class UserDetailView(LoginRequiredMixin, DetailView):
         return self.request.user
 
     def get_context_data(self, **kwargs):
+        """Extend the template context."""
         context = super().get_context_data(**kwargs)
 
         added_events_count = (
             Event.objects.filter(created_by=self.object).published().count()
         )
-        context['added_events_count'] = added_events_count
+        context["added_events_count"] = added_events_count
+
+        creation_quota_error_message = None
+        quota_reached_model_names = []
+
+        user_settings = self.object.settings
+        if user_settings.reached_event_creation_quota():
+            quota_reached_model_names.append(_("eventos"))
+        if user_settings.reached_place_creation_quota():
+            quota_reached_model_names.append(_("lugares"))
+        if user_settings.reached_organizer_creation_quota():
+            quota_reached_model_names.append(_("organizadores"))
+        if user_settings.reached_speaker_creation_quota():
+            quota_reached_model_names.append(_("presentadores"))
+
+        if quota_reached_model_names:
+            creation_quota_error_message = _("Has alcanzado tu cuota de creación de ")
+            creation_quota_error_message += ", ".join(quota_reached_model_names)
+            creation_quota_error_message += "."
+
+        context["creation_quota_error_message"] = creation_quota_error_message
+
         days_on_page = (timezone.now() - self.object.date_joined).days
         context['days_on_page'] = days_on_page
 
         return context
-
-
-class UserCreationFormView(FormView):
-    form_class = RegisterForm
-    template_name = 'registration/register_form.html'
-
-    def dispatch(self, *args, **kwargs):
-        if self.request.user.is_authenticated:
-            return HttpResponseRedirect(
-                reverse(
-                    'users:user_detail',
-                ),
-            )
-        return super().dispatch(*args, **kwargs)
-
-    def form_valid(self, form):
-        user = User.objects.create_user(
-            form.cleaned_data['username'],
-            password=form.cleaned_data['password1'],
-            is_active=True,
-            first_name=form.cleaned_data['first_name'],
-            email=form.cleaned_data['email'],
-        )
-        authenticate(
-            self.request,
-            username=user.username,
-            password=form.cleaned_data['password1'],
-        )
-        return HttpResponseRedirect(reverse('users:login'))
 
 
 class UserAddedEventsListView(LoginRequiredMixin, ListView):
@@ -67,10 +57,9 @@ class UserAddedEventsListView(LoginRequiredMixin, ListView):
     paginate_by = 30
     template_name = 'auth/user_added_events_list.html'
     context_object_name = 'events'
-    ordering = 'modified'
 
     def get_queryset(self):
-        return Event.objects.filter(created_by=self.request.user)
+        return Event.objects.filter(created_by=self.request.user).order_by('-modified')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

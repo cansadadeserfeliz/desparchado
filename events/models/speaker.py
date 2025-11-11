@@ -19,6 +19,7 @@ class Speaker(TimeStampedModel):
     created_by = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.DO_NOTHING,
+        related_name="created_speakers",
     )
     editors = models.ManyToManyField(
         settings.AUTH_USER_MODEL,

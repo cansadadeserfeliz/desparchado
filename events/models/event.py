@@ -102,7 +102,7 @@ class Event(TimeStampedModel):
     )
 
     is_featured_on_homepage = models.BooleanField(
-        'Está destacado en la página principal',
+        'Está destacado en home',
         default=False,
     )
 
@@ -115,6 +115,11 @@ class Event(TimeStampedModel):
         'Está aprobado',
         default=True,
         help_text='Campo de uso exclusivo para el administrador del sitio',
+    )
+    is_hidden = models.BooleanField(
+        'Está oculto en home',
+        default=False,
+        help_text='Used for bulk event syncs for book fairs and festivals',
     )
 
     created_by = models.ForeignKey(
@@ -129,9 +134,9 @@ class Event(TimeStampedModel):
         related_name='can_edit_events',
     )
 
-    filbo_id = models.CharField(
-        verbose_name='ID del FILBo',
-        max_length=10,
+    source_id = models.CharField(
+        verbose_name='Event source ID',
+        max_length=50,
         null=True,
         blank=True,
         unique=True,
@@ -161,8 +166,13 @@ class Event(TimeStampedModel):
         if self.image:
             return self.image.url
 
-        if self.filbo_id and self.event_date.year == 2025:
+        if self.source_id and self.source_id.startswith('FLCM2025_'):
+            # Fiesta del Libro y la Cultura de Medellín 2025
+            return static("images/fiesta-del-libro-y-la-cultura-2025.webp")
+        if self.source_id and self.source_id.startswith('FILBO2025_'):
             return static('images/filbo-2025.jpg')
+        if self.source_id and self.source_id.startswith('PEREIRAFIL_25'):
+            return static("images/pereirafil-2025.jpg")
         return static('images/default_event_image.jpg')
 
     def get_absolute_url(self):

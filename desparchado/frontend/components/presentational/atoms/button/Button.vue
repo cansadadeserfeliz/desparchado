@@ -2,8 +2,10 @@
   <component
     :is="link ? 'a' : 'button'"
     :href="link"
+    :target="link && props.target ? props.target : undefined"
+    :rel="link && props.target === '_blank' ? 'noopener noreferrer' : undefined"
     :type="link ? undefined : isActionSubmit ? 'submit' : ''"
-    :aria-label="!label && props.name ? props.name : undefined"
+    :aria-label="!props.label && props.name ? props.name : undefined"
     :class="[
       bem(baseClass),
       types[props.type],
@@ -25,15 +27,15 @@
     >
       <Icon v-if="props.icon" :id="props.icon" size="regular" />
       <Typography
-        v-if="label"
+        v-if="props.label"
         tag="span"
         type="body_highlight"
         weight="medium"
         :customClass="bem(baseClass, 'label')"
-        :text="label"
+        :text="props.label"
       />
       <div
-        v-if="label"
+        v-if="props.label"
         :class="bem(baseClass, 'hover-feature')"
         role="presentation"
         aria-hidden="true"
@@ -82,6 +84,7 @@
     radius?: ButtonRadius;
     customClass?: string;
     link?: string;
+    target?: '_blank' | '_self' | '_parent' | '_top';
     onClick?: () => void;
     actionId?: string;
     isActionSubmit?: boolean;

@@ -19,6 +19,12 @@
     }
   }
 
+  &__title {
+    &--emphasis {
+      color: $color-dp-orange-300;
+    }
+  }
+
   &__filters {
     display: flex;
     flex-direction: column;

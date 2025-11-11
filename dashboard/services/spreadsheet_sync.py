@@ -1,0 +1,304 @@
+import json
+import logging
+import mimetypes
+from dataclasses import dataclass, field
+from pathlib import Path
+from typing import Optional
+
+import gspread
+import requests
+from dateutil.parser import parse
+from django.conf import settings
+from django.core.files.base import ContentFile
+from django.utils import timezone
+
+from dashboard.models import SpreadsheetSync
+from desparchado.utils import sanitize_html
+from events.models import Event, Organizer, Speaker
+from places.models import Place
+
+logger = logging.getLogger(__name__)
+
+
+@dataclass
+class RowProcessingResult:
+    """Class for keeping track of sync status for each spreadsheet row."""
+    data: list[str]
+    event: Optional[Event] = None
+    created: Optional[bool] = None
+    error: str = ''
+    warnings: list[str] = field(default_factory=list)
+
+
+def sync_events(
+    spreadsheet_sync: SpreadsheetSync,
+    worksheet_range: str,
+    request_user,
+) -> list[RowProcessingResult]:
+    """Sync events from a Google Sheets worksheet into the Django Event model.
+
+    Reads rows from the given spreadsheet range, parses the event data. For new Events
+    the function sets created_by to the provided request_user.
+
+    Parameters:
+        spreadsheet_sync (SpreadsheetSync): Base configuration for the spreadsheet sync.
+        worksheet_range (str): Range string to read (e.g., "B2:H100").
+        request_user: User used as created_by for newly created Event records.
+
+    Returns:
+        list[RowProcessingResult]: One entry per row containing:
+            - data: original row data
+            - event: Event instance (or None on error)
+            - created: True on create, False on update, None on error
+            - error: error message ('' on success)
+            - warnings: list of non-fatal issues
+
+    Side effects:
+        - Returns early with a single error dict if spreadsheet credentials
+        cannot be loaded.
+    """
+    try:
+        with Path.open(
+            settings.BASE_DIR / "spreadsheet_credentials.json",
+            "r",
+            encoding="utf-8",
+        ) as file:
+            credentials = json.load(file)
+    except (FileNotFoundError, json.JSONDecodeError) as e:
+        logger.error("Failed to load spreadsheet credentials", exc_info=e)
+        return [RowProcessingResult(
+            data=[],
+            error="Spreadsheet credentials could not be loaded",
+        )]
+
+    gc = gspread.service_account_from_dict(credentials)
+
+    try:
+        spreadsheet = gc.open_by_key(spreadsheet_sync.spreadsheet_id)
+    except gspread.exceptions.SpreadsheetNotFound as e:
+        logger.error("Spreadsheet not found", exc_info=e)
+        return [RowProcessingResult(data=[], error="Spreadsheet not found")]
+    except PermissionError as e:
+        logger.error("Could not access the spreadsheet", exc_info=e)
+        return [RowProcessingResult(data=[], error="Could not access the spreadsheet")]
+    except gspread.exceptions.APIError as e:
+        logger.error("Spreadsheets API error", exc_info=e)
+        return [RowProcessingResult(data=[], error="Spreadsheets API error")]
+
+    sheet = spreadsheet.get_worksheet(spreadsheet_sync.worksheet_number)
+    if sheet is None:
+        logger.error("Worksheet index %s not found", spreadsheet_sync.worksheet_number)
+        return [RowProcessingResult(data=[], error="Worksheet not found")]
+
+    results = sheet.get(worksheet_range)
+    logger.debug("Fetched %d rows from sheet", len(results))
+
+    synced_events_data = []
+
+    for event_data in results:
+        source_id = _get_cell_data(event_data, 'A') or None
+        title = _get_cell_data(event_data, 'B')
+        event_date = _get_cell_data(event_data, 'C')
+        place_name = _get_cell_data(event_data, 'D')
+        category = _get_cell_data(event_data, 'E')
+        description_html = sanitize_html(_get_cell_data(event_data, 'F'))
+        event_source_url = _get_cell_data(event_data, 'G')
+        image_url = _get_cell_data(event_data, 'H')
+        organizer_names = set(
+            n.strip()
+            for n in _get_cell_data(event_data, "I").split(",")
+            if n.strip()
+        )
+        speaker_names = set(
+            n.strip()
+            for n in _get_cell_data(event_data, "J").split(",")
+            if n.strip()
+        )
+        row_result = RowProcessingResult(data=event_data)
+
+        if not title.strip():
+            row_result.error = 'Title is empty'
+            synced_events_data.append(row_result)
+            continue
+        if len(title) > 255:
+            title = title[:(255 - 3)] + '...'
+
+        try:
+            parsed_dt = parse(event_date)
+            if getattr(settings, "USE_TZ", False):
+                if timezone.is_naive(parsed_dt):
+                    parsed_dt = timezone.make_aware(
+                        parsed_dt,
+                        timezone.get_current_timezone(),
+                    )
+        except Exception:
+            row_result.error = f'Invalid event_date: "{event_date}"'
+            synced_events_data.append(row_result)
+            continue
+
+        category = (category or "").strip().lower()
+        if category not in Event.Category.values:
+            row_result.error = f'Invalid category: "{category}"'
+            synced_events_data.append(row_result)
+            continue
+
+        event_source_url = event_source_url.strip()
+        if not event_source_url:
+            row_result.error = 'Empty event_source_url'
+            synced_events_data.append(row_result)
+            continue
+        if len(event_source_url) > Event.EVENT_SOURCE_URL_MAX_LENGTH:
+            row_result.error = (
+                f'event_source_url exceeds maximum length '
+                f'({len(event_source_url)}>{Event.EVENT_SOURCE_URL_MAX_LENGTH})'
+            )
+            synced_events_data.append(row_result)
+            continue
+
+        if not description_html.strip():
+            row_result.error = 'Description is empty'
+            synced_events_data.append(row_result)
+            continue
+
+        try:
+            place = Place.objects.get(name__iexact=place_name.strip())
+        except Place.DoesNotExist:
+            row_result.error = f'Place "{place_name}" not found'
+            synced_events_data.append(row_result)
+            continue
+
+        organizers = []
+        for organizer_name in organizer_names:
+            try:
+                organizer = Organizer.objects.get(name__iexact=organizer_name.strip())
+                organizers.append(organizer)
+            except Organizer.DoesNotExist:
+                row_result.warnings.append(f'Organizer "{organizer_name}" not found')
+            except Organizer.MultipleObjectsReturned:
+                row_result.warnings.append(f'Duplicated organizer "{organizer_name}"')
+
+        speakers = []
+        for speaker_name in speaker_names:
+            try:
+                speaker = Speaker.objects.get(name__iexact=speaker_name.strip())
+                speakers.append(speaker)
+            except Speaker.DoesNotExist:
+                row_result.warnings.append(f'Speaker "{speaker_name}" not found')
+            except Speaker.MultipleObjectsReturned:
+                row_result.warnings.append(f'Duplicated speaker "{speaker_name}"')
+
+        defaults = {
+            "title": title,
+            "description": description_html,
+            "category": category,
+            "event_date": parsed_dt,
+            "place": place,
+            "is_published": True,
+            "is_approved": True,
+            "event_source_url": event_source_url,
+            "source_id": source_id,
+            "is_hidden": spreadsheet_sync.is_hidden,
+        }
+
+        event_id_field = spreadsheet_sync.event_id_field
+        if event_id_field == SpreadsheetSync.EventIdField.EVENT_SOURCE_URL:
+            lookup_value = event_source_url
+        elif event_id_field == SpreadsheetSync.EventIdField.SOURCE_ID:
+            if not source_id:
+                row_result.error = 'source_id is empty'
+                synced_events_data.append(row_result)
+                continue
+            lookup_value = source_id
+
+        lookup = {event_id_field: lookup_value}
+        try:
+            event, created = Event.objects.update_or_create(
+                **lookup,
+                defaults=defaults,
+                create_defaults={
+                    "created_by": request_user,
+                    **defaults,
+                },
+            )
+        except Event.MultipleObjectsReturned:
+            row_result.error = (f'MultipleObjectsReturned for {event_id_field} field '
+                                f'with "{lookup_value}" value')
+            synced_events_data.append(row_result)
+            return synced_events_data
+
+        if organizers:
+            event.organizers.set(organizers)
+        if speakers:
+            event.speakers.set(speakers)
+
+        special = spreadsheet_sync.special
+        if special and not special.related_events.filter(pk=event.pk).exists():
+            special.related_events.add(event)
+
+        if image_url:
+            save_image(event, image_url)
+
+        row_result.event = event
+        row_result.created = created
+        synced_events_data.append(row_result)
+
+    return synced_events_data
+
+
+def save_image(event, url):
+    """Download an image from a URL and attach it to the given Event's image field.
+
+    If the HTTP response status is not 200 or the Content-Type is not an image,
+    the function returns without modifying the event.
+    The filename is constructed as "{event.slug}{ext}", where the extension is inferred
+    from the response Content-Type (falls back to ".jpg").
+    """
+    try:
+        response = requests.get(url, timeout=10)
+        if response.status_code != 200:
+            logger.warning(
+                "Image fetch failed",
+                extra={"url": url, "status": response.status_code},
+            )
+            return
+        # Get content type from response
+        content_type = (response.headers.get("Content-Type") or "").split(";")[0]
+        if not content_type.startswith("image/"):
+            logger.warning(
+                "Non-image content-type",
+                extra={"url": url, "content_type": content_type},
+            )
+            return
+
+        ext = mimetypes.guess_extension(content_type) or ".jpg"
+        filename = f"{event.slug}{ext}"
+
+        # Save file
+        file_content = ContentFile(response.content)
+        event.image.save(filename, file_content, save=True)
+    except requests.RequestException as e:
+        logger.error("Image download error", extra={"url": url}, exc_info=e)
+
+
+def _get_cell_data(row, col_letter):
+    """Return the stripped string value from a worksheet row
+    for the given Excel-style column letter.
+
+    Parameters:
+        row: Sequence of cell values (e.g., list or tuple)
+            representing one worksheet row.
+        col_letter (str): Uppercase column letter ("A", "B", ...).
+            Only ASCII uppercase letters A–Z are supported.
+
+    Returns:
+        str: The cell value with surrounding whitespace removed,
+            or an empty string if the column index is out of range.
+    """
+    zero_based_index = ord(col_letter) - ord("A")
+    try:
+        value = row[zero_based_index]
+        if value is None:
+            return ""
+        return str(value).strip()
+    except IndexError:
+        return ""

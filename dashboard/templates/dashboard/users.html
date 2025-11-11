@@ -1,59 +1,79 @@
 {% extends 'dashboard/layout/base.html' %}
-{% load i18n dashboard_tags %}
+{% load i18n %}
 
 {% block content %}
 <div class="row">
   <div class="col-md-12">
-    <div class="box">
-      <div class="box-header with-border">
-        <h3 class="box-title">Users</h3>
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">{% translate 'Top de usuarios' %}</h4>
       </div>
-      <!-- /.box-header -->
-      <div class="box-body">
-        <table class="table table-hover table-condensed">
+      <div class="table-responsive">
+        <table class="table table-vcenter card-table">
           <thead>
             <tr>
-              <th>Username</th>
-              <th>Email</th>
-              <th>Name</th>
-              <th>Active</th>
-              <th>Superuser</th>
-              <th>Added events count</th>
-              <th>Date joined</th>
-              <th>Last login</th>
+              <th>{% translate 'Usuario' %}</th>
+              <th>{% translate 'Email' %}</th>
+              <th>{% translate 'Último ingreso' %}</th>
+              <th>{% translate 'Eventos creados' %}</th>
             </tr>
           </thead>
           <tbody>
-          {% for user in users %}
+          {% for user in users_with_most_events %}
             <tr>
-              <td>{{ user.username }}</td>
-              <td>{{ user.email }}</td>
-              <td>{{ user.first_name }} {{ user.last_name }}</td>
-              <td>
-                <span class="label {% if user.is_active %}label-success{% else %}label-danger{% endif %}">
-                  {{ user.is_active|yesno }}
-                </span>
-              </td>
-              <td>
-                <span class="label {% if user.is_superuser %}label-success{% else %}label-danger{% endif %}">
-                  {{ user.is_superuser|yesno }}
-                </span>
-              </td>
-              <td>{{ user.events_count }}</td>
-              <td>{{ user.date_joined|date:"SHORT_DATETIME_FORMAT" }}</td>
-              <td>{{ user.last_login|date:"SHORT_DATETIME_FORMAT" }}</td>
+              <td>{{ user.get_full_name }} [{{ user.username }}]</td>
+              <td class="text-secondary">{{ user.email }}</td>
+              <td class="text-secondary">{{ user.last_login }}</td>
+              <td class="text-secondary">{{ user.event_count }}</td>
             </tr>
           {% endfor %}
           </tbody>
         </table>
       </div>
-      <!-- /.box-body -->
-      <div class="box-footer clearfix">
-        {% get_dashboard_pagination %}
-      </div>
     </div>
-    <!-- /.box -->
   </div>
 </div>
-<!-- /.row -->
+<div class="row mt-4">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">{% translate 'Recientemente registrados' %}</h4>
+      </div>
+      <div class="table-responsive">
+        <table class="table table-vcenter card-table">
+          <thead>
+            <tr>
+              <th>{% translate 'Usuario' %}</th>
+              <th>{% translate 'Email' %}</th>
+              <th>{% translate 'Registro' %}</th>
+              <th>{% translate 'Último ingreso' %}</th>
+            </tr>
+          </thead>
+          <tbody>
+          {% for user in recently_registered_users %}
+            <tr>
+              <td>{{ user.get_full_name }} [{{ user.username }}]</td>
+              <td class="text-secondary">{{ user.email }}</td>
+              <td class="text-secondary">{{ user.last_login }}</td>
+              <td class="text-secondary">{{ user.date_joined }}</td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="col-12 mt-4">
+  <div class="card">
+    <div class="card-header">
+      <h3 class="card-title">{% translate 'Correos duplicados' %}</h3>
+    </div>
+    <div class="list-group list-group-flush">
+    {% for user in duplicated_emails %}
+      <a href="#" class="list-group-item list-group-item-action">{{ user.email }}</a>
+    {% endfor %}
+    </div>
+  </div>
+</div>
 {% endblock content %}

@@ -7,7 +7,7 @@
           :customClass="bem(baseClass, 'natural-day')"
           type="body_highlight"
           weight="bold"
-          :text="dateCopy"
+          :text="dateCopyText"
         />
         <Typography
           tag="span"
@@ -31,6 +31,29 @@
         ></div>
       </div>
       <div :class="bem(baseClass, 'wrapper')">
+        <div :class="bem(baseClass, 'speakers')">
+          <a
+            :class="bem(baseClass, 'speaker-item')"
+            v-for="(speaker, index) in normalizedSpeakers"
+            :key="index"
+            :href="speaker.link"
+          >
+            <img
+              :class="bem(baseClass, 'speaker-avatar')"
+              :src="speaker.imageUrl"
+              width="30"
+              role="presentation"
+              aria-hidden="true"
+            />
+            <Typography
+              tag="span"
+              :customClass="bem(baseClass, 'speaker-name')"
+              type="body_sm"
+              :text="speaker.name"
+            />
+          </a>
+        </div>
+
         <div :class="bem(baseClass, 'title')">
           <Typography
             tag="span"
@@ -70,9 +93,16 @@
   import './styles.scss';
   import { bem } from '../../../../scripts/utils/bem';
   import Button from '@presentational_components/atoms/button/Button.vue';
+  import { computed } from 'vue';
 
   // -------- [Types] --------
   export type EventCardFullWidthTags = 'div' | 'li' | 'section' | 'article';
+
+  export interface Speaker {
+    imageUrl: string;
+    name: string;
+    link: string;
+  }
 
   export interface EventCardProps {
     tag?: EventCardFullWidthTags;
@@ -82,17 +112,25 @@
     description: string;
     day: string;
     time: string;
-    dateCopy?: string;
+    // number is allowed in case the provided prop is a number from html
+    dateCopy?: string | number;
     imageUrl?: string;
     link?: string;
+    speakers?: Speaker[] | string;
   }
 
   // -------- [Props] --------
   const props = withDefaults(defineProps<EventCardProps>(), {
     tag: 'div',
+    speakers: () => [],
   });
+
   const tag = props.tag;
   const id = ['event-card-full-width', generateUID()].join('-');
   const baseClass = 'event-card-full-width';
   const headingId = [id, 'title'].join('-');
+  const dateCopyText = computed(() => (props.dateCopy != null ? String(props.dateCopy) : ''));
+  const normalizedSpeakers = computed<Speaker[]>(() =>
+    Array.isArray(props.speakers) ? props.speakers : [],
+  );
 </script>

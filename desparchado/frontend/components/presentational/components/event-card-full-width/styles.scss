@@ -55,7 +55,6 @@
       display: flex;
       flex-direction: column;
       flex-shrink: 0;
-      
     }
 
     &__natural-day {
@@ -86,6 +85,42 @@
       }
     }
 
+    &__speakers {
+      display: flex;
+      gap:0.5rem;
+    }
+
+    &__speaker-item {
+      position: relative;
+      color: inherit;
+
+      &:hover {
+        #{$self}__speaker-name {
+          opacity: 1;
+        }
+      }
+    }
+
+    &__speaker-avatar {
+      width: 1.875rem;
+      height: 1.875rem;
+      border-radius: 100%;
+    }
+
+    &__speaker-name {
+      position: absolute;
+      width: max-content;
+      top: -0.5rem;
+      left: 50%;
+      transform: translate(-50%, -100%);
+      color: $color-layout-background;
+      background-color: $color-layout-foreground;
+      padding: 0.25rem 0.5rem;
+      border-radius: 0.25rem;
+      opacity: 0;
+      transition: opacity 0.5s $ease-out-quart;
+    }
+
     &__image {
       min-width: 55vw;
       height: 195px;
@@ -101,7 +136,7 @@
         transform: none;
         margin-top: -5.625rem;
         opacity: 0;
-        transition: opacity .3s ease;
+        transition: opacity 0.5s $ease-out-quart;
       }
     }
 

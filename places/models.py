@@ -39,8 +39,9 @@ class Place(TimeStampedModel):
 
     created_by = models.ForeignKey(
         settings.AUTH_USER_MODEL,
-        verbose_name='Creado por',
+        verbose_name="Creado por",
         on_delete=models.DO_NOTHING,
+        related_name="created_places",
     )
     editors = models.ManyToManyField(
         settings.AUTH_USER_MODEL,

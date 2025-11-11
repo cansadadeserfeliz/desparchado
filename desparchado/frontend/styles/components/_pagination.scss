@@ -1,0 +1,62 @@
+@use '@styles/variables' as *;
+@use '@styles/functions' as *;
+@use '@styles/animations' as *;
+@use '@styles/mixins' as *;
+@use '@styles/breakpoints' as *;
+@use '@styles/typography' as *;
+@use "sass:map";
+
+.pagination {
+  display: flex;
+  gap: 3vw;
+  padding: 0 1rem 2rem;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+
+  &__list {
+    display: flex;
+    gap:  0.5rem;
+  }
+
+  &__actions {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  &__link {
+    @extend .text-body-md;
+
+    color: $color-layout-foreground;
+    padding: 0.5rem;
+    display: flex;
+    border-radius: 0.25rem;
+    text-decoration: none;
+    line-height: 1;
+    width: fit-content;
+
+    &:hover {
+      background: $color-black-100;
+    }
+
+    &--active {
+      text-decoration: underline;
+      font-weight: bold;
+      color: $color-layout-interactive;
+
+      &:hover {
+        background: transparent;
+      }
+    }
+
+    &--disabled {
+      opacity: 0.3;
+      pointer-events: none;
+      cursor: not-allowed;
+
+      &:hover {
+        background: transparent;
+      }
+    }
+  }
+
+}

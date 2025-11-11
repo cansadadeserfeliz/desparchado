@@ -1,6 +1,7 @@
 from django.views.generic import TemplateView
 
 from events.models import Event
+from specials.models import Special
 
 
 class HomeView(TemplateView):
@@ -24,10 +25,14 @@ class HomeView(TemplateView):
         # choose random future events
         if featured_events_count < self.featured_events_limit:
             featured_events |= (
-                future_events.filter(is_featured_on_homepage=False)
+                future_events.filter(is_featured_on_homepage=False, is_hidden=False)
                 .order_by('?')
                 .all()[: self.featured_events_limit - featured_events_count]
             )
 
         context['featured_events'] = featured_events.select_related('place')
+        context["featured_specials"] = Special.objects.filter(
+            is_featured_on_homepage=True,
+            is_published=True,
+        )
         return context
