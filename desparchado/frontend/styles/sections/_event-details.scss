@@ -4,7 +4,12 @@
 @use '@styles/mixins' as *;
 @use '@styles/breakpoints' as *;
 @use '@styles/typography' as *;
+
 @use "sass:map";
+
+@use '@styles/sections/events-section';
+@use '@styles/components/pagination';
+
 
 $mobile-actions-overlap: -3.75rem;
 
@@ -109,6 +114,11 @@ $mobile-actions-overlap: -3.75rem;
     gap: 5rem;
     align-items: flex-start;
     height: -webkit-fill-available;
+    width: 100%;
+    
+    @media (min-width: map.get($breakpoints, m)) {
+      width: unset;
+    }
   }
 
   &__details {
@@ -120,6 +130,7 @@ $mobile-actions-overlap: -3.75rem;
     padding: 0;
     height: -webkit-fill-available;
     justify-content: flex-end;
+    width: 100%;
 
     @media (min-width: map.get($breakpoints, m)) {
       padding: 5rem 0 0 5vw;
@@ -127,6 +138,7 @@ $mobile-actions-overlap: -3.75rem;
       margin-left: -5vw;
       border-left: $hairline_regular;
       max-width: 46.25rem;
+      width: unset;
     }
 
     @media (min-width: map.get($breakpoints, ml)) {
@@ -226,7 +238,6 @@ $mobile-actions-overlap: -3.75rem;
   &__actions {
     border-left: $hairline_regular;
     flex-shrink: 0;
-    max-width: 10rem;
     height: calc(100vh - var(--header-height));
     position: sticky;
     top: var(--header-height);
@@ -238,6 +249,11 @@ $mobile-actions-overlap: -3.75rem;
     box-sizing: border-box;
     overflow: auto;
     gap: 0.35rem;
+    min-width: 160px;
+  }
+
+  &__actions--custom-size {
+    height: -webkit-fill-available;
   }
 
   &__action {
