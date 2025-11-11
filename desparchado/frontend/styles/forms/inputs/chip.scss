@@ -1,0 +1,39 @@
+@use '@styles/variables' as *;
+@use '@styles/breakpoints' as *;
+@use '@styles/functions' as *;
+@use '@styles/typography' as *;
+@use '@styles/animations' as *;
+@use '@styles/mixins' as *;
+@use "sass:map";
+
+.chip {
+  @extend .text-body-lg;
+
+  border: 2px solid $color-layout-foreground;
+  border-radius: 2rem;
+  padding: 0.25rem 1.25rem;
+  background-color: $color-dp-orange-100;
+  color: $color-layout-foreground;
+  text-decoration: none;
+  text-transform: capitalize;
+  transition: all 0.2s ease-in-out;
+  display: inline-block;
+  font-weight: $f-weight-medium;
+
+  &:hover,
+  &:focus {
+    background-color: $color-dp-orange-200;
+    color: $color-layout-foreground;
+  }
+
+  &--selected {
+    background-color: $color-layout-foreground;
+    color: $color-layout-background;
+  }
+}
+
+.chip-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}

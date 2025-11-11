@@ -1,13 +1,12 @@
 import logging
 from urllib.parse import urlencode
 
-from django.contrib.postgres.search import SearchQuery, SearchVector
 from django.core.cache import cache
-from django.db.models import Q
 from django.utils.timezone import now
 from django.views.generic import ListView
 
 from events.models import Event
+from events.services import search_events
 from places.models import City
 
 logger = logging.getLogger(__name__)
@@ -71,21 +70,11 @@ class EventListBaseView(ListView):
         if self.category_filter_value:
             queryset = queryset.filter(category=self.category_filter_value)
 
-        if (
-            self.search_query_value
-            and len(self.search_query_value) >= self.search_query_min_length
-        ):
-            queryset = (
-                queryset.annotate(
-                    search=SearchVector('title', 'description', 'speakers__name'),
-                )
-                .filter(
-                    Q(title__unaccent__icontains=self.search_query_value)
-                    | Q(description__unaccent__icontains=self.search_query_value)
-                    | Q(speakers__name__unaccent__icontains=self.search_query_value)
-                    | Q(search=SearchQuery(self.search_query_value)),
-                )
-            )
+        queryset = search_events(
+            queryset=queryset,
+            search_str=self.search_query_value,
+            search_str_min_length=self.search_query_min_length,
+        )
 
         return (queryset
                 .select_related('place')
