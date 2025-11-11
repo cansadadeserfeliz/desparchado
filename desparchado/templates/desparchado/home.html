@@ -63,6 +63,38 @@
         {% endfor %}
     </div>
   </div>
+  {% if featured_specials %}
+    <div class="featured-parent-events">
+      <div class="featured-parent-events__title" >
+        <div
+          class="featured-parent-events__heading"
+          data-vue-component="typography"
+          data-vue-prop-text="{% translate 'Ahora mismo' %}"
+          data-vue-prop-type="h2"
+          data-vue-prop-weight="bold"
+        >
+        </div>
+  
+        <div
+          data-vue-component="typography"
+          data-vue-prop-text="{% translate 'Todos hablan de estos grandes eventos' %}"
+          data-vue-prop-type="body_md"
+          class="main-title__description"
+        >
+        </div>
+  
+      </div>
+      <div class="featured-parent-events__item-list">
+        {% for featured_special in featured_specials %}
+          <div class="featured-parent-events__item">
+            <a class="featured-parent-events__banner-anchor" href="{{ featured_special.get_absolute_url }}" aria-label="{{ featured_special.title }}, {{ featured_special.subtitle }}">
+              <img class="featured-parent-events__banner-img" src="{{ featured_special.get_image_url }}" aria-hidden="true" role="presentation">
+            </a>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  {% endif %}
   <div class="events-list-section">
     <div class="events-list-section__intro">
       <div class="events-list-section__heading">
@@ -120,12 +152,4 @@
       </div>
     </div>
   </div>
-{% for featured_special in featured_specials %}
-  <div>
-    <a href="{{ featured_special.get_absolute_url }}" aria-label="{{ featured_special.title }}, {{ featured_special.subtitle }}">
-      <img src="{{ featured_special.get_image_url }}" aria-hidden="true" role="presentation">
-    </a>
-  </div>
-{% endfor %}
-
 {% endblock content %}
