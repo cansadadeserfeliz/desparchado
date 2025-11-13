@@ -1,0 +1,64 @@
+@use '@styles/reset' as *;
+@use '@styles/breakpoints' as *;
+@use '@styles/fonts' as *;
+@use '@styles/functions' as *;
+@use '@styles/mixins' as *;
+@use '@styles/typography' as *;
+@use '@styles/variables' as *;
+@use '@styles/animations' as *;
+@use "sass:map";
+
+.featured-parent-events {
+  $self: &;
+
+  &__title {
+    align-items: flex-end;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    padding: 16px;
+    flex-wrap: wrap;
+  }
+
+  &__heading {
+    margin-top: 30px;
+
+    .text-heading-2 {
+      line-height: .6;
+    }
+  }
+
+  &__item {
+    border-bottom: $hairline_regular;
+    display: flex;
+
+    &:first-child {
+      border-top: $hairline_regular;
+    }
+
+    &:nth-child(odd) {
+      justify-content: flex-end;
+
+      #{$self}__banner-anchor {
+        border-left: $hairline_regular;
+      }
+    }
+
+    &:nth-child(even) {
+      #{$self}__banner-anchor {
+        border-right: $hairline_regular;
+      }
+    }
+
+  }
+
+  &__banner-anchor {
+    max-width: 1000px;
+    display: flex;
+
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
