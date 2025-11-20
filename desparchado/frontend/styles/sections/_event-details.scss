@@ -254,6 +254,7 @@ $mobile-actions-overlap: -3.75rem;
 
   &__actions--custom-size {
     height: -webkit-fill-available;
+    opacity: 0;
   }
 
   &__action {
