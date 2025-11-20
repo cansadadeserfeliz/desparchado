@@ -49,36 +49,9 @@
             </span>
             {{ special.description|safe }}
           </div>
-          <div class="event-details__disclaimer">
-            <div
-              class="event-details__disclaimer-icon"
-              data-vue-component="icon"
-              data-vue-prop-id="info"
-              data-vue-prop-size="large"
-            >
-            </div>
-            <p class="text-caption event-details__disclaimer-text" >
-              {% blocktranslate %}
-                Desparchado.co no organiza los eventos que se muestran en la plataforma.
-                Somos un servicio de divulgación que recopila eventos culturales de diversas fuentes y
-                las vuelve accesibles para ti. Si necesitas información o confirmación te recomendamos
-                que contactes directamente a los organizadores.
-              {% endblocktranslate %}
-            </p>
-          </div>
         </div>
       </div>
-      <div class="event-details__actions excluded-from-mobile">
-        <div
-          class="event-details__action"
-          data-vue-component="button"
-          data-vue-prop-type="tertiary"
-          data-vue-prop-name="{% translate 'Ver mapa' %}"
-          data-vue-prop-icon="pin-40"
-          data-vue-prop-padding="balanced"
-          data-vue-prop-link="#event-place-map"
-        >
-        </div>
+      <div class="event-details__actions event-details__actions--custom-size excluded-from-mobile">
       </div>
     </div>
   </section>
@@ -98,6 +71,15 @@
             data-vue-prop-is-action-submit="true"
           >
           </div>
+          <div
+              class="events-section__filter-action-item"
+              data-vue-component="button"
+              data-vue-prop-type="secondary"
+              data-vue-prop-padding="condensed"
+              data-vue-prop-label="{% translate 'Limpiar búsqueda' %}"
+              data-vue-prop-link="{{ request.path }}"
+            >
+          </div>
         </div>
       </form>
       <div class="chip-group">
@@ -109,6 +91,9 @@
       </div>
     </div>
 
+    <section class="container justify-content-center">
+      {% get_simple_pagination %}
+    </section>
 
     {% for event in events %}
       <div
@@ -131,10 +116,6 @@
         <a href="{{ request.path }}">{% translate 'Limpiar búsqueda' %}</a>
       </div>
     {% endfor %}
-
-    <section class="container justify-content-center">
-      {% get_simple_pagination %}
-    </section>
 
   </section>
 
