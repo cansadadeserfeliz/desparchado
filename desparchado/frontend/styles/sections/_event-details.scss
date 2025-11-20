@@ -237,6 +237,7 @@ $mobile-actions-overlap: -3.75rem;
     padding: 0.75rem;
     box-sizing: border-box;
     overflow: auto;
+    gap: 0.35rem;
   }
 
   &__action {
@@ -252,6 +253,9 @@ $mobile-actions-overlap: -3.75rem;
   }
 
   &__action {
+    width: 100vw;
+    max-width: 100%;
+
     .button {
       flex-direction: column-reverse;
       align-items: center;
