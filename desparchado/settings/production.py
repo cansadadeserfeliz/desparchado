@@ -40,6 +40,8 @@ sentry_sdk.init(
     # Set profile_lifecycle to "trace" to automatically
     # run the profiler on when there is an active transaction
     profile_lifecycle="trace",
+    # Enable logs to be sent to Sentry
+    enable_logs=True,
 )
 
 ANALYTICS_ENABLED = True
