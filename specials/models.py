@@ -27,6 +27,11 @@ class Special(TimeStampedModel):
         'Está destacado en home',
         default=False,
     )
+    featured_on_homepage_until = models.DateTimeField(
+        "Fecha y hora límite para mostrar este especial en el home",
+        blank=True,
+        null=True,
+    )
     image = models.ImageField(
         'Background Image',
         blank=True,

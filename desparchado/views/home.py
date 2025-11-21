@@ -1,3 +1,5 @@
+from django.db.models import Q
+from django.utils.timezone import now
 from django.views.generic import TemplateView
 
 from events.models import Event
@@ -29,10 +31,13 @@ class HomeView(TemplateView):
                 .order_by('?')
                 .all()[: self.featured_events_limit - featured_events_count]
             )
-
         context['featured_events'] = featured_events.select_related('place')
+
         context["featured_specials"] = Special.objects.filter(
             is_featured_on_homepage=True,
             is_published=True,
+        ).filter(
+            Q(featured_on_homepage_until__isnull=True)
+            | Q(featured_on_homepage_until__gte=now()),
         )
         return context
