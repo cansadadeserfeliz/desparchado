@@ -115,7 +115,7 @@ $mobile-actions-overlap: -3.75rem;
     align-items: flex-start;
     height: -webkit-fill-available;
     width: 100%;
-    
+
     @media (min-width: map.get($breakpoints, m)) {
       width: unset;
     }
@@ -190,7 +190,7 @@ $mobile-actions-overlap: -3.75rem;
       border: none;
     }
   }
-  
+
   &__mobile-actions {
     margin-bottom: $mobile-actions-overlap;
   }
@@ -249,7 +249,7 @@ $mobile-actions-overlap: -3.75rem;
     box-sizing: border-box;
     overflow: auto;
     gap: 0.35rem;
-    min-width: 160px;
+    width: 160px;
   }
 
   &__actions--custom-size {
@@ -358,7 +358,7 @@ $mobile-actions-overlap: -3.75rem;
       margin-right: 9.9rem;
     }
 
-    &--stroke { 
+    &--stroke {
       @media (min-width: map.get($breakpoints, m)) {
         border-right: $hairline_regular;
       }
