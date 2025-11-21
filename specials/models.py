@@ -31,6 +31,8 @@ class Special(TimeStampedModel):
         "Fecha y hora límite para mostrar este especial en el home",
         blank=True,
         null=True,
+        help_text="Dejar en blanco para mostrar indefinidamente",
+        db_index=True,
     )
     image = models.ImageField(
         'Background Image',
