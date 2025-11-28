@@ -36,6 +36,14 @@ class HuntingOfSnarkGameDetailView(DetailView):
     template_name = 'games/hunting_of_snark_detail.html'
     context_object_name = 'game'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        game = context[self.context_object_name]
+        context['criteria_list'] = game.criteria.all().select_related('category')
+
+        return context
+
 
 class HuntingOfSnarkCriteriaListView(ListView):
     model = HuntingOfSnarkCategory

@@ -24,7 +24,7 @@
     <div class="text">
 
       <div>
-        {% for criteria in game.criteria.all %}
+        {% for criteria in criteria_list %}
           <b>Libro #{{ forloop.counter }}:</b>
           {{ criteria.public_id }}).
           <div class="hunting-of-snark-criteria-name">
