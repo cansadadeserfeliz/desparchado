@@ -126,9 +126,8 @@ $mobile-actions-overlap: -3.75rem;
     flex-direction: column;
     align-items: flex-start;
     gap: 0;
-    align-self: flex-end;
     padding: 0;
-    height: -webkit-fill-available;
+    height: 100%;
     justify-content: flex-end;
     width: 100%;
 
@@ -231,7 +230,7 @@ $mobile-actions-overlap: -3.75rem;
     padding: 4rem 1rem 5rem;
 
     @media (min-width: map.get($breakpoints, m)) {
-      padding: 0 0 5rem;
+      padding: 0 0 10rem;
     }
   }
 
