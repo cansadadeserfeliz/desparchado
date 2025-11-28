@@ -8,21 +8,22 @@ class PlaceDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+
+        place = context["object"]
         context["events"] = (
-            self.get_object()
-            .events.published()
+            place.events.published()
             .future()
             .select_related("place")
             .prefetch_related("speakers")
             .all()[:15]
         )
         context["past_events"] = (
-            self.get_object()
-            .events.published()
+            place.events.published()
             .past()
             .order_by("-event_date")
             .select_related("place")
             .prefetch_related("speakers")
             .all()[:9]
         )
+
         return context

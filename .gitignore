@@ -12,6 +12,9 @@ htmlcov/
 coverage.xml
 *.cover
 
+# Test data
+backstop_data/
+
 # Configuration files
 environment.json
 .requirements_timestamp
