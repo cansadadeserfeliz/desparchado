@@ -1,10 +1,12 @@
-const USE_PROD = false; // change to true when you want production
+/* eslint-env node */
 
-const BASE_URL = USE_PROD
+const isProd = process.argv.includes("--prod");
+
+const BASE_URL = isProd
   ? "https://desparchado.co"
   : "http://localhost:8000";
 
-const IGNORE_DEBUG_TOOLBAR = !USE_PROD;
+const IGNORE_DEBUG_TOOLBAR = !isProd;
 const debugRemoveSelectors = IGNORE_DEBUG_TOOLBAR
   ? ["#djDebug", ".djDebug"]
   : [];
