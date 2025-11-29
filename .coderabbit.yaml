@@ -34,26 +34,3 @@ code_generation:
             (e.g., Google APIs for spreadsheets or email notifications).
             When mocks are needed, use the built-in **mocker** fixture provided by pytest.
             **Reuse existing fixtures whenever possible** instead of creating new ones without need.
-context: |
-  This project is for Desparchado.co — a website that allows users to add cultural events in Colombia so others can see them, giving the events more visibility and promotion.
-
-  Authenticated users can add and edit events, while anyone can view published and approved events.
-  Each event includes:
-    - Organizers: people or organizations (such as libraries, museums, or cultural centers) that run the event.
-    - Place: a physical location in Colombia where the event happens.
-    - Speakers: people who talk or present during the event.
-
-  The backend is built with Python and Django.
-  The database is PostgreSQL with PostGIS extensions for handling geographic data related to event places.
-  The frontend uses a mix of vanilla JavaScript and Vue.js, compiled with Vite.
-
-  The project runs locally using Docker Compose, and in production it runs in Docker containers defined in `production-deploy/docker-containers` with Nginx as the web server.
-  Deployment to production is done using the script located at `production-deploy/deploy.sh`.
-
-  The dashboard app is available only to admin users and is used for monitoring, administration, and bulk event imports from spreadsheets.
-  Keep explanations concise and focused on the cultural event management domain.
-
-short_context: |
-  Desparchado.co is a Django-based website for sharing cultural events in Colombia.
-  Authenticated users can add and edit events; anyone can view published ones.
-  Use clear Google-style docstrings with Args and Returns sections.
