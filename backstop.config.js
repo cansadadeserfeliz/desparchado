@@ -34,7 +34,7 @@ module.exports = {
   "onReadyScript": "puppet/onReady.js",
   "scenarioDefaults": {
     "cookiePath": "backstop_data/engine_scripts/cookies.json",
-    "delay": 0,
+    "delay": 300,
     "removeSelectors": [...debugRemoveSelectors],
     "misMatchThreshold" : 0.1,
     "postInteractionWait": 0,
@@ -49,19 +49,20 @@ module.exports = {
       "referenceUrl": "",
       "readyEvent": "",
       "readySelector": "",
-      "hideSelectors": [],
-      "removeSelectors": [
-        ".event-card__image",
+      "hideSelectors": [
         ".event-card__location",
         ".event-card__day",
         ".event-card__time",
         ".rich-text-description",
-        ".featured-event-card__image",
         ".featured-event-card__location",
         ".featured-event-card__date-copy",
         ".featured-event-card__title",
         ".featured-event-card__day",
         ".featured-event-card__time"
+      ],
+      "removeSelectors": [
+        ".event-card__image",
+        ".featured-event-card__image"
       ],
       "hoverSelector": "",
       "clickSelector": "",
@@ -73,15 +74,16 @@ module.exports = {
       "referenceUrl": "",
       "readyEvent": "",
       "readySelector": "",
-      "hideSelectors": [],
-      "removeSelectors": [
-        ".event-card-full-width__image",
+      "hideSelectors": [
         ".event-card-full-width__location",
         ".event-card-full-width__date-copy",
         ".event-card-full-width__title",
         ".event-card-full-width__day",
         ".event-card-full-width__time",
         ".rich-text-description"
+      ],
+      "removeSelectors": [
+        ".event-card-full-width__image"
       ],
       "hoverSelector": "",
       "clickSelector": "",
@@ -93,17 +95,16 @@ module.exports = {
       "referenceUrl": "",
       "readyEvent": "",
       "readySelector": "",
-      "hideSelectors": [],
-      "removeSelectors": [
-        "gmp-map",
-        ".featured-event-card__image",
+      "hideSelectors": [
         ".featured-event-card__location",
         ".featured-event-card__date-copy",
         ".featured-event-card__title",
         ".featured-event-card__day",
-        ".featured-event-card__time",
-        ".event-detail time",
-        ".event-detail img"
+        ".featured-event-card__time"
+      ],
+      "removeSelectors": [
+        "gmp-map",
+        ".featured-event-card__image"
       ],
       "hoverSelector": "",
       "clickSelector": "",
