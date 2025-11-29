@@ -1,4 +1,4 @@
-/* eslint-env node */
+/* eslint-env process module */
 
 const isProd = process.argv.includes("--prod");
 
@@ -8,7 +8,7 @@ const BASE_URL = isProd
 
 const IGNORE_DEBUG_TOOLBAR = !isProd;
 const debugRemoveSelectors = IGNORE_DEBUG_TOOLBAR
-  ? ["#djDebug", ".djDebug"]
+  ? ["#djDebugToolbar", ".djdt-hidden"]
   : [];
 
 module.exports = {
@@ -61,6 +61,7 @@ module.exports = {
         ".featured-event-card__time"
       ],
       "removeSelectors": [
+        ...debugRemoveSelectors,
         ".event-card__image",
         ".featured-event-card__image"
       ],
@@ -83,6 +84,7 @@ module.exports = {
         ".rich-text-description"
       ],
       "removeSelectors": [
+        ...debugRemoveSelectors,
         ".event-card-full-width__image"
       ],
       "hoverSelector": "",
@@ -103,6 +105,7 @@ module.exports = {
         ".featured-event-card__time"
       ],
       "removeSelectors": [
+        ...debugRemoveSelectors,
         "gmp-map",
         ".featured-event-card__image"
       ],
@@ -117,7 +120,9 @@ module.exports = {
       "readyEvent": "",
       "readySelector": "",
       "hideSelectors": [],
-      "removeSelectors": [],
+      "removeSelectors": [
+        ...debugRemoveSelectors
+      ],
       "hoverSelector": "",
       "clickSelector": "",
       "selectors": [".header"],
