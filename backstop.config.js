@@ -6,6 +6,8 @@ const BASE_URL = isProd
   ? "https://desparchado.co"
   : "http://localhost:8000";
 
+const TEST_NAME_PREFIX = isProd ? "PROD" : "LOCAL";
+
 const IGNORE_DEBUG_TOOLBAR = !isProd;
 const debugRemoveSelectors = IGNORE_DEBUG_TOOLBAR
   ? ["#djDebugToolbar", ".djdt-hidden"]
@@ -35,7 +37,13 @@ module.exports = {
   "scenarioDefaults": {
     "cookiePath": "backstop_data/engine_scripts/cookies.json",
     "delay": 300,
+    "referenceUrl": "",
+    "readyEvent": "",
+    "readySelector": "",
     "removeSelectors": [...debugRemoveSelectors],
+    "hoverSelector": "",
+    "clickSelector": "",
+    "selectors": [],
     "misMatchThreshold" : 0.1,
     "postInteractionWait": 0,
     "selectorExpansion": true,
@@ -44,11 +52,8 @@ module.exports = {
   },
   "scenarios": [
     {
-      "label": "Home",
+      "label": `${TEST_NAME_PREFIX} Home`,
       "url": `${BASE_URL}/`,
-      "referenceUrl": "",
-      "readyEvent": "",
-      "readySelector": "",
       "hideSelectors": [
         ".event-card__location",
         ".event-card__day",
@@ -65,16 +70,10 @@ module.exports = {
         ".event-card__image",
         ".featured-event-card__image"
       ],
-      "hoverSelector": "",
-      "clickSelector": "",
-      "selectors": []
     },
     {
-      "label": "Events list",
+      "label": `${TEST_NAME_PREFIX} Events list`,
       "url": `${BASE_URL}/events/`,
-      "referenceUrl": "",
-      "readyEvent": "",
-      "readySelector": "",
       "hideSelectors": [
         ".event-card-full-width__location",
         ".event-card-full-width__date-copy",
@@ -86,17 +85,11 @@ module.exports = {
       "removeSelectors": [
         ...debugRemoveSelectors,
         ".event-card-full-width__image"
-      ],
-      "hoverSelector": "",
-      "clickSelector": "",
-      "selectors": []
+      ]
     },
     {
-      "label": "Event detail",
+      "label": `${TEST_NAME_PREFIX} Event detail`,
       "url": `${BASE_URL}/events/la-novela-virgenes-y-toxicomanos-de-mario-mendoza/`,
-      "referenceUrl": "",
-      "readyEvent": "",
-      "readySelector": "",
       "hideSelectors": [
         ".featured-event-card__location",
         ".featured-event-card__date-copy",
@@ -108,24 +101,25 @@ module.exports = {
         ...debugRemoveSelectors,
         "gmp-map",
         ".featured-event-card__image"
-      ],
-      "hoverSelector": "",
-      "clickSelector": "",
-      "selectors": []
+      ]
     },
     {
-      "label": "Header",
+      "label": `${TEST_NAME_PREFIX} Header`,
       "url": `${BASE_URL}/`,
-      "referenceUrl": "",
-      "readyEvent": "",
-      "readySelector": "",
       "hideSelectors": [],
       "removeSelectors": [
         ...debugRemoveSelectors
       ],
-      "hoverSelector": "",
-      "clickSelector": "",
       "selectors": [".header"],
+    },
+    {
+      "label": `${TEST_NAME_PREFIX} Footer`,
+      "url": `${BASE_URL}/`,
+      "hideSelectors": [],
+      "removeSelectors": [
+        ...debugRemoveSelectors
+      ],
+      "selectors": [".footer"],
     }
   ],
   "paths": {
