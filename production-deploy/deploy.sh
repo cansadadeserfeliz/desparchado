@@ -14,7 +14,7 @@ git pull
 # - one tag with date and commit hash
 # - one tag called "frontend_latest"
 docker build \
-      --tag desparchado:frontend_$(date +%Y%m%d-%H%M)_$(git rev-parse --short HEAD) \
+      --tag "desparchado:frontend_$(date +%Y%m%d-%H%M)_$(git rev-parse --short HEAD)" \
       --tag desparchado:frontend_latest \
       -f production-deploy/docker-containers/frontend/Dockerfile .
 
@@ -34,7 +34,7 @@ docker run --name desparchado_frontend_build \
 
 # Build the backend web image with two tags (date+commit and "web_latest")
 docker build \
-      --tag desparchado:web_$(date +%Y%m%d-%H%M)_$(git rev-parse --short HEAD) \
+      --tag "desparchado:web_$(date +%Y%m%d-%H%M)_$(git rev-parse --short HEAD)" \
       --tag desparchado:web_latest \
       -f production-deploy/docker-containers/web/Dockerfile .
 
