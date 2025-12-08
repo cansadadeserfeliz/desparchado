@@ -3,7 +3,7 @@ from django.utils import timezone
 from django.utils.formats import date_format
 from rest_framework import serializers
 
-from events.models import Event
+from events.models import Event, Organizer
 from places.models import Place
 
 
@@ -17,6 +17,7 @@ class PlaceSerializer(serializers.ModelSerializer):
 
 
 class EventSerializer(serializers.ModelSerializer):
+    """Serializer for future and past events."""
     place = PlaceSerializer()
     url = serializers.SerializerMethodField()
     formatted_hour = serializers.SerializerMethodField()
@@ -53,4 +54,25 @@ class EventSerializer(serializers.ModelSerializer):
             'description',
             'truncated_description',
             'is_recurrent',
+        ]
+
+
+class EventCreateSerializer(serializers.ModelSerializer):
+    """Serializer for creating events."""
+    organizers = serializers.PrimaryKeyRelatedField(
+        many=True,
+        queryset=Organizer.objects.all(),
+    )
+    created_by = serializers.HiddenField(default=serializers.CurrentUserDefault())
+
+    class Meta:
+        model = Event
+        fields = [
+            'title',
+            'description',
+            'event_source_url',
+            'image',
+            'event_date',
+            'organizers',
+            'created_by',
         ]
