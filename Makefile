@@ -19,7 +19,7 @@ lint-all:
 	docker exec -it $(web_container_name) sh -c "cd app && ruff check --fix"
 
 pip-install:
-	docker exec -it $(web_container_name) sh -c "cd app && pip install -r requirements.txt"
+	docker exec -it $(web_container_name) sh -c "cd app && pip install -r requirements.txt && pip install -r requirements-dev.txt"
 
 collectstatic:
 	docker exec -it $(web_container_name) sh -c "cd app && python3 manage.py collectstatic"
@@ -52,7 +52,7 @@ createsuperuser:
 	docker exec -it $(web_container_name) sh -c "cd app && python3 manage.py createsuperuser"
 
 django-shell:
-	docker exec -it $(web_container_name) sh -c "cd app && python3 manage.py shell"
+	docker exec -it $(web_container_name) sh -c "cd app && python3 manage.py shell --verbosity=2"
 
 axes-reset:
 	docker exec -it $(web_container_name)  sh -c "cd app && python manage.py axes_reset"
