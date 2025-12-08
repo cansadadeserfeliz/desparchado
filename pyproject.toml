@@ -58,3 +58,13 @@ lint.extend-select = [
 #    "PLR2004", # Magic value used in comparison, ...
 #    "S311", # Standard pseudo-random generators are not suitable for cryptographic purposes
 ]
+
+[tool.pytest]
+DJANGO_SETTINGS_MODULE = "desparchado.settings.test"
+python_files = ["tests.py", "test_*.py", "*_tests.py"]
+python_paths = ["."]
+addopts = [
+    "--reuse-db",
+    "--cov=./",
+    "--no-cov-on-fail",
+]
