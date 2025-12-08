@@ -1,4 +1,4 @@
-import markdown  # noqa: F403 this package is deprecated, manual installation required to run this script
+import markdown  # deprecated, manual installation required to run this script
 from django.contrib.auth import get_user_model
 from django.core.management.base import BaseCommand
 
