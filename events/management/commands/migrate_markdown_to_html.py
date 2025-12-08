@@ -1,4 +1,4 @@
-import markdown  # this package is deprecated, unstall is manually to run this script
+import markdown  # this package is deprecated, manual uninstall required to run this script
 from django.contrib.auth import get_user_model
 from django.core.management.base import BaseCommand
 
