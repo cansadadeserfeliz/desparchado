@@ -1,4 +1,4 @@
-FROM postgis/postgis:13-3.4-alpine
+FROM postgis/postgis:18-3.6-alpine
 
 # these are the postgres superuser credentials, they are NOT the credentials
 # used by the web app. see init_dbs.sh for those

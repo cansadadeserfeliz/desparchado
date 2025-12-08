@@ -10,6 +10,8 @@ class SpecialAdmin(admin.ModelAdmin):
         'slug',
         'is_published',
         'is_featured_on_homepage',
+        'featured_on_homepage_until',
     ]
+    list_filter = ['featured_on_homepage_until']
 
     raw_id_fields = ('related_events',)
