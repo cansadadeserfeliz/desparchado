@@ -92,6 +92,8 @@ class SpecialSitemap(sitemaps.Sitemap):
 
     def lastmod(self, item):
         return item.modified
+
+
 class HistoryPostSitemap(sitemaps.Sitemap):
     changefreq = 'monthly'
     priority = 1
