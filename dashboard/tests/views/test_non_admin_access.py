@@ -10,7 +10,6 @@ from django.urls import reverse
         'dashboard:social_posts',
         'dashboard:users',
         'dashboard:places',
-        'dashboard:filbo_event_form',
         'dashboard:spreadsheet_sync_form',
     ],
 )

@@ -2,7 +2,7 @@
 uWSGI>=2.0.31,<2.1
 
 # Framework
-Django>=5.2.9,<5.3
+Django>=6.0,<6.1
 
 # Python Libs
 gspread>=6.2.1,<6.3.0
