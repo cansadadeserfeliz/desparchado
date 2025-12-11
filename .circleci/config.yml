@@ -5,7 +5,7 @@ orbs:
 jobs:
   test-be:
     docker:
-      - image: cimg/python:3.14.1-node
+      - image: cimg/python:3.12-node
         environment:
           DJANGO_SECRET_KEY: 'secret'
           DATABASE_NAME: 'desparchado_test'
