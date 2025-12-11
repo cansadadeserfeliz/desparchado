@@ -4,7 +4,7 @@ from rest_framework import status
 
 
 @pytest.mark.django_db
-def test_places(client, admin_user, user):
+def test_users_dashboard_context(client, admin_user, user):
     client.force_login(admin_user)
     response = client.get(reverse('dashboard:users'))
     assert response.status_code == status.HTTP_200_OK
