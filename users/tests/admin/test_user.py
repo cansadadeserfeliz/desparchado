@@ -9,4 +9,3 @@ def test_successfully_get_user_list(client, admin_user):
 
     response = client.get(reverse('admin:auth_user_changelist'))
     assert response.status_code == status.HTTP_200_OK
-

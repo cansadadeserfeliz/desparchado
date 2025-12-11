@@ -13,4 +13,3 @@ def test_successfully_get_admin_view(client, admin_user):
     response = client.get(reverse('admin:events_event_changelist'))
     assert response.status_code == status.HTTP_200_OK
     assert event.title in response.text
-
