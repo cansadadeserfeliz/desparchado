@@ -30,3 +30,11 @@ def test_successfully_show_event_page(client, user_admin, event):
     client.force_login(user_admin)
     response = client.get(reverse('playground:event_detail'))
     assert response.status_code == status.HTTP_200_OK
+
+
+@pytest.mark.django_db
+def test_event_detail_page_no_events(client, user_admin):
+    client.force_login(user_admin)
+    response = client.get(reverse('playground:event_detail'))
+    assert response.status_code == status.HTTP_200_OK
+    assert response.context['event'] is None
