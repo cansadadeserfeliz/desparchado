@@ -1,5 +1,6 @@
 import logging
 
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
 from django.utils.html import escape
 from django.utils.safestring import mark_safe
@@ -10,7 +11,8 @@ from events.models import Organizer
 logger = logging.getLogger(__name__)
 
 
-class OrganizerSuggestionsView(View):
+class OrganizerSuggestionsView(LoginRequiredMixin, View):
+
     def get(self, request):
         query = request.GET.get('query', '')
         suggestion = None

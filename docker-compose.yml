@@ -18,8 +18,10 @@ services:
       - "8000:8000"
     volumes:
       - .:/app
-      - desparchado_web_data:/root/.cache/pip
-      - desparchado_web_data:/root/hist
+      # Use a separate volume for pip cache vs history
+      # for PyCharm to be able to detect Python interpreter
+      - desparchado_web_pip_cache:/root/.cache/pip
+      - desparchado_web_hist:/root/hist
     environment:
       - DJANGO_SECRET_KEY=secret
       - DATABASE_NAME=desparchado_dev
@@ -43,4 +45,5 @@ services:
 
 volumes:
   desparchado_db_data:
-  desparchado_web_data:
+  desparchado_web_pip_cache:
+  desparchado_web_hist:
