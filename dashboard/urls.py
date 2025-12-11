@@ -29,12 +29,6 @@ urlpatterns = [
         dashboard_views.UsersView.as_view(),
         name='users',
     ),
-    # FILBo
-    path(
-        'filbo/events/create/',
-        dashboard_views.FilboEventFormView.as_view(),
-        name='filbo_event_form',
-    ),
     # Spreadsheet Sync
     path(
         'spreadsheet-sync/',
