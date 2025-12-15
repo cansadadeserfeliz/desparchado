@@ -1,5 +1,5 @@
 [project]
-requires-python = "==3.11"
+requires-python = "==3.14"
 
 [tool.ruff]
 exclude = [
@@ -31,7 +31,7 @@ exclude = [
     "migrations",
 ]
 line-length = 88
-target-version = "py311"
+target-version = "py314"
 lint.extend-select = [
     "E",      # Pycodestyle errors (style issues)
     "W",      # Pycodestyle warnings (style issues)
