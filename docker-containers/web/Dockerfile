@@ -1,4 +1,4 @@
-FROM python:3.12-bookworm
+FROM python:3.14-bookworm
 
 RUN apt-get update
 RUN apt-get install -y curl
