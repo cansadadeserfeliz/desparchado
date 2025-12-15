@@ -1,5 +1,5 @@
 # application server
-gunicorn>=23.0.0,<24
+gunicorn>=22.0.0,<23
 
 # Framework
 Django>=6.0,<6.1
