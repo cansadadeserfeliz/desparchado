@@ -2,14 +2,16 @@
 
 cd /app
 
-uwsgi --chdir=/app \
-    --module=desparchado.wsgi:application \
-    --env DJANGO_SETTINGS_MODULE=desparchado.settings.production \
-    --master --pidfile=/tmp/project-master.pid \
-    --http :49152 \
-    --processes=5 \
-    --uid=9999 --gid=2000 \
-    --harakiri=20 \
-    --max-requests=5000 \
-    --enable-threads \
-    --vacuum
+# Do not increase threads, use more workers instead.
+gunicorn desparchado.wsgi:application \
+  --chdir /app \
+  --env DJANGO_SETTINGS_MODULE=desparchado.settings.production \
+  --bind 0.0.0.0:49152 \
+  --workers 5 \
+  --threads 1 \
+  --max-requests 5000 \
+  --timeout 20 \
+  --user 9999 \
+  --group 2000 \
+  --access-logfile - \
+  --error-logfile -
