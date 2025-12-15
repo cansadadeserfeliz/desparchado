@@ -19,7 +19,7 @@ El servidor [NGINX](https://nginx.org/) es el punto de entrada de todas las soli
 
 La aplicación se organiza en varios **contenedores de Docker**, cada uno con una función específica:
 
-1. Contenedor de la aplicación web ([**Django**](https://www.djangoproject.com/) + [UWSGI](https://en.wikipedia.org/wiki/UWSGI))
+1. Contenedor de la aplicación web ([**Django**](https://www.djangoproject.com/) + Gunicorn)
     * Ejecuta el servidor Django.
     * Usa **django-vite** para integrar Vite en las plantillas Django.
     * Maneja **el ruteo (URLs)**, lógica del servidor y renderiza vistas con **plantillas HTML**.
@@ -74,7 +74,7 @@ graph TD
     NGINX["🌐 Servidor web (NGINX)<br><small>Sirve archivos estáticos y subidos<br>Reenvía peticiones dinámicas a Django</small>"]:::service
 
     %% Backend
-    Django["⚙️ Contenedor de aplicación (Django + uWSGI)<br><small>Lógica del servidor, vistas, URLs, plantillas</small>"]:::container
+    Django["⚙️ Contenedor de aplicación (Django + Gunicorn)<br><small>Lógica del servidor, vistas, URLs, plantillas</small>"]:::container
 
     %% Database
     PostgreSQL["🗄️ Contenedor de base de datos (PostgreSQL)<br><small>Datos persistentes: usuaries, eventos, organizadores, etc.</small>"]:::data
@@ -100,7 +100,7 @@ Explicación del diagrama
 
 * **NGINX** es el punto de entrada: recibe las solicitudes de les usuaries, entrega archivos estáticos o subidos, y
   redirige lo demás a Django.
-* **Django (uWSGI)** maneja la lógica de negocio, plantillas y vistas, y se conecta a PostgreSQL para los datos.
+* **Django (Gunicorn)** maneja la lógica de negocio, plantillas y vistas, y se conecta a PostgreSQL para los datos.
 * **Vite** se ejecuta temporalmente durante el despliegue para compilar los assets del front-end (JS, CSS, imágenes).
 * Los resultados compilados se guardan en `/srv/desparchado/static`, donde NGINX puede servirlos directamente.
 * Los archivos subidos por les usuaries se almacenan en `/srv/desparchado/upload`.

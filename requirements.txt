@@ -1,5 +1,5 @@
 # application server
-uWSGI>=2.0.31,<2.1
+gunicorn>=23.0.0,<24
 
 # Framework
 Django>=6.0,<6.1
