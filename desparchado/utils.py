@@ -100,8 +100,6 @@ def send_admin_notification(request, obj, form, change):
     message = f'https://desparchado.co{obj.get_absolute_url()}'
 
     try:
-        # Pending issue: Django 6 Compatibility Issues
-        # https://github.com/django-ses/django-ses/issues/362
         send_mail(
             subject,
             message,
@@ -133,8 +131,6 @@ def send_notification(request, obj, model_name, created):
     message = f'https://desparchado.co{obj.get_absolute_url()}'
 
     try:
-        # Pending issue: Django 6 Compatibility Issues
-        # https://github.com/django-ses/django-ses/issues/362
         send_mail(
             subject,
             message,
