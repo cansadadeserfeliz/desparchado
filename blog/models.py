@@ -3,7 +3,6 @@ from django.conf import settings
 from django.db import models
 from django.templatetags.static import static
 from django.urls import reverse
-from django.utils.html import format_html
 from model_utils.models import TimeStampedModel
 
 
@@ -39,11 +38,6 @@ class Post(TimeStampedModel):
     content = models.TextField(
         verbose_name='Contenido',
         default='',
-        help_text=format_html(
-            'Puedes usar <a href="{}" target="_blank">Markdown</a> '
-            'para dar formato al texto.',
-            '/markdown',
-        ),
     )
 
     is_published = models.BooleanField(
