@@ -93,17 +93,22 @@ def send_admin_notification(request, obj, form, change):
     includes the model name, object, and user, and the body contains a link
     to the object's detail page.
     """
+    purpose = 'Updated' if change else 'Created new'
+    model = form.Meta.model._meta.model_name
+
+    subject = f'{purpose} {model} "{obj}" by {request.user}'
+    message = f'https://desparchado.co{obj.get_absolute_url()}'
+
     try:
-        purpose = 'Updated' if change else 'Created new'
-        model = form.Meta.model._meta.model_name
         send_mail(
-            f'{purpose} {model} "{obj}" by {request.user}',
-            f'https://desparchado.co{obj.get_absolute_url()}',
+            subject,
+            message,
             settings.DEFAULT_FROM_EMAIL,
             settings.EMAIL_ADMIN_USERS,
             fail_silently=True,
         )
     except Exception as e:  # pylint: disable=broad-exception-caught
+        logger.info(subject, extra={'message': message})
         logger.error('No se pudo enviar correo electrónico', exc_info=e)
 
 
@@ -121,16 +126,20 @@ def send_notification(request, obj, model_name, created):
     if request.user.is_superuser:
         return
 
+    purpose = 'Created new' if created else 'Updated'
+    subject = f'{purpose} {model_name} "{obj}" by {request.user}'
+    message = f'https://desparchado.co{obj.get_absolute_url()}'
+
     try:
-        purpose = 'Created new' if created else 'Updated'
         send_mail(
-            f'{purpose} {model_name} "{obj}" by {request.user}',
-            f'https://desparchado.co{obj.get_absolute_url()}',
+            subject,
+            message,
             settings.DEFAULT_FROM_EMAIL,
             settings.EMAIL_ADMIN_USERS,
             fail_silently=True,
         )
     except Exception as e:  # pylint: disable=broad-exception-caught
+        logger.info(subject, extra={'message': message})
         logger.exception('No se pudo enviar correo electrónico', exc_info=e)
 
 
