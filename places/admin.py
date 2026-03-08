@@ -1,7 +1,6 @@
 from django.contrib import admin
 from django.contrib.gis.db import models as geo_models
-
-from places.widgets import GoogleMapPointFieldFixedWidget
+from mapwidgets import GoogleMapPointFieldWidget
 
 from .models import City, Place
 
@@ -11,10 +10,6 @@ BOGOTA_LON = -74.0757637
 
 @admin.register(Place)
 class PlaceAdmin(admin.ModelAdmin):
-    default_lat = BOGOTA_LAT
-    default_lon = BOGOTA_LON
-    default_zoom = 6
-
     list_display = (
         'name',
         'slug',
@@ -62,7 +57,7 @@ class PlaceAdmin(admin.ModelAdmin):
     raw_id_fields = ('editors',)
 
     formfield_overrides = {
-        geo_models.PointField: {'widget': GoogleMapPointFieldFixedWidget()},
+        geo_models.PointField: {'widget': GoogleMapPointFieldWidget()},
     }
 
     def get_actions(self, request):
@@ -92,5 +87,5 @@ class CityAdmin(admin.ModelAdmin):
         return request.user.is_superuser
 
     formfield_overrides = {
-        geo_models.PointField: {'widget': GoogleMapPointFieldFixedWidget()},
+        geo_models.PointField: {'widget': GoogleMapPointFieldWidget()},
     }
