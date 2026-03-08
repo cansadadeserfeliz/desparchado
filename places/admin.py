@@ -10,10 +10,6 @@ BOGOTA_LON = -74.0757637
 
 @admin.register(Place)
 class PlaceAdmin(admin.ModelAdmin):
-    default_lat = BOGOTA_LAT
-    default_lon = BOGOTA_LON
-    default_zoom = 6
-
     list_display = (
         'name',
         'slug',
