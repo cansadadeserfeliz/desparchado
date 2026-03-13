@@ -12,4 +12,6 @@ RUN apt --yes install libgdal-dev
 # Error: Can not find Rust compiler; ERROR: Failed building wheel for cryptography
 ENV CRYPTOGRAPHY_DONT_BUILD_RUST=1
 
+RUN pip install pip-tools
+
 EXPOSE 8000
