@@ -5,6 +5,7 @@ set -x
 chown -R root:root /root/.cache/pip
 
 cd /app
+pip install pip-tools==7.5.3
 pip install --require-hashes -r requirements-dev.txt
 
 python manage.py migrate
