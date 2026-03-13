@@ -21,7 +21,7 @@ COPY production-deploy/docker-containers/web/run.sh /
 RUN chmod +x /run.sh
 
 COPY requirements.txt /
-RUN pip install -r /requirements.txt
+RUN pip install --require-hashes -r /requirements.txt
 
 COPY . /app
 
