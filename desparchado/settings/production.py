@@ -45,3 +45,8 @@ sentry_sdk.init(
 )
 
 ANALYTICS_ENABLED = True
+
+# Issue: map_widgets.min.css is empty (0 bytes)
+# https://github.com/erdem/django-map-widgets/issues/165
+# Workaround: forces unminified CSS which works correctly
+MAP_WIDGETS['is_dev_mode'] = True
