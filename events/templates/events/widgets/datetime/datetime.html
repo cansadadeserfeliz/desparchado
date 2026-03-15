@@ -1,0 +1,11 @@
+<div class="datetime-widget" id="{{ widget.attrs.id }}-wrapper">
+  <input
+    id="{{ widget.attrs.id }}"
+    name="{{ widget.name }}"
+    type="text"
+    class="datetime-widget__input"
+    value="{{ widget.value|default:'' }}"
+    autocomplete="off"
+    placeholder="AAAA-MM-DD HH:MM"
+  />
+</div>

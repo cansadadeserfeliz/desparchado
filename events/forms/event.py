@@ -8,6 +8,7 @@ from django.urls import reverse_lazy
 
 from desparchado.utils import sanitize_html
 from events.models import Event
+from events.widgets import DateTimeWidget
 
 
 class EventBaseForm(forms.ModelForm):
@@ -73,6 +74,7 @@ class EventBaseForm(forms.ModelForm):
             'speakers',
         ]
         widgets = {
+            'event_date': DateTimeWidget(),
             'organizers': autocomplete.ModelSelect2Multiple(
                 url='events:organizer_autocomplete',
                 attrs={
