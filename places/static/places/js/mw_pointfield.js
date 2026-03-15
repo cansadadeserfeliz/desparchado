@@ -1,3 +1,16 @@
+// Extracted from django-map-widgets v0.5.1 (https://github.com/erdem/django-map-widgets)
+// Reason: google.maps.places.Autocomplete is deprecated for new customers as of March 2025.
+// Changes applied:
+//   - initializePlaceAutocomplete: replaced Autocomplete with PlaceAutocompleteElement,
+//     loaded via google.maps.importLibrary("places") to ensure the new Places API is available;
+//     mapped componentRestrictions.country to includedRegionCodes for the new API.
+//   - handleAutoCompletePlaceChange: replaced place_changed/getPlace() with the gmp-select
+//     event; place is obtained via event.placePrediction.toPlace() + fetchFields().
+//   - addMarkerToMap: switched from AdvancedMarkerElement (requires a Cloud Console Map ID)
+//     to google.maps.Marker which works without a Map ID.
+//   - serializeMarkerToGeoJSON / fitBoundMarker: updated to use getPosition() instead of
+//     .position property (legacy Marker API).
+//   - handleAutoCompleteInputKeyDown: removed (PlaceAutocompleteElement handles Enter internally).
 (function ($) {
     DjangoGooglePointFieldWidget = DjangoMapWidgetBase.extend({
 

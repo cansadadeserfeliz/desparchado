@@ -1,3 +1,5 @@
+// Extracted from django-map-widgets v0.5.1 (https://github.com/erdem/django-map-widgets)
+// Copied verbatim. No changes applied.
 (function ($) {
     DjangoMapWidgetBase = $.Class.extend({
 

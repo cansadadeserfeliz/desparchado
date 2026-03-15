@@ -1,3 +1,8 @@
+{# Extracted from django-map-widgets v0.5.1 (https://github.com/erdem/django-map-widgets) #}
+{# Changes applied: #}
+{#   - {{ id }} replaced with {{ widget_id }} to match the local widget's get_context output. #}
+{#   - gmp-placeselect event replaced with gmp-select; place obtained via placePrediction.toPlace(). #}
+{#   - All UI strings translated to Colombian Spanish; coordinate placeholders use Bogotá values. #}
 {% load i18n %}
 
 <div class="mw-wrap" id="{{ name }}-mw-wrap">

@@ -1,3 +1,10 @@
+/*
+ * Extracted from django-map-widgets v0.5.1 (https://github.com/erdem/django-map-widgets)
+ * Changes applied:
+ *   - Added .mw-header .mw-adress-input-wrap gmp-place-autocomplete rule to size
+ *     the PlaceAutocompleteElement web component within its container.
+ */
+
 @font-face {
     font-family: 'fontello';
     src: url('../font/fontello.eot?93477804');

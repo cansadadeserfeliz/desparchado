@@ -1,3 +1,11 @@
+# Adapted from django-map-widgets v0.5.1 (https://github.com/erdem/django-map-widgets)
+# Reason: google.maps.places.Autocomplete is deprecated for new customers as of March 2025,
+# and the library had no immediate plan to migrate. The widget was extracted and rewritten
+# as a self-contained local class to own the migration path.
+# Changes applied:
+#   - Rewritten as a standalone Django widget with no imports from mapwidgets.
+#   - Configuration is read directly from settings.MAP_WIDGETS["GoogleMap"].
+#   - Google Maps CDN URL is built at runtime from settings (no mw_settings dependency).
 import json
 from urllib.parse import urlencode
 
