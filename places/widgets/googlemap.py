@@ -5,7 +5,6 @@ from django.conf import settings
 from django.contrib.gis import forms
 from django.contrib.gis.geos import GEOSGeometry
 
-
 # Default map options used when MAP_WIDGETS settings are absent or incomplete.
 _DEFAULT_MAP_OPTIONS: dict = {
     "zoom": 5,
@@ -36,7 +35,8 @@ def _get_google_map_settings() -> dict:
     google_conf: dict = map_widgets_conf.get("GoogleMap", {})
     point_field_conf: dict = google_conf.get("PointField", {}).get("interactive", {})
 
-    api_key: str = google_conf.get("apiKey") or getattr(settings, "GOOGLE_MAPS_API_KEY", "")
+    api_key: str = (google_conf.get("apiKey")
+                    or getattr(settings, "GOOGLE_MAPS_API_KEY", ""))
 
     cdn_params: dict = {**_DEFAULT_CDN_PARAMS}
     cdn_params.update(google_conf.get("CDNURLParams", {}))
@@ -46,7 +46,9 @@ def _get_google_map_settings() -> dict:
     map_options.update(point_field_conf.get("mapOptions", {}))
 
     autocomplete_options: dict = {**_DEFAULT_AUTOCOMPLETE_OPTIONS}
-    autocomplete_options.update(point_field_conf.get("GooglePlaceAutocompleteOptions", {}))
+    autocomplete_options.update(
+        point_field_conf.get("GooglePlaceAutocompleteOptions", {}),
+    )
 
     return {
         "api_key": api_key,
@@ -143,6 +145,6 @@ class GoogleMapPointFieldWidget(forms.BaseGeometryWidget):
                 "serialized": serialized,
                 "options": json.dumps(widget_options),
                 "field_value": json.dumps(field_value),
-            }
+            },
         )
         return context
