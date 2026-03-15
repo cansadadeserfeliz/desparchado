@@ -76,7 +76,7 @@
   position: absolute;
   z-index: 9999;
 
-  background: #FBF8F2;
+  background-color: #FBF8F2;
   border: 0.125rem solid #CCCCCC;
   border-radius: 1rem;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
@@ -192,7 +192,7 @@
 }
 
 .datetime-widget__cal-day--today::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: 2px;
   left: 50%;
