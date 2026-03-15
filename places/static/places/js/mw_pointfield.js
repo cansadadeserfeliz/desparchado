@@ -19,7 +19,6 @@
             // Redefine setMapOptions inside initializeMap to create a new closure for each instance
             const setMapOptions = async () => {
                 let mapInitializeOptions = {
-                    mapId: this.mapId,
                     zoomControlOptions: {
                         position: google.maps.ControlPosition.RIGHT
                     },
