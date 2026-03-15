@@ -44,3 +44,6 @@ spreadsheet_credentials.json
 
 *storybook.log
 
+.claude/agent-memory
+.claude/plan.md
+.claude/tasks.md
