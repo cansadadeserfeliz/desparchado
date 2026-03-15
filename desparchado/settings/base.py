@@ -48,7 +48,6 @@ INSTALLED_APPS = [
     "django.contrib.postgres",
 
     "axes",
-    "mapwidgets",
     "crispy_forms",
     "crispy_bootstrap5",
     "django_cleanup.apps.CleanupConfig",
