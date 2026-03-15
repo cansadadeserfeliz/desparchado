@@ -323,7 +323,17 @@
     state.panel.style.left = `${rect.left + window.scrollX}px`;
   }
 
+  function closeAllPanels() {
+    document.querySelectorAll('.datetime-widget__panel--open').forEach((panel) => {
+      panel.classList.remove('datetime-widget__panel--open');
+    });
+    document.querySelectorAll('.datetime-widget__input[aria-expanded="true"]').forEach((inp) => {
+      inp.setAttribute('aria-expanded', 'false');
+    });
+  }
+
   function openPanel(state) {
+    closeAllPanels();
     positionPanel(state);
     state.panel.classList.add('datetime-widget__panel--open');
     state.input.setAttribute('aria-expanded', 'true');
