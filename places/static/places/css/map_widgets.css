@@ -714,6 +714,8 @@ fieldset[disabled] .mw-btn-link:focus {
 }
 
 .clearfix::after {
+    content: "";
+    display: table;
     clear: both;
 }
 
