@@ -68,10 +68,12 @@
 
         enableClearBtn: function () {
             this.deleteBtn.removeClass("mw-btn-default disabled").addClass("mw-btn-danger");
+            this.deleteBtn.prop("disabled", false).attr("aria-disabled", "false");
         },
 
         disableClearBtn: function () {
             this.deleteBtn.removeClass("mw-btn-danger").addClass("mw-btn-default disabled");
+            this.deleteBtn.prop("disabled", true).attr("aria-disabled", "true");
         },
 
         updateDjangoInput: function (place) {
