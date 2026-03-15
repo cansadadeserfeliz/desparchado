@@ -76,6 +76,10 @@
 
         updateDjangoInput: function (place) {
             const django_input_val = this.serializeMarkerToGeoJSON();
+            if (!django_input_val || !django_input_val.coordinates) {
+                this.djangoInput.val('');
+                return;
+            }
             const lng = django_input_val.coordinates[0];
             const lat = django_input_val.coordinates[1];
             this.djangoInput.val(JSON.stringify(django_input_val));
