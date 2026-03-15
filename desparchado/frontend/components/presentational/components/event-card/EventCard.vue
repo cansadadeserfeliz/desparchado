@@ -1,12 +1,14 @@
 <template>
   <component :is="tag" :class="[props.customClass, bem(baseClass)]" :id="id">
     <div :class="bem(baseClass, 'container')" :aria-labelledby="headingId">
-      <div :class="bem(baseClass, 'image')" role="presentation" aria-hidden="true">
-        <div
-          :class="bem(baseClass, 'image-asset')"
-          :style="`--featured-event-card-img-url: url('${imageUrl}');`"
-        ></div>
-      </div>
+      <a :href="link" :class="bem(baseClass, 'image-link')" tabindex="-1" aria-hidden="true">
+        <div :class="bem(baseClass, 'image')" role="presentation" aria-hidden="true">
+          <div
+            :class="bem(baseClass, 'image-asset')"
+            :style="`--featured-event-card-img-url: url('${imageUrl}');`"
+          ></div>
+        </div>
+      </a>
       <div :class="bem(baseClass, 'wrapper')">
         <div :class="bem(baseClass, 'details')">
           <Typography
@@ -32,14 +34,16 @@
             />
           </div>
         </div>
-        <Typography
-          tag="p"
-          :customClass="bem(baseClass, 'title')"
-          type="h5"
-          weight="medium"
-          :text="title"
-          :id="headingId"
-        />
+        <a :href="link" :class="bem(baseClass, 'title-link')">
+          <Typography
+            tag="p"
+            :customClass="bem(baseClass, 'title')"
+            type="h5"
+            weight="medium"
+            :text="title"
+            :id="headingId"
+          />
+        </a>
         <div :class="bem(baseClass, 'description')">
           <div class="text-body-sm rich-text-description" v-html="description" />
         </div>
