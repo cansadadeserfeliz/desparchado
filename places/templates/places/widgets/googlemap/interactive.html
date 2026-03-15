@@ -1,0 +1,107 @@
+{# Extracted from django-map-widgets v0.5.1 (https://github.com/erdem/django-map-widgets) #}
+{# Changes applied: #}
+{#   - {{ id }} replaced with {{ widget_id }} to match the local widget's get_context output. #}
+{#   - gmp-placeselect event replaced with gmp-select; place obtained via placePrediction.toPlace(). #}
+{#   - All UI strings translated to Colombian Spanish; coordinate placeholders use Bogotá values. #}
+{#   - <a> control elements replaced with <button type="button"> for keyboard accessibility; aria-labels added. #}
+{% load i18n %}
+
+<div class="mw-wrap" id="{{ name }}-mw-wrap">
+    <div class="mw-header">
+        <button type="button" class="mw-btn mw-btn-warning mw-btn-add-marker" aria-label="{% trans 'Marcar en el mapa' %}">
+            <i class="icon-location"></i>
+            <span class="button-text">{% trans "Marcar en el mapa" %}</span>
+        </button>
+        <button type="button" class="mw-btn mw-btn-info mw-btn-my-location" aria-label="{% trans 'Mi ubicación' %}">
+            <i class="icon-direction"></i>
+            <span class="button-text">{% trans "Mi ubicación" %}</span>
+        </button>
+        <div class="mw-coordinates-wrap">
+            <button type="button" class="mw-btn mw-btn-default mw-btn-coordinates" aria-label="{% trans 'Editar coordenadas' %}">
+                <i class="icon-down-open"></i>
+                <span class="button-text">{% trans "Editar coordenadas" %}</span>
+            </button>
+            <div class="mw-coordinates-overlay hide">
+                <label for="{{ name }}-mw-overlay-latitude">
+                    {% trans "Latitud:" %}
+                    <input type="text" id="{{ name }}-mw-overlay-latitude"
+                           class="form-control mw-overlay-input mw-overlay-latitude"
+                           placeholder="{% trans 'Ej: 4.710989' %}"/>
+                </label>
+                <label for="{{ name }}-mw-overlay-longitude">
+                    {% trans "Longitud:" %}
+                    <input type="text" id="{{ name }}-mw-overlay-longitude"
+                           class="form-control mw-overlay-input mw-overlay-longitude"
+                           placeholder="{% trans 'Ej: -74.072092' %}"/>
+                </label>
+                <button type="button" class="mw-btn mw-btn-success mw-btn-coordinates-done pull-right" aria-label="{% trans 'Listo' %}">{% trans "Listo" %}</button>
+            </div>
+        </div>
+
+        <div class="mw-adress-input-wrap pull-right">
+            <input type="text" class="form-control pull-right" id="{{ name }}-mw-google-address-input"
+                   role="presentation" autocomplete="off"
+                   placeholder="{% trans 'Buscar por dirección' %}"/>
+        </div>
+    </div>
+
+    <div class="mw-map-wrapper">
+        <div class="mw-loader-overlay hide">
+            <div class="mw-loader"></div>
+        </div>
+        <div id="{{ name }}-map-elem" class="mw-map"></div>
+        <div style="display: none" class="hide">
+            <textarea id="{{ widget_id }}" name="{{ name }}">{{ serialized }}</textarea>
+        </div>
+    </div>
+
+    <div class="mw-footer">
+        <span class="mw-help-text help-text">{% trans "Ubica el pin o escribe una dirección para marcar el punto en el mapa" %}</span>
+        <button type="button" class="mw-btn mw-btn-delete pull-right
+                {{ serialized|yesno:"mw-btn-danger, mw-btn-default disabled" }}"
+                aria-label="{% trans 'Eliminar ubicación' %}"><i
+                class="icon-trash-empty"></i></button>
+    </div>
+</div>
+
+<script type="application/javascript">
+    (function ($) {
+        const widgetSettings = JSON.parse("{{ options|escapejs }}");
+        const fieldValue = JSON.parse("{{ field_value|escapejs }}");
+
+        const widgetWrapSelector = "#{{ name }}-mw-wrap";
+        const mapId = "{{ name }}-map-elem";
+        const googleAutoInputId = "{{ name }}-mw-google-address-input";
+        const djangoInputId = "#{{ widget_id }}";
+
+        const pointFieldWidgetOptions = {
+            mapId: mapId,
+            djangoInput: $(djangoInputId),
+            wrapElemSelector: widgetWrapSelector,
+            djangoGeoJSONValue: fieldValue,
+            mapElement: document.getElementById(mapId),
+            coordinatesOverlayToggleBtn: $(".mw-btn-coordinates", widgetWrapSelector),
+            coordinatesOverlayDoneBtn: $(".mw-btn-coordinates-done", widgetWrapSelector),
+            coordinatesOverlayInputs: $(".mw-overlay-input", widgetWrapSelector),
+            coordinatesOverlay: $(".mw-coordinates-overlay", widgetWrapSelector),
+            myLocationBtn: $(".mw-btn-my-location", widgetWrapSelector),
+            addressAutoCompleteInput: document.getElementById(googleAutoInputId),
+            deleteBtn: $(".mw-btn-delete", widgetWrapSelector),
+            addMarkerBtn: $(".mw-btn-add-marker", widgetWrapSelector),
+            loaderOverlayElem: $(".mw-loader-overlay", widgetWrapSelector),
+            mapOptions: widgetSettings.mapOptions,
+            mapCenterLocationName: widgetSettings.mapCenterLocationName,
+            markerFitZoom: widgetSettings.markerFitZoom,
+            GooglePlaceAutocompleteOptions: widgetSettings.GooglePlaceAutocompleteOptions,
+            markerCreateTriggerNameSpace: "googleMapPointFieldWidget:markerCreate",
+            markerChangeTriggerNameSpace: "googleMapPointFieldWidget:markerChange",
+            markerDeleteTriggerNameSpace: "googleMapPointFieldWidget:markerDelete",
+            placeChangedTriggerNameSpace: "googleMapPointFieldWidget:placeChanged"
+        };
+
+        mapWidgets.googleMapCallbacks.push({
+            "class": DjangoGooglePointFieldWidget,
+            "options": pointFieldWidgetOptions
+        });
+    })(mapWidgets.jQuery);
+</script>

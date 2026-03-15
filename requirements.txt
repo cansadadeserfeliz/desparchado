@@ -344,10 +344,6 @@ django-ipware==7.0.1 \
     --hash=sha256:d9ec43d2bf7cdf216fed8d494a084deb5761a54860a53b2e74346a4f384cff47 \
     --hash=sha256:db16bbee920f661ae7f678e4270460c85850f03c6761a4eaeb489bdc91f64709
     # via django-axes
-django-map-widgets==0.5.2 \
-    --hash=sha256:08e20134c93c346d37b5ca9bf80b9a5cb3c76d450752dc31bb8932c3022d3221 \
-    --hash=sha256:b694f013ccb86f8e48b6eeb19d33c322d01a085de559dd52ff7e73df1e62a3c9
-    # via -r requirements.in
 django-model-utils==5.0.0 \
     --hash=sha256:041cdd6230d2fbf6cd943e1969318bce762272077f4ecd333ab2263924b4e5eb \
     --hash=sha256:fec78e6c323d565a221f7c4edc703f4567d7bb1caeafe1acd16a80c5ff82056b
