@@ -3,6 +3,9 @@
  * Changes applied:
  *   - Added .mw-header .mw-adress-input-wrap gmp-place-autocomplete rule to size
  *     the PlaceAutocompleteElement web component within its container.
+ *   - Colors aligned to site design tokens (_variables.scss): focus ring and
+ *     interactive colors use dp-violet-300 (#0d00a4); grays use gray-900/700/600;
+ *     default button background uses dp-orange-50 (#fbf8f2).
  */
 
 @font-face {
@@ -73,7 +76,7 @@
 }
 
 .mw-wrap {
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: Geist, sans-serif;
     width: 80%;
     min-width: 500px;
     margin-bottom: 10px;
@@ -96,10 +99,9 @@
     padding: 6px 12px;
     font-size: 14px;
     line-height: 1.42857143;
-    color: #555;
+    color: #5a5a5a;
     background-color: #fff;
     background-image: none;
-    border-radius: 4px;
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
     transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
 }
@@ -126,9 +128,9 @@
 }
 
 .mw-wrap .form-control:focus {
-    border-color: #66afe9;
+    border-color: #0d00a4;
     outline: 0;
-    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(13, 0, 164, .2);
 }
 
 .mw-header {
@@ -151,7 +153,7 @@
 
 .mw-coordinates-overlay {
     width: 180px;
-    background: #e7e7e7;
+    background: #ededed;
     margin-top: 3px;
     position: absolute;
     z-index: 10000;
@@ -164,7 +166,7 @@
     width: 100%;
     height: 60px;
     font-weight: 500;
-    color: #36454F;
+    color: #3c3c3c;
     overflow: hidden;
 }
 
@@ -228,7 +230,7 @@
 
 .mw-help-text.help-text {
     font-size: 11px;
-    color: #5c5c5c;
+    color: #5a5a5a;
 }
 
 .mw-btn {
@@ -245,7 +247,6 @@
     padding: 6px 12px;
     font-size: 14px;
     line-height: 1.42857143;
-    border-radius: 4px;
     user-select: none;
     text-decoration: none;
 }
@@ -263,7 +264,7 @@
 .mw-btn:hover,
 .mw-btn:focus,
 .mw-btn.focus {
-    color: #333333;
+    color: #222222;
     text-decoration: none;
 }
 
@@ -288,22 +289,21 @@ fieldset[disabled] a.mw-btn {
 }
 
 .mw-btn-default {
-    color: #333333;
-    background-color: #f8f9fa;
+    color: #222222;
+    background-color: #fbf8f2;
     border-color: #cccccc;
-    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 1px 1px rgba(0, 0, 0, 0.075);
 }
 
 .mw-btn-default:focus,
 .mw-btn-default.focus {
-    color: #333333;
+    color: #222222;
     background-color: #e6e6e6;
     border-color: #8c8c8c;
 }
 
 .mw-btn-default:hover {
-    color: #333333;
+    color: #222222;
     background-color: #e6e6e6;
     border-color: #adadad;
 }
@@ -311,7 +311,7 @@ fieldset[disabled] a.mw-btn {
 .mw-btn-default:active,
 .mw-btn-default.active,
 .open > .dropdown-toggle.mw-btn-default {
-    color: #333333;
+    color: #222222;
     background-color: #e6e6e6;
     border-color: #adadad;
     background-image: none;
@@ -326,7 +326,7 @@ fieldset[disabled] a.mw-btn {
 .mw-btn-default:active.focus,
 .mw-btn-default.active.focus,
 .open > .dropdown-toggle.mw-btn-default.focus {
-    color: #333333;
+    color: #222222;
     background-color: #d4d4d4;
     border-color: #8c8c8c;
 }
@@ -340,40 +340,41 @@ fieldset[disabled] .mw-btn-default:focus,
 .mw-btn-default.disabled.focus,
 .mw-btn-default[disabled].focus,
 fieldset[disabled] .mw-btn-default.focus {
-    background-color: #ffffff;
+    background-color: #fbf8f2;
     border-color: #cccccc;
 }
 
 .mw-btn-default .badge {
     color: #ffffff;
-    background-color: #333333;
+    background-color: #222222;
 }
 
 .mw-btn-primary {
     color: #ffffff;
-    background-color: #337ab7;
-    border-color: #2e6da4;
+
+    background-color: #0d00a4;
+    border-color: #0a0080;
 }
 
 .mw-btn-primary:focus,
 .mw-btn-primary.focus {
     color: #ffffff;
-    background-color: #286090;
-    border-color: #122b40;
+    background-color: #0a0080;
+    border-color: #030030;
 }
 
 .mw-btn-primary:hover {
     color: #ffffff;
-    background-color: #286090;
-    border-color: #204d74;
+    background-color: #0a0080;
+    border-color: #06004d;
 }
 
 .mw-btn-primary:active,
 .mw-btn-primary.active,
 .open > .dropdown-toggle.mw-btn-primary {
     color: #ffffff;
-    background-color: #286090;
-    border-color: #204d74;
+    background-color: #0a0080;
+    border-color: #06004d;
     background-image: none;
 }
 
@@ -387,8 +388,8 @@ fieldset[disabled] .mw-btn-default.focus {
 .mw-btn-primary.active.focus,
 .open > .dropdown-toggle.mw-btn-primary.focus {
     color: #ffffff;
-    background-color: #204d74;
-    border-color: #122b40;
+    background-color: #07005a;
+    border-color: #030030;
 }
 
 .mw-btn-primary.disabled:hover,
@@ -400,12 +401,12 @@ fieldset[disabled] .mw-btn-primary:focus,
 .mw-btn-primary.disabled.focus,
 .mw-btn-primary[disabled].focus,
 fieldset[disabled] .mw-btn-primary.focus {
-    background-color: #337ab7;
-    border-color: #2e6da4;
+    background-color: #0d00a4;
+    border-color: #0a0080;
 }
 
 .mw-btn-primary .badge {
-    color: #337ab7;
+    color: #0d00a4;
     background-color: #ffffff;
 }
 
@@ -470,20 +471,17 @@ fieldset[disabled] .mw-btn-success.focus {
 }
 
 .mw-btn-info {
-    color: #ffffff;
     background-color: #5bc0de;
     border-color: #46b8da;
 }
 
 .mw-btn-info:focus,
 .mw-btn-info.focus {
-    color: #ffffff;
     background-color: #31b0d5;
     border-color: #1b6d85;
 }
 
 .mw-btn-info:hover {
-    color: #ffffff;
     background-color: #31b0d5;
     border-color: #269abc;
 }
@@ -491,7 +489,6 @@ fieldset[disabled] .mw-btn-success.focus {
 .mw-btn-info:active,
 .mw-btn-info.active,
 .open > .dropdown-toggle.mw-btn-info {
-    color: #ffffff;
     background-color: #31b0d5;
     border-color: #269abc;
     background-image: none;
@@ -506,7 +503,6 @@ fieldset[disabled] .mw-btn-success.focus {
 .mw-btn-info:active.focus,
 .mw-btn-info.active.focus,
 .open > .dropdown-toggle.mw-btn-info.focus {
-    color: #ffffff;
     background-color: #269abc;
     border-color: #1b6d85;
 }
@@ -530,30 +526,26 @@ fieldset[disabled] .mw-btn-info.focus {
 }
 
 .mw-btn-warning {
-    color: #ffffff;
-    background-color: #f0ad4e;
-    border-color: #eea236;
+    background-color: #efc26a;
+    border-color: #edba50;
 }
 
 .mw-btn-warning:focus,
 .mw-btn-warning.focus {
-    color: #ffffff;
-    background-color: #ec971f;
-    border-color: #985f0d;
+    background-color: #eab038;
+    border-color: #b88010;
 }
 
 .mw-btn-warning:hover {
-    color: #ffffff;
-    background-color: #ec971f;
-    border-color: #d58512;
+    background-color: #eab038;
+    border-color: #d49820;
 }
 
 .mw-btn-warning:active,
 .mw-btn-warning.active,
 .open > .dropdown-toggle.mw-btn-warning {
-    color: #ffffff;
-    background-color: #ec971f;
-    border-color: #d58512;
+    background-color: #eab038;
+    border-color: #d49820;
     background-image: none;
 }
 
@@ -566,9 +558,8 @@ fieldset[disabled] .mw-btn-info.focus {
 .mw-btn-warning:active.focus,
 .mw-btn-warning.active.focus,
 .open > .dropdown-toggle.mw-btn-warning.focus {
-    color: #ffffff;
-    background-color: #d58512;
-    border-color: #985f0d;
+    background-color: #dd9c18;
+    border-color: #b88010;
 }
 
 .mw-btn-warning.disabled:hover,
@@ -580,12 +571,12 @@ fieldset[disabled] .mw-btn-warning:focus,
 .mw-btn-warning.disabled.focus,
 .mw-btn-warning[disabled].focus,
 fieldset[disabled] .mw-btn-warning.focus {
-    background-color: #f0ad4e;
-    border-color: #eea236;
+    background-color: #efc26a;
+    border-color: #edba50;
 }
 
 .mw-btn-warning .badge {
-    color: #f0ad4e;
+    color: #efc26a;
     background-color: #ffffff;
 }
 
@@ -650,9 +641,8 @@ fieldset[disabled] .mw-btn-danger.focus {
 }
 
 .mw-btn-link {
-    color: #337ab7;
+    color: #0d00a4;
     font-weight: normal;
-    border-radius: 0;
 }
 
 .mw-btn-link,
@@ -673,7 +663,7 @@ fieldset[disabled] .mw-btn-link {
 
 .mw-btn-link:hover,
 .mw-btn-link:focus {
-    color: #23527c;
+    color: #08007a;
     text-decoration: underline;
     background-color: transparent;
 }
@@ -682,7 +672,7 @@ fieldset[disabled] .mw-btn-link {
 fieldset[disabled] .mw-btn-link:hover,
 .mw-btn-link[disabled]:focus,
 fieldset[disabled] .mw-btn-link:focus {
-    color: #777777;
+    color: #7f7f7f;
     text-decoration: none;
 }
 
@@ -690,21 +680,18 @@ fieldset[disabled] .mw-btn-link:focus {
     padding: 10px 16px;
     font-size: 18px;
     line-height: 1.3333333;
-    border-radius: 6px;
 }
 
 .mw-btn-sm {
     padding: 5px 10px;
     font-size: 12px;
     line-height: 1.5;
-    border-radius: 3px;
 }
 
 .mw-btn-xs {
     padding: 1px 5px;
     font-size: 12px;
     line-height: 1.5;
-    border-radius: 3px;
 }
 
 .mw-btn-block {

@@ -91,7 +91,7 @@ class GoogleMapPointFieldWidget(forms.BaseGeometryWidget):
         if not api_key:
             raise ValueError(
                 "Google Maps API key is not set. "
-                "Configure MAP_WIDGETS['GoogleMap']['apiKey'] or GOOGLE_MAPS_API_KEY in settings."
+                "Configure MAP_WIDGETS['GoogleMap']['apiKey'] or GOOGLE_MAPS_API_KEY in settings.",
             )
         cdn_params = {"key": api_key, **config["cdn_url_params"]}
         return f"https://maps.googleapis.com/maps/api/js?{urlencode(cdn_params)}"
