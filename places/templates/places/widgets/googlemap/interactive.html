@@ -3,23 +3,24 @@
 {#   - {{ id }} replaced with {{ widget_id }} to match the local widget's get_context output. #}
 {#   - gmp-placeselect event replaced with gmp-select; place obtained via placePrediction.toPlace(). #}
 {#   - All UI strings translated to Colombian Spanish; coordinate placeholders use Bogotá values. #}
+{#   - <a> control elements replaced with <button type="button"> for keyboard accessibility; aria-labels added. #}
 {% load i18n %}
 
 <div class="mw-wrap" id="{{ name }}-mw-wrap">
     <div class="mw-header">
-        <a class="mw-btn mw-btn-warning mw-btn-add-marker">
+        <button type="button" class="mw-btn mw-btn-warning mw-btn-add-marker" aria-label="{% trans 'Marcar en el mapa' %}">
             <i class="icon-location"></i>
             <span class="button-text">{% trans "Marcar en el mapa" %}</span>
-        </a>
-        <a class="mw-btn mw-btn-info mw-btn-my-location">
+        </button>
+        <button type="button" class="mw-btn mw-btn-info mw-btn-my-location" aria-label="{% trans 'Mi ubicación' %}">
             <i class="icon-direction"></i>
             <span class="button-text">{% trans "Mi ubicación" %}</span>
-        </a>
+        </button>
         <div class="mw-coordinates-wrap">
-            <a class="mw-btn mw-btn-default mw-btn-coordinates">
+            <button type="button" class="mw-btn mw-btn-default mw-btn-coordinates" aria-label="{% trans 'Editar coordenadas' %}">
                 <i class="icon-down-open"></i>
                 <span class="button-text">{% trans "Editar coordenadas" %}</span>
-            </a>
+            </button>
             <div class="mw-coordinates-overlay hide">
                 <label for="{{ name }}-mw-overlay-latitude">
                     {% trans "Latitud:" %}
@@ -33,7 +34,7 @@
                            class="form-control mw-overlay-input mw-overlay-longitude"
                            placeholder="{% trans 'Ej: -74.072092' %}"/>
                 </label>
-                <a class="mw-btn mw-btn-success mw-btn-coordinates-done pull-right">{% trans "Listo" %}</a>
+                <button type="button" class="mw-btn mw-btn-success mw-btn-coordinates-done pull-right" aria-label="{% trans 'Listo' %}">{% trans "Listo" %}</button>
             </div>
         </div>
 
@@ -56,9 +57,10 @@
 
     <div class="mw-footer">
         <span class="mw-help-text help-text">{% trans "Ubica el pin o escribe una dirección para marcar el punto en el mapa" %}</span>
-        <a class="mw-btn mw-btn-delete pull-right
-                {{ serialized|yesno:"mw-btn-danger, mw-btn-default disabled" }}"><i
-                class="icon-trash-empty"></i></a>
+        <button type="button" class="mw-btn mw-btn-delete pull-right
+                {{ serialized|yesno:"mw-btn-danger, mw-btn-default disabled" }}"
+                aria-label="{% trans 'Eliminar ubicación' %}"><i
+                class="icon-trash-empty"></i></button>
     </div>
 </div>
 
