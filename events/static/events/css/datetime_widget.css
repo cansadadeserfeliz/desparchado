@@ -34,17 +34,14 @@
   letter-spacing: -0.03em;
   color: #222222;
   background-color: #FBF8F2;
-
   border: 0.125rem solid #A5A5A5;
   border-radius: 100rem;
   min-height: 2.5rem;
   padding: 0 1rem;
-
   width: 100%;
   box-sizing: border-box;
   cursor: pointer;
   transition: border-color 0.15s ease, outline-color 0.15s ease;
-
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -75,20 +72,16 @@
 .datetime-widget__panel {
   position: absolute;
   z-index: 9999;
-
   background-color: #FBF8F2;
   border: 0.125rem solid #CCCCCC;
   border-radius: 1rem;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
   padding: 1rem;
-
   min-width: 280px;
   width: 280px;
-
   font-family: Geist, sans-serif;
   font-size: 14px;
   color: #222222;
-
   display: none;
 }
 
@@ -244,16 +237,13 @@
   letter-spacing: -0.03em;
   color: #222222;
   background-color: #FFFFFF;
-
   border: 0.125rem solid #A5A5A5;
   border-radius: 100rem;
   min-height: 2rem;
   padding: 0 0.6rem;
-
   width: 3.5rem;
   text-align: center;
   box-sizing: border-box;
-
   -moz-appearance: textfield;
 }
 
@@ -285,13 +275,11 @@
   font-weight: 600;
   letter-spacing: -0.02em;
   cursor: pointer;
-
   background-color: #0D00A4;
   color: #FFFFFF;
   border: none;
   border-radius: 100rem;
   padding: 0.4rem 1.2rem;
-
   transition: background-color 0.15s ease;
 }
 
