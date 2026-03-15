@@ -115,8 +115,8 @@
         },
 
         updateUXCoordinatesInputs: function (lat, lng) {
-            $(".mw-overlay-latitude", this.wrapElemSelector).val(lat || "");
-            $(".mw-overlay-longitude", this.wrapElemSelector).val(lng || "");
+            $(".mw-overlay-latitude", this.wrapElemSelector).val((lat === null || lat === undefined) ? "" : lat);
+            $(".mw-overlay-longitude", this.wrapElemSelector).val((lng === null || lng === undefined) ? "" : lng);
         },
 
         handleCoordinatesInputsChange: function (e) {

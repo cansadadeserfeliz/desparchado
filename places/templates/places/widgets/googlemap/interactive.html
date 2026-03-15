@@ -97,11 +97,9 @@
             placeChangedTriggerNameSpace: "googleMapPointFieldWidget:placeChanged"
         };
 
-        window.addEventListener("load", (event) => {
-            mapWidgets.googleMapCallbacks.push({
-                "class": DjangoGooglePointFieldWidget,
-                "options": pointFieldWidgetOptions
-            })
+        mapWidgets.googleMapCallbacks.push({
+            "class": DjangoGooglePointFieldWidget,
+            "options": pointFieldWidgetOptions
         });
     })(mapWidgets.jQuery);
 </script>

@@ -1,5 +1,8 @@
 // Extracted from django-map-widgets v0.5.1 (https://github.com/erdem/django-map-widgets)
-// Copied verbatim. No changes applied.
+// Changes applied:
+//   - googleMapWidgetsCallback: removed window.addEventListener("load", ...) wrapper;
+//     now iterates mapWidgets.googleMapCallbacks immediately so initialization happens
+//     as soon as the Google Maps API calls the callback, avoiding a load-event race.
 mapWidgets = {};
 
 // Array to store callback functions for Google Maps widget Classes
@@ -17,12 +20,10 @@ if (typeof django !== "undefined" && django.jQuery) {
 
 // This callback function execute by GoogleMap JS.
 function googleMapWidgetsCallback() {
-    window.addEventListener("load", (event) => {
-        for (let index = 0; index < mapWidgets.googleMapCallbacks.length; index++) {
-            const widgetCallback = mapWidgets.googleMapCallbacks[index]
-            new widgetCallback.class(widgetCallback.options)
-        }
-    });
+    for (let index = 0; index < mapWidgets.googleMapCallbacks.length; index++) {
+        const widgetCallback = mapWidgets.googleMapCallbacks[index];
+        new widgetCallback.class(widgetCallback.options);
+    }
 }
 
 
@@ -69,12 +70,12 @@ function googleMapWidgetsCallback() {
         return Class;
     };
 
-    if (typeof Function.bind === 'undefined') {
+    if (typeof Function.prototype.bind === 'undefined') {
 
         Function.prototype.bind = function (obj) {
             const method = this;
 
-            tmp = function () {
+            const tmp = function () {
                 return method.apply(obj, arguments);
             };
 
@@ -83,10 +84,10 @@ function googleMapWidgetsCallback() {
 
     }
 
-    if (!Array.indexOf) {
+    if (!Array.prototype.indexOf) {
         Array.prototype.indexOf = function (obj) {
             for (let i = 0; i < this.length; i++) {
-                if (this[i] == obj) {
+                if (this[i] === obj) {
                     return i;
                 }
             }

@@ -87,7 +87,13 @@ class GoogleMapPointFieldWidget(forms.BaseGeometryWidget):
     @property
     def _google_map_js_url(self) -> str:
         config = _get_google_map_settings()
-        cdn_params = {"key": config["api_key"], **config["cdn_url_params"]}
+        api_key: str = config["api_key"]
+        if not api_key:
+            raise ValueError(
+                "Google Maps API key is not set. "
+                "Configure MAP_WIDGETS['GoogleMap']['apiKey'] or GOOGLE_MAPS_API_KEY in settings."
+            )
+        cdn_params = {"key": api_key, **config["cdn_url_params"]}
         return f"https://maps.googleapis.com/maps/api/js?{urlencode(cdn_params)}"
 
     @property
