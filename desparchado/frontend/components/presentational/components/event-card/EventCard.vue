@@ -78,7 +78,7 @@
     day: string;
     time: string;
     imageUrl?: string;
-    link?: string;
+    link: string;
   }
 
   // -------- [Props] --------

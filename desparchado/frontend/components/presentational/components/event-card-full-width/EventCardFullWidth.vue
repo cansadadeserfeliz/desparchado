@@ -119,7 +119,7 @@
     // number is allowed in case the provided prop is a number from html
     dateCopy?: string | number;
     imageUrl?: string;
-    link?: string;
+    link: string;
     speakers?: Speaker[] | string;
   }
 
