@@ -1,6 +1,7 @@
 # Adapted from django-map-widgets v0.5.1 (https://github.com/erdem/django-map-widgets)
-# Reason: google.maps.places.Autocomplete is deprecated for new customers as of March 2025,
-# and the library had no immediate plan to migrate. The widget was extracted and rewritten
+# Reason: google.maps.places.Autocomplete is deprecated for new customers as of
+# March 2025, and the library had no immediate plan to migrate. The widget was
+# extracted and rewritten
 # as a self-contained local class to own the migration path.
 # Changes applied:
 #   - Rewritten as a standalone Django widget with no imports from mapwidgets.
@@ -91,7 +92,8 @@ class GoogleMapPointFieldWidget(forms.BaseGeometryWidget):
         if not api_key:
             raise ValueError(
                 "Google Maps API key is not set. "
-                "Configure MAP_WIDGETS['GoogleMap']['apiKey'] or GOOGLE_MAPS_API_KEY in settings.",
+                "Configure MAP_WIDGETS['GoogleMap']['apiKey'] or "
+                "GOOGLE_MAPS_API_KEY in settings.",
             )
         cdn_params = {"key": api_key, **config["cdn_url_params"]}
         return f"https://maps.googleapis.com/maps/api/js?{urlencode(cdn_params)}"
