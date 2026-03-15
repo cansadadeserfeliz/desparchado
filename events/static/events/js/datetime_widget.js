@@ -335,13 +335,10 @@
   }
 
   function confirmSelection(state) {
-    if (!state.selected) {
-      closePanel(state);
-      return;
-    }
+    const date = state.selected || new Date();
     const hours = parseInt(state.hourInput.value, 10) || 0;
     const minutes = parseInt(state.minInput.value, 10) || 0;
-    state.input.value = formatDatetime(state.selected, hours, minutes);
+    state.input.value = formatDatetime(date, hours, minutes);
     state.input.dispatchEvent(new Event('change', { bubbles: true }));
     closePanel(state);
     state.input.focus();
@@ -407,6 +404,17 @@
       }
     };
     window.addEventListener('resize', onResize);
+
+    const observer = new MutationObserver(() => {
+      if (!document.body.contains(input)) {
+        window.removeEventListener('resize', onResize);
+        if (state.panel.parentNode) {
+          state.panel.parentNode.removeChild(state.panel);
+        }
+        observer.disconnect();
+      }
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
   }
 
   // ─── Outside-click handler (document-level) ───────────────────────────────

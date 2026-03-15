@@ -51,7 +51,7 @@
 }
 
 .datetime-widget__input:hover {
-  border-color: #A5A5A5;
+  border-color: #7F7F7F;
 }
 
 .datetime-widget__input:focus {
@@ -264,7 +264,7 @@
 }
 
 .datetime-widget__time-input:hover {
-  border-color: #A5A5A5;
+  border-color: #7F7F7F;
 }
 
 .datetime-widget__time-input:focus {
