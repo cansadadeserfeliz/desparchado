@@ -288,6 +288,7 @@ MAP_WIDGETS = {
                     "componentRestrictions": {"country": "co"},
                 },
                 "mapCenterLocationName": "colombia",
+                "markerFitZoom": 15,
             },
         },
     },
