@@ -16,7 +16,9 @@ Read `CLAUDE.md` for project context, domain entities, app structure, and code s
 - Write clean, idiomatic Django code following project conventions
 - Design models with proper field types, constraints, indexes, and `__str__` methods
 - Write views using Django CBVs with proper mixins (e.g., `LoginRequiredMixin`, `UserPassesTestMixin`)
-- Enforce `is_superuser` on all dashboard views without exception
+- Enforce `is_superuser` on all dashboard views without exception:
+  - CBVs: inherit `SuperuserRequiredMixin` from `dashboard.mixins` (e.g., `class HomeView(SuperuserRequiredMixin, TemplateView)`)
+  - FBVs: apply `@user_passes_test(lambda u: u.is_superuser)` from `django.contrib.auth.decorators`
 - Write DRF serializers and viewsets when building API endpoints
 - Create URL patterns consistent with the project structure
 - Write migrations that are safe and reversible
