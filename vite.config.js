@@ -34,7 +34,6 @@ export default defineConfig({
         generic: resolve("./desparchado/frontend/scripts/generic.ts"),
         home: resolve("./desparchado/frontend/scripts/home.ts"),
         allauth: resolve("./desparchado/frontend/scripts/allauth.js"),
-        playground: resolve("./desparchado/static/ts/playground.ts"),
         old_main: resolve("./desparchado/static/ts/old_main.ts"),
         posts_pagination_initializer: resolve("./desparchado/static/ts/posts_pagination_initializer.ts"),
         dashboard: resolve("./desparchado/static/js/dashboard.js")
