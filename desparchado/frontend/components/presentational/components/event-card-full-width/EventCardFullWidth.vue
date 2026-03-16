@@ -24,12 +24,14 @@
           :text="time"
         />
       </div>
-      <div :class="bem(baseClass, 'image')" role="presentation" aria-hidden="true">
-        <div
-          :class="bem(baseClass, 'image-asset')"
-          :style="`--featured-event-card-img-url: url('${imageUrl}');`"
-        ></div>
-      </div>
+      <a :href="link" :class="bem(baseClass, 'image-link')" tabindex="-1" aria-hidden="true">
+        <div :class="bem(baseClass, 'image')" role="presentation" aria-hidden="true">
+          <div
+            :class="bem(baseClass, 'image-asset')"
+            :style="`--featured-event-card-img-url: url('${imageUrl}');`"
+          ></div>
+        </div>
+      </a>
       <div :class="bem(baseClass, 'wrapper')">
         <div :class="bem(baseClass, 'speakers')">
           <a
@@ -54,22 +56,24 @@
           </a>
         </div>
 
-        <div :class="bem(baseClass, 'title')">
-          <Typography
-            tag="span"
-            :customClass="bem(baseClass, 'location')"
-            type="h5"
-            :text="location"
-          />
-          <Typography
-            tag="p"
-            :customClass="bem(baseClass, 'title')"
-            type="h3"
-            weight="medium"
-            :text="title"
-            :id="headingId"
-          />
-        </div>
+        <a :href="link" :class="bem(baseClass, 'title-link')">
+          <div :class="bem(baseClass, 'title')">
+            <Typography
+              tag="span"
+              :customClass="bem(baseClass, 'location')"
+              type="h5"
+              :text="location"
+            />
+            <Typography
+              tag="p"
+              :customClass="bem(baseClass, 'title')"
+              type="h3"
+              weight="medium"
+              :text="title"
+              :id="headingId"
+            />
+          </div>
+        </a>
         <div :class="bem(baseClass, 'description')">
           <div class="text-body-md rich-text-description" v-html="description" />
         </div>
@@ -115,7 +119,7 @@
     // number is allowed in case the provided prop is a number from html
     dateCopy?: string | number;
     imageUrl?: string;
-    link?: string;
+    link: string;
     speakers?: Speaker[] | string;
   }
 

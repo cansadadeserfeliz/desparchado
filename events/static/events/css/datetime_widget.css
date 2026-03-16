@@ -1,0 +1,297 @@
+/*
+ * Datetime picker widget styles for Desparchado.
+ *
+ * Design tokens sourced from desparchado/frontend/styles/_variables.scss:
+ *   --dp-violet-300  : #0D00A4  (focus / interactive / selected)
+ *   --dp-violet-400  : #08007A  (hover state for interactive elements)
+ *   --dp-orange-200  : #EFC26A  (calendar cell hover background)
+ *   --dp-orange-50   : #FBF8F2  (panel background)
+ *   --gray-900       : #222222  (foreground text)
+ *   --gray-100       : #CCCCCC  (border default)
+ *   --gray-500       : #A5A5A5  (border hover / input border)
+ *   --gray-600       : #7F7F7F  (disabled / muted text)
+ *   --gray-00        : #FFFFFF  (white)
+ *
+ * Input pill style mirrors text-input.scss:
+ *   border: 0.125rem solid #A5A5A5
+ *   border-radius: 100rem
+ *   min-height: 2.5rem
+ *   padding: 0 1rem
+ */
+
+/* ─── Wrapper ──────────────────────────────────────────────────────────────── */
+
+.datetime-widget {
+  display: inline-block;
+  width: 100%;
+}
+
+/* ─── Main text input ───────────────────────────────────────────────────────── */
+
+.datetime-widget__input {
+  font-family: Geist, sans-serif;
+  font-size: 14px;
+  letter-spacing: -0.03em;
+  color: #222222;
+  background-color: #FBF8F2;
+  border: 0.125rem solid #A5A5A5;
+  border-radius: 100rem;
+  min-height: 2.5rem;
+  padding: 0 1rem;
+  width: 100%;
+  box-sizing: border-box;
+  cursor: pointer;
+  transition: border-color 0.15s ease, outline-color 0.15s ease;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+.datetime-widget__input:hover {
+  border-color: #7F7F7F;
+}
+
+.datetime-widget__input:focus {
+  outline: 0.125rem solid #0D00A4;
+  outline-offset: 0;
+  border-color: #0D00A4;
+}
+
+.datetime-widget__input::placeholder {
+  color: #7F7F7F;
+}
+
+.datetime-widget__input:disabled {
+  color: #7F7F7F;
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+/* ─── Dropdown panel ────────────────────────────────────────────────────────── */
+
+.datetime-widget__panel {
+  position: absolute;
+  z-index: 9999;
+  background-color: #FBF8F2;
+  border: 0.125rem solid #CCCCCC;
+  border-radius: 1rem;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  padding: 1rem;
+  min-width: 280px;
+  width: 280px;
+  font-family: Geist, sans-serif;
+  font-size: 14px;
+  color: #222222;
+  display: none;
+}
+
+.datetime-widget__panel--open {
+  display: block;
+}
+
+/* ─── Calendar section ──────────────────────────────────────────────────────── */
+
+.datetime-widget__calendar {
+  margin-bottom: 0.75rem;
+}
+
+.datetime-widget__cal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.datetime-widget__cal-nav {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #222222;
+  font-size: 1rem;
+  line-height: 1;
+  padding: 0.25rem 0.4rem;
+  border-radius: 50%;
+  transition: background-color 0.1s ease;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.datetime-widget__cal-nav:hover {
+  background-color: #EFC26A;
+}
+
+.datetime-widget__cal-nav:focus {
+  outline: 0.125rem solid #0D00A4;
+}
+
+.datetime-widget__cal-title {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  color: #222222;
+  text-align: center;
+  min-width: 10rem;
+}
+
+.datetime-widget__cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+}
+
+.datetime-widget__cal-dow {
+  text-align: center;
+  font-size: 11px;
+  font-weight: 600;
+  color: #7F7F7F;
+  padding: 0.2rem 0;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.datetime-widget__cal-day {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+  background: none;
+  color: #222222;
+  padding: 0;
+  transition: background-color 0.1s ease, color 0.1s ease;
+}
+
+.datetime-widget__cal-day:hover:not(.datetime-widget__cal-day--empty) {
+  background-color: #EFC26A;
+}
+
+.datetime-widget__cal-day:focus {
+  outline: 0.125rem solid #0D00A4;
+}
+
+.datetime-widget__cal-day--empty {
+  cursor: default;
+  pointer-events: none;
+}
+
+.datetime-widget__cal-day--today {
+  position: relative;
+}
+
+.datetime-widget__cal-day--today::after {
+  content: "";
+  position: absolute;
+  bottom: 2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background-color: #0D00A4;
+}
+
+.datetime-widget__cal-day--selected {
+  background-color: #0D00A4;
+  color: #FFFFFF;
+}
+
+.datetime-widget__cal-day--selected:hover {
+  background-color: #08007A;
+}
+
+/* ─── Time picker section ───────────────────────────────────────────────────── */
+
+.datetime-widget__time {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 0.75rem;
+}
+
+.datetime-widget__time-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #7F7F7F;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  margin-right: 0.25rem;
+  white-space: nowrap;
+}
+
+.datetime-widget__time-sep {
+  font-size: 16px;
+  font-weight: 600;
+  color: #222222;
+  line-height: 1;
+}
+
+.datetime-widget__time-input {
+  font-family: Geist, sans-serif;
+  font-size: 14px;
+  letter-spacing: -0.03em;
+  color: #222222;
+  background-color: #FFFFFF;
+  border: 0.125rem solid #A5A5A5;
+  border-radius: 100rem;
+  min-height: 2rem;
+  padding: 0 0.6rem;
+  width: 3.5rem;
+  text-align: center;
+  box-sizing: border-box;
+  -moz-appearance: textfield;
+}
+
+.datetime-widget__time-input::-webkit-outer-spin-button,
+.datetime-widget__time-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.datetime-widget__time-input:hover {
+  border-color: #7F7F7F;
+}
+
+.datetime-widget__time-input:focus {
+  outline: 0.125rem solid #0D00A4;
+  border-color: #0D00A4;
+}
+
+/* ─── Footer / confirm button ───────────────────────────────────────────────── */
+
+.datetime-widget__footer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.datetime-widget__confirm {
+  font-family: Geist, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  cursor: pointer;
+  background-color: #0D00A4;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 100rem;
+  padding: 0.4rem 1.2rem;
+  transition: background-color 0.15s ease;
+}
+
+.datetime-widget__confirm:hover {
+  background-color: #08007A;
+}
+
+.datetime-widget__confirm:focus {
+  outline: 0.125rem solid #0D00A4;
+  outline-offset: 2px;
+}
+
+.datetime-widget__confirm:active {
+  background-color: #04004C;
+}

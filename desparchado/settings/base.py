@@ -66,7 +66,6 @@ INSTALLED_APPS = [
     "books",
     "news",
     "history",
-    "playground",
     "users",
     # `allauth` is placed after the `users` app,
     # which overrides some of the `allauth` templates
@@ -288,6 +287,7 @@ MAP_WIDGETS = {
                     "componentRestrictions": {"country": "co"},
                 },
                 "mapCenterLocationName": "colombia",
+                "markerFitZoom": 15,
             },
         },
     },
