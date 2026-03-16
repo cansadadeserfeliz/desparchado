@@ -79,7 +79,6 @@ urlpatterns = [
     path('specials/', include('specials.urls', namespace='specials')),
     path('historia/', include('history.urls', namespace='history')),
     path('dashboard/', include('dashboard.urls', namespace='dashboard')),
-    path('playground/', include('playground.urls', namespace='playground')),
 
     path('users/', include('users.urls', namespace='users')),
     path('accounts/', include('allauth.urls')),
