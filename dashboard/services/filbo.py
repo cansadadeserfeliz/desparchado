@@ -2,6 +2,7 @@ import json
 import logging
 import re
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 import gspread
 from dateutil.parser import parse
@@ -196,7 +197,7 @@ def sync_filbo_event(  # noqa: PLR0915
         The source_id string (e.g. 'FILBO2026_12345') on success, or None if the
         row is skipped (missing FILBo ID, invalid URL, or duplicate).
     """
-    logger.info(f'Started sync for FILBo event: {event_data}')
+    # logger.info(f'Started sync for FILBo event: {event_data}')
 
     def _get_event_field(col):
         """Return stripped cell value for column letter, or '' if missing."""
@@ -232,7 +233,11 @@ def sync_filbo_event(  # noqa: PLR0915
         logger.warning(f'Skipping duplicate FILBo event: {filbo_id}')
         return None
 
-    event_start_date = parse(f'{event_date} {start_time}')
+    # parse() returns a naive datetime; attach Bogotá tz since that is the local
+    # time zone used in the spreadsheet.
+    event_start_date = parse(f'{event_date} {start_time}').replace(
+        tzinfo=ZoneInfo('America/Bogota'),
+    )
     logger.debug(
         f'FILBo event ID extracted: {filbo_id}, {event_start_date}',
     )
