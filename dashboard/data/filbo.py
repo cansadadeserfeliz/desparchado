@@ -123,4 +123,8 @@ ORGANIZERS_MAP = {
         "Universidad Tecnológica de Pereira - UTP",
     "SIGLO DEL HOMBRE EDITORES": "Siglo Editorial",
     "Siglo Editorial": "Siglo Editorial",
+    "SOCIEDAD DE ESCRITORES UNIDOS": "Sociedad De Escritores Unidos",
+    "Museo Arqueológico?Musa.": "MUSA Museo Arqueológico",
+    "UNIVERSIDAD PEDAGOGICA NACIONAL": "Universidad Pedagógica Nacional",
+    "Editorial UPTC": "Universidad Pedagógica y Tecnológica de Colombia",
 }

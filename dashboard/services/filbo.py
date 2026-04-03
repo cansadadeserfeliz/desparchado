@@ -1,7 +1,9 @@
 import json
 import logging
 import re
+import urllib.parse
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 import gspread
 from dateutil.parser import parse
@@ -24,6 +26,26 @@ logger = logging.getLogger(__name__)
 FILBO_SPECIAL_TITLE = 'FILBo 2026'
 SOURCE_ID_PREFIX = 'FILBO2026_'
 EVENT_TITLE_SUFFIX = 'FILBo 2026'
+
+
+def _normalize_filbo_url(url: str) -> str:
+    """Return a valid, percent-encoded URL from a raw FILBo spreadsheet cell.
+
+    Spreadsheet cells sometimes contain the URL split across multiple lines or
+    with stray spaces. Non-ASCII characters (accented slugs) also cause Django's
+    URLValidator to reject otherwise legitimate URLs. This function:
+      1. Strips all whitespace and newlines by joining split tokens.
+      2. Percent-encodes non-ASCII and unsafe characters in the URL path while
+         leaving the scheme, host, and already-encoded sequences intact.
+    """
+    # Remove newlines introduced by multi-line spreadsheet cells.
+    # Spaces are preserved — they are intentional parts of some slugs and will
+    # be percent-encoded as %20 by urllib.parse.quote below.
+    url = url.replace('\r\n', '').replace('\n', '').replace('\r', '').strip()
+    parsed = urllib.parse.urlsplit(url)
+    # Re-encode the path: keep all standard URL-safe chars, encode everything else.
+    encoded_path = urllib.parse.quote(parsed.path, safe='/:@!$&\'()*+,;=._~%-')
+    return urllib.parse.urlunsplit(parsed._replace(path=encoded_path))
 
 
 def get_organizers(
@@ -57,8 +79,14 @@ def get_organizers(
             },
         )
         if created:
-            logger.warning(f'FILBo organizer was created: {organizer}')
+            logger.info(f'FILBo organizer was created: {organizer}')
         organizers.append(organizer)
+    else:
+        try:
+            organizer = Organizer.objects.get(name__iexact=organizer_name)
+            organizers.append(organizer)
+        except Organizer.DoesNotExist:
+            pass
 
     return organizers
 
@@ -163,6 +191,7 @@ def sync_filbo_event(  # noqa: PLR0915
     speakers_map: list[dict[str, str]],
     default_organizer: Organizer,
     request_user: User,
+    already_synced_ids: set[str] | None = None,
 ) -> str | None:
     """Upsert a single FILBo event from a spreadsheet row.
 
@@ -179,12 +208,17 @@ def sync_filbo_event(  # noqa: PLR0915
         speakers_map: Passed through to get_speakers(); see that function.
         default_organizer: Passed through to get_organizers(); see that function.
         request_user: User used for any object creation.
+        already_synced_ids: Source IDs already processed in this sync run. When a
+            row's ID is already present the row is skipped, preserving the first
+            occurrence. Needed for 2026 where corrupted source data caused some
+            events (e.g. "Inauguración FILBo", ID 46028) to appear multiple times
+            with the same /descripcion-actividad/ URL.
 
     Returns:
         The source_id string (e.g. 'FILBO2026_12345') on success, or None if the
-        row is skipped (missing FILBo ID or invalid URL).
+        row is skipped (missing FILBo ID, invalid URL, or duplicate).
     """
-    logger.info(f'Started sync for FILBo event: {event_data}')
+    # logger.info(f'Started sync for FILBo event: {event_data}')
 
     def _get_event_field(col):
         """Return stripped cell value for column letter, or '' if missing."""
@@ -199,7 +233,7 @@ def sync_filbo_event(  # noqa: PLR0915
     start_time = _get_event_field('C')
     place = _get_event_field('E')
     filbo_category = _get_event_field('G')
-    link = _get_event_field('H')
+    link = _normalize_filbo_url(_get_event_field('H'))
     description = _get_event_field('J')
     organizer = _get_event_field('K')
     participants = _get_event_field('L')
@@ -208,12 +242,23 @@ def sync_filbo_event(  # noqa: PLR0915
     filbo_id = match.group(1) if match else None
 
     if filbo_id is None:
-        logger.error(f'FILBo ID was not found for {link}')
+        logger.warning(f'FILBo ID was not found for {link}')
         return None
 
     filbo_id = SOURCE_ID_PREFIX + filbo_id
 
-    event_start_date = parse(f'{event_date} {start_time}')
+    # Skip rows whose ID was already processed in this run. This handles the
+    # 2026 data corruption where some events share the same source URL and would
+    # otherwise overwrite the first (correctly dated) occurrence.
+    if already_synced_ids and filbo_id in already_synced_ids:
+        logger.warning(f'Skipping duplicate FILBo event: {filbo_id}')
+        return None
+
+    # parse() returns a naive datetime; attach Bogotá tz since that is the local
+    # time zone used in the spreadsheet.
+    event_start_date = parse(f'{event_date} {start_time}').replace(
+        tzinfo=ZoneInfo('America/Bogota'),
+    )
     logger.debug(
         f'FILBo event ID extracted: {filbo_id}, {event_start_date}',
     )
@@ -223,12 +268,12 @@ def sync_filbo_event(  # noqa: PLR0915
 
     try:
         URLValidator()(link)
-    except (ValidationError,) as e:
-        logger.error('Invalid FILBo event URL', extra={"link": link}, exc_info=e)
+    except ValidationError:
+        logger.warning('Skipping FILBo event with invalid URL: %s', link)
         return None
 
     if len(link) > Event.EVENT_SOURCE_URL_MAX_LENGTH:
-        logger.error('Invalid FILBo event URL', extra={"link": link})
+        logger.warning('Skipping FILBo event with URL exceeding max length: %s', link)
         return None
 
     category = {
@@ -252,7 +297,6 @@ def sync_filbo_event(  # noqa: PLR0915
         'is_published': True,
         'is_approved': True,
     }
-    logger.debug(f'FILBo event {filbo_id} defaults', extra=defaults)
     event, created = Event.objects.update_or_create(
         source_id=filbo_id,
         defaults=defaults,
@@ -314,7 +358,6 @@ def sync_filbo_events(
     spreadsheet = gc.open_by_key(spreadsheet_id)
     sheet = spreadsheet.get_worksheet(worksheet_number)
     results = sheet.get(worksheet_range)
-    logger.info(results)
 
     speakers_map = spreadsheet.get_worksheet(1).get_all_records()
 
@@ -332,6 +375,9 @@ def sync_filbo_events(
             speakers_map=speakers_map,
             default_organizer=default_organizer,
             request_user=request_user,
+            # Pass the running set so duplicate rows in the sheet are skipped
+            # after the first occurrence has been synced.
+            already_synced_ids=synced_filbo_ids,
         )
         if filbo_id is not None:
             synced_filbo_ids.add(filbo_id)
