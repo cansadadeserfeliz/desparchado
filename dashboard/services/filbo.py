@@ -42,31 +42,45 @@ def get_organizers(organizer_name, default_organizer, request_user):
     return organizers
 
 
+def _speaker_matches(
+    speaker_record: dict,
+    participants: str,
+    event_title: str,
+    event_description: str,
+) -> bool:
+    filbo_name = speaker_record['FILBO_NAME']
+    canonical_name = speaker_record['CANONICAL_NAME']
+    search_texts = (participants, event_title, event_description)
+    return any(filbo_name in text or canonical_name in text for text in search_texts)
+
+
 def get_speakers(
     participants, speakers_map, event_title, event_description, request_user,
 ):
+    seen: set[str] = set()
     speakers = []
 
     for speaker_record in speakers_map:
         if not speaker_record['FILBO_NAME'] or not speaker_record['CANONICAL_NAME']:
             continue
-
-        if (
-            speaker_record['FILBO_NAME'] in participants
-            or speaker_record['FILBO_NAME'] in event_description
-            or speaker_record['FILBO_NAME'] in event_title
-            or speaker_record['CANONICAL_NAME'] in event_description
-            or speaker_record['CANONICAL_NAME'] in event_title
+        if not _speaker_matches(
+            speaker_record, participants, event_title, event_description,
         ):
-            speaker, _ = Speaker.objects.get_or_create(
-                name=speaker_record['CANONICAL_NAME'],
-                defaults={
-                    "created_by": request_user,
-                    "description": speaker_record['DESCRIPTION'],
-                },
-            )
-            if speaker and speaker not in speakers:
-                speakers.append(speaker)
+            continue
+
+        canonical_name = speaker_record['CANONICAL_NAME']
+        if canonical_name in seen:
+            continue
+
+        speaker, _ = Speaker.objects.get_or_create(
+            name=canonical_name,
+            defaults={
+                "created_by": request_user,
+                "description": speaker_record['DESCRIPTION'],
+            },
+        )
+        seen.add(canonical_name)
+        speakers.append(speaker)
 
     return speakers
 
