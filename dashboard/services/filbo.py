@@ -24,6 +24,20 @@ EVENT_TITLE_SUFFIX = 'FILBo 2026'
 
 
 def get_organizers(organizer_name, default_organizer, request_user):
+    """Return the list of organizers for a FILBo event.
+
+    Always includes the default FILBo organizer. If organizer_name maps to a
+    canonical name in ORGANIZERS_MAP, that organizer is fetched or created and
+    appended.
+
+    Args:
+        organizer_name: Raw organizer string from the spreadsheet cell.
+        default_organizer: The base FILBo Organizer instance, always included.
+        request_user: User assigned as created_by when a new Organizer is created.
+
+    Returns:
+        List of Organizer instances (1 or 2 elements).
+    """
     organizers = [default_organizer]
 
     canonical_organizer_name = ORGANIZERS_MAP.get(organizer_name.strip())
@@ -48,6 +62,10 @@ def _speaker_matches(
     event_title: str,
     event_description: str,
 ) -> bool:
+    """Return True if the speaker's FILBo or canonical name appears in any event field.
+
+    Checks participants, event title, and event description.
+    """
     filbo_name = speaker_record['FILBO_NAME']
     canonical_name = speaker_record['CANONICAL_NAME']
     search_texts = (participants, event_title, event_description)
@@ -57,6 +75,23 @@ def _speaker_matches(
 def get_speakers(
     participants, speakers_map, event_title, event_description, request_user,
 ):
+    """Resolve Speaker instances for a FILBo event.
+
+    Iterates the speakers map (worksheet 2) and matches each record against the
+    participants field, event title, and description. Deduplicates by canonical
+    name. Fetches or creates a Speaker for each match.
+
+    Args:
+        participants: Raw participants string from the spreadsheet cell.
+        speakers_map: List of dicts from gspread.get_all_records(); each dict
+            must have FILBO_NAME, CANONICAL_NAME, and DESCRIPTION keys.
+        event_title: Event title used as a fallback match target.
+        event_description: Event description used as a fallback match target.
+        request_user: User assigned as created_by when a new Speaker is created.
+
+    Returns:
+        List of Speaker instances (may be empty).
+    """
     seen: set[str] = set()
     speakers = []
 
@@ -86,6 +121,18 @@ def get_speakers(
 
 
 def get_place(place_name, request_user):
+    """Fetch or create a Place for the given FILBo venue name.
+
+    All FILBo venues are inside Corferias, so the place name is suffixed with
+    '| Corferias' and the location defaults to Corferias coordinates.
+
+    Args:
+        place_name: Venue name from the spreadsheet (e.g. 'Salón Ágora').
+        request_user: User assigned as created_by when a new Place is created.
+
+    Returns:
+        A Place instance.
+    """
     formatted_place_name = f'{place_name} | Corferias'
     try:
         return Place.objects.get(name=formatted_place_name)
@@ -99,7 +146,6 @@ def get_place(place_name, request_user):
         )
 
 
-# pylint: disable=too-many-locals
 def sync_filbo_event(  # noqa: PLR0915
     event_data,
     special,
@@ -107,9 +153,30 @@ def sync_filbo_event(  # noqa: PLR0915
     default_organizer,
     request_user,
 ):
+    """Upsert a single FILBo event from a spreadsheet row.
+
+    Extracts fields from the positional column list, derives the FILBo ID from
+    the event URL, and calls update_or_create on Event. Organizers and speakers
+    are resolved and set via M2M. The event is linked to the FILBo Special.
+
+    Column mapping: A=title, B=date, C=start_time, E=place, G=category,
+    H=link, J=description, K=organizer, L=participants.
+
+    Args:
+        event_data: List of cell values for one spreadsheet row (0-indexed by column).
+        special: The FILBo 2026 Special instance to link the event to.
+        speakers_map: Passed through to get_speakers(); see that function.
+        default_organizer: Passed through to get_organizers(); see that function.
+        request_user: User used for any object creation.
+
+    Returns:
+        The source_id string (e.g. 'FILBO2026_12345') on success, or None if the
+        row is skipped (missing FILBo ID or invalid URL).
+    """
     logger.info(f'Started sync for FILBo event: {event_data}')
 
     def _get_event_field(col):
+        """Return stripped cell value for column letter, or '' if missing."""
         zero_based_index = ord(col) - ord('A')
         try:
             return event_data[zero_based_index].strip()
@@ -120,10 +187,8 @@ def sync_filbo_event(  # noqa: PLR0915
     event_date = _get_event_field('B')
     start_time = _get_event_field('C')
     place = _get_event_field('E')
-    # target_audience = _get_event_field('F')
     filbo_category = _get_event_field('G')
     link = _get_event_field('H')
-    # image_link = _get_event_field('I')
     description = _get_event_field('J')
     organizer = _get_event_field('K')
     participants = _get_event_field('L')
@@ -208,13 +273,27 @@ def sync_filbo_event(  # noqa: PLR0915
     return filbo_id
 
 
-# pylint: disable=too-many-locals
 def sync_filbo_events(
     spreadsheet_id: str,
     worksheet_number: int,
     worksheet_range: str,
     request_user,
 ) -> None:
+    """Sync all FILBo events from a Google Sheets spreadsheet.
+
+    Reads event rows from worksheet_number using worksheet_range, then upserts
+    each row via sync_filbo_event. After syncing, any existing FILBO2026_ events
+    not present in the current sheet are unpublished (they were removed upstream).
+
+    Worksheet 0 (or worksheet_number): event rows.
+    Worksheet 1: speaker records used to resolve participants.
+
+    Args:
+        spreadsheet_id: Google Sheets document ID.
+        worksheet_number: Zero-based index of the events worksheet.
+        worksheet_range: A1 notation range to read (e.g. 'A2:L500').
+        request_user: User passed through to all create/update operations.
+    """
     with Path.open(
         settings.BASE_DIR / 'spreadsheet_credentials.json', 'r', encoding='utf-8',
     ) as file:
