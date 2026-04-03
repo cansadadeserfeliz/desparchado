@@ -6,6 +6,7 @@ from pathlib import Path
 import gspread
 from dateutil.parser import parse
 from django.conf import settings
+from django.contrib.auth import get_user_model
 from django.contrib.gis.geos import Point
 from django.core.exceptions import ValidationError
 from django.core.validators import URLValidator
@@ -15,6 +16,8 @@ from events.models import Event, Organizer, Speaker
 from places.models import City, Place
 from specials.models import Special
 
+User = get_user_model()
+
 logger = logging.getLogger(__name__)
 
 
@@ -23,7 +26,11 @@ SOURCE_ID_PREFIX = 'FILBO2026_'
 EVENT_TITLE_SUFFIX = 'FILBo 2026'
 
 
-def get_organizers(organizer_name, default_organizer, request_user):
+def get_organizers(
+    organizer_name: str,
+    default_organizer: Organizer,
+    request_user: User,
+) -> list[Organizer]:
     """Return the list of organizers for a FILBo event.
 
     Always includes the default FILBo organizer. If organizer_name maps to a
@@ -57,7 +64,7 @@ def get_organizers(organizer_name, default_organizer, request_user):
 
 
 def _speaker_matches(
-    speaker_record: dict,
+    speaker_record: dict[str, str],
     participants: str,
     event_title: str,
     event_description: str,
@@ -73,8 +80,12 @@ def _speaker_matches(
 
 
 def get_speakers(
-    participants, speakers_map, event_title, event_description, request_user,
-):
+    participants: str,
+    speakers_map: list[dict[str, str]],
+    event_title: str,
+    event_description: str,
+    request_user: User,
+) -> list[Speaker]:
     """Resolve Speaker instances for a FILBo event.
 
     Iterates the speakers map (worksheet 2) and matches each record against the
@@ -120,7 +131,7 @@ def get_speakers(
     return speakers
 
 
-def get_place(place_name, request_user):
+def get_place(place_name: str, request_user: User) -> Place:
     """Fetch or create a Place for the given FILBo venue name.
 
     All FILBo venues are inside Corferias, so the place name is suffixed with
@@ -147,12 +158,12 @@ def get_place(place_name, request_user):
 
 
 def sync_filbo_event(  # noqa: PLR0915
-    event_data,
-    special,
-    speakers_map,
-    default_organizer,
-    request_user,
-):
+    event_data: list[str],
+    special: Special,
+    speakers_map: list[dict[str, str]],
+    default_organizer: Organizer,
+    request_user: User,
+) -> str | None:
     """Upsert a single FILBo event from a spreadsheet row.
 
     Extracts fields from the positional column list, derives the FILBo ID from
@@ -277,7 +288,7 @@ def sync_filbo_events(
     spreadsheet_id: str,
     worksheet_number: int,
     worksheet_range: str,
-    request_user,
+    request_user: User,
 ) -> None:
     """Sync all FILBo events from a Google Sheets spreadsheet.
 
