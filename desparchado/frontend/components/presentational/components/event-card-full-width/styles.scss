@@ -19,12 +19,6 @@
     margin-top: 3.125rem;
   }
 
-  &:hover {
-    #{$self}__image {
-      opacity: 1;
-    }
-  }
-
   .event-card-full-width {
     &__container {
       display: flex;
@@ -146,8 +140,6 @@
         position: initial;
         transform: none;
         margin-top: -5.625rem;
-        opacity: 0;
-        transition: opacity 0.5s $ease-out-quart;
       }
     }
 
