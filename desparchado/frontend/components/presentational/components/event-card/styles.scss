@@ -32,10 +32,14 @@
   }
 
   &__date {
-    place-self: end;  
+    place-self: end;
     color: $color-layout-interactive;
     display: flex;
     flex-direction: column;
+    // Prevent the day/month from wrapping onto separate lines.
+    white-space: nowrap;
+    // Prevent flexbox from squeezing the date when the sibling location text is long.
+    flex-shrink: 0;
   }
 
   &__cta {
