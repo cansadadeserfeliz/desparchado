@@ -4,3 +4,4 @@ from .places import PlacesListView
 from .social import SocialPostsListView, social_events_source
 from .spreadsheet_sync import SpreadsheetSyncFormView
 from .users import UsersView
+from .filbo import FilboEventFormView
