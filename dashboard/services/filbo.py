@@ -247,12 +247,12 @@ def sync_filbo_event(  # noqa: PLR0915
 
     try:
         URLValidator()(link)
-    except (ValidationError,) as e:
-        logger.error('Invalid FILBo event URL', extra={"link": link}, exc_info=e)
+    except ValidationError:
+        logger.warning('Skipping FILBo event with invalid URL: %s', link)
         return None
 
     if len(link) > Event.EVENT_SOURCE_URL_MAX_LENGTH:
-        logger.error('Invalid FILBo event URL', extra={"link": link})
+        logger.warning('Skipping FILBo event with URL exceeding max length: %s', link)
         return None
 
     category = {
