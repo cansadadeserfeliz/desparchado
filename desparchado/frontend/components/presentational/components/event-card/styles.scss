@@ -9,6 +9,8 @@
 .event-card {
   $self: &;
 
+  // Fill the grid cell so the inner container can stretch to equal height.
+  height: 100%;
   color: $color-layout-foreground;
 
   &__location {
@@ -38,6 +40,8 @@
 
   &__cta {
     align-self: flex-end;
+    // Push the CTA to the bottom of the card regardless of title/description length.
+    margin-top: auto;
   }
 
   &__details {
@@ -95,6 +99,8 @@
   &__wrapper {
     display: flex;
     flex-direction: column;
+    // Grow to fill remaining height after the image so the CTA can be pinned to the bottom.
+    flex: 1;
     gap: 0.5rem;
     padding: toRem(12px) toRem(14px);
     padding-bottom: 0;
@@ -110,5 +116,10 @@
     border-top-left-radius: toRem(50px);
     border: toRem(2px) solid $color-layout-hairline;
     overflow: hidden;
+    // Fill the card's height and lay out image + wrapper as a column so flex: 1
+    // on __wrapper correctly distributes the remaining space.
+    height: 100%;
+    display: flex;
+    flex-direction: column;
   }
 }

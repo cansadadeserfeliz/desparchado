@@ -106,7 +106,8 @@
     }
 
     &:nth-child(odd) {
-      align-self: flex-end;
+      // align-self: flex-end caused odd cards to collapse to content height instead of
+      // stretching to the grid row height, making cards in the same row uneven.
 
       .event-card {
         &__details {
