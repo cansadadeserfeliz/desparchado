@@ -88,8 +88,11 @@ class SpecialDetailView(DetailView):
         paginator = Paginator(events_queryset, 30)
         page = paginator.get_page(page_number)
 
-        params = {selected_date_param: selected_date}
-        pagination_query_params = f"&{urlencode(params)}"
+        if selected_date:
+            params = {selected_date_param: selected_date}
+            pagination_query_params = f"&{urlencode(params)}"
+        else:
+            pagination_query_params = ""
 
         # Context setup
         context.update(
