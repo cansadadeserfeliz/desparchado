@@ -5,34 +5,40 @@ from dashboard import views as dashboard_views
 app_name = 'dashboard'  # pylint: disable=invalid-name
 urlpatterns = [
     path(
-        '',
+        "",
         dashboard_views.HomeView.as_view(),
-        name='home',
+        name="home",
     ),
     path(
-        'social-posts/',
+        "social-posts/",
         dashboard_views.SocialPostsListView.as_view(),
-        name='social_posts',
+        name="social_posts",
     ),
     path(
-        'social-posts/source/',
+        "social-posts/source/",
         dashboard_views.social_events_source,
-        name='social_posts_source',
+        name="social_posts_source",
     ),
     path(
-        'places/',
+        "places/",
         dashboard_views.PlacesListView.as_view(),
-        name='places',
+        name="places",
     ),
     path(
-        'users/',
+        "users/",
         dashboard_views.UsersView.as_view(),
-        name='users',
+        name="users",
     ),
     # Spreadsheet Sync
     path(
-        'spreadsheet-sync/',
+        "spreadsheet-sync/",
         dashboard_views.SpreadsheetSyncFormView.as_view(),
-        name='spreadsheet_sync_form',
+        name="spreadsheet_sync_form",
+    ),
+    # FILBo
+    path(
+        "filbo/events/create/",
+        dashboard_views.FilboEventFormView.as_view(),
+        name="filbo_event_form",
     ),
 ]

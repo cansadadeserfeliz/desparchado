@@ -56,10 +56,10 @@
     </div>
   </section>
 
-  <section class="event-details__event-list">
+  <section id="events" class="event-details__event-list">
     <div class="event-details__event-list-actions">
       <p class="event-details__title text-heading-1">{% translate 'Agéndate' %}</p>
-      <form id="event_search_form" method="get" action="{{ request.path }}">
+      <form id="event_search_form" method="get" action="{{ request.path }}#events">
         <div class="event-details__event-list-search">
           <input class="text-input" type="text" name="q" placeholder="Buscar eventos..." value="{{ search_string }}">
           <div
@@ -77,23 +77,21 @@
               data-vue-prop-type="secondary"
               data-vue-prop-padding="condensed"
               data-vue-prop-label="{% translate 'Limpiar búsqueda' %}"
-              data-vue-prop-link="{{ request.path }}"
+              data-vue-prop-link="{{ request.path }}#events"
             >
           </div>
         </div>
       </form>
       <div class="chip-group">
       {% for event_date in event_dates %}
-        <a class="chip {% if event_date == selected_date %}chip--selected{% endif %}" role="button" href="?{{ selected_date_param }}={{ event_date|date:"Y-m-d" }}">
+        <a class="chip {% if event_date == selected_date %}chip--selected{% endif %}" role="button" href="?{{ selected_date_param }}={{ event_date|date:"Y-m-d" }}#events">
           {{ event_date|date:'D, b j' }}{% if today.year != event_date.year %} {{ event_date|date:'Y' }}{% endif %}
         </a>
       {% endfor %}
       </div>
     </div>
 
-    <section class="container justify-content-center">
-      {% get_simple_pagination %}
-    </section>
+    {% include 'events/_event_list_pagination.html' with is_paginated=is_paginated page_obj=page_obj pagination_query_params=pagination_query_params pagination_anchor='events' %}
 
     {% for event in events %}
       <div
@@ -113,10 +111,11 @@
     {% empty %}
       <div class="events-section__empty text-heading-5">
         <p>{% translate 'No encontramos resultados para su búsqueda' %}</p>
-        <a href="{{ request.path }}">{% translate 'Limpiar búsqueda' %}</a>
+        <a href="{{ request.path }}#events">{% translate 'Limpiar búsqueda' %}</a>
       </div>
     {% endfor %}
 
+    {% include 'events/_event_list_pagination.html' with is_paginated=is_paginated page_obj=page_obj pagination_query_params=pagination_query_params pagination_anchor='events' %}
   </section>
 
 {% endblock content %}

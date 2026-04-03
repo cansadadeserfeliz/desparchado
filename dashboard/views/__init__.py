@@ -1,4 +1,5 @@
 # ruff: noqa: F401
+from .filbo import FilboEventFormView
 from .home import HomeView
 from .places import PlacesListView
 from .social import SocialPostsListView, social_events_source

@@ -1,3 +1,5 @@
+from urllib.parse import urlencode
+
 from django.core.paginator import Paginator
 from django.db.models.functions import TruncDate
 from django.utils.dateparse import parse_date
@@ -86,6 +88,12 @@ class SpecialDetailView(DetailView):
         paginator = Paginator(events_queryset, 30)
         page = paginator.get_page(page_number)
 
+        if selected_date:
+            params = {selected_date_param: selected_date}
+            pagination_query_params = f"&{urlencode(params)}"
+        else:
+            pagination_query_params = ""
+
         # Context setup
         context.update(
             {
@@ -98,6 +106,7 @@ class SpecialDetailView(DetailView):
                 "selected_date": selected_date,
                 "search_string": search_query_value,
                 "today": today,
+                "pagination_query_params": pagination_query_params,
             },
         )
         return context

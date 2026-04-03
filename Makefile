@@ -77,3 +77,11 @@ generate-random-event-data:
 
 generate-random-history-data:
 	docker exec -it $(web_container_name)  sh -c "cd app && python manage.py generate_random_history_data"
+
+## release-tag tag=<name>: Switch to main, pull latest, create and push the given tag, then return to the previous branch
+release-tag:
+	@scripts/create_release_tag.sh $(tag)
+
+## latest-tag: Print the most recent tag reachable from main
+latest-tag:
+	@git fetch --tags -q && git tag --sort=-creatordate --merged main | head -1

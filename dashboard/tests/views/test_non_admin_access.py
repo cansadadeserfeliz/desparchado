@@ -11,6 +11,7 @@ from django.urls import reverse
         'dashboard:users',
         'dashboard:places',
         'dashboard:spreadsheet_sync_form',
+        'dashboard:filbo_event_form',
     ],
 )
 def test_access_denied_for_non_admin_users(django_app, user, dashboard_view_name):
