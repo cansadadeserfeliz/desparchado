@@ -1,5 +1,5 @@
 from django.contrib.auth import get_user_model
-from django.core.management.base import BaseCommand
+from django.core.management.base import BaseCommand, CommandError
 
 from dashboard.services import sync_filbo_events
 
@@ -11,12 +11,20 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument('spreadsheet_id', type=str)
+        parser.add_argument(
+            '--username',
+            default='root',
+            help='Username of the user to attribute synced events to (default: root)',
+        )
 
     def handle(self, *args, **options):
         spreadsheet_id = options['spreadsheet_id']
         self.stdout.write(self.style.NOTICE(f'Started sync for {spreadsheet_id}'))
 
-        user = User.objects.get(username='root')
+        try:
+            user = User.objects.get(username=options['username'])
+        except User.DoesNotExist:
+            raise CommandError(f"User '{options['username']}' does not exist.")
 
         sync_filbo_events(
             spreadsheet_id=spreadsheet_id,
