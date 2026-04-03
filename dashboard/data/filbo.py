@@ -127,4 +127,10 @@ ORGANIZERS_MAP = {
     "Museo Arqueológico?Musa.": "MUSA Museo Arqueológico",
     "UNIVERSIDAD PEDAGOGICA NACIONAL": "Universidad Pedagógica Nacional",
     "Editorial UPTC": "Universidad Pedagógica y Tecnológica de Colombia",
+    "SOCIEDAD BIBLICA COLOMBIANA": "Sociedad Bíblica Colombiana",
+    "Gerencia Nidos - Idartes": "Idartes",
+    "Universidad Francisco José de Caldas":
+        "Universidad Distrital Francisco José de Caldas",
+    "Sello Editorial UNAD": "Sello Editorial UNAD",
+    "CRUZ ROJA COLOMBIANA SECCIONAL CUNDINAMARCA Y BOGOTA": "Cruz Roja Colombiana",
 }
