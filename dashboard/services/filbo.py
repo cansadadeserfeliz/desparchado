@@ -120,9 +120,12 @@ def get_speakers(
 ) -> list[Speaker]:
     """Resolve Speaker instances for a FILBo event.
 
-    Iterates the speakers map (worksheet 2) and matches each record against the
-    participants field, event title, and description. Deduplicates by canonical
-    name. Fetches or creates a Speaker for each match.
+    Two-pass matching:
+    1. Iterates speakers_map (worksheet 2), matches each record against the event
+       fields (case-insensitive), and fetches or creates a Speaker for each hit.
+    2. Queries the database for any existing Speaker not already matched and links
+       them if their name appears in the event fields — covers speakers imported
+       in previous syncs but absent from the current sheet.
 
     Args:
         participants: Raw participants string from the spreadsheet cell.
@@ -159,6 +162,18 @@ def get_speakers(
         )
         seen.add(canonical_name)
         speakers.append(speaker)
+
+    # Also match speakers already in the database that aren't in the speakers map
+    # (e.g. imported in a previous sync). Uses the same casefold substring check.
+    search_texts = (
+        participants.casefold(),
+        event_title.casefold(),
+        event_description.casefold(),
+    )
+    for speaker in Speaker.objects.exclude(name__in=seen):
+        if any(speaker.name.casefold() in text for text in search_texts):
+            seen.add(speaker.name)
+            speakers.append(speaker)
 
     return speakers
 
