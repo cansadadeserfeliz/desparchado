@@ -101,9 +101,13 @@ def _speaker_matches(
 
     Checks participants, event title, and event description.
     """
-    filbo_name = speaker_record['FILBO_NAME']
-    canonical_name = speaker_record['CANONICAL_NAME']
-    search_texts = (participants, event_title, event_description)
+    filbo_name = speaker_record['FILBO_NAME'].casefold()
+    canonical_name = speaker_record['CANONICAL_NAME'].casefold()
+    search_texts = (
+        participants.casefold(),
+        event_title.casefold(),
+        event_description.casefold(),
+    )
     return any(filbo_name in text or canonical_name in text for text in search_texts)
 
 
