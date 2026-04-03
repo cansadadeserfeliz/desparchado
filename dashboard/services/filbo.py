@@ -284,8 +284,14 @@ def sync_filbo_event(  # noqa: PLR0915
         'FILBo Medio Ambiente': Event.Category.ENVIRONMENT,
         'FILBo Ciencia': Event.Category.SCIENCE,
         'FILBo Ilustrada': Event.Category.ART,
+        'FILBo Cómic': Event.Category.ART,
+        'FILBo Historia': Event.Category.ART,
         'FILBo Música': Event.Category.ART,
-    }.get(filbo_category, '')
+        'FILBo Incluyente': Event.Category.SOCIETY,
+        'FILBo Diversa': Event.Category.SOCIETY,
+        'FILBo Debates': Event.Category.SOCIETY,
+        'FILBo Periodismo': Event.Category.SOCIETY,
+    }.get(filbo_category, Event.Category.LITERATURE)
 
     defaults = {
         'title': f'{title} | {EVENT_TITLE_SUFFIX}',
