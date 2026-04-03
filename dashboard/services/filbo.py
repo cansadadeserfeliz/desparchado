@@ -86,7 +86,13 @@ def get_place(place_name, request_user):
 
 
 # pylint: disable=too-many-locals
-def sync_filbo_event(event_data, special, speakers_map, default_organizer, request_user):
+def sync_filbo_event(
+    event_data,
+    special,
+    speakers_map,
+    default_organizer,
+    request_user,
+):
     logger.info(f'Started sync for FILBo event: {event_data}')
 
     def _get_event_field(col):
