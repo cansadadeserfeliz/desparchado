@@ -59,6 +59,12 @@ def get_organizers(
         if created:
             logger.warning(f'FILBo organizer was created: {organizer}')
         organizers.append(organizer)
+    else:
+        try:
+            organizer = Organizer.objects.get(name__iexact=organizer_name)
+            organizers.append(organizer)
+        except Organizer.DoesNotExist:
+            pass
 
     return organizers
 
@@ -163,6 +169,7 @@ def sync_filbo_event(  # noqa: PLR0915
     speakers_map: list[dict[str, str]],
     default_organizer: Organizer,
     request_user: User,
+    already_synced_ids: set[str] | None = None,
 ) -> str | None:
     """Upsert a single FILBo event from a spreadsheet row.
 
@@ -179,10 +186,15 @@ def sync_filbo_event(  # noqa: PLR0915
         speakers_map: Passed through to get_speakers(); see that function.
         default_organizer: Passed through to get_organizers(); see that function.
         request_user: User used for any object creation.
+        already_synced_ids: Source IDs already processed in this sync run. When a
+            row's ID is already present the row is skipped, preserving the first
+            occurrence. Needed for 2026 where corrupted source data caused some
+            events (e.g. "Inauguración FILBo", ID 46028) to appear multiple times
+            with the same /descripcion-actividad/ URL.
 
     Returns:
         The source_id string (e.g. 'FILBO2026_12345') on success, or None if the
-        row is skipped (missing FILBo ID or invalid URL).
+        row is skipped (missing FILBo ID, invalid URL, or duplicate).
     """
     logger.info(f'Started sync for FILBo event: {event_data}')
 
@@ -212,6 +224,13 @@ def sync_filbo_event(  # noqa: PLR0915
         return None
 
     filbo_id = SOURCE_ID_PREFIX + filbo_id
+
+    # Skip rows whose ID was already processed in this run. This handles the
+    # 2026 data corruption where some events share the same source URL and would
+    # otherwise overwrite the first (correctly dated) occurrence.
+    if already_synced_ids and filbo_id in already_synced_ids:
+        logger.warning(f'Skipping duplicate FILBo event: {filbo_id}')
+        return None
 
     event_start_date = parse(f'{event_date} {start_time}')
     logger.debug(
@@ -332,6 +351,9 @@ def sync_filbo_events(
             speakers_map=speakers_map,
             default_organizer=default_organizer,
             request_user=request_user,
+            # Pass the running set so duplicate rows in the sheet are skipped
+            # after the first occurrence has been synced.
+            already_synced_ids=synced_filbo_ids,
         )
         if filbo_id is not None:
             synced_filbo_ids.add(filbo_id)
