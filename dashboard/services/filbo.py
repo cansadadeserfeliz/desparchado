@@ -1,6 +1,7 @@
 import json
 import logging
 import re
+import urllib.parse
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
@@ -25,6 +26,26 @@ logger = logging.getLogger(__name__)
 FILBO_SPECIAL_TITLE = 'FILBo 2026'
 SOURCE_ID_PREFIX = 'FILBO2026_'
 EVENT_TITLE_SUFFIX = 'FILBo 2026'
+
+
+def _normalize_filbo_url(url: str) -> str:
+    """Return a valid, percent-encoded URL from a raw FILBo spreadsheet cell.
+
+    Spreadsheet cells sometimes contain the URL split across multiple lines or
+    with stray spaces. Non-ASCII characters (accented slugs) also cause Django's
+    URLValidator to reject otherwise legitimate URLs. This function:
+      1. Strips all whitespace and newlines by joining split tokens.
+      2. Percent-encodes non-ASCII and unsafe characters in the URL path while
+         leaving the scheme, host, and already-encoded sequences intact.
+    """
+    # Remove newlines introduced by multi-line spreadsheet cells.
+    # Spaces are preserved — they are intentional parts of some slugs and will
+    # be percent-encoded as %20 by urllib.parse.quote below.
+    url = url.replace('\r\n', '').replace('\n', '').replace('\r', '').strip()
+    parsed = urllib.parse.urlsplit(url)
+    # Re-encode the path: keep all standard URL-safe chars, encode everything else.
+    encoded_path = urllib.parse.quote(parsed.path, safe='/:@!$&\'()*+,;=._~%-')
+    return urllib.parse.urlunsplit(parsed._replace(path=encoded_path))
 
 
 def get_organizers(
@@ -58,7 +79,7 @@ def get_organizers(
             },
         )
         if created:
-            logger.warning(f'FILBo organizer was created: {organizer}')
+            logger.info(f'FILBo organizer was created: {organizer}')
         organizers.append(organizer)
     else:
         try:
@@ -212,7 +233,7 @@ def sync_filbo_event(  # noqa: PLR0915
     start_time = _get_event_field('C')
     place = _get_event_field('E')
     filbo_category = _get_event_field('G')
-    link = _get_event_field('H')
+    link = _normalize_filbo_url(_get_event_field('H'))
     description = _get_event_field('J')
     organizer = _get_event_field('K')
     participants = _get_event_field('L')
@@ -221,7 +242,7 @@ def sync_filbo_event(  # noqa: PLR0915
     filbo_id = match.group(1) if match else None
 
     if filbo_id is None:
-        logger.error(f'FILBo ID was not found for {link}')
+        logger.warning(f'FILBo ID was not found for {link}')
         return None
 
     filbo_id = SOURCE_ID_PREFIX + filbo_id
@@ -276,7 +297,6 @@ def sync_filbo_event(  # noqa: PLR0915
         'is_published': True,
         'is_approved': True,
     }
-    logger.debug(f'FILBo event {filbo_id} defaults', extra=defaults)
     event, created = Event.objects.update_or_create(
         source_id=filbo_id,
         defaults=defaults,
@@ -338,7 +358,6 @@ def sync_filbo_events(
     spreadsheet = gc.open_by_key(spreadsheet_id)
     sheet = spreadsheet.get_worksheet(worksheet_number)
     results = sheet.get(worksheet_range)
-    logger.info(results)
 
     speakers_map = spreadsheet.get_worksheet(1).get_all_records()
 
