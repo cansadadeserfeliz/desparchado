@@ -100,7 +100,7 @@ def get_place(place_name, request_user):
 
 
 # pylint: disable=too-many-locals
-def sync_filbo_event(
+def sync_filbo_event(  # noqa: PLR0915
     event_data,
     special,
     speakers_map,
