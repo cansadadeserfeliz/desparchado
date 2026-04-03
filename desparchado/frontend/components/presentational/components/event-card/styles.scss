@@ -36,14 +36,17 @@
     color: $color-layout-interactive;
     display: flex;
     flex-direction: column;
+
     // Prevent the day/month from wrapping onto separate lines.
     white-space: nowrap;
+
     // Prevent flexbox from squeezing the date when the sibling location text is long.
     flex-shrink: 0;
   }
 
   &__cta {
     align-self: flex-end;
+
     // Push the CTA to the bottom of the card regardless of title/description length.
     margin-top: auto;
   }
@@ -103,6 +106,7 @@
   &__wrapper {
     display: flex;
     flex-direction: column;
+
     // Grow to fill remaining height after the image so the CTA can be pinned to the bottom.
     flex: 1;
     gap: 0.5rem;
@@ -120,6 +124,7 @@
     border-top-left-radius: toRem(50px);
     border: toRem(2px) solid $color-layout-hairline;
     overflow: hidden;
+
     // Fill the card's height and lay out image + wrapper as a column so flex: 1
     // on __wrapper correctly distributes the remaining space.
     height: 100%;
