@@ -134,8 +134,8 @@ def sync_filbo_event(
     if filbo_id is None:
         logger.error(f'FILBo ID was not found for {link}')
         return None
-    else:
-        filbo_id = SOURCE_ID_PREFIX + filbo_id
+
+    filbo_id = SOURCE_ID_PREFIX + filbo_id
 
     event_start_date = parse(f'{event_date} {start_time}')
     logger.debug(
