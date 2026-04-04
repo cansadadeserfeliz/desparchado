@@ -31,10 +31,11 @@ EVENT_TITLE_SUFFIX = 'FILBo 2026'
 def _normalize_filbo_url(url: str) -> str:
     """Return a valid, percent-encoded URL from a raw FILBo spreadsheet cell.
 
-    Spreadsheet cells sometimes contain the URL split across multiple lines or
-    with stray spaces. Non-ASCII characters (accented slugs) also cause Django's
-    URLValidator to reject otherwise legitimate URLs. This function:
-      1. Strips all whitespace and newlines by joining split tokens.
+    Spreadsheet cells sometimes contain the URL split across multiple lines.
+    Non-ASCII characters (accented slugs) also cause Django's URLValidator to
+    reject otherwise legitimate URLs. This function:
+      1. Removes newlines introduced by multi-line cells. Spaces are preserved
+         because they are intentional parts of some slugs (encoded as %20).
       2. Percent-encodes non-ASCII and unsafe characters in the URL path while
          leaving the scheme, host, and already-encoded sequences intact.
     """
@@ -55,9 +56,12 @@ def get_organizers(
 ) -> list[Organizer]:
     """Return the list of organizers for a FILBo event.
 
-    Always includes the default FILBo organizer. If organizer_name maps to a
-    canonical name in ORGANIZERS_MAP, that organizer is fetched or created and
-    appended.
+    Always includes the default FILBo organizer. Then attempts to resolve a
+    second organizer in two ways:
+    - If organizer_name maps to a canonical name in ORGANIZERS_MAP, that
+      organizer is fetched or created and appended.
+    - Otherwise, the database is searched case-insensitively for an existing
+      organizer with that name; if found, it is appended (no creation).
 
     Args:
         organizer_name: Raw organizer string from the spreadsheet cell.
@@ -101,9 +105,13 @@ def _speaker_matches(
 
     Checks participants, event title, and event description.
     """
-    filbo_name = speaker_record['FILBO_NAME']
-    canonical_name = speaker_record['CANONICAL_NAME']
-    search_texts = (participants, event_title, event_description)
+    filbo_name = speaker_record['FILBO_NAME'].casefold()
+    canonical_name = speaker_record['CANONICAL_NAME'].casefold()
+    search_texts = (
+        participants.casefold(),
+        event_title.casefold(),
+        event_description.casefold(),
+    )
     return any(filbo_name in text or canonical_name in text for text in search_texts)
 
 
@@ -218,8 +226,6 @@ def sync_filbo_event(  # noqa: PLR0915
         The source_id string (e.g. 'FILBO2026_12345') on success, or None if the
         row is skipped (missing FILBo ID, invalid URL, or duplicate).
     """
-    # logger.info(f'Started sync for FILBo event: {event_data}')
-
     def _get_event_field(col):
         """Return stripped cell value for column letter, or '' if missing."""
         zero_based_index = ord(col) - ord('A')
@@ -293,9 +299,12 @@ def sync_filbo_event(  # noqa: PLR0915
         'FILBo Periodismo': Event.Category.SOCIETY,
     }.get(filbo_category, Event.Category.LITERATURE)
 
+    event_description = description or title
+    if participants:
+        event_description += f'<br><br><b>Participan</b>: {participants}'
     defaults = {
         'title': f'{title} | {EVENT_TITLE_SUFFIX}',
-        'description': description or title,
+        'description': event_description,
         'category': category,
         'event_date': event_start_date,
         'event_source_url': link,
