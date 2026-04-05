@@ -13,7 +13,6 @@ from django.contrib.gis.geos import Point
 from django.core.exceptions import ValidationError
 from django.core.validators import URLValidator
 
-from dashboard.data.filbo import ORGANIZERS_MAP
 from events.models import Event, Organizer, Speaker
 from places.models import City, Place
 from specials.models import Special
@@ -21,7 +20,6 @@ from specials.models import Special
 User = get_user_model()
 
 logger = logging.getLogger(__name__)
-
 
 FILBO_SPECIAL_TITLE = 'FILBo 2026'
 SOURCE_ID_PREFIX = 'FILBO2026_'
@@ -31,10 +29,11 @@ EVENT_TITLE_SUFFIX = 'FILBo 2026'
 def _normalize_filbo_url(url: str) -> str:
     """Return a valid, percent-encoded URL from a raw FILBo spreadsheet cell.
 
-    Spreadsheet cells sometimes contain the URL split across multiple lines or
-    with stray spaces. Non-ASCII characters (accented slugs) also cause Django's
-    URLValidator to reject otherwise legitimate URLs. This function:
-      1. Strips all whitespace and newlines by joining split tokens.
+    Spreadsheet cells sometimes contain the URL split across multiple lines.
+    Non-ASCII characters (accented slugs) also cause Django's URLValidator to
+    reject otherwise legitimate URLs. This function:
+      1. Removes newlines introduced by multi-line cells. Spaces are preserved
+         because they are intentional parts of some slugs (encoded as %20).
       2. Percent-encodes non-ASCII and unsafe characters in the URL path while
          leaving the scheme, host, and already-encoded sequences intact.
     """
@@ -50,17 +49,24 @@ def _normalize_filbo_url(url: str) -> str:
 
 def get_organizers(
     organizer_name: str,
+    organizers_map: list[dict[str, str]],
     default_organizer: Organizer,
     request_user: User,
 ) -> list[Organizer]:
     """Return the list of organizers for a FILBo event.
 
-    Always includes the default FILBo organizer. If organizer_name maps to a
-    canonical name in ORGANIZERS_MAP, that organizer is fetched or created and
-    appended.
+    Always includes the default FILBo organizer. Then attempts to resolve a
+    second organizer in two ways:
+    - If organizer_name matches a FILBO_NAME in organizers_map (worksheet 2,
+      case-insensitive), the corresponding CANONICAL_NAME is used to fetch or
+      create an Organizer and append it.
+    - Otherwise, the database is searched case-insensitively for an existing
+      organizer with that name; if found, it is appended (no creation).
 
     Args:
         organizer_name: Raw organizer string from the spreadsheet cell.
+        organizers_map: List of dicts from worksheet 2 (get_all_records()); each
+            dict must have FILBO_NAME and CANONICAL_NAME keys.
         default_organizer: The base FILBo Organizer instance, always included.
         request_user: User assigned as created_by when a new Organizer is created.
 
@@ -69,7 +75,19 @@ def get_organizers(
     """
     organizers = [default_organizer]
 
-    canonical_organizer_name = ORGANIZERS_MAP.get(organizer_name.strip())
+    organizer_name_normalized = organizer_name.strip().lower()
+    if not organizer_name_normalized:
+        canonical_organizer_name = None
+    else:
+        canonical_organizer_name = next(
+            (
+                record.get('CANONICAL_NAME', '').strip()
+                for record in organizers_map
+                if record.get('FILBO_NAME', '').strip().lower()
+                == organizer_name_normalized
+            ),
+            None,
+        ) or None
     if canonical_organizer_name:
         organizer, created = Organizer.objects.get_or_create(
             name=canonical_organizer_name,
@@ -101,10 +119,21 @@ def _speaker_matches(
 
     Checks participants, event title, and event description.
     """
-    filbo_name = speaker_record['FILBO_NAME']
-    canonical_name = speaker_record['CANONICAL_NAME']
-    search_texts = (participants, event_title, event_description)
-    return any(filbo_name in text or canonical_name in text for text in search_texts)
+    filbo_name = speaker_record['FILBO_NAME'].casefold()
+    canonical_name = speaker_record['CANONICAL_NAME'].casefold()
+    search_texts = (
+        participants.casefold(),
+        event_title.casefold(),
+        event_description.casefold(),
+    )
+
+    def _whole_word_match(name: str) -> bool:
+        # Use word boundaries so e.g. "Lina Botero" does not match inside
+        # "Catalina Botero". re.escape handles any special chars in the name.
+        pattern = re.compile(r'\b' + re.escape(name) + r'\b', re.UNICODE)
+        return any(pattern.search(text) for text in search_texts)
+
+    return _whole_word_match(filbo_name) or _whole_word_match(canonical_name)
 
 
 def get_speakers(
@@ -189,6 +218,7 @@ def sync_filbo_event(  # noqa: PLR0915
     event_data: list[str],
     special: Special,
     speakers_map: list[dict[str, str]],
+    organizers_map: list[dict[str, str]],
     default_organizer: Organizer,
     request_user: User,
     already_synced_ids: set[str] | None = None,
@@ -206,6 +236,7 @@ def sync_filbo_event(  # noqa: PLR0915
         event_data: List of cell values for one spreadsheet row (0-indexed by column).
         special: The FILBo 2026 Special instance to link the event to.
         speakers_map: Passed through to get_speakers(); see that function.
+        organizers_map: Passed through to get_organizers(); see that function.
         default_organizer: Passed through to get_organizers(); see that function.
         request_user: User used for any object creation.
         already_synced_ids: Source IDs already processed in this sync run. When a
@@ -218,8 +249,6 @@ def sync_filbo_event(  # noqa: PLR0915
         The source_id string (e.g. 'FILBO2026_12345') on success, or None if the
         row is skipped (missing FILBo ID, invalid URL, or duplicate).
     """
-    # logger.info(f'Started sync for FILBo event: {event_data}')
-
     def _get_event_field(col):
         """Return stripped cell value for column letter, or '' if missing."""
         zero_based_index = ord(col) - ord('A')
@@ -293,9 +322,12 @@ def sync_filbo_event(  # noqa: PLR0915
         'FILBo Periodismo': Event.Category.SOCIETY,
     }.get(filbo_category, Event.Category.LITERATURE)
 
+    event_description = description or title
+    if participants:
+        event_description += f'<br><br><b>Participan</b>: {participants}'
     defaults = {
         'title': f'{title} | {EVENT_TITLE_SUFFIX}',
-        'description': description or title,
+        'description': event_description,
         'category': category,
         'event_date': event_start_date,
         'event_source_url': link,
@@ -312,6 +344,7 @@ def sync_filbo_event(  # noqa: PLR0915
     event.organizers.set(
         get_organizers(
             organizer_name=organizer,
+            organizers_map=organizers_map,
             default_organizer=default_organizer,
             request_user=request_user,
         ),
@@ -348,6 +381,7 @@ def sync_filbo_events(
 
     Worksheet 0 (or worksheet_number): event rows.
     Worksheet 1: speaker records used to resolve participants.
+    Worksheet 2: organizer records used to resolve organizer names.
 
     Args:
         spreadsheet_id: Google Sheets document ID.
@@ -366,6 +400,7 @@ def sync_filbo_events(
     results = sheet.get(worksheet_range)
 
     speakers_map = spreadsheet.get_worksheet(1).get_all_records()
+    organizers_map = spreadsheet.get_worksheet(2).get_all_records()
 
     special = Special.objects.filter(title=FILBO_SPECIAL_TITLE).first()
     default_organizer = Organizer.objects.get(
@@ -379,6 +414,7 @@ def sync_filbo_events(
             event_data=event_data,
             special=special,
             speakers_map=speakers_map,
+            organizers_map=organizers_map,
             default_organizer=default_organizer,
             request_user=request_user,
             # Pass the running set so duplicate rows in the sheet are skipped
