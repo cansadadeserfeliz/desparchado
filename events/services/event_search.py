@@ -33,7 +33,11 @@ def search_events(
         return queryset
 
     queryset = queryset.annotate(
-        search=SearchVector("title", "description", "speakers__name"),
+        # speakers__name is intentionally excluded from the SearchVector: including
+        # it would JOIN the speakers M2M table and produce one row per speaker,
+        # making each row's annotation value unique so .distinct() cannot collapse
+        # them. Speaker name matching is handled by the Q filter below instead.
+        search=SearchVector("title", "description"),
     ).filter(
         Q(title__unaccent__icontains=search_str)
         | Q(description__unaccent__icontains=search_str)
@@ -41,8 +45,4 @@ def search_events(
         | Q(search=SearchQuery(search_str)),
     )
 
-    # Ensure search results are unique:
-    # Including speakers__name in the search vector causes PostgreSQL
-    # to emit one row per matching speaker.
-    # Without .distinct() the service now returns duplicated Event rows.
     return queryset.distinct()
