@@ -22,6 +22,12 @@ User = get_user_model()
 
 logger = logging.getLogger(__name__)
 
+# Case-insensitive version of ORGANIZERS_MAP built once at module load.
+# Spreadsheet organizer names are inconsistently cased (e.g. "PLANETA" vs
+# "Editorial Planeta"), so we normalise the key to lowercase before lookup.
+_ORGANIZERS_MAP_LOWER: dict[str, str] = {
+    k.lower(): v for k, v in ORGANIZERS_MAP.items()
+}
 
 FILBO_SPECIAL_TITLE = 'FILBo 2026'
 SOURCE_ID_PREFIX = 'FILBO2026_'
@@ -73,7 +79,7 @@ def get_organizers(
     """
     organizers = [default_organizer]
 
-    canonical_organizer_name = ORGANIZERS_MAP.get(organizer_name.strip())
+    canonical_organizer_name = _ORGANIZERS_MAP_LOWER.get(organizer_name.strip().lower())
     if canonical_organizer_name:
         organizer, created = Organizer.objects.get_or_create(
             name=canonical_organizer_name,
