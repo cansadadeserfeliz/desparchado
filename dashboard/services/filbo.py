@@ -118,7 +118,14 @@ def _speaker_matches(
         event_title.casefold(),
         event_description.casefold(),
     )
-    return any(filbo_name in text or canonical_name in text for text in search_texts)
+
+    def _whole_word_match(name: str) -> bool:
+        # Use word boundaries so e.g. "Lina Botero" does not match inside
+        # "Catalina Botero". re.escape handles any special chars in the name.
+        pattern = re.compile(r'\b' + re.escape(name) + r'\b', re.UNICODE)
+        return any(pattern.search(text) for text in search_texts)
+
+    return _whole_word_match(filbo_name) or _whole_word_match(canonical_name)
 
 
 def get_speakers(
