@@ -75,15 +75,19 @@ def get_organizers(
     """
     organizers = [default_organizer]
 
-    organizer_name_lower = organizer_name.strip().lower()
-    canonical_organizer_name = next(
-        (
-            record['CANONICAL_NAME']
-            for record in organizers_map
-            if record.get('FILBO_NAME', '').lower() == organizer_name_lower
-        ),
-        None,
-    )
+    organizer_name_normalized = organizer_name.strip().lower()
+    if not organizer_name_normalized:
+        canonical_organizer_name = None
+    else:
+        canonical_organizer_name = next(
+            (
+                record.get('CANONICAL_NAME', '').strip()
+                for record in organizers_map
+                if record.get('FILBO_NAME', '').strip().lower()
+                == organizer_name_normalized
+            ),
+            None,
+        ) or None
     if canonical_organizer_name:
         organizer, created = Organizer.objects.get_or_create(
             name=canonical_organizer_name,
