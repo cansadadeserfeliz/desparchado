@@ -13,7 +13,6 @@ from django.contrib.gis.geos import Point
 from django.core.exceptions import ValidationError
 from django.core.validators import URLValidator
 
-from dashboard.data.filbo import ORGANIZERS_MAP
 from events.models import Event, Organizer, Speaker
 from places.models import City, Place
 from specials.models import Special
@@ -21,13 +20,6 @@ from specials.models import Special
 User = get_user_model()
 
 logger = logging.getLogger(__name__)
-
-# Case-insensitive version of ORGANIZERS_MAP built once at module load.
-# Spreadsheet organizer names are inconsistently cased (e.g. "PLANETA" vs
-# "Editorial Planeta"), so we normalise the key to lowercase before lookup.
-_ORGANIZERS_MAP_LOWER: dict[str, str] = {
-    k.lower(): v for k, v in ORGANIZERS_MAP.items()
-}
 
 FILBO_SPECIAL_TITLE = 'FILBo 2026'
 SOURCE_ID_PREFIX = 'FILBO2026_'
@@ -57,6 +49,7 @@ def _normalize_filbo_url(url: str) -> str:
 
 def get_organizers(
     organizer_name: str,
+    organizers_map: list[dict[str, str]],
     default_organizer: Organizer,
     request_user: User,
 ) -> list[Organizer]:
@@ -64,13 +57,16 @@ def get_organizers(
 
     Always includes the default FILBo organizer. Then attempts to resolve a
     second organizer in two ways:
-    - If organizer_name maps to a canonical name in ORGANIZERS_MAP, that
-      organizer is fetched or created and appended.
+    - If organizer_name matches a FILBO_NAME in organizers_map (worksheet 2,
+      case-insensitive), the corresponding CANONICAL_NAME is used to fetch or
+      create an Organizer and append it.
     - Otherwise, the database is searched case-insensitively for an existing
       organizer with that name; if found, it is appended (no creation).
 
     Args:
         organizer_name: Raw organizer string from the spreadsheet cell.
+        organizers_map: List of dicts from worksheet 2 (get_all_records()); each
+            dict must have FILBO_NAME and CANONICAL_NAME keys.
         default_organizer: The base FILBo Organizer instance, always included.
         request_user: User assigned as created_by when a new Organizer is created.
 
@@ -79,7 +75,15 @@ def get_organizers(
     """
     organizers = [default_organizer]
 
-    canonical_organizer_name = _ORGANIZERS_MAP_LOWER.get(organizer_name.strip().lower())
+    organizer_name_lower = organizer_name.strip().lower()
+    canonical_organizer_name = next(
+        (
+            record['CANONICAL_NAME']
+            for record in organizers_map
+            if record.get('FILBO_NAME', '').lower() == organizer_name_lower
+        ),
+        None,
+    )
     if canonical_organizer_name:
         organizer, created = Organizer.objects.get_or_create(
             name=canonical_organizer_name,
@@ -210,6 +214,7 @@ def sync_filbo_event(  # noqa: PLR0915
     event_data: list[str],
     special: Special,
     speakers_map: list[dict[str, str]],
+    organizers_map: list[dict[str, str]],
     default_organizer: Organizer,
     request_user: User,
     already_synced_ids: set[str] | None = None,
@@ -227,6 +232,7 @@ def sync_filbo_event(  # noqa: PLR0915
         event_data: List of cell values for one spreadsheet row (0-indexed by column).
         special: The FILBo 2026 Special instance to link the event to.
         speakers_map: Passed through to get_speakers(); see that function.
+        organizers_map: Passed through to get_organizers(); see that function.
         default_organizer: Passed through to get_organizers(); see that function.
         request_user: User used for any object creation.
         already_synced_ids: Source IDs already processed in this sync run. When a
@@ -334,6 +340,7 @@ def sync_filbo_event(  # noqa: PLR0915
     event.organizers.set(
         get_organizers(
             organizer_name=organizer,
+            organizers_map=organizers_map,
             default_organizer=default_organizer,
             request_user=request_user,
         ),
@@ -370,6 +377,7 @@ def sync_filbo_events(
 
     Worksheet 0 (or worksheet_number): event rows.
     Worksheet 1: speaker records used to resolve participants.
+    Worksheet 2: organizer records used to resolve organizer names.
 
     Args:
         spreadsheet_id: Google Sheets document ID.
@@ -388,6 +396,7 @@ def sync_filbo_events(
     results = sheet.get(worksheet_range)
 
     speakers_map = spreadsheet.get_worksheet(1).get_all_records()
+    organizers_map = spreadsheet.get_worksheet(2).get_all_records()
 
     special = Special.objects.filter(title=FILBO_SPECIAL_TITLE).first()
     default_organizer = Organizer.objects.get(
@@ -401,6 +410,7 @@ def sync_filbo_events(
             event_data=event_data,
             special=special,
             speakers_map=speakers_map,
+            organizers_map=organizers_map,
             default_organizer=default_organizer,
             request_user=request_user,
             # Pass the running set so duplicate rows in the sheet are skipped
