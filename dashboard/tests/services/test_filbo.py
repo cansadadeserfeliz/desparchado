@@ -23,7 +23,8 @@ def test_filbo_name_matches_in_event_title():
 
 def test_filbo_name_matches_in_event_description():
     record = _record('Lina Botero', 'Carolina López')
-    assert _speaker_matches(record, '', '', 'Esta charla presenta a Lina Botero.') is True
+    result = _speaker_matches(record, '', '', 'Esta charla presenta a Lina Botero.')
+    assert result is True
 
 
 # ---------------------------------------------------------------------------
@@ -42,7 +43,9 @@ def test_canonical_name_matches_in_event_title():
 
 def test_canonical_name_matches_in_event_description():
     record = _record('J. García', 'Jorge García')
-    assert _speaker_matches(record, '', '', 'El autor Jorge García presentará su libro.') is True
+    description = 'El autor Jorge García presentará su libro.'
+    result = _speaker_matches(record, '', '', description)
+    assert result is True
 
 
 # ---------------------------------------------------------------------------
@@ -62,7 +65,8 @@ def test_lina_botero_does_not_match_catalina_botero_in_title():
 
 def test_lina_botero_does_not_match_catalina_botero_in_description():
     record = _record('Lina Botero', 'Lina Botero')
-    assert _speaker_matches(record, '', '', 'Presenta Catalina Botero esta noche.') is False
+    result = _speaker_matches(record, '', '', 'Presenta Catalina Botero esta noche.')
+    assert result is False
 
 
 # ---------------------------------------------------------------------------
@@ -90,7 +94,8 @@ def test_match_is_case_insensitive_mixed_case():
 
 def test_no_match_when_name_absent_from_all_fields():
     record = _record('Lina Botero', 'Carolina López')
-    assert _speaker_matches(record, 'Juan Pérez', 'Otro evento', 'Sin relación.') is False
+    result = _speaker_matches(record, 'Juan Pérez', 'Otro evento', 'Sin relación.')
+    assert result is False
 
 
 def test_no_match_when_all_fields_empty():
