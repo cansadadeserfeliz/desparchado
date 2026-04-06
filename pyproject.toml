@@ -29,6 +29,8 @@ exclude = [
     "site-packages",
     "venv",
     "migrations",
+    "_bmad",
+    ".claude",
 ]
 line-length = 88
 target-version = "py314"
