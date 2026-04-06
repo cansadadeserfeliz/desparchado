@@ -1,4 +1,10 @@
 ---
+exclude_paths:
+  - "_bmad/**"
+  - "_bmad-output/**"
+  - ".claude/**"
+  - "docs/**"
+
 engines:
   bandit:
     enabled: true
