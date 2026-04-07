@@ -64,6 +64,7 @@ lint.extend-select = [
 [tool.pytest]
 DJANGO_SETTINGS_MODULE = "desparchado.settings.test"
 python_files = ["tests.py", "test_*.py", "*_tests.py"]
+norecursedirs = ["_bmad", ".claude"]
 python_paths = ["."]
 addopts = [
     "--reuse-db",

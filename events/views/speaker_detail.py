@@ -13,7 +13,7 @@ class SpeakerDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         speaker = self.get_object()
-        context["events"] = (
+        context["future_events"] = (
             speaker.events.published()
             .future()
             .select_related("place")

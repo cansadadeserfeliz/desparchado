@@ -16,7 +16,7 @@ class OrganizerDetailView(DetailView):
 
         organizer = context[self.context_object_name]
 
-        context['events'] = (
+        context['future_events'] = (
             organizer.events.published()
             .future()
             .select_related('place')[:30]

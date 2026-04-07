@@ -53,7 +53,7 @@
 
   {% include 'includes/_map.html' with title=place latitude=place.get_latitude_str longitude=place.get_longitude_str css_class='place-map generic-detail__map' %}
 
-  {% if events %}
+  {% if future_events %}
     <section class="generic-detail__section">
       <div class="generic-detail__section-header generic-detail__section-header--padding-sm">
         <div
@@ -64,11 +64,10 @@
         >
         </div>
       </div>
-      <div class="events-list">
-        {% for event in events %}
+      <div class="generic-detail__events-list-full-width">
+        {% for event in future_events %}
           <div
-            class="events-list__card"
-            data-vue-component="event-card"
+            data-vue-component="event-card-full-width"
             data-vue-prop-tag="div"
             data-vue-prop-location="{{ event.place.name }}"
             data-vue-prop-description="{{ event.description }}"

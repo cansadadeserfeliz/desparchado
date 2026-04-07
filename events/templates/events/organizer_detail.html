@@ -94,7 +94,7 @@
       </div>
     </section>
 
-    {% if events %}
+    {% if future_events %}
       <section class="generic-detail__section">
         <div class="generic-detail__section-header generic-detail__section-header--padding-sm">
           <div
@@ -105,11 +105,10 @@
           >
           </div>
         </div>
-        <div class="events-list">
-          {% for event in events %}
+        <div class="generic-detail__events-list-full-width">
+          {% for event in future_events %}
             <div
-              class="events-list__card"
-              data-vue-component="event-card"
+              data-vue-component="event-card-full-width"
               data-vue-prop-tag="div"
               data-vue-prop-location="{{ event.place.name }}"
               data-vue-prop-description="{{ event.description }}"
@@ -119,7 +118,7 @@
               data-vue-prop-image-url="{{ event.get_image_url }}"
               data-vue-prop-link="{{ event.get_absolute_url }}"
               data-vue-prop-date-copy="{{ event.event_date|date:'l' }}"
-              data-vue-prop-speakers='[]'  {# speakers are not shown in the event-card view #}
+              data-vue-prop-speakers='[]'
             >
             </div>
           {% endfor %}
