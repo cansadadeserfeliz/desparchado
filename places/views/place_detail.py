@@ -10,7 +10,7 @@ class PlaceDetailView(DetailView):
         context = super().get_context_data(**kwargs)
 
         place = context["object"]
-        context["events"] = (
+        context["future_events"] = (
             place.events.published()
             .future()
             .select_related("place")
