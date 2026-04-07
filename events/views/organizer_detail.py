@@ -19,7 +19,8 @@ class OrganizerDetailView(DetailView):
         context['future_events'] = (
             organizer.events.published()
             .future()
-            .select_related('place')[:30]
+            .select_related('place')
+            .prefetch_related('speakers')[:30]
         )
         context["past_events"] = (
             organizer.events.published()
