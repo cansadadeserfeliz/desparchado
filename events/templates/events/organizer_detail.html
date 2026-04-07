@@ -94,7 +94,7 @@
       </div>
     </section>
 
-    {% if events %}
+    {% if future_events %}
       <section class="generic-detail__section">
         <div class="generic-detail__section-header generic-detail__section-header--padding-sm">
           <div
@@ -105,12 +105,12 @@
           >
           </div>
         </div>
-        <div class="events-list">
-          {% for event in events %}
+        <div class="generic-detail__events-list-full-width">
+          {% for event in future_events %}
             <div
-              class="events-list__card"
-              data-vue-component="event-card"
+              data-vue-component="event-card-full-width"
               data-vue-prop-tag="div"
+              data-vue-prop-umami-event="organizer-future-event"
               data-vue-prop-location="{{ event.place.name }}"
               data-vue-prop-description="{{ event.description }}"
               data-vue-prop-title="{{ event.title }}"
@@ -119,7 +119,7 @@
               data-vue-prop-image-url="{{ event.get_image_url }}"
               data-vue-prop-link="{{ event.get_absolute_url }}"
               data-vue-prop-date-copy="{{ event.event_date|date:'l' }}"
-              data-vue-prop-speakers='[]'  {# speakers are not shown in the event-card view #}
+              data-vue-prop-speakers='[{% with speakers=event.speakers.all %}{% if speakers %}{% for speaker in speakers %}{"imageUrl": "{{ speaker.get_image_url|escapejs }}", "link": "{{ speaker.get_absolute_url|escapejs }}", "name": "{{ speaker.name|escapejs }}" }{% if not forloop.last %}, {% endif %}{% endfor %}{% endif %}{% endwith %}]'
             >
             </div>
           {% endfor %}
@@ -149,6 +149,7 @@
             <div
               data-vue-component="event-card-full-width"
               data-vue-prop-tag="div"
+              data-vue-prop-umami-event="organizer-past-event"
               data-vue-prop-location="{{ event.place.name }}"
               data-vue-prop-description="{{ event.description }}"
               data-vue-prop-title="{{ event.title }}"
