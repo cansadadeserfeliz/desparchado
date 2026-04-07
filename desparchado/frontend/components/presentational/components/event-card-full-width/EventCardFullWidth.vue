@@ -56,7 +56,11 @@
           </a>
         </div>
 
-        <a :href="link" :class="bem(baseClass, 'title-link')" :data-umami-event="umamiEvent || undefined">
+        <a
+          :href="link"
+          :class="bem(baseClass, 'title-link')"
+          :data-umami-event="umamiEvent || undefined"
+        >
           <div :class="bem(baseClass, 'title')">
             <Typography
               tag="span"
