@@ -55,6 +55,23 @@ class Event(TimeStampedModel):
         blank=True,
         db_index=True,
     )
+
+    class TargetAudience(models.TextChoices):
+        EARLY_CHILDHOOD = "early_childhood", _("Primera infancia")
+        CHILDREN = "children", _("Niños y niñas")
+        YOUNG_ADULT = "young_adult", _("Adultos jóvenes")
+        ADULTS = "adults", _("Adultos")
+        FAMILIES = "families", _("Familias")
+        PROFESSIONALS = "professionals", _("Profesionales")
+        ALL_AUDIENCES = "all_audiences", _("Todo público")
+
+    target_audience = models.CharField(
+        verbose_name="Público objetivo",
+        max_length=50,
+        choices=TargetAudience,
+        blank=True,
+        db_index=True,
+    )
     event_date = models.DateTimeField(
         'Fecha del evento',
         db_index=True,
