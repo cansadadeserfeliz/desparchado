@@ -68,12 +68,12 @@ context: []
 ## Tasks & Acceptance
 
 **Execution:**
-- [ ] `events/views/event_list.py` -- add `target_audience_filter_name`/`target_audience_filter_value` attrs to `EventListBaseView`; validate and apply filter in `dispatch` and `get_queryset`; pass filter name/value and update `pagination_query_params` in `get_context_data`; in `EventListView.get_context_data` compute `target_audience_choices` from the full unpaginated future published queryset (no caching) -- backend support for the filter
-- [ ] `events/templates/events/event_list.html` -- add `<select name="target_audience">` inside the `select-group` div after the city filter, guarded by `{% if target_audience_choices %}` -- renders filter only when relevant options exist
-- [ ] `specials/views.py` -- read and validate `?target_audience=` param; apply as independent `.filter()` after the search/date if/else block so it stacks with both; compute `target_audience_choices` from the special's full published event set; add filter name/value and choices to context; when `target_audience` is active, add it to the `params` dict that builds `pagination_query_params` alongside `selected_date_param` -- backend support on the special page
-- [ ] `specials/templates/specials/special_detail.html` -- add `<select name="target_audience">` inside the search form, guarded by `{% if target_audience_choices %}` -- renders filter only when relevant options exist
-- [ ] `events/tests/views/test_event_list.py` -- add tests: filter returns only matching events; invalid value ignored; events with empty target_audience excluded from choices -- verifies event list filter behavior
-- [ ] `specials/tests/test_views.py` -- add tests: filter returns only matching events on special page; stacks with date filter -- verifies special page filter behavior
+- [x] `events/views/event_list.py` -- add `target_audience_filter_name`/`target_audience_filter_value` attrs to `EventListBaseView`; validate and apply filter in `dispatch` and `get_queryset`; pass filter name/value and update `pagination_query_params` in `get_context_data`; in `EventListView.get_context_data` compute `target_audience_choices` from the full unpaginated future published queryset (no caching) -- backend support for the filter
+- [x] `events/templates/events/event_list.html` -- add `<select name="target_audience">` inside the `select-group` div after the city filter, guarded by `{% if target_audience_choices %}` -- renders filter only when relevant options exist
+- [x] `specials/views.py` -- read and validate `?target_audience=` param; apply as independent `.filter()` after the search/date if/else block so it stacks with both; compute `target_audience_choices` from the special's full published event set; add filter name/value and choices to context; when `target_audience` is active, add it to the `params` dict that builds `pagination_query_params` alongside `selected_date_param` -- backend support on the special page
+- [x] `specials/templates/specials/special_detail.html` -- add `<select name="target_audience">` inside the search form, guarded by `{% if target_audience_choices %}` -- renders filter only when relevant options exist
+- [x] `events/tests/views/test_event_list.py` -- add tests: filter returns only matching events; invalid value ignored; events with empty target_audience excluded from choices -- verifies event list filter behavior
+- [x] `specials/tests/test_views.py` -- add tests: filter returns only matching events on special page; stacks with date filter -- verifies special page filter behavior
 
 **Acceptance Criteria:**
 - Given future events exist with `target_audience='young_adult'`, when visiting `/events/`, then a `<select>` for target_audience is present with a `young_adult` option.

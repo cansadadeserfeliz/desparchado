@@ -391,7 +391,7 @@ All agents implementing stories from this initiative MUST:
 
 #### Services
 
-```
+```text
 events/services/
 ├── __init__.py          (existing)
 ├── event_search.py      (existing — unchanged)
@@ -402,14 +402,14 @@ events/services/
 
 #### Views
 
-```
+```text
 events/views/
 └── category_detail.py   (NEW) — CategoryDetailView, SLUG_MAP constant
 ```
 
 #### Templates (new files)
 
-```
+```text
 desparchado/templates/includes/
 └── _breadcrumbs.html    (NEW) — shared breadcrumb partial
 
@@ -419,7 +419,7 @@ events/templates/events/
 
 #### Tests
 
-```
+```text
 events/tests/
 ├── services/            (NEW directory)
 │   ├── __init__.py
@@ -509,7 +509,7 @@ All decisions are mutually compatible. Service layer pattern is consistent with 
 
 **Test file location fix:** Venue organizer tests belong to the `places` app, not `events`:
 
-```
+```text
 places/tests/views/
 └── test_place_detail.py   (existing — add venue organizer tests here)
 ```
