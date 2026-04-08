@@ -15,17 +15,10 @@ theme:
     code: Roboto Mono
   features:
     - navigation.instant
+    - navigation.instant.prefetch
     - navigation.sections
     - content.code.annotate
   custom_dir: docs/overrides
-nav:
-  - Inicio: index.md
-  - Eventos:
-      - Tutoriales:
-          - tutorials/create-event.md
-  - Desarrolladores:
-      - Explicaciones:
-          - explanations/architecture.md
 markdown_extensions:
   - pymdownx.superfences:
       custom_fences:

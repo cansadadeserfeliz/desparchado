@@ -93,7 +93,7 @@ class EventAdmin(admin.ModelAdmin):
                     ('event_source_url', 'source_id'),
                     'image',
                     'image_source_url',
-                    ('event_date', 'category'),
+                    ('event_date', 'category', 'target_audience'),
                     'price',
                     'organizers',
                     'place',
@@ -105,6 +105,7 @@ class EventAdmin(admin.ModelAdmin):
     )
     list_filter = (
         'category',
+        'target_audience',
         'is_featured_on_homepage',
         'is_published',
         'is_approved',
