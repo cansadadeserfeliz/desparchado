@@ -6,6 +6,7 @@ from django.utils.dateparse import parse_date
 from django.utils.timezone import now
 from django.views.generic import DetailView
 
+from events.models import Event
 from events.services import search_events
 
 from .models import Special
@@ -53,24 +54,41 @@ class SpecialDetailView(DetailView):
         selected_date = parse_date(self.request.GET.get(selected_date_param, ""))
         search_query_value = self.request.GET.get(self.search_query_name, "")
 
+        target_audience_filter_name = 'target_audience'
+        target_audience_filter_value = self.request.GET.get(
+            target_audience_filter_name, '',
+        )
+        if target_audience_filter_value not in Event.TargetAudience:
+            target_audience_filter_value = ''
+
         # Apply search or date filter
-        if (
+        has_search = (
             search_query_value
             and len(search_query_value) >= self.search_query_min_length
-        ):
+        )
+        if has_search:
             events_queryset = search_events(
                 queryset=events_queryset,
                 search_str=search_query_value,
                 search_str_min_length=self.search_query_min_length,
             )
-        else:
+        elif selected_date or not target_audience_filter_value:
+            # Auto-select a date only when no other filter (audience) is active,
+            # or when the user explicitly picked a date chip.
             if not selected_date:
                 if today in event_dates:
                     selected_date = today
                 elif event_dates:
                     selected_date = event_dates[0]
 
-            events_queryset = events_queryset.filter(event_date__date=selected_date)
+            if selected_date:
+                events_queryset = events_queryset.filter(event_date__date=selected_date)
+
+        # Apply target_audience filter independently (stacks with search or date)
+        if target_audience_filter_value:
+            events_queryset = events_queryset.filter(
+                target_audience=target_audience_filter_value,
+            )
 
         # Optimize query performance
         events_queryset = (
@@ -88,11 +106,24 @@ class SpecialDetailView(DetailView):
         paginator = Paginator(events_queryset, 30)
         page = paginator.get_page(page_number)
 
+        params = {}
         if selected_date:
-            params = {selected_date_param: selected_date}
-            pagination_query_params = f"&{urlencode(params)}"
-        else:
-            pagination_query_params = ""
+            params[selected_date_param] = selected_date
+        if target_audience_filter_value:
+            params[target_audience_filter_name] = target_audience_filter_value
+        pagination_query_params = f"&{urlencode(params)}" if params else ""
+
+        present_values = set(
+            self.object.events.published()
+            .exclude(target_audience='')
+            .values_list('target_audience', flat=True)
+            .distinct(),
+        )
+        target_audience_choices = [
+            (value, label)
+            for value, label in Event.TargetAudience.choices
+            if value in present_values
+        ]
 
         # Context setup
         context.update(
@@ -107,6 +138,9 @@ class SpecialDetailView(DetailView):
                 "search_string": search_query_value,
                 "today": today,
                 "pagination_query_params": pagination_query_params,
+                "target_audience_filter_name": target_audience_filter_name,
+                "target_audience_filter_value": target_audience_filter_value,
+                "target_audience_choices": target_audience_choices,
             },
         )
         return context
