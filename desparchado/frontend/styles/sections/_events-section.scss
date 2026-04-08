@@ -49,10 +49,6 @@
   &__filter-wrapper {
     display: flex;
     flex-direction: column;
-
-    @media (min-width: map.get($breakpoints, m)) {
-      flex-direction: column-reverse;
-    }
   }
 
   &__empty {
