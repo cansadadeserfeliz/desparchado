@@ -24,17 +24,25 @@ class EventListBaseView(ListView):
     city = None
     category_filter_name = 'category'
     category_filter_value = ''
+    target_audience_filter_name = 'target_audience'
+    target_audience_filter_value = ''
 
     def dispatch(self, request, *args, **kwargs):
         self.search_query_value = request.GET.get(self.search_query_name, '')
         self.city_filter_value = request.GET.get(self.city_filter_name)
         self.category_filter_value = request.GET.get(self.category_filter_name)
+        self.target_audience_filter_value = request.GET.get(
+            self.target_audience_filter_name, '',
+        )
 
         if self.city_filter_value:
             self.city = City.objects.filter(slug=self.city_filter_value).first()
 
         if self.category_filter_value not in Event.Category:
             self.category_filter_value = ''
+
+        if self.target_audience_filter_value not in Event.TargetAudience:
+            self.target_audience_filter_value = ''
 
         return super().dispatch(request, *args, **kwargs)
 
@@ -49,6 +57,8 @@ class EventListBaseView(ListView):
         context['category_filter_name'] = self.category_filter_name
         context['category_filter_value'] = self.category_filter_value
         context['category_choices'] = Event.Category.choices
+        context['target_audience_filter_name'] = self.target_audience_filter_name
+        context['target_audience_filter_value'] = self.target_audience_filter_value
 
         params = {}
         if self.search_query_value:
@@ -57,6 +67,8 @@ class EventListBaseView(ListView):
             params[self.city_filter_name] = self.city_filter_value
         if self.category_filter_value:
             params[self.category_filter_name] = self.category_filter_value
+        if self.target_audience_filter_value:
+            params[self.target_audience_filter_name] = self.target_audience_filter_value
         context['pagination_query_params'] = f"&{urlencode(params)}" if params else ''
 
         return context
@@ -69,6 +81,11 @@ class EventListBaseView(ListView):
 
         if self.category_filter_value:
             queryset = queryset.filter(category=self.category_filter_value)
+
+        if self.target_audience_filter_value:
+            queryset = queryset.filter(
+                target_audience=self.target_audience_filter_value,
+            )
 
         queryset = search_events(
             queryset=queryset,
@@ -100,6 +117,18 @@ class EventListView(EventListBaseView):
             cache.set('city_filter_ids', city_ids, 24 * 60 * 60)
 
         context['cities'] = City.objects.filter(id__in=city_ids)
+
+        present_values = set(
+            Event.objects.published().future()
+            .exclude(target_audience='')
+            .values_list('target_audience', flat=True)
+            .distinct(),
+        )
+        context['target_audience_choices'] = [
+            (value, label)
+            for value, label in Event.TargetAudience.choices
+            if value in present_values
+        ]
 
         return context
 

@@ -15,7 +15,7 @@
       <h1 class="text-heading-1 events-section__title">{% translate 'Eventos' %}</h1>
       <form>
         <fieldset class="events-section__filters">
-          <legend class="text-heading-4">{% translate 'Busca un evento por:' %}</legend>
+           <legend class="text-heading-4">{% translate 'Busca un evento por:' %}</legend>
            <div class="events-section__filter-wrapper">
              <div class="events-section__filter-inputs">
                <div class="select-group">
@@ -35,6 +35,16 @@
                      {% endfor %}
                    </select>
                  </div>
+                 {% if target_audience_choices %}
+                 <div class="select-group__item">
+                   <select name="{{ target_audience_filter_name }}" aria-label="{% translate 'Busca por público' %}">
+                     <option disabled {% if not target_audience_filter_value %}selected{% endif %} value="">{% translate 'Público' %}</option>
+                     {% for value, label in target_audience_choices %}
+                       <option value="{{ value }}"{% if value == target_audience_filter_value %} selected{% endif %}>{{ label }}</option>
+                     {% endfor %}
+                   </select>
+                 </div>
+                 {% endif %}
                </div>
                <input
                  class="text-input"

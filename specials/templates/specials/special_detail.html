@@ -62,6 +62,18 @@
       <form id="event_search_form" method="get" action="{{ request.path }}#events">
         <div class="event-details__event-list-search">
           <input class="text-input" type="text" name="q" placeholder="Buscar eventos..." value="{{ search_string }}">
+          {% if target_audience_choices %}
+          <div class="select-group">
+            <div class="select-group__item">
+              <select name="{{ target_audience_filter_name }}" aria-label="{% translate 'Busca por público' %}">
+                <option disabled {% if not target_audience_filter_value %}selected{% endif %} value="">{% translate 'Público' %}</option>
+                {% for value, label in target_audience_choices %}
+                  <option value="{{ value }}"{% if value == target_audience_filter_value %} selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+          {% endif %}
           <div
             class="event-details__filter-action-item"
             data-vue-component="button"

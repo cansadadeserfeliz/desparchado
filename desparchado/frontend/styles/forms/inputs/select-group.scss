@@ -63,7 +63,7 @@
       background: none;
       border: none;
       padding: 0.5rem 1rem;
-      padding-right: 1.3rem;
+      padding-right: 2.25rem;
       -moz-appearance:none;
       -webkit-appearance:none;
       appearance:none;
@@ -73,6 +73,7 @@
 
       @media (min-width: map.get($breakpoints, m)) {
         padding: 0.75rem 1.5rem;
+        padding-right: 3.25rem;
         min-width: 9ch;
       }
 

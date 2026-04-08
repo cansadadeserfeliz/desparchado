@@ -50,7 +50,6 @@ _bmad/node_modules/
 _bmad/cache/
 .bmad/cache/
 # BMad output — track planning deliverables, ignore transient build artifacts
-_bmad-output/implementation-artifacts/
 _bmad-output/test-artifacts/
 _bmad-output/skills/
 _bmad-output/reports/
