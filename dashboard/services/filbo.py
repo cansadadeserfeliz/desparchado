@@ -22,6 +22,18 @@ User = get_user_model()
 logger = logging.getLogger(__name__)
 
 FILBO_SPECIAL_TITLE = 'FILBo 2026'
+
+FILBO_AUDIENCE_MAP: dict[str, str] = {
+    'age_under_6':        Event.TargetAudience.EARLY_CHILDHOOD,
+    'age_6_12':           Event.TargetAudience.CHILDREN,
+    'age_13_27':          Event.TargetAudience.YOUNG_ADULT,
+    'age_over_27':        Event.TargetAudience.ADULTS,
+    'book_professionals': Event.TargetAudience.PROFESSIONALS,
+    # FILBo's 'young_adult' means "Interesados en Literatura Infantil y Juvenil"
+    # (specialist interest, not an age group). Kept as YOUNG_ADULT — a separate
+    # universal choice — to preserve the age vs. professional distinction.
+    'young_adult':        Event.TargetAudience.YOUNG_ADULT,
+}
 SOURCE_ID_PREFIX = 'FILBO2026_'
 EVENT_TITLE_SUFFIX = 'FILBo 2026'
 
@@ -229,8 +241,8 @@ def sync_filbo_event(  # noqa: PLR0915
     the event URL, and calls update_or_create on Event. Organizers and speakers
     are resolved and set via M2M. The event is linked to the FILBo Special.
 
-    Column mapping: A=title, B=date, C=start_time, E=place, G=category,
-    H=link, J=description, K=organizer, L=participants.
+    Column mapping: A=title, B=date, C=start_time, E=place, F=target_audience,
+    G=category, H=link, J=description, K=organizer, L=participants.
 
     Args:
         event_data: List of cell values for one spreadsheet row (0-indexed by column).
@@ -261,6 +273,7 @@ def sync_filbo_event(  # noqa: PLR0915
     event_date = _get_event_field('B')
     start_time = _get_event_field('C')
     place = _get_event_field('E')
+    filbo_target_audience = _get_event_field('F')
     filbo_category = _get_event_field('G')
     link = _normalize_filbo_url(_get_event_field('H'))
     description = _get_event_field('J')
@@ -305,6 +318,15 @@ def sync_filbo_event(  # noqa: PLR0915
         logger.warning('Skipping FILBo event with URL exceeding max length: %s', link)
         return None
 
+    if filbo_target_audience:
+        target_audience = FILBO_AUDIENCE_MAP.get(filbo_target_audience, '')
+        if not target_audience:
+            logger.warning(
+                'Unknown FILBo target audience value: %s', filbo_target_audience,
+            )
+    else:
+        target_audience = ''
+
     category = {
         'Firma de Libros': Event.Category.LITERATURE,
         'Presentaciones de libros': Event.Category.LITERATURE,
@@ -334,6 +356,7 @@ def sync_filbo_event(  # noqa: PLR0915
         'place': get_place(place_name=place, request_user=request_user),
         'is_published': True,
         'is_approved': True,
+        'target_audience': target_audience,
     }
     event, created = Event.objects.update_or_create(
         source_id=filbo_id,
