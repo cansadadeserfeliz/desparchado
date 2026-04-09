@@ -18,10 +18,10 @@ context: []
 ## Boundaries & Constraints
 
 **Always:**
-- All three filters (date checkboxes, search query, target audience) submit via the same form "Buscar" button.
+- All three filters (date checkboxes, search query, target audience) submit via the same form submit button.
 - Multiple selected dates are passed as repeated `fecha` query params; backend applies `event_date__date__in`.
 - `data-umami-event="special-date-filter"` on each date chip label; `data-umami-event="special-event-search"` on the submit button.
-- Auto-select today (or earliest available date) is preserved when no explicit `fecha` params and no other active filter.
+- When no `fecha` params are present, no date filter is applied and all published events are shown with no chip checked.
 - Event cards on this page get `data-vue-prop-umami-event="special-event-card"`.
 
 **Ask First:**
@@ -36,10 +36,10 @@ context: []
 
 | Scenario | Input / State | Expected Output / Behavior | Error Handling |
 |----------|--------------|---------------------------|----------------|
-| No params | No `fecha`, `q`, `target_audience` | Auto-selects today (or earliest); that chip appears checked; events for that date shown | N/A |
+| No params | No `fecha`, `q`, `target_audience` | All published events shown; no chip checked | N/A |
 | Single date selected | `?fecha=2026-04-08` | Events for that date only; chip shows checked state | N/A |
 | Multiple dates selected | `?fecha=2026-04-08&fecha=2026-04-09` | Union of events from both dates; both chips show checked | N/A |
-| All chips unchecked, no other filter | No `fecha`, no `q`, no `target_audience` | Auto-select kicks in (today or earliest) | N/A |
+| All chips unchecked, no other filter | No `fecha`, no `q`, no `target_audience` | All published events shown; no chip checked | N/A |
 | All chips unchecked + audience filter | No `fecha`, `target_audience=familia` | No date filter; audience filter applied to all events | N/A |
 | Search overrides date | `?q=taller` | Full-text search used; date chips unaffected (unchecked) | Query < 3 chars: ignored |
 | Invalid `fecha` value | `?fecha=not-a-date` | Invalid value silently dropped; remaining valid dates used | N/A |
@@ -59,16 +59,20 @@ context: []
 - [x] `specials/views.py` -- Replace `GET.get(selected_date_param)` with `GET.getlist(selected_date_param)`; parse each raw value through `parse_date`, discard invalids; apply `event_date__date__in=selected_dates` when list is non-empty; update auto-select logic to populate `selected_dates = [date]`; rebuild pagination params as `urlencode([(selected_date_param, d) for d in selected_dates] + [(target_audience_filter_name, target_audience_filter_value)] if ...)` using a list of tuples; pass `selected_dates` (list) to context instead of `selected_date`
 - [x] `specials/templates/specials/special_detail.html` -- Move `.chip-group` div inside `#event_search_form` (before or after the text/audience inputs); replace each `<a class="chip ...">` with `<label class="chip" data-umami-event="special-date-filter">` wrapping `<input class="chip__checkbox" type="checkbox" name="fecha" value="{{ event_date|date:'Y-m-d' }}" {% if event_date in selected_dates %}checked{% endif %}>` and the existing date text; update submit button div to add `data-vue-prop-umami-event="special-event-search"`; add `data-vue-prop-umami-event="special-event-card"` to each `event-card-full-width` div
 - [x] `desparchado/frontend/styles/forms/inputs/chip.scss` -- Add `.chip__checkbox { position: absolute; opacity: 0; width: 0; height: 0; }` and `.chip:has(input[type="checkbox"]:checked) { background-color: $color-layout-foreground; color: $color-layout-background; }` with matching hover/focus overrides so the `:has` rule wins over the default hover style when checked
-- [x] `specials/tests/test_views.py` -- Add tests covering: single `fecha` param returns only that date's events; two `fecha` params return the union; invalid `fecha` is silently ignored; no `fecha` auto-selects today when present
+- [x] `specials/tests/test_views.py` -- Add tests covering: single `fecha` param returns only that date's events; two `fecha` params return the union; invalid `fecha` is silently ignored; no `fecha` shows all events with no chip checked
 
 **Acceptance Criteria:**
-- Given the page loads with no params and today has events, when rendered, today's chip appears checked and those events are listed.
-- Given two date chips are checked and "Buscar" is clicked, when the page reloads, events from both dates appear in the list together.
+- Given the page loads with no params, when rendered, no chip is checked and all published events are listed.
+- Given two date chips are checked and the form is submitted, when the page reloads, events from both dates appear in the list together.
 - Given a checked chip is unchecked and "Buscar" is clicked, when the page reloads, events for only the remaining checked dates are shown.
 - Given all chips are unchecked and audience filter is active, when "Buscar" is clicked, no date filter is applied (all audience-matched events shown).
-- Given `ANALYTICS_ENABLED=True`, when the "Buscar" button is clicked, Umami fires `special-event-search`.
+- Given `ANALYTICS_ENABLED=True`, when the submit button is clicked, Umami fires `special-event-search`.
 - Given `ANALYTICS_ENABLED=True`, when a date chip label is clicked, Umami fires `special-date-filter`.
 - Given an event card is rendered, when clicked, Umami fires `special-event-card`.
+
+## Spec Change Log
+
+- **2026-04-08 — human renegotiation:** Removed auto-select behavior. Original spec auto-selected today/earliest date when no `fecha` param was present. User explicitly requested no default date on page load. Updated: Always boundary, I/O matrix rows "No params" and "All chips unchecked", task description, and AC. KEEP: all other behavior (multi-date union, invalid fecha dropped, chip-as-checkbox pattern, Umami tracking).
 
 ## Design Notes
 
