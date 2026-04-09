@@ -153,5 +153,5 @@ context: []
 - New test: invalid fecha silently dropped; valid one still applied
   [`test_views.py:147`](../../specials/tests/test_views.py#L147)
 
-- New test: no fecha → auto-selects today
+- New test: no fecha → shows all events with no chip checked
   [`test_views.py:172`](../../specials/tests/test_views.py#L172)
