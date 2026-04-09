@@ -63,7 +63,7 @@ class SpecialDetailView(DetailView):
         if target_audience_filter_value not in Event.TargetAudience:
             target_audience_filter_value = ''
 
-        # Apply search or date filter
+        # Apply filters independently — all three can stack
         has_search = (
             search_query_value
             and len(search_query_value) >= self.search_query_min_length
@@ -74,7 +74,7 @@ class SpecialDetailView(DetailView):
                 search_str=search_query_value,
                 search_str_min_length=self.search_query_min_length,
             )
-        elif selected_dates:
+        if selected_dates:
             events_queryset = events_queryset.filter(
                 event_date__date__in=selected_dates,
             )
