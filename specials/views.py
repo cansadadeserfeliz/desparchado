@@ -17,16 +17,12 @@ class SpecialDetailView(DetailView):
     """
     Displays details of a `Special` instance and its related published events.
 
-    The view supports:
-    - Filtering events by a selected.
-    - Searching events by keyword.
-    - Pagination of event results.
+    All filters stack cumulatively:
+    - `q`: full-text search via `search_events` when >= `search_query_min_length` chars.
+    - `fecha`: one or more dates; events are filtered to the union of those dates.
+    - `target_audience`: narrows results to the given audience value.
 
-    Behavior:
-    - If a search query (`q`) is provided and its length >= `search_query_min_length`,
-      events are filtered using the `search_events` service.
-    - Otherwise, events are filtered by date (`fecha`). If no date is given, it defaults
-      to today’s date (if available) or the earliest available event date.
+    When no filters are active, all published events for the special are returned.
     """
     model = Special
     search_query_name = "q"
