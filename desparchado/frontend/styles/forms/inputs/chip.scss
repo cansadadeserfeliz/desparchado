@@ -9,6 +9,7 @@
 .chip {
   @extend .text-body-lg;
 
+  position: relative;
   border: 2px solid $color-layout-foreground;
   border-radius: 2rem;
   padding: 0.25rem 1.25rem;
@@ -30,6 +31,30 @@
     background-color: $color-layout-foreground;
     color: $color-layout-background;
   }
+
+  &:has(input[type="checkbox"]:checked) {
+    background-color: $color-layout-foreground;
+    color: $color-layout-background;
+
+    &:hover,
+    &:focus {
+      background-color: $color-layout-foreground;
+      color: $color-layout-background;
+    }
+  }
+
+  &:has(input[type="checkbox"]:focus-visible) {
+    outline: 2px solid $color-layout-foreground;
+    outline-offset: 2px;
+  }
+}
+
+.chip__checkbox {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
 }
 
 .chip-group {
