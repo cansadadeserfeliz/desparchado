@@ -146,6 +146,26 @@ def test_invalid_fecha_value_is_ignored(django_app):
 
 
 @pytest.mark.django_db
+def test_search_and_date_filter_stack(django_app):
+    target_date = now() + timedelta(days=3)
+    other_date = now() + timedelta(days=7)
+
+    match = EventFactory(title="Taller de pintura", event_date=target_date)
+    wrong_date = EventFactory(title="Taller de pintura", event_date=other_date)
+    wrong_title = EventFactory(title="Concierto de jazz", event_date=target_date)
+    special = SpecialFactory(related_events=[match, wrong_date, wrong_title])
+
+    response = django_app.get(
+        reverse('specials:special_detail', args=[special.slug]),
+        {'q': 'taller', 'fecha': str(localtime(target_date).date())},
+        status=200,
+    )
+    assert match in response.context['events']
+    assert wrong_date not in response.context['events']
+    assert wrong_title not in response.context['events']
+
+
+@pytest.mark.django_db
 def test_no_fecha_shows_all_events(django_app):
     event_a = EventFactory(event_date=now() + timedelta(days=1))
     event_b = EventFactory(event_date=now() + timedelta(days=10))

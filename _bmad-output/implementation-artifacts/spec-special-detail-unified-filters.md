@@ -41,7 +41,8 @@ context: []
 | Multiple dates selected | `?fecha=2026-04-08&fecha=2026-04-09` | Union of events from both dates; both chips show checked | N/A |
 | All chips unchecked, no other filter | No `fecha`, no `q`, no `target_audience` | All published events shown; no chip checked | N/A |
 | All chips unchecked + audience filter | No `fecha`, `target_audience=familia` | No date filter; audience filter applied to all events | N/A |
-| Search overrides date | `?q=taller` | Full-text search used; date chips unaffected (unchecked) | Query < 3 chars: ignored |
+| Search + date combined | `?q=taller&fecha=2026-04-08` | Full-text search applied first, then date filter narrows results | Query < 3 chars: ignored |
+| Search only | `?q=taller` | Full-text search across all dates; no date filter applied | Query < 3 chars: ignored |
 | Invalid `fecha` value | `?fecha=not-a-date` | Invalid value silently dropped; remaining valid dates used | N/A |
 
 </frozen-after-approval>
@@ -66,12 +67,14 @@ context: []
 - Given two date chips are checked and the form is submitted, when the page reloads, events from both dates appear in the list together.
 - Given a checked chip is unchecked and "Buscar" is clicked, when the page reloads, events for only the remaining checked dates are shown.
 - Given all chips are unchecked and audience filter is active, when "Buscar" is clicked, no date filter is applied (all audience-matched events shown).
+- Given a search term and a date chip are both active, when the form is submitted, only events matching the search term on that date are shown.
 - Given `ANALYTICS_ENABLED=True`, when the submit button is clicked, Umami fires `special-event-search`.
 - Given `ANALYTICS_ENABLED=True`, when a date chip label is clicked, Umami fires `special-date-filter`.
 - Given an event card is rendered, when clicked, Umami fires `special-event-card`.
 
 ## Spec Change Log
 
+- **2026-04-08 — bug fix:** Search and date filters were mutually exclusive (`elif`). Fixed to stack independently (`if`/`if`). Updated I/O matrix (replaced "Search overrides date" with combined and search-only rows) and added AC for combined case. KEEP: all other filter behavior.
 - **2026-04-08 — human renegotiation:** Removed auto-select behavior. Original spec auto-selected today/earliest date when no `fecha` param was present. User explicitly requested no default date on page load. Updated: Always boundary, I/O matrix rows "No params" and "All chips unchecked", task description, and AC. KEEP: all other behavior (multi-date union, invalid fecha dropped, chip-as-checkbox pattern, Umami tracking).
 
 ## Design Notes
