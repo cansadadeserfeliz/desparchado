@@ -30,6 +30,25 @@
     background-color: $color-layout-foreground;
     color: $color-layout-background;
   }
+
+  &:has(input[type="checkbox"]:checked) {
+    background-color: $color-layout-foreground;
+    color: $color-layout-background;
+
+    &:hover,
+    &:focus {
+      background-color: $color-layout-foreground;
+      color: $color-layout-background;
+    }
+  }
+}
+
+.chip__checkbox {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
 }
 
 .chip-group {

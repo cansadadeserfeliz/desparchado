@@ -1,3 +1,4 @@
+from datetime import date
 from urllib.parse import urlencode
 
 from django.core.paginator import Paginator
@@ -51,7 +52,8 @@ class SpecialDetailView(DetailView):
 
         today = now().date()
         selected_date_param = "fecha"
-        selected_date = parse_date(self.request.GET.get(selected_date_param, ""))
+        raw_dates = self.request.GET.getlist(selected_date_param)
+        selected_dates: list[date] = [d for raw in raw_dates if (d := parse_date(raw))]
         search_query_value = self.request.GET.get(self.search_query_name, "")
 
         target_audience_filter_name = 'target_audience'
@@ -72,17 +74,10 @@ class SpecialDetailView(DetailView):
                 search_str=search_query_value,
                 search_str_min_length=self.search_query_min_length,
             )
-        elif selected_date or not target_audience_filter_value:
-            # Auto-select a date only when no other filter (audience) is active,
-            # or when the user explicitly picked a date chip.
-            if not selected_date:
-                if today in event_dates:
-                    selected_date = today
-                elif event_dates:
-                    selected_date = event_dates[0]
-
-            if selected_date:
-                events_queryset = events_queryset.filter(event_date__date=selected_date)
+        elif selected_dates:
+            events_queryset = events_queryset.filter(
+                event_date__date__in=selected_dates,
+            )
 
         # Apply target_audience filter independently (stacks with search or date)
         if target_audience_filter_value:
@@ -106,12 +101,14 @@ class SpecialDetailView(DetailView):
         paginator = Paginator(events_queryset, 30)
         page = paginator.get_page(page_number)
 
-        params = {}
-        if selected_date:
-            params[selected_date_param] = selected_date
+        param_pairs: list[tuple[str, str]] = [
+            (selected_date_param, str(d)) for d in selected_dates
+        ]
         if target_audience_filter_value:
-            params[target_audience_filter_name] = target_audience_filter_value
-        pagination_query_params = f"&{urlencode(params)}" if params else ""
+            param_pairs.append(
+                (target_audience_filter_name, target_audience_filter_value),
+            )
+        pagination_query_params = f"&{urlencode(param_pairs)}" if param_pairs else ""
 
         present_values = set(
             self.object.events.published()
@@ -134,7 +131,7 @@ class SpecialDetailView(DetailView):
                 "is_paginated": page.has_other_pages(),
                 "selected_date_param": selected_date_param,
                 "event_dates": event_dates,
-                "selected_date": selected_date,
+                "selected_dates": selected_dates,
                 "search_string": search_query_value,
                 "today": today,
                 "pagination_query_params": pagination_query_params,

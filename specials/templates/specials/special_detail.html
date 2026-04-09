@@ -74,33 +74,43 @@
             </div>
           </div>
           {% endif %}
+        </div>
+        <div class="chip-group">
+        {% for event_date in event_dates %}
+          <label class="chip" data-umami-event="special-date-filter">
+            <input
+              class="chip__checkbox"
+              type="checkbox"
+              name="{{ selected_date_param }}"
+              value="{{ event_date|date:'Y-m-d' }}"
+              {% if event_date in selected_dates %}checked{% endif %}
+            >
+            {{ event_date|date:'D, b j' }}{% if today.year != event_date.year %} {{ event_date|date:'Y' }}{% endif %}
+          </label>
+        {% endfor %}
+        </div>
+        <div class="event-details__event-list-search">
           <div
             class="event-details__filter-action-item"
             data-vue-component="button"
             data-vue-prop-type="secondary"
             data-vue-prop-padding="condensed"
-            data-vue-prop-label="{% translate 'Buscar' %}"
+            data-vue-prop-label="{% translate 'Aplicar filtros' %}"
             data-vue-prop-is-action-submit="true"
+            data-umami-event="special-event-search"
           >
           </div>
           <div
-              class="events-section__filter-action-item"
-              data-vue-component="button"
-              data-vue-prop-type="secondary"
-              data-vue-prop-padding="condensed"
-              data-vue-prop-label="{% translate 'Limpiar búsqueda' %}"
-              data-vue-prop-link="{{ request.path }}#events"
-            >
+            class="events-section__filter-action-item"
+            data-vue-component="button"
+            data-vue-prop-type="secondary"
+            data-vue-prop-padding="condensed"
+            data-vue-prop-label="{% translate 'Limpiar búsqueda' %}"
+            data-vue-prop-link="{{ request.path }}#events"
+          >
           </div>
         </div>
       </form>
-      <div class="chip-group">
-      {% for event_date in event_dates %}
-        <a class="chip {% if event_date == selected_date %}chip--selected{% endif %}" role="button" href="?{{ selected_date_param }}={{ event_date|date:"Y-m-d" }}#events">
-          {{ event_date|date:'D, b j' }}{% if today.year != event_date.year %} {{ event_date|date:'Y' }}{% endif %}
-        </a>
-      {% endfor %}
-      </div>
     </div>
 
     {% include 'events/_event_list_pagination.html' with is_paginated=is_paginated page_obj=page_obj pagination_query_params=pagination_query_params pagination_anchor='events' %}
@@ -117,6 +127,7 @@
         data-vue-prop-image-url="{{ event.get_image_url }}"
         data-vue-prop-link="{{ event.get_absolute_url }}"
         data-vue-prop-date-copy="{{ event.event_date|date:'l' }}"
+        data-vue-prop-umami-event="special-event-card"
         data-vue-prop-speakers='[{% with speakers=event.speakers.all %}{% if speakers %}{% for speaker in speakers %}{"imageUrl": "{{ speaker.get_image_url|escapejs }}", "link": "{{ speaker.get_absolute_url|escapejs }}", "name": "{{ speaker.name|escapejs }}" }{% if not forloop.last %}, {% endif %}{% endfor %}{% endif %}{% endwith %}]'
       >
       </div>
