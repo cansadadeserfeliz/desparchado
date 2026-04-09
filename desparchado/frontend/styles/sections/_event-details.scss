@@ -230,7 +230,7 @@ $mobile-actions-overlap: -3.75rem;
     padding: 4rem 1rem 5rem;
 
     @media (min-width: map.get($breakpoints, m)) {
-      padding: 0 0 10rem;
+      padding: 0 0 5rem;
     }
   }
 
