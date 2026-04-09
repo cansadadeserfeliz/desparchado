@@ -104,6 +104,8 @@ class SpecialDetailView(DetailView):
         param_pairs: list[tuple[str, str]] = [
             (selected_date_param, str(d)) for d in selected_dates
         ]
+        if has_search:
+            param_pairs.append((self.search_query_name, search_query_value))
         if target_audience_filter_value:
             param_pairs.append(
                 (target_audience_filter_name, target_audience_filter_value),
