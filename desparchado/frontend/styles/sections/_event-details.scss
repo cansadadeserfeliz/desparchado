@@ -170,6 +170,10 @@ $mobile-actions-overlap: -3.75rem;
       margin: 0;
       display: inline;
     }
+
+    &--date {
+      color: $color-layout-interactive;
+    }
   }
 
   &__header {
