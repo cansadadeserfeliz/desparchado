@@ -1,21 +1,30 @@
 {% extends 'layout/base.html' %}
+{% load django_vite %}
 
 {% block title %}Página no encontrada{% endblock %}
 
+{% block bootstrap_css %}{% endblock %}
+
+{% block extra_scripts %}
+  {% vite_asset 'desparchado/frontend/scripts/static.ts' %}
+{% endblock extra_scripts %}
+
 {% block content %}
-
-  <h3>Página no encontrada</h3>
-  <h1>ESTA PÁGINA ESTÁ PERDIDA EN EL LIMBO</h1>
-
-  <p>La página que busca no está disponible por alguna de las siguientes razones:</p>
-
-  <ul>
-    <li>El vínculo que conduce a esta página es incorrecto o demasiado antiguo.</li>
-    <li>Ha llegado hasta aquí por medio de un marcador vinculado a una página que ha cambiado de ubicación.</li>
-  </ul>
-
-  <p>
-    <a class="btn btn-primary" href="/">Volver al inicio de desparchado.co</a>
-  </p>
-
+  <div class="error-page">
+    <div class="error-page__heading">
+      <h1 class="text-heading-3">Esta página está perdida en el limbo</h1>
+    </div>
+    <div class="error-page__body">
+      <p class="text-body-lg">La página que buscas no está disponible. El vínculo puede ser incorrecto, demasiado antiguo o la página cambió de ubicación.</p>
+    </div>
+    <div class="error-page__cta">
+      <div
+        data-vue-component="button"
+        data-vue-prop-type="primary"
+        data-vue-prop-label="Volver al inicio de desparchado.co"
+        data-vue-prop-link="/"
+      >
+      </div>
+    </div>
+  </div>
 {% endblock %}

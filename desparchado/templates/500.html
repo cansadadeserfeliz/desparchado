@@ -1,15 +1,30 @@
 {% extends 'layout/base.html' %}
+{% load django_vite %}
 
 {% block title %}Error interno del sistema{% endblock %}
 
+{% block bootstrap_css %}{% endblock %}
+
+{% block extra_scripts %}
+  {% vite_asset 'desparchado/frontend/scripts/static.ts' %}
+{% endblock extra_scripts %}
+
 {% block content %}
-
-  <h1>¡Vaya! Algo salió mal</h1>
-
-  <p>Error interno del sistema.</p>
-
-  <p>
-    <a class="btn btn-primary" href="/">Volver al inicio de desparchado.co</a>
-  </p>
-
+  <div class="error-page">
+    <div class="error-page__heading">
+      <h1 class="text-heading-3">¡Vaya! Algo salió mal</h1>
+    </div>
+    <div class="error-page__body">
+      <p class="text-body-lg">Error interno del sistema.</p>
+    </div>
+    <div class="error-page__cta">
+      <div
+        data-vue-component="button"
+        data-vue-prop-type="primary"
+        data-vue-prop-label="Volver al inicio de desparchado.co"
+        data-vue-prop-link="/"
+      >
+      </div>
+    </div>
+  </div>
 {% endblock %}

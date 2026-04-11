@@ -1,22 +1,25 @@
 {% extends 'layout/base.html' %}
-{% load i18n static %}
+{% load i18n django_vite %}
+
+{% block bootstrap_css %}{% endblock %}
+
+{% block extra_scripts %}
+  {% vite_asset 'desparchado/frontend/scripts/static.ts' %}
+{% endblock extra_scripts %}
 
 {% block content %}
-<article class="container">
-  <div class="my-5">
-    <h2 class="text-justify text-center">
-      Acerca de
-    </h2>
+<article class="static-page">
 
-    <p class="text-lg">
+  <div class="static-page__section">
+    <h2 class="text-heading-3 static-page__section-title">Acerca de</h2>
+    <p class="text-body-lg">
       <b>Desparchado.co</b> es un proyecto sin ánimo de lucro,
       que sirve para compartir eventos culturales y educativos
       y darles más visibilidad.
       Los anuncios de los eventos pueden ser publicados en la página web por
       editores o usuarios registrados.
     </p>
-
-    <p class="text-lg">
+    <p class="text-body-lg">
       Nosotros queremos que una persona tenga la oportunidad de construir
       su trayectoria educativa en función de sus necesidades,
       la curiosidad y el deseo de aprender algo nuevo.
@@ -24,10 +27,9 @@
     </p>
   </div>
 
-  <div class="my-5">
-    <h3 class="text-center">¿Quién puede crear eventos?</h3>
-
-    <p class="text-lg">
+  <div class="static-page__section">
+    <h3 class="text-heading-3 static-page__section-title">¿Quién puede crear eventos?</h3>
+    <p class="text-body-lg">
       Cualquiera puede crear un anuncio de su evento en <b>Desparchado.co</b>
       de forma independiente y gratuita.
       Para hacer esto, haga clic en el botón «Añadir evento» en
@@ -35,14 +37,12 @@
     </p>
   </div>
 
-  <div class="my-5">
-    <h3 class="text-center">¿Qué tipos de eventos se puede publicar?</h3>
-
-    <p class="text-lg">
+  <div class="static-page__section">
+    <h3 class="text-heading-3 static-page__section-title">¿Qué tipos de eventos se puede publicar?</h3>
+    <p class="text-body-lg">
       En <b>Desparchado.co</b> sólo se publican los siguentes tipos de eventos:
     </p>
-
-    <ul class="text-lg">
+    <ul class="static-page__list text-body-lg">
       <li>conferencias publicas y debates</li>
       <li>obras de teatro, conciertos y proyecciones de películas</li>
       <li>talleres y seminarios</li>
@@ -50,8 +50,7 @@
       <li>exposiciones, instalaciones y recorridos</li>
       <li>festivales</li>
     </ul>
-
-    <p class="text-lg">
+    <p class="text-body-lg">
       Los eventos publicados deben estar abiertos a todos los públicos.
       No publicamos anuncios publicitarios,
       ofertas para comprar un certificado, un cupón o usar el servicio,
@@ -66,16 +65,14 @@
       o grupo de personas en particular,
       actividades de naturaleza cerrada (privada).
     </p>
-
-    <p class="text-lg">
+    <p class="text-body-lg">
       Si el evento no coincide con las condiciones mencionadas,
       los editores de <b>Desparchado.co</b> no lo aceptarán para su publicación.
     </p>
-
   </div>
 
-  <div>
-    <small>
+  <div class="static-page__section">
+    <p class="text-body-md">
       En Desparchado.co sólo brindamos un espacio en Internet para hacer
       difusión de eventos culturales, generalmente publicados en nuestro
       sitio por voluntarios. El registro de asistentes, tiquetes, boletería,
@@ -84,13 +81,8 @@
       Le recomendamos contactar al organizador del evento o al sitio donde
       el evento tendrá lugar para solicitar información sobre la inscripción
       en el caso de que sea necesario.
-    </small>
-  </div>
-
-  <div class="text-center my-5">
-    <a href="https://www.digitalocean.com/?refcode=442bff99d207&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge"><img src="https://web-platforms.sfo2.cdn.digitaloceanspaces.com/WWW/Badge%201.svg" alt="DigitalOcean Referral Badge" /></a>
+    </p>
   </div>
 
 </article>
-
 {% endblock content %}
