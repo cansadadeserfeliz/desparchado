@@ -66,6 +66,13 @@
 
   &__section-title {
     margin-bottom: 1rem;
+
+    // Push heading away from preceding content (e.g. sub-headings inside
+    // a section that also contains an intro paragraph, as in T&C).
+    // Has no effect when the heading is the first child of its section.
+    * + & {
+      margin-top: 2rem;
+    }
   }
 
   &__list {
