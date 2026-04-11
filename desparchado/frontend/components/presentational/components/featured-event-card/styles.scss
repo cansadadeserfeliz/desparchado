@@ -79,6 +79,10 @@
     transition-property: clip-path;
     transition-timing-function: $ease-out-quart;
     will-change: clip-path;
+
+    @media (hover: none) {
+      clip-path: circle(150% at 20% 100%);
+    }
   }
 
   &__wrapper {
