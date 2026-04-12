@@ -1,0 +1,86 @@
+@use '@styles/variables' as *;
+@use '@styles/breakpoints' as *;
+@use '@styles/typography' as *;
+@use "sass:map";
+
+.error-page {
+  color: $color-layout-foreground;
+  display: flex;
+  flex-direction: column;
+  min-height: 60vh;
+  padding: 2rem;
+
+  @media (min-width: map.get($breakpoints, m)) {
+    padding: 4rem 2rem;
+  }
+
+  &__heading {
+    background: $color-dp-orange-10;
+    padding: 2rem;
+    border-top: $hairline_regular;
+    border-bottom: $hairline_regular;
+    margin-bottom: 2rem;
+
+    @media (min-width: map.get($breakpoints, m)) {
+      padding: 3rem 4rem;
+      margin-bottom: 3rem;
+    }
+  }
+
+  &__body {
+    padding: 0 0 2rem;
+
+    @media (min-width: map.get($breakpoints, m)) {
+      padding: 0 4rem 2rem;
+      max-width: 50rem;
+    }
+  }
+
+  &__cta {
+    padding: 0;
+
+    @media (min-width: map.get($breakpoints, m)) {
+      padding: 0 4rem;
+    }
+  }
+}
+
+.static-page {
+  color: $color-layout-foreground;
+  padding: 2rem;
+
+  @media (min-width: map.get($breakpoints, m)) {
+    padding: 4rem;
+    max-width: 60rem;
+    margin: 0 auto;
+  }
+
+  &__section {
+    padding: 2rem 0;
+    border-bottom: $hairline_regular;
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
+  &__section-title {
+    margin-bottom: 1rem;
+
+    // Push heading away from preceding content (e.g. sub-headings inside
+    // a section that also contains an intro paragraph, as in T&C).
+    // Has no effect when the heading is the first child of its section.
+    * + & {
+      margin-top: 2rem;
+    }
+  }
+
+  &__list {
+    padding-left: 1.5rem;
+    margin: 1rem 0;
+
+    li {
+      margin-bottom: 0.5rem;
+    }
+  }
+}

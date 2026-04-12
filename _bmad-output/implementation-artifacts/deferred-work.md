@@ -12,6 +12,12 @@
 **Finding:** A user-supplied `fecha` value that is a valid date but not in `event_dates` is parsed and included in `pagination_query_params`. It produces no visible chip but persists across pagination links. Low severity since it doesn't affect displayed results.
 **Action if needed:** Filter `selected_dates` against `event_dates` before building `param_pairs`.
 
+## Static error pages: 500.html Vite asset fragility during server errors
+
+**Source:** Review of `spec-static-pages-new-design`
+**Finding:** `500.html` uses `{% load django_vite %}` and `{% vite_asset %}`, as does `base.html` which it extends. If the Vite manifest is unavailable when a 500 error occurs (e.g. corrupt build artifact), template rendering will itself fail, causing Django to return a bare HTML-less 500 response. This is a pre-existing risk introduced by the existing `base.html` Vite usage and was not worsened by this story, but it is worth addressing.
+**Action if needed:** Consider making `500.html` self-contained (no template inheritance, inline critical CSS) to guarantee it always renders, even if the build pipeline is broken.
+
 ## Multi-value target_audience cells in FILBo sync
 
 **Source:** Review of `feature/filbo-target-audience` (spec-event-target-audience)
