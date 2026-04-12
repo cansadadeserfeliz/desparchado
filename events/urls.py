@@ -1,4 +1,5 @@
 from django.urls import path
+from django.views.generic import RedirectView
 
 from events.views.event_create import EventCreateView
 from events.views.event_detail import EventDetailView
@@ -21,6 +22,10 @@ app_name = 'events'  # pylint: disable=invalid-name
 urlpatterns = [
     # Future events list
     path('', EventListView.as_view(), name='event_list'),
+    path(
+        'present/',
+        RedirectView.as_view(pattern_name='events:event_list', permanent=True),
+    ),
     # Past events list
     path('past/', PastEventListView.as_view(), name='past_event_list'),
     # Add event
