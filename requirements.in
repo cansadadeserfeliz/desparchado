@@ -7,7 +7,7 @@ Django>=6.0,<6.1
 # Python Libs
 gspread>=6.2.1,<6.3.0
 html-sanitizer>=2.6.0,<3
-Pillow>=12.1.1,<12.2
+Pillow>=12.1.1,<12.3
 psycopg==3.3.2,<3.4  # apt-get install postgis
 requests>=2.33.0,<2.34
 python-dateutil>=2.9.0,<3
