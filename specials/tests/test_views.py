@@ -206,6 +206,7 @@ def test_invalid_lugar_value_is_ignored(django_app):
     event_b = EventFactory()
     special = SpecialFactory(related_events=[event_a, event_b])
 
+    # Non-numeric value — parse error path
     response = django_app.get(
         reverse('specials:special_detail', args=[special.slug]),
         {'lugar': 'not-a-number'},
@@ -214,6 +215,16 @@ def test_invalid_lugar_value_is_ignored(django_app):
     assert response.context['filters']['place_id'] is None
     assert event_a in response.context['events']
     assert event_b in response.context['events']
+
+    # Numeric but nonexistent place ID — out-of-range path
+    response2 = django_app.get(
+        reverse('specials:special_detail', args=[special.slug]),
+        {'lugar': '99999'},
+        status=200,
+    )
+    assert response2.context['filters']['place_id'] is None
+    assert event_a in response2.context['events']
+    assert event_b in response2.context['events']
 
 
 @pytest.mark.django_db

@@ -140,7 +140,7 @@
             <a href="{{ filters.audience_clear_url }}" aria-label="{% translate 'Eliminar filtro de público' %}">x</a>
           </span>
           {% endif %}
-          {% if filters.search %}
+          {% if filters.search_applied %}
           <span class="chip chip--active-filter">
             <span class="text-bold">{% translate 'Palabra clave' %}:</span> {{ filters.search }}
             <a href="{{ filters.search_clear_url }}" aria-label="{% translate 'Eliminar filtro de búsqueda' %}">x</a>

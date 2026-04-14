@@ -78,6 +78,12 @@ class SpecialDetailView(DetailView):
             .order_by("place__name"),
         )
 
+        # Reject a numeric lugar that doesn't match any known place in this special
+        if place_filter_value is not None:
+            valid_place_ids = {pid for pid, _ in place_choices}
+            if place_filter_value not in valid_place_ids:
+                place_filter_value = None
+
         # --- Apply filters independently (all four can stack) ---
         has_search = (
             search_query_value
@@ -175,6 +181,7 @@ class SpecialDetailView(DetailView):
             "audience_label": audience_label,
             "place_id": place_filter_value,
             "place_name": place_name,
+            "search_applied": has_search,
             "has_any": bool(
                 selected_dates
                 or has_search

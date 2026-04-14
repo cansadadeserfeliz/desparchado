@@ -57,21 +57,21 @@ context: []
 
 **Execution:**
 - [x] `specials/views.py` — Rename `search_query_name = "busqueda"` (class attr). Use `audience_filter_name = "publico"` locally. Parse `lugar` → `int | None`. Query `place_choices` as `(id, name)` from `self.object.events.published().select_related("place").values_list("place_id", "place__name").distinct().order_by("place__name")`. Apply filters (search, fecha, publico, lugar) independently on `events_queryset`. Build `filters` dict: `{"selected_dates": list[date], "search": str, "audience": str, "audience_label": str, "place_id": int|None, "place_name": str, "has_any": bool}` — `audience_label` from `dict(Event.TargetAudience.choices)`, `place_name` from `place_choices` lookup (fallback `""`), `has_any = bool(selected_dates or has_search or audience or place_id is not None)`. Pass `filters`, `audience_filter_name`, `place_filter_name`, `date_filter_name`, `search_filter_name` to context. Remove separate `selected_dates`, `search_string`, `target_audience_filter_value`, `place_filter_value` context keys.
-- [x] `specials/templates/specials/special_detail.html` — Update form: `name="{{ search_filter_name }}"` on input, value from `filters.search`; audience select uses `audience_filter_name` and `filters.audience`; place select uses `place_filter_name` and `filters.place_id`; chip checked uses `filters.selected_dates`. Chip past class: `{% if event_date < today %}chip--past{% endif %}`. "Buscando por:" block: `{% if filters.has_any %}` — list each active filter (fecha, busqueda, publico, lugar) as a chip with `href="{{ request.path }}#events"` for all clear links. Dates section lists each date individually: `{% for d in filters.selected_dates %}{{ d|date:'D, b j' }}{% endfor %}`.
+- [x] `specials/templates/specials/special_detail.html` — Update form: `name="{{ search_filter_name }}"` on input, value from `filters.search`; audience select uses `audience_filter_name` and `filters.audience`; place select uses `place_filter_name` and `filters.place_id`; chip checked uses `filters.selected_dates`. Chip past class: `{% if event_date < today %}chip--past{% endif %}`. "Buscando por:" block: `{% if filters.has_any %}` — list each active filter (fecha, busqueda, publico, lugar) as a chip; each chip's `x` link uses its corresponding `filters.*_clear_url` (removes only that filter); "Limpiar Búsqueda" uses `{{ request.path }}#events` (clears all). Dates section lists each date individually: `{% for d in filters.selected_dates %}{{ d|date:'D, b j' }}{% endfor %}`.
 - [x] `specials/tests/test_views.py` — Update all existing tests using `'q'` → `'busqueda'` and `'target_audience'` → `'publico'`. New tests: (1) `lugar` filters to matching place; (2) invalid `lugar` ignored; (3) `filters.place_name` populated when valid `lugar` passed; (4) `filters.has_any` is False with no params; (5) chip count for `chip--past` is exactly 1 when one past and one future event exist.
 
 **Acceptance Criteria:**
 - Given a published event at Place A and B, when `?lugar=<Place A id>` submitted, only Place A's event appears.
 - Given no `lugar` param, both events listed and "Buscando por:" section is absent.
 - Given an event date before today, its chip label has the `chip--past` CSS class.
-- Given all four filters active, "Buscando por:" shows four chips each with a clear link to `request.path#events`.
+- Given all four filters active, "Buscando por:" shows four chips; each chip's `x` removes only its own filter, "Limpiar Búsqueda" clears all.
 - Given no filters active, the "Buscando por:" section is not present in the HTML.
 - Given three non-contiguous dates selected, "Buscando por: Fecha" shows three individual dates, not a range.
 
 ## Spec Change Log
 
 - **2026-04-14 — human renegotiation (bad_spec x4):**
-  (1) Removed `_build_clear_url` helper — over-engineered; all clear links use `{{ request.path }}#events`. (2) Date summary changed from first–last range to listing individual dates — range was misleading for non-contiguous selections. (3) Filter param names made consistently Spanish: `q` → `busqueda`, `target_audience` → `publico`. (4) Replaced `active_filter_summary` list + separate `selected_dates`/`search_string`/`place_filter_value` context vars with a single `filters` dict serving both form-state restoration and "Buscando por:" display.
+  (1) Removed module-level `_build_clear_url` helper — replaced with a local nested `_clear_url` function inside `get_context_data`; per-filter clear URLs stored as `filters.*_clear_url` keys; "Limpiar Búsqueda" uses `{{ request.path }}#events` (clears all), individual `x` links use their corresponding `filters.*_clear_url` (removes only that filter). (2) Date summary changed from first–last range to listing individual dates — range was misleading for non-contiguous selections. (3) Filter param names made consistently Spanish: `q` → `busqueda`, `target_audience` → `publico`. (4) Replaced `active_filter_summary` list + separate `selected_dates`/`search_string`/`place_filter_value` context vars with a single `filters` dict serving both form-state restoration and "Buscando por:" display.
   KEEP: `chip--past` class approach, `place_choices` query from special's published events, `place_id` ORM filter, template structural layout, test factory patterns.
 
 ## Design Notes
@@ -87,6 +87,10 @@ filters = {
     "place_id": place_filter_value,        # int | None — select state
     "place_name": place_name,              # str — display label
     "has_any": bool(...),                  # bool — show/hide summary
+    "date_clear_url": ...,                 # str — removes only fecha params
+    "search_clear_url": ...,               # str — removes only busqueda param
+    "audience_clear_url": ...,             # str — removes only publico param
+    "place_clear_url": ...,                # str — removes only lugar param
 }
 ```
 
@@ -101,7 +105,7 @@ filters = {
 **Manual checks (if no CLI):**
 - Place dropdown appears in the filter bar; selecting a place and submitting narrows events.
 - Past-date chips carry `chip--past` class (inspect element).
-- "Buscando por:" section appears when at least one filter is active; clear links navigate to the unfiltered page.
+- "Buscando por:" section appears when at least one filter is active; each `x` removes only its filter, "Limpiar Búsqueda" clears all.
 - Selecting three non-contiguous dates shows three individual dates in the summary (not a range).
 
 ## Suggested Review Order
@@ -136,8 +140,8 @@ filters = {
 - `chip--past` added inline; chip remains a checkbox label — no interactivity change.
   [`special_detail.html:88`](../../specials/templates/specials/special_detail.html#L88)
 
-- "Buscando por:" block: each filter chip renders its own `{{ d|date:'D, b j' }}` loop; all clear links go to `request.path#events`.
-  [`special_detail.html:117`](../../specials/templates/specials/special_detail.html#L117)
+- "Buscando por:" block: each `x` uses `filters.*_clear_url` (per-filter); "Limpiar Búsqueda" uses `request.path#events`.
+  [`special_detail.html:126`](../../specials/templates/specials/special_detail.html#L126)
 
 **Tests**
 
