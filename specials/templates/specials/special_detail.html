@@ -61,29 +61,41 @@
       <p class="event-details__title text-heading-1">{% translate 'Agéndate' %}</p>
       <form id="event_search_form" method="get" action="{{ request.path }}#events">
         <div class="event-details__event-list-search">
-          <input class="text-input" type="text" name="q" placeholder="Buscar eventos..." value="{{ search_string }}">
-          {% if target_audience_choices %}
+          <input class="text-input" type="text" name="{{ search_filter_name }}" placeholder="Buscar eventos..." value="{{ filters.search }}">
+          {% if audience_choices or place_choices %}
           <div class="select-group">
+            {% if audience_choices %}
             <div class="select-group__item">
-              <select name="{{ target_audience_filter_name }}" aria-label="{% translate 'Busca por público' %}">
-                <option disabled {% if not target_audience_filter_value %}selected{% endif %} value="">{% translate 'Público' %}</option>
-                {% for value, label in target_audience_choices %}
-                  <option value="{{ value }}"{% if value == target_audience_filter_value %} selected{% endif %}>{{ label }}</option>
+              <select name="{{ audience_filter_name }}" aria-label="{% translate 'Busca por público' %}">
+                <option disabled {% if not filters.audience %}selected{% endif %} value="">{% translate 'Público' %}</option>
+                {% for value, label in audience_choices %}
+                  <option value="{{ value }}"{% if value == filters.audience %} selected{% endif %}>{{ label }}</option>
                 {% endfor %}
               </select>
             </div>
+            {% endif %}
+            {% if place_choices %}
+            <div class="select-group__item">
+              <select name="{{ place_filter_name }}" aria-label="{% translate 'Busca por lugar' %}">
+                <option disabled {% if not filters.place_id %}selected{% endif %} value="">{% translate 'Lugar' %}</option>
+                {% for pid, pname in place_choices %}
+                  <option value="{{ pid }}"{% if pid == filters.place_id %} selected{% endif %}>{{ pname }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            {% endif %}
           </div>
           {% endif %}
         </div>
         <div class="chip-group">
         {% for event_date in event_dates %}
-          <label class="chip" data-umami-event="special-date-filter">
+          <label class="chip{% if event_date < today %} chip--past{% endif %}" data-umami-event="special-date-filter">
             <input
               class="chip__checkbox"
               type="checkbox"
-              name="{{ selected_date_param }}"
+              name="{{ date_filter_name }}"
               value="{{ event_date|date:'Y-m-d' }}"
-              {% if event_date in selected_dates %}checked{% endif %}
+              {% if event_date in filters.selected_dates %}checked{% endif %}
             >
             {{ event_date|date:'D, b j' }}{% if today.year != event_date.year %} {{ event_date|date:'Y' }}{% endif %}
           </label>
@@ -111,6 +123,39 @@
           </div>
         </div>
       </form>
+      {% if filters.has_any %}
+      <div class="event-details__active-filters">
+        <span class="text-body-md text-bold">{% translate 'Buscando por' %}:</span>
+        <div class="chip-group">
+          {% if filters.selected_dates %}
+          <span class="chip chip--active-filter">
+            <span class="text-bold">{% translate 'Fecha' %}:</span>
+            {% for d in filters.selected_dates %}{{ d|date:'D, b j' }}{% if not forloop.last %}, {% endif %}{% endfor %}
+            <a href="{{ filters.date_clear_url }}" aria-label="{% translate 'Eliminar filtro de fecha' %}">x</a>
+          </span>
+          {% endif %}
+          {% if filters.audience %}
+          <span class="chip chip--active-filter">
+            <span class="text-bold">{% translate 'Público' %}:</span> {{ filters.audience_label }}
+            <a href="{{ filters.audience_clear_url }}" aria-label="{% translate 'Eliminar filtro de público' %}">x</a>
+          </span>
+          {% endif %}
+          {% if filters.search %}
+          <span class="chip chip--active-filter">
+            <span class="text-bold">{% translate 'Palabra clave' %}:</span> {{ filters.search }}
+            <a href="{{ filters.search_clear_url }}" aria-label="{% translate 'Eliminar filtro de búsqueda' %}">x</a>
+          </span>
+          {% endif %}
+          {% if filters.place_id %}
+          <span class="chip chip--active-filter">
+            <span class="text-bold">{% translate 'Lugar' %}:</span> {{ filters.place_name }}
+            <a href="{{ filters.place_clear_url }}" aria-label="{% translate 'Eliminar filtro de lugar' %}">x</a>
+          </span>
+          {% endif %}
+          <a href="{{ request.path }}#events" class="text-body-md">{% translate 'Limpiar Búsqueda' %}</a>
+        </div>
+      </div>
+      {% endif %}
     </div>
 
     {% include 'events/_event_list_pagination.html' with is_paginated=is_paginated page_obj=page_obj pagination_query_params=pagination_query_params pagination_anchor='events' %}
