@@ -4,7 +4,7 @@ from urllib.parse import urlencode
 from django.core.paginator import Paginator
 from django.db.models.functions import TruncDate
 from django.utils.dateparse import parse_date
-from django.utils.timezone import now
+from django.utils.timezone import localdate
 from django.views.generic import DetailView
 
 from events.models import Event
@@ -47,7 +47,7 @@ class SpecialDetailView(DetailView):
             .distinct()
         )
 
-        today = now().date()
+        today = localdate()
 
         # --- Parse filter params ---
         date_filter_name = "fecha"
