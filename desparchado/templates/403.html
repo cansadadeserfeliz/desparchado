@@ -1,14 +1,30 @@
 {% extends 'layout/base.html' %}
+{% load django_vite %}
 
 {% block title %}Acceso denegado{% endblock %}
 
+{% block bootstrap_css %}{% endblock %}
+
+{% block extra_scripts %}
+  {% vite_asset 'desparchado/frontend/scripts/static.ts' %}
+{% endblock extra_scripts %}
+
 {% block content %}
-
-  <h3>Acceso denegado</h3>
-  <h1>No tienes permiso para ver o editar este contenido</h1>
-
-  <p>
-    <a class="btn btn-primary" href="/">Volver al inicio de desparchado.co</a>
-  </p>
-
+  <div class="error-page">
+    <div class="error-page__heading">
+      <h1 class="text-heading-3">Acceso denegado</h1>
+    </div>
+    <div class="error-page__body">
+      <p class="text-body-lg">No tienes permiso para ver o editar este contenido.</p>
+    </div>
+    <div class="error-page__cta">
+      <div
+        data-vue-component="button"
+        data-vue-prop-type="primary"
+        data-vue-prop-label="Volver al inicio de desparchado.co"
+        data-vue-prop-link="/"
+      >
+      </div>
+    </div>
+  </div>
 {% endblock %}
