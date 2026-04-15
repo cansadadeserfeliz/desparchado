@@ -62,7 +62,7 @@
       <form id="event_search_form" method="get" action="{{ request.path }}#events">
         <div class="event-details__event-list-search">
           <input class="text-input" type="text" name="{{ search_filter_name }}" placeholder="Buscar eventos..." value="{{ filters.search }}">
-          {% if audience_choices or place_choices %}
+          {% if audience_choices or place_choices|length > 1 %}
           <div class="select-group">
             {% if audience_choices %}
             <div class="select-group__item">
@@ -74,7 +74,7 @@
               </select>
             </div>
             {% endif %}
-            {% if place_choices %}
+            {% if place_choices|length > 1 %}
             <div class="select-group__item">
               <select name="{{ place_filter_name }}" aria-label="{% translate 'Busca por lugar' %}">
                 <option disabled {% if not filters.place_id %}selected{% endif %} value="">{% translate 'Lugar' %}</option>
