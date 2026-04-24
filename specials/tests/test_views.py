@@ -6,6 +6,7 @@ from django.utils.timezone import localtime, now
 
 from events.models import Event
 from events.tests.factories import EventFactory
+from places.tests.factories import PlaceFactory
 from specials.tests.factories import SpecialFactory
 
 
@@ -18,7 +19,7 @@ def test_successfully_show_special(django_app, special, event):
     )
     assert response.context['special'] == special
 
-    assert response.context['selected_dates'] == []
+    assert response.context['filters']['selected_dates'] == []
 
     assert 'events' in response.context
     assert event in response.context['events']
@@ -44,7 +45,7 @@ def test_filter_events_by_target_audience_on_special_page(django_app):
     response = django_app.get(
         reverse('specials:special_detail', args=[special.slug]),
         {
-            'target_audience': 'professionals',
+            'publico': 'professionals',
             'fecha': str(localtime(matching.event_date).date()),
         },
         status=200,
@@ -75,7 +76,7 @@ def test_filter_events_by_target_audience_stacks_with_date(django_app):
     response = django_app.get(
         reverse('specials:special_detail', args=[special.slug]),
         {
-            'target_audience': 'children',
+            'publico': 'children',
             'fecha': str(localtime(target_date).date()),
         },
         status=200,
@@ -142,7 +143,9 @@ def test_invalid_fecha_value_is_ignored(django_app):
         status=200,
     )
     assert event in response.context['events']
-    assert localtime(target_date).date() in response.context['selected_dates']
+    selected = response.context['filters']['selected_dates']
+    assert localtime(target_date).date() in selected
+
 
 
 @pytest.mark.django_db
@@ -157,7 +160,7 @@ def test_search_and_date_filter_stack(django_app):
 
     response = django_app.get(
         reverse('specials:special_detail', args=[special.slug]),
-        {'q': 'taller', 'fecha': str(localtime(target_date).date())},
+        {'busqueda': 'taller', 'fecha': str(localtime(target_date).date())},
         status=200,
     )
     assert match in response.context['events']
@@ -175,6 +178,93 @@ def test_no_fecha_shows_all_events(django_app):
         reverse('specials:special_detail', args=[special.slug]),
         status=200,
     )
-    assert response.context['selected_dates'] == []
+    assert response.context['filters']['selected_dates'] == []
     assert event_a in response.context['events']
     assert event_b in response.context['events']
+
+
+@pytest.mark.django_db
+def test_filter_events_by_place(django_app):
+    place_a = PlaceFactory()
+    place_b = PlaceFactory()
+    event_a = EventFactory(place=place_a)
+    event_b = EventFactory(place=place_b)
+    special = SpecialFactory(related_events=[event_a, event_b])
+
+    response = django_app.get(
+        reverse('specials:special_detail', args=[special.slug]),
+        {'lugar': str(place_a.id)},
+        status=200,
+    )
+    assert event_a in response.context['events']
+    assert event_b not in response.context['events']
+
+
+@pytest.mark.django_db
+def test_invalid_lugar_value_is_ignored(django_app):
+    event_a = EventFactory()
+    event_b = EventFactory()
+    special = SpecialFactory(related_events=[event_a, event_b])
+
+    # Non-numeric value — parse error path
+    response = django_app.get(
+        reverse('specials:special_detail', args=[special.slug]),
+        {'lugar': 'not-a-number'},
+        status=200,
+    )
+    assert response.context['filters']['place_id'] is None
+    assert event_a in response.context['events']
+    assert event_b in response.context['events']
+
+    # Numeric but nonexistent place ID — out-of-range path
+    response2 = django_app.get(
+        reverse('specials:special_detail', args=[special.slug]),
+        {'lugar': '99999'},
+        status=200,
+    )
+    assert response2.context['filters']['place_id'] is None
+    assert event_a in response2.context['events']
+    assert event_b in response2.context['events']
+
+
+@pytest.mark.django_db
+def test_filters_place_name_populated_for_valid_lugar(django_app):
+    place = PlaceFactory(name="Teatro Mayor")
+    event = EventFactory(place=place)
+    special = SpecialFactory(related_events=[event])
+
+    response = django_app.get(
+        reverse('specials:special_detail', args=[special.slug]),
+        {'lugar': str(place.id)},
+        status=200,
+    )
+    filters = response.context['filters']
+    assert filters['place_id'] == place.id
+    assert filters['place_name'] == 'Teatro Mayor'
+
+
+@pytest.mark.django_db
+def test_filters_has_any_is_false_when_no_params(django_app):
+    event = EventFactory()
+    special = SpecialFactory(related_events=[event])
+
+    response = django_app.get(
+        reverse('specials:special_detail', args=[special.slug]),
+        status=200,
+    )
+    assert response.context['filters']['has_any'] is False
+
+
+@pytest.mark.django_db
+def test_past_date_chip_has_chip_past_class(django_app):
+    past_event = EventFactory(event_date=now() - timedelta(days=3))
+    future_event = EventFactory(event_date=now() + timedelta(days=3))
+    special = SpecialFactory(related_events=[past_event, future_event])
+
+    response = django_app.get(
+        reverse('specials:special_detail', args=[special.slug]),
+        status=200,
+    )
+    html = response.text
+    # Exactly one chip should carry the past modifier — not the future one
+    assert html.count('chip--past') == 1

@@ -18,6 +18,18 @@
 **Finding:** `500.html` uses `{% load django_vite %}` and `{% vite_asset %}`, as does `base.html` which it extends. If the Vite manifest is unavailable when a 500 error occurs (e.g. corrupt build artifact), template rendering will itself fail, causing Django to return a bare HTML-less 500 response. This is a pre-existing risk introduced by the existing `base.html` Vite usage and was not worsened by this story, but it is worth addressing.
 **Action if needed:** Consider making `500.html` self-contained (no template inheritance, inline critical CSS) to guarantee it always renders, even if the build pipeline is broken.
 
+## Special detail place filter: choices not scoped to current filter state
+
+**Source:** Review of `spec-special-filter-ux-be-improvements`
+**Finding:** `place_choices` is built from all published events in the special regardless of other active filters (date, search, audience). A user might see a place in the dropdown that has no events matching their current search or date filter.
+**Action if needed:** Re-query `place_choices` from the already-filtered `events_queryset` instead of from the base published queryset.
+
+## Special detail place filter: "x" clear text in active-filter summary
+
+**Source:** Review of `spec-special-filter-ux-be-improvements`
+**Finding:** The clear link in the "Buscando por:" chips uses a bare ASCII "x" character. Not an icon; accessibility relies solely on the `aria-label`.
+**Action if needed:** FE ticket — replace with a proper icon or `&times;` and apply consistent styling.
+
 ## Multi-value target_audience cells in FILBo sync
 
 **Source:** Review of `feature/filbo-target-audience` (spec-event-target-audience)
