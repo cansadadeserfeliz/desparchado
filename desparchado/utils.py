@@ -34,7 +34,7 @@ def get_natural_day(target: date):
         # Passed target wasn't a date object
         return target
 
-    today = timezone.now().date()
+    today = timezone.localdate()
     delta = target - today
 
     if delta.days == 0:
