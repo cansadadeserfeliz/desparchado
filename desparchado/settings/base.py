@@ -264,33 +264,9 @@ ACCOUNT_LOGIN_METHODS = {
 CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap5'
 CRISPY_TEMPLATE_PACK = 'bootstrap5'
 
-GOOGLE_MAPS_API_KEY = getenvvar('GOOGLE_MAPS_API_KEY', 'not-set')
 MAPBOX_ACCESS_TOKEN = getenvvar('MAPBOX_ACCESS_TOKEN', 'not-set')
 
 MAP_WIDGETS = {
-    "GoogleMap": {
-        "apiKey": GOOGLE_MAPS_API_KEY,
-        "CDNURLParams": {
-            "language": "es",
-            "libraries": "places,marker",
-            "loading": "async",
-            "v": "quarterly",
-        },
-        "PointField": {
-            "interactive": {
-                "mapOptions": {
-                    "zoom": 5,  # default map initial zoom,
-                    "scrollwheel": False,
-                    "streetViewControl": True,
-                },
-                "GooglePlaceAutocompleteOptions": {
-                    "componentRestrictions": {"country": "co"},
-                },
-                "mapCenterLocationName": "colombia",
-                "markerFitZoom": 15,
-            },
-        },
-    },
     "Mapbox": {
         "accessToken": MAPBOX_ACCESS_TOKEN,
         "PointField": {
@@ -302,17 +278,6 @@ MAP_WIDGETS = {
                 "markerFitZoom": 14,
             },
         },
-    },
-    "Leaflet": {
-        "PointField": {
-            "interactive": {
-                "mapOptions": {
-                    "zoom": 5,
-                    "scrollWheelZoom": False,
-                },
-            },
-        },
-        "markerFitZoom": 14,
     },
 }
 

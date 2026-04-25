@@ -26,8 +26,8 @@ _This file contains critical rules and patterns that AI agents must follow when 
   `django.contrib.gis.db.backends.postgis` as the DB engine
 - django-allauth (authentication)
 - django-axes (brute-force protection)
-- `places/widgets/googlemap.py` — standalone `GoogleMapPointFieldWidget`; do NOT install
-  or import from `mapwidgets`; configure via `settings.MAP_WIDGETS["GoogleMap"]`
+- `places/widgets/leaflet.py` — standalone `LeafletPointFieldWidget`; no external config needed;
+  uses Leaflet.js CDN + OpenStreetMap tiles; address search via Photon API (no API key required)
 - django-vite (Django ↔ Vite integration)
 
 **Frontend**
@@ -222,7 +222,7 @@ _This file contains critical rules and patterns that AI agents must follow when 
 - Dashboard views must use `SuperuserRequiredMixin` — `is_staff` alone is not enough
 - django-axes is active — do not bypass or disable login throttling in tests
   without understanding the impact
-- No secrets in code — Google Maps API key read from `settings.GOOGLE_MAPS_API_KEY`
+- No external map API keys required — Leaflet uses OpenStreetMap tiles
 
 **PostGIS gotchas**
 - `libgdal-dev` must be installed in the OS layer (it's in the Dockerfile) — any

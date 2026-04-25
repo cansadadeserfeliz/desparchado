@@ -130,7 +130,7 @@ Vue.js 3 + Vite integration via `django-vite`. The frontend dev server runs on p
 
 ### Map Widget
 
-The location `PointField` on Place and City uses `LeafletPointFieldWidget` from `django-map-widgets` (OpenStreetMap, no API key required). This applies in both forms (`places/forms.py`) and the Django admin (`places/admin.py`).
+The location `PointField` on Place and City uses `LeafletPointFieldWidget` (custom widget in `places/widgets/leaflet.py`) with Leaflet.js and OpenStreetMap tiles. Address search uses the Photon geocoding API (no API key required). Applies in both `places/forms.py` and the Django admin (`places/admin.py`).
 
 ## Git Commits
 

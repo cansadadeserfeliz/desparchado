@@ -1,25 +1,14 @@
 <div class="{{ css_class }}">
-  <gmp-map
-    center="{{ latitude }},{{ longitude }}"
-    zoom="15"
-    map-id="place-map"
-    style="height: 400px; width: auto"
-  >
-    <gmp-advanced-marker
-      position="{{ latitude }},{{ longitude }}"
-      title="{{ title }}"
-    ></gmp-advanced-marker>
-  </gmp-map>
-
-  <!--
-    The `defer` attribute causes the script to execute after the full HTML
-    document has been parsed. For non-blocking uses, avoiding race conditions,
-    and consistent behavior across browsers, consider loading using Promises. See
-    https://developers.google.com/maps/documentation/javascript/load-maps-js-api
-    for more information.
-    -->
-    <script
-        src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_MAPS_API_KEY }}&libraries=maps,marker"
-        defer
-    ></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+  <div id="map-{{ css_class|slugify }}" style="height: 400px; width: 100%;"></div>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script>
+  (function() {
+    var map = L.map('map-{{ css_class|slugify }}').setView([{{ latitude }}, {{ longitude }}], 15);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(map);
+    L.marker([{{ latitude }}, {{ longitude }}]).addTo(map).bindPopup('{{ title|escapejs }}');
+  })();
+  </script>
 </div>

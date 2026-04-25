@@ -38,11 +38,6 @@
 
 {% block extra_scripts %}
   {% vite_asset 'desparchado/frontend/scripts/event-details.ts' %}
-
-  <script
-      src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_MAPS_API_KEY }}&libraries=maps,marker"
-      defer
-  ></script>
 {% endblock extra_scripts %}
 
 {% block content %}
@@ -252,17 +247,19 @@
   <div class="event-details__additional event-details__additional--stroke">
     <div class="event-details__additional-children event-details__map">
       <div style="width: 513px; width: 100%" class="event-details__map-widget">
-        <gmp-map
-          center="{{ event.get_latitude_str }},{{ event.get_longitude_str }}"
-          zoom="15"
-          map-id="place-map"
-          style="height: 250px; width: auto"
-        >
-          <gmp-advanced-marker
-            position="{{ event.get_latitude_str }},{{ event.get_longitude_str }}"
-            title="{{ event.title }}"
-          ></gmp-advanced-marker>
-        </gmp-map>
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+        <div id="event-detail-map" style="height: 400px; width: 100%;"></div>
+        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+        <script>
+        (function() {
+          var map = L.map('event-detail-map').setView([{{ event.get_latitude_str }}, {{ event.get_longitude_str }}], 15);
+          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+          }).addTo(map);
+          L.marker([{{ event.get_latitude_str }}, {{ event.get_longitude_str }}]).addTo(map)
+            .bindPopup('{{ event.place.name|escapejs }}');
+        })();
+        </script>
       </div>
 
       <div class="event-details__map-details">

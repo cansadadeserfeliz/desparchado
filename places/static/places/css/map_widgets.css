@@ -740,3 +740,27 @@ fieldset[disabled] .mw-btn-link:focus {
 .show {
     display: block;
 }
+
+.mw-photon-results {
+    position: absolute;
+    z-index: 1000;
+    background: #fff;
+    border: 1px solid #ccc;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    max-height: 200px;
+    overflow-y: auto;
+}
+.mw-photon-results li {
+    padding: 6px 10px;
+    cursor: pointer;
+    font-size: 13px;
+}
+.mw-photon-results li:hover {
+    background: #f0f0f0;
+}
+.mw-adress-input-wrap {
+    position: relative;
+}

@@ -2,8 +2,6 @@
 {% load humanize desparchado_tags %}
 
 {% block content %}
-<script src='https://maps.googleapis.com/maps/api/js?v=3.exp&key={{ GOOGLE_MAPS_API_KEY }}'></script>
-
 <div class="row row-deck row-cards">
   <div class="col-sm-6 col-lg-3">
     {% include 'dashboard/includes/_stats_card.html' with value=future_events_count|intcomma title='Eventos futuros' icon='event' color='orange' %}
@@ -60,62 +58,35 @@
         <h3 class="card-title">Eventos futuros en mapa</h3>
       </div>
       <div style='overflow:hidden;height:400px;width:auto;'>
-        <div id='map_canvas' style='min-height: 600px;'></div>
-        <style>
-          #map_canvas img {
-            width: auto;
-            max-width:none !important;
-            background:none !important
-          }
-        </style>
+        <div id='map_canvas' style='height:400px;'></div>
       </div>
     </div>
   </div>
 
 </div>
 
-<script type='text/javascript'>
-    const bounds = new google.maps.LatLngBounds();
-    var locations = [
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+(function() {
+  var map = L.map('map_canvas').setView([4.5930632, -74.0757637], 10);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+  }).addTo(map);
+  var locations = [
     {% for event in future_events %}
-      [
-        '{{ event.title }}',
-        {{ event.get_latitude_str }},
-        {{ event.get_longitude_str }},
-        {{ forloop.counter }}]{% if not forloop.last %},{% endif %}
+      ['{{ event.title|escapejs }}', {{ event.get_latitude_str }}, {{ event.get_longitude_str }}]{% if not forloop.last %},{% endif %}
     {% endfor %}
-    ];
-
-    var map = new google.maps.Map(document.getElementById('map_canvas'), {
-      zoom: 10,
-      center: new google.maps.LatLng(4.5930632, -74.0757637),
-      mapTypeId: google.maps.MapTypeId.ROADMAP
-    });
-
-    var infowindow = new google.maps.InfoWindow();
-
-    var marker, i;
-
-    for (i = 0; i < locations.length; i++) {
-      var position = new google.maps.LatLng(locations[i][1], locations[i][2])
-
-      marker = new google.maps.Marker({
-        position: position,
-        map: map
-      });
-
-      // Stretch our bounds to the newly found marker position
-      bounds.extend(position);
-
-      google.maps.event.addListener(marker, 'click', (function(marker, i) {
-        return function() {
-          infowindow.setContent(locations[i][0]);
-          infowindow.open(map, marker);
-        }
-      })(marker, i));
-    }
-
-    // Automatically center the map fitting all markers on the screen
-    map.fitBounds(bounds);
+  ];
+  var markers = [];
+  for (var i = 0; i < locations.length; i++) {
+    var m = L.marker([locations[i][1], locations[i][2]]).bindPopup(locations[i][0]).addTo(map);
+    markers.push(m);
+  }
+  if (markers.length > 0) {
+    var group = L.featureGroup(markers);
+    map.fitBounds(group.getBounds().pad(0.1));
+  }
+})();
 </script>
 {% endblock content %}
