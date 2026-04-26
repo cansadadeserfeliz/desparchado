@@ -1,14 +1,24 @@
 <div class="{{ css_class }}">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
-  <div id="map-{{ css_class|slugify }}" style="height: 400px; width: 100%;"></div>
+  <style>.lf-marker{width:20px;height:20px;background:#e63946;border:3px solid #fff;border-radius:50%;box-shadow:0 2px 6px rgba(0,0,0,.4);}</style>
+  <div id="map-{{ css_class|slugify }}" style="height: 400px; width: 100%; isolation: isolate;"></div>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script>
   (function() {
-    var map = L.map('map-{{ css_class|slugify }}').setView([{{ latitude }}, {{ longitude }}], 15);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    var lat = {{ latitude }};
+    var lng = {{ longitude }};
+    var map = L.map('map-{{ css_class|slugify }}', {scrollWheelZoom: false}).setView([lat, lng], 15);
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+      subdomains: 'abcd',
+      maxZoom: 20
     }).addTo(map);
-    L.marker([{{ latitude }}, {{ longitude }}]).addTo(map).bindPopup('{{ title|escapejs }}');
+    var icon = L.divIcon({className: 'lf-marker', iconSize: [20, 20], iconAnchor: [10, 10], popupAnchor: [0, -12]});
+    L.marker([lat, lng], {icon: icon}).addTo(map).bindPopup('{{ title }}');
+    window.addEventListener('load', function() {
+      map.invalidateSize();
+      map.setView([lat, lng], 15);
+    });
   })();
   </script>
 </div>

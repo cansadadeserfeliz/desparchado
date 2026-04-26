@@ -19,16 +19,26 @@ window.initLeafletPicker = function initLeafletPicker(
 ) {
     var map = L.map(mapId, { scrollWheelZoom: false });
 
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+        subdomains: 'abcd',
+        maxZoom: 20
     }).addTo(map);
 
     map.setView(options.center || [4.65, -74.08], options.zoom || 5);
+    setTimeout(function() { map.invalidateSize(); }, 100);
 
     var marker = null;
+    var markerIcon = L.divIcon({
+        className: 'lf-marker',
+        iconSize: [20, 20],
+        iconAnchor: [10, 10],
+        popupAnchor: [0, -12]
+    });
     var clickModeActive = false;
 
     var wrap = document.getElementById(wrapId);
+    if (!wrap) { return; }
 
     // ── helpers ──────────────────────────────────────────────────────────────
 
@@ -75,7 +85,7 @@ window.initLeafletPicker = function initLeafletPicker(
         if (marker) {
             marker.setLatLng(latlng);
         } else {
-            marker = L.marker(latlng, { draggable: true }).addTo(map);
+            marker = L.marker(latlng, { draggable: true, icon: markerIcon }).addTo(map);
             marker.on('dragend', function () {
                 updateDjangoInput(marker.getLatLng());
             });
@@ -166,7 +176,7 @@ window.initLeafletPicker = function initLeafletPicker(
         var latInput = wrap.querySelector('.mw-overlay-latitude');
         var lngInput = wrap.querySelector('.mw-overlay-longitude');
 
-        function applyCoordinateInputs() {
+        var applyCoordinateInputs = function () {
             var lat = parseFloat(latInput ? latInput.value : '');
             var lng = parseFloat(lngInput ? lngInput.value : '');
             if (!isNaN(lat) && !isNaN(lng)) {
@@ -241,6 +251,10 @@ window.initLeafletPicker = function initLeafletPicker(
     }
 
     if (addressInput) {
+        addressInput.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter') { e.preventDefault(); }
+        });
+
         addressInput.addEventListener('input', function () {
             clearTimeout(debounceTimer);
             if (activeController) {
@@ -256,7 +270,7 @@ window.initLeafletPicker = function initLeafletPicker(
                 activeController = new AbortController();
                 var url = 'https://photon.komoot.io/api/?q=' +
                     encodeURIComponent(q) +
-                    '&lang=es&limit=5&bbox=-81.7,-4.2,-66.9,12.5';
+                    '&limit=5&bbox=-81.7,-4.2,-66.9,12.5';
                 fetch(url, { signal: activeController.signal })
                     .then(function (resp) { return resp.json(); })
                     .then(function (data) {
@@ -271,12 +285,16 @@ window.initLeafletPicker = function initLeafletPicker(
             }, 300);
         });
 
-        // hide results when clicking elsewhere
-        document.addEventListener('click', function (e) {
-            if (addressInput && !addressInput.contains(e.target) &&
-                photonResultsList && !photonResultsList.contains(e.target)) {
+        // hide results when clicking elsewhere; named so it can be removed on map teardown
+        var clickOutsideHandler = function (e) {
+            if (!addressInput.contains(e.target) &&
+                (!photonResultsList || !photonResultsList.contains(e.target))) {
                 hidePhotonResults();
             }
+        };
+        document.addEventListener('click', clickOutsideHandler);
+        map.on('remove', function () {
+            document.removeEventListener('click', clickOutsideHandler);
         });
     }
 };

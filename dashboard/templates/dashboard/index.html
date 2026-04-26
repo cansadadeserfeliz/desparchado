@@ -66,21 +66,25 @@
 </div>
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<style>.lf-marker{width:20px;height:20px;background:#e63946;border:3px solid #fff;border-radius:50%;box-shadow:0 2px 6px rgba(0,0,0,.4);}</style>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
 (function() {
   var map = L.map('map_canvas').setView([4.5930632, -74.0757637], 10);
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+    subdomains: 'abcd',
+    maxZoom: 20
   }).addTo(map);
+  var icon = L.divIcon({className: 'lf-marker', iconSize: [20, 20], iconAnchor: [10, 10], popupAnchor: [0, -12]});
   var locations = [
     {% for event in future_events %}
-      ['{{ event.title|escapejs }}', {{ event.get_latitude_str }}, {{ event.get_longitude_str }}]{% if not forloop.last %},{% endif %}
+      ['{{ event.title }}', {{ event.get_latitude_str }}, {{ event.get_longitude_str }}]{% if not forloop.last %},{% endif %}
     {% endfor %}
   ];
   var markers = [];
   for (var i = 0; i < locations.length; i++) {
-    var m = L.marker([locations[i][1], locations[i][2]]).bindPopup(locations[i][0]).addTo(map);
+    var m = L.marker([locations[i][1], locations[i][2]], {icon: icon}).bindPopup(locations[i][0]).addTo(map);
     markers.push(m);
   }
   if (markers.length > 0) {

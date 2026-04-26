@@ -244,20 +244,30 @@
     </div>
   </section>
 
+  {% if event.place.location %}
   <div class="event-details__additional event-details__additional--stroke">
     <div class="event-details__additional-children event-details__map">
       <div style="width: 513px; width: 100%" class="event-details__map-widget">
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
-        <div id="event-detail-map" style="height: 400px; width: 100%;"></div>
+        <style>.lf-marker{width:20px;height:20px;background:#e63946;border:3px solid #fff;border-radius:50%;box-shadow:0 2px 6px rgba(0,0,0,.4);}</style>
+        <div id="event-detail-map" style="height: 250px; width: 100%; isolation: isolate;"></div>
         <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
         <script>
         (function() {
-          var map = L.map('event-detail-map').setView([{{ event.get_latitude_str }}, {{ event.get_longitude_str }}], 15);
-          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+          var lat = {{ event.get_latitude_str }};
+          var lng = {{ event.get_longitude_str }};
+          var map = L.map('event-detail-map', {scrollWheelZoom: false}).setView([lat, lng], 15);
+          L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+            subdomains: 'abcd',
+            maxZoom: 20
           }).addTo(map);
-          L.marker([{{ event.get_latitude_str }}, {{ event.get_longitude_str }}]).addTo(map)
-            .bindPopup('{{ event.place.name|escapejs }}');
+          var icon = L.divIcon({className: 'lf-marker', iconSize: [20, 20], iconAnchor: [10, 10], popupAnchor: [0, -12]});
+          L.marker([lat, lng], {icon: icon}).addTo(map).bindPopup('{{ event.place.name }}');
+          window.addEventListener('load', function() {
+            map.invalidateSize();
+            map.setView([lat, lng], 15);
+          });
         })();
         </script>
       </div>
@@ -275,6 +285,7 @@
       </div>
     </div>
   </div>
+  {% endif %}
 
   {% if event.specials.all %}
     <div class="event-details__additional event-details__additional--stroke">

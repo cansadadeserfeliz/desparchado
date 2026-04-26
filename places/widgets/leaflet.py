@@ -58,7 +58,9 @@ class LeafletPointFieldWidget(forms.BaseGeometryWidget):
             "lat": latitude,
         }
 
-    def get_context(self, name: str, value, attrs: dict | None) -> dict:
+    def get_context(
+        self, name: str, value: str | GEOSGeometry | None, attrs: dict | None,
+    ) -> dict:
         context = super().get_context(name, value, attrs)
 
         serialized: str = context.get("serialized", "") or ""

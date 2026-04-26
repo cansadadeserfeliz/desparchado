@@ -212,7 +212,7 @@ _This file contains critical rules and patterns that AI agents must follow when 
 - Never write `[TYPE][TICKET]` in commit messages — the hook does it
 - Never add new views to a monolithic `views.py` — use per-view files
 - Never put business logic in views or models — use `<app>/services/`
-- Never import from `mapwidgets` — use `places/widgets/googlemap.py` directly
+- Never import from `mapwidgets` — use `places/widgets/leaflet.py` directly
 - Never use Django's test client in view tests — use `django_app` (webtest)
 - Never add new frontend features to `desparchado/static/ts/` — use `desparchado/frontend/`
 - Never use `any` type in TypeScript
