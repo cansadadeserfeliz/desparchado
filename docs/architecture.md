@@ -244,7 +244,7 @@ Production host: `desparchado.co`
 ## Geographic Data
 
 - `Place.location` and `City.center_location` use PostGIS `PointField` (SRID 4326 WGS84).
-- Map widgets in forms use **Leaflet** (OpenStreetMap, no API key) via `django-map-widgets`.
+- Map widgets in forms use **Leaflet.js** (OpenStreetMap, no API key) via a custom `LeafletPointFieldWidget` in `places/widgets/leaflet.py`.
 - Coordinate retrieval: `place.get_longitude_str()` / `place.get_latitude_str()` return string `x`/`y` values.
 - Events expose `get_longitude_str()` and `get_latitude_str()` by delegating to their associated Place.
 

@@ -122,7 +122,7 @@ desparchado/                         # Project root
 │   │   └── city_detail.py           # CityDetailView
 │   ├── forms.py                     # PlaceForm (with map widget)
 │   ├── widgets/
-│   │   └── googlemap.py             # LeafletPointFieldWidget wrapper
+│   │   └── leaflet.py               # LeafletPointFieldWidget (custom, no third-party map library)
 │   ├── urls.py
 │   ├── templates/
 │   └── tests/

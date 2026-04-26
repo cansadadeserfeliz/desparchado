@@ -1,0 +1,1387 @@
+diff --git a/.claude/agent-memory/backend-expert/MEMORY.md b/.claude/agent-memory/backend-expert/MEMORY.md
+index d6ed3500..581f5a17 100644
+--- a/.claude/agent-memory/backend-expert/MEMORY.md
++++ b/.claude/agent-memory/backend-expert/MEMORY.md
+@@ -2,4 +2,4 @@
+ 
+ ## Project
+ 
+-- [GoogleMapPointFieldWidget local extraction](project_widget_extraction.md) — Self-contained widget extracted from django-map-widgets v0.5.1 into `places/widgets/`; `places/admin.py` and `places/forms.py` updated to use it; font/image static assets not yet copied
++- [LeafletPointFieldWidget — Google Maps replaced](project_widget_extraction.md) — All Google Maps usage replaced with Leaflet.js + OSM; custom `LeafletPointFieldWidget` in `places/widgets/leaflet.py`; tombstone files need manual `rm`
+diff --git a/.claude/agent-memory/backend-expert/project_widget_extraction.md b/.claude/agent-memory/backend-expert/project_widget_extraction.md
+index 13fb5b39..f5f0b6f2 100644
+--- a/.claude/agent-memory/backend-expert/project_widget_extraction.md
++++ b/.claude/agent-memory/backend-expert/project_widget_extraction.md
+@@ -1,37 +1,24 @@
+ ---
+-name: GoogleMapPointFieldWidget local extraction
+-description: Self-contained GoogleMapPointFieldWidget extracted from django-map-widgets v0.5.1 into places app; mapwidgets package no longer used for this widget
++name: LeafletPointFieldWidget — Google Maps replaced with Leaflet
++description: All Google Maps usage replaced with Leaflet.js + OpenStreetMap; custom LeafletPointFieldWidget in places/widgets/leaflet.py
+ type: project
+ ---
+ 
+-## What was done
++The Google Maps widget and all associated JS files have been replaced with a self-contained Leaflet implementation.
+ 
+-The `GoogleMapPointFieldWidget` was extracted from `django-map-widgets` v0.5.1 into a local, self-contained implementation inside the `places` app. The `mapwidgets` package is no longer imported in `places/forms.py` or `places/admin.py`.
++**Why:** Google Maps Dynamic Maps API incurs charges; Leaflet + OSM is free and requires no API key.
+ 
+-## File structure created
++**How to apply:** When touching map-related code, use `LeafletPointFieldWidget` from `places/widgets/leaflet.py`. Do not reference `GoogleMapPointFieldWidget`, `GOOGLE_MAPS_API_KEY`, or `django-map-widgets`.
+ 
+-- `places/widgets/__init__.py` — exports `GoogleMapPointFieldWidget`
+-- `places/widgets/googlemap.py` — the widget class (no mapwidgets imports)
+-- `places/static/places/js/mw_init.js` — verbatim copy from mapwidgets v0.5.1
+-- `places/static/places/js/mw_pointfield_base.js` — verbatim copy (base JS class)
+-- `places/static/places/js/mw_pointfield.js` — verbatim copy (Google Maps JS class)
+-- `places/static/places/css/map_widgets.css` — verbatim copy; references `../font/fontello.*` and `../images/ripple.gif` (those font/image files are NOT copied — still served from the mapwidgets package or must be copied separately)
+-- `places/templates/places/widgets/googlemap/interactive.html` — adapted from upstream; uses `{{ widget_id }}` instead of `{{ id }}`
+-
+-## Key design decisions in googlemap.py
+-
+-- Extends `django.contrib.gis.forms.BaseGeometryWidget` to get PointField serialization for free
+-- Configuration read from `settings.MAP_WIDGETS["GoogleMap"]` (existing project config) with `settings.GOOGLE_MAPS_API_KEY` as fallback for the API key
+-- Template context adds `widget_id`, `name`, `serialized`, `options` (JSON), `field_value` (JSON)
+-- `options` JSON contains `mapOptions`, `mapCenterLocationName`, `markerFitZoom`, `GooglePlaceAutocompleteOptions` — matching what the upstream JS widget expects
+-- Google Maps CDN URL built in `_google_map_js_url` property; loaded as a plain `<script>` src in the `Media` class
+-
+-## Note on font/image assets
+-
+-The CSS references:
+-- `../font/fontello.*` (5 font files: eot, woff2, woff, ttf, svg)
+-- `../images/ripple.gif` (loader animation)
+-
+-These are NOT yet copied into `places/static/places/`. They are still referenced from the mapwidgets package path. To fully remove the mapwidgets dependency for static assets, copy:
+-- `mapwidgets/static/mapwidgets/font/fontello.*` → `places/static/places/font/`
+-- `mapwidgets/static/mapwidgets/images/ripple.gif` → `places/static/places/images/`
++Key facts:
++- Widget: `places/widgets/leaflet.py` — `LeafletPointFieldWidget(forms.BaseGeometryWidget)`
++- JS picker: `places/static/places/js/leaflet-picker.js` — self-contained, no jQuery dependency
++- Template: `places/templates/places/widgets/leaflet/interactive.html`
++- Address search: Photon geocoding API (`https://photon.komoot.io/api/`), Colombia bbox, no key
++- Stub tombstone files still exist on disk and should be deleted manually:
++  `places/widgets/googlemap.py`, `places/static/places/js/mw_init.js`,
++  `places/static/places/js/mw_pointfield_base.js`, `places/static/places/js/mw_pointfield.js`,
++  `places/templates/places/widgets/googlemap/interactive.html`
++- `GOOGLE_MAPS_API_KEY` removed from settings (`base.py`) and context processor
++- `MAP_WIDGETS` in `base.py` now only has the `"Mapbox"` key
++- CSS font/image assets (`places/static/places/font/fontello.*`, `places/static/places/images/ripple.gif`) were already present from the prior extraction
+diff --git a/CLAUDE.md b/CLAUDE.md
+index e78fbe1c..b6ad7e6d 100644
+--- a/CLAUDE.md
++++ b/CLAUDE.md
+@@ -130,7 +130,7 @@ Vue.js 3 + Vite integration via `django-vite`. The frontend dev server runs on p
+ 
+ ### Map Widget
+ 
+-The location `PointField` on Place and City uses `LeafletPointFieldWidget` from `django-map-widgets` (OpenStreetMap, no API key required). This applies in both forms (`places/forms.py`) and the Django admin (`places/admin.py`).
++The location `PointField` on Place and City uses `LeafletPointFieldWidget` (custom widget in `places/widgets/leaflet.py`) with Leaflet.js and OpenStreetMap tiles. Address search uses the Photon geocoding API (no API key required). Applies in both `places/forms.py` and the Django admin (`places/admin.py`).
+ 
+ ## Git Commits
+ 
+diff --git a/_bmad-output/project-context.md b/_bmad-output/project-context.md
+index e7ff61f6..511e48cc 100644
+--- a/_bmad-output/project-context.md
++++ b/_bmad-output/project-context.md
+@@ -26,8 +26,8 @@ _This file contains critical rules and patterns that AI agents must follow when
+   `django.contrib.gis.db.backends.postgis` as the DB engine
+ - django-allauth (authentication)
+ - django-axes (brute-force protection)
+-- `places/widgets/googlemap.py` — standalone `GoogleMapPointFieldWidget`; do NOT install
+-  or import from `mapwidgets`; configure via `settings.MAP_WIDGETS["GoogleMap"]`
++- `places/widgets/leaflet.py` — standalone `LeafletPointFieldWidget`; no external config needed;
++  uses Leaflet.js CDN + OpenStreetMap tiles; address search via Photon API (no API key required)
+ - django-vite (Django ↔ Vite integration)
+ 
+ **Frontend**
+@@ -222,7 +222,7 @@ _This file contains critical rules and patterns that AI agents must follow when
+ - Dashboard views must use `SuperuserRequiredMixin` — `is_staff` alone is not enough
+ - django-axes is active — do not bypass or disable login throttling in tests
+   without understanding the impact
+-- No secrets in code — Google Maps API key read from `settings.GOOGLE_MAPS_API_KEY`
++- No external map API keys required — Leaflet uses OpenStreetMap tiles
+ 
+ **PostGIS gotchas**
+ - `libgdal-dev` must be installed in the OS layer (it's in the Dockerfile) — any
+diff --git a/dashboard/templates/dashboard/index.html b/dashboard/templates/dashboard/index.html
+index 0841bc09..dc086d75 100644
+--- a/dashboard/templates/dashboard/index.html
++++ b/dashboard/templates/dashboard/index.html
+@@ -2,8 +2,6 @@
+ {% load humanize desparchado_tags %}
+ 
+ {% block content %}
+-<script src='https://maps.googleapis.com/maps/api/js?v=3.exp&key={{ GOOGLE_MAPS_API_KEY }}'></script>
+-
+ <div class="row row-deck row-cards">
+   <div class="col-sm-6 col-lg-3">
+     {% include 'dashboard/includes/_stats_card.html' with value=future_events_count|intcomma title='Eventos futuros' icon='event' color='orange' %}
+@@ -60,62 +58,35 @@
+         <h3 class="card-title">Eventos futuros en mapa</h3>
+       </div>
+       <div style='overflow:hidden;height:400px;width:auto;'>
+-        <div id='map_canvas' style='min-height: 600px;'></div>
+-        <style>
+-          #map_canvas img {
+-            width: auto;
+-            max-width:none !important;
+-            background:none !important
+-          }
+-        </style>
++        <div id='map_canvas' style='height:400px;'></div>
+       </div>
+     </div>
+   </div>
+ 
+ </div>
+ 
+-<script type='text/javascript'>
+-    const bounds = new google.maps.LatLngBounds();
+-    var locations = [
++<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
++<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
++<script>
++(function() {
++  var map = L.map('map_canvas').setView([4.5930632, -74.0757637], 10);
++  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
++    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
++  }).addTo(map);
++  var locations = [
+     {% for event in future_events %}
+-      [
+-        '{{ event.title }}',
+-        {{ event.get_latitude_str }},
+-        {{ event.get_longitude_str }},
+-        {{ forloop.counter }}]{% if not forloop.last %},{% endif %}
++      ['{{ event.title|escapejs }}', {{ event.get_latitude_str }}, {{ event.get_longitude_str }}]{% if not forloop.last %},{% endif %}
+     {% endfor %}
+-    ];
+-
+-    var map = new google.maps.Map(document.getElementById('map_canvas'), {
+-      zoom: 10,
+-      center: new google.maps.LatLng(4.5930632, -74.0757637),
+-      mapTypeId: google.maps.MapTypeId.ROADMAP
+-    });
+-
+-    var infowindow = new google.maps.InfoWindow();
+-
+-    var marker, i;
+-
+-    for (i = 0; i < locations.length; i++) {
+-      var position = new google.maps.LatLng(locations[i][1], locations[i][2])
+-
+-      marker = new google.maps.Marker({
+-        position: position,
+-        map: map
+-      });
+-
+-      // Stretch our bounds to the newly found marker position
+-      bounds.extend(position);
+-
+-      google.maps.event.addListener(marker, 'click', (function(marker, i) {
+-        return function() {
+-          infowindow.setContent(locations[i][0]);
+-          infowindow.open(map, marker);
+-        }
+-      })(marker, i));
+-    }
+-
+-    // Automatically center the map fitting all markers on the screen
+-    map.fitBounds(bounds);
++  ];
++  var markers = [];
++  for (var i = 0; i < locations.length; i++) {
++    var m = L.marker([locations[i][1], locations[i][2]]).bindPopup(locations[i][0]).addTo(map);
++    markers.push(m);
++  }
++  if (markers.length > 0) {
++    var group = L.featureGroup(markers);
++    map.fitBounds(group.getBounds().pad(0.1));
++  }
++})();
+ </script>
+ {% endblock content %}
+diff --git a/dashboard/templates/dashboard/places.html b/dashboard/templates/dashboard/places.html
+index 5651b574..a17cc58f 100644
+--- a/dashboard/templates/dashboard/places.html
++++ b/dashboard/templates/dashboard/places.html
+@@ -10,18 +10,9 @@
+       </div>
+       <!-- /.box-header -->
+ 
+-      <script src='https://maps.googleapis.com/maps/api/js?v=3.exp&key={{ GOOGLE_MAPS_API_KEY }}'></script>
+-
+       <div>
+         <div style='overflow:hidden;height:400px;width:auto;'>
+-          <div id='map_canvas' style='height:300px;'></div>
+-          <style>
+-            #map_canvas img {
+-              width: auto;
+-              max-width:none !important;
+-              background:none !important
+-            }
+-          </style>
++          <div id='map_canvas' style='height:400px;'></div>
+         </div>
+       </div>
+ 
+@@ -59,49 +50,29 @@
+ </div>
+ <!-- /.row -->
+ 
+-<script type='text/javascript'>
+-    const bounds = new google.maps.LatLngBounds();
+-    var locations = [
++<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
++<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
++<script>
++(function() {
++  var map = L.map('map_canvas').setView([4.5930632, -74.0757637], 10);
++  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
++    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
++  }).addTo(map);
++  var locations = [
+     {% for place in places %}
+-      [
+-        '{{ place.name }}',
+-        {{ place.get_latitude_str }},
+-        {{ place.get_longitude_str }},
+-        {{ forloop.counter }}]{% if not forloop.last %},{% endif %}
++      ['{{ place.name|escapejs }}', {{ place.get_latitude_str }}, {{ place.get_longitude_str }}]{% if not forloop.last %},{% endif %}
+     {% endfor %}
+-    ];
+-
+-    var map = new google.maps.Map(document.getElementById('map_canvas'), {
+-      zoom: 10,
+-      center: new google.maps.LatLng(4.5930632, -74.0757637),
+-      mapTypeId: google.maps.MapTypeId.ROADMAP
+-    });
+-
+-    var infowindow = new google.maps.InfoWindow();
+-
+-    var marker, i;
+-
+-    for (i = 0; i < locations.length; i++) {
+-      var position = new google.maps.LatLng(locations[i][1], locations[i][2])
+-
+-      marker = new google.maps.Marker({
+-        position: position,
+-        map: map
+-      });
+-
+-      // Stretch our bounds to the newly found marker position
+-      bounds.extend(position);
+-
+-      google.maps.event.addListener(marker, 'click', (function(marker, i) {
+-        return function() {
+-          infowindow.setContent(locations[i][0]);
+-          infowindow.open(map, marker);
+-        }
+-      })(marker, i));
+-    }
+-
+-    // Automatically center the map fitting all markers on the screen
+-    map.fitBounds(bounds);
++  ];
++  var markers = [];
++  for (var i = 0; i < locations.length; i++) {
++    var m = L.marker([locations[i][1], locations[i][2]]).bindPopup(locations[i][0]).addTo(map);
++    markers.push(m);
++  }
++  if (markers.length > 0) {
++    var group = L.featureGroup(markers);
++    map.fitBounds(group.getBounds().pad(0.1));
++  }
++})();
+ </script>
+ 
+ {% endblock content %}
+diff --git a/desparchado/settings/base.py b/desparchado/settings/base.py
+index 4d437c19..8cdd8909 100644
+--- a/desparchado/settings/base.py
++++ b/desparchado/settings/base.py
+@@ -264,33 +264,9 @@ ACCOUNT_LOGIN_METHODS = {
+ CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap5'
+ CRISPY_TEMPLATE_PACK = 'bootstrap5'
+ 
+-GOOGLE_MAPS_API_KEY = getenvvar('GOOGLE_MAPS_API_KEY', 'not-set')
+ MAPBOX_ACCESS_TOKEN = getenvvar('MAPBOX_ACCESS_TOKEN', 'not-set')
+ 
+ MAP_WIDGETS = {
+-    "GoogleMap": {
+-        "apiKey": GOOGLE_MAPS_API_KEY,
+-        "CDNURLParams": {
+-            "language": "es",
+-            "libraries": "places,marker",
+-            "loading": "async",
+-            "v": "quarterly",
+-        },
+-        "PointField": {
+-            "interactive": {
+-                "mapOptions": {
+-                    "zoom": 5,  # default map initial zoom,
+-                    "scrollwheel": False,
+-                    "streetViewControl": True,
+-                },
+-                "GooglePlaceAutocompleteOptions": {
+-                    "componentRestrictions": {"country": "co"},
+-                },
+-                "mapCenterLocationName": "colombia",
+-                "markerFitZoom": 15,
+-            },
+-        },
+-    },
+     "Mapbox": {
+         "accessToken": MAPBOX_ACCESS_TOKEN,
+         "PointField": {
+@@ -303,17 +279,6 @@ MAP_WIDGETS = {
+             },
+         },
+     },
+-    "Leaflet": {
+-        "PointField": {
+-            "interactive": {
+-                "mapOptions": {
+-                    "zoom": 5,
+-                    "scrollWheelZoom": False,
+-                },
+-            },
+-        },
+-        "markerFitZoom": 14,
+-    },
+ }
+ 
+ 
+diff --git a/desparchado/template/context_processors.py b/desparchado/template/context_processors.py
+index 842d4c6d..51be4d9a 100644
+--- a/desparchado/template/context_processors.py
++++ b/desparchado/template/context_processors.py
+@@ -3,6 +3,5 @@ from django.conf import settings
+ 
+ def constants(request):
+     return {
+-        "GOOGLE_MAPS_API_KEY": settings.GOOGLE_MAPS_API_KEY,
+         "ANALYTICS_ENABLED": settings.ANALYTICS_ENABLED,
+     }
+diff --git a/desparchado/templates/includes/_map.html b/desparchado/templates/includes/_map.html
+index b9b39a4b..ac83fee1 100644
+--- a/desparchado/templates/includes/_map.html
++++ b/desparchado/templates/includes/_map.html
+@@ -1,25 +1,14 @@
+ <div class="{{ css_class }}">
+-  <gmp-map
+-    center="{{ latitude }},{{ longitude }}"
+-    zoom="15"
+-    map-id="place-map"
+-    style="height: 400px; width: auto"
+-  >
+-    <gmp-advanced-marker
+-      position="{{ latitude }},{{ longitude }}"
+-      title="{{ title }}"
+-    ></gmp-advanced-marker>
+-  </gmp-map>
+-
+-  <!--
+-    The `defer` attribute causes the script to execute after the full HTML
+-    document has been parsed. For non-blocking uses, avoiding race conditions,
+-    and consistent behavior across browsers, consider loading using Promises. See
+-    https://developers.google.com/maps/documentation/javascript/load-maps-js-api
+-    for more information.
+-    -->
+-    <script
+-        src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_MAPS_API_KEY }}&libraries=maps,marker"
+-        defer
+-    ></script>
+-</div>
++  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
++  <div id="map-{{ css_class|slugify }}" style="height: 400px; width: 100%;"></div>
++  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
++  <script>
++  (function() {
++    var map = L.map('map-{{ css_class|slugify }}').setView([{{ latitude }}, {{ longitude }}], 15);
++    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
++      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
++    }).addTo(map);
++    L.marker([{{ latitude }}, {{ longitude }}]).addTo(map).bindPopup('{{ title }}');
++  })();
++  </script>
++</div>
+\ No newline at end of file
+diff --git a/docs/architecture.md b/docs/architecture.md
+index af45fee6..46e74804 100644
+--- a/docs/architecture.md
++++ b/docs/architecture.md
+@@ -244,7 +244,7 @@ Production host: `desparchado.co`
+ ## Geographic Data
+ 
+ - `Place.location` and `City.center_location` use PostGIS `PointField` (SRID 4326 WGS84).
+-- Map widgets in forms use **Leaflet** (OpenStreetMap, no API key) via `django-map-widgets`.
++- Map widgets in forms use **Leaflet.js** (OpenStreetMap, no API key) via a custom `LeafletPointFieldWidget` in `places/widgets/leaflet.py`.
+ - Coordinate retrieval: `place.get_longitude_str()` / `place.get_latitude_str()` return string `x`/`y` values.
+ - Events expose `get_longitude_str()` and `get_latitude_str()` by delegating to their associated Place.
+ 
+diff --git a/docs/development-guide.md b/docs/development-guide.md
+index fb8759fa..b5944be4 100644
+--- a/docs/development-guide.md
++++ b/docs/development-guide.md
+@@ -46,7 +46,6 @@ The `web` service reads from `.env` at project root. Required variables:
+ | `DATABASE_PASSWORD` | `secret` | DB password |
+ | `DATABASE_HOST` | `db` | Docker service name |
+ | `DATABASE_PORT` | `5432` | |
+-| `GOOGLE_MAPS_API_KEY` | `not-set` | Optional; map widget |
+ | `MAPBOX_ACCESS_TOKEN` | `not-set` | Optional; map widget |
+ | `AWS_SES_ACCESS_KEY_ID` | `not-set` | Optional; email |
+ | `AWS_SES_SECRET_ACCESS_KEY` | `not-set` | Optional; email |
+diff --git a/docs/source-tree.md b/docs/source-tree.md
+index 2a88bb17..882ba333 100644
+--- a/docs/source-tree.md
++++ b/docs/source-tree.md
+@@ -122,7 +122,7 @@ desparchado/                         # Project root
+ │   │   └── city_detail.py           # CityDetailView
+ │   ├── forms.py                     # PlaceForm (with map widget)
+ │   ├── widgets/
+-│   │   └── googlemap.py             # LeafletPointFieldWidget wrapper
++│   │   └── leaflet.py               # LeafletPointFieldWidget (custom, no third-party map library)
+ │   ├── urls.py
+ │   ├── templates/
+ │   └── tests/
+diff --git a/docs/technology-stack.md b/docs/technology-stack.md
+index 409a39c1..42fcadec 100644
+--- a/docs/technology-stack.md
++++ b/docs/technology-stack.md
+@@ -22,7 +22,7 @@ Desparchado is a **Django monolith** with a co-located **Vue.js 3** frontend com
+ | Autocomplete | django-autocomplete-light | ^3.12 | Select2 widgets for M2M fields |
+ | Slugs | django-autoslug | ^1.9 | Auto-generated slugs |
+ | Filters | django-filter | ^25.2 | DRF filter backend |
+-| Map widgets | django-map-widgets | — | Leaflet/Google/Mapbox PointField widgets |
++| Map widgets | Custom `LeafletPointFieldWidget` | — | Leaflet.js + OpenStreetMap PointField widget (`places/widgets/leaflet.py`) |
+ | Cleanup | django-cleanup | ^9.0 | Deletes orphaned media files |
+ | Frontend integration | django-vite | ^3.1 | Loads Vite manifest in templates |
+ | Email | django-ses | ^4.6 | AWS SES backend |
+diff --git a/events/templates/events/event_detail.html b/events/templates/events/event_detail.html
+index 680e4572..1c3dae0c 100644
+--- a/events/templates/events/event_detail.html
++++ b/events/templates/events/event_detail.html
+@@ -38,11 +38,6 @@
+ 
+ {% block extra_scripts %}
+   {% vite_asset 'desparchado/frontend/scripts/event-details.ts' %}
+-
+-  <script
+-      src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_MAPS_API_KEY }}&libraries=maps,marker"
+-      defer
+-  ></script>
+ {% endblock extra_scripts %}
+ 
+ {% block content %}
+@@ -252,17 +247,19 @@
+   <div class="event-details__additional event-details__additional--stroke">
+     <div class="event-details__additional-children event-details__map">
+       <div style="width: 513px; width: 100%" class="event-details__map-widget">
+-        <gmp-map
+-          center="{{ event.get_latitude_str }},{{ event.get_longitude_str }}"
+-          zoom="15"
+-          map-id="place-map"
+-          style="height: 250px; width: auto"
+-        >
+-          <gmp-advanced-marker
+-            position="{{ event.get_latitude_str }},{{ event.get_longitude_str }}"
+-            title="{{ event.title }}"
+-          ></gmp-advanced-marker>
+-        </gmp-map>
++        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
++        <div id="event-detail-map" style="height: 400px; width: 100%;"></div>
++        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
++        <script>
++        (function() {
++          var map = L.map('event-detail-map').setView([{{ event.get_latitude_str }}, {{ event.get_longitude_str }}], 15);
++          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
++            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
++          }).addTo(map);
++          L.marker([{{ event.get_latitude_str }}, {{ event.get_longitude_str }}]).addTo(map)
++            .bindPopup('{{ event.place.name|escapejs }}');
++        })();
++        </script>
+       </div>
+ 
+       <div class="event-details__map-details">
+diff --git a/places/admin.py b/places/admin.py
+index 8642546d..1ccdfd94 100644
+--- a/places/admin.py
++++ b/places/admin.py
+@@ -1,7 +1,7 @@
+ from django.contrib import admin
+ from django.contrib.gis.db import models as geo_models
+ 
+-from places.widgets import GoogleMapPointFieldWidget
++from places.widgets import LeafletPointFieldWidget
+ 
+ from .models import City, Place
+ 
+@@ -55,7 +55,7 @@ class PlaceAdmin(admin.ModelAdmin):
+     raw_id_fields = ('editors',)
+ 
+     formfield_overrides = {
+-        geo_models.PointField: {'widget': GoogleMapPointFieldWidget()},
++        geo_models.PointField: {'widget': LeafletPointFieldWidget()},
+     }
+ 
+     def get_actions(self, request):
+@@ -85,5 +85,5 @@ class CityAdmin(admin.ModelAdmin):
+         return request.user.is_superuser
+ 
+     formfield_overrides = {
+-        geo_models.PointField: {'widget': GoogleMapPointFieldWidget()},
++        geo_models.PointField: {'widget': LeafletPointFieldWidget()},
+     }
+diff --git a/places/forms.py b/places/forms.py
+index db4575cb..ebbecef8 100644
+--- a/places/forms.py
++++ b/places/forms.py
+@@ -2,7 +2,7 @@ from crispy_forms.helper import FormHelper
+ from crispy_forms.layout import Div, Layout, Submit
+ from django import forms
+ 
+-from places.widgets import GoogleMapPointFieldWidget
++from places.widgets import LeafletPointFieldWidget
+ 
+ from .models import Place
+ 
+@@ -42,5 +42,5 @@ class PlaceForm(forms.ModelForm):
+             'location',
+         )
+         widgets = {
+-            'location': GoogleMapPointFieldWidget,
++            'location': LeafletPointFieldWidget,
+         }
+diff --git a/places/static/places/css/map_widgets.css b/places/static/places/css/map_widgets.css
+index c507e412..4c6493c3 100644
+--- a/places/static/places/css/map_widgets.css
++++ b/places/static/places/css/map_widgets.css
+@@ -740,3 +740,27 @@ fieldset[disabled] .mw-btn-link:focus {
+ .show {
+     display: block;
+ }
++
++.mw-photon-results {
++    position: absolute;
++    z-index: 1000;
++    background: #fff;
++    border: 1px solid #ccc;
++    list-style: none;
++    margin: 0;
++    padding: 0;
++    width: 100%;
++    max-height: 200px;
++    overflow-y: auto;
++}
++.mw-photon-results li {
++    padding: 6px 10px;
++    cursor: pointer;
++    font-size: 13px;
++}
++.mw-photon-results li:hover {
++    background: #f0f0f0;
++}
++.mw-adress-input-wrap {
++    position: relative;
++}
+diff --git a/places/static/places/js/mw_init.js b/places/static/places/js/mw_init.js
+deleted file mode 100644
+index 7af8d454..00000000
+--- a/places/static/places/js/mw_init.js
++++ /dev/null
+@@ -1,99 +0,0 @@
+-// Extracted from django-map-widgets v0.5.1 (https://github.com/erdem/django-map-widgets)
+-// Changes applied:
+-//   - googleMapWidgetsCallback: removed window.addEventListener("load", ...) wrapper;
+-//     now iterates mapWidgets.googleMapCallbacks immediately so initialization happens
+-//     as soon as the Google Maps API calls the callback, avoiding a load-event race.
+-mapWidgets = {};
+-
+-// Array to store callback functions for Google Maps widget Classes
+-// These functions will be executed when the Google Maps API finishes loading
+-mapWidgets.googleMapCallbacks = []
+-
+-// First, try to use the jQuery instance from Django Admin (if available)
+-// If Django Admin jQuery is not available, use the global jQuery instance
+-if (typeof django !== "undefined" && django.jQuery) {
+-    mapWidgets.jQuery = django.jQuery.noConflict();
+-} else {
+-    mapWidgets.jQuery = jQuery.noConflict();
+-}
+-
+-
+-// This callback function execute by GoogleMap JS.
+-function googleMapWidgetsCallback() {
+-    for (let index = 0; index < mapWidgets.googleMapCallbacks.length; index++) {
+-        const widgetCallback = mapWidgets.googleMapCallbacks[index];
+-        new widgetCallback.class(widgetCallback.options);
+-    }
+-}
+-
+-
+-(function ($) {
+-
+-    let initializing = false, fnTest = /xyz/.test(function () {
+-        xyz;
+-    }) ? /\bSuper\b/ : /.*/;
+-
+-    $.Class = function () {
+-
+-    };
+-
+-    $.Class.extend = function (prop) {
+-        const Super = this.prototype;
+-        initializing = true;
+-        let prototype = new this();
+-        initializing = false;
+-
+-        for (let name in prop) {
+-            prototype[name] = typeof prop[name] == "function" && typeof Super[name] == "function" && fnTest.test(prop[name]) ? (function (name, fn) {
+-                return function () {
+-                    let tmp = this.Super;
+-                    this.Super = Super[name];
+-                    const ret = fn.apply(this, arguments);
+-                    this.Super = tmp;
+-                    return ret;
+-                };
+-            })(name, prop[name]) : prop[name];
+-        }
+-
+-        function Class() {
+-            if (!initializing && this.init) {
+-                this.init.apply(this, arguments);
+-            }
+-        }
+-
+-        Class.prototype = prototype;
+-
+-        Class.constructor = Class;
+-
+-        Class.extend = arguments.callee;
+-
+-        return Class;
+-    };
+-
+-    if (typeof Function.prototype.bind === 'undefined') {
+-
+-        Function.prototype.bind = function (obj) {
+-            const method = this;
+-
+-            const tmp = function () {
+-                return method.apply(obj, arguments);
+-            };
+-
+-            return tmp;
+-        };
+-
+-    }
+-
+-    if (!Array.prototype.indexOf) {
+-        Array.prototype.indexOf = function (obj) {
+-            for (let i = 0; i < this.length; i++) {
+-                if (this[i] === obj) {
+-                    return i;
+-                }
+-            }
+-
+-            return -1;
+-        };
+-    }
+-
+-})(mapWidgets.jQuery);
+\ No newline at end of file
+diff --git a/places/static/places/js/mw_pointfield.js b/places/static/places/js/mw_pointfield.js
+deleted file mode 100644
+index 86d40d38..00000000
+--- a/places/static/places/js/mw_pointfield.js
++++ /dev/null
+@@ -1,206 +0,0 @@
+-// Extracted from django-map-widgets v0.5.1 (https://github.com/erdem/django-map-widgets)
+-// Reason: google.maps.places.Autocomplete is deprecated for new customers as of March 2025.
+-// Changes applied:
+-//   - initializePlaceAutocomplete: replaced Autocomplete with PlaceAutocompleteElement,
+-//     loaded via google.maps.importLibrary("places") to ensure the new Places API is available;
+-//     mapped componentRestrictions.country to includedRegionCodes for the new API.
+-//   - handleAutoCompletePlaceChange: replaced place_changed/getPlace() with the gmp-select
+-//     event; place is obtained via event.placePrediction.toPlace() + fetchFields().
+-//   - addMarkerToMap: switched from AdvancedMarkerElement (requires a Cloud Console Map ID)
+-//     to google.maps.Marker which works without a Map ID.
+-//   - serializeMarkerToGeoJSON / fitBoundMarker: updated to use getPosition() instead of
+-//     .position property (legacy Marker API).
+-//   - handleAutoCompleteInputKeyDown: removed (PlaceAutocompleteElement handles Enter internally).
+-(function ($) {
+-    DjangoGooglePointFieldWidget = DjangoMapWidgetBase.extend({
+-
+-        initializeMap: async function () {
+-
+-            // Redefine setMapOptions inside initializeMap to create a new closure for each instance
+-            const setMapOptions = async () => {
+-                let mapInitializeOptions = {
+-                    zoomControlOptions: {
+-                        position: google.maps.ControlPosition.RIGHT
+-                    },
+-                };
+-
+-                mapInitializeOptions = $.extend({}, mapInitializeOptions, this.mapOptions);
+-
+-                let mapCenter = mapInitializeOptions.center;
+-                if (!(mapCenter instanceof google.maps.LatLng) && Array.isArray(mapCenter)) {
+-                    mapCenter = new google.maps.LatLng(mapCenter[0], mapCenter[1]);
+-                }
+-
+-                if (this.mapCenterLocationName) {
+-                    try {
+-                        const response = await new Promise((resolve, reject) => {
+-                            this.geocoder.geocode({'address': this.mapCenterLocationName}, (results, status) => {
+-                                if (status === google.maps.GeocoderStatus.OK) {
+-                                    resolve(results);
+-                                } else {
+-                                    reject(status);
+-                                }
+-                            });
+-                        });
+-                        const geo_location = response[0].geometry.location;
+-                        mapCenter = new google.maps.LatLng(geo_location.lat(), geo_location.lng());
+-                    } catch (error) {
+-                        console.error('Geocode lookup failed for `mapCenterLocationName` option:', error);
+-                    }
+-                }
+-
+-                mapInitializeOptions["center"] = mapCenter;
+-
+-                return mapInitializeOptions;
+-            };
+-
+-            // Rest of the initializeMap function
+-            this.geocoder = new google.maps.Geocoder();
+-            const mapOptions = await setMapOptions();
+-
+-            this.map = new google.maps.Map(this.mapElement, mapOptions);
+-
+-            if (!$.isEmptyObject(this.djangoGeoJSONValue)) {
+-                this.addMarkerToMap(this.djangoGeoJSONValue.lat, this.djangoGeoJSONValue.lng);
+-                this.updateDjangoInput();
+-                this.fitBoundMarker();
+-            }
+-            await this.initializePlaceAutocomplete();
+-        },
+-
+-        initializePlaceAutocomplete: async function () {
+-            const { PlaceAutocompleteElement } = await google.maps.importLibrary("places");
+-
+-            const autocompleteOptions = {};
+-            const opts = this.GooglePlaceAutocompleteOptions || {};
+-            if (opts.componentRestrictions && opts.componentRestrictions.country) {
+-                const country = opts.componentRestrictions.country;
+-                autocompleteOptions.includedRegionCodes = Array.isArray(country) ? country : [country];
+-            }
+-            if (opts.types) {
+-                autocompleteOptions.types = opts.types;
+-            }
+-
+-            const autocompleteElement = new PlaceAutocompleteElement(autocompleteOptions);
+-            const existingInput = this.addressAutoCompleteInput;
+-            autocompleteElement.id = existingInput.id;
+-            autocompleteElement.className = existingInput.className;
+-            existingInput.parentNode.replaceChild(autocompleteElement, existingInput);
+-            this.addressAutoCompleteInput = autocompleteElement;
+-
+-            this.autocomplete = autocompleteElement;
+-            this.autocomplete.addEventListener('gmp-select', this.handleAutoCompletePlaceChange.bind(this));
+-        },
+-
+-        addMarkerToMap: function (lat, lng) {
+-            this.removeMarker();
+-            const marker_position = {lat: parseFloat(lat), lng: parseFloat(lng)};
+-            this.marker = new google.maps.Marker({
+-                map: this.map,
+-                position: marker_position,
+-                draggable: true
+-            });
+-            this.marker.addListener("dragend", this.dragMarker.bind(this));
+-        },
+-
+-        serializeMarkerToGeoJSON: function () {
+-            if (this.marker) {
+-                const position = this.marker.getPosition();
+-                return {
+-                    type: "Point",
+-                    coordinates: [position.lng(), position.lat()]
+-                };
+-            }
+-        },
+-
+-        fitBoundMarker: function () {
+-            const bounds = new google.maps.LatLngBounds();
+-            bounds.extend(this.marker.getPosition());
+-            this.map.fitBounds(bounds);
+-            if (this.markerFitZoom && this.isInt(this.markerFitZoom)) {
+-                const markerFitZoom = parseInt(this.markerFitZoom);
+-                const listener = google.maps.event.addListener(this.map, "idle", function () {
+-                    if (this.getZoom() > markerFitZoom) {
+-                        this.setZoom(markerFitZoom)
+-                    }
+-                    google.maps.event.removeListener(listener);
+-                });
+-            }
+-        },
+-
+-        removeMarker: function (e) {
+-            if (this.marker) {
+-                this.marker.setMap(null);
+-            }
+-            this.marker = null;
+-        },
+-
+-        dragMarker: function (e) {
+-            this.addMarkerToMap(e.latLng.lat(), e.latLng.lng())
+-            this.updateDjangoInput()
+-        },
+-
+-        handleAutoCompletePlaceChange: async function (event) {
+-            const place = event.placePrediction.toPlace();
+-            try {
+-                await place.fetchFields({fields: ['location', 'formattedAddress']});
+-            } catch (error) {
+-                console.error('GoogleMapPointFieldWidget: fetchFields failed', error);
+-                return;
+-            }
+-            if (!place.location) {
+-                return;
+-            }
+-            this.addMarkerToMap(place.location.lat(), place.location.lng());
+-            this.updateDjangoInput(place);
+-            this.fitBoundMarker();
+-        },
+-
+-        handleAddMarkerBtnClick: function (e) {
+-            $(this.mapElement).toggleClass("click");
+-            this.addMarkerBtn.toggleClass("active");
+-            if ($(this.addMarkerBtn).hasClass("active")) {
+-                this.map.addListener("click", this.handleMapClick.bind(this));
+-            } else {
+-                google.maps.event.clearListeners(this.map, 'click');
+-            }
+-        },
+-
+-        handleMapClick: function (e) {
+-            google.maps.event.clearListeners(this.map, 'click');
+-            $(this.mapElement).removeClass("click");
+-            this.addMarkerBtn.removeClass("active");
+-            this.addMarkerToMap(e.latLng.lat(), e.latLng.lng())
+-            this.updateDjangoInput()
+-        },
+-
+-        callPlaceTriggerHandler: function (lat, lng, place) {
+-            if (place === undefined) {
+-                var latlng = {lat: parseFloat(lat), lng: parseFloat(lng)};
+-                this.geocoder.geocode({'location': latlng}, function (results, status) {
+-                    if (status === google.maps.GeocoderStatus.OK) {
+-                        var placeObj = results[0] || {};
+-                        $(this.addressAutoCompleteInput).val(placeObj.formatted_address || "");
+-                        $(document).trigger(this.placeChangedTriggerNameSpace,
+-                            [placeObj, lat, lng, this.wrapElemSelector, this.djangoInput]
+-                        );
+-                        if ($.isEmptyObject(this.djangoGeoJSONValue)) {
+-                            $(document).trigger(this.markerCreateTriggerNameSpace,
+-                                [placeObj, lat, lng, this.wrapElemSelector, this.djangoInput]
+-                            );
+-                        } else {
+-                            $(document).trigger(this.markerChangeTriggerNameSpace,
+-                                [placeObj, lat, lng, this.wrapElemSelector, this.djangoInput]
+-                            );
+-                        }
+-                    }
+-                }.bind(this));
+-            } else {  // user entered an address
+-                $(document).trigger(this.placeChangedTriggerNameSpace,
+-                    [place, lat, lng, this.wrapElemSelector, this.djangoInput]
+-                );
+-            }
+-        },
+-    });
+-
+-})(mapWidgets.jQuery);
+\ No newline at end of file
+diff --git a/places/static/places/js/mw_pointfield_base.js b/places/static/places/js/mw_pointfield_base.js
+deleted file mode 100644
+index 258d9af8..00000000
+--- a/places/static/places/js/mw_pointfield_base.js
++++ /dev/null
+@@ -1,177 +0,0 @@
+-// Extracted from django-map-widgets v0.5.1 (https://github.com/erdem/django-map-widgets)
+-// Copied verbatim. No changes applied.
+-(function ($) {
+-    DjangoMapWidgetBase = $.Class.extend({
+-
+-        init: function (options) {
+-            $.extend(this, options);
+-            this.coordinatesOverlayToggleBtn.on("click", this.toggleCoordinatesOverlay.bind(this));
+-            this.coordinatesOverlayDoneBtn.on("click", this.handleCoordinatesOverlayDoneBtnClick.bind(this));
+-            this.coordinatesOverlayInputs.on("change", this.handleCoordinatesInputsChange.bind(this));
+-            this.addMarkerBtn.on("click", this.handleAddMarkerBtnClick.bind(this));
+-            this.myLocationBtn.on("click", this.handleMyLocationBtnClick.bind(this));
+-            this.deleteBtn.on("click", this.resetMap.bind(this));
+-
+-            // if the location field in a collapse on Django admin form, the map need to initialize again when the collapse open by user.
+-            if ($(this.wrapElemSelector).closest('.module.collapse').length) {
+-                $(document).on('show.fieldset', this.initializeMap.bind(this));
+-            }
+-            this.initializeMap.bind(this)();
+-            this.djangoInput.data('mwMapObj', this.map);
+-            this.djangoInput.data('mwClassObj', this);
+-        },
+-
+-        initializeMap: function () {
+-            console.warn("Implement initializeMap method.");
+-        },
+-
+-        updateMap: function (lat, lng) {
+-            console.warn("Implement updateMap method.");
+-        },
+-
+-        addMarkerToMap: function (lat, lng) {
+-            console.warn("Implement this method for your map js library.");
+-        },
+-
+-        fitBoundMarker: function () {
+-            console.warn("Implement this method for your map js library.");
+-        },
+-
+-        removeMarker: function () {
+-            console.warn("Implement this method for your map js library.");
+-        },
+-
+-        dragMarker: function (e) {
+-            console.warn("Implement dragMarker method.");
+-        },
+-
+-        handleMapClick: function (e) {
+-            console.warn("Implement handleMapClick method.");
+-        },
+-
+-        handleAddMarkerBtnClick: function (e) {
+-            console.warn("Implement handleAddMarkerBtnClick method.");
+-        },
+-
+-        isInt: function (value) {
+-            return !isNaN(value) &&
+-                parseInt(Number(value)) === value &&
+-                !isNaN(parseInt(value, 10));
+-        },
+-
+-        serializeMarkerToGeoJSON: function () {
+-            console.warn("Implement serializeMarkerToGeoJSON method.");
+-        },
+-
+-        callPlaceTriggerHandler: function (lat, lng, place) {
+-        },
+-
+-        enableClearBtn: function () {
+-            this.deleteBtn.removeClass("mw-btn-default disabled").addClass("mw-btn-danger");
+-            this.deleteBtn.prop("disabled", false).attr("aria-disabled", "false");
+-        },
+-
+-        disableClearBtn: function () {
+-            this.deleteBtn.removeClass("mw-btn-danger").addClass("mw-btn-default disabled");
+-            this.deleteBtn.prop("disabled", true).attr("aria-disabled", "true");
+-        },
+-
+-        updateDjangoInput: function (place) {
+-            const django_input_val = this.serializeMarkerToGeoJSON();
+-            if (!django_input_val || !django_input_val.coordinates) {
+-                this.djangoInput.val('');
+-                return;
+-            }
+-            const lng = django_input_val.coordinates[0];
+-            const lat = django_input_val.coordinates[1];
+-            this.djangoInput.val(JSON.stringify(django_input_val));
+-            this.updateUXCoordinatesInputs(lat, lng);
+-            this.callPlaceTriggerHandler(lat, lng, place);
+-            this.djangoGeoJSONValue = {
+-                "lng": lng,
+-                "lat": lat
+-            };
+-            this.enableClearBtn();
+-        },
+-
+-        resetMap: function () {
+-            if (!$.isEmptyObject(this.djangoGeoJSONValue)) {
+-                this.hideOverlay();
+-                this.djangoInput.val("");
+-                this.coordinatesOverlayInputs.val("");
+-                $(this.addressAutoCompleteInput).val("");
+-                this.addMarkerBtn.removeClass("active");
+-                this.removeMarker();
+-                this.disableClearBtn();
+-                $(document).trigger(this.markerDeleteTriggerNameSpace,
+-                    [
+-                        this.djangoGeoJSONValue.lat,
+-                        this.djangoGeoJSONValue.lng,
+-                        this.wrapElemSelector,
+-                        this.djangoInput
+-                    ]
+-                );
+-                this.djangoGeoJSONValue = null;
+-            }
+-        },
+-
+-        toggleCoordinatesOverlay: function () {
+-            this.coordinatesOverlayToggleBtn.toggleClass("active");
+-            $(".mw-coordinates-overlay", this.wrapElemSelector).toggleClass("hide");
+-        },
+-
+-        updateUXCoordinatesInputs: function (lat, lng) {
+-            $(".mw-overlay-latitude", this.wrapElemSelector).val((lat === null || lat === undefined) ? "" : lat);
+-            $(".mw-overlay-longitude", this.wrapElemSelector).val((lng === null || lng === undefined) ? "" : lng);
+-        },
+-
+-        handleCoordinatesInputsChange: function (e) {
+-            var lat = $(".mw-overlay-latitude", this.wrapElemSelector).val();
+-            var lng = $(".mw-overlay-longitude", this.wrapElemSelector).val();
+-            if (lat && lng) {
+-                this.addMarkerToMap(lat, lng);
+-                this.updateDjangoInput();
+-                this.fitBoundMarker();
+-            }
+-        },
+-
+-        handleCoordinatesOverlayDoneBtnClick: function () {
+-            $(".mw-coordinates-overlay", this.wrapElemSelector).addClass("hide");
+-            this.coordinatesOverlayToggleBtn.removeClass("active");
+-        },
+-
+-        handleMyLocationBtnClick: function () {
+-            this.showOverlay();
+-            if (navigator.geolocation) {
+-                navigator.geolocation.getCurrentPosition(
+-                    this.handleCurrentPosition.bind(this),
+-                    this.handlecurrentPositionError.bind(this)
+-                );
+-            } else {
+-                this.handlecurrentPositionError();
+-            }
+-
+-        },
+-
+-        handleCurrentPosition: function (location) {
+-            this.addMarkerToMap(location.coords.latitude, location.coords.longitude);
+-            this.updateDjangoInput();
+-            this.hideOverlay();
+-            this.fitBoundMarker();
+-        },
+-
+-        handlecurrentPositionError: function () {
+-            this.hideOverlay();
+-            alert("Your location could not be found.");
+-        },
+-
+-        showOverlay: function () {
+-            this.loaderOverlayElem.removeClass("hide")
+-        },
+-
+-        hideOverlay: function () {
+-            this.loaderOverlayElem.addClass("hide")
+-        }
+-    });
+-
+-})(mapWidgets.jQuery);
+diff --git a/places/templates/places/widgets/googlemap/interactive.html b/places/templates/places/widgets/googlemap/interactive.html
+deleted file mode 100644
+index 7285ece1..00000000
+--- a/places/templates/places/widgets/googlemap/interactive.html
++++ /dev/null
+@@ -1,107 +0,0 @@
+-{# Extracted from django-map-widgets v0.5.1 (https://github.com/erdem/django-map-widgets) #}
+-{# Changes applied: #}
+-{#   - {{ id }} replaced with {{ widget_id }} to match the local widget's get_context output. #}
+-{#   - gmp-placeselect event replaced with gmp-select; place obtained via placePrediction.toPlace(). #}
+-{#   - All UI strings translated to Colombian Spanish; coordinate placeholders use Bogotá values. #}
+-{#   - <a> control elements replaced with <button type="button"> for keyboard accessibility; aria-labels added. #}
+-{% load i18n %}
+-
+-<div class="mw-wrap" id="{{ name }}-mw-wrap">
+-    <div class="mw-header">
+-        <button type="button" class="mw-btn mw-btn-warning mw-btn-add-marker" aria-label="{% trans 'Marcar en el mapa' %}">
+-            <i class="icon-location"></i>
+-            <span class="button-text">{% trans "Marcar en el mapa" %}</span>
+-        </button>
+-        <button type="button" class="mw-btn mw-btn-info mw-btn-my-location" aria-label="{% trans 'Mi ubicación' %}">
+-            <i class="icon-direction"></i>
+-            <span class="button-text">{% trans "Mi ubicación" %}</span>
+-        </button>
+-        <div class="mw-coordinates-wrap">
+-            <button type="button" class="mw-btn mw-btn-default mw-btn-coordinates" aria-label="{% trans 'Editar coordenadas' %}">
+-                <i class="icon-down-open"></i>
+-                <span class="button-text">{% trans "Editar coordenadas" %}</span>
+-            </button>
+-            <div class="mw-coordinates-overlay hide">
+-                <label for="{{ name }}-mw-overlay-latitude">
+-                    {% trans "Latitud:" %}
+-                    <input type="text" id="{{ name }}-mw-overlay-latitude"
+-                           class="form-control mw-overlay-input mw-overlay-latitude"
+-                           placeholder="{% trans 'Ej: 4.710989' %}"/>
+-                </label>
+-                <label for="{{ name }}-mw-overlay-longitude">
+-                    {% trans "Longitud:" %}
+-                    <input type="text" id="{{ name }}-mw-overlay-longitude"
+-                           class="form-control mw-overlay-input mw-overlay-longitude"
+-                           placeholder="{% trans 'Ej: -74.072092' %}"/>
+-                </label>
+-                <button type="button" class="mw-btn mw-btn-success mw-btn-coordinates-done pull-right" aria-label="{% trans 'Listo' %}">{% trans "Listo" %}</button>
+-            </div>
+-        </div>
+-
+-        <div class="mw-adress-input-wrap pull-right">
+-            <input type="text" class="form-control pull-right" id="{{ name }}-mw-google-address-input"
+-                   role="presentation" autocomplete="off"
+-                   placeholder="{% trans 'Buscar por dirección' %}"/>
+-        </div>
+-    </div>
+-
+-    <div class="mw-map-wrapper">
+-        <div class="mw-loader-overlay hide">
+-            <div class="mw-loader"></div>
+-        </div>
+-        <div id="{{ name }}-map-elem" class="mw-map"></div>
+-        <div style="display: none" class="hide">
+-            <textarea id="{{ widget_id }}" name="{{ name }}">{{ serialized }}</textarea>
+-        </div>
+-    </div>
+-
+-    <div class="mw-footer">
+-        <span class="mw-help-text help-text">{% trans "Ubica el pin o escribe una dirección para marcar el punto en el mapa" %}</span>
+-        <button type="button" class="mw-btn mw-btn-delete pull-right
+-                {{ serialized|yesno:"mw-btn-danger, mw-btn-default disabled" }}"
+-                aria-label="{% trans 'Eliminar ubicación' %}"><i
+-                class="icon-trash-empty"></i></button>
+-    </div>
+-</div>
+-
+-<script type="application/javascript">
+-    (function ($) {
+-        const widgetSettings = JSON.parse("{{ options|escapejs }}");
+-        const fieldValue = JSON.parse("{{ field_value|escapejs }}");
+-
+-        const widgetWrapSelector = "#{{ name }}-mw-wrap";
+-        const mapId = "{{ name }}-map-elem";
+-        const googleAutoInputId = "{{ name }}-mw-google-address-input";
+-        const djangoInputId = "#{{ widget_id }}";
+-
+-        const pointFieldWidgetOptions = {
+-            mapId: mapId,
+-            djangoInput: $(djangoInputId),
+-            wrapElemSelector: widgetWrapSelector,
+-            djangoGeoJSONValue: fieldValue,
+-            mapElement: document.getElementById(mapId),
+-            coordinatesOverlayToggleBtn: $(".mw-btn-coordinates", widgetWrapSelector),
+-            coordinatesOverlayDoneBtn: $(".mw-btn-coordinates-done", widgetWrapSelector),
+-            coordinatesOverlayInputs: $(".mw-overlay-input", widgetWrapSelector),
+-            coordinatesOverlay: $(".mw-coordinates-overlay", widgetWrapSelector),
+-            myLocationBtn: $(".mw-btn-my-location", widgetWrapSelector),
+-            addressAutoCompleteInput: document.getElementById(googleAutoInputId),
+-            deleteBtn: $(".mw-btn-delete", widgetWrapSelector),
+-            addMarkerBtn: $(".mw-btn-add-marker", widgetWrapSelector),
+-            loaderOverlayElem: $(".mw-loader-overlay", widgetWrapSelector),
+-            mapOptions: widgetSettings.mapOptions,
+-            mapCenterLocationName: widgetSettings.mapCenterLocationName,
+-            markerFitZoom: widgetSettings.markerFitZoom,
+-            GooglePlaceAutocompleteOptions: widgetSettings.GooglePlaceAutocompleteOptions,
+-            markerCreateTriggerNameSpace: "googleMapPointFieldWidget:markerCreate",
+-            markerChangeTriggerNameSpace: "googleMapPointFieldWidget:markerChange",
+-            markerDeleteTriggerNameSpace: "googleMapPointFieldWidget:markerDelete",
+-            placeChangedTriggerNameSpace: "googleMapPointFieldWidget:placeChanged"
+-        };
+-
+-        mapWidgets.googleMapCallbacks.push({
+-            "class": DjangoGooglePointFieldWidget,
+-            "options": pointFieldWidgetOptions
+-        });
+-    })(mapWidgets.jQuery);
+-</script>
+\ No newline at end of file
+diff --git a/places/widgets/__init__.py b/places/widgets/__init__.py
+index 553077ce..8ac16038 100644
+--- a/places/widgets/__init__.py
++++ b/places/widgets/__init__.py
+@@ -1,3 +1,3 @@
+-from .googlemap import GoogleMapPointFieldWidget
++from .leaflet import LeafletPointFieldWidget
+ 
+-__all__ = ["GoogleMapPointFieldWidget"]
++__all__ = ["LeafletPointFieldWidget"]
+diff --git a/places/widgets/googlemap.py b/places/widgets/googlemap.py
+deleted file mode 100644
+index d33d0b27..00000000
+--- a/places/widgets/googlemap.py
++++ /dev/null
+@@ -1,166 +0,0 @@
+-# Adapted from django-map-widgets v0.5.1 (https://github.com/erdem/django-map-widgets)
+-# Reason: google.maps.places.Autocomplete is deprecated for new customers as of
+-# March 2025, and the library had no immediate plan to migrate. The widget was
+-# extracted and rewritten
+-# as a self-contained local class to own the migration path.
+-# Changes applied:
+-#   - Rewritten as a standalone Django widget with no imports from mapwidgets.
+-#   - Configuration is read directly from settings.MAP_WIDGETS["GoogleMap"].
+-#   - Google Maps CDN URL is built at runtime from settings (no mw_settings dependency).
+-import json
+-from urllib.parse import urlencode
+-
+-from django.conf import settings
+-from django.contrib.gis import forms
+-from django.contrib.gis.geos import GEOSGeometry
+-
+-# Default map options used when MAP_WIDGETS settings are absent or incomplete.
+-_DEFAULT_MAP_OPTIONS: dict = {
+-    "zoom": 5,
+-    "scrollwheel": False,
+-    "streetViewControl": True,
+-}
+-
+-_DEFAULT_CDN_PARAMS: dict = {
+-    "callback": "googleMapWidgetsCallback",
+-    "language": "es",
+-    "libraries": "places,marker",
+-    "loading": "async",
+-    "v": "quarterly",
+-}
+-
+-_DEFAULT_AUTOCOMPLETE_OPTIONS: dict = {}
+-
+-
+-def _get_google_map_settings() -> dict:
+-    """Read GoogleMap configuration from Django settings.
+-
+-    Returns:
+-        A dict with keys ``api_key``, ``map_options``,
+-        ``cdn_url_params``, ``autocomplete_options``, and
+-        ``map_center_location_name``.
+-    """
+-    map_widgets_conf: dict = getattr(settings, "MAP_WIDGETS", {})
+-    google_conf: dict = map_widgets_conf.get("GoogleMap", {})
+-    point_field_conf: dict = google_conf.get("PointField", {}).get("interactive", {})
+-
+-    api_key: str = (google_conf.get("apiKey")
+-                    or getattr(settings, "GOOGLE_MAPS_API_KEY", ""))
+-
+-    cdn_params: dict = {**_DEFAULT_CDN_PARAMS}
+-    cdn_params.update(google_conf.get("CDNURLParams", {}))
+-    cdn_params["callback"] = "googleMapWidgetsCallback"
+-
+-    map_options: dict = {**_DEFAULT_MAP_OPTIONS}
+-    map_options.update(point_field_conf.get("mapOptions", {}))
+-
+-    autocomplete_options: dict = {**_DEFAULT_AUTOCOMPLETE_OPTIONS}
+-    autocomplete_options.update(
+-        point_field_conf.get("GooglePlaceAutocompleteOptions", {}),
+-    )
+-
+-    return {
+-        "api_key": api_key,
+-        "map_options": map_options,
+-        "cdn_url_params": cdn_params,
+-        "autocomplete_options": autocomplete_options,
+-        "map_center_location_name": point_field_conf.get("mapCenterLocationName", ""),
+-        "marker_fit_zoom": point_field_conf.get("markerFitZoom", None),
+-    }
+-
+-
+-class GoogleMapPointFieldWidget(forms.BaseGeometryWidget):
+-    """Self-contained Google Maps widget for a PostGIS PointField.
+-
+-    Renders an interactive map that lets the user place a single point
+-    marker. The selected coordinates are serialised as a GeoJSON Point
+-    string and stored in the hidden textarea that Django's
+-    ``PointField`` reads during form submission.
+-
+-    Configuration is read from ``settings.MAP_WIDGETS["GoogleMap"]``
+-    (the project-wide map-widgets config) and from
+-    ``settings.GOOGLE_MAPS_API_KEY`` as a fallback for the API key.
+-    """
+-
+-    template_name = "places/widgets/googlemap/interactive.html"
+-    map_srid = 4326
+-
+-    @property
+-    def _google_map_js_url(self) -> str:
+-        config = _get_google_map_settings()
+-        api_key: str = config["api_key"]
+-        if not api_key:
+-            raise ValueError(
+-                "Google Maps API key is not set. "
+-                "Configure MAP_WIDGETS['GoogleMap']['apiKey'] or "
+-                "GOOGLE_MAPS_API_KEY in settings.",
+-            )
+-        cdn_params = {"key": api_key, **config["cdn_url_params"]}
+-        return f"https://maps.googleapis.com/maps/api/js?{urlencode(cdn_params)}"
+-
+-    @property
+-    def media(self) -> forms.Media:
+-        return forms.Media(
+-            css={"all": ["places/css/map_widgets.css"]},
+-            js=[
+-                "places/js/mw_init.js",
+-                "places/js/mw_pointfield_base.js",
+-                "places/js/mw_pointfield.js",
+-                self._google_map_js_url,
+-            ],
+-        )
+-
+-    def _geos_to_dict(self, geom: GEOSGeometry) -> dict | None:
+-        """Decompose a GEOSGeometry point into a plain dict for the template.
+-
+-        Args:
+-            geom: A GEOSGeometry instance representing a Point.
+-
+-        Returns:
+-            A dict with ``srid``, ``wkt``, ``coords``, ``geom_type``,
+-            ``lng``, and ``lat`` keys, or ``None`` if *geom* is falsy.
+-        """
+-        if not geom:
+-            return None
+-
+-        longitude, latitude = geom.coords
+-        return {
+-            "srid": geom.srid,
+-            "wkt": str(geom),
+-            "coords": geom.coords,
+-            "geom_type": geom.geom_type,
+-            "lng": longitude,
+-            "lat": latitude,
+-        }
+-
+-    def get_context(self, name: str, value, attrs: dict | None) -> dict:
+-        context = super().get_context(name, value, attrs)
+-
+-        serialized: str = context.get("serialized", "") or ""
+-        field_value: dict | None = None
+-        if serialized:
+-            field_value = self._geos_to_dict(self.deserialize(serialized))
+-
+-        config = _get_google_map_settings()
+-        widget_options: dict = {
+-            "mapOptions": config["map_options"],
+-            "mapCenterLocationName": config["map_center_location_name"],
+-            "markerFitZoom": config["marker_fit_zoom"],
+-            "GooglePlaceAutocompleteOptions": config["autocomplete_options"],
+-        }
+-
+-        # widget_id is the HTML id attribute for the hidden textarea; the
+-        # template uses it to build the jQuery selector the JS widget reads.
+-        widget_attrs: dict = context.get("widget", {}).get("attrs", {})
+-        widget_id: str = widget_attrs.get("id", f"id_{name}")
+-
+-        context.update(
+-            {
+-                "name": name,
+-                "widget_id": widget_id,
+-                "serialized": serialized,
+-                "options": json.dumps(widget_options),
+-                "field_value": json.dumps(field_value),
+-            },
+-        )
+-        return context
