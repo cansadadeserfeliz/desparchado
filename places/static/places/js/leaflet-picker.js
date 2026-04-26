@@ -199,7 +199,7 @@ window.initLeafletPicker = function initLeafletPicker(
         });
     }
 
-    // ── Address search (Photon geocoding) ────────────────────────────────────
+    // ── Address search (Nominatim geocoding) ─────────────────────────────────
 
     var addressInput = document.getElementById(addressInputId);
     var photonResultsList = null;
@@ -212,7 +212,7 @@ window.initLeafletPicker = function initLeafletPicker(
         }
     }
 
-    function renderPhotonResults(features) {
+    function renderPhotonResults(results) {
         if (!photonResultsList) {
             photonResultsList = document.createElement('ul');
             photonResultsList.className = 'mw-photon-results';
@@ -221,23 +221,21 @@ window.initLeafletPicker = function initLeafletPicker(
 
         photonResultsList.innerHTML = '';
 
-        if (!features || features.length === 0) {
+        if (!results || results.length === 0) {
             hidePhotonResults();
             return;
         }
 
-        features.forEach(function (feature) {
-            var props = feature.properties || {};
-            var label = props.name || '';
-            var secondary = props.city || props.state || '';
-            if (secondary) { label += ', ' + secondary; }
+        results.forEach(function (result) {
+            var label = result.display_name || '';
 
             var li = document.createElement('li');
             li.textContent = label;
             li.addEventListener('click', function () {
-                var coords = feature.geometry && feature.geometry.coordinates;
-                if (coords) {
-                    var latlng = L.latLng(coords[1], coords[0]);
+                var lat = parseFloat(result.lat);
+                var lng = parseFloat(result.lon);
+                if (!isNaN(lat) && !isNaN(lng)) {
+                    var latlng = L.latLng(lat, lng);
                     placeMarker(latlng);
                     map.setView(latlng, options.markerFitZoom || 15);
                 }
@@ -268,14 +266,17 @@ window.initLeafletPicker = function initLeafletPicker(
             }
             debounceTimer = setTimeout(function () {
                 activeController = new AbortController();
-                var url = 'https://photon.komoot.io/api/?q=' +
+                var url = 'https://nominatim.openstreetmap.org/search?q=' +
                     encodeURIComponent(q) +
-                    '&limit=5&bbox=-81.7,-4.2,-66.9,12.5';
-                fetch(url, { signal: activeController.signal })
+                    '&format=json&limit=5&countrycodes=co';
+                fetch(url, {
+                    signal: activeController.signal,
+                    headers: { 'Accept-Language': 'es' }
+                })
                     .then(function (resp) { return resp.json(); })
                     .then(function (data) {
                         activeController = null;
-                        renderPhotonResults(data.features || []);
+                        renderPhotonResults(Array.isArray(data) ? data : []);
                     })
                     .catch(function (err) {
                         if (err.name !== 'AbortError') {

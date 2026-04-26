@@ -739,6 +739,7 @@ fieldset[disabled] .mw-btn-link:focus {
 
 .mw-photon-results {
     position: absolute;
+    top: 100%;
     z-index: 1000;
     background: #fff;
     border: 1px solid #ccc;

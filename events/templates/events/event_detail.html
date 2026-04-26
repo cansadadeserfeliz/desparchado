@@ -263,7 +263,9 @@
             maxZoom: 20
           }).addTo(map);
           var icon = L.divIcon({className: 'lf-marker', iconSize: [20, 20], iconAnchor: [10, 10], popupAnchor: [0, -12]});
-          L.marker([lat, lng], {icon: icon}).addTo(map).bindPopup('{{ event.place.name }}');
+          var popupEl = document.createElement('span');
+          popupEl.textContent = '{{ event.place.name|escapejs }}';
+          L.marker([lat, lng], {icon: icon}).addTo(map).bindPopup(popupEl);
           window.addEventListener('load', function() {
             map.invalidateSize();
             map.setView([lat, lng], 15);

@@ -79,12 +79,14 @@
   var icon = L.divIcon({className: 'lf-marker', iconSize: [20, 20], iconAnchor: [10, 10], popupAnchor: [0, -12]});
   var locations = [
     {% for event in future_events %}
-      ['{{ event.title }}', {{ event.get_latitude_str }}, {{ event.get_longitude_str }}]{% if not forloop.last %},{% endif %}
+      ['{{ event.title|escapejs }}', {{ event.get_latitude_str }}, {{ event.get_longitude_str }}]{% if not forloop.last %},{% endif %}
     {% endfor %}
   ];
   var markers = [];
   for (var i = 0; i < locations.length; i++) {
-    var m = L.marker([locations[i][1], locations[i][2]], {icon: icon}).bindPopup(locations[i][0]).addTo(map);
+    var popupEl = document.createElement('span');
+    popupEl.textContent = locations[i][0];
+    var m = L.marker([locations[i][1], locations[i][2]], {icon: icon}).bindPopup(popupEl).addTo(map);
     markers.push(m);
   }
   if (markers.length > 0) {
