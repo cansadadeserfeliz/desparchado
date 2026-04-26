@@ -1,25 +1,26 @@
 <div class="{{ css_class }}">
-  <gmp-map
-    center="{{ latitude }},{{ longitude }}"
-    zoom="15"
-    map-id="place-map"
-    style="height: 400px; width: auto"
-  >
-    <gmp-advanced-marker
-      position="{{ latitude }},{{ longitude }}"
-      title="{{ title }}"
-    ></gmp-advanced-marker>
-  </gmp-map>
-
-  <!--
-    The `defer` attribute causes the script to execute after the full HTML
-    document has been parsed. For non-blocking uses, avoiding race conditions,
-    and consistent behavior across browsers, consider loading using Promises. See
-    https://developers.google.com/maps/documentation/javascript/load-maps-js-api
-    for more information.
-    -->
-    <script
-        src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_MAPS_API_KEY }}&libraries=maps,marker"
-        defer
-    ></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+  <style>.lf-marker{width:20px;height:20px;background:#e63946;border:3px solid #fff;border-radius:50%;box-shadow:0 2px 6px rgba(0,0,0,.4);}</style>
+  <div id="map-{{ css_class|slugify }}" style="height: 400px; width: 100%; isolation: isolate;"></div>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script>
+  (function() {
+    var lat = {{ latitude }};
+    var lng = {{ longitude }};
+    var map = L.map('map-{{ css_class|slugify }}', {scrollWheelZoom: false}).setView([lat, lng], 15);
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+      subdomains: 'abcd',
+      maxZoom: 20
+    }).addTo(map);
+    var icon = L.divIcon({className: 'lf-marker', iconSize: [20, 20], iconAnchor: [10, 10], popupAnchor: [0, -12]});
+    var popupEl = document.createElement('span');
+    popupEl.textContent = '{{ title|escapejs }}';
+    L.marker([lat, lng], {icon: icon}).addTo(map).bindPopup(popupEl);
+    window.addEventListener('load', function() {
+      map.invalidateSize();
+      map.setView([lat, lng], 15);
+    });
+  })();
+  </script>
 </div>

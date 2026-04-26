@@ -99,7 +99,6 @@ module.exports = {
       ],
       "removeSelectors": [
         ...debugRemoveSelectors,
-        "gmp-map",
         ".featured-event-card__image"
       ]
     },

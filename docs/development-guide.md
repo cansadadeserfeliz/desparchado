@@ -46,7 +46,6 @@ The `web` service reads from `.env` at project root. Required variables:
 | `DATABASE_PASSWORD` | `secret` | DB password |
 | `DATABASE_HOST` | `db` | Docker service name |
 | `DATABASE_PORT` | `5432` | |
-| `GOOGLE_MAPS_API_KEY` | `not-set` | Optional; map widget |
 | `MAPBOX_ACCESS_TOKEN` | `not-set` | Optional; map widget |
 | `AWS_SES_ACCESS_KEY_ID` | `not-set` | Optional; email |
 | `AWS_SES_SECRET_ACCESS_KEY` | `not-set` | Optional; email |

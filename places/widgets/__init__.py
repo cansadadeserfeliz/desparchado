@@ -1,3 +1,3 @@
-from .googlemap import GoogleMapPointFieldWidget
+from .leaflet import LeafletPointFieldWidget
 
-__all__ = ["GoogleMapPointFieldWidget"]
+__all__ = ["LeafletPointFieldWidget"]

@@ -1,8 +1,9 @@
 /*
  * Extracted from django-map-widgets v0.5.1 (https://github.com/erdem/django-map-widgets)
  * Changes applied:
- *   - Added .mw-header .mw-adress-input-wrap gmp-place-autocomplete rule to size
- *     the PlaceAutocompleteElement web component within its container.
+ *   - Replaced Google Maps / django-map-widgets JS with self-contained Leaflet picker.
+ *   - Added .mw-photon-results dropdown styles for Photon geocoding suggestions.
+ *   - Added .lf-marker CSS-only marker (replaces Leaflet's default PNG icon).
  *   - Colors aligned to site design tokens (_variables.scss): focus ring and
  *     interactive colors use dp-violet-300 (#0d00a4); grays use gray-900/700/600;
  *     default button background uses dp-orange-50 (#fbf8f2).
@@ -143,11 +144,6 @@
 .mw-header .mw-adress-input-wrap {
     width: 35%;
     margin-left: auto;
-}
-
-.mw-header .mw-adress-input-wrap gmp-place-autocomplete {
-    display: block;
-    width: 100%;
 }
 
 .mw-header .mw-coordinates-wrap {
@@ -739,4 +735,43 @@ fieldset[disabled] .mw-btn-link:focus {
 
 .show {
     display: block;
+}
+
+.mw-photon-results {
+    position: absolute;
+    top: 100%;
+    z-index: 1000;
+    background: #fff;
+    border: 1px solid #ccc;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    max-height: 200px;
+    overflow-y: auto;
+}
+.mw-photon-results li {
+    padding: 6px 10px;
+    cursor: pointer;
+    font-size: 13px;
+}
+.mw-photon-results li:hover {
+    background: #f0f0f0;
+}
+.mw-adress-input-wrap {
+    position: relative;
+}
+
+/* CSS-only map marker — no external images required */
+.lf-marker {
+    width: 20px;
+    height: 20px;
+    background-color: #e63946;
+    border: 3px solid #ffffff;
+    border-radius: 50%;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+    cursor: grab;
+}
+.lf-marker:active {
+    cursor: grabbing;
 }

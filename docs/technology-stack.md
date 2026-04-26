@@ -22,7 +22,7 @@ Desparchado is a **Django monolith** with a co-located **Vue.js 3** frontend com
 | Autocomplete | django-autocomplete-light | ^3.12 | Select2 widgets for M2M fields |
 | Slugs | django-autoslug | ^1.9 | Auto-generated slugs |
 | Filters | django-filter | ^25.2 | DRF filter backend |
-| Map widgets | django-map-widgets | — | Leaflet/Google/Mapbox PointField widgets |
+| Map widgets | Custom `LeafletPointFieldWidget` | — | Leaflet.js + OpenStreetMap PointField widget (`places/widgets/leaflet.py`) |
 | Cleanup | django-cleanup | ^9.0 | Deletes orphaned media files |
 | Frontend integration | django-vite | ^3.1 | Loads Vite manifest in templates |
 | Email | django-ses | ^4.6 | AWS SES backend |
