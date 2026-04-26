@@ -3,6 +3,10 @@
 
 {% block title %}{% if place %}Editar lugar{% else %}Añadir lugar{% endif %}{% endblock %}
 
+{% block extra_css %}{{ block.super }}{{ form.media.css }}{% endblock %}
+
+{% block javascript %}{{ block.super }}{{ form.media.js }}{% endblock %}
+
 {% block content %}
 <h2 class="text-center mt-4">{% if place %}Editar lugar{% else %}Añadir nuevo lugar{% endif %}:</h2>
 
