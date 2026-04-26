@@ -45,6 +45,7 @@
     <div class="mw-footer">
         <span class="mw-help-text help-text">{% trans "Ubica el pin o escribe una dirección para marcar el punto en el mapa" %}</span>
         <button type="button" class="mw-btn mw-btn-delete pull-right {{ serialized|yesno:'mw-btn-danger, mw-btn-default disabled' }}"
+                {% if not serialized %}disabled{% endif %}
                 aria-label="{% trans 'Eliminar ubicación' %}"><i class="icon-trash-empty"></i></button>
     </div>
 </div>

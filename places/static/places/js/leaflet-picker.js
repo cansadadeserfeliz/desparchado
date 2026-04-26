@@ -61,6 +61,7 @@ window.initLeafletPicker = function initLeafletPicker(
         if (deleteBtn) {
             deleteBtn.classList.remove('mw-btn-default', 'disabled');
             deleteBtn.classList.add('mw-btn-danger');
+            deleteBtn.disabled = false;
         }
     }
 
@@ -78,6 +79,7 @@ window.initLeafletPicker = function initLeafletPicker(
         if (deleteBtn) {
             deleteBtn.classList.remove('mw-btn-danger');
             deleteBtn.classList.add('mw-btn-default', 'disabled');
+            deleteBtn.disabled = true;
         }
     }
 
