@@ -1,5 +1,6 @@
 import calendar
 import logging
+import unicodedata
 from datetime import date, timedelta
 
 from django.conf import settings
@@ -141,6 +142,29 @@ def send_notification(request, obj, model_name, created):
     except Exception as e:  # pylint: disable=broad-exception-caught
         logger.info(subject, extra={'message': message})
         logger.exception('No se pudo enviar correo electrónico', exc_info=e)
+
+
+_SAFE_CONTROL_CHARS = {'\t', '\n', '\r'}
+
+
+def sanitize_text_input(value: str) -> str:
+    """
+    Strips control characters from a string before passing it to PostgreSQL.
+
+    PostgreSQL text fields reject NUL bytes (0x00), and other C0/C1 control
+    characters (Unicode category 'Cc') are equally invalid in user-facing search
+    queries. Tab, newline, and carriage return are preserved.
+
+    Args:
+        value: Raw string received from user input.
+
+    Returns:
+        Cleaned string safe for PostgreSQL text fields and full-text search.
+    """
+    return ''.join(
+        c for c in value
+        if c in _SAFE_CONTROL_CHARS or unicodedata.category(c) != 'Cc'
+    )
 
 
 def sanitize_html(html: str):

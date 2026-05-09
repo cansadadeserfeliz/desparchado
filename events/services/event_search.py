@@ -3,6 +3,7 @@ from typing import TypeVar
 from django.contrib.postgres.search import SearchQuery, SearchVector
 from django.db.models import Q, QuerySet
 
+from desparchado.utils import sanitize_text_input
 from events.models import Event
 
 EventQuerySet = TypeVar("EventQuerySet", bound=QuerySet[Event])
@@ -29,6 +30,7 @@ def search_events(
     Returns:
         A filtered QuerySet containing Events that match the search criteria.
     """
+    search_str = sanitize_text_input(search_str)
     if not search_str or len(search_str) < search_str_min_length:
         return queryset
 
