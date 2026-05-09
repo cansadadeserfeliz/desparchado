@@ -3,6 +3,7 @@ import logging
 from django.utils.html import format_html
 
 from desparchado.autocomplete import BaseAutocomplete
+from desparchado.utils import sanitize_text_input
 from events.models import Speaker
 
 logger = logging.getLogger(__name__)
@@ -23,6 +24,6 @@ class SpeakerAutocomplete(BaseAutocomplete):
         qs = Speaker.objects.order_by('name').all()
 
         if self.q:
-            qs = qs.filter(name__unaccent__icontains=self.q)
+            qs = qs.filter(name__unaccent__icontains=sanitize_text_input(self.q))
 
         return qs

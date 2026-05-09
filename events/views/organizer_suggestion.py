@@ -6,6 +6,7 @@ from django.utils.html import escape
 from django.utils.safestring import mark_safe
 from django.views import View
 
+from desparchado.utils import sanitize_text_input
 from events.models import Organizer
 
 logger = logging.getLogger(__name__)
@@ -14,7 +15,7 @@ logger = logging.getLogger(__name__)
 class OrganizerSuggestionsView(LoginRequiredMixin, View):
 
     def get(self, request):
-        query = request.GET.get('query', '')
+        query = sanitize_text_input(request.GET.get('query', ''))
         suggestion = None
         if len(query) >= 5:
             organizers = Organizer.objects.filter(

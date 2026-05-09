@@ -4,6 +4,7 @@ from django.contrib.postgres.search import SearchVector
 from django.db.models import Q
 from django.views.generic import ListView
 
+from desparchado.utils import sanitize_text_input
 from events.models import Speaker
 
 logger = logging.getLogger(__name__)
@@ -17,7 +18,7 @@ class SpeakerListView(ListView):
     q = ''
 
     def dispatch(self, request, *args, **kwargs):
-        self.q = request.GET.get('q', '')
+        self.q = sanitize_text_input(request.GET.get('q', ''))
         return super().dispatch(request, *args, **kwargs)
 
     def get_queryset(self):
