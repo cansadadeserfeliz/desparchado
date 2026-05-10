@@ -9,11 +9,16 @@
 
 {% block meta %}
   <meta property="og:title" content="{{ speaker.name }}">
-  <meta property="og:description" content="{{ speaker.description|truncatewords:200 }}">
-  <meta property="og:image" content="https://desparchado.co{{ speaker.get_image_url }}">
+  <meta property="og:description" content="{{ speaker.description|striptags|truncatewords:200 }}">
+  <meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{{ speaker.get_image_url }}">
+  <meta property="og:type" content="profile">
+  <meta property="og:url" content="{{ request.scheme }}://{{ request.get_host }}{{ speaker.get_absolute_url }}">
 
+  <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="{{ speaker.name }}">
-  <meta name="twitter:description" content="{{ speaker.description|truncatewords:200 }}">
+  <meta name="twitter:description" content="{{ speaker.description|striptags|truncatewords:200 }}">
+  <meta name="twitter:image" content="{{ request.scheme }}://{{ request.get_host }}{{ speaker.get_image_url }}">
+  <meta name="twitter:image:alt" content="{{ speaker.name }}">
 {% endblock %}
 
 {% block google-structured-markup %}
@@ -23,7 +28,7 @@
   "@context" : "http://schema.org",
   "@type" : "Person",
   "name" : "{{ speaker.name }}",
-  "image" : "https://desparchado.co{{ speaker.get_image_url }}"
+  "image" : "{{ request.scheme }}://{{ request.get_host }}{{ speaker.get_image_url }}"
 }
 </script>
 {% endblock %}
