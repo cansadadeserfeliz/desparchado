@@ -88,7 +88,7 @@ class SpecialSitemap(sitemaps.Sitemap):
     priority = 0.9
 
     def items(self):
-        return Special.objects.filter(is_published=True)
+        return Special.objects.filter(is_published=True).order_by('-modified')
 
     def lastmod(self, item):
         return item.modified
