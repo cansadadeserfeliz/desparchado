@@ -7,9 +7,14 @@
   <meta property="og:title" content="{{ post.title }}">
   <meta property="og:description" content="{{ post.subtitle }}">
   <meta property="og:image" content="https://desparchado.co{{ post.get_image_url }}">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="{{ request.scheme }}://{{ request.get_host }}{{ post.get_absolute_url }}">
 
+  <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="{{ post.title }}">
-  <meta name="twitter:description" content="{{ post.subtitle.name }}">
+  <meta name="twitter:description" content="{{ post.subtitle }}">
+  <meta name="twitter:image" content="https://desparchado.co{{ post.get_image_url }}">
+  <meta name="twitter:image:alt" content="{{ post.title }}">
 {% endblock %}
 
 {% block google-structured-markup %}

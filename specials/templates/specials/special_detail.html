@@ -14,9 +14,14 @@
   <meta property="og:title" content="{{ special.title }} en Desparchado.co">
   <meta property="og:description" content="{{ special.subtitle }}">
   <meta property="og:image" content="https://desparchado.co{{ special.get_image_url }}">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="{{ request.scheme }}://{{ request.get_host }}{{ special.get_absolute_url }}">
 
-  <meta name="twitter:title" content="{{ special.subtitle }} en Desparchado.co">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{ special.title }} en Desparchado.co">
   <meta name="twitter:description" content="{{ special.subtitle }}">
+  <meta name="twitter:image" content="https://desparchado.co{{ special.get_image_url }}">
+  <meta name="twitter:image:alt" content="{{ special.title }}">
 {% endblock %}
 
 {% block content %}

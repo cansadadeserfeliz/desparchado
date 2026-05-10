@@ -2,10 +2,16 @@
 
 {% block meta %}
   <meta property="og:title" content="{{ event.title }}">
-  <meta property="og:description" content="{{ event.description }}">
+  <meta property="og:description" content="{{ event.description|striptags|truncatewords:50 }}">
+  {% if event.image %}<meta property="og:image" content="https://desparchado.co{{ event.image.url }}">{% endif %}
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="{{ request.scheme }}://{{ request.get_host }}{{ event.get_absolute_url }}">
 
+  <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="{{ event.title }}">
-  <meta name="twitter:description" content="{{ event.description }}">
+  <meta name="twitter:description" content="{{ event.description|striptags|truncatewords:50 }}">
+  {% if event.image %}<meta name="twitter:image" content="https://desparchado.co{{ event.image.url }}">
+  <meta name="twitter:image:alt" content="{{ event.title }}">{% endif %}
 {% endblock %}
 
 {% block content %}
