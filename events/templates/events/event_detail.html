@@ -7,11 +7,16 @@
 
 {% block meta %}
   <meta property="og:title" content="{{ event.title }}">
-  <meta property="og:description" content="{{ event.place }}">
-  <meta property="og:image" content="https://desparchado.co{{ event.get_image_url }}">
+  <meta property="og:description" content="{{ event.event_date|date:"j \d\e N \d\e Y" }}{% if event.place %} · {{ event.place.name }}{% endif %}{% if event.description %} — {{ event.description|striptags|truncatewords:25 }}{% endif %}">
+  <meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{{ event.get_image_url }}">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="{{ request.scheme }}://{{ request.get_host }}{{ event.get_absolute_url }}">
 
+  <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="{{ event.title }}">
-  <meta name="twitter:description" content="{{ event.place.name }}">
+  <meta name="twitter:description" content="{{ event.event_date|date:"j \d\e N \d\e Y" }}{% if event.place %} · {{ event.place.name }}{% endif %}{% if event.description %} — {{ event.description|striptags|truncatewords:25 }}{% endif %}">
+  <meta name="twitter:image" content="{{ request.scheme }}://{{ request.get_host }}{{ event.get_image_url }}">
+  <meta name="twitter:image:alt" content="{{ event.title }}">
 {% endblock %}
 
 {% block google-structured-markup %}
@@ -31,7 +36,7 @@
       "addressLocality": "{{ event.place.city.name }}"
     }
   },
-  "image" : "https://desparchado.co{{ event.get_image_url }}"
+  "image" : "{{ request.scheme }}://{{ request.get_host }}{{ event.get_image_url }}"
 }
 </script>
 {% endblock %}

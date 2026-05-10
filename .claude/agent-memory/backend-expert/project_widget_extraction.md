@@ -14,11 +14,8 @@ Key facts:
 - Widget: `places/widgets/leaflet.py` — `LeafletPointFieldWidget(forms.BaseGeometryWidget)`
 - JS picker: `places/static/places/js/leaflet-picker.js` — self-contained, no jQuery dependency
 - Template: `places/templates/places/widgets/leaflet/interactive.html`
-- Address search: Photon geocoding API (`https://photon.komoot.io/api/`), Colombia bbox, no key
-- Stub tombstone files still exist on disk and should be deleted manually:
-  `places/widgets/googlemap.py`, `places/static/places/js/mw_init.js`,
-  `places/static/places/js/mw_pointfield_base.js`, `places/static/places/js/mw_pointfield.js`,
-  `places/templates/places/widgets/googlemap/interactive.html`
+- Address search: Nominatim (`https://nominatim.openstreetmap.org/search`), `countrycodes=co`, no key
+- All old Google Maps stub files have been removed from the repository (no tombstones remain)
 - `GOOGLE_MAPS_API_KEY` removed from settings (`base.py`) and context processor
 - `MAP_WIDGETS` in `base.py` now only has the `"Mapbox"` key
 - CSS font/image assets (`places/static/places/font/fontello.*`, `places/static/places/images/ripple.gif`) were already present from the prior extraction

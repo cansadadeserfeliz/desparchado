@@ -42,6 +42,30 @@
 **Finding:** `initLeafletPicker` is triggered by `window.load` in the widget template. Dynamically added inline rows (via Django admin's "add another" mechanism) clone the HTML but the `load` event has already fired, so the picker never initialises in the cloned row. Place is not currently used as an admin inline, so this is not a current bug.
 **Action if needed:** If Place is ever added as an inline, wire `initLeafletPicker` to Django admin's `formset:added` jQuery event and pass the new row's element IDs.
 
+## Social sharing: hard-coded `https://desparchado.co` prefix in `og:image` / `twitter:image`
+
+**Source:** Review of `spec-social-sharing-link-previews`
+**Finding:** All `og:image` and `twitter:image` tags across the site use a hard-coded `https://desparchado.co` prefix rather than `{{ request.scheme }}://{{ request.get_host }}`. This breaks previews in development and staging environments. Pre-existing pattern not introduced by this story.
+**Action if needed:** Replace the hard-coded prefix with `{{ request.scheme }}://{{ request.get_host }}` in all affected templates.
+
+## Social sharing: `Special.get_image_url()` crashes when image is null
+
+**Source:** Review of `spec-social-sharing-link-previews`
+**Finding:** `Special.get_image_url()` calls `self.image.url` without checking if `self.image` is null (field is `null=True, blank=True`). If a Special has no image, the `og:image` and `twitter:image` tags will raise `AttributeError`. Pre-existing bug, not introduced by this story.
+**Action if needed:** Add a null guard to `Special.get_image_url()` consistent with how other models (Event, Organizer, etc.) handle it.
+
+## Social sharing: history `post_detail.html` accesses nullable `post.historical_figure`
+
+**Source:** Review of `spec-social-sharing-link-previews`
+**Finding:** `post.historical_figure` is `null=True, blank=True` on the model, but the template uses `{{ post.historical_figure.name }}` without a null guard in both the `<title>` block and the meta tags. Will raise `AttributeError` if a Post has no associated figure. Pre-existing issue.
+**Action if needed:** Wrap accesses in `{% if post.historical_figure %}` or provide a fallback title.
+
+## Social sharing: `{{ game.game }}` renders empty — `HuntingOfSnarkGame` has no `game` attribute
+
+**Source:** Review of `spec-social-sharing-link-previews`
+**Finding:** `hunting_of_snark_detail.html` uses `{{ game.game }}` in `og:title`, but the model has no `game` field; it has a `name` property. Django silently renders an empty string. Pre-existing issue in the template.
+**Action if needed:** Replace `{{ game.game }}` with the correct property (`{{ game.name }}` or similar).
+
 ## Multi-value target_audience cells in FILBo sync
 
 **Source:** Review of `feature/filbo-target-audience` (spec-event-target-audience)

@@ -1,4 +1,5 @@
 from desparchado.autocomplete import BaseAutocomplete
+from desparchado.utils import sanitize_text_input
 from places.models import Place
 
 
@@ -12,6 +13,6 @@ class PlaceAutocompleteView(BaseAutocomplete):
         qs = Place.objects.order_by('name').all()
 
         if self.q:
-            qs = qs.filter(name__unaccent__icontains=self.q)
+            qs = qs.filter(name__unaccent__icontains=sanitize_text_input(self.q))
 
         return qs
