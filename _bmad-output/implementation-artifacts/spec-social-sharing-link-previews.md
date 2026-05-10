@@ -90,7 +90,7 @@ context: []
 
 Rich description format for event detail:
 
-```
+```text
 8 de mayo de 2026 · Teatro Colón — Concierto de música sacra con la Orquesta...
 ```
 
@@ -99,10 +99,21 @@ Template sketch:
 {{ event.event_date|date:"j \d\e N \d\e Y" }}{% if event.place %} · {{ event.place.name }}{% endif %}{% if event.description %} — {{ event.description|striptags|truncatewords:25 }}{% endif %}
 ```
 
-`og:url` pattern (swap object name per page):
+`og:url` / `og:image` absolute URL pattern (swap object name per page):
 ```django
 {{ request.scheme }}://{{ request.get_host }}{{ event.get_absolute_url }}
 ```
+
+### Nginx / reverse-proxy requirement
+
+All image and URL meta tags use `request.scheme` and `request.get_host` instead of a hard-coded domain. These resolve correctly in production **only if** Nginx forwards the originating protocol and host to Gunicorn:
+
+```nginx
+proxy_set_header X-Forwarded-Proto $scheme;
+proxy_set_header Host $host;
+```
+
+Django reads `X-Forwarded-Proto` via `SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")` (already set in `desparchado/settings/base.py:136`), so `request.scheme` returns `https` and `request.get_host()` returns `desparchado.co` as expected. If either header is missing, image URLs in previews will use `http` or the internal container host.
 
 ## Verification
 

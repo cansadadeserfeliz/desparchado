@@ -10,14 +10,14 @@
 {% block meta %}
   <meta property="og:title" content="{{ organizer.name }}">
   <meta property="og:description" content="{{ organizer.description|striptags|truncatewords:200 }}">
-  <meta property="og:image" content="https://desparchado.co{{ organizer.get_image_url }}">
+  <meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{{ organizer.get_image_url }}">
   <meta property="og:type" content="website">
   <meta property="og:url" content="{{ request.scheme }}://{{ request.get_host }}{{ organizer.get_absolute_url }}">
 
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="{{ organizer.name }}">
   <meta name="twitter:description" content="{{ organizer.description|striptags|truncatewords:200 }}">
-  <meta name="twitter:image" content="https://desparchado.co{{ organizer.get_image_url }}">
+  <meta name="twitter:image" content="{{ request.scheme }}://{{ request.get_host }}{{ organizer.get_image_url }}">
   <meta name="twitter:image:alt" content="{{ organizer.name }}">
 {% endblock %}
 
@@ -29,7 +29,7 @@
   "@type" : "Organization",
   "name" : "{{ organizer.name }}",
   "description" : "{{ organizer.description }}",
-  "image" : "https://desparchado.co{{ organizer.get_image_url }}"
+  "image" : "{{ request.scheme }}://{{ request.get_host }}{{ organizer.get_image_url }}"
 }
 </script>
 {% endblock %}

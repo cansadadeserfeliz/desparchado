@@ -55,7 +55,9 @@ class Special(TimeStampedModel):
         return reverse('specials:special_detail', args=[self.slug])
 
     def get_image_url(self):
-        return self.image.url
+        if self.image:
+            return self.image.url
+        return ''
 
     def __str__(self):
         return self.title

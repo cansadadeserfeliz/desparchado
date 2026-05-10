@@ -13,15 +13,15 @@
 {% block meta %}
   <meta property="og:title" content="{{ special.title }} en Desparchado.co">
   <meta property="og:description" content="{{ special.subtitle }}">
-  <meta property="og:image" content="https://desparchado.co{{ special.get_image_url }}">
+  {% if special.image %}<meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{{ special.get_image_url }}">{% endif %}
   <meta property="og:type" content="website">
   <meta property="og:url" content="{{ request.scheme }}://{{ request.get_host }}{{ special.get_absolute_url }}">
 
-  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:card" content="{% if special.image %}summary_large_image{% else %}summary{% endif %}">
   <meta name="twitter:title" content="{{ special.title }} en Desparchado.co">
   <meta name="twitter:description" content="{{ special.subtitle }}">
-  <meta name="twitter:image" content="https://desparchado.co{{ special.get_image_url }}">
-  <meta name="twitter:image:alt" content="{{ special.title }}">
+  {% if special.image %}<meta name="twitter:image" content="{{ request.scheme }}://{{ request.get_host }}{{ special.get_image_url }}">
+  <meta name="twitter:image:alt" content="{{ special.title }}">{% endif %}
 {% endblock %}
 
 {% block content %}

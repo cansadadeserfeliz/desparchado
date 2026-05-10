@@ -6,14 +6,14 @@
 {% block meta %}
   <meta property="og:title" content="{{ post.historical_figure.name }}">
   <meta property="og:description" content="{{ post.text|striptags|truncatewords:50 }}">
-  {% if post.image %}<meta property="og:image" content="https://desparchado.co{{ post.image.url }}">{% endif %}
+  {% if post.image %}<meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{{ post.image.url }}">{% endif %}
   <meta property="og:type" content="article">
   <meta property="og:url" content="{{ request.scheme }}://{{ request.get_host }}{{ post.get_absolute_url }}">
 
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="{{ post.historical_figure.name }}">
   <meta name="twitter:description" content="{{ post.text|striptags|truncatewords:50 }}">
-  {% if post.image %}<meta name="twitter:image" content="https://desparchado.co{{ post.image.url }}">
+  {% if post.image %}<meta name="twitter:image" content="{{ request.scheme }}://{{ request.get_host }}{{ post.image.url }}">
   <meta name="twitter:image:alt" content="{{ post.historical_figure.name }}">{% endif %}
 {% endblock %}
 
