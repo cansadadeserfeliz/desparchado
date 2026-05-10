@@ -22,6 +22,8 @@ class RssSiteEventsFeed(Feed):
 
 
 class SocialNetworksRssSiteEventsFeed(Feed):
+    """RSS feed of scheduled social posts for Zapier-driven event announcements."""
+
     title = 'Eventos en Desparchado.co'
     link = '/events/'
     description = 'Futuros eventos en Desparchado.co'
@@ -56,13 +58,14 @@ class SocialNetworksRssSiteEventsFeed(Feed):
                 event__is_published=True,
                 event__is_approved=True,
                 published_at__lte=timezone.now(),
-                published_at__gte=timezone.datetime(2019, 2, 27),
             )
             .select_related('event')
-            .order_by('published_at')
+            .order_by('-published_at')[:20]
         )
 
 
 class AtomSiteEventsFeed(RssSiteEventsFeed):
+    """Atom 1.0 variant of RssSiteEventsFeed."""
+
     feed_type = Atom1Feed
     subtitle = RssSiteEventsFeed.description

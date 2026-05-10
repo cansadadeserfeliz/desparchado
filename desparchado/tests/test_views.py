@@ -43,5 +43,26 @@ def test_about_page(django_app):
 
 
 @pytest.mark.django_db
-def test_sitemap(django_app, event, place, organizer, speaker, blog_post, special):
-    django_app.get(reverse('django.contrib.sitemaps.views.sitemap'), status=200)
+def test_sitemap_index(
+    django_app, event, place, organizer, speaker, blog_post, special,
+):
+    url = reverse('django.contrib.sitemaps.views.index')
+    response = django_app.get(url, status=200)
+    assert b'sitemap-events.xml' in response.body
+    assert b'sitemap-places.xml' in response.body
+
+
+@pytest.mark.django_db
+def test_sitemap_section_events(django_app, event):
+    django_app.get(
+        reverse('django.contrib.sitemaps.views.sitemap', kwargs={'section': 'events'}),
+        status=200,
+    )
+
+
+@pytest.mark.django_db
+def test_sitemap_section_places(django_app, place):
+    django_app.get(
+        reverse('django.contrib.sitemaps.views.sitemap', kwargs={'section': 'places'}),
+        status=200,
+    )
