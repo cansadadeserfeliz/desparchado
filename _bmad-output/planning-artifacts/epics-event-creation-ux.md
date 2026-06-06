@@ -30,7 +30,7 @@ This document provides the complete epic and story breakdown for desparchado, de
 - **FR13:** Contributors can select one event place (required)
 - **FR14:** Contributors can select one event category from five visual options (Literatura, Arte, Sociedad, Ciencia, Medio Ambiente)
 - **FR15:** Contributors can enter an optional event price
-- **FR16:** Contributors can enter an optional event source URL
+- **FR16:** Contributors can enter a required event source URL (must be a valid URL)
 - **FR17:** Contributors can set event publication status (published or draft) before submitting
 - **FR18:** Contributors can search for existing organizers, speakers, and places using accent-insensitive fuzzy matching that normalizes Spanish diacritics and common abbreviations
 - **FR19:** Entity search returns one canonical record per match — accent and spelling variants of the same entity resolve to the same result
@@ -49,7 +49,7 @@ This document provides the complete epic and story breakdown for desparchado, de
 - **FR32:** Superusers can configure per-user daily quota limits via the administration interface
 - **FR33:** Contributors can edit their own events via a pre-populated wizard identified by event slug
 - **FR34:** The edit wizard pre-populates all fields from the existing event record on load
-- **FR35:** The system prevents unauthorized users from accessing the edit wizard at the server level before any frontend code initializes; unauthorized users are redirected to a permission-denied page
+- **FR35:** The system prevents unauthorized users from accessing the edit wizard at the server level before any frontend code initializes; unauthorized requests receive an HTTP 403 response rendering the `desparchado/templates/403.html` permission-denied template — Vue is never initialized
 - **FR36:** Contributors can submit edits as a single atomic update to the existing event record
 - **FR37:** Contributors can view a real-time preview of the event card as it will appear on the platform, updated as they type
 - **FR38:** The live preview reflects the current title, description, image, and category
@@ -68,7 +68,7 @@ This document provides the complete epic and story breakdown for desparchado, de
 - **NFR4:** Live preview updates in <= 50ms after any keystroke — local Vue state only, no network call
 - **NFR5:** Image preview renders immediately on file selection using `URL.createObjectURL`; no upload occurs until final submit
 - **NFR6:** All wizard form submissions include a valid CSRF token; requests without one are rejected server-side
-- **NFR7:** Edit access is enforced at the Django view level before the template renders; unauthorized requests receive a 403 and are redirected to the permission-denied page — Vue is never initialized
+- **NFR7:** Edit access is enforced at the Django view level before the template renders; unauthorized requests receive an HTTP 403 response rendering the `desparchado/templates/403.html` permission-denied template — Vue is never initialized
 - **NFR8:** All DRF endpoints require an authenticated session; unauthenticated requests return 401
 - **NFR9:** All text, interactive elements, and error states in the wizard meet WCAG 2.1 AA color contrast minimums (4.5:1 for normal text; 3:1 for large text and UI components)
 - **NFR10:** All five Umami instrumentation event types (wizard start, step complete/abandon, entity search, quota hit, final submit) are verified live on launch day
