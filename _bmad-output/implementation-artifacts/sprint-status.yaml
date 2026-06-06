@@ -1,0 +1,70 @@
+# generated: 2026-05-31T18:49:21-05:00
+# last_updated: 2026-05-31T18:49:21-05:00
+# project: desparchado
+# project_key: NOKEY
+# tracking_system: file-system
+# story_location: _bmad-output/implementation-artifacts
+
+# STATUS DEFINITIONS:
+# ==================
+# Epic Status:
+#   - backlog: Epic not yet started
+#   - in-progress: Epic actively being worked on
+#   - done: All stories in epic completed
+#
+# Epic Status Transitions:
+#   - backlog → in-progress: Automatically when first story is created (via create-story)
+#   - in-progress → done: Manually when all stories reach 'done' status
+#
+# Story Status:
+#   - backlog: Story only exists in epic file
+#   - ready-for-dev: Story file created in stories folder
+#   - in-progress: Developer actively working on implementation
+#   - review: Ready for code review (via Dev's code-review workflow)
+#   - done: Story completed
+#
+# Retrospective Status:
+#   - optional: Can be completed but not required
+#   - done: Retrospective has been completed
+#
+# WORKFLOW NOTES:
+# ===============
+# - Epic transitions to 'in-progress' automatically when first story is created
+# - Stories can be worked in parallel if team capacity allows
+# - Developer typically creates next story after previous one is 'done' to incorporate learnings
+# - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
+
+generated: 2026-05-31T18:49:21-05:00
+last_updated: 2026-05-31T18:49:21-05:00
+project: desparchado
+project_key: NOKEY
+tracking_system: file-system
+story_location: _bmad-output/implementation-artifacts
+
+development_status:
+  epic-1: backlog
+  1-1-be-django-routing-views-and-quota-403-context-providers: backlog
+  1-2-be-upgraded-event-rest-api-create-endpoint-write-serializer: backlog
+  1-3-fe-vite-entry-root-state-multi-step-skeleton-layout: backlog
+  1-4-fe-step-1-ui-real-time-card-preview: backlog
+  1-5-fe-step-2-3-ui-inputs-timezones-navigation-validation: backlog
+  1-6-fe-atomic-submit-csrf-and-backend-error-redirect-ux: backlog
+  epic-1-retrospective: optional
+  epic-2: backlog
+  2-1-be-autocomplete-fuzzy-search-services-endpoints: backlog
+  2-2-be-inline-creation-endpoints-write-serializers-for-related-entities: backlog
+  2-3-fe-reusable-autocomplete-combobox-entitycombobox-vue-multi-select-chips: backlog
+  2-4-fe-reusable-basemodal-inline-forms-for-organizer-and-speaker: backlog
+  2-5-fe-inline-place-modal-with-leaflet-map-pin-picker-and-address-search: backlog
+  epic-2-retrospective: optional
+  epic-3: backlog
+  3-1-be-drf-quota-permission-classes-dry-integration: backlog
+  3-2-fe-client-side-image-size-validation-local-previews: backlog
+  3-3-fe-unsaved-state-warnings-beforeunload-lifecycle: backlog
+  3-4-fe-umami-analytics-funnel-trackers: backlog
+  epic-3-retrospective: optional
+  epic-4: backlog
+  4-1-be-django-edit-view-permission-gate-custom-403-template: backlog
+  4-2-be-rest-api-get-hydration-patch-update-endpoints: backlog
+  4-3-fe-edit-flow-state-hydration-guardar-submit-variation: backlog
+  epic-4-retrospective: optional
