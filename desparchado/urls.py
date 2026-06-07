@@ -33,6 +33,8 @@ from .views import (
     SocialNetworksRssSiteEventsFeed,
 )
 
+handler403 = 'desparchado.views.errors.permission_denied'
+
 # pylint: disable=invalid-name
 schema_view = get_schema_view(
     openapi.Info(
@@ -62,6 +64,7 @@ urlpatterns = [
         ),
         name='terms_and_conditions',
     ),
+    path('403/', TemplateView.as_view(template_name='403.html'), name='page_403'),
     path('404/', TemplateView.as_view(template_name='404.html'), name='page_404'),
     path('500/', TemplateView.as_view(template_name='500.html'), name='page_500'),
     path('rss/', SocialNetworksRssSiteEventsFeed(), name='rss'),

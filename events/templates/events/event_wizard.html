@@ -1,0 +1,17 @@
+{% extends 'layout/base.html' %}
+{% load django_vite %}
+
+{% block title %}Crear evento | Desparchado.co{% endblock %}
+
+{% block extra_scripts %}
+  {% vite_asset 'desparchado/frontend/scripts/static.ts' %}
+{% endblock extra_scripts %}
+
+{% block content %}
+  <div
+    id="event-wizard-app"
+    data-csrf="{{ csrf_token }}"
+    data-wizard-mode="create"
+    data-api-url="{{ api_url }}"
+  ></div>
+{% endblock %}

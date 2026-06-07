@@ -99,41 +99,6 @@ class EventBaseForm(forms.ModelForm):
         }
 
 
-class EventCreateForm(EventBaseForm):
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-        self.helper.layout = Layout(
-            'title',
-            'description',
-            'event_source_url',
-            'image',
-            'category',
-            'event_date',
-            'organizers',
-            self.get_organizer_button(),
-            'place',
-            self.get_place_button(),
-            Div(
-                Submit('submit', 'PUBLICAR EVENTO', css_class='btn-primary'),
-                css_class='form-group mt-3',
-            ),
-        )
-
-    class Meta(EventBaseForm.Meta):
-        fields = [
-            "title",
-            "description",
-            "event_source_url",
-            "image",
-            "category",
-            "event_date",
-            "organizers",
-            "place",
-        ]
-
-
 class EventUpdateForm(EventBaseForm):
 
     def __init__(self, *args, **kwargs):

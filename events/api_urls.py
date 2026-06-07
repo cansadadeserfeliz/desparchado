@@ -5,7 +5,7 @@ from events.api.views import EventListAPIView, FutureEventListAPIView
 app_name = 'events'  # pylint: disable=invalid-name
 
 urlpatterns = [
-    path(route='events/', view=EventListAPIView.as_view(), name='events_list'),
+    path(route='events/', view=EventListAPIView.as_view(), name='event_list'),
     path(
         route='events/future/',
         view=FutureEventListAPIView.as_view(),

@@ -1,5 +1,12 @@
 # Deferred Work
 
+## Deferred from: code review of 1-1-be-django-routing-views-quota (2026-06-06)
+
+- **Wizard renders empty `<div>`** — Vue component not yet registered; expected, Story 1.3-FE adds `EventWizard.vue`.
+- **`data-api-url` resolves to GET-only `EventListAPIView`** — expected, Story 1.2-BE upgrades it to `ListCreateAPIView`.
+- **Missing `UserSettings` crashes with `RelatedObjectDoesNotExist`** — pre-existing risk from signal-based creation; add a guard if `RelatedObjectDoesNotExist` errors appear in production logs.
+- **No test for real quota count path** — the zero-quota trick bypasses the DB count; a proper unit test belongs in `users/tests/test_models.py` covering `reached_event_creation_quota()` with actual created events.
+
 ## Special detail: pagination drops search query when date + search are combined
 
 **Source:** Review of `spec-special-detail-unified-filters`

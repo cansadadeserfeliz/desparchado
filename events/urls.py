@@ -1,10 +1,10 @@
 from django.urls import path
 from django.views.generic import RedirectView
 
-from events.views.event_create import EventCreateView
 from events.views.event_detail import EventDetailView
 from events.views.event_list import EventListView, PastEventListView
 from events.views.event_update import EventUpdateView
+from events.views.event_wizard_create import EventWizardCreateView
 from events.views.organizer_autocomplete import OrganizerAutocompleteView
 from events.views.organizer_create import OrganizerCreateView
 from events.views.organizer_detail import OrganizerDetailView
@@ -29,7 +29,7 @@ urlpatterns = [
     # Past events list
     path('past/', PastEventListView.as_view(), name='past_event_list'),
     # Add event
-    path('add/', EventCreateView.as_view(), name='add_event'),
+    path('add/', EventWizardCreateView.as_view(), name='add_event'),
     # Update event
     path('<int:pk>/edit/', EventUpdateView.as_view(), name='event_update'),
     # Speakers
