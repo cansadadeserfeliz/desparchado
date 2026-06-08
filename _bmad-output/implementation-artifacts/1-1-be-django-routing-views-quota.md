@@ -47,6 +47,12 @@ status: done
 - [x] [Review][Defer] `data-api-url` points to GET-only `EventListAPIView` — deferred, expected: Story 1.2-BE upgrades it to `ListCreateAPIView`
 - [x] [Review][Defer] Missing `UserSettings` would crash with `RelatedObjectDoesNotExist` — deferred, pre-existing risk not caused by this change
 - [x] [Review][Defer] No test for real quota count path (only zero-quota trick) — deferred, belongs in `UserSettings` unit tests
+- [x] [Review][Patch] `is_user_facing = True` is dead code — removed unused attribute [desparchado/exceptions.py]
+- [x] [Review][Patch] `test_superuser_bypasses_quota` missing template assertion — added `any(t.name == 'events/event_wizard.html' ...)` assertion [events/tests/views/test_event_wizard.py]
+- [x] [Review][Patch] Swallowed exception not logged — added `logger.warning()` in `permission_denied()` for non-`UserFacingPermissionDenied` raises [desparchado/views/errors.py]
+- [x] [Review][Defer] `is_approved=True` and `send_notification()` removed — the deleted `EventCreateView.form_valid()` auto-approved events and sent admin notifications; Story 1.2-BE must explicitly re-implement both on the API create endpoint [events/views/event_create.py (deleted)] — deferred, Story 1.2-BE scope
+- [x] [Review][Defer] POST integration test deleted with no replacement — `test_successfully_create_event` verified DB row creation, `created_by`, category, and redirect; Story 1.2-BE should add equivalent API-level creation tests [events/tests/views/test_event_create.py (deleted)] — deferred, Story 1.2-BE scope
+- [x] [Review][Defer] `app_name = 'events'` in `events/api_urls.py` mismatches instance namespace `events_api` — explicit `reverse('events_api:...')` calls still resolve correctly but the mismatch is a code smell [events/api_urls.py:5] — deferred, pre-existing
 
 ## Dev Notes
 

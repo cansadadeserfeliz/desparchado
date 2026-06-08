@@ -6,6 +6,9 @@
 - **`data-api-url` resolves to GET-only `EventListAPIView`** — expected, Story 1.2-BE upgrades it to `ListCreateAPIView`.
 - **Missing `UserSettings` crashes with `RelatedObjectDoesNotExist`** — pre-existing risk from signal-based creation; add a guard if `RelatedObjectDoesNotExist` errors appear in production logs.
 - **No test for real quota count path** — the zero-quota trick bypasses the DB count; a proper unit test belongs in `users/tests/test_models.py` covering `reached_event_creation_quota()` with actual created events.
+- **`is_approved=True` and `send_notification()` removed** — the deleted `EventCreateView.form_valid()` auto-approved events and sent admin notifications; Story 1.2-BE must explicitly re-implement both on the API create endpoint.
+- **POST integration test deleted** — `test_successfully_create_event` verified DB row creation, `created_by`, category, and redirect; Story 1.2-BE should add equivalent API-level creation tests.
+- **`app_name = 'events'` in `events/api_urls.py` mismatches instance namespace `events_api`** — explicit `reverse('events_api:...')` calls still resolve correctly but the mismatch is a code smell; fix by setting `app_name = 'events_api'` in `events/api_urls.py`.
 
 ## Special detail: pagination drops search query when date + search are combined
 
