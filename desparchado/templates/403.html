@@ -15,7 +15,11 @@
       <h1 class="text-heading-3">Acceso denegado</h1>
     </div>
     <div class="error-page__body">
-      <p class="text-body-lg">No tienes permiso para ver o editar este contenido.</p>
+      {% if exception %}
+        <p class="text-body-lg">{{ exception }}</p>
+      {% else %}
+        <p class="text-body-lg">No tienes permiso para ver o editar este contenido.</p>
+      {% endif %}
     </div>
     <div class="error-page__cta">
       <div
