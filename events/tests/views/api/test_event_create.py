@@ -63,7 +63,7 @@ def test_valid_post_creates_event_and_returns_201(client):
     organizer = OrganizerFactory()
     client.force_login(user)
 
-    with patch('events.api.views.send_notification') as mock_notify:
+    with patch('events.views.api.event_create.send_notification') as mock_notify:
         response = client.post(
             reverse(CREATE_URL),
             data=_valid_payload(place, organizer),
@@ -86,7 +86,7 @@ def test_valid_post_response_url_matches_event(client):
     organizer = OrganizerFactory()
     client.force_login(user)
 
-    with patch('events.api.views.send_notification'):
+    with patch('events.views.api.event_create.send_notification'):
         response = client.post(
             reverse(CREATE_URL),
             data=_valid_payload(place, organizer),
@@ -106,7 +106,7 @@ def test_valid_post_with_image_stores_image(client):
     payload = _valid_payload(place, organizer)
     payload['image'] = _make_image_file()
 
-    with patch('events.api.views.send_notification'):
+    with patch('events.views.api.event_create.send_notification'):
         response = client.post(reverse(CREATE_URL), data=payload)
 
     assert response.status_code == status.HTTP_201_CREATED
@@ -136,7 +136,7 @@ def test_missing_required_field_returns_400(client, missing_field):
     payload = _valid_payload(place, organizer)
     del payload[missing_field]
 
-    with patch('events.api.views.send_notification'):
+    with patch('events.views.api.event_create.send_notification'):
         response = client.post(reverse(CREATE_URL), data=payload)
 
     assert response.status_code == status.HTTP_400_BAD_REQUEST
@@ -157,7 +157,7 @@ def test_empty_organizer_ids_returns_400(client):
         'place_id': place.pk,
     }
 
-    with patch('events.api.views.send_notification'):
+    with patch('events.views.api.event_create.send_notification'):
         response = client.post(reverse(CREATE_URL), data=payload)
 
     assert response.status_code == status.HTTP_400_BAD_REQUEST
@@ -183,7 +183,7 @@ def test_nonexistent_place_id_returns_400(client):
         'organizer_ids': [organizer.pk],
     }
 
-    with patch('events.api.views.send_notification'):
+    with patch('events.views.api.event_create.send_notification'):
         response = client.post(reverse(CREATE_URL), data=payload)
 
     assert response.status_code == status.HTTP_400_BAD_REQUEST
@@ -205,7 +205,7 @@ def test_nonexistent_organizer_id_returns_400(client):
         'organizer_ids': [999999],
     }
 
-    with patch('events.api.views.send_notification'):
+    with patch('events.views.api.event_create.send_notification'):
         response = client.post(reverse(CREATE_URL), data=payload)
 
     assert response.status_code == status.HTTP_400_BAD_REQUEST
@@ -227,7 +227,7 @@ def test_script_tag_in_description_is_sanitized(client):
     payload['description'] = '<p>Hola</p><script>alert("xss")</script>'
     payload['title'] = 'Evento sanitización'
 
-    with patch('events.api.views.send_notification'):
+    with patch('events.views.api.event_create.send_notification'):
         response = client.post(reverse(CREATE_URL), data=payload)
 
     assert response.status_code == status.HTTP_201_CREATED

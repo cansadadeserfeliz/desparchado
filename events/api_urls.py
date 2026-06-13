@@ -1,10 +1,7 @@
 from django.urls import path
 
-from events.api.views import (
-    EventCreateAPIView,
-    EventListAPIView,
-    FutureEventListAPIView,
-)
+from events.views.api.event_create import EventCreateAPIView
+from events.views.api.event_list import EventListAPIView, FutureEventListAPIView
 
 app_name = 'events'  # pylint: disable=invalid-name
 
