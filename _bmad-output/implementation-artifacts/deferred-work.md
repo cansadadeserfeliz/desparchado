@@ -1,5 +1,9 @@
 # Deferred Work
 
+## Deferred from: code review of 1-2-be-event-api-create-endpoint (2026-06-13)
+
+See `1-2-be-event-api-create-endpoint` (Review Findings) for deferred items.
+
 ## Deferred from: code review of 1-1-be-django-routing-views-quota (2026-06-06)
 
 - **Wizard renders empty `<div>`** — Vue component not yet registered; expected, Story 1.3-FE adds `EventWizard.vue`.

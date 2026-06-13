@@ -5,6 +5,7 @@ reviews:
   high_level_summary: true
   auto_review:
     enabled: true
+    base_branches: ["development", "feature/event-creation-ux"]
     drafts: false
 code_generation:
   docstrings:
