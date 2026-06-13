@@ -33,5 +33,5 @@ class EventWizardCreateView(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs: object) -> dict[str, object]:
         context = super().get_context_data(**kwargs)
-        context['api_url'] = reverse('events_api:event_list')
+        context['api_url'] = reverse('events_api:event_create')
         return context
