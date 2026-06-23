@@ -1,5 +1,9 @@
 # Deferred Work
 
+## Deferred from: code review of 2-1-be-autocomplete-fuzzy-search-services-endpoints (2026-06-22)
+
+- **limit not exposed from API** — services accept `limit` but all three views hardcode the default (10). Not required by spec. Potential future enhancement to expose as a `?limit=` query parameter.
+
 ## Deferred from: code review of 1-2-be-event-api-create-endpoint (2026-06-13)
 
 See `1-2-be-event-api-create-endpoint` (Review Findings) for deferred items.

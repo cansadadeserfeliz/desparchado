@@ -78,6 +78,7 @@ urlpatterns = [
     path('events/', include('events.urls', namespace='events')),
     path('events/api/v1/', include('events.api_urls', namespace='events_api')),
     path('places/', include('places.urls', namespace='places')),
+    path('places/api/v1/', include('places.api_urls', namespace='places_api')),
     path('blog/', include('blog.urls', namespace='blog')),
     path('games/', include('games.urls', namespace='games')),
     path('specials/', include('specials.urls', namespace='specials')),
