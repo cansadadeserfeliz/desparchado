@@ -1,5 +1,6 @@
 from rest_framework import serializers
 
+from desparchado.utils import sanitize_html
 from events.models import Speaker
 
 
@@ -12,3 +13,16 @@ class SpeakerSearchSerializer(serializers.ModelSerializer):
     class Meta:
         model = Speaker
         fields = ['id', 'name', 'image_url']
+
+
+class SpeakerCreateSerializer(serializers.ModelSerializer):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['image'].required = True
+
+    def validate_description(self, value: str) -> str:
+        return sanitize_html(value)
+
+    class Meta:
+        model = Speaker
+        fields = ['name', 'description', 'image', 'image_source_url']

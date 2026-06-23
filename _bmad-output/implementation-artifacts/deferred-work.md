@@ -1,5 +1,12 @@
 # Deferred Work
 
+## Deferred from: code review of 2-2-be-inline-creation-endpoints-write-serializers-for-related-entities (2026-06-23)
+
+- **Quota enforcement not implemented** — explicitly deferred to Story 3.1-BE; `OrganizerCreateAPIView`, `SpeakerCreateAPIView`, and `PlaceCreateAPIView` have no quota `permission_classes`.
+- **Three view classes share identical `create()` override** — copy-paste of `validate → perform_create → return {id, name}`; premature abstraction per project conventions; Story 3.1-BE will add per-entity quota classes that differentiate them.
+- **`sanitize_html()` returning empty string for `description` is untested** — when all tags are stripped, `''` is stored silently; model default is `''` so this is acceptable behavior, but the edge case is undocumented in tests.
+- **`UserSettings` may not exist for legacy users** — `request.user.settings` access raises `RelatedObjectDoesNotExist` for users created before the signal was added; pre-existing architectural concern; latent risk for whoever adds quota enforcement to these views.
+
 ## Deferred from: code review of 2-1-be-autocomplete-fuzzy-search-services-endpoints (2026-06-22)
 
 - **limit not exposed from API** — services accept `limit` but all three views hardcode the default (10). Not required by spec. Potential future enhancement to expose as a `?limit=` query parameter.

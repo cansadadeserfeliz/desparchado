@@ -12,7 +12,7 @@ class Place(TimeStampedModel):
     name = models.CharField(
         'Nombre',
         max_length=255,
-        validators=[MinLengthValidator(5)],
+        validators=[MinLengthValidator(3)],
         unique=True,
         db_index=True,
     )
@@ -24,7 +24,7 @@ class Place(TimeStampedModel):
     address = models.CharField(
         'Dirección',
         max_length=100,
-        validators=[MinLengthValidator(5)],
+        validators=[MinLengthValidator(3)],
     )
     website_url = models.URLField('Página web', blank=True)
     location = geo_models.PointField('Ubicación', null=False)
