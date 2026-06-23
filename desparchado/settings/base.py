@@ -53,7 +53,7 @@ INSTALLED_APPS = [
     "django_cleanup.apps.CleanupConfig",
     "debug_toolbar",
     "django_vite",
-    "drf_yasg",
+    "drf_spectacular",
     "django_filters",
     "rest_framework",
 
@@ -319,6 +319,16 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 10,
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Desparchado API',
+    'DESCRIPTION': (
+        'API for discovering cultural and educational events in Colombian cities.'
+    ),
+    'VERSION': 'v1',
+    'SERVE_INCLUDE_SCHEMA': False,
 }
 
 # Web analytics tool (Umami)

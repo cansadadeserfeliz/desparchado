@@ -1,3 +1,4 @@
+from drf_spectacular.utils import OpenApiResponse, extend_schema
 from rest_framework import status
 from rest_framework.generics import CreateAPIView
 from rest_framework.parsers import FormParser, MultiPartParser
@@ -9,6 +10,16 @@ from desparchado.utils import send_notification
 from events.serializers.event import EventWriteSerializer
 
 
+@extend_schema(
+    summary='Create a new event',
+    request=EventWriteSerializer,
+    responses={
+        status.HTTP_201_CREATED: OpenApiResponse(
+            description='Event created. Returns the new event URL.',
+        ),
+    },
+    tags=['events'],
+)
 class EventCreateAPIView(CreateAPIView):
     serializer_class = EventWriteSerializer
     parser_classes = [MultiPartParser, FormParser]
