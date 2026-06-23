@@ -324,16 +324,22 @@ This document provides the complete epic and story breakdown for desparchado, de
 **So that** frontend selectors can retrieve existing matching records in under 300ms to prevent duplicate database entries.
 
 **Acceptance Criteria:**
-* **Given** search queries with missing/incorrect accents or capitalization (e.g., "feria libro" or "blaa")
-  * **When** evaluated by search services `search_organizers(q)` and `search_speakers(q)` in `events/services/entity_search.py`, and `search_places(q)` in `places/services/place_search.py`
-  * **Then** they utilize PostgreSQL `unaccent__icontains` to retrieve accent-insensitive normalized matches (e.g. returning "Biblioteca Luis Ángel Arango").
+* **Given** search queries with missing/incorrect accents or mixed capitalization (e.g., "luis angel arango")
+  * **When** evaluated by `search_organizers(q)` in `events/services/organizer_search.py`, `search_speakers(q)` in `events/services/speaker_search.py`, and `search_places(q)` in `places/services/place_search.py`
+  * **Then** they use PostgreSQL `unaccent__icontains` to return accent-insensitive substring matches (e.g. "luis angel arango" returns "Biblioteca Luis Ángel Arango").
 * **Given** the autocomplete endpoints:
   * `GET /events/api/v1/organizers/search/?q=`
   * `GET /events/api/v1/speakers/search/?q=`
   * `GET /places/api/v1/places/search/?q=`
-  * **When** queried with a parameter `q` of at least 2 characters
-  * **Then** they return HTTP 200 with `{ "results": [{ "id": 1, "name": "..." }] }`
+  * **When** queried with `q` of at least 2 characters
+  * **Then** they return HTTP 200 with matching results; organizer and speaker results include `image_url`
   * **And** search execution completes in <= 300ms at the 95th percentile (NFR1).
+* **Given** `q` is absent or empty
+  * **When** any search endpoint is called
+  * **Then** it returns the first `limit` records ordered by name, so users see available options before typing.
+* **Given** `q` is exactly 1 character
+  * **When** any search endpoint is called
+  * **Then** it returns `{ "results": [] }`.
 
 ### Story 2.2-BE: Inline Creation Endpoints & Write Serializers for Related Entities
 
