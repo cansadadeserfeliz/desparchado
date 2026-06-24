@@ -6,6 +6,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.request import Request
 from rest_framework.response import Response
 
+from events.permissions import OrganizerCreationQuotaPermission
 from events.serializers.organizer import OrganizerCreateSerializer
 
 
@@ -21,7 +22,7 @@ from events.serializers.organizer import OrganizerCreateSerializer
 )
 class OrganizerCreateAPIView(CreateAPIView):
     serializer_class = OrganizerCreateSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, OrganizerCreationQuotaPermission]
     parser_classes = [MultiPartParser, FormParser]
 
     def perform_create(self, serializer: OrganizerCreateSerializer) -> None:

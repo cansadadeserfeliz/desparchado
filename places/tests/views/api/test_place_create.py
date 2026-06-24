@@ -275,3 +275,34 @@ def test_lng_outside_colombia_returns_400(client):
 
     assert response.status_code == status.HTTP_400_BAD_REQUEST
     assert 'lng' in response.json()
+
+
+# ---------------------------------------------------------------------------
+# Quota enforcement
+# ---------------------------------------------------------------------------
+
+@pytest.mark.django_db
+def test_quota_exceeded_returns_403(client):
+    user = UserFactory()
+    user.settings.place_creation_quota = 0
+    user.settings.save()
+    city = CityFactory()
+    client.force_login(user)
+
+    response = client.post(reverse(CREATE_URL), data=_valid_payload(city.pk))
+
+    assert response.status_code == status.HTTP_403_FORBIDDEN
+    assert response.json()['detail'] == 'Hoy alcanzaste el límite de nuevos lugares.'
+
+
+@pytest.mark.django_db
+def test_superuser_bypasses_quota(client):
+    user = UserFactory(is_superuser=True)
+    user.settings.place_creation_quota = 0
+    user.settings.save()
+    city = CityFactory()
+    client.force_login(user)
+
+    response = client.post(reverse(CREATE_URL), data=_valid_payload(city.pk))
+
+    assert response.status_code == status.HTTP_201_CREATED

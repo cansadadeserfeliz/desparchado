@@ -6,6 +6,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.request import Request
 from rest_framework.response import Response
 
+from events.permissions import SpeakerCreationQuotaPermission
 from events.serializers.speaker import SpeakerCreateSerializer
 
 
@@ -21,7 +22,7 @@ from events.serializers.speaker import SpeakerCreateSerializer
 )
 class SpeakerCreateAPIView(CreateAPIView):
     serializer_class = SpeakerCreateSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, SpeakerCreationQuotaPermission]
     parser_classes = [MultiPartParser, FormParser]
 
     def perform_create(self, serializer: SpeakerCreateSerializer) -> None:
