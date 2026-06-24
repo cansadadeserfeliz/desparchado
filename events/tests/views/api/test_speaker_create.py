@@ -146,3 +146,34 @@ def test_script_tag_in_description_is_sanitized(client):
     speaker = Speaker.objects.get(name='Ponente Sanitización')
     assert '<script>' not in speaker.description
     assert 'Hola' in speaker.description
+
+
+# ---------------------------------------------------------------------------
+# Quota enforcement
+# ---------------------------------------------------------------------------
+
+@pytest.mark.django_db
+def test_quota_exceeded_returns_403(client):
+    user = UserFactory()
+    user.settings.speaker_creation_quota = 0
+    user.settings.save()
+    client.force_login(user)
+
+    response = client.post(reverse(CREATE_URL), data=_valid_payload())
+
+    assert response.status_code == status.HTTP_403_FORBIDDEN
+    assert response.json()['detail'] == (
+        'Hoy alcanzaste el límite de nuevos presentadores.'
+    )
+
+
+@pytest.mark.django_db
+def test_superuser_bypasses_quota(client):
+    user = UserFactory(is_superuser=True)
+    user.settings.speaker_creation_quota = 0
+    user.settings.save()
+    client.force_login(user)
+
+    response = client.post(reverse(CREATE_URL), data=_valid_payload())
+
+    assert response.status_code == status.HTTP_201_CREATED

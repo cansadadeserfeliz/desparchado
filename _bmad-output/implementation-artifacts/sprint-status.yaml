@@ -35,7 +35,7 @@
 # - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
 
 generated: 2026-05-31T18:49:21-05:00
-last_updated: 2026-06-23  # code review complete
+last_updated: 2026-06-24  # code review complete
 project: desparchado
 project_key: NOKEY
 tracking_system: file-system
@@ -58,7 +58,7 @@ development_status:
   2-5-fe-inline-place-modal-with-leaflet-map-pin-picker-and-address-search: backlog
   epic-2-retrospective: optional
   epic-3: backlog
-  3-1-be-drf-quota-permission-classes-dry-integration: backlog
+  3-1-be-drf-quota-permission-classes-dry-integration: done
   3-2-fe-client-side-image-size-validation-local-previews: backlog
   3-3-fe-unsaved-state-warnings-beforeunload-lifecycle: backlog
   3-4-fe-umami-analytics-funnel-trackers: backlog

@@ -7,6 +7,7 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 
 from desparchado.utils import send_notification
+from events.permissions import EventCreationQuotaPermission
 from events.serializers.event import EventWriteSerializer
 
 
@@ -23,7 +24,7 @@ from events.serializers.event import EventWriteSerializer
 class EventCreateAPIView(CreateAPIView):
     serializer_class = EventWriteSerializer
     parser_classes = [MultiPartParser, FormParser]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, EventCreationQuotaPermission]
 
     def perform_create(self, serializer: EventWriteSerializer) -> None:
         event = serializer.save(

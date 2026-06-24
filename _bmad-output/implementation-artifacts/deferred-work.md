@@ -1,5 +1,13 @@
 # Deferred Work
 
+## Deferred from: code review of 3-1-be-drf-quota-permission-classes (2026-06-24)
+
+- **`RelatedObjectDoesNotExist` when UserSettings row is missing** — `request.user.settings` raises on users created before the auto-create signal; spec explicitly says do not guard; same pre-existing risk as `EventWizardCreateView`. Monitor production logs for the error.
+- **Race condition: quota check and `perform_create` are non-atomic** — two concurrent POSTs at the quota boundary can both pass; no `select_for_update` or DB-level enforcement; pre-existing pattern across the entire project quota system.
+- **`quota_period_seconds = 0` silently bypasses quota enforcement** — `timedelta(seconds=0)` makes the window instantaneous, so count always returns 0; pre-existing issue in `UserSettings` model; add a validation or guard in `UserSettings.save()` if this is a real risk.
+- **No boundary test at `count == quota`** — all quota tests use `quota=0` (immediate exhaustion); an off-by-one in `reached_*_quota()` (`>` vs `>=`) would pass all current tests; proper tests belong in `users/tests/test_models.py`.
+- **Superuser bypass in `reached_*_quota()` untested in isolation** — bypass logic verified only indirectly through permission classes; dedicated model-level tests belong in `users/tests/test_models.py`.
+
 ## Deferred from: code review of 2-2-be-inline-creation-endpoints-write-serializers-for-related-entities (2026-06-23)
 
 - **Quota enforcement not implemented** — explicitly deferred to Story 3.1-BE; `OrganizerCreateAPIView`, `SpeakerCreateAPIView`, and `PlaceCreateAPIView` have no quota `permission_classes`.

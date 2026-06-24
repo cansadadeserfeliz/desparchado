@@ -12,6 +12,7 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from places.permissions import PlaceCreationQuotaPermission
 from places.serializers.place import PlaceCreateSerializer, PlaceSearchSerializer
 from places.services.place_search import search_places
 
@@ -51,7 +52,7 @@ class PlaceSearchAPIView(APIView):
 )
 class PlaceCreateAPIView(CreateAPIView):
     serializer_class = PlaceCreateSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, PlaceCreationQuotaPermission]
     parser_classes = [MultiPartParser, FormParser]
 
     def perform_create(self, serializer: PlaceCreateSerializer) -> None:

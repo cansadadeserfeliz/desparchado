@@ -234,3 +234,42 @@ def test_script_tag_in_description_is_sanitized(client):
     event = Event.objects.get(title='Evento sanitización')
     assert '<script>' not in event.description
     assert 'Hola' in event.description
+
+
+# ---------------------------------------------------------------------------
+# Quota enforcement
+# ---------------------------------------------------------------------------
+
+@pytest.mark.django_db
+def test_quota_exceeded_returns_403(client):
+    user = UserFactory()
+    user.settings.event_creation_quota = 0
+    user.settings.save()
+    client.force_login(user)
+
+    place = PlaceFactory()
+    organizer = OrganizerFactory()
+    response = client.post(reverse(CREATE_URL), data=_valid_payload(place, organizer))
+
+    assert response.status_code == status.HTTP_403_FORBIDDEN
+    assert response.json()['detail'] == (
+        'Hoy alcanzaste el límite de eventos que puedes crear. '
+        'Vuelve mañana para continuar publicando.'
+    )
+
+
+@pytest.mark.django_db
+def test_superuser_bypasses_quota(client):
+    user = UserFactory(is_superuser=True)
+    user.settings.event_creation_quota = 0
+    user.settings.save()
+    client.force_login(user)
+
+    place = PlaceFactory()
+    organizer = OrganizerFactory()
+    with patch('events.views.api.event_create.send_notification'):
+        response = client.post(
+            reverse(CREATE_URL), data=_valid_payload(place, organizer),
+        )
+
+    assert response.status_code == status.HTTP_201_CREATED
