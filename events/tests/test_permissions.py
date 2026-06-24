@@ -1,27 +1,13 @@
 import pytest
-from rest_framework.test import APIRequestFactory
+from django.urls import reverse
+from rest_framework import status
 
-from events.permissions import (
-    EventCreationQuotaPermission,
-    OrganizerCreationQuotaPermission,
-    SpeakerCreationQuotaPermission,
-)
-from places.permissions import PlaceCreationQuotaPermission
 from users.tests.factories import UserFactory
 
-factory = APIRequestFactory()
-
-
-def _post_request(user):
-    request = factory.post('/')
-    request.user = user
-    return request
-
-
-def _get_request(user):
-    request = factory.get('/')
-    request.user = user
-    return request
+EVENT_CREATE_URL = 'events_api:event_create'
+ORGANIZER_CREATE_URL = 'events_api:organizer_create'
+SPEAKER_CREATE_URL = 'events_api:speaker_create'
+PLACE_CREATE_URL = 'places_api:place_create'
 
 
 # ---------------------------------------------------------------------------
@@ -29,37 +15,49 @@ def _get_request(user):
 # ---------------------------------------------------------------------------
 
 @pytest.mark.django_db
-def test_event_quota_permission_blocks_user_at_limit():
+def test_event_quota_permission_blocks_user_at_limit(client):
     user = UserFactory()
     user.settings.event_creation_quota = 0
     user.settings.save()
-    perm = EventCreationQuotaPermission()
-    assert perm.has_permission(_post_request(user), None) is False
+    client.force_login(user)
+
+    response = client.post(reverse(EVENT_CREATE_URL), data={})
+
+    assert response.status_code == status.HTTP_403_FORBIDDEN
 
 
 @pytest.mark.django_db
-def test_event_quota_permission_allows_user_under_limit():
+def test_event_quota_permission_allows_user_under_limit(client):
     user = UserFactory()
-    perm = EventCreationQuotaPermission()
-    assert perm.has_permission(_post_request(user), None) is True
+    client.force_login(user)
+
+    response = client.post(reverse(EVENT_CREATE_URL), data={})
+
+    assert response.status_code == status.HTTP_400_BAD_REQUEST
 
 
 @pytest.mark.django_db
-def test_event_quota_permission_allows_superuser_at_limit():
+def test_event_quota_permission_allows_superuser_at_limit(client):
     user = UserFactory(is_superuser=True)
     user.settings.event_creation_quota = 0
     user.settings.save()
-    perm = EventCreationQuotaPermission()
-    assert perm.has_permission(_post_request(user), None) is True
+    client.force_login(user)
+
+    response = client.post(reverse(EVENT_CREATE_URL), data={})
+
+    assert response.status_code == status.HTTP_400_BAD_REQUEST
 
 
 @pytest.mark.django_db
-def test_event_quota_permission_allows_safe_methods():
+def test_event_quota_permission_allows_safe_methods(client):
     user = UserFactory()
     user.settings.event_creation_quota = 0
     user.settings.save()
-    perm = EventCreationQuotaPermission()
-    assert perm.has_permission(_get_request(user), None) is True
+    client.force_login(user)
+
+    response = client.get(reverse(EVENT_CREATE_URL))
+
+    assert response.status_code == status.HTTP_405_METHOD_NOT_ALLOWED
 
 
 # ---------------------------------------------------------------------------
@@ -67,37 +65,49 @@ def test_event_quota_permission_allows_safe_methods():
 # ---------------------------------------------------------------------------
 
 @pytest.mark.django_db
-def test_organizer_quota_permission_allows_safe_methods():
+def test_organizer_quota_permission_allows_safe_methods(client):
     user = UserFactory()
     user.settings.organizer_creation_quota = 0
     user.settings.save()
-    perm = OrganizerCreationQuotaPermission()
-    assert perm.has_permission(_get_request(user), None) is True
+    client.force_login(user)
+
+    response = client.get(reverse(ORGANIZER_CREATE_URL))
+
+    assert response.status_code == status.HTTP_405_METHOD_NOT_ALLOWED
 
 
 @pytest.mark.django_db
-def test_organizer_quota_permission_blocks_user_at_limit():
+def test_organizer_quota_permission_blocks_user_at_limit(client):
     user = UserFactory()
     user.settings.organizer_creation_quota = 0
     user.settings.save()
-    perm = OrganizerCreationQuotaPermission()
-    assert perm.has_permission(_post_request(user), None) is False
+    client.force_login(user)
+
+    response = client.post(reverse(ORGANIZER_CREATE_URL), data={})
+
+    assert response.status_code == status.HTTP_403_FORBIDDEN
 
 
 @pytest.mark.django_db
-def test_organizer_quota_permission_allows_user_under_limit():
+def test_organizer_quota_permission_allows_user_under_limit(client):
     user = UserFactory()
-    perm = OrganizerCreationQuotaPermission()
-    assert perm.has_permission(_post_request(user), None) is True
+    client.force_login(user)
+
+    response = client.post(reverse(ORGANIZER_CREATE_URL), data={})
+
+    assert response.status_code == status.HTTP_400_BAD_REQUEST
 
 
 @pytest.mark.django_db
-def test_organizer_quota_permission_allows_superuser_at_limit():
+def test_organizer_quota_permission_allows_superuser_at_limit(client):
     user = UserFactory(is_superuser=True)
     user.settings.organizer_creation_quota = 0
     user.settings.save()
-    perm = OrganizerCreationQuotaPermission()
-    assert perm.has_permission(_post_request(user), None) is True
+    client.force_login(user)
+
+    response = client.post(reverse(ORGANIZER_CREATE_URL), data={})
+
+    assert response.status_code == status.HTTP_400_BAD_REQUEST
 
 
 # ---------------------------------------------------------------------------
@@ -105,37 +115,49 @@ def test_organizer_quota_permission_allows_superuser_at_limit():
 # ---------------------------------------------------------------------------
 
 @pytest.mark.django_db
-def test_speaker_quota_permission_allows_safe_methods():
+def test_speaker_quota_permission_allows_safe_methods(client):
     user = UserFactory()
     user.settings.speaker_creation_quota = 0
     user.settings.save()
-    perm = SpeakerCreationQuotaPermission()
-    assert perm.has_permission(_get_request(user), None) is True
+    client.force_login(user)
+
+    response = client.get(reverse(SPEAKER_CREATE_URL))
+
+    assert response.status_code == status.HTTP_405_METHOD_NOT_ALLOWED
 
 
 @pytest.mark.django_db
-def test_speaker_quota_permission_blocks_user_at_limit():
+def test_speaker_quota_permission_blocks_user_at_limit(client):
     user = UserFactory()
     user.settings.speaker_creation_quota = 0
     user.settings.save()
-    perm = SpeakerCreationQuotaPermission()
-    assert perm.has_permission(_post_request(user), None) is False
+    client.force_login(user)
+
+    response = client.post(reverse(SPEAKER_CREATE_URL), data={})
+
+    assert response.status_code == status.HTTP_403_FORBIDDEN
 
 
 @pytest.mark.django_db
-def test_speaker_quota_permission_allows_user_under_limit():
+def test_speaker_quota_permission_allows_user_under_limit(client):
     user = UserFactory()
-    perm = SpeakerCreationQuotaPermission()
-    assert perm.has_permission(_post_request(user), None) is True
+    client.force_login(user)
+
+    response = client.post(reverse(SPEAKER_CREATE_URL), data={})
+
+    assert response.status_code == status.HTTP_400_BAD_REQUEST
 
 
 @pytest.mark.django_db
-def test_speaker_quota_permission_allows_superuser_at_limit():
+def test_speaker_quota_permission_allows_superuser_at_limit(client):
     user = UserFactory(is_superuser=True)
     user.settings.speaker_creation_quota = 0
     user.settings.save()
-    perm = SpeakerCreationQuotaPermission()
-    assert perm.has_permission(_post_request(user), None) is True
+    client.force_login(user)
+
+    response = client.post(reverse(SPEAKER_CREATE_URL), data={})
+
+    assert response.status_code == status.HTTP_400_BAD_REQUEST
 
 
 # ---------------------------------------------------------------------------
@@ -143,34 +165,46 @@ def test_speaker_quota_permission_allows_superuser_at_limit():
 # ---------------------------------------------------------------------------
 
 @pytest.mark.django_db
-def test_place_quota_permission_allows_safe_methods():
+def test_place_quota_permission_allows_safe_methods(client):
     user = UserFactory()
     user.settings.place_creation_quota = 0
     user.settings.save()
-    perm = PlaceCreationQuotaPermission()
-    assert perm.has_permission(_get_request(user), None) is True
+    client.force_login(user)
+
+    response = client.get(reverse(PLACE_CREATE_URL))
+
+    assert response.status_code == status.HTTP_405_METHOD_NOT_ALLOWED
 
 
 @pytest.mark.django_db
-def test_place_quota_permission_blocks_user_at_limit():
+def test_place_quota_permission_blocks_user_at_limit(client):
     user = UserFactory()
     user.settings.place_creation_quota = 0
     user.settings.save()
-    perm = PlaceCreationQuotaPermission()
-    assert perm.has_permission(_post_request(user), None) is False
+    client.force_login(user)
+
+    response = client.post(reverse(PLACE_CREATE_URL), data={})
+
+    assert response.status_code == status.HTTP_403_FORBIDDEN
 
 
 @pytest.mark.django_db
-def test_place_quota_permission_allows_user_under_limit():
+def test_place_quota_permission_allows_user_under_limit(client):
     user = UserFactory()
-    perm = PlaceCreationQuotaPermission()
-    assert perm.has_permission(_post_request(user), None) is True
+    client.force_login(user)
+
+    response = client.post(reverse(PLACE_CREATE_URL), data={})
+
+    assert response.status_code == status.HTTP_400_BAD_REQUEST
 
 
 @pytest.mark.django_db
-def test_place_quota_permission_allows_superuser_at_limit():
+def test_place_quota_permission_allows_superuser_at_limit(client):
     user = UserFactory(is_superuser=True)
     user.settings.place_creation_quota = 0
     user.settings.save()
-    perm = PlaceCreationQuotaPermission()
-    assert perm.has_permission(_post_request(user), None) is True
+    client.force_login(user)
+
+    response = client.post(reverse(PLACE_CREATE_URL), data={})
+
+    assert response.status_code == status.HTTP_400_BAD_REQUEST

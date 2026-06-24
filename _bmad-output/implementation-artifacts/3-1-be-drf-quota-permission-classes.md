@@ -50,12 +50,13 @@ status: done
   - [x] `events/views/api/speaker_create.py` — add `SpeakerCreationQuotaPermission` to `permission_classes`
   - [x] `places/api/views.py` — add `PlaceCreationQuotaPermission` to `PlaceCreateAPIView.permission_classes`
 
-- [x] Task 4: Write unit tests for the permission classes in `events/tests/test_permissions.py`
-  - [x] `test_event_quota_permission_blocks_user_at_limit` — set `user.settings.event_creation_quota = 0`, assert `has_permission` returns `False`
-  - [x] `test_event_quota_permission_allows_user_under_limit` — default settings, assert `has_permission` returns `True`
-  - [x] `test_event_quota_permission_allows_superuser_at_limit` — set quota to 0, `user.is_superuser = True`, assert `has_permission` returns `True`
-  - [x] `test_event_quota_permission_allows_safe_methods` — assert GET/HEAD/OPTIONS return `True` regardless of quota
-  - [x] Repeat the three non-safe-method cases for `OrganizerCreationQuotaPermission`, `SpeakerCreationQuotaPermission`, and `PlaceCreationQuotaPermission` (12 additional tests)
+- [x] Task 4: Write tests for the permission classes in `events/tests/test_permissions.py`
+  - Tests use the `client` fixture and `force_login` — no `APIRequestFactory`
+  - [x] `test_event_quota_permission_blocks_user_at_limit` — quota=0, `client.post(url, data={})` → 403
+  - [x] `test_event_quota_permission_allows_user_under_limit` — default quota, `client.post(url, data={})` → 400 (quota passed, validation failed)
+  - [x] `test_event_quota_permission_allows_superuser_at_limit` — superuser + quota=0, `client.post(url, data={})` → 400
+  - [x] `test_event_quota_permission_allows_safe_methods` — quota=0, `client.get(url)` → 405 (not 403)
+  - [x] Repeat all four cases for `OrganizerCreationQuotaPermission`, `SpeakerCreationQuotaPermission`, and `PlaceCreationQuotaPermission` (12 additional tests)
 
 - [x] Task 5: Add quota integration tests to existing endpoint test files
   - [x] `events/tests/views/api/test_event_create.py` — add `test_quota_exceeded_returns_403` (set quota to 0, POST → 403 + check `detail` key) and `test_superuser_bypasses_quota` (superuser + quota 0 → 201)
@@ -118,23 +119,25 @@ user.settings.save()
 
 Setting the quota limit to `0` immediately exhausts it without needing to create any organizers.
 
-### Permission class unit test pattern
-Unit tests in `events/tests/test_permissions.py` test `has_permission()` directly without going through the full DRF view pipeline. Use `APIRequestFactory` and build a fake POST request:
+### Permission class test pattern
+Tests in `events/tests/test_permissions.py` use the `client` fixture and `force_login` — do **not** use `APIRequestFactory`. Tests verify behavior through the actual endpoint:
+
+- **blocks**: quota=0 → `client.post(url, data={})` → 403
+- **allows (under limit)**: default quota → `client.post(url, data={})` → 400 (quota passed, serializer validation failed)
+- **allows (superuser bypass)**: superuser + quota=0 → `client.post(url, data={})` → 400
+- **allows safe methods**: quota=0 → `client.get(url)` → 405 (method not allowed, not 403)
 
 ```python
-from rest_framework.test import APIRequestFactory
-from events.permissions import OrganizerCreationQuotaPermission
-from users.tests.factories import UserFactory
-
-def test_organizer_quota_permission_blocks_user_at_limit():
-    factory = APIRequestFactory()
-    request = factory.post('/')
+@pytest.mark.django_db
+def test_organizer_quota_permission_blocks_user_at_limit(client):
     user = UserFactory()
     user.settings.organizer_creation_quota = 0
     user.settings.save()
-    request.user = user
-    permission = OrganizerCreationQuotaPermission()
-    assert permission.has_permission(request, None) is False
+    client.force_login(user)
+
+    response = client.post(reverse(ORGANIZER_CREATE_URL), data={})
+
+    assert response.status_code == status.HTTP_403_FORBIDDEN
 ```
 
 ### `UserSettings.reached_*_quota()` method names
@@ -228,7 +231,7 @@ _To be filled in by the implementing agent._
 - [x] [Review][Defer] Race condition: quota check and `perform_create` are non-atomic [`events/permissions.py`, `places/api/views.py`] — deferred, pre-existing; no atomic enforcement anywhere in the project's quota system
 - [x] [Review][Defer] `quota_period_seconds = 0` silently bypasses quota enforcement [`users/models.py`] — deferred, pre-existing issue in UserSettings model unrelated to this story
 - [x] [Review][Defer] No boundary test at `count == quota` (all tests use `quota=0`) [`events/tests/test_permissions.py`] — deferred, pre-existing gap in UserSettings model test coverage
-- [x] [Review][Defer] Superuser bypass in `reached_*_quota()` untested in isolation [`users/models.py`] — deferred, pre-existing gap in model-level test coverage
+  - [x] [Review][Defer] Superuser bypass in `reached_*_quota()` untested in isolation [`users/models.py`] — deferred, pre-existing gap in model-level test coverage
 
 ## Change Log
 
