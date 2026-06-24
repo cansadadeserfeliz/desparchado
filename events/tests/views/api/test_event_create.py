@@ -268,6 +268,8 @@ def test_superuser_bypasses_quota(client):
     place = PlaceFactory()
     organizer = OrganizerFactory()
     with patch('events.views.api.event_create.send_notification'):
-        response = client.post(reverse(CREATE_URL), data=_valid_payload(place, organizer))
+        response = client.post(
+            reverse(CREATE_URL), data=_valid_payload(place, organizer),
+        )
 
     assert response.status_code == status.HTTP_201_CREATED

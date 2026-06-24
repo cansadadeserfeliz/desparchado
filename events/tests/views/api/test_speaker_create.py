@@ -162,7 +162,9 @@ def test_quota_exceeded_returns_403(client):
     response = client.post(reverse(CREATE_URL), data=_valid_payload())
 
     assert response.status_code == status.HTTP_403_FORBIDDEN
-    assert response.json()['detail'] == 'Hoy alcanzaste el límite de nuevos presentadores.'
+    assert response.json()['detail'] == (
+        'Hoy alcanzaste el límite de nuevos presentadores.'
+    )
 
 
 @pytest.mark.django_db
