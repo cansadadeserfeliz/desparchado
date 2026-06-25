@@ -1,5 +1,11 @@
 # Deferred Work
 
+## Deferred from: code review of 4-1-be-django-edit-view-permission-gate (2026-06-24)
+
+- **`self.object` unset for unauthenticated requests — latent `AttributeError` in `get_context_data`** — `EventWizardUpdateView.dispatch` only sets `self.object` inside `if request.user.is_authenticated`. Currently safe because `LoginRequiredMixin` (raise_exception=False) redirects before `get_context_data` is called. Would crash if `raise_exception=True` were ever set on the mixin. Same pattern as `EventWizardCreateView`. Monitor if mixin ever gains `raise_exception = True`.
+- **No test for unauthenticated + nonexistent slug** — unauthenticated path skips slug lookup entirely, so the response is a login redirect rather than 404. Behavior is unspecified by the AC (which only specifies 404 without regard to auth state). Conventional Django ordering (auth check before content check) makes the redirect correct. Test if the AC is ever tightened.
+- **`test_edit_unauthenticated_redirects_to_login` cannot cover the latent `self.object` crash** — redirect fires before `get_context_data` is invoked, making the crash path untestable via standard request cycle. Accept as a known test gap while the latent crash remains deferred.
+
 ## Deferred from: code review of 3-1-be-drf-quota-permission-classes (2026-06-24)
 
 - **`RelatedObjectDoesNotExist` when UserSettings row is missing** — `request.user.settings` raises on users created before the auto-create signal; spec explicitly says do not guard; same pre-existing risk as `EventWizardCreateView`. Monitor production logs for the error.

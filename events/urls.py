@@ -3,8 +3,8 @@ from django.views.generic import RedirectView
 
 from events.views.event_detail import EventDetailView
 from events.views.event_list import EventListView, PastEventListView
-from events.views.event_update import EventUpdateView
 from events.views.event_wizard_create import EventWizardCreateView
+from events.views.event_wizard_update import EventWizardUpdateView
 from events.views.organizer_autocomplete import OrganizerAutocompleteView
 from events.views.organizer_create import OrganizerCreateView
 from events.views.organizer_detail import OrganizerDetailView
@@ -30,8 +30,12 @@ urlpatterns = [
     path('past/', PastEventListView.as_view(), name='past_event_list'),
     # Add event
     path('add/', EventWizardCreateView.as_view(), name='add_event'),
-    # Update event
-    path('<int:pk>/edit/', EventUpdateView.as_view(), name='event_update'),
+    # Edit event (wizard)
+    path(
+        '<slug:slug>/edit/',
+        EventWizardUpdateView.as_view(),
+        name='event_wizard_update',
+    ),
     # Speakers
     path('speakers/', SpeakerListView.as_view(), name='speaker_list'),
     path('speakers/add/', SpeakerCreateView.as_view(), name='speaker_add'),

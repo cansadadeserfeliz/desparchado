@@ -125,7 +125,7 @@
               data-vue-component="button"
               data-vue-prop-type="secondary"
               data-vue-prop-label="{% translate 'Editar Evento' %}"
-              data-vue-prop-link="{% url 'events:event_update' event.pk %}"
+              data-vue-prop-link="{% url 'events:event_wizard_update' event.slug %}"
             >
             </div>
           {% endif %}

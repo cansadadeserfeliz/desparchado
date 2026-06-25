@@ -39,7 +39,7 @@
               <i class="fa fa-eye"></i> Ver
             </a>
           {% endif %}
-            <a href="{% url 'events:event_update' event.pk %}" class="btn btn-primary btn-sm m-1" title="Editar evento">
+            <a href="{% url 'events:event_wizard_update' event.slug %}" class="btn btn-primary btn-sm m-1" title="Editar evento">
               <i class="fa fa-edit"></i> Editar
             </a>
           </td>
