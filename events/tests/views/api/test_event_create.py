@@ -241,11 +241,8 @@ def test_script_tag_in_description_is_sanitized(client):
 # ---------------------------------------------------------------------------
 
 @pytest.mark.django_db
-def test_quota_exceeded_returns_403(client):
-    user = UserFactory()
-    user.settings.event_creation_quota = 0
-    user.settings.save()
-    client.force_login(user)
+def test_quota_exceeded_returns_403(client, user_with_zero_event_quota):
+    client.force_login(user_with_zero_event_quota)
 
     place = PlaceFactory()
     organizer = OrganizerFactory()
@@ -259,11 +256,10 @@ def test_quota_exceeded_returns_403(client):
 
 
 @pytest.mark.django_db
-def test_superuser_bypasses_quota(client):
-    user = UserFactory(is_superuser=True)
-    user.settings.event_creation_quota = 0
-    user.settings.save()
-    client.force_login(user)
+def test_superuser_bypasses_quota(client, user_admin):
+    user_admin.settings.event_creation_quota = 0
+    user_admin.settings.save()
+    client.force_login(user_admin)
 
     place = PlaceFactory()
     organizer = OrganizerFactory()

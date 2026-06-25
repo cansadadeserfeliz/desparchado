@@ -29,7 +29,7 @@ urlpatterns = [
     # Past events list
     path('past/', PastEventListView.as_view(), name='past_event_list'),
     # Add event
-    path('add/', EventWizardCreateView.as_view(), name='add_event'),
+    path('add/', EventWizardCreateView.as_view(), name='event_wizard_create'),
     # Edit event (wizard)
     path(
         '<slug:slug>/edit/',

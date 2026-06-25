@@ -282,12 +282,9 @@ def test_lng_outside_colombia_returns_400(client):
 # ---------------------------------------------------------------------------
 
 @pytest.mark.django_db
-def test_quota_exceeded_returns_403(client):
-    user = UserFactory()
-    user.settings.place_creation_quota = 0
-    user.settings.save()
+def test_quota_exceeded_returns_403(client, user_with_zero_place_quota):
     city = CityFactory()
-    client.force_login(user)
+    client.force_login(user_with_zero_place_quota)
 
     response = client.post(reverse(CREATE_URL), data=_valid_payload(city.pk))
 
@@ -296,12 +293,11 @@ def test_quota_exceeded_returns_403(client):
 
 
 @pytest.mark.django_db
-def test_superuser_bypasses_quota(client):
-    user = UserFactory(is_superuser=True)
-    user.settings.place_creation_quota = 0
-    user.settings.save()
+def test_superuser_bypasses_quota(client, user_admin):
+    user_admin.settings.place_creation_quota = 0
+    user_admin.settings.save()
     city = CityFactory()
-    client.force_login(user)
+    client.force_login(user_admin)
 
     response = client.post(reverse(CREATE_URL), data=_valid_payload(city.pk))
 
