@@ -35,7 +35,7 @@
 # - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
 
 generated: 2026-05-31T18:49:21-05:00
-last_updated: 2026-06-24  # 4-1 code review complete, marked done
+last_updated: 2026-06-24  # 4-2 code review complete, done
 project: desparchado
 project_key: NOKEY
 tracking_system: file-system
@@ -65,6 +65,6 @@ development_status:
   epic-3-retrospective: optional
   epic-4: backlog
   4-1-be-django-edit-view-permission-gate-custom-403-template: done
-  4-2-be-rest-api-get-hydration-patch-update-endpoints: backlog
+  4-2-be-rest-api-get-hydration-patch-update-endpoints: done
   4-3-fe-edit-flow-state-hydration-guardar-submit-variation: backlog
   epic-4-retrospective: optional

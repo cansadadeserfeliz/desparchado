@@ -1,7 +1,9 @@
 from django.urls import path
 
 from events.views.api.event_create import EventCreateAPIView
+from events.views.api.event_detail import EventDetailAPIView
 from events.views.api.event_list import EventListAPIView, FutureEventListAPIView
+from events.views.api.event_update import EventUpdateAPIView
 from events.views.api.organizer_create import OrganizerCreateAPIView
 from events.views.api.organizer_search import OrganizerSearchAPIView
 from events.views.api.speaker_create import SpeakerCreateAPIView
@@ -20,6 +22,16 @@ urlpatterns = [
         route='events/future/',
         view=FutureEventListAPIView.as_view(),
         name='future_events_list',
+    ),
+    path(
+        route='events/<slug:slug>/',
+        view=EventDetailAPIView.as_view(),
+        name='event_detail',
+    ),
+    path(
+        route='events/<slug:slug>/update/',
+        view=EventUpdateAPIView.as_view(),
+        name='event_update',
     ),
     path(
         route='organizers/search/',

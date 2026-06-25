@@ -4,7 +4,7 @@ from desparchado.utils import sanitize_html
 from events.models import Organizer
 
 
-class OrganizerSearchSerializer(serializers.ModelSerializer):
+class OrganizerReadSerializer(serializers.ModelSerializer):
     image_url = serializers.SerializerMethodField()
 
     def get_image_url(self, obj: Organizer) -> str:

@@ -4,7 +4,7 @@ from desparchado.utils import sanitize_html
 from events.models import Speaker
 
 
-class SpeakerSearchSerializer(serializers.ModelSerializer):
+class SpeakerReadSerializer(serializers.ModelSerializer):
     image_url = serializers.SerializerMethodField()
 
     def get_image_url(self, obj: Speaker) -> str:
