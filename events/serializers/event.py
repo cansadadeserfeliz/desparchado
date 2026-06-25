@@ -166,6 +166,7 @@ class EventWriteSerializer(serializers.Serializer):
         organizer_ids = validated_data.pop('organizer_ids', None)
         speaker_ids = validated_data.pop('speaker_ids', None)
         place_id = validated_data.pop('place_id', None)
+        update_image = 'image' in validated_data
         image = validated_data.pop('image', None)
 
         with transaction.atomic():
@@ -173,7 +174,7 @@ class EventWriteSerializer(serializers.Serializer):
                 setattr(instance, attr, value)
             if place_id is not None:
                 instance.place_id = place_id
-            if image is not None:
+            if update_image:
                 instance.image = image
             instance.save()
             if organizer_ids is not None:

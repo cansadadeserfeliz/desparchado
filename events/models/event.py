@@ -1,6 +1,7 @@
 
 from autoslug import AutoSlugField
 from django.conf import settings
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.templatetags.static import static
 from django.urls import reverse
@@ -9,6 +10,25 @@ from django.utils.translation import gettext_lazy as _
 from model_utils.models import TimeStampedModel
 
 from desparchado.templatetags.desparchado_tags import format_currency
+
+# Slugs reserved by fixed URL patterns in events/api_urls.py that appear
+# before the events/<slug:slug>/ wildcard.
+RESERVED_EVENT_SLUGS: frozenset[str] = frozenset({'create', 'future'})
+
+
+def validate_slug_not_reserved(value: str) -> None:
+    if value in RESERVED_EVENT_SLUGS:
+        raise ValidationError(
+            f'El slug "{value}" está reservado y no puede usarse para un evento.',
+        )
+
+
+def _event_slugify(value: str) -> str:
+    from django.utils.text import slugify
+    slug = slugify(value)
+    if slug in RESERVED_EVENT_SLUGS:
+        return f'{slug}-evento'
+    return slug
 
 
 class EventQuerySet(models.QuerySet):
@@ -35,6 +55,8 @@ class Event(TimeStampedModel):
         null=False,
         unique=True,
         populate_from='title',
+        slugify=_event_slugify,
+        validators=[validate_slug_not_reserved],
     )
     description = models.TextField(
         verbose_name='Descripción',

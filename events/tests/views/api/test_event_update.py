@@ -3,6 +3,7 @@ from django.test.client import BOUNDARY, MULTIPART_CONTENT, encode_multipart
 from django.urls import reverse
 from rest_framework import status
 
+from events.serializers.event import EventWriteSerializer
 from events.tests.factories import EventFactory, OrganizerFactory
 from places.tests.factories import PlaceFactory
 from users.tests.factories import UserFactory
@@ -129,3 +130,36 @@ def test_patch_returns_400_for_invalid_data(client):
 
     assert response.status_code == status.HTTP_400_BAD_REQUEST
     assert 'event_source_url' in response.json()
+
+
+# ---------------------------------------------------------------------------
+# Image handling
+# ---------------------------------------------------------------------------
+
+@pytest.mark.django_db
+def test_update_clears_image_when_null_is_in_validated_data():
+    # Regression: image=None in validated_data must set instance.image = None,
+    # not be silently skipped by an "if image is not None" guard.
+    organizer = OrganizerFactory()
+    event = EventFactory(organizers=[organizer])
+    event.image = 'events/test_image.jpg'
+    event.save()
+
+    EventWriteSerializer(event, data={}, partial=True).update(event, {'image': None})
+
+    event.refresh_from_db()
+    assert not event.image
+
+
+@pytest.mark.django_db
+def test_update_leaves_image_unchanged_when_key_is_absent():
+    organizer = OrganizerFactory()
+    event = EventFactory(organizers=[organizer])
+    event.image = 'events/test_image.jpg'
+    event.save()
+
+    serializer = EventWriteSerializer(event, data={}, partial=True)
+    serializer.update(event, {'title': 'Nuevo título'})
+
+    event.refresh_from_db()
+    assert event.image.name == 'events/test_image.jpg'
