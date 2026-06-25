@@ -6,13 +6,9 @@ from django.urls import reverse
 from django.views.generic import TemplateView
 
 from desparchado.exceptions import UserFacingPermissionDenied
+from events.permissions import QUOTA_EXCEEDED_MESSAGE
 
 logger = logging.getLogger(__name__)
-
-QUOTA_EXCEEDED_MESSAGE = (
-    'Hoy alcanzaste el límite de eventos que puedes crear. '
-    'Vuelve mañana para continuar publicando.'
-)
 
 
 class EventWizardCreateView(LoginRequiredMixin, TemplateView):

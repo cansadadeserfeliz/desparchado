@@ -2,7 +2,7 @@ import pytest
 from django.urls import reverse
 from rest_framework import status
 
-from events.views.event_wizard_create import QUOTA_EXCEEDED_MESSAGE
+from events.permissions import QUOTA_EXCEEDED_MESSAGE
 
 VIEW_NAME = 'events:event_wizard_create'
 
