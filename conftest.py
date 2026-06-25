@@ -32,6 +32,38 @@ def user_admin():
 
 
 @pytest.fixture
+def user_with_zero_event_quota():
+    user = UserFactory()
+    user.settings.event_creation_quota = 0
+    user.settings.save()
+    return user
+
+
+@pytest.fixture
+def user_with_zero_organizer_quota():
+    user = UserFactory()
+    user.settings.organizer_creation_quota = 0
+    user.settings.save()
+    return user
+
+
+@pytest.fixture
+def user_with_zero_speaker_quota():
+    user = UserFactory()
+    user.settings.speaker_creation_quota = 0
+    user.settings.save()
+    return user
+
+
+@pytest.fixture
+def user_with_zero_place_quota():
+    user = UserFactory()
+    user.settings.place_creation_quota = 0
+    user.settings.save()
+    return user
+
+
+@pytest.fixture
 def organizer():
     return OrganizerFactory()
 

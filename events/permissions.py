@@ -2,12 +2,14 @@ from rest_framework.permissions import SAFE_METHODS, BasePermission
 from rest_framework.request import Request
 from rest_framework.views import APIView
 
+QUOTA_EXCEEDED_MESSAGE = (
+    'Hoy alcanzaste el límite de eventos que puedes crear. '
+    'Vuelve mañana para continuar publicando.'
+)
+
 
 class EventCreationQuotaPermission(BasePermission):
-    message = (
-        'Hoy alcanzaste el límite de eventos que puedes crear. '
-        'Vuelve mañana para continuar publicando.'
-    )
+    message = QUOTA_EXCEEDED_MESSAGE
 
     def has_permission(self, request: Request, view: APIView) -> bool:
         if request.method in SAFE_METHODS:

@@ -1,7 +1,7 @@
 {% extends 'layout/base.html' %}
 {% load django_vite %}
 
-{% block title %}Crear evento | Desparchado.co{% endblock %}
+{% block title %}{% if wizard_mode == 'edit' %}Editar evento{% else %}Crear evento{% endif %} | Desparchado.co{% endblock %}
 
 {% block extra_scripts %}
   {% vite_asset 'desparchado/frontend/scripts/static.ts' %}
@@ -11,7 +11,7 @@
   <div
     data-vue-component="event-wizard"
     data-csrf="{{ csrf_token }}"
-    data-wizard-mode="create"
+    data-wizard-mode="{{ wizard_mode }}"
     data-api-url="{{ api_url }}"
   ></div>
 {% endblock %}
