@@ -213,6 +213,31 @@ def test_nonexistent_organizer_id_returns_400(client):
 
 
 # ---------------------------------------------------------------------------
+
+# Reserved-slug avoidance
+# ---------------------------------------------------------------------------
+
+@pytest.mark.django_db
+@pytest.mark.parametrize('reserved_title', ['Create', 'Future'])
+def test_post_with_reserved_title_generates_safe_slug(client, reserved_title):
+    user = UserFactory()
+    place = PlaceFactory()
+    organizer = OrganizerFactory()
+    client.force_login(user)
+
+    payload = _valid_payload(place, organizer)
+    payload['title'] = reserved_title
+
+    with patch('events.views.api.event_create.send_notification'):
+        response = client.post(reverse(CREATE_URL), data=payload)
+
+    assert response.status_code == status.HTTP_201_CREATED
+    from events.models.event import RESERVED_EVENT_SLUGS
+    event = Event.objects.get(title=reserved_title)
+    assert event.slug not in RESERVED_EVENT_SLUGS
+
+
+# ---------------------------------------------------------------------------
 # HTML sanitization
 # ---------------------------------------------------------------------------
 

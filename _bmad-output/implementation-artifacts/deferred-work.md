@@ -1,5 +1,13 @@
 # Deferred Work
 
+## Deferred from: code review of 4-2-be-rest-api-get-hydration-patch-update-endpoints (2026-06-24)
+
+- **Image cannot be cleared via PATCH** — `if image is not None` guard in `EventWriteSerializer.update()` means sending `image=null` silently preserves the existing image; no way to remove an image through this endpoint. Address when image-clearing is a product requirement.
+- **Response URL may become stale if post_save changes the slug** — `get_absolute_url()` is called on the in-memory instance after `save()`; if a signal or override mutates the slug during save, the returned URL could immediately 404. Low probability given `AutoSlugField(always_update=False)`; monitor if slug mutation logic is ever added.
+- **`organizer_ids=[]` raises 400 but `speaker_ids=[]` silently clears all speakers** — pre-existing asymmetry in `EventWriteSerializer` field validation: `validate_organizer_ids` rejects empty lists but `validate_speaker_ids` does not; a PATCH with `speaker_ids=[]` wipes the speaker list while a PATCH with `organizer_ids=[]` returns 400. Surfaced by the new `update()` method. Normalise both validators when the product decides whether clearing is allowed.
+- **`IntegrityError` from `instance.save()` not caught as 400** — a DB unique-constraint violation inside `EventWriteSerializer.update()` (e.g. slug collision on concurrent saves) raises `IntegrityError` which bubbles up as a 500 with no structured error body. Low probability given `AutoSlugField(always_update=False)`; add `try/except IntegrityError` → `ValidationError` if slug mutation is ever added.
+- **`image_url` field returns site-relative path for default image but potentially absolute URL for S3-backed uploads** — `Event.get_image_url()` returns `/static/images/default_event_image.jpg` (relative) when no image is set and `storage.url(...)` (absolute in production) otherwise. Frontend must handle both forms. Normalise to always return an absolute URL if consistent behaviour is needed.
+
 ## Deferred from: code review of 4-1-be-django-edit-view-permission-gate (2026-06-24)
 
 - **`self.object` unset for unauthenticated requests — latent `AttributeError` in `get_context_data`** — `EventWizardUpdateView.dispatch` only sets `self.object` inside `if request.user.is_authenticated`. Currently safe because `LoginRequiredMixin` (raise_exception=False) redirects before `get_context_data` is called. Would crash if `raise_exception=True` were ever set on the mixin. Same pattern as `EventWizardCreateView`. Monitor if mixin ever gains `raise_exception = True`.

@@ -1,15 +1,20 @@
-from events.serializers.event import EventListSerializer, EventWriteSerializer
+from events.serializers.event import (
+    EventDetailSerializer,
+    EventListSerializer,
+    EventWriteSerializer,
+)
 from events.serializers.organizer import (
     OrganizerCreateSerializer,
-    OrganizerSearchSerializer,
+    OrganizerReadSerializer,
 )
-from events.serializers.speaker import SpeakerCreateSerializer, SpeakerSearchSerializer
+from events.serializers.speaker import SpeakerCreateSerializer, SpeakerReadSerializer
 
 __all__ = [
+    'EventDetailSerializer',
     'EventListSerializer',
     'EventWriteSerializer',
     'OrganizerCreateSerializer',
-    'OrganizerSearchSerializer',
+    'OrganizerReadSerializer',
     'SpeakerCreateSerializer',
-    'SpeakerSearchSerializer',
+    'SpeakerReadSerializer',
 ]

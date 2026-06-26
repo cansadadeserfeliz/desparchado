@@ -5,7 +5,7 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from events.serializers.speaker import SpeakerSearchSerializer
+from events.serializers.speaker import SpeakerReadSerializer
 from events.services.speaker_search import search_speakers
 
 
@@ -20,7 +20,7 @@ class SpeakerSearchAPIView(APIView):
         responses={
             status.HTTP_200_OK: inline_serializer(
                 'SpeakerSearchResponse',
-                fields={'results': SpeakerSearchSerializer(many=True)},
+                fields={'results': SpeakerReadSerializer(many=True)},
             ),
         },
         tags=['events'],
@@ -28,5 +28,5 @@ class SpeakerSearchAPIView(APIView):
     def get(self, request: Request) -> Response:
         q = request.query_params.get('q', '')
         queryset = search_speakers(q)
-        serializer = SpeakerSearchSerializer(queryset, many=True)
+        serializer = SpeakerReadSerializer(queryset, many=True)
         return Response({'results': serializer.data})

@@ -6,6 +6,8 @@ from rest_framework import serializers
 
 from desparchado.utils import sanitize_html
 from events.models import Event, Organizer, Speaker
+from events.serializers.organizer import OrganizerReadSerializer
+from events.serializers.speaker import SpeakerReadSerializer
 from places.models import Place
 
 
@@ -15,6 +17,38 @@ class PlaceSerializer(serializers.ModelSerializer):
         fields = [
             'name',
             'slug',
+        ]
+
+
+class PlaceReadSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Place
+        fields = ['id', 'name', 'city_id']
+
+
+class EventDetailSerializer(serializers.ModelSerializer):
+    organizers = OrganizerReadSerializer(many=True, read_only=True)
+    speakers = SpeakerReadSerializer(many=True, read_only=True)
+    place = PlaceReadSerializer(read_only=True)
+    image_url = serializers.SerializerMethodField()
+
+    def get_image_url(self, obj: Event) -> str:
+        return obj.get_image_url()
+
+    class Meta:
+        model = Event
+        fields = [
+            'title',
+            'description',
+            'image_url',
+            'event_date',
+            'category',
+            'price',
+            'event_source_url',
+            'is_published',
+            'organizers',
+            'speakers',
+            'place',
         ]
 
 
@@ -127,6 +161,27 @@ class EventWriteSerializer(serializers.Serializer):
                 f'Presentadores no encontrados: {sorted(missing)}',
             )
         return value
+
+    def update(self, instance: Event, validated_data: dict) -> Event:
+        organizer_ids = validated_data.pop('organizer_ids', None)
+        speaker_ids = validated_data.pop('speaker_ids', None)
+        place_id = validated_data.pop('place_id', None)
+        update_image = 'image' in validated_data
+        image = validated_data.pop('image', None)
+
+        with transaction.atomic():
+            for attr, value in validated_data.items():
+                setattr(instance, attr, value)
+            if place_id is not None:
+                instance.place_id = place_id
+            if update_image:
+                instance.image = image
+            instance.save()
+            if organizer_ids is not None:
+                instance.organizers.set(organizer_ids)
+            if speaker_ids is not None:
+                instance.speakers.set(speaker_ids)
+        return instance
 
     def create(self, validated_data: dict) -> Event:
         organizer_ids = validated_data.pop('organizer_ids')

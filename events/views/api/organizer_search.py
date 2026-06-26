@@ -5,7 +5,7 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from events.serializers.organizer import OrganizerSearchSerializer
+from events.serializers.organizer import OrganizerReadSerializer
 from events.services.organizer_search import search_organizers
 
 
@@ -20,7 +20,7 @@ class OrganizerSearchAPIView(APIView):
         responses={
             status.HTTP_200_OK: inline_serializer(
                 'OrganizerSearchResponse',
-                fields={'results': OrganizerSearchSerializer(many=True)},
+                fields={'results': OrganizerReadSerializer(many=True)},
             ),
         },
         tags=['events'],
@@ -28,5 +28,5 @@ class OrganizerSearchAPIView(APIView):
     def get(self, request: Request) -> Response:
         q = request.query_params.get('q', '')
         queryset = search_organizers(q)
-        serializer = OrganizerSearchSerializer(queryset, many=True)
+        serializer = OrganizerReadSerializer(queryset, many=True)
         return Response({'results': serializer.data})

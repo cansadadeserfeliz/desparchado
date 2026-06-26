@@ -2,6 +2,7 @@ import logging
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import Http404, HttpRequest, HttpResponse
+from django.urls import reverse
 from django.views.generic import TemplateView
 
 from desparchado.exceptions import UserFacingPermissionDenied
@@ -36,5 +37,8 @@ class EventWizardUpdateView(LoginRequiredMixin, TemplateView):
     def get_context_data(self, **kwargs: object) -> dict[str, object]:
         context = super().get_context_data(**kwargs)
         context['wizard_mode'] = 'edit'
-        context['api_url'] = f'/events/api/v1/events/{self.object.slug}/'
+        context['api_url'] = reverse('events_api:event_detail', args=[self.object.slug])
+        context['api_update_url'] = reverse(
+            'events_api:event_update', args=[self.object.slug],
+        )
         return context
