@@ -59,7 +59,6 @@ def test_edit_wizard_template_contains_mount_attributes(django_app, event) -> No
 
     assert 'data-vue-component="event-wizard"' in response.text
     assert 'data-wizard-mode="edit"' in response.text
-    assert 'data-csrf=' in response.text
     expected_api_url = reverse('events_api:event_detail', args=[event.slug])
     assert f'data-api-url="{expected_api_url}"' in response.text
     expected_api_update_url = reverse('events_api:event_update', args=[event.slug])

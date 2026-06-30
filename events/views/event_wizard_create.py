@@ -1,3 +1,4 @@
+import json
 import logging
 
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -7,8 +8,15 @@ from django.views.generic import TemplateView
 
 from desparchado.exceptions import UserFacingPermissionDenied
 from events.permissions import QUOTA_EXCEEDED_MESSAGE
+from places.models import City
 
 logger = logging.getLogger(__name__)
+
+
+def get_cities_json():
+    cities = City.objects.all().order_by('name')
+    cities_data = [{'id': city.id, 'name': city.name} for city in cities]
+    return json.dumps(cities_data)
 
 
 class EventWizardCreateView(LoginRequiredMixin, TemplateView):
@@ -31,4 +39,7 @@ class EventWizardCreateView(LoginRequiredMixin, TemplateView):
         context = super().get_context_data(**kwargs)
         context['wizard_mode'] = 'create'
         context['api_url'] = reverse('events_api:event_create')
+
+        context['cities_json'] = get_cities_json()
+
         return context

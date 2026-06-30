@@ -7,6 +7,7 @@ from django.views.generic import TemplateView
 
 from desparchado.exceptions import UserFacingPermissionDenied
 from events.models import Event
+from events.views.event_wizard_create import get_cities_json
 
 logger = logging.getLogger(__name__)
 
@@ -41,4 +42,6 @@ class EventWizardUpdateView(LoginRequiredMixin, TemplateView):
         context['api_update_url'] = reverse(
             'events_api:event_update', args=[self.object.slug],
         )
+        context['cities_json'] = get_cities_json()
         return context
+

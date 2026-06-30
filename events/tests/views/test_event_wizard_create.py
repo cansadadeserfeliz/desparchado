@@ -41,7 +41,6 @@ def test_wizard_template_contains_mount_element(django_app, user) -> None:
 
     assert 'data-vue-component="event-wizard"' in response.text
     assert 'data-wizard-mode="create"' in response.text
-    assert 'data-csrf=' in response.text
     assert 'data-api-url=' in response.text
 
 

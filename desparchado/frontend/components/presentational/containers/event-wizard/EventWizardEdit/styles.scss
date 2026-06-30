@@ -1,0 +1,33 @@
+@use '@styles/variables' as *;
+
+.event-wizard-loading {
+  padding: 40px;
+  text-align: center;
+  font-family: $font-primary;
+  color: $color-gray-700;
+
+  &__spinner {
+    margin: 0 auto 16px;
+    border: 4px solid $color-gray-200;
+    border-top: 4px solid $color-base-primary;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+  }
+}
+
+.event-wizard-error {
+  padding: 24px;
+  text-align: center;
+  color: $color-dp-orange-300;
+  font-family: $font-primary;
+  background-color: $color-dp-orange-50;
+  border-radius: 8px;
+  border: 1px solid $color-dp-orange-100;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
