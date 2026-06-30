@@ -4,15 +4,15 @@
 {% block title %}{% if wizard_mode == 'edit' %}Editar evento{% else %}Crear evento{% endif %} | Desparchado.co{% endblock %}
 
 {% block extra_scripts %}
-  {% vite_asset 'desparchado/frontend/scripts/static.ts' %}
+  {% vite_asset 'desparchado/frontend/scripts/event-form.ts' %}
 {% endblock extra_scripts %}
 
 {% block content %}
   <div
     data-vue-component="event-wizard"
-    data-csrf="{{ csrf_token }}"
     data-wizard-mode="{{ wizard_mode }}"
     data-api-url="{{ api_url }}"
     data-api-update-url="{{ api_update_url }}"
+    data-vue-prop-cities='{{ cities_json }}'
   ></div>
 {% endblock %}

@@ -118,3 +118,15 @@ See `1-2-be-event-api-create-endpoint` (Review Findings) for deferred items.
 **Source:** Review of `feature/filbo-target-audience` (spec-event-target-audience)
 **Finding:** Column F in the FILBo spreadsheet could theoretically contain comma- or semicolon-separated values (e.g. `age_6_12,age_13_27`). The current implementation treats the entire cell as a single lookup key, which would log a warning and store `''`. The `target_audience` field is a single `CharField`, so storing multiple audiences would require a structural change (M2M or ArrayField).
 **Action if needed:** Confirm with FILBo data whether multi-value cells actually occur; if so, decide on storage strategy before implementing.
+
+## Deferred from: code review of 1-3-fe-vite-entry-root-state-multi-step-skeleton-layout (2026-06-27)
+
+- **Dead Code and Unused API Helpers / Props** — `useEntitySearch.ts`, `organizers.ts`, `places.ts`, and `speakers.ts` are created but never imported or used. `csrf` is accepted as a prop in `EventWizard.vue` but never used. These are prepared skeleton files/props for future stories but they were removed from story.
+- **Standard <textarea> Used Instead of Quill Editor** — The specification requires Quill for rich text (bold, italic, underline), but the implementation uses a standard <textarea> in Step1.vue. Quill implementation will be done at story 1.4.
+- **Missing Image Upload Field in Step 1** — Step 1 lacks any file input, drag-and-drop container, or file upload logic. A new story 1.3b will be created for the image component.
+- **Missing Mobile Live Preview Modal** — FR5 requires a "Ver vista previa" button opening an overlay/modal on viewports < 768px. Currently, the preview is always rendered inline. A new story 1.3c will be created for the mobile preview.
+
+## Deferred from: code review of 1-3-fe-vite-entry-root-state-multi-step-skeleton-layout.md (2026-06-28)
+
+- **Form controls lack <form> wrapper, bypassing native Enter submit and browser validations** — Bypasses Enter key form submission and native HTML5 constraint validations.
+- **Tightly coupled and uncached get_cities_json database query in Django views** — `get_cities_json` in `event_wizard_create.py` is imported directly by `event_wizard_update.py`, causing tight coupling and synchronously executing query without caching.

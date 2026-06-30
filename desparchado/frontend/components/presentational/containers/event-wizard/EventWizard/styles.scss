@@ -1,0 +1,192 @@
+@use '@styles/variables' as *;
+@use '@styles/mixins' as *;
+@use '@styles/typography' as *;
+
+.event-wizard {
+  max-width: 2000px;
+  font-family: $font-primary;
+  color: $color-layout-foreground;
+
+  @media (min-width: 768px) {
+    display: grid;
+    grid-template-columns: 400px 1fr;
+    align-items: start;
+    gap: 5vw;
+  }
+
+  &__header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    border-bottom: $hairline_regular;
+    gap: 16px;
+    width: 100%;
+
+    @media (min-width: 768px) {
+      border-bottom: none;
+      border-right: $hairline_regular;
+      padding: 40px;
+      position: sticky;
+      top: var(--header-height, 0px);
+      min-width: 400px;
+    }
+  }
+
+  &__controls {
+    display: flex;
+    align-items: center;
+    padding: 24px;
+    justify-content: flex-end;
+  }
+
+  &__main {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    width: 100%;
+  }
+
+  &__layout {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+
+    @media (min-width: 768px) {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: start;
+    }
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    transition: padding 0.3s $ease-out-quart;
+  }
+
+  &__preview {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    @media (min-width: 768px) {
+      position: sticky;
+      top: var(--header-height, 0px);
+    }
+  }
+
+  &__footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  // Condensed mode modifiers
+  &--condensed {
+    .event-wizard__form {
+      padding: 16px;
+      gap: 12px;
+    }
+
+    .wizard-field__subheadline,
+    .wizard-field__description {
+      display: none;
+    }
+
+    .wizard-field {
+      margin-bottom: 8px;
+    }
+  }
+}
+
+.wizard-progress {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 24px;
+  width: 100%;
+  margin-top: 32px;
+
+  &__step {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    color: $color-gray-400;
+    transition: color 0.3s $ease-out-quart;
+
+    .wizard-progress__num {
+      background-color: $color-gray-300;
+      color: $color-gray-00;
+    }
+
+    &--active {
+      color: $color-gray-900;
+
+      .wizard-progress__num {
+        background-color: $color-base-primary;
+      }
+    }
+
+    &--complete {
+      color: $color-gray-900;
+
+      .wizard-progress__num {
+        background-color: $color-gray-900;
+      }
+    }
+  }
+
+  &__num {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    transition: all 0.3s $ease-out-quart;
+    flex-shrink: 0;
+  }
+}
+
+// Basic wizard field styling inside wizard
+.wizard-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 40px;
+  transition: margin-bottom 0.3s;
+  color: $color-gray-800;
+
+  &__details {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    max-width: 570px;
+  }
+
+  &__headline {
+    @extend .text-heading-3;
+    @extend .text-regular;
+    margin: 0;
+    margin-bottom: 16px;
+  }
+
+  &__subheadline {
+    @extend .text-heading-4;
+    @extend .text-medium;
+    margin: 0;
+  }
+
+  &__description {
+    @extend .text-body-md;
+    @extend .text-medium;
+    margin: 0;
+  }
+
+  &__error {
+    color: $color-dp-orange-300;
+    font-size: 12px;
+    margin-top: 4px;
+  }
+}
