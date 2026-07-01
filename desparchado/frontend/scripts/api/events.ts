@@ -17,14 +17,10 @@ export async function getEventDetail(url: string): Promise<IEventDetailResponse>
 
 export async function createEvent(url: string, data: FormData): Promise<IEventWriteResponse> {
   const res = await submitData(url, data, 'POST');
-  return handleResponse<IEventWriteResponse>(
-    res,
-  );
+  return handleResponse<IEventWriteResponse>(res);
 }
 
 export async function updateEvent(url: string, data: FormData): Promise<IEventWriteResponse> {
   const res = await submitData(url, data, 'PATCH');
-  return handleResponse<IEventWriteResponse>(
-    res,
-  );
+  return handleResponse<IEventWriteResponse>(res);
 }

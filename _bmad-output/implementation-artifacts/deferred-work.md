@@ -130,3 +130,8 @@ See `1-2-be-event-api-create-endpoint` (Review Findings) for deferred items.
 
 - **Form controls lack <form> wrapper, bypassing native Enter submit and browser validations** — Bypasses Enter key form submission and native HTML5 constraint validations.
 - **Tightly coupled and uncached get_cities_json database query in Django views** — `get_cities_json` in `event_wizard_create.py` is imported directly by `event_wizard_update.py`, causing tight coupling and synchronously executing query without caching.
+
+## Deferred from: code review of 1-4-fe-step-1-ui-real-time-card-preview.md (2026-06-30)
+
+- **URL Sanitizer Bypassed via Uppercase Schemes** — URL scheme verification does not normalize scheme strings to lowercase, allowing scheme verification bypass using uppercase schemes (e.g. `javascript:` bypasses via `JavaScript:` or similar if not normalized). Pre-existing issue in `desparchado/frontend/scripts/utils/sanitize.ts:39-44`.
+- **Hardcoded Stacking Context Magic Numbers** — Arbitrary `z-index` values (`99`, `1000`, `1010`) are hardcoded across stylesheets (`EventWizard/styles.scss:924`, `Overlay/styles.scss:254`) instead of using centralized variables.
