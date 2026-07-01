@@ -44,6 +44,9 @@ spreadsheet_credentials.json
 
 *storybook.log
 
+# Graphify knowledge graph outputs (local dev tool — not a project dependency)
+graphify-out/
+
 .claude/plan.md
 .claude/tasks.md
 _bmad/

@@ -47,6 +47,28 @@ docker exec -it desparchado-web-1 sh -c "cd app && pytest events/tests/test_view
 docker exec -it desparchado-web-1 sh -c "cd app && pytest -k test_event_list"
 ```
 
+## Local dev tools
+
+### Graphify
+
+Graphify turns the codebase into a queryable knowledge graph — useful for understanding cross-app relationships, tracing data flow, and giving AI assistants richer project context.
+
+**This is a local-only tool. It is not available inside Docker and must not be added to any requirements file** (`requirements.in`, `requirements-dev.in`, etc.) — Docker installs with `--require-hashes` and graphify is not a server-side dependency.
+
+```bash
+# Install (note: PyPI package is "graphifyy" — two y's — CLI command is "graphify")
+venv/bin/pip install graphifyy
+
+# Build the knowledge graph for this project
+venv/bin/graphify .        # outputs to graphify-out/ (gitignored)
+
+# Query the graph without rebuilding (requires a prior build)
+venv/bin/graphify query "how does event visibility work?"
+venv/bin/graphify query "what calls the quota system?"
+```
+
+The `/graphify` slash command in Claude Code is already configured at the user level and wraps these operations interactively.
+
 ## Architecture
 
 ### Settings
