@@ -11,6 +11,8 @@
   import Step2 from '../Step2/Step2.vue';
   import Step3 from '../Step3/Step3.vue';
   import EventPreview from '../EventPreview/EventPreview.vue';
+  import Overlay from '@presentational_components/components/Overlay/Overlay.vue';
+  import Button from '@presentational_components/atoms/button/Button.vue';
   import { createEvent, updateEvent } from '../../../../../scripts/api/events';
   import { ValidationError } from '../../../../../scripts/api/base';
   import './styles.scss';
@@ -97,6 +99,7 @@
   });
 
   const currentStep = ref(1);
+  const showMobilePreview = ref(false);
   const condensed = ref(false);
   const isSubmitting = ref(false);
   const fieldErrors = ref<DRFValidationError>({});
@@ -177,15 +180,33 @@
     });
   };
 
+  let mediaQueryList: MediaQueryList | null = null;
+
+  const handleBreakpointChange = (e: MediaQueryListEvent | MediaQueryList) => {
+    if (e.matches) {
+      showMobilePreview.value = false;
+    }
+  };
+
   onMounted(() => {
     window.addEventListener('beforeunload', beforeUnloadHandler);
     updateHeaderHeight();
     window.addEventListener('resize', updateHeaderHeight);
+
+    if (typeof window !== 'undefined') {
+      mediaQueryList = window.matchMedia('(min-width: 768px)');
+      handleBreakpointChange(mediaQueryList);
+      mediaQueryList.addEventListener('change', handleBreakpointChange);
+    }
   });
 
   onBeforeUnmount(() => {
     window.removeEventListener('beforeunload', beforeUnloadHandler);
     window.removeEventListener('resize', updateHeaderHeight);
+
+    if (mediaQueryList) {
+      mediaQueryList.removeEventListener('change', handleBreakpointChange);
+    }
   });
 
   // Form validation helper
@@ -207,9 +228,7 @@
       if (isNaN(date.getTime())) {
         return '';
       }
-      return new Date(date.getTime() - date.getTimezoneOffset() * 60000)
-        .toISOString()
-        .slice(0, 16);
+      return new Date(date.getTime() - date.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
     } catch {
       return '';
     }
@@ -325,7 +344,7 @@
       window.removeEventListener('beforeunload', beforeUnloadHandler);
 
       // Redirect to the event details page
-      if (response?.url) {
+      if (response.url) {
         window.location.href = escape(response.url);
       } else {
         throw new Error('La respuesta del servidor no contiene una URL de redirección.');
@@ -488,5 +507,30 @@
         </aside>
       </div>
     </div>
+
+    <!-- Floating mobile preview button -->
+    <div :class="bem(baseClass, 'mobile-preview-trigger-container')">
+      <Button
+        type="primary"
+        padding="regular"
+        label="Ver vista previa"
+        :onClick="() => (showMobilePreview = true)"
+      />
+    </div>
+
+    <!-- Mobile preview overlay modal -->
+    <Overlay
+      :show="showMobilePreview"
+      @close="showMobilePreview = false"
+      customClass="event-wizard__overlay"
+      dialogLabel="Vista previa del evento"
+    >
+      <EventPreview
+        :state="state"
+        :speakers="selectedSpeakers"
+        :organizers="selectedOrganizers"
+        :place="selectedPlace"
+      />
+    </Overlay>
   </div>
 </template>

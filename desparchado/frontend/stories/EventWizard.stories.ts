@@ -34,6 +34,17 @@ export const CreateMode: Story = {
   },
 };
 
+export const MobilePreviewMode: Story = {
+  parameters: {
+    viewport: {
+      defaultViewport: 'mobile1',
+    },
+  },
+  args: {
+    mode: 'create',
+  },
+};
+
 const descriptionHtml =
   '<p>Acompáñanos en la inauguración del festival más grande de las letras.</p>';
 

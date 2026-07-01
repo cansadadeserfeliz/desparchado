@@ -6,6 +6,8 @@ const ALLOWED_TAGS: Record<string, Set<string>> = {
   ol: new Set(),
   li: new Set(),
   i: new Set(),
+  u: new Set(),
+  em: new Set(),
   div: new Set(),
   span: new Set(),
   br: new Set(),

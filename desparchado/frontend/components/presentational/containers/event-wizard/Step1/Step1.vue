@@ -2,6 +2,8 @@
   import { computed } from 'vue';
   import { IWizardState } from '../../../../../scripts/api/interfaces';
   import { bem } from '../../../../../scripts/utils/bem';
+  import TextField from '@presentational_components/components/TextField/TextField.vue';
+  import RichTextEditor from '@presentational_components/components/RichTextEditor/RichTextEditor.vue';
 
   const props = defineProps<{
     state: IWizardState;
@@ -34,38 +36,36 @@
           experiencia que ofreces. Piensa en cómo conectar con tu público desde el primer vistazo.
         </p>
       </div>
-      <input
+      <TextField
         id="wizard-title"
-        type="text"
-        :class="bem(fieldClass, 'input')"
-        v-model="state.title"
+        label="Título"
+        :hideLabel="true"
+        customClass="wizard-field"
         placeholder="Ej. Concierto de Jazz en el Parque"
+        v-model="state.title"
         required
+        :errors="fieldErrors?.title"
       />
-      <div v-if="fieldErrors?.title" :class="bem(fieldClass, 'error')">
-        {{ fieldErrors.title.join(', ') }}
-      </div>
     </div>
 
     <!-- Description Group -->
     <div :class="bem(fieldClass)">
       <div :class="bem(fieldClass, 'details')">
-        <label :class="bem(fieldClass, 'headline')" for="wizard-description">Descripción,</label>
+        <label :class="bem(fieldClass, 'headline')" for="wizard-description">Descripción</label>
         <p :class="bem(fieldClass, 'subheadline')">Comparte la esencia de tu encuentro</p>
         <p :class="bem(fieldClass, 'description')">
           ¿De qué trata tu evento? Ayuda a tus invitados a entender de qué va el evento.
         </p>
       </div>
-      <textarea
+      <RichTextEditor
         id="wizard-description"
-        :class="bem(fieldClass, 'textarea')"
-        v-model="state.description"
-        rows="5"
+        label="Descripción"
+        :hideLabel="true"
+        customClass="wizard-field"
         placeholder="Describe de qué se trata el evento..."
-      ></textarea>
-      <div v-if="fieldErrors?.description" :class="bem(fieldClass, 'error')">
-        {{ fieldErrors.description.join(', ') }}
-      </div>
+        v-model="state.description"
+        :errors="fieldErrors?.description"
+      />
     </div>
 
     <!-- Organizers & Speakers Stubs -->

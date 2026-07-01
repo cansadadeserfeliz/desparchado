@@ -1,0 +1,114 @@
+@use '@styles/variables' as *;
+@use '@styles/mixins' as *;
+@use '@styles/typography' as *;
+
+.rich-text-editor {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  color: $color-gray-800;
+
+  &__headline {
+    @extend .text-heading-3;
+    @extend .text-regular;
+    margin: 0;
+    margin-bottom: 16px;
+  }
+
+  &__error {
+    color: $color-dp-orange-300;
+    font-size: 12px;
+    margin-top: 4px;
+  }
+
+  &__editor-wrapper {
+    display: flex;
+    flex-direction: column-reverse;
+    width: 100%;
+    max-width: 700px;
+    box-sizing: border-box;
+    transition: box-shadow 0.2s ease-in-out;
+
+    .ql-toolbar.ql-snow {
+      border: 0.125rem solid $color-gray-500;
+      border-top: 0.125rem solid $color-gray-500;
+      border-bottom-left-radius: 0.75rem;
+      border-bottom-right-radius: 0.75rem;
+      background-color: transparent;
+      padding: 8px;
+      transition: border-color 0.2s ease-in-out;
+
+      .ql-formats {
+        display: inline-flex;
+        align-items: center;
+        position: relative;
+        margin-right: 12px;
+        padding-right: 12px;
+
+        &:not(:last-child)::after {
+          content: '';
+          position: absolute;
+          right: 0;
+          top: 50%;
+          transform: translateY(-50%);
+          width: 1px;
+          height: 10px;
+          background-color: $color-gray-400;
+        }
+      }
+    }
+
+    .ql-container.ql-snow {
+      border: 0.125rem solid $color-gray-500;
+      border-bottom: none;
+      border-top-left-radius: 0.75rem;
+      border-top-right-radius: 0.75rem;
+      background-color: $color-gray-00;
+      min-height: 150px;
+      font-family: $font-primary;
+      transition: border-color 0.2s ease-in-out;
+    }
+
+    .ql-toolbar.ql-snow + .ql-container.ql-snow {
+      border-top-width: 0.125rem;
+      border-top-style: solid;
+      border-top-color: $color-gray-500;
+    }
+
+    &:hover {
+      .ql-toolbar.ql-snow,
+      .ql-container.ql-snow {
+        border-color: $color-gray-700;
+      }
+      .ql-toolbar.ql-snow + .ql-container.ql-snow {
+        border-top-color: $color-gray-700;
+      }
+    }
+
+    &:focus-within {
+      .ql-toolbar.ql-snow,
+      .ql-container.ql-snow {
+        border-color: $color-gray-700;
+      }
+      .ql-toolbar.ql-snow + .ql-container.ql-snow {
+        border-top-color: $color-gray-700;
+      }
+      box-shadow: 0 0 0 3px rgba($color-gray-700, 0.1);
+      border-radius: 0.75rem;
+    }
+
+    .ql-editor {
+      min-height: 150px;
+      padding: 12px;
+      color: $color-gray-900;
+      @extend .text-body-md;
+
+      &.ql-blank::before {
+        color: $color-gray-400;
+        font-style: normal;
+        left: 12px;
+      }
+    }
+  }
+}
+
