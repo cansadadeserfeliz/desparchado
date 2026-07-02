@@ -35,7 +35,7 @@
 # - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
 
 generated: 2026-05-31T18:49:21-05:00
-last_updated: 2026-06-30
+last_updated: 2026-07-01
 project: desparchado
 project_key: NOKEY
 tracking_system: file-system
@@ -47,7 +47,7 @@ development_status:
   1-2-be-upgraded-event-rest-api-create-endpoint-write-serializer: done
   1-3-fe-vite-entry-root-state-multi-step-skeleton-layout: done
   1-4-fe-step-1-ui-real-time-card-preview: done
-  1-5-fe-step-2-3-ui-inputs-timezones-navigation-validation: backlog
+  1-5-fe-step-2-3-ui-inputs-timezones-navigation-validation: done
   1-6-fe-atomic-submit-csrf-and-backend-error-redirect-ux: backlog
   epic-1-retrospective: optional
   epic-2: backlog

@@ -1,0 +1,62 @@
+@use '@styles/variables' as *;
+@use '@styles/mixins' as *;
+@use '@styles/typography' as *;
+
+.toggle-field {
+  display: inline-flex;
+  align-items: center;
+
+  &__label {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    user-select: none;
+    margin: 0;
+  }
+
+  &__input {
+    &:checked + .toggle-field__switch {
+      background-color: $color-dp-orange-300;
+      border-color: $color-dp-orange-300;
+
+      &::after {
+        transform: translateX(18px);
+        background-color: $color-gray-00;
+      }
+    }
+
+    &:focus + .toggle-field__switch {
+      box-shadow: 0 0 0 3px rgba($color-dp-orange-300, 0.2);
+    }
+  }
+
+  &__switch {
+    position: relative;
+    width: 44px;
+    height: 24px;
+    background-color: $color-gray-300;
+    border: 2px solid $color-gray-300;
+    border-radius: 9999px;
+    transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 16px;
+      height: 16px;
+      background-color: $color-gray-00;
+      border-radius: 50%;
+      transition: transform 0.2s ease;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+    }
+  }
+
+  &__text {
+    @extend .text-body-highlight;
+    @extend .text-bold;
+    color: $color-gray-800;
+  }
+}

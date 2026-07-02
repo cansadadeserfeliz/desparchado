@@ -1,0 +1,65 @@
+@use '@styles/variables' as *;
+@use '@styles/mixins' as *;
+@use '@styles/typography' as *;
+
+.number-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  color: $color-gray-800;
+
+  &__headline {
+    @extend .text-heading-3;
+    @extend .text-regular;
+    margin: 0;
+    margin-bottom: 16px;
+  }
+
+  &__input-container {
+    display: flex;
+    align-items: center;
+    border: 0.125rem solid $color-gray-500;
+    border-radius: 100rem;
+    width: 100%;
+    max-width: 700px;
+    box-sizing: border-box;
+    background-color: $color-gray-00;
+    transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    padding: 0 1rem;
+
+    &:focus-within {
+      border-color: $color-gray-700;
+      box-shadow: 0 0 0 3px rgba($color-gray-700, 0.1);
+    }
+  }
+
+  &__input {
+    @extend .text-body-highlight;
+    border: none;
+    background: transparent;
+    color: $color-gray-900;
+    flex: 1;
+    min-height: 2.5rem;
+    padding: 0;
+    outline: none;
+    width: 100%;
+
+    &::placeholder {
+      color: $color-gray-400;
+    }
+  }
+
+  &__unit {
+    @extend .text-body-highlight;
+    color: $color-gray-500;
+    margin-left: 8px;
+    user-select: none;
+    font-weight: $f-weight-medium;
+  }
+
+  &__error {
+    color: $color-dp-orange-300;
+    font-size: 12px;
+    margin-top: 4px;
+  }
+}

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-  import { ref, reactive, computed, onMounted, onBeforeUnmount } from 'vue';
+  import { ref, reactive, computed, onMounted, onBeforeUnmount, watch } from 'vue';
   import { bem } from '../../../../../scripts/utils/bem';
   import {
     IWizardState,
@@ -13,8 +13,10 @@
   import EventPreview from '../EventPreview/EventPreview.vue';
   import Overlay from '@presentational_components/components/Overlay/Overlay.vue';
   import Button from '@presentational_components/atoms/button/Button.vue';
+  import ToggleField from '@presentational_components/components/ToggleField/ToggleField.vue';
   import { createEvent, updateEvent } from '../../../../../scripts/api/events';
   import { ValidationError } from '../../../../../scripts/api/base';
+  import { toBogotaLocalDateTimeString } from '../../../../../scripts/utils/date';
   import './styles.scss';
 
   const props = defineProps<{
@@ -29,20 +31,34 @@
   const fieldClass = 'wizard-field';
   const progressBaseClass = 'wizard-progress';
 
+  const toLocalDateTimeString = toBogotaLocalDateTimeString;
+
+  const normalizeDateTime = (dateStr: string): string => {
+    return toBogotaLocalDateTimeString(dateStr) || dateStr;
+  };
+
   // Single reactive root state
   const state = reactive<IWizardState>({
-    title: '',
-    description: '',
+    title: props.initialData?.title || '',
+    description: props.initialData?.description || '',
     image: null,
-    imagePreviewUrl: '',
-    organizerIds: [],
-    speakerIds: [],
-    placeId: null,
-    eventDate: '',
-    category: 'other',
-    price: '0',
-    eventSourceUrl: '',
-    isPublished: false,
+    imagePreviewUrl: props.initialData?.image_url || '',
+    organizerIds: props.initialData
+      ? props.initialData.organizers.map((o) => o.id)
+      : props.mode === 'create'
+        ? [1]
+        : [],
+    speakerIds: props.initialData ? props.initialData.speakers.map((s) => s.id) : [],
+    placeId: props.initialData
+      ? props.initialData.place?.id || null
+      : props.mode === 'create'
+        ? 1
+        : null,
+    eventDate: props.initialData ? toLocalDateTimeString(props.initialData.event_date) : '',
+    category: props.initialData?.category || 'other',
+    price: props.initialData ? String(props.initialData.price) : '0',
+    eventSourceUrl: props.initialData?.event_source_url || '',
+    isPublished: props.initialData?.is_published || false,
   });
 
   const selectedSpeakers = ref<IEntityOption[]>([]);
@@ -59,7 +75,7 @@
       organizerIds: state.organizerIds,
       speakerIds: state.speakerIds,
       placeId: state.placeId,
-      eventDate: state.eventDate,
+      eventDate: normalizeDateTime(state.eventDate),
       category: state.category,
       price: state.price,
       eventSourceUrl: state.eventSourceUrl,
@@ -104,6 +120,86 @@
   const isSubmitting = ref(false);
   const fieldErrors = ref<DRFValidationError>({});
   const submitError = ref<string>('');
+
+  const stepHasErrors = computed(() => {
+    const errors = fieldErrors.value;
+    const step1Has = !!(errors.title || errors.description || errors.organizers || errors.speakers);
+    const step2Has = !!(errors.event_date || errors.place);
+    const step3Has = !!(
+      errors.event_source_url ||
+      errors.category ||
+      errors.price ||
+      errors.is_published
+    );
+
+    if (currentStep.value === 1) return step1Has;
+    if (currentStep.value === 2) return step2Has;
+    if (currentStep.value === 3) return step3Has;
+    return false;
+  });
+
+  watch(
+    () => state.title,
+    () => {
+      delete fieldErrors.value.title;
+    },
+  );
+  watch(
+    () => state.description,
+    () => {
+      delete fieldErrors.value.description;
+    },
+  );
+  watch(
+    () => state.eventDate,
+    () => {
+      delete fieldErrors.value.event_date;
+    },
+  );
+  watch(
+    () => state.eventSourceUrl,
+    () => {
+      delete fieldErrors.value.event_source_url;
+    },
+  );
+  watch(
+    () => state.price,
+    () => {
+      delete fieldErrors.value.price;
+    },
+  );
+  watch(
+    () => state.category,
+    () => {
+      delete fieldErrors.value.category;
+    },
+  );
+  watch(
+    () => state.organizerIds,
+    () => {
+      delete fieldErrors.value.organizers;
+    },
+    { deep: true },
+  );
+  watch(
+    () => state.speakerIds,
+    () => {
+      delete fieldErrors.value.speakers;
+    },
+    { deep: true },
+  );
+  watch(
+    () => state.placeId,
+    () => {
+      delete fieldErrors.value.place;
+    },
+  );
+  watch(
+    () => state.isPublished,
+    () => {
+      delete fieldErrors.value.is_published;
+    },
+  );
 
   interface IStepRef {
     isValid: boolean;
@@ -154,7 +250,7 @@
       organizerIds: state.organizerIds,
       speakerIds: state.speakerIds,
       placeId: state.placeId,
-      eventDate: state.eventDate,
+      eventDate: normalizeDateTime(state.eventDate),
       category: state.category,
       price: state.price,
       eventSourceUrl: state.eventSourceUrl,
@@ -218,21 +314,7 @@
     }
     return true;
   };
-  // Helper to convert an ISO/API date string to local YYYY-MM-DDTHH:mm format
-  const toLocalDateTimeString = (isoString: string): string => {
-    if (!isoString) {
-      return '';
-    }
-    try {
-      const date = new Date(isoString);
-      if (isNaN(date.getTime())) {
-        return '';
-      }
-      return new Date(date.getTime() - date.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
-    } catch {
-      return '';
-    }
-  };
+  // Helper to convert an ISO/API date string to local YYYY-MM-DDTHH:mm format (already declared above)
 
   // Helper to format event date to ISO string if valid
   const formatEventDate = (eventDate: string): string => {
@@ -448,10 +530,11 @@
         <main :class="bem(baseClass, 'form')">
           <!-- Controls (Moved here) -->
           <div :class="bem(baseClass, 'controls')">
-            <label :class="bem(baseClass, 'toggle-label')">
-              <input type="checkbox" :class="bem(baseClass, 'toggle-input')" v-model="condensed" />
-              Ver formulario en modo condensado
-            </label>
+            <ToggleField
+              id="wizard-condensed"
+              label="Ver formulario en modo condensado"
+              v-model="condensed"
+            />
           </div>
 
           <!-- Dynamic Steps -->
@@ -475,24 +558,30 @@
 
           <!-- Footer / Navigation Buttons -->
           <footer :class="bem(baseClass, 'footer')">
-            <button type="button" :disabled="currentStep === 1 || isSubmitting" @click="handlePrev">
-              Paso anterior
-            </button>
+            <Button
+              type="secondary"
+              label="Paso anterior"
+              :onClick="handlePrev"
+              :disabled="currentStep === 1 || isSubmitting"
+            />
 
-            <button
+            <Button
               v-if="currentStep < 3"
-              type="button"
-              :disabled="!isCurrentStepValid"
-              @click="handleNext"
-            >
-              Paso siguiente
-            </button>
+              type="primary"
+              label="Paso siguiente"
+              :onClick="handleNext"
+              :disabled="!isCurrentStepValid || stepHasErrors"
+            />
 
-            <button v-else type="button" :disabled="isSubmitting" @click="handleSubmit">
-              {{
+            <Button
+              v-else
+              type="primary"
+              :label="
                 isSubmitting ? 'Guardando...' : mode === 'edit' ? 'Guardar cambios' : 'Crear evento'
-              }}
-            </button>
+              "
+              :onClick="handleSubmit"
+              :disabled="!isCurrentStepValid || stepHasErrors || isSubmitting"
+            />
           </footer>
         </main>
 

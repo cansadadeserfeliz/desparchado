@@ -259,4 +259,25 @@
       --button-foreground: #{$color-layout-foreground};
     }
   }
+
+  &--disabled {
+    cursor: not-allowed;
+
+    #{$self}__content {
+      cursor: not-allowed;
+      border-color: $color-gray-400;
+      background-color: $color-gray-200;
+      color: $color-gray-500;
+    }
+
+    #{$self}__hover-feature {
+      display: none;
+    }
+
+    &:hover {
+      background-color: transparent;
+      transform: none;
+      box-shadow: none;
+    }
+  }
 }
