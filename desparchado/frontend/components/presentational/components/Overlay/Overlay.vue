@@ -3,8 +3,8 @@
     <div
       v-if="show"
       ref="overlayRef"
-      :class="[bem(baseClass), customClass]"
-      @click.self="emit('close')"
+      :class="[bem(baseClass), loading ? bem(baseClass, '', 'loading') : '', customClass]"
+      @click.self="loading ? null : emit('close')"
       tabindex="-1"
       role="dialog"
       aria-modal="true"
@@ -13,15 +13,24 @@
     >
       <div :class="bem(baseClass, 'content')" ref="contentRef">
         <button
+          v-if="!loading"
           type="button"
           :class="bem(baseClass, 'close')"
           @click="emit('close')"
           :aria-label="closeLabel"
-          ref="closeButtonRef"
         >
           &times;
         </button>
-        <slot></slot>
+        <template v-if="loading">
+          <div :class="bem(baseClass, 'spinner')"></div>
+          <p :class="[bem(baseClass, 'loading-text'), 'text-body-highlight', 'text-bold']">
+            {{ loadingText }}
+          </p>
+          <p :class="[bem(baseClass, 'loading-subtext'), 'text-body-sm', 'text-regular']">
+            Por favor espera un momento.
+          </p>
+        </template>
+        <slot v-else></slot>
       </div>
     </div>
   </Transition>
@@ -38,12 +47,16 @@
     customClass?: string;
     dialogLabel?: string;
     labelledBy?: string;
+    loading?: boolean;
+    loadingText?: string;
   }
 
   const props = withDefaults(defineProps<OverlayProps>(), {
     show: false,
     closeLabel: 'Cerrar',
     customClass: '',
+    loading: false,
+    loadingText: 'Guardando...',
   });
 
   const emit = defineEmits(['close']);
@@ -51,7 +64,6 @@
   const baseClass = 'overlay';
   const overlayRef = ref<HTMLElement | null>(null);
   const contentRef = ref<HTMLElement | null>(null);
-  const closeButtonRef = ref<HTMLElement | null>(null);
 
   /**
    * Focus trap and Escape key listener for keyboard navigation.
@@ -60,7 +72,9 @@
     if (!props.show) return;
 
     if (e.key === 'Escape') {
-      emit('close');
+      if (!props.loading) {
+        emit('close');
+      }
       return;
     }
 
@@ -69,7 +83,13 @@
       const focusableElements = contentRef.value.querySelectorAll<HTMLElement>(
         'a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), iframe, object, embed, [tabindex="0"], [contenteditable]',
       );
-      if (focusableElements.length === 0) return;
+      if (focusableElements.length === 0) {
+        if (overlayRef.value) {
+          overlayRef.value.focus();
+        }
+        e.preventDefault();
+        return;
+      }
 
       const firstEl = focusableElements[0];
       const lastEl = focusableElements[focusableElements.length - 1];

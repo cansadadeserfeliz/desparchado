@@ -26,10 +26,12 @@ export interface IApiError {
 
 export class ValidationError extends Error {
   public data: IApiError;
+  public status: number;
   constructor(data: IApiError, status: number) {
     super(`Validation failed with status ${status}`);
     this.name = 'ValidationError';
     this.data = data;
+    this.status = status;
   }
 }
 

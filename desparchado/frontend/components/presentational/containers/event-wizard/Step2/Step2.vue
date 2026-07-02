@@ -67,8 +67,8 @@
           encuentras crea uno nuevo
         </p>
       </div>
-      <div v-if="fieldErrors?.place" :class="bem(fieldClass, 'error')">
-        {{ fieldErrors.place.join(', ') }}
+      <div v-if="fieldErrors?.place_id" :class="bem(fieldClass, 'error')">
+        {{ fieldErrors.place_id.join(', ') }}
       </div>
     </div>
   </div>
