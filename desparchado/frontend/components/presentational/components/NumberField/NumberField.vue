@@ -7,18 +7,22 @@
     >
       {{ label }}<span v-if="required">, *</span>
     </label>
-    <input
-      :id="id"
-      :type="type"
-      :class="bem(baseClass, 'input')"
-      :value="modelValue"
-      @input="handleInput"
-      @blur="handleBlur"
-      :placeholder="placeholder"
-      :required="required"
-      :aria-invalid="displayError ? 'true' : 'false'"
-      :aria-describedby="displayError ? `${id}-error` : undefined"
-    />
+    <div :class="bem(baseClass, 'input-container')">
+      <input
+        :id="id"
+        type="number"
+        :min="min"
+        :class="bem(baseClass, 'input')"
+        :value="modelValue"
+        @input="handleInput"
+        @blur="handleBlur"
+        :placeholder="placeholder"
+        :required="required"
+        :aria-invalid="displayError ? 'true' : 'false'"
+        :aria-describedby="displayError ? `${id}-error` : undefined"
+      />
+      <span v-if="unit" :class="bem(baseClass, 'unit')">{{ unit }}</span>
+    </div>
     <div v-if="displayError" :id="`${id}-error`" :class="bem(baseClass, 'error')">
       {{ displayError }}
     </div>
@@ -30,29 +34,29 @@
   import { bem } from '../../../../scripts/utils/bem';
   import './styles.scss';
 
-  export interface TextFieldProps {
-    modelValue: string;
+  export interface NumberFieldProps {
+    modelValue: string | number;
     id: string;
-    type?: string;
     label?: string;
     hideLabel?: boolean;
     customClass?: string;
     placeholder?: string;
     required?: boolean;
+    min?: number | string;
+    unit?: string;
     errors?: string[] | string;
   }
 
-  const props = withDefaults(defineProps<TextFieldProps>(), {
+  const props = withDefaults(defineProps<NumberFieldProps>(), {
     required: false,
     modelValue: '',
-    type: 'text',
     hideLabel: false,
     customClass: '',
   });
 
   const emit = defineEmits(['update:modelValue', 'blur', 'error']);
 
-  const baseClass = 'text-field';
+  const baseClass = 'number-field';
   const localError = ref('');
 
   watch(localError, (val) => {
@@ -62,7 +66,7 @@
   const handleInput = (event: Event) => {
     if (!(event.target instanceof HTMLInputElement)) return;
     const val = event.target.value;
-    if (val) {
+    if (val !== '') {
       localError.value = '';
     }
     emit('update:modelValue', val);
@@ -70,10 +74,30 @@
 
   const handleBlur = (event: FocusEvent) => {
     emit('blur', event);
-    if (props.required && (!props.modelValue || !props.modelValue.trim())) {
-      localError.value = 'Este campo es requerido';
+    const input = event.target as HTMLInputElement;
+    if (!input) return;
+
+    const valStr = input.value;
+    if (valStr !== '') {
+      const valNum = parseFloat(valStr);
+      if (props.min !== undefined && Number(props.min) >= 0 && valNum < 0) {
+        localError.value = '';
+        input.value = '0';
+        emit('update:modelValue', '0');
+        return;
+      }
+    }
+
+    if (!input.validity.valid) {
+      localError.value = 'Valor no válido';
       return;
     }
+
+    if (valStr === '') {
+      localError.value = props.required ? 'Este campo es requerido' : '';
+      return;
+    }
+
     localError.value = '';
   };
 

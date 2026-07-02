@@ -81,6 +81,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-top: 48px;
+    margin-bottom: 32px;
   }
 
   // Condensed mode modifiers
@@ -96,7 +98,11 @@
     }
 
     .wizard-field {
-      margin-bottom: 8px;
+      margin-bottom: 20px;
+    }
+
+    .wizard-field__headline {
+      @extend .text-heading-4;
     }
   }
 
@@ -233,6 +239,7 @@
     flex-direction: column;
     gap: 4px;
     max-width: 570px;
+    margin-bottom: 16px;
   }
 
   &__headline {

@@ -1,0 +1,47 @@
+@use '@styles/variables' as *;
+@use '@styles/mixins' as *;
+@use '@styles/typography' as *;
+
+.time-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  color: $color-gray-800;
+
+  &__headline {
+    @extend .text-heading-3;
+    @extend .text-regular;
+    margin: 0;
+    margin-bottom: 16px;
+  }
+
+  &__input {
+    @extend .text-body-highlight;
+    border: 0.125rem solid $color-gray-500;
+    padding: 0 1rem;
+    min-height: 2.5rem;
+    border-radius: 100rem;
+    width: 100%;
+    max-width: 300px;
+    box-sizing: border-box;
+    background-color: $color-gray-00;
+    color: $color-gray-900;
+    transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+
+    &:focus {
+      outline: none;
+      border-color: $color-gray-700;
+      box-shadow: 0 0 0 3px rgba($color-gray-700, 0.1);
+    }
+
+    &::placeholder {
+      color: $color-gray-400;
+    }
+  }
+
+  &__error {
+    color: $color-dp-orange-300;
+    font-size: 12px;
+    margin-top: 4px;
+  }
+}

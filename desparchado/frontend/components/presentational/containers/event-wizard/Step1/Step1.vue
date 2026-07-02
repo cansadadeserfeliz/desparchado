@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-  import { computed } from 'vue';
+  import { computed, reactive } from 'vue';
   import { IWizardState } from '../../../../../scripts/api/interfaces';
   import { bem } from '../../../../../scripts/utils/bem';
   import TextField from '@presentational_components/components/TextField/TextField.vue';
@@ -10,13 +10,27 @@
     condensed: boolean;
     fieldErrors?: Record<string, string[]>;
   }>();
-  props;
 
   const baseClass = 'event-wizard';
   const fieldClass = 'wizard-field';
 
+  const localErrors = reactive<Record<string, string>>({});
+  const handleFieldError = (field: string, errorMsg: string) => {
+    if (!errorMsg) {
+      delete localErrors[field];
+      return;
+    }
+    localErrors[field] = errorMsg;
+  };
+  const hasLocalErrors = computed(() => Object.keys(localErrors).length > 0);
+
   const isValid = computed(() => {
-    return props.state.title.trim().length > 0;
+    if (hasLocalErrors.value) return false;
+    const titleValid = props.state.title.trim().length > 0;
+    const desc = props.state.description || '';
+    const descText = desc.replace(/<[^>]*>/g, '').trim();
+    const organizersValid = props.state.organizerIds.length >= 1;
+    return titleValid && descText.length > 0 && organizersValid;
   });
 
   defineExpose({
@@ -45,13 +59,14 @@
         v-model="state.title"
         required
         :errors="fieldErrors?.title"
+        @error="(msg) => handleFieldError('title', msg)"
       />
     </div>
 
     <!-- Description Group -->
     <div :class="bem(fieldClass)">
       <div :class="bem(fieldClass, 'details')">
-        <label :class="bem(fieldClass, 'headline')" for="wizard-description">Descripción</label>
+        <label :class="bem(fieldClass, 'headline')" for="wizard-description">Descripción, *</label>
         <p :class="bem(fieldClass, 'subheadline')">Comparte la esencia de tu encuentro</p>
         <p :class="bem(fieldClass, 'description')">
           ¿De qué trata tu evento? Ayuda a tus invitados a entender de qué va el evento.
@@ -64,7 +79,9 @@
         customClass="wizard-field"
         placeholder="Describe de qué se trata el evento..."
         v-model="state.description"
+        required
         :errors="fieldErrors?.description"
+        @error="(msg) => handleFieldError('description', msg)"
       />
     </div>
 

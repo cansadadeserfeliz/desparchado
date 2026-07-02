@@ -42,20 +42,42 @@
     customClass: '',
   });
 
-  const emit = defineEmits(['update:modelValue']);
+  const emit = defineEmits(['update:modelValue', 'blur', 'error']);
 
   const baseClass = 'rich-text-editor';
   const editorEl = ref<HTMLElement | null>(null);
   let quillInstance: Quill | null = null;
   let isUpdating = false;
+  const localError = ref('');
+
+  watch(localError, (val) => {
+    emit('error', val);
+  });
 
   const formattedErrors = computed(() => {
-    if (!props.errors) return '';
-    if (Array.isArray(props.errors)) {
-      return props.errors.join(', ');
+    if (props.errors) {
+      if (Array.isArray(props.errors)) {
+        return props.errors.join(', ');
+      }
+      return props.errors;
     }
-    return props.errors;
+    return localError.value;
   });
+
+  const handleBlur = (event: FocusEvent) => {
+    emit('blur', event);
+    if (!props.required) {
+      localError.value = '';
+      return;
+    }
+    const html = quillInstance ? quillInstance.getSemanticHTML() : '';
+    const text = quillInstance ? quillInstance.getText().trim() : '';
+    if (!text && (html === '<p><br></p>' || html === '<p></p>' || !html)) {
+      localError.value = 'Este campo es requerido';
+      return;
+    }
+    localError.value = '';
+  };
 
   /**
    * Handles text-change events from the Quill instance.
@@ -69,6 +91,8 @@
     const text = quillInstance.getText().trim();
     if (!text && (html === '<p><br></p>' || html === '<p></p>' || !html)) {
       html = '';
+    } else {
+      localError.value = '';
     }
 
     emit('update:modelValue', html);
@@ -135,9 +159,9 @@
       if (formattedErrors.value) {
         rootEl.setAttribute('aria-describedby', `${props.id}-error`);
       }
-      const hasErrors =
-        props.errors && (Array.isArray(props.errors) ? props.errors.length > 0 : !!props.errors);
-      rootEl.setAttribute('aria-invalid', hasErrors ? 'true' : 'false');
+      rootEl.setAttribute('aria-invalid', formattedErrors.value ? 'true' : 'false');
+
+      rootEl.addEventListener('blur', handleBlur);
     }
 
     quillInstance.on('text-change', onTextChange);
@@ -150,8 +174,10 @@
         const rootEl = quillInstance.root;
         if (newErrorsVal) {
           rootEl.setAttribute('aria-describedby', `${props.id}-error`);
+          rootEl.setAttribute('aria-invalid', 'true');
         } else {
           rootEl.removeAttribute('aria-describedby');
+          rootEl.setAttribute('aria-invalid', 'false');
         }
       }
     },
@@ -164,7 +190,7 @@
         const rootEl = quillInstance.root;
         const hasErrors =
           errorsProp && (Array.isArray(errorsProp) ? errorsProp.length > 0 : !!errorsProp);
-        rootEl.setAttribute('aria-invalid', hasErrors ? 'true' : 'false');
+        rootEl.setAttribute('aria-invalid', hasErrors || !!localError.value ? 'true' : 'false');
       }
     },
   );
@@ -190,6 +216,7 @@
   watch(
     () => props.modelValue,
     (newVal) => {
+      localError.value = '';
       if (quillInstance && !isUpdating) {
         const currentHtml = quillInstance.getSemanticHTML();
         const normalizedNewVal = newVal || '';
@@ -218,6 +245,9 @@
   onBeforeUnmount(() => {
     if (quillInstance) {
       quillInstance.off('text-change', onTextChange);
+      if (quillInstance.root) {
+        quillInstance.root.removeEventListener('blur', handleBlur);
+      }
       quillInstance = null;
     }
   });

@@ -9,12 +9,11 @@
     </label>
     <input
       :id="id"
-      :type="type"
+      type="datetime-local"
       :class="bem(baseClass, 'input')"
-      :value="modelValue"
+      :value="localInputValue"
       @input="handleInput"
       @blur="handleBlur"
-      :placeholder="placeholder"
       :required="required"
       :aria-invalid="displayError ? 'true' : 'false'"
       :aria-describedby="displayError ? `${id}-error` : undefined"
@@ -28,36 +27,39 @@
 <script lang="ts" setup>
   import { ref, computed, watch } from 'vue';
   import { bem } from '../../../../scripts/utils/bem';
+  import {
+    toBogotaLocalDateTimeString,
+    fromInputToBogotaIso,
+  } from '../../../../scripts/utils/date';
   import './styles.scss';
 
-  export interface TextFieldProps {
+  export interface TimeFieldProps {
     modelValue: string;
     id: string;
-    type?: string;
     label?: string;
     hideLabel?: boolean;
     customClass?: string;
-    placeholder?: string;
     required?: boolean;
     errors?: string[] | string;
   }
 
-  const props = withDefaults(defineProps<TextFieldProps>(), {
+  const props = withDefaults(defineProps<TimeFieldProps>(), {
     required: false,
     modelValue: '',
-    type: 'text',
     hideLabel: false,
     customClass: '',
   });
 
   const emit = defineEmits(['update:modelValue', 'blur', 'error']);
 
-  const baseClass = 'text-field';
+  const baseClass = 'time-field';
   const localError = ref('');
 
   watch(localError, (val) => {
     emit('error', val);
   });
+
+  const localInputValue = computed(() => toBogotaLocalDateTimeString(props.modelValue));
 
   const handleInput = (event: Event) => {
     if (!(event.target instanceof HTMLInputElement)) return;
@@ -65,18 +67,19 @@
     if (val) {
       localError.value = '';
     }
-    emit('update:modelValue', val);
+    emit('update:modelValue', fromInputToBogotaIso(val));
   };
 
   const handleBlur = (event: FocusEvent) => {
     emit('blur', event);
-    if (props.required && (!props.modelValue || !props.modelValue.trim())) {
+    if (props.required && !props.modelValue) {
       localError.value = 'Este campo es requerido';
       return;
     }
     localError.value = '';
   };
 
+  // Watch modelValue to clear localError if it changes externally
   watch(
     () => props.modelValue,
     () => {

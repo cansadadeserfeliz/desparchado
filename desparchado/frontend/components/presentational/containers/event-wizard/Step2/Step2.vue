@@ -1,7 +1,8 @@
 <script lang="ts" setup>
-  import { computed } from 'vue';
+  import { computed, reactive } from 'vue';
   import { IWizardState } from '../../../../../scripts/api/interfaces';
   import { bem } from '../../../../../scripts/utils/bem';
+  import TimeField from '@presentational_components/components/TimeField/TimeField.vue';
 
   const props = defineProps<{
     state: IWizardState;
@@ -9,13 +10,23 @@
     cities: { id: number; name: string }[];
     fieldErrors?: Record<string, string[]>;
   }>();
-  props;
 
   const baseClass = 'event-wizard';
   const fieldClass = 'wizard-field';
 
+  const localErrors = reactive<Record<string, string>>({});
+  const handleFieldError = (field: string, errorMsg: string) => {
+    if (!errorMsg) {
+      delete localErrors[field];
+      return;
+    }
+    localErrors[field] = errorMsg;
+  };
+  const hasLocalErrors = computed(() => Object.keys(localErrors).length > 0);
+
   const isValid = computed(() => {
-    return true;
+    if (hasLocalErrors.value) return false;
+    return !!props.state.eventDate && !!props.state.placeId;
   });
 
   defineExpose({
@@ -34,16 +45,16 @@
           Selecciona la fecha en las que se va a realizar el evento.
         </p>
       </div>
-      <input
+      <TimeField
         id="wizard-date"
-        type="datetime-local"
-        :class="bem(fieldClass, 'input')"
+        label="Fecha y Hora"
+        :hideLabel="true"
+        customClass="wizard-field"
         v-model="state.eventDate"
         required
+        :errors="fieldErrors?.event_date"
+        @error="(msg) => handleFieldError('event_date', msg)"
       />
-      <div v-if="fieldErrors?.event_date" :class="bem(fieldClass, 'error')">
-        {{ fieldErrors.event_date.join(', ') }}
-      </div>
     </div>
 
     <!-- Place Group -->

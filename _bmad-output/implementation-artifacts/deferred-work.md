@@ -135,3 +135,7 @@ See `1-2-be-event-api-create-endpoint` (Review Findings) for deferred items.
 
 - **URL Sanitizer Bypassed via Uppercase Schemes** — URL scheme verification does not normalize scheme strings to lowercase, allowing scheme verification bypass using uppercase schemes (e.g. `javascript:` bypasses via `JavaScript:` or similar if not normalized). Pre-existing issue in `desparchado/frontend/scripts/utils/sanitize.ts:39-44`.
 - **Hardcoded Stacking Context Magic Numbers** — Arbitrary `z-index` values (`99`, `1000`, `1010`) are hardcoded across stylesheets (`EventWizard/styles.scss:924`, `Overlay/styles.scss:254`) instead of using centralized variables.
+
+## Deferred from: code review of 1-5-fe-step-2-3-ui-inputs-timezones-navigation-validation (2026-07-01)
+
+- **Forced Aspect-Ratio on Category Cards Layout Overflow Risk** — In `RadioCategoryField/styles.scss`, `.radio-category-field__card` is forced to a square aspect ratio (`aspect-ratio: 1`). On small mobile screens, the cards will be narrow, and the text description will likely overflow or be clipped. Unset aspect ratio on mobile viewports if text clipping occurs.

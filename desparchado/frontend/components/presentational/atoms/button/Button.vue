@@ -1,16 +1,20 @@
 <template>
   <component
     :is="link ? 'a' : 'button'"
-    :href="link"
+    :href="link && !props.disabled ? link : undefined"
     :target="link && props.target ? props.target : undefined"
     :rel="link && props.target === '_blank' ? 'noopener noreferrer' : undefined"
     :type="link ? undefined : isActionSubmit ? 'submit' : ''"
     :aria-label="!props.label && props.name ? props.name : undefined"
+    :disabled="link ? undefined : props.disabled"
+    :tabindex="props.disabled ? -1 : undefined"
+    :aria-disabled="props.disabled ? 'true' : undefined"
     :class="[
       bem(baseClass),
       types[props.type],
       paddings[props.padding],
       radiuses[props.radius],
+      props.disabled ? `${baseClass}--disabled` : '',
       props.customClass,
     ]"
     :style="props.name && `--button-name: '${props.name}'`"
@@ -22,6 +26,7 @@
         types[props.type],
         paddings[props.padding],
         radiuses[props.radius],
+        props.disabled ? `${baseClass}__content--disabled` : '',
         props.customClass,
       ]"
     >
@@ -88,23 +93,27 @@
     onClick?: () => void;
     actionId?: string;
     isActionSubmit?: boolean;
+    disabled?: boolean;
   }
 
   const props = withDefaults(defineProps<ButtonProps>(), {
     padding: 'regular',
     radius: 'circular',
+    disabled: false,
   });
 
   const handleClick = (event: MouseEvent) => {
+    if (props.disabled) {
+      event.preventDefault();
+      event.stopPropagation();
+      return;
+    }
     if (!props.link && props.actionId) {
       const customEvent = new CustomEvent(`button:action:${props.actionId}`, {
         detail: { event, props },
       });
       window.dispatchEvent(customEvent);
     }
-
-    if (props.onClick) {
-      props.onClick();
-    }
+    props.onClick?.();
   };
 </script>
