@@ -96,8 +96,8 @@
           que buscas crea uno nuevo.
         </p>
       </div>
-      <div v-if="fieldErrors?.organizers" :class="bem(fieldClass, 'error')">
-        {{ fieldErrors.organizers.join(', ') }}
+      <div v-if="fieldErrors?.organizer_ids" :class="bem(fieldClass, 'error')">
+        {{ fieldErrors.organizer_ids.join(', ') }}
       </div>
     </div>
 
@@ -111,8 +111,8 @@
           todavía, agrega uno nuevo.
         </p>
       </div>
-      <div v-if="fieldErrors?.speakers" :class="bem(fieldClass, 'error')">
-        {{ fieldErrors.speakers.join(', ') }}
+      <div v-if="fieldErrors?.speaker_ids" :class="bem(fieldClass, 'error')">
+        {{ fieldErrors.speaker_ids.join(', ') }}
       </div>
     </div>
   </div>

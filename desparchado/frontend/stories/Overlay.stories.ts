@@ -11,6 +11,8 @@ const meta = {
     customClass: { control: 'text' },
     dialogLabel: { control: 'text' },
     labelledBy: { control: 'text' },
+    loading: { control: 'boolean' },
+    loadingText: { control: 'text' },
   },
   args: {
     show: true,
@@ -18,6 +20,8 @@ const meta = {
     customClass: '',
     dialogLabel: '',
     labelledBy: '',
+    loading: false,
+    loadingText: 'Guardando...',
   },
 } satisfies Meta<typeof Overlay>;
 
@@ -39,4 +43,13 @@ export const Default: Story = {
       </Overlay>
     `,
   }),
+};
+
+export const Loading: Story = {
+  args: {
+    show: true,
+    loading: true,
+    loadingText: 'Guardando evento...',
+    dialogLabel: 'Guardando cambios',
+  },
 };
