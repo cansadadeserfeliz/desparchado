@@ -5,6 +5,7 @@
   import TextField from '@presentational_components/components/TextField/TextField.vue';
   import RichTextEditor from '@presentational_components/components/RichTextEditor/RichTextEditor.vue';
   import SearchableCombobox from '@presentational_components/components/SearchableCombobox/SearchableCombobox.vue';
+  import ImageUpload from '@presentational_components/components/ImageUpload/ImageUpload.vue';
 
   const props = defineProps<{
     state: IWizardState;
@@ -93,6 +94,29 @@
         required
         :errors="fieldErrors?.description"
         @error="(msg) => handleFieldError('description', msg)"
+      />
+    </div>
+
+    <!-- Image Group -->
+    <div :class="bem(fieldClass)">
+      <div :class="bem(fieldClass, 'details')">
+        <label :class="bem(fieldClass, 'headline')" for="wizard-image">Imagen del evento</label>
+        <p :class="bem(fieldClass, 'subheadline')">Una imagen dice más que mil palabras</p>
+        <p :class="bem(fieldClass, 'description')">
+          Sube un afiche o fotografía representativa de tu evento para destacar en la plataforma.
+        </p>
+      </div>
+      <ImageUpload
+        id="wizard-image"
+        label="Imagen del evento"
+        :hideLabel="true"
+        customClass="wizard-field"
+        v-model="state.image"
+        :previewUrl="state.imagePreviewUrl"
+        @update:previewUrl="(url) => (state.imagePreviewUrl = url)"
+        :condensed="condensed"
+        :errors="fieldErrors?.image"
+        @error="(msg) => handleFieldError('image', msg)"
       />
     </div>
 

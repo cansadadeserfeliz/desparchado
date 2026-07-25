@@ -54,12 +54,12 @@ development_status:
   2-1-be-autocomplete-fuzzy-search-services-endpoints: done
   2-2-be-inline-creation-endpoints-write-serializers-for-related-entities: done
   2-3-fe-reusable-autocomplete-combobox-entitycombobox-vue-multi-select-chips: done
-  2-4-fe-reusable-basemodal-inline-forms-for-organizer-and-speaker: backlog
+  2-4-fe-reusable-basemodal-inline-forms-for-organizer-and-speaker: on-hold
   2-5-fe-inline-place-modal-with-leaflet-map-pin-picker-and-address-search: backlog
   epic-2-retrospective: optional
-  epic-3: backlog
+  epic-3: in-progress
   3-1-be-drf-quota-permission-classes-dry-integration: done
-  3-2-fe-client-side-image-size-validation-local-previews: backlog
+  3-2-fe-client-side-image-size-validation-local-previews: review
   3-3-fe-unsaved-state-warnings-beforeunload-lifecycle: backlog
   3-4-fe-umami-analytics-funnel-trackers: backlog
   epic-3-retrospective: optional

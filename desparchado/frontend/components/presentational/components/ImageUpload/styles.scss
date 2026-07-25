@@ -1,0 +1,209 @@
+@use '@styles/variables' as *;
+@use '@styles/mixins' as *;
+@use '@styles/typography' as *;
+
+$alert-red: $color-alert-red;
+$alert-red-light: $color-alert-red-light;
+
+.image-upload {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  max-width: 700px;
+  box-sizing: border-box;
+
+  &__label {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: $color-gray-900;
+    margin: 0;
+  }
+
+  &__required-star {
+    color: $alert-red;
+  }
+
+  &__file-input {
+    display: none;
+  }
+
+  &__drop-zone {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 16px;
+    border: 2px dashed $color-gray-400;
+    border-radius: 16px;
+    background-color: $color-gray-00;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+      border-color: $color-gray-700;
+      background-color: rgba($color-gray-200, 0.3);
+    }
+
+    &:focus,
+    &:focus-visible,
+    &:focus-within {
+      outline: none;
+      border-color: $color-gray-900;
+      box-shadow: 0 0 0 3px rgba($color-gray-700, 0.2);
+    }
+
+    &:has(.image-upload__remove-button:hover),
+    &:has(.image-upload__remove-button:focus),
+    &:has(.image-upload__remove-button:focus-visible) {
+      border-color: $alert-red;
+      background-color: rgba($alert-red, 0.15);
+      box-shadow: 0 0 0 3px rgba($alert-red, 0.2);
+    }
+  }
+
+  &--dragging &__drop-zone {
+    border-color: $color-gray-800;
+    background-color: rgba($color-dp-orange-100, 0.4);
+    border-style: solid;
+  }
+
+  &--error &__drop-zone {
+    border-color: $alert-red;
+    background-color: $alert-red-light;
+  }
+
+  &--disabled &__drop-zone {
+    opacity: 0.6;
+    cursor: not-allowed;
+    border-color: $color-gray-300;
+    &:hover {
+      background-color: $color-gray-00;
+      border-color: $color-gray-300;
+    }
+  }
+
+  &--condensed &__drop-zone {
+    padding: 12px 16px;
+  }
+
+  &__prompt-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+
+  &__upload-icon {
+    color: $color-gray-500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    svg {
+      width: 32px;
+      height: 32px;
+    }
+  }
+
+  &__prompt-text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+  }
+
+  &__prompt-primary {
+    color: $color-gray-900;
+  }
+
+  &__prompt-secondary {
+    color: $color-gray-600;
+  }
+
+  &__size-limit {
+    color: $color-gray-500;
+    margin-top: 4px;
+  }
+
+  &__preview-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+  }
+
+  &__preview-wrapper {
+    position: relative;
+    max-width: 280px;
+    max-height: 180px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  &__preview-image {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: 180px;
+    object-fit: cover;
+  }
+
+  &__remove-button {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: $color-gray-900;
+    color: $color-gray-00;
+    border: 2px solid $color-gray-900;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+
+    &:hover,
+    &:focus,
+    &:focus-visible {
+      outline: none;
+      background-color: $alert-red;
+      border-color: $alert-red;
+      color: $color-gray-00;
+      transform: scale(1.05);
+      box-shadow: 0 0 0 2px rgba($alert-red, 0.3);
+    }
+  }
+
+  &__preview-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+  }
+
+  &__filename {
+    color: $color-gray-800;
+    font-weight: 500;
+    max-width: 300px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__change-prompt {
+    color: $color-gray-500;
+  }
+
+  &__error-message {
+    color: $alert-red;
+    margin-top: 4px;
+    font-weight: 500;
+  }
+}
