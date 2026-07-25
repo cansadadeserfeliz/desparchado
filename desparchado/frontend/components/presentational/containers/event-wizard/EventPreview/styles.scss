@@ -4,41 +4,48 @@
 @use '@styles/mixins' as *;
 @use '@styles/typography' as *;
 
-
 .event-preview {
-  padding: 20px;
+  padding: 0;
+  width: 100%;
   max-width: 350px;
+  box-sizing: border-box;
+  position: relative;
 
   &__container {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    position: relative;
   }
 
   &__badge {
     @extend .text-body-sm;
     @extend .text-bold;
-
-    align-self: flex-start;
+    position: absolute;
+    top: -18px;
+    right: 12px;
+    z-index: 10;
     background-color: $color-base-secondary;
     color: white;
     padding: 4px 12px;
     border-radius: 20px;
     text-transform: uppercase;
     letter-spacing: 1px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    pointer-events: none;
   }
 
   &__card {
     background-color: white;
     border: 1px solid $color-gray-300;
-    border-radius: 8px;
+    border-radius: 12px;
     overflow-y: auto;
     overflow-x: hidden;
-    max-height: calc(100vh - 160px);
+    max-height: calc(100vh - var(--header-height, 80px) - 64px);
     display: flex;
     flex-direction: column;
     scrollbar-width: thin;
     scrollbar-color: $color-gray-400 transparent;
+    position: relative;
 
     &:focus-visible {
       outline: 2px solid $color-base-primary;
@@ -47,11 +54,11 @@
   }
 
   &__presenters {
-    padding: 20px;
-    padding-bottom: 16px;
+    padding: 16px;
+    padding-bottom: 12px;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 8px;
     flex-shrink: 0;
   }
 
@@ -64,8 +71,8 @@
   }
 
   &__avatar-wrapper {
-    width: 35px;
-    height: 35px;
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
     overflow: hidden;
   }
@@ -85,7 +92,7 @@
     align-items: center;
     justify-content: center;
     font-weight: $f-weight-bold;
-    font-size: 18px;
+    font-size: 16px;
   }
 
   &__presenter-names {
@@ -95,11 +102,15 @@
 
   &__image-wrapper {
     width: 100%;
-    height: 220px;
+    height: 180px;
     background-color: $color-gray-300;
     overflow: hidden;
     position: relative;
     flex-shrink: 0;
+
+    @media (max-height: 700px) {
+      height: 140px;
+    }
   }
 
   &__image {
@@ -122,7 +133,7 @@
   }
 
   &__content {
-    padding: 20px;
+    padding: 16px;
     display: flex;
     flex-direction: column;
     gap: 12px;

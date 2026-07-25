@@ -1,6 +1,7 @@
 <script lang="ts" setup>
+  import { computed } from 'vue';
   import { bem } from '../../../../../scripts/utils/bem';
-  import { IEventDetailResponse } from '../../../../../scripts/api/interfaces';
+  import { IEventDetailResponse, IEntityOption } from '../../../../../scripts/api/interfaces';
   import Step1 from '../Step1/Step1.vue';
   import Step2 from '../Step2/Step2.vue';
   import Step3 from '../Step3/Step3.vue';
@@ -23,8 +24,6 @@
   const fieldClass = 'wizard-field';
   const progressBaseClass = 'wizard-progress';
 
-  const steps = [Step1, Step2, Step3];
-
   const {
     state,
     selectedSpeakers,
@@ -44,6 +43,35 @@
     handleNext,
     handleSubmit,
   } = useEventWizard(props);
+
+  const steps = computed(() => [
+    {
+      component: Step1,
+      props: {},
+      on: {
+        'update:selected-organizers': (opts: IEntityOption[]) => {
+          selectedOrganizers.value = opts;
+        },
+        'update:selected-speakers': (opts: IEntityOption[]) => {
+          selectedSpeakers.value = opts;
+        },
+      },
+    },
+    {
+      component: Step2,
+      props: { cities: props.cities },
+      on: {
+        'update:selected-place': (place: { id: number; name: string } | null) => {
+          selectedPlace.value = place;
+        },
+      },
+    },
+    {
+      component: Step3,
+      props: {},
+      on: {},
+    },
+  ]);
 </script>
 
 <template>
@@ -146,10 +174,10 @@
 
           <!-- Dynamic Steps -->
           <component
-            v-for="(StepComponent, index) in steps"
+            v-for="(stepConfig, index) in steps"
             :key="index"
             v-show="currentStep === index + 1"
-            :is="StepComponent"
+            :is="stepConfig.component"
             :ref="
               (el) => {
                 if (el && isStepComponentInstance(el)) {
@@ -160,7 +188,8 @@
             :state="state"
             :condensed="condensed"
             :fieldErrors="fieldErrors"
-            v-bind="index === 1 ? { cities } : {}"
+            v-bind="stepConfig.props"
+            v-on="stepConfig.on"
           />
 
           <!-- Footer / Navigation Buttons -->

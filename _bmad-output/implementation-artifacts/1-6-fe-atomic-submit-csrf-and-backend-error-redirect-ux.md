@@ -1,12 +1,12 @@
 ---
 story_key: 1-6-fe-atomic-submit-csrf-and-backend-error-redirect-ux
-status: review
+status: done
 baseline_commit: 11d6319cd58db46b1a3dbc03345970033bd2bb45
 ---
 
 # Story 1.6-FE: Atomic Submit, CSRF, and Backend Error Redirect UX
 
-Status: review
+Status: done
 
 <!-- Note: Validation is optional. Run validate-create-story for quality check before dev-story. -->
 

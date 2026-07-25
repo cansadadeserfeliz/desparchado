@@ -58,13 +58,9 @@ export const useEventWizardState = (
     description: initialData?.description || '',
     image: null,
     imagePreviewUrl: initialData?.image_url || '',
-    organizerIds: initialData
-      ? initialData.organizers.map((o) => o.id)
-      : mode === 'create'
-        ? [1]
-        : [],
+    organizerIds: initialData ? initialData.organizers.map((o) => o.id) : [],
     speakerIds: initialData ? initialData.speakers.map((s) => s.id) : [],
-    placeId: initialData ? initialData.place?.id || null : mode === 'create' ? 1 : null,
+    placeId: initialData ? initialData.place?.id || null : null,
     eventDate: initialData ? toBogotaLocalDateTimeString(initialData.event_date) : '',
     category: initialData?.category || 'other',
     price: initialData ? String(initialData.price) : '0',

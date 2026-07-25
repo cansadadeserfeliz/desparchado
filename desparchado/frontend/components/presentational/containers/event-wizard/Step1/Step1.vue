@@ -1,14 +1,24 @@
 <script lang="ts" setup>
   import { computed, reactive } from 'vue';
-  import { IWizardState } from '../../../../../scripts/api/interfaces';
+  import { IWizardState, IEntityOption } from '../../../../../scripts/api/interfaces';
   import { bem } from '../../../../../scripts/utils/bem';
   import TextField from '@presentational_components/components/TextField/TextField.vue';
   import RichTextEditor from '@presentational_components/components/RichTextEditor/RichTextEditor.vue';
+  import SearchableCombobox from '@presentational_components/components/SearchableCombobox/SearchableCombobox.vue';
 
   const props = defineProps<{
     state: IWizardState;
     condensed: boolean;
+    initialOrganizers?: IEntityOption[];
+    initialSpeakers?: IEntityOption[];
     fieldErrors?: Record<string, string[]>;
+  }>();
+
+  const emit = defineEmits<{
+    'create-organizer': [];
+    'create-speaker': [];
+    'update:selected-organizers': [options: IEntityOption[]];
+    'update:selected-speakers': [options: IEntityOption[]];
   }>();
 
   const baseClass = 'event-wizard';
@@ -29,7 +39,8 @@
     const titleValid = props.state.title.trim().length > 0;
     const desc = props.state.description || '';
     const descText = desc.replace(/<[^>]*>/g, '').trim();
-    const organizersValid = props.state.organizerIds.length >= 1;
+    const organizersValid =
+      Array.isArray(props.state.organizerIds) && props.state.organizerIds.length >= 1;
     return titleValid && descText.length > 0 && organizersValid;
   });
 
@@ -85,10 +96,10 @@
       />
     </div>
 
-    <!-- Organizers & Speakers Stubs -->
+    <!-- Organizers Group -->
     <div :class="bem(fieldClass)">
       <div :class="bem(fieldClass, 'details')">
-        <span :class="bem(fieldClass, 'headline')">Organizadores (Próximamente combobox)</span>
+        <label :class="bem(fieldClass, 'headline')">Organizadores, *</label>
         <p :class="bem(fieldClass, 'subheadline')">¿Quién está detrás?</p>
         <p :class="bem(fieldClass, 'description')">
           Indica quién(es) está(n) a cargo de la planificación y qué experiencia o credenciales
@@ -96,14 +107,28 @@
           que buscas crea uno nuevo.
         </p>
       </div>
-      <div v-if="fieldErrors?.organizer_ids" :class="bem(fieldClass, 'error')">
-        {{ fieldErrors.organizer_ids.join(', ') }}
-      </div>
+      <SearchableCombobox
+        id="wizard-organizers"
+        label="Organizadores"
+        :hideLabel="true"
+        placeholder="Buscar organizador por nombre..."
+        emptyChipsText="No has seleccionado ningún organizador aún"
+        searchUrl="/events/api/v1/organizers/search/"
+        v-model="state.organizerIds"
+        :initialOptions="initialOrganizers"
+        :multiple="true"
+        :required="true"
+        :errors="fieldErrors?.organizer_ids"
+        @error="(msg) => handleFieldError('organizer_ids', msg)"
+        @create-new="emit('create-organizer')"
+        @update:selected-options="(opts) => emit('update:selected-organizers', opts)"
+      />
     </div>
 
+    <!-- Speakers Group -->
     <div :class="bem(fieldClass)">
       <div :class="bem(fieldClass, 'details')">
-        <span :class="bem(fieldClass, 'headline')">Invitados/Ponentes (Próximamente combobox)</span>
+        <label :class="bem(fieldClass, 'headline')">Invitados/Ponentes</label>
         <p :class="bem(fieldClass, 'subheadline')">¿Quién o quiénes participan?</p>
         <p :class="bem(fieldClass, 'description')">
           Indica quién(es) está(n) a cargo de la exponer, presentar, hablar o de permitir que la
@@ -111,9 +136,22 @@
           todavía, agrega uno nuevo.
         </p>
       </div>
-      <div v-if="fieldErrors?.speaker_ids" :class="bem(fieldClass, 'error')">
-        {{ fieldErrors.speaker_ids.join(', ') }}
-      </div>
+      <SearchableCombobox
+        id="wizard-speakers"
+        label="Invitados/Ponentes"
+        :hideLabel="true"
+        placeholder="Buscar invitado o ponente..."
+        emptyChipsText="No has seleccionado ningún ponente aún"
+        searchUrl="/events/api/v1/speakers/search/"
+        v-model="state.speakerIds"
+        :initialOptions="initialSpeakers"
+        :multiple="true"
+        :required="false"
+        :errors="fieldErrors?.speaker_ids"
+        @error="(msg) => handleFieldError('speaker_ids', msg)"
+        @create-new="emit('create-speaker')"
+        @update:selected-options="(opts) => emit('update:selected-speakers', opts)"
+      />
     </div>
   </div>
 </template>
