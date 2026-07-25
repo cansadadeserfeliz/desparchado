@@ -99,6 +99,8 @@
       width: 1.875rem;
       height: 1.875rem;
       border-radius: 100%;
+      object-fit: cover;
+      object-position: center top;
     }
 
     &__speaker-name {

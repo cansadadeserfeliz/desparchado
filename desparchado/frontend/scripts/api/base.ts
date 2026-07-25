@@ -71,11 +71,15 @@ export async function handleResponse<T>(
   }
 }
 
-export async function getData<T>(url: string): Promise<T> {
+export async function getData<T>(url: string, options?: RequestInit): Promise<T> {
   assertTrustedUrl(url);
 
   const res = await fetch(url, {
-    headers: { 'X-CSRFToken': getCsrfToken() },
+    ...options,
+    headers: {
+      'X-CSRFToken': getCsrfToken(),
+      ...options?.headers,
+    },
     credentials: 'same-origin',
   });
 

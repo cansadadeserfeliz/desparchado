@@ -35,7 +35,7 @@
 # - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
 
 generated: 2026-05-31T18:49:21-05:00
-last_updated: 2026-07-01
+last_updated: 2026-07-25
 project: desparchado
 project_key: NOKEY
 tracking_system: file-system
@@ -48,12 +48,12 @@ development_status:
   1-3-fe-vite-entry-root-state-multi-step-skeleton-layout: done
   1-4-fe-step-1-ui-real-time-card-preview: done
   1-5-fe-step-2-3-ui-inputs-timezones-navigation-validation: done
-  1-6-fe-atomic-submit-csrf-and-backend-error-redirect-ux: review
+  1-6-fe-atomic-submit-csrf-and-backend-error-redirect-ux: done
   epic-1-retrospective: optional
-  epic-2: backlog
+  epic-2: in-progress
   2-1-be-autocomplete-fuzzy-search-services-endpoints: done
   2-2-be-inline-creation-endpoints-write-serializers-for-related-entities: done
-  2-3-fe-reusable-autocomplete-combobox-entitycombobox-vue-multi-select-chips: backlog
+  2-3-fe-reusable-autocomplete-combobox-entitycombobox-vue-multi-select-chips: done
   2-4-fe-reusable-basemodal-inline-forms-for-organizer-and-speaker: backlog
   2-5-fe-inline-place-modal-with-leaflet-map-pin-picker-and-address-search: backlog
   epic-2-retrospective: optional

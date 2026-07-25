@@ -1,5 +1,59 @@
+@use '@styles/variables' as *;
+
 @keyframes fadeIn {
   to {
     opacity: 1;
   }
+}
+
+@keyframes loading-spin {
+  to {
+    transform: translateY(-50%) rotate(360deg);
+  }
+}
+
+// Menu / Combobox Dropdown Slide-Fade Transition
+.slide-fade-enter-active {
+  transition: 300ms $ease-out-quart;
+  transition-property: transform, opacity;
+  will-change: transform, opacity;
+  transform-origin: top left;
+}
+
+.slide-fade-leave-active {
+  transition: 250ms $ease-in-quart;
+  transition-property: transform, opacity;
+  will-change: transform, opacity;
+  transform-origin: top left;
+}
+
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+  transform: translateX(-40px) scaleX(0.9) translateY(-6px);
+  opacity: 0;
+}
+
+// Chips Slide Transition (Left Entry, Right Exit, Reordering Move)
+.chip-slide-enter-active {
+  transition: transform 300ms $ease-out-quart, opacity 300ms $ease-out-quart;
+  will-change: transform, opacity;
+}
+
+.chip-slide-leave-active {
+  transition: transform 250ms $ease-in-quart, opacity 250ms $ease-in-quart;
+  will-change: transform, opacity;
+}
+
+.chip-slide-move {
+  transition: transform 300ms $ease-out-quart;
+}
+
+.chip-slide-enter-from {
+  transform: translateX(-30px);
+  opacity: 0;
+}
+
+.chip-slide-leave-to {
+  transform: translateX(30px);
+  opacity: 0;
 }

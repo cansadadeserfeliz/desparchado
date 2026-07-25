@@ -77,8 +77,14 @@ $ease-in-quart: cubic-bezier(0.895, 0.030, 0.685, 0.220);
 // elevations
 $elev-neutral: 0;
 $elev-over-neutral: 1;
-$elev-over-main: 5;
-$elev-over-all: 10;
+$elev-dropdown: 2;
+$elev-combobox-input: 3;
+$elev-combobox-spinner: 4;
+$elev-over-main: 100;
+$elev-header: $elev-over-main;
+$elev-over-all: 1000;
+$elev-overlay: $elev-over-all;
+$elev-overlay-content: 1010;
 
 // shadows
 $shadow-over-neutral:
