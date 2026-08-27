@@ -265,6 +265,7 @@ CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap5'
 CRISPY_TEMPLATE_PACK = 'bootstrap5'
 
 MAPBOX_ACCESS_TOKEN = getenvvar('MAPBOX_ACCESS_TOKEN', 'not-set')
+CARTO_API_KEY = getenvvar('CARTO_API_KEY', 'not-set')
 
 MAP_WIDGETS = {
     "Mapbox": {

@@ -262,7 +262,7 @@
           var lat = {{ event.get_latitude_str }};
           var lng = {{ event.get_longitude_str }};
           var map = L.map('event-detail-map', {scrollWheelZoom: false}).setView([lat, lng], 15);
-          L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png', {
+          L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png?key={{ CARTO_API_KEY }}', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
             subdomains: 'abcd',
             maxZoom: 20
