@@ -12,14 +12,14 @@
  * @param {string} djangoInputId  - ID of the hidden textarea consumed by Django.
  * @param {string} wrapId         - ID of the outer wrapper div (.mw-wrap).
  * @param {object|null} fieldValue - Saved point as {lat, lng, ...} or null.
- * @param {object} options         - Map options: {zoom, center, markerFitZoom}.
+ * @param {object} options         - Map options: {zoom, center, markerFitZoom, cartoApiKey}.
  */
 window.initLeafletPicker = function initLeafletPicker(
     mapId, addressInputId, djangoInputId, wrapId, fieldValue, options
 ) {
     var map = L.map(mapId, { scrollWheelZoom: false });
 
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png', {
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png?key=' + options.cartoApiKey, {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
         subdomains: 'abcd',
         maxZoom: 20

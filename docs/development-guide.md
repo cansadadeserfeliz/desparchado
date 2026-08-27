@@ -47,6 +47,7 @@ The `web` service reads from `.env` at project root. Required variables:
 | `DATABASE_HOST` | `db` | Docker service name |
 | `DATABASE_PORT` | `5432` | |
 | `MAPBOX_ACCESS_TOKEN` | `not-set` | Optional; map widget |
+| `CARTO_API_KEY` | `not-set` | Required for CARTO basemap tiles (event/place maps) |
 | `AWS_SES_ACCESS_KEY_ID` | `not-set` | Optional; email |
 | `AWS_SES_SECRET_ACCESS_KEY` | `not-set` | Optional; email |
 | `SENTRY_CONFIG_DNS` | `not-set` | Optional; production only |

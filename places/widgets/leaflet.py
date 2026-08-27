@@ -1,5 +1,6 @@
 import json
 
+from django.conf import settings
 from django.contrib.gis import forms
 from django.contrib.gis.geos import GEOSGeometry
 
@@ -72,6 +73,7 @@ class LeafletPointFieldWidget(forms.BaseGeometryWidget):
             "zoom": 5,
             "center": [4.65, -74.08],
             "markerFitZoom": 15,
+            "cartoApiKey": settings.CARTO_API_KEY,
         }
 
         widget_attrs: dict = context.get("widget", {}).get("attrs", {})
