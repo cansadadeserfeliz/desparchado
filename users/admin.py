@@ -74,12 +74,19 @@ class UserSettingsAdmin(admin.ModelAdmin):
 
     def has_delete_permission(self, request, obj=None):
         """
-        Disable deletion of objects from the admin interface.
+        Disable deletion of objects from the admin interface, except for
+        superusers.
+
+        Non-superusers get `False` to prevent deletion via the admin
+        interface. Superusers must keep `True` so deleting a `User` (which
+        cascades to its `UserSettings`) isn't blocked by Django's admin
+        cascade-permission check.
 
         Returns:
-            bool: `False` to prevent deletion of the object via the admin interface.
+            bool: `False` to prevent deletion of the object via the admin interface,
+            unless the requesting user is a superuser.
         """
-        return False
+        return request.user.is_superuser
 
     def get_actions(self, request):
         # Disable delete
