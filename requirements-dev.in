@@ -15,3 +15,4 @@ pytest-django>=4.11.1,<4.12
 
 # Notebooks
 marimo
+colorama

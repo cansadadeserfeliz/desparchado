@@ -78,7 +78,7 @@ def _(mo):
     return
 
 
-@app.cell(hide_code=True)
+@app.cell
 def _(Event, Fore, requests):
     from abc import ABC, abstractmethod
     import json
@@ -88,13 +88,17 @@ def _(Event, Fore, requests):
     import gspread
 
 
-    with Path.open('../spreadsheet_credentials.json', 'r', encoding='utf-8') as file:
+    credentials_path = Path(__file__).resolve().parent.parent / 'spreadsheet_credentials.json'
+    with credentials_path.open('r', encoding='utf-8') as file:
         credentials = json.load(file)
     gc = gspread.service_account_from_dict(credentials)
 
 
     class BaseEventScraper(ABC):
         spreadsheet_id: str
+        session: requests.Session
+        events: list
+        rows: list
 
         def __init__(self):
             self.session = requests.Session()
@@ -102,17 +106,19 @@ def _(Event, Fore, requests):
             if headers:
                 self.session.headers.update(headers)
 
+            self.events = []
+            self.rows = []
+
         def run(self):
             raw_events = self.get_events_list()
-            events = []
 
             for raw_event in raw_events:
                 event = self.build_event(raw_event)
                 if event:
                     print(Fore.GREEN, event)
-                    events.append(event)
+                    self.events.append(event)
 
-            self.save_event_rows(events=events)
+            self.save_event_rows(events=self.events)
 
             print(f'Check https://docs.google.com/spreadsheets/d/{self.spreadsheet_id}/edit?gid=0#gid=0')
 
@@ -124,8 +130,6 @@ def _(Event, Fore, requests):
 
             # Clear all existing data
             sheet.clear()
-
-            rows = []
 
             header_row = [
                 'ID',
@@ -139,8 +143,9 @@ def _(Event, Fore, requests):
                 'ORGANIZERS',
                 'SPEAKERS',
             ]
-            rows.append(header_row)
+            self.rows.append(header_row)
 
+            event_rows = []
             for event in events:
                 event_row = [
                     event.event_id,
@@ -154,10 +159,10 @@ def _(Event, Fore, requests):
                     event.organizer,
                     event.speakers,
                 ]
-                rows.append(event_row)
+                self.rows.append(event_row)
 
             # Append new rows to the sheet
-            sheet.append_rows(rows)
+            sheet.append_rows(self.rows)
 
 
         def get_headers(self) -> dict:
@@ -750,6 +755,10 @@ def _(
                 return None
 
             event_path = event_pq('.botonvermas a').attr('href')
+            if not event_path:
+                print(Fore.RED, f"Skipping event '{event_title}': no detail link")
+                return None
+        
             event_url = f'https://patrimoniocultural.bogota.unal.edu.co{event_path}' if event_path.startswith('/') else event_path
 
             image_url = event_pq('.divrighth img').attr('src')
@@ -822,16 +831,12 @@ def _(
     return (SCRAPERS_MAP,)
 
 
-@app.cell(hide_code=True)
-def selector(SCRAPERS_MAP, mo):
-    dropdown = mo.ui.dropdown(options=SCRAPERS_MAP.keys(), label='Choose a source')
-    return (dropdown,)
-
-
 @app.cell
-def _(dropdown, mo):
-    mo.hstack([dropdown, mo.md(f"Has value: {dropdown.value}")])
-    return
+def _(SCRAPERS_MAP, mo):
+    dropdown = mo.ui.dropdown(options=SCRAPERS_MAP.keys(), label='Choose a source')
+    run_button = mo.ui.run_button(label='Run scraper')
+    mo.hstack([dropdown, run_button])
+    return dropdown, run_button
 
 
 @app.cell
@@ -839,12 +844,32 @@ def _(Fore, SCRAPERS_MAP, dropdown):
     scrapper_runner_class = SCRAPERS_MAP.get(dropdown.value, None)
     if scrapper_runner_class is not None:
         try:
-            scrapper_runner_class().run()
+            scrapper = scrapper_runner_class()
+            scrapper.run()
         except AssertionError as e:
             print(Fore.RED + f"Execution stopped due to restriction: {e}")
             print(Fore.YELLOW + "Suggestion: The website is blocking automated requests. Try running again in a few moments, or check if the target URLs are accessible via your browser.")
     else:
         print('No source is selected')
+    return (scrapper,)
+
+
+@app.cell
+def _(mo, run_button, scrapper):
+    mo.stop(not run_button.value)
+    table = mo.ui.table(
+        data=[
+            dict(zip(scrapper.rows[0], event_row))
+            for event_row in scrapper.rows[1:]
+        ], 
+        pagination=True,
+    )
+    return (table,)
+
+
+@app.cell
+def _(mo, table):
+    mo.vstack([table, table.value])
     return
 
 
