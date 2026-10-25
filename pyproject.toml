@@ -71,3 +71,6 @@ addopts = [
     "--cov=./",
     "--no-cov-on-fail",
 ]
+
+[tool.marimo.runtime]
+dotenv = [".env"]

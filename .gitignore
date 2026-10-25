@@ -44,6 +44,14 @@ spreadsheet_credentials.json
 
 *storybook.log
 
+# Marimo cache and session files
+scripts/__marimo__/cache/
+scripts/__marimo__/session/
+
+# Marimo exports (optional - depends on workflow)
+scripts/__marimo__/*.html
+scripts/__marimo__/*.ipynb
+
 .claude/plan.md
 .claude/tasks.md
 _bmad/
